@@ -1,0 +1,64 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1063642558, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: GameSpeedDefinition
+  m_EditorClassIdentifier: 
+--- !u!114 &5034715108031725646
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 216484329, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: GameSpeed_Blitz
+  m_EditorClassIdentifier: 
+  DefaultGameSpeedMultiplier:
+    RawValue: 250
+  ProductionCostMultiplier:
+    RawValue: 250
+  MoneyInstantCostMultiplier:
+    RawValue: 250
+  InfluenceInstantCostMultiplier:
+    RawValue: 250
+  PopulationInstantCostMultiplier:
+    RawValue: 250
+  TechnologyCostMultiplier:
+    RawValue: 250
+  EscaladingThreshold: 3
+  TreatyThreshold: 1
+  BadgeTimeoutDuration: 5
+  EraStarCatchupMultiplier:
+    RawValue: 250
+  EraStarRewardProgressMultiplier:
+    RawValue: 0
+  NarrativeEventDurationMultiplier:
+    RawValue: 250
+  StatusDurationMultiplier:
+    RawValue: 250
+  ArmyActionCutForestDurationFactor:
+    RawValue: 250
+  EliminationCountdownDuration: 3
+  GrowthGainMultiplier:
+    RawValue: 4000
+  MinorLifeTimeMultiplierForPattern:
+    RawValue: 500
+  MinorArmySpawnMultiplierForPattern:
+    RawValue: 500
+  EndGameTurnLimitMultiplier: 0.33333334
+  CalendarSpeedFactor: 0.215
+  RevolutionReference:
+    serializableElementName: Revolution_Blitz
+  PollutionDefinition:
+    serializableElementName: PollutionDefinition_Blitz

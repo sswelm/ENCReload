@@ -1,0 +1,192 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-7730488224699532419
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -801326508, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: TerrainType_RockyField
+  m_EditorClassIdentifier: 
+  PathfindingRules:
+  - RelatedMovementAbilities: 1
+    MovementCost:
+      RawValue: 0
+    CanGoThrough: 1
+    IsStoppable: 1
+    Operation: 1
+    flagsNeededToApplyRule: 8192
+  - RelatedMovementAbilities: 1
+    MovementCost:
+      RawValue: 2000
+    CanGoThrough: 1
+    IsStoppable: 1
+    Operation: 1
+    flagsNeededToApplyRule: 131072
+  - RelatedMovementAbilities: 1
+    MovementCost:
+      RawValue: 1000
+    CanGoThrough: 1
+    IsStoppable: 1
+    Operation: 1
+    flagsNeededToApplyRule: 0
+  MeshId: 0
+  ExploitationDescriptorReferences:
+  - serializableElementName: Effect_Exploitation_RockyField
+--- !u!114 &-5378587424573441508
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -801326508, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: TerrainType_Wasteland
+  m_EditorClassIdentifier: 
+  PathfindingRules:
+  - RelatedMovementAbilities: 1
+    MovementCost:
+      RawValue: 1000
+    CanGoThrough: 1
+    IsStoppable: 1
+    Operation: 0
+    flagsNeededToApplyRule: 8192
+  - RelatedMovementAbilities: 1
+    MovementCost:
+      RawValue: 2000
+    CanGoThrough: 1
+    IsStoppable: 1
+    Operation: 0
+    flagsNeededToApplyRule: 0
+  MeshId: 0
+  ExploitationDescriptorReferences:
+  - serializableElementName: Effect_Exploitation_Wasteland
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1665513432, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: TerrainTypeDefinition
+  m_EditorClassIdentifier: 
+--- !u!114 &2588840963917725164
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -801326508, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: TerrainType_Sterile
+  m_EditorClassIdentifier: 
+  PathfindingRules:
+  - RelatedMovementAbilities: 1
+    MovementCost:
+      RawValue: 1000
+    CanGoThrough: 1
+    IsStoppable: 1
+    Operation: 0
+    flagsNeededToApplyRule: 524288
+  - RelatedMovementAbilities: 1
+    MovementCost:
+      RawValue: 2000
+    CanGoThrough: 1
+    IsStoppable: 1
+    Operation: 0
+    flagsNeededToApplyRule: 0
+  MeshId: 0
+  ExploitationDescriptorReferences:
+  - serializableElementName: Effect_Exploitation_Sterile
+--- !u!114 &5984329701575132822
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -801326508, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: TerrainType_Ocean
+  m_EditorClassIdentifier: 
+  PathfindingRules:
+  - RelatedMovementAbilities: 4
+    MovementCost:
+      RawValue: 1000
+    CanGoThrough: 1
+    IsStoppable: 1
+    Operation: 0
+    flagsNeededToApplyRule: 32
+  - RelatedMovementAbilities: 4
+    MovementCost:
+      RawValue: 500
+    CanGoThrough: 1
+    IsStoppable: 1
+    Operation: 0
+    flagsNeededToApplyRule: 524288
+  - RelatedMovementAbilities: 4
+    MovementCost:
+      RawValue: 2000
+    CanGoThrough: 1
+    IsStoppable: 1
+    Operation: 0
+    flagsNeededToApplyRule: 33554432
+  - RelatedMovementAbilities: 4
+    MovementCost:
+      RawValue: 1000
+    CanGoThrough: 1
+    IsStoppable: 1
+    Operation: 0
+    flagsNeededToApplyRule: 0
+  MeshId: 0
+  ExploitationDescriptorReferences:
+  - serializableElementName: Effect_Exploitation_Ocean
+--- !u!114 &7388469905794968838
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -801326508, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: TerrainType_RockyForest
+  m_EditorClassIdentifier: 
+  PathfindingRules:
+  - RelatedMovementAbilities: 1
+    MovementCost:
+      RawValue: 1000
+    CanGoThrough: 1
+    IsStoppable: 1
+    Operation: 0
+    flagsNeededToApplyRule: 12288
+  - RelatedMovementAbilities: 1
+    MovementCost:
+      RawValue: 2000
+    CanGoThrough: 1
+    IsStoppable: 1
+    Operation: 1
+    flagsNeededToApplyRule: 131072
+  - RelatedMovementAbilities: 1
+    MovementCost:
+      RawValue: 1000
+    CanGoThrough: 1
+    IsStoppable: 1
+    Operation: 1
+    flagsNeededToApplyRule: 0
+  MeshId: 0
+  ExploitationDescriptorReferences:
+  - serializableElementName: Effect_Exploitation_RockyForest

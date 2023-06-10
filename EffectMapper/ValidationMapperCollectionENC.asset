@@ -1,0 +1,414 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-7882884757167203077
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 771724855, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Effect_LandUnit_Era6_Common_AntiTankGuns
+  m_EditorClassIdentifier: 
+  Localization: Antitank Gun
+  LocalizationInverted: Not a Antitank Gun
+  LocalizationTarget: Antitank Gun
+  LocalizationTargetInverted: Not a Antitank Gun
+--- !u!114 &-7786891134076134958
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 771724855, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Effect_Unit_Era3
+  m_EditorClassIdentifier: 
+  Localization: Medieval Era Unit
+  LocalizationInverted: non Medieval Era Unit
+  LocalizationTarget: Medieval Era Unit
+  LocalizationTargetInverted: non Medieval Era Unit
+--- !u!114 &-7761796432132208767
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 771724855, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Effect_Unit_HasNuclearReactor
+  m_EditorClassIdentifier: 
+  Localization: Has a NuclearReactor
+  LocalizationInverted: Has no NuclearReactor
+  LocalizationTarget: Has a NuclearReactor
+  LocalizationTargetInverted: Has no NuclearReactor
+--- !u!114 &-7679319127988704617
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 771724855, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Effect_Unit_CanAirstrike
+  m_EditorClassIdentifier: 
+  Localization: Airstrike capable plane
+  LocalizationInverted: non airstrike capable plane
+  LocalizationTarget: Airstrike capable plane
+  LocalizationTargetInverted: non airstrike capable plane
+--- !u!114 &-7260406378766894652
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 771724855, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Effect_LandUnit_Era6_Common_MainBattleTanks
+  m_EditorClassIdentifier: 
+  Localization: Main battle tank
+  LocalizationInverted: non Main battle tank
+  LocalizationTarget: Main battle tank
+  LocalizationTargetInverted: non Main battle tank
+--- !u!114 &-6266244114416169045
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 771724855, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Effect_Extension_Base_NaturalReserve
+  m_EditorClassIdentifier: 
+  Localization: Nature Reserve
+  LocalizationInverted: All Districts other than Nature Reserve
+  LocalizationTarget: Nature Reserve
+  LocalizationTargetInverted: All Districts other than Nature Reserve
+--- !u!114 &-5894838698672031946
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 771724855, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Effect_Unit_Era6
+  m_EditorClassIdentifier: 
+  Localization: Contemporary Era Unit
+  LocalizationInverted: non Contemporary Era Unit
+  LocalizationTarget: Contemporary Era Unit
+  LocalizationTargetInverted: non Contemporary Era Unit
+--- !u!114 &-5713246104938813990
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 771724855, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Effect_Extension_Base_Harbour
+  m_EditorClassIdentifier: 
+  Localization: Harbour
+  LocalizationInverted: All Districts other than Harbour
+  LocalizationTarget: Harbour
+  LocalizationTargetInverted: All Districts other than Harbour
+--- !u!114 &-4116538729209615167
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 771724855, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Effect_LandUnit_Era6_Common_SelfpropelledHowitzer
+  m_EditorClassIdentifier: 
+  Localization: Selfpropelled Howitzer
+  LocalizationInverted: Not a Selfpropelled Howitzer
+  LocalizationTarget: Selfpropelled Howitzer
+  LocalizationTargetInverted: Not a Selfpropelled Howitzer
+--- !u!114 &-3034214027567289414
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 771724855, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Effect_Unit_HasSpecialEquipment
+  m_EditorClassIdentifier: 
+  Localization: Has Special Equipment
+  LocalizationInverted: Has no Special Equipment
+  LocalizationTarget: Has Special Equipment
+  LocalizationTargetInverted: Has no Special Equipment
+--- !u!114 &-2852982213029578033
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 771724855, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Effect_UnitPrototype_MountedRanged
+  m_EditorClassIdentifier: 
+  Localization: Mounted Ranged
+  LocalizationInverted: Not Mounted Ranged
+  LocalizationTarget: Mounted Ranged
+  LocalizationTargetInverted: Not Mounted Ranged
+--- !u!114 &-2301447379343241363
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 771724855, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Effect_Unit_Era2
+  m_EditorClassIdentifier: 
+  Localization: Classical Era Unit
+  LocalizationInverted: non Classical Era Unit
+  LocalizationTarget: Classical Era Unit
+  LocalizationTargetInverted: non Classical Era Unit
+--- !u!114 &-1690068740933497051
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 771724855, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Effect_Unit_Era1
+  m_EditorClassIdentifier: 
+  Localization: Ancient Era Unit
+  LocalizationInverted: non Ancient Era Unit
+  LocalizationTarget: Ancient Era Unit
+  LocalizationTargetInverted: non Ancient Era Unit
+--- !u!114 &-1420605230047583226
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 771724855, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Effect_Unit_Era5
+  m_EditorClassIdentifier: 
+  Localization: Industrial Era Unit
+  LocalizationInverted: non Industrial Era Unit
+  LocalizationTarget: Industrial Era Unit
+  LocalizationTargetInverted: non Industrial Era Unit
+--- !u!114 &-1147088767705695959
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 771724855, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Effect_UnitPrototype_MainBattleTank
+  m_EditorClassIdentifier: 
+  Localization: Main BattleTank
+  LocalizationInverted: Not Main BattleTank
+  LocalizationTarget: Main BattleTank
+  LocalizationTargetInverted: Not Main BattleTank
+--- !u!114 &-1080686302553195447
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 771724855, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Effect_UnitPrototype_Marine
+  m_EditorClassIdentifier: 
+  Localization: Marine
+  LocalizationInverted: Not Marine
+  LocalizationTarget: Marine
+  LocalizationTargetInverted: Not Marine
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -286750100, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: ValidationMapperCollectionENC
+  m_EditorClassIdentifier: 
+--- !u!114 &863245147777126834
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 771724855, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Effect_Unit_HasRadarCapability
+  m_EditorClassIdentifier: 
+  Localization: Has Radar Capability
+  LocalizationInverted: Has no Radar Capability
+  LocalizationTarget: Has Radar Capability
+  LocalizationTargetInverted: Has no Radar Capability
+--- !u!114 &1083036397134421299
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 771724855, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Effect_LandUnit_Era6_Common_SelfpropelledHowitzers
+  m_EditorClassIdentifier: 
+  Localization: Selfpropelled Howitzer
+  LocalizationInverted: Not a Selfpropelled Howitzer
+  LocalizationTarget: Selfpropelled Howitzer
+  LocalizationTargetInverted: Not a Selfpropelled Howitzer
+--- !u!114 &1903451799075670048
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 771724855, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Effect_UnitPrototype_Ranged
+  m_EditorClassIdentifier: 
+  Localization: Ranged
+  LocalizationInverted: Not Ranged
+  LocalizationTarget: Ranged
+  LocalizationTargetInverted: Not Ranged
+--- !u!114 &2235335256898634880
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 771724855, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Effect_Unit_HasSteamTurbine
+  m_EditorClassIdentifier: 
+  Localization: Has Steam Turbine
+  LocalizationInverted: Has no Steam Turbine
+  LocalizationTarget: Has Steam Turbine
+  LocalizationTargetInverted: Has no Steam Turbine
+--- !u!114 &3113893578020143625
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 771724855, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Effect_Unit_Armoured
+  m_EditorClassIdentifier: 
+  Localization: Armored Unit
+  LocalizationInverted: non Armored Unit
+  LocalizationTarget: Armored Unit
+  LocalizationTargetInverted: non Armored Unit
+--- !u!114 &3953924899635012103
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 771724855, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Effect_Unit_HasFluidDynamics
+  m_EditorClassIdentifier: 
+  Localization: Has Fluid Dynamics
+  LocalizationInverted: Has no Fluid Dynamics
+  LocalizationTarget: Has Fluid Dynamics
+  LocalizationTargetInverted: Has no Fluid Dynamics
+--- !u!114 &4915128784021359895
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 771724855, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Effect_Unit_IsThermalNuclearExplosive
+  m_EditorClassIdentifier: 
+  Localization: Is a Thermal Nuclear Explosive
+  LocalizationInverted: Is not a Thermal Nuclear Explosive
+  LocalizationTarget: Is a Thermal Nuclear Explosive
+  LocalizationTargetInverted: Is not a Thermal Nuclear Explosive
+--- !u!114 &7466015418728487380
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 771724855, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Tag_Unit_Stealth
+  m_EditorClassIdentifier: 
+  Localization: Steath Unit
+  LocalizationInverted: Non Steath Unit
+  LocalizationTarget: Steath Unit
+  LocalizationTargetInverted: Non Steath Unit
+--- !u!114 &7984004924919627082
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 771724855, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Effect_Unit_Era4
+  m_EditorClassIdentifier: 
+  Localization: Early Modern Era Unit
+  LocalizationInverted: non Early Modern Era Unit
+  LocalizationTarget: Early Modern Era Unit
+  LocalizationTargetInverted: non Early Modern Era Unit

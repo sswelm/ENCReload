@@ -1,0 +1,810 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-7355101140714357471
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1409302890, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: EndGameDefinition_LastHumanStanding
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: EndGameConditions
+      Entry: 7
+      Data: 0|Amplitude.Mercury.Data.Simulation.EndGameCondition[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 3
+    - Name: 
+      Entry: 7
+      Data: 1|Amplitude.Mercury.Data.Simulation.EndGameCondition_AllPlayerVassalized,
+        Amplitude.Mercury.Data
+    - Name: ActivateNotification
+      Entry: 5
+      Data: true
+    - Name: CanBeDeactivated
+      Entry: 5
+      Data: false
+    - Name: Hidden
+      Entry: 5
+      Data: false
+    - Name: NumberOfConcurentTurnBeforeEnd
+      Entry: 3
+      Data: 10
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 2|Amplitude.Mercury.Data.Simulation.EndGameCondition_EmpireEliminated,
+        Amplitude.Mercury.Data
+    - Name: ActivateNotification
+      Entry: 5
+      Data: true
+    - Name: CanBeDeactivated
+      Entry: 5
+      Data: false
+    - Name: Hidden
+      Entry: 5
+      Data: false
+    - Name: OptionalEmpireIndexes
+      Entry: 7
+      Data: 3|System.Int32[], mscorlib
+    - Name: 
+      Entry: 14
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 4|Amplitude.Mercury.Data.Simulation.EndGameCondition_Pollution, Amplitude.Mercury.Data
+    - Name: ActivateNotification
+      Entry: 5
+      Data: true
+    - Name: CanBeDeactivated
+      Entry: 5
+      Data: false
+    - Name: Hidden
+      Entry: 5
+      Data: false
+    - Name: FirstNotificationPollutionDelta
+      Entry: 7
+      Data: Amplitude.FixedPoint, Amplitude.Framework
+    - Name: RawValue
+      Entry: 3
+      Data: 600000
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+  IsEndless: 0
+--- !u!114 &-4383590697292773486
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1409302890, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: EndGameDefinition_SpaceRace
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: EndGameConditions
+      Entry: 7
+      Data: 0|Amplitude.Mercury.Data.Simulation.EndGameCondition[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 2
+    - Name: 
+      Entry: 7
+      Data: 1|Amplitude.Mercury.Data.Simulation.EndGameCondition_Pollution, Amplitude.Mercury.Data
+    - Name: ActivateNotification
+      Entry: 5
+      Data: true
+    - Name: CanBeDeactivated
+      Entry: 5
+      Data: false
+    - Name: Hidden
+      Entry: 5
+      Data: false
+    - Name: FirstNotificationPollutionDelta
+      Entry: 7
+      Data: Amplitude.FixedPoint, Amplitude.Framework
+    - Name: RawValue
+      Entry: 3
+      Data: 600000
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 2|Amplitude.Mercury.Data.Simulation.EndGameCondition_SpaceRace, Amplitude.Mercury.Data
+    - Name: ActivateNotification
+      Entry: 5
+      Data: true
+    - Name: CanBeDeactivated
+      Entry: 5
+      Data: false
+    - Name: Hidden
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+  IsEndless: 0
+--- !u!114 &-2051437135797076500
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1409302890, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: EndGameDefinition_Standard
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: EndGameConditions
+      Entry: 7
+      Data: 0|Amplitude.Mercury.Data.Simulation.EndGameCondition[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 6
+    - Name: 
+      Entry: 7
+      Data: 1|Amplitude.Mercury.Data.Simulation.EndGameCondition_AllPlayerVassalized,
+        Amplitude.Mercury.Data
+    - Name: ActivateNotification
+      Entry: 5
+      Data: true
+    - Name: CanBeDeactivated
+      Entry: 5
+      Data: false
+    - Name: Hidden
+      Entry: 5
+      Data: false
+    - Name: NumberOfConcurentTurnBeforeEnd
+      Entry: 3
+      Data: 10
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 2|Amplitude.Mercury.Data.Simulation.EndGameCondition_EndGameResearchesDone,
+        Amplitude.Mercury.Data
+    - Name: ActivateNotification
+      Entry: 5
+      Data: true
+    - Name: CanBeDeactivated
+      Entry: 5
+      Data: false
+    - Name: Hidden
+      Entry: 5
+      Data: false
+    - Name: Technologies
+      Entry: 7
+      Data: 3|Amplitude.Framework.DatatableElementReference[], Amplitude.Framework
+    - Name: 
+      Entry: 12
+      Data: 8
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: Technology_Era6_27
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: Technology_Era6_28
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: Technology_Era6_29
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: Technology_Era6_30
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: Technology_Era6_31
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: Technology_Era6_NanoTechnology
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: Technology_Era6_QuantumComputing
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: Technology_Era6_ArtificialInteligence
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 4|Amplitude.Mercury.Data.Simulation.EndGameCondition_EmpireEliminated,
+        Amplitude.Mercury.Data
+    - Name: ActivateNotification
+      Entry: 5
+      Data: true
+    - Name: CanBeDeactivated
+      Entry: 5
+      Data: false
+    - Name: Hidden
+      Entry: 5
+      Data: false
+    - Name: OptionalEmpireIndexes
+      Entry: 7
+      Data: 5|System.Int32[], mscorlib
+    - Name: 
+      Entry: 14
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 6|Amplitude.Mercury.Data.Simulation.EndGameCondition_SpaceRace, Amplitude.Mercury.Data
+    - Name: ActivateNotification
+      Entry: 5
+      Data: true
+    - Name: CanBeDeactivated
+      Entry: 5
+      Data: false
+    - Name: Hidden
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7|Amplitude.Mercury.Data.Simulation.EndGameCondition_Pollution, Amplitude.Mercury.Data
+    - Name: ActivateNotification
+      Entry: 5
+      Data: true
+    - Name: CanBeDeactivated
+      Entry: 5
+      Data: false
+    - Name: Hidden
+      Entry: 5
+      Data: false
+    - Name: FirstNotificationPollutionDelta
+      Entry: 7
+      Data: Amplitude.FixedPoint, Amplitude.Framework
+    - Name: RawValue
+      Entry: 3
+      Data: 600000
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 8|Amplitude.Mercury.Data.Simulation.EndGameCondition_EraLimit, Amplitude.Mercury.Data
+    - Name: ActivateNotification
+      Entry: 5
+      Data: true
+    - Name: CanBeDeactivated
+      Entry: 5
+      Data: false
+    - Name: Hidden
+      Entry: 5
+      Data: false
+    - Name: EndingEraReference
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: Era6
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: OptionalEmpireIndexes
+      Entry: 6
+      Data: 
+    - Name: Trigger
+      Entry: 3
+      Data: 0
+    - Name: EraStarLevelThresholdByCategory
+      Entry: 3
+      Data: 3
+    - Name: OptionalTurnBeforeTrigger
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+  IsEndless: 0
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1398190197, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: EndGameDefinition
+  m_EditorClassIdentifier: 
+--- !u!114 &1891013660509590939
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1409302890, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: EndGameDefinition_TimeLimit
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: EndGameConditions
+      Entry: 7
+      Data: 0|Amplitude.Mercury.Data.Simulation.EndGameCondition[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 2
+    - Name: 
+      Entry: 7
+      Data: 1|Amplitude.Mercury.Data.Simulation.EndGameCondition_TurnLimit, Amplitude.Mercury.Data
+    - Name: ActivateNotification
+      Entry: 5
+      Data: true
+    - Name: CanBeDeactivated
+      Entry: 5
+      Data: false
+    - Name: Hidden
+      Entry: 5
+      Data: false
+    - Name: TurnLimit
+      Entry: 3
+      Data: 600
+    - Name: FirstNotificationDelay
+      Entry: 3
+      Data: 50
+    - Name: SecondNotificationDelay
+      Entry: 3
+      Data: 10
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 2|Amplitude.Mercury.Data.Simulation.EndGameCondition_Pollution, Amplitude.Mercury.Data
+    - Name: ActivateNotification
+      Entry: 5
+      Data: true
+    - Name: CanBeDeactivated
+      Entry: 5
+      Data: false
+    - Name: Hidden
+      Entry: 5
+      Data: false
+    - Name: FirstNotificationPollutionDelta
+      Entry: 7
+      Data: Amplitude.FixedPoint, Amplitude.Framework
+    - Name: RawValue
+      Entry: 3
+      Data: 600000
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+  IsEndless: 0
+--- !u!114 &6128517387735371140
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1409302890, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: EndGameDefinition_Custom
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: EndGameConditions
+      Entry: 7
+      Data: 0|Amplitude.Mercury.Data.Simulation.EndGameCondition[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 7
+    - Name: 
+      Entry: 7
+      Data: 1|Amplitude.Mercury.Data.Simulation.EndGameCondition_TurnLimit, Amplitude.Mercury.Data
+    - Name: ActivateNotification
+      Entry: 5
+      Data: true
+    - Name: CanBeDeactivated
+      Entry: 5
+      Data: true
+    - Name: Hidden
+      Entry: 5
+      Data: false
+    - Name: TurnLimit
+      Entry: 3
+      Data: 600
+    - Name: FirstNotificationDelay
+      Entry: 3
+      Data: 30
+    - Name: SecondNotificationDelay
+      Entry: 3
+      Data: 10
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 2|Amplitude.Mercury.Data.Simulation.EndGameCondition_AllPlayerVassalized,
+        Amplitude.Mercury.Data
+    - Name: ActivateNotification
+      Entry: 5
+      Data: true
+    - Name: CanBeDeactivated
+      Entry: 5
+      Data: true
+    - Name: Hidden
+      Entry: 5
+      Data: false
+    - Name: NumberOfConcurentTurnBeforeEnd
+      Entry: 3
+      Data: 10
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 3|Amplitude.Mercury.Data.Simulation.EndGameCondition_EndGameResearchesDone,
+        Amplitude.Mercury.Data
+    - Name: ActivateNotification
+      Entry: 5
+      Data: true
+    - Name: CanBeDeactivated
+      Entry: 5
+      Data: true
+    - Name: Hidden
+      Entry: 5
+      Data: false
+    - Name: Technologies
+      Entry: 7
+      Data: 4|Amplitude.Framework.DatatableElementReference[], Amplitude.Framework
+    - Name: 
+      Entry: 12
+      Data: 8
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: Technology_Era6_27
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: Technology_Era6_28
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: Technology_Era6_29
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: Technology_Era6_30
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: Technology_Era6_31
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: Technology_Era6_QuantumComputing
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: Technology_Era6_NanoTechnology
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: Technology_Era6_ArtificialInteligence
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 5|Amplitude.Mercury.Data.Simulation.EndGameCondition_EmpireEliminated,
+        Amplitude.Mercury.Data
+    - Name: ActivateNotification
+      Entry: 5
+      Data: true
+    - Name: CanBeDeactivated
+      Entry: 5
+      Data: true
+    - Name: Hidden
+      Entry: 5
+      Data: false
+    - Name: OptionalEmpireIndexes
+      Entry: 7
+      Data: 6|System.Int32[], mscorlib
+    - Name: 
+      Entry: 14
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7|Amplitude.Mercury.Data.Simulation.EndGameCondition_SpaceRace, Amplitude.Mercury.Data
+    - Name: ActivateNotification
+      Entry: 5
+      Data: true
+    - Name: CanBeDeactivated
+      Entry: 5
+      Data: true
+    - Name: Hidden
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 8|Amplitude.Mercury.Data.Simulation.EndGameCondition_Pollution, Amplitude.Mercury.Data
+    - Name: ActivateNotification
+      Entry: 5
+      Data: true
+    - Name: CanBeDeactivated
+      Entry: 5
+      Data: true
+    - Name: Hidden
+      Entry: 5
+      Data: false
+    - Name: FirstNotificationPollutionDelta
+      Entry: 7
+      Data: Amplitude.FixedPoint, Amplitude.Framework
+    - Name: RawValue
+      Entry: 3
+      Data: 600000
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 9|Amplitude.Mercury.Data.Simulation.EndGameCondition_EraLimit, Amplitude.Mercury.Data
+    - Name: ActivateNotification
+      Entry: 5
+      Data: true
+    - Name: CanBeDeactivated
+      Entry: 5
+      Data: true
+    - Name: Hidden
+      Entry: 5
+      Data: false
+    - Name: EndingEraReference
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: Era6
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: OptionalEmpireIndexes
+      Entry: 6
+      Data: 
+    - Name: Trigger
+      Entry: 3
+      Data: 0
+    - Name: EraStarLevelThresholdByCategory
+      Entry: 3
+      Data: 3
+    - Name: OptionalTurnBeforeTrigger
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+  IsEndless: 0

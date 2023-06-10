@@ -1,0 +1,110 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-7417314432552240746
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1708454363, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Strategic06
+  m_EditorClassIdentifier: 
+  ResourceType: 5
+  EraReference:
+    serializableElementName: Era5
+  TradeBaseLicenceCost: 270
+--- !u!114 &-5314405539095406318
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1708454363, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Strategic08
+  m_EditorClassIdentifier: 
+  ResourceType: 7
+  EraReference:
+    serializableElementName: Era5
+  TradeBaseLicenceCost: 540
+--- !u!114 &-2327043734573646571
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1708454363, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Strategic04
+  m_EditorClassIdentifier: 
+  ResourceType: 3
+  EraReference:
+    serializableElementName: Era4
+  TradeBaseLicenceCost: 60
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -882805803, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: ResourceDefinition
+  m_EditorClassIdentifier: 
+--- !u!114 &1006351001193337513
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1708454363, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Strategic03
+  m_EditorClassIdentifier: 
+  ResourceType: 2
+  EraReference:
+    serializableElementName: Era1
+  TradeBaseLicenceCost: 30
+--- !u!114 &6914967608976315947
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1708454363, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Strategic05
+  m_EditorClassIdentifier: 
+  ResourceType: 4
+  EraReference:
+    serializableElementName: Era3
+  TradeBaseLicenceCost: 270
+--- !u!114 &7452418069150249975
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1708454363, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Strategic07
+  m_EditorClassIdentifier: 
+  ResourceType: 6
+  EraReference:
+    serializableElementName: Era5
+  TradeBaseLicenceCost: 270

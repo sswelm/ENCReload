@@ -1,0 +1,814 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-6388548698836562227
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 283645815, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Fame_EraStar_Scientist_Era4
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  Key: 24
+  Hidden: 0
+  IsObsolete: 0
+  DlcPrerequisite:
+    DownloadableContent: 0
+  EraPrerequisite:
+    Operator: 0
+    EraReference:
+      serializableElementName: Era4
+  DeedDefinitionReference:
+    serializableElementName: Deed_EraStar_ScientistTechnologyCompleted
+  Parameters:
+    Pages:
+    - GameOptionName: GameOption_StartingEra
+      DefaultValue:
+        RawValue: 1000
+      Entries:
+      - ValueName: Era0
+        Parameter:
+          RawValue: 0
+      - ValueName: Era1
+        Parameter:
+          RawValue: 1000
+      - ValueName: Era2
+        Parameter:
+          RawValue: 2000
+      - ValueName: Era3
+        Parameter:
+          RawValue: 3000
+      - ValueName: Era4
+        Parameter:
+          RawValue: 4000
+      - ValueName: Era5
+        Parameter:
+          RawValue: 5000
+      - ValueName: Era6
+        Parameter:
+          RawValue: 6000
+    - GameOptionName: GameOption_GameSpeed
+      DefaultValue:
+        RawValue: 1000
+      Entries:
+      - ValueName: Fast
+        Parameter:
+          RawValue: 500
+      - ValueName: Normal
+        Parameter:
+          RawValue: 1000
+      - ValueName: Slow
+        Parameter:
+          RawValue: 1500
+      - ValueName: Endless
+        Parameter:
+          RawValue: 2000
+      - ValueName: Blitz
+        Parameter:
+          RawValue: 250
+  BaseRpnDefinitionReference:
+    serializableElementName: Fame_EraStar_Scientist_Base
+  Levels:
+  - DeltaRpnDefinitionReference:
+      serializableElementName: Fame_EraStar_Scientist_Era4_Level1
+    UseCustomDelta: 0
+    CustomDelta:
+      RawValue: 0
+  - DeltaRpnDefinitionReference:
+      serializableElementName: Fame_EraStar_Scientist_Era4_Level2
+    UseCustomDelta: 0
+    CustomDelta:
+      RawValue: 0
+  - DeltaRpnDefinitionReference:
+      serializableElementName: Fame_EraStar_Scientist_Era4_Level3
+    UseCustomDelta: 0
+    CustomDelta:
+      RawValue: 0
+  - DeltaRpnDefinitionReference:
+      serializableElementName: Fame_EraStar_Scientist_Era4_Level4
+    UseCustomDelta: 0
+    CustomDelta:
+      RawValue: 0
+  - DeltaRpnDefinitionReference:
+      serializableElementName: Fame_EraStar_Scientist_Era4_Level5
+    UseCustomDelta: 0
+    CustomDelta:
+      RawValue: 0
+  MaxFameReward:
+    DefinitionReference:
+      serializableElementName: FameReward_Era4
+    UseCustomGain: 0
+    CustomGain:
+      RawValue: 0
+  EnableGameplayOrientationBonus: 1
+  GameplayOrientation: 2
+  GameplayOrientationFactor: 0.5
+--- !u!114 &-5852562214966240247
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 283645815, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Fame_EraStar_Scientist
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  Key: 9
+  Hidden: 1
+  IsObsolete: 1
+  DlcPrerequisite:
+    DownloadableContent: 0
+  EraPrerequisite:
+    Operator: 2
+    EraReference:
+      serializableElementName: Era4
+  DeedDefinitionReference:
+    serializableElementName: Deed_EraStar_Scientist
+  Parameters:
+    Pages:
+    - GameOptionName: GameOption_StartingEra
+      DefaultValue:
+        RawValue: 1000
+      Entries:
+      - ValueName: Era0
+        Parameter:
+          RawValue: 0
+      - ValueName: Era1
+        Parameter:
+          RawValue: 1000
+      - ValueName: Era2
+        Parameter:
+          RawValue: 2000
+      - ValueName: Era3
+        Parameter:
+          RawValue: 3000
+      - ValueName: Era4
+        Parameter:
+          RawValue: 4000
+      - ValueName: Era5
+        Parameter:
+          RawValue: 5000
+      - ValueName: Era6
+        Parameter:
+          RawValue: 6000
+    - GameOptionName: GameOption_GameSpeed
+      DefaultValue:
+        RawValue: 1000
+      Entries:
+      - ValueName: Fast
+        Parameter:
+          RawValue: 500
+      - ValueName: Normal
+        Parameter:
+          RawValue: 1000
+      - ValueName: Slow
+        Parameter:
+          RawValue: 1500
+      - ValueName: Endless
+        Parameter:
+          RawValue: 2000
+      - ValueName: Blitz
+        Parameter:
+          RawValue: 250
+  BaseRpnDefinitionReference:
+    serializableElementName: Fame_EraStar_Scientist_Base
+  Levels:
+  - DeltaRpnDefinitionReference:
+      serializableElementName: Fame_EraStar_Scientist_FourStars
+    UseCustomDelta: 0
+    CustomDelta:
+      RawValue: 0
+  - DeltaRpnDefinitionReference:
+      serializableElementName: Fame_EraStar_Scientist_FourStars
+    UseCustomDelta: 0
+    CustomDelta:
+      RawValue: 0
+  - DeltaRpnDefinitionReference:
+      serializableElementName: Fame_EraStar_Scientist_FourStars
+    UseCustomDelta: 0
+    CustomDelta:
+      RawValue: 0
+  - DeltaRpnDefinitionReference:
+      serializableElementName: Fame_EraStar_Scientist_FourStars
+    UseCustomDelta: 0
+    CustomDelta:
+      RawValue: 0
+  MaxFameReward:
+    DefinitionReference:
+      serializableElementName: FameReward_Medium
+    UseCustomGain: 0
+    CustomGain:
+      RawValue: 0
+  EnableGameplayOrientationBonus: 1
+  GameplayOrientation: 2
+  GameplayOrientationFactor: 0.5
+--- !u!114 &-3564678862119631607
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 283645815, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Fame_EraStar_Scientist_Era2
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  Key: 22
+  Hidden: 0
+  IsObsolete: 0
+  DlcPrerequisite:
+    DownloadableContent: 0
+  EraPrerequisite:
+    Operator: 0
+    EraReference:
+      serializableElementName: Era2
+  DeedDefinitionReference:
+    serializableElementName: Deed_EraStar_ScientistTechnologyCompleted
+  Parameters:
+    Pages:
+    - GameOptionName: GameOption_StartingEra
+      DefaultValue:
+        RawValue: 1000
+      Entries:
+      - ValueName: Era0
+        Parameter:
+          RawValue: 0
+      - ValueName: Era1
+        Parameter:
+          RawValue: 1000
+      - ValueName: Era2
+        Parameter:
+          RawValue: 2000
+      - ValueName: Era3
+        Parameter:
+          RawValue: 3000
+      - ValueName: Era4
+        Parameter:
+          RawValue: 4000
+      - ValueName: Era5
+        Parameter:
+          RawValue: 5000
+      - ValueName: Era6
+        Parameter:
+          RawValue: 6000
+    - GameOptionName: GameOption_GameSpeed
+      DefaultValue:
+        RawValue: 1000
+      Entries:
+      - ValueName: Fast
+        Parameter:
+          RawValue: 500
+      - ValueName: Normal
+        Parameter:
+          RawValue: 1000
+      - ValueName: Slow
+        Parameter:
+          RawValue: 1500
+      - ValueName: Endless
+        Parameter:
+          RawValue: 2000
+      - ValueName: Blitz
+        Parameter:
+          RawValue: 250
+  BaseRpnDefinitionReference:
+    serializableElementName: Fame_EraStar_Scientist_Base
+  Levels:
+  - DeltaRpnDefinitionReference:
+      serializableElementName: Fame_EraStar_Scientist_Era2_Level1
+    UseCustomDelta: 0
+    CustomDelta:
+      RawValue: 0
+  - DeltaRpnDefinitionReference:
+      serializableElementName: Fame_EraStar_Scientist_Era2_Level2
+    UseCustomDelta: 0
+    CustomDelta:
+      RawValue: 0
+  - DeltaRpnDefinitionReference:
+      serializableElementName: Fame_EraStar_Scientist_Era2_Level3
+    UseCustomDelta: 0
+    CustomDelta:
+      RawValue: 0
+  MaxFameReward:
+    DefinitionReference:
+      serializableElementName: FameReward_Medium
+    UseCustomGain: 0
+    CustomGain:
+      RawValue: 0
+  EnableGameplayOrientationBonus: 1
+  GameplayOrientation: 2
+  GameplayOrientationFactor: 0.5
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1997910158, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: EraStarDefinition
+  m_EditorClassIdentifier: 
+--- !u!114 &2657319087920452580
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 283645815, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Fame_EraStar_Scientist_Era3
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  Key: 23
+  Hidden: 0
+  IsObsolete: 0
+  DlcPrerequisite:
+    DownloadableContent: 0
+  EraPrerequisite:
+    Operator: 0
+    EraReference:
+      serializableElementName: Era3
+  DeedDefinitionReference:
+    serializableElementName: Deed_EraStar_ScientistTechnologyCompleted
+  Parameters:
+    Pages:
+    - GameOptionName: GameOption_StartingEra
+      DefaultValue:
+        RawValue: 1000
+      Entries:
+      - ValueName: Era0
+        Parameter:
+          RawValue: 0
+      - ValueName: Era1
+        Parameter:
+          RawValue: 1000
+      - ValueName: Era2
+        Parameter:
+          RawValue: 2000
+      - ValueName: Era3
+        Parameter:
+          RawValue: 3000
+      - ValueName: Era4
+        Parameter:
+          RawValue: 4000
+      - ValueName: Era5
+        Parameter:
+          RawValue: 5000
+      - ValueName: Era6
+        Parameter:
+          RawValue: 6000
+    - GameOptionName: GameOption_GameSpeed
+      DefaultValue:
+        RawValue: 1000
+      Entries:
+      - ValueName: Fast
+        Parameter:
+          RawValue: 500
+      - ValueName: Normal
+        Parameter:
+          RawValue: 1000
+      - ValueName: Slow
+        Parameter:
+          RawValue: 1500
+      - ValueName: Endless
+        Parameter:
+          RawValue: 2000
+      - ValueName: Blitz
+        Parameter:
+          RawValue: 250
+  BaseRpnDefinitionReference:
+    serializableElementName: Fame_EraStar_Scientist_Base
+  Levels:
+  - DeltaRpnDefinitionReference:
+      serializableElementName: Fame_EraStar_Scientist_Era3_Level1
+    UseCustomDelta: 0
+    CustomDelta:
+      RawValue: 0
+  - DeltaRpnDefinitionReference:
+      serializableElementName: Fame_EraStar_Scientist_Era3_Level2
+    UseCustomDelta: 0
+    CustomDelta:
+      RawValue: 0
+  - DeltaRpnDefinitionReference:
+      serializableElementName: Fame_EraStar_Scientist_Era3_Level3
+    UseCustomDelta: 0
+    CustomDelta:
+      RawValue: 0
+  - DeltaRpnDefinitionReference:
+      serializableElementName: Fame_EraStar_Scientist_Era3_Level4
+    UseCustomDelta: 0
+    CustomDelta:
+      RawValue: 0
+  MaxFameReward:
+    DefinitionReference:
+      serializableElementName: FameReward_Medium
+    UseCustomGain: 0
+    CustomGain:
+      RawValue: 0
+  EnableGameplayOrientationBonus: 1
+  GameplayOrientation: 2
+  GameplayOrientationFactor: 0.5
+--- !u!114 &3405362988910649177
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 283645815, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Fame_EraStar_Scientist_Era5
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  Key: 25
+  Hidden: 0
+  IsObsolete: 0
+  DlcPrerequisite:
+    DownloadableContent: 0
+  EraPrerequisite:
+    Operator: 0
+    EraReference:
+      serializableElementName: Era5
+  DeedDefinitionReference:
+    serializableElementName: Deed_EraStar_ScientistTechnologyCompleted
+  Parameters:
+    Pages:
+    - GameOptionName: GameOption_StartingEra
+      DefaultValue:
+        RawValue: 1000
+      Entries:
+      - ValueName: Era0
+        Parameter:
+          RawValue: 0
+      - ValueName: Era1
+        Parameter:
+          RawValue: 1000
+      - ValueName: Era2
+        Parameter:
+          RawValue: 2000
+      - ValueName: Era3
+        Parameter:
+          RawValue: 3000
+      - ValueName: Era4
+        Parameter:
+          RawValue: 4000
+      - ValueName: Era5
+        Parameter:
+          RawValue: 5000
+      - ValueName: Era6
+        Parameter:
+          RawValue: 6000
+    - GameOptionName: GameOption_GameSpeed
+      DefaultValue:
+        RawValue: 1000
+      Entries:
+      - ValueName: Fast
+        Parameter:
+          RawValue: 500
+      - ValueName: Normal
+        Parameter:
+          RawValue: 1000
+      - ValueName: Slow
+        Parameter:
+          RawValue: 1500
+      - ValueName: Endless
+        Parameter:
+          RawValue: 2000
+      - ValueName: Blitz
+        Parameter:
+          RawValue: 250
+  BaseRpnDefinitionReference:
+    serializableElementName: Fame_EraStar_Scientist_Base
+  Levels:
+  - DeltaRpnDefinitionReference:
+      serializableElementName: Fame_EraStar_Scientist_Era5_Level1
+    UseCustomDelta: 0
+    CustomDelta:
+      RawValue: 0
+  - DeltaRpnDefinitionReference:
+      serializableElementName: Fame_EraStar_Scientist_Era5_Level2
+    UseCustomDelta: 0
+    CustomDelta:
+      RawValue: 0
+  - DeltaRpnDefinitionReference:
+      serializableElementName: Fame_EraStar_Scientist_Era5_Level3
+    UseCustomDelta: 0
+    CustomDelta:
+      RawValue: 0
+  - DeltaRpnDefinitionReference:
+      serializableElementName: Fame_EraStar_Scientist_Era5_Level4
+    UseCustomDelta: 0
+    CustomDelta:
+      RawValue: 0
+  - DeltaRpnDefinitionReference:
+      serializableElementName: Fame_EraStar_Scientist_Era5_Level5
+    UseCustomDelta: 0
+    CustomDelta:
+      RawValue: 0
+  - DeltaRpnDefinitionReference:
+      serializableElementName: Fame_EraStar_Scientist_Era5_Level6
+    UseCustomDelta: 0
+    CustomDelta:
+      RawValue: 0
+  MaxFameReward:
+    DefinitionReference:
+      serializableElementName: FameReward_Era5
+    UseCustomGain: 0
+    CustomGain:
+      RawValue: 0
+  EnableGameplayOrientationBonus: 1
+  GameplayOrientation: 2
+  GameplayOrientationFactor: 0
+--- !u!114 &3502114918072366160
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 283645815, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Fame_EraStar_Scientist_Era1
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  Key: 21
+  Hidden: 0
+  IsObsolete: 0
+  DlcPrerequisite:
+    DownloadableContent: 0
+  EraPrerequisite:
+    Operator: 0
+    EraReference:
+      serializableElementName: Era1
+  DeedDefinitionReference:
+    serializableElementName: Deed_EraStar_ScientistTechnologyCompleted
+  Parameters:
+    Pages:
+    - GameOptionName: GameOption_StartingEra
+      DefaultValue:
+        RawValue: 1000
+      Entries:
+      - ValueName: Era0
+        Parameter:
+          RawValue: 0
+      - ValueName: Era1
+        Parameter:
+          RawValue: 1000
+      - ValueName: Era2
+        Parameter:
+          RawValue: 2000
+      - ValueName: Era3
+        Parameter:
+          RawValue: 3000
+      - ValueName: Era4
+        Parameter:
+          RawValue: 4000
+      - ValueName: Era5
+        Parameter:
+          RawValue: 5000
+      - ValueName: Era6
+        Parameter:
+          RawValue: 6000
+    - GameOptionName: GameOption_GameSpeed
+      DefaultValue:
+        RawValue: 1000
+      Entries:
+      - ValueName: Fast
+        Parameter:
+          RawValue: 500
+      - ValueName: Normal
+        Parameter:
+          RawValue: 1000
+      - ValueName: Slow
+        Parameter:
+          RawValue: 1500
+      - ValueName: Endless
+        Parameter:
+          RawValue: 2000
+      - ValueName: Blitz
+        Parameter:
+          RawValue: 250
+  BaseRpnDefinitionReference:
+    serializableElementName: Fame_EraStar_Scientist_Base
+  Levels:
+  - DeltaRpnDefinitionReference:
+      serializableElementName: Fame_EraStar_Scientist_Era1_Level1
+    UseCustomDelta: 0
+    CustomDelta:
+      RawValue: 0
+  - DeltaRpnDefinitionReference:
+      serializableElementName: Fame_EraStar_Scientist_Era1_Level2
+    UseCustomDelta: 0
+    CustomDelta:
+      RawValue: 0
+  - DeltaRpnDefinitionReference:
+      serializableElementName: Fame_EraStar_Scientist_Era1_Level3
+    UseCustomDelta: 0
+    CustomDelta:
+      RawValue: 0
+  MaxFameReward:
+    DefinitionReference:
+      serializableElementName: FameReward_Medium
+    UseCustomGain: 0
+    CustomGain:
+      RawValue: 0
+  EnableGameplayOrientationBonus: 1
+  GameplayOrientation: 2
+  GameplayOrientationFactor: 0.5
+--- !u!114 &6522464778603007906
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 283645815, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Fame_EraStar_Scientist_Era6
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  Key: 26
+  Hidden: 0
+  IsObsolete: 0
+  DlcPrerequisite:
+    DownloadableContent: 0
+  EraPrerequisite:
+    Operator: 0
+    EraReference:
+      serializableElementName: Era6
+  DeedDefinitionReference:
+    serializableElementName: Deed_EraStar_ScientistTechnologyCompleted
+  Parameters:
+    Pages:
+    - GameOptionName: GameOption_StartingEra
+      DefaultValue:
+        RawValue: 1000
+      Entries:
+      - ValueName: Era0
+        Parameter:
+          RawValue: 0
+      - ValueName: Era1
+        Parameter:
+          RawValue: 1000
+      - ValueName: Era2
+        Parameter:
+          RawValue: 2000
+      - ValueName: Era3
+        Parameter:
+          RawValue: 3000
+      - ValueName: Era4
+        Parameter:
+          RawValue: 4000
+      - ValueName: Era5
+        Parameter:
+          RawValue: 5000
+      - ValueName: Era6
+        Parameter:
+          RawValue: 6000
+    - GameOptionName: GameOption_GameSpeed
+      DefaultValue:
+        RawValue: 1000
+      Entries:
+      - ValueName: Fast
+        Parameter:
+          RawValue: 500
+      - ValueName: Normal
+        Parameter:
+          RawValue: 1000
+      - ValueName: Slow
+        Parameter:
+          RawValue: 1500
+      - ValueName: Endless
+        Parameter:
+          RawValue: 2000
+      - ValueName: Blitz
+        Parameter:
+          RawValue: 250
+  BaseRpnDefinitionReference:
+    serializableElementName: Fame_EraStar_Scientist_Base
+  Levels:
+  - DeltaRpnDefinitionReference:
+      serializableElementName: Fame_EraStar_Scientist_Era6_Level1
+    UseCustomDelta: 0
+    CustomDelta:
+      RawValue: 0
+  - DeltaRpnDefinitionReference:
+      serializableElementName: Fame_EraStar_Scientist_Era6_Level2
+    UseCustomDelta: 0
+    CustomDelta:
+      RawValue: 0
+  - DeltaRpnDefinitionReference:
+      serializableElementName: Fame_EraStar_Scientist_Era6_Level3
+    UseCustomDelta: 0
+    CustomDelta:
+      RawValue: 0
+  - DeltaRpnDefinitionReference:
+      serializableElementName: Fame_EraStar_Scientist_Era6_Level4
+    UseCustomDelta: 0
+    CustomDelta:
+      RawValue: 0
+  - DeltaRpnDefinitionReference:
+      serializableElementName: Fame_EraStar_Scientist_Era6_Level5
+    UseCustomDelta: 0
+    CustomDelta:
+      RawValue: 0
+  - DeltaRpnDefinitionReference:
+      serializableElementName: Fame_EraStar_Scientist_Era6_Level6
+    UseCustomDelta: 0
+    CustomDelta:
+      RawValue: 0
+  - DeltaRpnDefinitionReference:
+      serializableElementName: Fame_EraStar_Scientist_Era6_Level7
+    UseCustomDelta: 0
+    CustomDelta:
+      RawValue: 0
+  - DeltaRpnDefinitionReference:
+      serializableElementName: Fame_EraStar_Scientist_Era6_Level8
+    UseCustomDelta: 0
+    CustomDelta:
+      RawValue: 0
+  - DeltaRpnDefinitionReference:
+      serializableElementName: Fame_EraStar_Scientist_Era6_Level9
+    UseCustomDelta: 0
+    CustomDelta:
+      RawValue: 0
+  MaxFameReward:
+    DefinitionReference:
+      serializableElementName: FameReward_Era6
+    UseCustomGain: 0
+    CustomGain:
+      RawValue: 0
+  EnableGameplayOrientationBonus: 1
+  GameplayOrientation: 2
+  GameplayOrientationFactor: 0

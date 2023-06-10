@@ -1,0 +1,482 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-7898761744264988782
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1967839877, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: POI_NaturalModifier11
+  m_EditorClassIdentifier: 
+  PathfindingRules:
+  - RelatedMovementAbilities: 1
+    MovementCost:
+      RawValue: 1000
+    CanGoThrough: 1
+    IsStoppable: 1
+    Operation: 0
+    flagsNeededToApplyRule: 4096
+  - RelatedMovementAbilities: 1
+    MovementCost:
+      RawValue: 1000
+    CanGoThrough: 1
+    IsStoppable: 1
+    Operation: 1
+    flagsNeededToApplyRule: 0
+  MeshId: 0
+  ExploitationDescriptorReferences:
+  - serializableElementName: Effect_Exploitation_NaturalModifier11
+  BlockVision: 0
+  BattleTileTypeFlag: 0
+--- !u!114 &-3781953146228703558
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1967839877, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: POI_NaturalModifier01
+  m_EditorClassIdentifier: 
+  PathfindingRules:
+  - RelatedMovementAbilities: 1
+    MovementCost:
+      RawValue: 1000
+    CanGoThrough: 1
+    IsStoppable: 1
+    Operation: 0
+    flagsNeededToApplyRule: 4096
+  - RelatedMovementAbilities: 1
+    MovementCost:
+      RawValue: 1000
+    CanGoThrough: 1
+    IsStoppable: 1
+    Operation: 1
+    flagsNeededToApplyRule: 0
+  MeshId: 0
+  ExploitationDescriptorReferences:
+  - serializableElementName: Effect_Exploitation_NaturalModifier01
+  BlockVision: 0
+  BattleTileTypeFlag: 0
+--- !u!114 &-3204962048990650818
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1967839877, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: POI_NaturalModifier22
+  m_EditorClassIdentifier: 
+  PathfindingRules:
+  - RelatedMovementAbilities: 4
+    MovementCost:
+      RawValue: 2000
+    CanGoThrough: 1
+    IsStoppable: 1
+    Operation: 0
+    flagsNeededToApplyRule: 131072
+  - RelatedMovementAbilities: 4
+    MovementCost:
+      RawValue: 1000
+    CanGoThrough: 1
+    IsStoppable: 1
+    Operation: 0
+    flagsNeededToApplyRule: 524288
+  - RelatedMovementAbilities: 4
+    MovementCost:
+      RawValue: 4000
+    CanGoThrough: 1
+    IsStoppable: 1
+    Operation: 0
+    flagsNeededToApplyRule: 33554432
+  - RelatedMovementAbilities: 4
+    MovementCost:
+      RawValue: 3000
+    CanGoThrough: 1
+    IsStoppable: 1
+    Operation: 0
+    flagsNeededToApplyRule: 262144
+  - RelatedMovementAbilities: 4
+    MovementCost:
+      RawValue: 2000
+    CanGoThrough: 1
+    IsStoppable: 1
+    Operation: 0
+    flagsNeededToApplyRule: 0
+  MeshId: 0
+  ExploitationDescriptorReferences: []
+  BlockVision: 0
+  BattleTileTypeFlag: 256
+--- !u!114 &-2769207631318889248
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1967839877, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: POI_NaturalModifier08
+  m_EditorClassIdentifier: 
+  PathfindingRules:
+  - RelatedMovementAbilities: 2
+    MovementCost:
+      RawValue: 2000
+    CanGoThrough: 1
+    IsStoppable: 1
+    Operation: 0
+    flagsNeededToApplyRule: 8192
+  - RelatedMovementAbilities: 2
+    MovementCost:
+      RawValue: 4000
+    CanGoThrough: 1
+    IsStoppable: 1
+    Operation: 0
+    flagsNeededToApplyRule: 0
+  MeshId: 0
+  ExploitationDescriptorReferences:
+  - serializableElementName: Effect_Exploitation_NaturalModifier08
+  BlockVision: 0
+  BattleTileTypeFlag: 0
+--- !u!114 &-2179214379106985273
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1967839877, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: POI_NaturalModifier07
+  m_EditorClassIdentifier: 
+  PathfindingRules:
+  - RelatedMovementAbilities: 1
+    MovementCost:
+      RawValue: 1000
+    CanGoThrough: 1
+    IsStoppable: 1
+    Operation: 0
+    flagsNeededToApplyRule: 524288
+  - RelatedMovementAbilities: 1
+    MovementCost:
+      RawValue: 1000
+    CanGoThrough: 1
+    IsStoppable: 1
+    Operation: 1
+    flagsNeededToApplyRule: 0
+  MeshId: 0
+  ExploitationDescriptorReferences:
+  - serializableElementName: Effect_Exploitation_NaturalModifier07
+  BlockVision: 0
+  BattleTileTypeFlag: 0
+--- !u!114 &-598932174848600634
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1967839877, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: POI_NaturalModifier24
+  m_EditorClassIdentifier: 
+  PathfindingRules:
+  - RelatedMovementAbilities: 6
+    MovementCost:
+      RawValue: 2000
+    CanGoThrough: 1
+    IsStoppable: 1
+    Operation: 0
+    flagsNeededToApplyRule: 262144
+  - RelatedMovementAbilities: 6
+    MovementCost:
+      RawValue: 1000
+    CanGoThrough: 1
+    IsStoppable: 1
+    Operation: 0
+    flagsNeededToApplyRule: 0
+  MeshId: 0
+  ExploitationDescriptorReferences: []
+  BlockVision: 1
+  BattleTileTypeFlag: 512
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1717263165, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: PointOfInterestNaturalModifierDefinition
+  m_EditorClassIdentifier: 
+--- !u!114 &276213947212783134
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1967839877, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: POI_NaturalModifier09
+  m_EditorClassIdentifier: 
+  PathfindingRules:
+  - RelatedMovementAbilities: 1
+    MovementCost:
+      RawValue: 1000
+    CanGoThrough: 1
+    IsStoppable: 1
+    Operation: 1
+    flagsNeededToApplyRule: 0
+  MeshId: 0
+  ExploitationDescriptorReferences:
+  - serializableElementName: Effect_Exploitation_NaturalModifier09
+  BlockVision: 0
+  BattleTileTypeFlag: 0
+--- !u!114 &3131315552821673437
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1967839877, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: POI_NaturalModifier23
+  m_EditorClassIdentifier: 
+  PathfindingRules:
+  - RelatedMovementAbilities: 6
+    MovementCost:
+      RawValue: 1000
+    CanGoThrough: 1
+    IsStoppable: 1
+    Operation: 0
+    flagsNeededToApplyRule: 4194304
+  - RelatedMovementAbilities: 6
+    MovementCost:
+      RawValue: 1000
+    CanGoThrough: 0
+    IsStoppable: 0
+    Operation: 0
+    flagsNeededToApplyRule: 32
+  - RelatedMovementAbilities: 0
+    MovementCost:
+      RawValue: 1000
+    CanGoThrough: 1
+    IsStoppable: 1
+    Operation: 0
+    flagsNeededToApplyRule: 524288
+  - RelatedMovementAbilities: 6
+    MovementCost:
+      RawValue: 1000
+    CanGoThrough: 0
+    IsStoppable: 0
+    Operation: 0
+    flagsNeededToApplyRule: 0
+  MeshId: 0
+  ExploitationDescriptorReferences: []
+  BlockVision: 0
+  BattleTileTypeFlag: 0
+--- !u!114 &3662311006357281251
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1967839877, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: POI_NaturalModifier12
+  m_EditorClassIdentifier: 
+  PathfindingRules:
+  - RelatedMovementAbilities: 1
+    MovementCost:
+      RawValue: 1000
+    CanGoThrough: 1
+    IsStoppable: 1
+    Operation: 0
+    flagsNeededToApplyRule: 4194304
+  - RelatedMovementAbilities: 1
+    MovementCost:
+      RawValue: 2000
+    CanGoThrough: 1
+    IsStoppable: 1
+    Operation: 1
+    flagsNeededToApplyRule: 524288
+  - RelatedMovementAbilities: 1
+    MovementCost:
+      RawValue: 1000
+    CanGoThrough: 1
+    IsStoppable: 1
+    Operation: 1
+    flagsNeededToApplyRule: 0
+  MeshId: 0
+  ExploitationDescriptorReferences:
+  - serializableElementName: Effect_Exploitation_NaturalModifier12
+  BlockVision: 0
+  BattleTileTypeFlag: 0
+--- !u!114 &4026431009573492753
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1967839877, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: POI_NaturalModifier19
+  m_EditorClassIdentifier: 
+  PathfindingRules:
+  - RelatedMovementAbilities: 6
+    MovementCost:
+      RawValue: 1000
+    CanGoThrough: 1
+    IsStoppable: 1
+    Operation: 0
+    flagsNeededToApplyRule: 4194304
+  - RelatedMovementAbilities: 6
+    MovementCost:
+      RawValue: 2000
+    CanGoThrough: 1
+    IsStoppable: 1
+    Operation: 0
+    flagsNeededToApplyRule: 32
+  - RelatedMovementAbilities: 6
+    MovementCost:
+      RawValue: 3000
+    CanGoThrough: 1
+    IsStoppable: 1
+    Operation: 0
+    flagsNeededToApplyRule: 524288
+  - RelatedMovementAbilities: 6
+    MovementCost:
+      RawValue: 2000
+    CanGoThrough: 1
+    IsStoppable: 1
+    Operation: 1
+    flagsNeededToApplyRule: 0
+  MeshId: 0
+  ExploitationDescriptorReferences:
+  - serializableElementName: Effect_Exploitation_NaturalModifier19
+  BlockVision: 0
+  BattleTileTypeFlag: 64
+--- !u!114 &4866291234476718238
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1967839877, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: POI_NaturalModifier21
+  m_EditorClassIdentifier: 
+  PathfindingRules:
+  - RelatedMovementAbilities: 6
+    MovementCost:
+      RawValue: 1000
+    CanGoThrough: 0
+    IsStoppable: 0
+    Operation: 0
+    flagsNeededToApplyRule: 131072
+  - RelatedMovementAbilities: 6
+    MovementCost:
+      RawValue: 1000
+    CanGoThrough: 1
+    IsStoppable: 0
+    Operation: 0
+    flagsNeededToApplyRule: 524288
+  - RelatedMovementAbilities: 6
+    MovementCost:
+      RawValue: 1000
+    CanGoThrough: 0
+    IsStoppable: 0
+    Operation: 0
+    flagsNeededToApplyRule: 0
+  MeshId: 0
+  ExploitationDescriptorReferences: []
+  BlockVision: 1
+  BattleTileTypeFlag: 0
+--- !u!114 &8726330349287912198
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1967839877, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: POI_NaturalModifier02
+  m_EditorClassIdentifier: 
+  PathfindingRules:
+  - RelatedMovementAbilities: 1
+    MovementCost:
+      RawValue: 1000
+    CanGoThrough: 1
+    IsStoppable: 1
+    Operation: 0
+    flagsNeededToApplyRule: 8192
+  - RelatedMovementAbilities: 1
+    MovementCost:
+      RawValue: 1000
+    CanGoThrough: 1
+    IsStoppable: 1
+    Operation: 1
+    flagsNeededToApplyRule: 0
+  MeshId: 0
+  ExploitationDescriptorReferences:
+  - serializableElementName: Effect_Exploitation_NaturalModifier02
+  BlockVision: 0
+  BattleTileTypeFlag: 0
+--- !u!114 &8851123556136201799
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1967839877, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: POI_NaturalModifier14
+  m_EditorClassIdentifier: 
+  PathfindingRules:
+  - RelatedMovementAbilities: 1
+    MovementCost:
+      RawValue: 1000
+    CanGoThrough: 1
+    IsStoppable: 1
+    Operation: 0
+    flagsNeededToApplyRule: 2
+  - RelatedMovementAbilities: 1
+    MovementCost:
+      RawValue: 1000
+    CanGoThrough: 1
+    IsStoppable: 1
+    Operation: 1
+    flagsNeededToApplyRule: 0
+  MeshId: 0
+  ExploitationDescriptorReferences:
+  - serializableElementName: Effect_Exploitation_NaturalModifier14
+  BlockVision: 0
+  BattleTileTypeFlag: 0

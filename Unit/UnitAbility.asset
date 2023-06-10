@@ -1,0 +1,649 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-8882292235380327095
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 573507786, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitAbility_Prototype_RangedVessel
+  m_EditorClassIdentifier: 
+  TagAsAbility: 0
+  MovementAbility: 0
+  DescriptorReferences:
+  - serializableElementName: Effect_UnitPrototype_RangedVessel
+  - serializableElementName: Effect_Unit_HasRangedAttack
+  BattleAbilityReference: []
+  pathfindingFlags: 0
+--- !u!114 &-7605806846606233642
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 573507786, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitAbility_IgnoreZoneOfControl
+  m_EditorClassIdentifier: 
+  TagAsAbility: 0
+  MovementAbility: 0
+  DescriptorReferences: []
+  BattleAbilityReference: []
+  pathfindingFlags: 32
+--- !u!114 &-7598923580798647853
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 573507786, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitAbility_Bombardment_Level1
+  m_EditorClassIdentifier: 
+  TagAsAbility: 0
+  MovementAbility: 0
+  DescriptorReferences:
+  - serializableElementName: Effect_Unit_SpecialtyLevel1
+  BattleAbilityReference:
+  - serializableElementName: BattleAbility_CanAttackFortification
+  pathfindingFlags: 0
+--- !u!114 &-7519198317955949306
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 573507786, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitAbility_Prototype_MountedRanged
+  m_EditorClassIdentifier: 
+  TagAsAbility: 0
+  MovementAbility: 0
+  DescriptorReferences:
+  - serializableElementName: Effect_UnitPrototype_MountedRanged
+  - serializableElementName: Effect_Unit_HasRangedAttack
+  - serializableElementName: Effect_Unit_RansackStrength1
+  BattleAbilityReference:
+  - serializableElementName: BattleAbility_WeakAgainstMelee
+  - serializableElementName: BattleAbility_MoneyFromAnimals
+  - serializableElementName: BattleAbility_AdvancedTerrain
+  - serializableElementName: BattleAbility_WeakAgainstShips
+  pathfindingFlags: 0
+--- !u!114 &-7404930316455352985
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 573507786, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitAbility_CoastalVessel
+  m_EditorClassIdentifier: 
+  TagAsAbility: 0
+  MovementAbility: 0
+  DescriptorReferences: []
+  BattleAbilityReference:
+  - serializableElementName: BattleAbility_NavalSpeedReductionFromBattle
+  pathfindingFlags: 0
+--- !u!114 &-7179215345705952485
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 573507786, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitAbility_Armoured
+  m_EditorClassIdentifier: 
+  TagAsAbility: 0
+  MovementAbility: 0
+  DescriptorReferences:
+  - serializableElementName: Effect_Unit_Armoured
+  BattleAbilityReference: []
+  pathfindingFlags: 0
+--- !u!114 &-6984252569152834257
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 573507786, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitAbility_Prototype_MountedNomad
+  m_EditorClassIdentifier: 
+  TagAsAbility: 4
+  MovementAbility: 0
+  DescriptorReferences:
+  - serializableElementName: Effect_UnitPrototype_MountedNomad
+  - serializableElementName: Effect_Unit_HasRangedAttack
+  - serializableElementName: Effect_Unit_RansackStrength3
+  - serializableElementName: Effect_UnitAbility_FoodFromRansack
+  BattleAbilityReference:
+  - serializableElementName: BattleAbility_AdvancedTerrain
+  - serializableElementName: BattleAbility_WeakAgainstShips
+  pathfindingFlags: 0
+--- !u!114 &-6025204654056195608
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 573507786, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitAbility_LostAtSeaDamage_Level1
+  m_EditorClassIdentifier: 
+  TagAsAbility: 14
+  MovementAbility: 6
+  DescriptorReferences:
+  - serializableElementName: Effect_UnitAbility_LostAtSeaDamage_Level1
+  BattleAbilityReference: []
+  pathfindingFlags: 0
+--- !u!114 &-5698164423657029203
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 573507786, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitAbility_SpeedFromHarbor_Level1
+  m_EditorClassIdentifier: 
+  TagAsAbility: 0
+  MovementAbility: 0
+  DescriptorReferences:
+  - serializableElementName: Effect_UnitAbility_SpeedFromHarbor
+  BattleAbilityReference: []
+  pathfindingFlags: 0
+--- !u!114 &-2797135978913272160
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 573507786, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitAbility_Prototype_HeavyMachineGun
+  m_EditorClassIdentifier: 
+  TagAsAbility: 0
+  MovementAbility: 0
+  DescriptorReferences:
+  - serializableElementName: Effect_UnitPrototype_HeavyGun
+  - serializableElementName: Effect_Unit_HasRangedAttack
+  BattleAbilityReference:
+  - serializableElementName: BattleAbility_MoneyFromAnimals
+  - serializableElementName: BattleAbility_AdvancedTerrain
+  - serializableElementName: BattleAbility_WeakAgainstMeleeHalf
+  pathfindingFlags: 0
+--- !u!114 &-2624842805893988066
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 573507786, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitAbility_SlowOceanMover
+  m_EditorClassIdentifier: 
+  TagAsAbility: 14
+  MovementAbility: 4
+  DescriptorReferences: []
+  BattleAbilityReference: []
+  pathfindingFlags: 33554432
+--- !u!114 &-2576344635031861196
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 573507786, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitAbility_Seafaring
+  m_EditorClassIdentifier: 
+  TagAsAbility: 11
+  MovementAbility: 0
+  DescriptorReferences:
+  - serializableElementName: Tag_Unit_Seafaring
+  BattleAbilityReference:
+  - serializableElementName: BattleAbility_NavalSpeedReductionFromBattle
+  pathfindingFlags: 0
+--- !u!114 &-1626577165682520420
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 573507786, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitAbility_StrengthFromOcean_Level1
+  m_EditorClassIdentifier: 
+  TagAsAbility: 0
+  MovementAbility: 0
+  DescriptorReferences: []
+  BattleAbilityReference:
+  - serializableElementName: BattleAbility_StrengthFromOcean
+  pathfindingFlags: 0
+--- !u!114 &-113258664228749157
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 573507786, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitAbility_WeaknessFromOcean_Level1
+  m_EditorClassIdentifier: 
+  TagAsAbility: 0
+  MovementAbility: 0
+  DescriptorReferences: []
+  BattleAbilityReference:
+  - serializableElementName: BattleAbility_WeaknessFromOcean
+  pathfindingFlags: 0
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 932230282, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitAbility
+  m_EditorClassIdentifier: 
+--- !u!114 &457999346820853581
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 573507786, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitAbility_ZoneOfControlIncreasedSize_Level3
+  m_EditorClassIdentifier: 
+  TagAsAbility: 22
+  MovementAbility: 0
+  DescriptorReferences:
+  - serializableElementName: Effect_Unit_SpecialtyLevel3
+  - serializableElementName: Effect_UnitAbility_ZoneOfControlIncreasedSize
+  BattleAbilityReference: []
+  pathfindingFlags: 0
+--- !u!114 &1419973911243902762
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 573507786, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitAbility_AntiHelicopterAttack
+  m_EditorClassIdentifier: 
+  TagAsAbility: 0
+  MovementAbility: 0
+  DescriptorReferences:
+  - serializableElementName: Effect_Unit_SpecialtyLevel2
+  BattleAbilityReference:
+  - serializableElementName: BattleAbility_StrengthFromTargetClassGunship
+  pathfindingFlags: 0
+--- !u!114 &1684058162962504679
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 573507786, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitAbility_AirStrike
+  m_EditorClassIdentifier: 
+  TagAsAbility: 1
+  MovementAbility: 0
+  DescriptorReferences:
+  - serializableElementName: Effect_Unit_CanAirstrike
+  BattleAbilityReference: []
+  pathfindingFlags: 0
+--- !u!114 &1859262908718441126
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 573507786, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitAbility_StrengthFromTargetClassArmoured_Level3
+  m_EditorClassIdentifier: 
+  TagAsAbility: 0
+  MovementAbility: 0
+  DescriptorReferences:
+  - serializableElementName: Effect_Unit_SpecialtyLevel3
+  BattleAbilityReference:
+  - serializableElementName: BattleAbility_StrengthFromTargetClassArmoured
+  pathfindingFlags: 0
+--- !u!114 &1884725085073123890
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 573507786, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitAbility_InstantDisembark
+  m_EditorClassIdentifier: 
+  TagAsAbility: 0
+  MovementAbility: 6
+  DescriptorReferences: []
+  BattleAbilityReference: []
+  pathfindingFlags: 8388608
+--- !u!114 &2177357364519680016
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 573507786, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitAbility_Prototype_Gunner
+  m_EditorClassIdentifier: 
+  TagAsAbility: 0
+  MovementAbility: 0
+  DescriptorReferences:
+  - serializableElementName: Effect_UnitPrototype_Gunner
+  - serializableElementName: Effect_Unit_HasRangedAttack
+  - serializableElementName: Effect_Unit_RansackStrength1
+  BattleAbilityReference:
+  - serializableElementName: BattleAbility_MoneyFromAnimals
+  - serializableElementName: BattleAbility_AdvancedTerrain
+  - serializableElementName: BattleAbility_FocusedFire
+  - serializableElementName: BattleAbility_WeakAgainstShips
+  pathfindingFlags: 0
+--- !u!114 &2574462885029811575
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 573507786, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitAbility_HighVantagePoint
+  m_EditorClassIdentifier: 
+  TagAsAbility: 0
+  MovementAbility: 0
+  DescriptorReferences:
+  - serializableElementName: Effect_Unit_IncreasedVisionLevel1
+  BattleAbilityReference: []
+  pathfindingFlags: 0
+--- !u!114 &2936384977941993718
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 573507786, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitAbility_IncreasedVision_Level1
+  m_EditorClassIdentifier: 
+  TagAsAbility: 5
+  MovementAbility: 0
+  DescriptorReferences:
+  - serializableElementName: Effect_Unit_IncreasedVisionRangeLevel1
+  BattleAbilityReference: []
+  pathfindingFlags: 0
+--- !u!114 &4228084091550805055
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 573507786, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitAbility_AllTerrianIFV
+  m_EditorClassIdentifier: 
+  TagAsAbility: 0
+  MovementAbility: 0
+  DescriptorReferences:
+  - serializableElementName: Effect_Unit_Armoured
+  BattleAbilityReference: []
+  pathfindingFlags: 0
+--- !u!114 &4369436119854396124
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 573507786, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitAbility_Prototype_SupersonicBomber
+  m_EditorClassIdentifier: 
+  TagAsAbility: 2
+  MovementAbility: 0
+  DescriptorReferences:
+  - serializableElementName: Effect_UnitPrototype_SupersonicBomber
+  BattleAbilityReference: []
+  pathfindingFlags: 0
+--- !u!114 &5003943188705812144
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 573507786, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitAbility_ZoneOfControlIncreasedSize_Level2
+  m_EditorClassIdentifier: 
+  TagAsAbility: 22
+  MovementAbility: 0
+  DescriptorReferences:
+  - serializableElementName: Effect_Unit_SpecialtyLevel2
+  - serializableElementName: Effect_UnitAbility_ZoneOfControlIncreasedSize
+  BattleAbilityReference: []
+  pathfindingFlags: 0
+--- !u!114 &5382334177649658497
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 573507786, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitAbility_Prototype_Ranged
+  m_EditorClassIdentifier: 
+  TagAsAbility: 0
+  MovementAbility: 0
+  DescriptorReferences:
+  - serializableElementName: Effect_UnitPrototype_Ranged
+  - serializableElementName: Effect_Unit_HasRangedAttack
+  - serializableElementName: Effect_Unit_RansackStrength1
+  BattleAbilityReference:
+  - serializableElementName: BattleAbility_WeakAgainstMelee
+  - serializableElementName: BattleAbility_MoneyFromAnimals
+  - serializableElementName: BattleAbility_AdvancedTerrain
+  - serializableElementName: BattleAbility_WeakAgainstShips
+  pathfindingFlags: 0
+--- !u!114 &5389527483886143858
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 573507786, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitAbility_Prototype_StealthBomber
+  m_EditorClassIdentifier: 
+  TagAsAbility: 27
+  MovementAbility: 0
+  DescriptorReferences:
+  - serializableElementName: Effect_UnitPrototype_StealthBomber
+  BattleAbilityReference: []
+  pathfindingFlags: 0
+--- !u!114 &6388087695595240984
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 573507786, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitAbility_DebuffTargetStunArtillery
+  m_EditorClassIdentifier: 
+  TagAsAbility: 0
+  MovementAbility: 0
+  DescriptorReferences: []
+  BattleAbilityReference:
+  - serializableElementName: BattleAbility_DebuffTargetSuppresion
+  pathfindingFlags: 0
+--- !u!114 &6481483605430507143
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 573507786, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitAbility_Naval_SizeSmall
+  m_EditorClassIdentifier: 
+  TagAsAbility: 0
+  MovementAbility: 0
+  DescriptorReferences:
+  - serializableElementName: Effect_Naval_SizeSmall
+  BattleAbilityReference: []
+  pathfindingFlags: 0
+--- !u!114 &7698981493417244195
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 573507786, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitAbility_StrengthFromTargetClassArmoured_Level2
+  m_EditorClassIdentifier: 
+  TagAsAbility: 0
+  MovementAbility: 0
+  DescriptorReferences:
+  - serializableElementName: Effect_Unit_SpecialtyLevel2
+  BattleAbilityReference:
+  - serializableElementName: BattleAbility_StrengthFromTargetClassArmoured
+  pathfindingFlags: 0
+--- !u!114 &8106134339734694177
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 573507786, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitAbility_Prototype_MountedGunner
+  m_EditorClassIdentifier: 
+  TagAsAbility: 0
+  MovementAbility: 0
+  DescriptorReferences:
+  - serializableElementName: Effect_UnitPrototype_MountedGunner
+  - serializableElementName: Effect_Unit_HasRangedAttack
+  - serializableElementName: Effect_Unit_RansackStrength1
+  BattleAbilityReference:
+  - serializableElementName: BattleAbility_MoneyFromAnimals
+  - serializableElementName: BattleAbility_AdvancedTerrain
+  - serializableElementName: BattleAbility_WeakAgainstShips
+  pathfindingFlags: 0
+--- !u!114 &8411697396448374623
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 573507786, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitAbility_Prototype_HeavyGun
+  m_EditorClassIdentifier: 
+  TagAsAbility: 0
+  MovementAbility: 0
+  DescriptorReferences:
+  - serializableElementName: Effect_UnitPrototype_HeavyGun
+  - serializableElementName: Effect_Unit_HasRangedAttack
+  BattleAbilityReference:
+  - serializableElementName: BattleAbility_MoneyFromAnimals
+  - serializableElementName: BattleAbility_AdvancedTerrain
+  - serializableElementName: BattleAbility_WeakAgainstMelee
+  pathfindingFlags: 0
+--- !u!114 &9086996225993242634
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 573507786, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitAbility_PrecisionStrike
+  m_EditorClassIdentifier: 
+  TagAsAbility: 0
+  MovementAbility: 0
+  DescriptorReferences:
+  - serializableElementName: Effect_Unit_BombardPrecisionStrike
+  BattleAbilityReference: []
+  pathfindingFlags: 0

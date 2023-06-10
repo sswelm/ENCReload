@@ -1,0 +1,272 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-8916662455444533366
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -717291864, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Infrastructure_Industry_Family01_05
+  m_EditorClassIdentifier: 
+  Title: Underground Coal Gasification
+  Description: 'Underground coal gasification (UCG) is an industrial process which
+    converts coal into product gas. UCG is an in-situ gasification process, carried
+    out in non-mined coal seams using injection of oxidants and steam. The product
+    gas is brought to the surface through production wells drilled from the surface.
+    Gas output may be combusted for electricity production. Alternatively, the gas
+    output can be used to produce synthetic natural gas, or hydrogen and carbon monoxide
+    can be used as a chemical feedstock for the production of fuels, fertilizer,
+    explosives and other products. '
+  Images:
+  - Value:
+      guid:
+        a: -1720942839
+        b: 1279108665
+        c: -1943647607
+        d: -563038329
+    serializableKey: Small
+  - Value:
+      guid:
+        a: -1720942839
+        b: 1279108665
+        c: -1943647607
+        d: -563038329
+    serializableKey: Tooltip
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  Symbol: 
+  SortPriority: 5008
+  ConstructibleTraits: 
+--- !u!114 &-7423332156827399878
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -717291864, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Infrastructure_ControlledAccessHighway
+  m_EditorClassIdentifier: 
+  Title: Controlled Access Highway
+  Description: "A controlled-access highway is a type of highway that has been designed
+    for high-speed vehicular traffic, with all traffic flow\u2014ingress and egress\u2014regulated.
+    A fully controlled-access highway provides an unhindered flow of traffic, with
+    no traffic signals, intersections or property access. They are free of any at-grade
+    crossings with other roads, railways, or pedestrian paths, which are instead
+    carried by overpasses and underpasses"
+  Images:
+  - Value:
+      guid:
+        a: -1285419131
+        b: 1309133800
+        c: -620739671
+        d: 89098854
+    serializableKey: Small
+  - Value:
+      guid:
+        a: -1285419131
+        b: 1309133800
+        c: -620739671
+        d: 89098854
+    serializableKey: Tooltip
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  Symbol: 
+  SortPriority: 5008
+  ConstructibleTraits: 
+--- !u!114 &-3246793532849464974
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -717291864, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Infrastructure_Industry_Family06_02
+  m_EditorClassIdentifier: 
+  Title: Nuclear Fuel Reprocessing Facility
+  Description: The purpose of this facility is to recover plutonium and depleted
+    uranium from spent nuclear fuel, and remove the radioactive waste of fission
+    products. The facility consists of the main factory and a factory for treating
+    waste. Useful substances are extracted and refined at the main factory, while
+    low-level radioactive waste is treated at the waste treatment factory.
+  Images:
+  - Value:
+      guid:
+        a: 2111497928
+        b: 1081360099
+        c: 1773819322
+        d: -105526874
+    serializableKey: Small
+  - Value:
+      guid:
+        a: 2111497928
+        b: 1081360099
+        c: 1773819322
+        d: -105526874
+    serializableKey: Tooltip
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  Symbol: 
+  SortPriority: 5008
+  ConstructibleTraits: 
+--- !u!114 &-1185125115699629961
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -717291864, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Infrastructure_CellularNetwork
+  m_EditorClassIdentifier: 
+  Title: 'Cellular Network '
+  Description: A cellular network or mobile network is a telecommunications network
+    where the link to and from end nodes is wireless and the network is distributed
+    over land areas called cells, each served by at least one fixed-location transceiver
+  Images:
+  - Value:
+      guid:
+        a: 1014996360
+        b: 1160712997
+        c: 910936755
+        d: -156170723
+    serializableKey: Small
+  - Value:
+      guid:
+        a: 1014996360
+        b: 1160712997
+        c: 910936755
+        d: -156170723
+    serializableKey: Tooltip
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  Symbol: 
+  SortPriority: 5008
+  ConstructibleTraits: 
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 763423559, guid: 722acb04e362a9243a944ac3117daa73, type: 3}
+  m_Name: ConstructibleInfrastructureUIMappersENC
+  m_EditorClassIdentifier: 
+--- !u!114 &1002436209042262294
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -717291864, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Infrastructure_BroadbandInternet
+  m_EditorClassIdentifier: 
+  Title: Broadband internet
+  Description: In telecommunications, broadband is the wide-bandwidth data transmission
+    that transports multiple signals at a wide range of frequencies and Internet
+    traffic types, which enables messages to be sent simultaneously and is used in
+    fast internet connections. The medium can be coaxial cable, optical fiber, wireless
+    Internet, twisted pair, or satellite
+  Images:
+  - Value:
+      guid:
+        a: 1354419474
+        b: 1282911815
+        c: -73010244
+        d: 957549997
+    serializableKey: Small
+  - Value:
+      guid:
+        a: 1354419474
+        b: 1282911815
+        c: -73010244
+        d: 957549997
+    serializableKey: Tooltip
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  Symbol: 
+  SortPriority: 5008
+  ConstructibleTraits: 
+--- !u!114 &1965764189318523278
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -717291864, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Infrastructure_TelephoneExchange
+  m_EditorClassIdentifier: 
+  Title: Analog telephone exchange
+  Description: In the era of the electrical telegraph, its principal users were post
+    offices, railway stations, the more important governmental centers, stock exchanges,
+    very few nationally distributed newspapers, the largest internationally important
+    corporations, and wealthy individuals.
+  Images:
+  - Value:
+      guid:
+        a: 214741012
+        b: 1322958962
+        c: -1964073028
+        d: -219810839
+    serializableKey: Small
+  - Value:
+      guid:
+        a: 214741012
+        b: 1322958962
+        c: -1964073028
+        d: -219810839
+    serializableKey: Tooltip
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  Symbol: 
+  SortPriority: 5008
+  ConstructibleTraits: 
+--- !u!114 &4418171216488037616
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -717291864, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Infrastructure_TelephoneNetwork
+  m_EditorClassIdentifier: 
+  Title: Public Switched Telepone Network
+  Description: The public switched telephone network (PSTN) is the aggregate of the
+    world's telephone networks that are operated by national, regional, or local
+    telephony operators. It provides infrastructure and services for public telecommunication.
+  Images:
+  - Value:
+      guid:
+        a: 1570038854
+        b: 1247857883
+        c: 1854509440
+        d: -986504274
+    serializableKey: Small
+  - Value:
+      guid:
+        a: 1570038854
+        b: 1247857883
+        c: 1854509440
+        d: -986504274
+    serializableKey: Tooltip
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  Symbol: 
+  SortPriority: 5008
+  ConstructibleTraits: 

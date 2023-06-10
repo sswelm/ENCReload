@@ -1,0 +1,950 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-9216526365585226009
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era6_15
+  m_EditorClassIdentifier: 
+  Localization: '%Technology_Era6_15Title'
+--- !u!114 &-8941756055219281317
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era6_09
+  m_EditorClassIdentifier: 
+  Localization: '%Technology_Era6_9Title'
+--- !u!114 &-8928159592810462577
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era6_FluidDynamics
+  m_EditorClassIdentifier: 
+  Localization: Fluid Dynamics
+--- !u!114 &-8554881172980892522
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era6_22
+  m_EditorClassIdentifier: 
+  Localization: '%Technology_Era6_22Title'
+--- !u!114 &-8259251359292781170
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era6_AntitankWarfare
+  m_EditorClassIdentifier: 
+  Localization: Anti Tank Warfare
+--- !u!114 &-8212236517934624315
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era6_19
+  m_EditorClassIdentifier: 
+  Localization: '%Technology_Era6_19Title'
+--- !u!114 &-8125102120063712537
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era6_18
+  m_EditorClassIdentifier: 
+  Localization: '%Technology_Era6_18Title'
+--- !u!114 &-7801424028112014339
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era5_AntiTankGun
+  m_EditorClassIdentifier: 
+  Localization: Anti Tank Gun
+--- !u!114 &-7544064202374304188
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era5_OilRefinement
+  m_EditorClassIdentifier: 
+  Localization: Oil Refinement
+--- !u!114 &-7152737234938070357
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era5_06
+  m_EditorClassIdentifier: 
+  Localization: '%Technology_Era5_06Title'
+--- !u!114 &-7006503137888246056
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era6_05
+  m_EditorClassIdentifier: 
+  Localization: '%Technology_Era6_05Title'
+--- !u!114 &-6803545726055295686
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era5_12
+  m_EditorClassIdentifier: 
+  Localization: '%Technology_Era5_12Title'
+--- !u!114 &-6492891624251683293
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era6_11
+  m_EditorClassIdentifier: 
+  Localization: '%Technology_Era6_11Title'
+--- !u!114 &-5138747170991604756
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era5_SubmarineWarfare
+  m_EditorClassIdentifier: 
+  Localization: Submarine Warfare
+--- !u!114 &-4204421446177541691
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era5_RailRoad
+  m_EditorClassIdentifier: 
+  Localization: Railroad
+--- !u!114 &-4040664274853252226
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era6_20
+  m_EditorClassIdentifier: 
+  Localization: '%Technology_Era6_20Title'
+--- !u!114 &-3888803485766061651
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era5_09
+  m_EditorClassIdentifier: 
+  Localization: '%Technology_Era5_09Title'
+--- !u!114 &-3637038110966497505
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era6_Pharmaceuticals
+  m_EditorClassIdentifier: 
+  Localization: Pharmaceuticals
+--- !u!114 &-3439188971631468460
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era6_DomesticRefrigerator
+  m_EditorClassIdentifier: 
+  Localization: Domestic Refrigerator
+--- !u!114 &-2295374146292301174
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era5_17
+  m_EditorClassIdentifier: 
+  Localization: '%Technology_Era5_17Title'
+--- !u!114 &-2243460596791232977
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era6_23
+  m_EditorClassIdentifier: 
+  Localization: '%Technology_Era6_23Title'
+--- !u!114 &-2177686830391010277
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era5_03
+  m_EditorClassIdentifier: 
+  Localization: '%Technology_Era5_03Title'
+--- !u!114 &-1838406860878275816
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era5_11
+  m_EditorClassIdentifier: 
+  Localization: '%Technology_Era5_11Title'
+--- !u!114 &-1535999305115867900
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era5_RadioCommunication
+  m_EditorClassIdentifier: 
+  Localization: Radio Communication
+--- !u!114 &-1340183138985252222
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era5_04
+  m_EditorClassIdentifier: 
+  Localization: '%Technology_Era5_04Title'
+--- !u!114 &-1196640059804263005
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era6_AirTransportation
+  m_EditorClassIdentifier: 
+  Localization: Air Transportation
+--- !u!114 &-997414639404481172
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era6_08
+  m_EditorClassIdentifier: 
+  Localization: '%Technology_Era6_08Title'
+--- !u!114 &-677531227984594771
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era5_IntermodalContainer
+  m_EditorClassIdentifier: 
+  Localization: Intermodal Container
+--- !u!114 &-413894274997505773
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era6_24
+  m_EditorClassIdentifier: 
+  Localization: '%Technology_Era6_24Title'
+--- !u!114 &-143697855212964428
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era5_Rifling
+  m_EditorClassIdentifier: 
+  Localization: Rifling
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -523062418, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: CostModifierTargetMapperCollectionENC
+  m_EditorClassIdentifier: 
+--- !u!114 &192528232447533605
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era5_14
+  m_EditorClassIdentifier: 
+  Localization: '%Technology_Era5_14Title'
+--- !u!114 &428193843885562256
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era6_SewageTreatment
+  m_EditorClassIdentifier: 
+  Localization: Sewage Treatment
+--- !u!114 &541806924220876800
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era6_02
+  m_EditorClassIdentifier: 
+  Localization: '%Technology_Era6_02Title'
+--- !u!114 &569420050034287581
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era5_05
+  m_EditorClassIdentifier: 
+  Localization: '%Technology_Era5_05Title'
+--- !u!114 &594477414775133688
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era5_08
+  m_EditorClassIdentifier: 
+  Localization: '%Technology_Era5_08Title'
+--- !u!114 &694276351603357046
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era6_07
+  m_EditorClassIdentifier: 
+  Localization: '%Technology_Era6_07Title'
+--- !u!114 &1259505046815759276
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era5_10
+  m_EditorClassIdentifier: 
+  Localization: '%Technology_Era5_10Title'
+--- !u!114 &1266986024494832378
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Infrastructure_Industry_Family06_01
+  m_EditorClassIdentifier: 
+  Localization: Nuclear Plant
+--- !u!114 &1902894039950065846
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era5_IroncladShipbuilding
+  m_EditorClassIdentifier: 
+  Localization: Ironclad Shipbuilding
+--- !u!114 &2540927569855808044
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era6_WireGuidedMissile
+  m_EditorClassIdentifier: 
+  Localization: Electronics
+--- !u!114 &2634576593180283620
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era6_16
+  m_EditorClassIdentifier: 
+  Localization: '%Technology_Era6_16Title'
+--- !u!114 &2868654462626947121
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era6_14
+  m_EditorClassIdentifier: 
+  Localization: '%Technology_Era6_14Title'
+--- !u!114 &2902132512062218977
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era6_13
+  m_EditorClassIdentifier: 
+  Localization: '%Technology_Era6_13Title'
+--- !u!114 &3283962228806241857
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era6_04
+  m_EditorClassIdentifier: 
+  Localization: '%Technology_Era6_04Title'
+--- !u!114 &3767337225417912845
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era6_JetEngine
+  m_EditorClassIdentifier: 
+  Localization: Gas Turbine
+--- !u!114 &3856708346913688691
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era5_15
+  m_EditorClassIdentifier: 
+  Localization: '%Technology_Era5_15Title'
+--- !u!114 &4444585395416616530
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era6_FireControlSystems
+  m_EditorClassIdentifier: 
+  Localization: Fire Control Systems
+--- !u!114 &4571615993671695690
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era5_ModernHighway
+  m_EditorClassIdentifier: 
+  Localization: Highways
+--- !u!114 &4579347250761558470
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era6_AntiSubmarineWarfare
+  m_EditorClassIdentifier: 
+  Localization: Anti Submarine Warfare
+--- !u!114 &4749372854718824193
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era5_TankWarfare
+  m_EditorClassIdentifier: 
+  Localization: TankWarfare
+--- !u!114 &5192213466388402791
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era6_12
+  m_EditorClassIdentifier: 
+  Localization: '%Technology_Era6_12Title'
+--- !u!114 &5356590424089593537
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era5_Automobile
+  m_EditorClassIdentifier: 
+  Localization: Combustion Engine
+--- !u!114 &5358942732568005379
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era5_AntiTorpedoboatWarfare
+  m_EditorClassIdentifier: 
+  Localization: Anti Torpedoboat Warfare
+--- !u!114 &5660560079225124950
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era6_03
+  m_EditorClassIdentifier: 
+  Localization: '%Technology_Era6_03Title'
+--- !u!114 &5745984876227746054
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era6_06
+  m_EditorClassIdentifier: 
+  Localization: '%Technology_Era6_06Title'
+--- !u!114 &5891935790376608878
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era6_21
+  m_EditorClassIdentifier: 
+  Localization: '%Technology_Era6_21Title'
+--- !u!114 &6107387582382633399
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era5_16
+  m_EditorClassIdentifier: 
+  Localization: '%Technology_Era5_16Title'
+--- !u!114 &6269572611587352404
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era5_02
+  m_EditorClassIdentifier: 
+  Localization: '%Technology_Era5_02Title'
+--- !u!114 &6352320751380963216
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era5_07
+  m_EditorClassIdentifier: 
+  Localization: '%Technology_Era5_07Title'
+--- !u!114 &6362570842262682106
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era6_01
+  m_EditorClassIdentifier: 
+  Localization: '%Technology_Era6_01Title'
+--- !u!114 &6601895208591195644
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era5_13
+  m_EditorClassIdentifier: 
+  Localization: '%Technology_Era5_13Title'
+--- !u!114 &7079892274141431236
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era6_AssaultRifles
+  m_EditorClassIdentifier: 
+  Localization: Assault Rifles
+--- !u!114 &7342640243666996444
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era6_BallisticMissiles
+  m_EditorClassIdentifier: 
+  Localization: Ballistic Missiles
+--- !u!114 &7453244896541914770
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era6_10
+  m_EditorClassIdentifier: 
+  Localization: '%Technology_Era6_10Title'
+--- !u!114 &7479337642809170659
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era5_01
+  m_EditorClassIdentifier: 
+  Localization: '%Technology_Era5_01Title'
+--- !u!114 &7877226526255874210
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era6_ReverseOsmosis
+  m_EditorClassIdentifier: 
+  Localization: Reverse Osmosis
+--- !u!114 &7964812930601309284
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era6_17
+  m_EditorClassIdentifier: 
+  Localization: '%Technology_Era6_17Title'
+--- !u!114 &8142915288142845517
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era6_SelfPropelledArtillery
+  m_EditorClassIdentifier: 
+  Localization: Self Propelled Artllery
+--- !u!114 &8239602400408306660
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era5_GatlingGun
+  m_EditorClassIdentifier: 
+  Localization: Gatling Gun
+--- !u!114 &8892455279255104241
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era5_DreadnoughtDesign
+  m_EditorClassIdentifier: 
+  Localization: Dreadnought Design
+--- !u!114 &9080689032317665797
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era5_Breechloader
+  m_EditorClassIdentifier: 
+  Localization: Breechloader
+--- !u!114 &9113735362311163043
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era5_AluminiumSmelting
+  m_EditorClassIdentifier: 
+  Localization: Aluminium Smelting
