@@ -33,6 +33,34 @@ MonoBehaviour:
   - Technology_Era6_13
   - Technology_Era6_17
   - Technology_Era6_10
+--- !u!114 &-5064056077998679153
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 808446743, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: TechnologyCostModifierForEra5_SubmarineWarfare
+  m_EditorClassIdentifier: 
+  CostType: 4
+  OperationType: 1
+  ModifierType: 0
+  CostModifierValue:
+    RawValue: 700
+  CostModifierRpn:
+    serializableElementName: 
+  ApplyIfCostZero: 0
+  CanBeCumulated: 0
+  SpecificLocalization: 
+  IsObsolete: 0
+  TargetType: 1
+  SerializableValidNames:
+  - Technology_Era5_SubmarineWarfare
+  - Technology_Era6_09
+  - Technology_Era6_04
 --- !u!114 &-4255437697164648266
 MonoBehaviour:
   m_ObjectHideFlags: 0
