@@ -250,6 +250,25 @@ MonoBehaviour:
   BattleAbilityReference:
   - serializableElementName: BattleAbility_StrengthFromOcean
   pathfindingFlags: 0
+--- !u!114 &-1407886868899811707
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 573507786, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitAbility_AntiAircraft_Level1Half
+  m_EditorClassIdentifier: 
+  TagAsAbility: 0
+  MovementAbility: 0
+  DescriptorReferences:
+  - serializableElementName: Effect_UnitAbility_AntiAircraft_OneHalf
+  BattleAbilityReference:
+  - serializableElementName: BattleAbility_StrengthFromTargetClassGunship
+  pathfindingFlags: 0
 --- !u!114 &-113258664228749157
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -395,6 +414,25 @@ MonoBehaviour:
   - serializableElementName: BattleAbility_AdvancedTerrain
   - serializableElementName: BattleAbility_FocusedFire
   - serializableElementName: BattleAbility_WeakAgainstShips
+  pathfindingFlags: 0
+--- !u!114 &2352414333222047419
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 573507786, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitAbility_AntiAircraft_Level0Half
+  m_EditorClassIdentifier: 
+  TagAsAbility: 0
+  MovementAbility: 0
+  DescriptorReferences:
+  - serializableElementName: Effect_UnitAbility_AntiAircraft_Half
+  BattleAbilityReference:
+  - serializableElementName: BattleAbility_StrengthFromTargetClassGunship
   pathfindingFlags: 0
 --- !u!114 &2574462885029811575
 MonoBehaviour:
@@ -564,6 +602,25 @@ MonoBehaviour:
   DescriptorReferences:
   - serializableElementName: Effect_Naval_SizeSmall
   BattleAbilityReference: []
+  pathfindingFlags: 0
+--- !u!114 &7542852037216842302
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 573507786, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitAbility_AntiAircraft_Level1
+  m_EditorClassIdentifier: 
+  TagAsAbility: 0
+  MovementAbility: 0
+  DescriptorReferences:
+  - serializableElementName: Effect_UnitAbility_AntiAircraft
+  BattleAbilityReference:
+  - serializableElementName: BattleAbility_StrengthFromTargetClassGunship
   pathfindingFlags: 0
 --- !u!114 &7698981493417244195
 MonoBehaviour:

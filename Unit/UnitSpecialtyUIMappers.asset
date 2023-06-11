@@ -143,6 +143,23 @@ MonoBehaviour:
   Images: []
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
+--- !u!114 &-6194427590973309013
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 981126955, guid: f8c4d2d2a3a246a0909e3c6973d4a4e3, type: 3}
+  m_Name: UnitSpecialty_AntiAircraft_Level0Half
+  m_EditorClassIdentifier: 
+  Title: Partial Anti Aircraft
+  Description: Provides anti-air power equal to half the Unit's Combat Strength
+  Images: []
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  Symbol: 
 --- !u!114 &-5977383867320683062
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -157,6 +174,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Title: Wheeled
   Description: +6 [MovementSpeed] Speed on roads
+  Images: []
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  Symbol: 
+--- !u!114 &-5866080472702928328
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 981126955, guid: f8c4d2d2a3a246a0909e3c6973d4a4e3, type: 3}
+  m_Name: UnitSpecialty_AntiAircraft_Level1
+  m_EditorClassIdentifier: 
+  Title: '%UnitSpecialty_AntiAircraftTitle'
+  Description: '%UnitSpecialty_AntiAircraftDescription'
   Images: []
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
@@ -501,6 +535,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Title: Anti Helicopter
   Description: Gain +8 [CombatStrength] CombatStrength when targeting Helicopters
+  Images: []
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  Symbol: 
+--- !u!114 &9067785839022565802
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 981126955, guid: f8c4d2d2a3a246a0909e3c6973d4a4e3, type: 3}
+  m_Name: UnitSpecialty_AntiAircraft_Level1Half
+  m_EditorClassIdentifier: 
+  Title: Specialised Anti Aircraft
+  Description: Provides anti-air power equal to one and a half the Unit's Combat
+    Strength
   Images: []
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 

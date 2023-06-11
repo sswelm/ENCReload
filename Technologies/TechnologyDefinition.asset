@@ -201,6 +201,7 @@ MonoBehaviour:
   TechnologyPrerequisite:
     SerializableTechnologyNames:
     - Technology_Era5_IroncladShipbuilding
+    - Technology_Era5_10
   Visibility: -1
 --- !u!114 &-8846673566566050813
 MonoBehaviour:
@@ -7395,7 +7396,6 @@ MonoBehaviour:
     serializableElementName: Technology_Era5_Tier0_CostExtra
   TechnologyPrerequisite:
     SerializableTechnologyNames:
-    - Technology_Era5_05
     - Technology_Era5_06
   Visibility: -1
 --- !u!114 &-5475166704738941393
@@ -19443,7 +19443,7 @@ MonoBehaviour:
   IsExclusiveToEra: 0
   Priority: 0
   OverrideTierCostRpnReference:
-    serializableElementName: Technology_Era5_Tier0_CostExtra
+    serializableElementName: Technology_Era5_Tier0_Cost
   TechnologyPrerequisite:
     SerializableTechnologyNames:
     - Technology_Era4_08

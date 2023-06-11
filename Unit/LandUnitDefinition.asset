@@ -210,7 +210,7 @@ MonoBehaviour:
   UnitClass:
     serializableElementName: UnitClass_ArmouredVehicle
   UnitSpecialties:
-  - serializableElementName: UnitSpecialty_AntiAircraft_Level1
+  - serializableElementName: UnitSpecialty_AntiAircraft_Level0Half
   - serializableElementName: UnitSpecialty_ZoneOfControlIncreasedSize_Level1
   - serializableElementName: UnitSpecialty_AntiHelicopterAttack
   - serializableElementName: UnitSpecialty_WheeledInfo3
@@ -9589,7 +9589,7 @@ MonoBehaviour:
     serializableElementName: UnitClass_HeavyGun
   UnitSpecialties:
   - serializableElementName: UnitSpecialty_StrengthFromTargetClassArmoured_Level1
-  - serializableElementName: UnitSpecialty_WheeledInfo1
+  - serializableElementName: UnitSpecialty_WheeledInfo3
   OwnDescriptorReferences:
   - serializableElementName: Effect_LandUnit_Era6_Common_AntiTankGuns
   - serializableElementName: Effect_Unit_Era6
