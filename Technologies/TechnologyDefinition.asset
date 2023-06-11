@@ -201,7 +201,6 @@ MonoBehaviour:
   TechnologyPrerequisite:
     SerializableTechnologyNames:
     - Technology_Era5_IroncladShipbuilding
-    - Technology_Era5_10
   Visibility: -1
 --- !u!114 &-8846673566566050813
 MonoBehaviour:
@@ -19444,11 +19443,11 @@ MonoBehaviour:
   IsExclusiveToEra: 0
   Priority: 0
   OverrideTierCostRpnReference:
-    serializableElementName: Technology_Era5_Tier0_Cost
+    serializableElementName: Technology_Era5_Tier0_CostExtra
   TechnologyPrerequisite:
     SerializableTechnologyNames:
-    - Technology_Era4_10
-    - Technology_Era4_08
+    - Technology_Era5_01
+    - Technology_Era5_03
   Visibility: -1
 --- !u!114 &2320754084223037852
 MonoBehaviour:
@@ -22336,17 +22335,16 @@ MonoBehaviour:
   Hidden: 0
   DlcPrerequisite:
     DownloadableContent: 0
-  TechnologyTier: 1
+  TechnologyTier: 2
   EraReference:
     serializableElementName: Era5
   IsExclusiveToEra: 0
   Priority: 0
   OverrideTierCostRpnReference:
-    serializableElementName: 
+    serializableElementName: Technology_Era5_Tier2_CostExtra
   TechnologyPrerequisite:
     SerializableTechnologyNames:
-    - Technology_Era5_09
-    - Technology_Era5_14
+    - Technology_Era5_GatlingGun
   Visibility: -1
 --- !u!114 &3882837000513823404
 MonoBehaviour:
@@ -27477,7 +27475,8 @@ MonoBehaviour:
     serializableElementName: 
   TechnologyPrerequisite:
     SerializableTechnologyNames:
-    - Technology_Era5_Breechloader
+    - Technology_Era5_09
+    - Technology_Era5_14
   Visibility: -1
 --- !u!114 &5567102277879364560
 MonoBehaviour:
@@ -28128,10 +28127,10 @@ MonoBehaviour:
   IsExclusiveToEra: 0
   Priority: 0
   OverrideTierCostRpnReference:
-    serializableElementName: Technology_Era5_Tier2_CostExtra
+    serializableElementName: 
   TechnologyPrerequisite:
     SerializableTechnologyNames:
-    - Technology_Era5_GatlingGun
+    - Technology_Era5_Breechloader
   Visibility: -1
 --- !u!114 &5789062773867804941
 MonoBehaviour:
@@ -28352,7 +28351,6 @@ MonoBehaviour:
   TechnologyPrerequisite:
     SerializableTechnologyNames:
     - Technology_Era5_Automobile
-    - Technology_Era5_16
   Visibility: -1
 --- !u!114 &5851615979529818375
 MonoBehaviour:
@@ -33255,7 +33253,6 @@ MonoBehaviour:
   TechnologyPrerequisite:
     SerializableTechnologyNames:
     - Technology_Era5_08
-    - Technology_Era5_Breechloader
   Visibility: -1
 --- !u!114 &8598399126192647069
 MonoBehaviour:
@@ -34303,8 +34300,7 @@ MonoBehaviour:
     serializableElementName: 
   TechnologyPrerequisite:
     SerializableTechnologyNames:
-    - Technology_Era5_Telephone
-    - Technology_Era5_NatureConservation
+    - Technology_Era5_10
   Visibility: -1
 --- !u!114 &9070447312697369445
 MonoBehaviour:

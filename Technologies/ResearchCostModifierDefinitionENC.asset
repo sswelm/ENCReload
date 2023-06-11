@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-8529845334796200622
+--- !u!114 &-7322243301250532397
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 808446743, guid: b310e23bee821cb478da05296ba685d0, type: 3}
-  m_Name: TechnologyCostModifierForEra5_11_SteamTurbine
+  m_Name: TechnologyCostModifierForEra6Tier1Extra
   m_EditorClassIdentifier: 
   CostType: 4
   OperationType: 1
   ModifierType: 0
   CostModifierValue:
-    RawValue: 850
+    RawValue: 1000
   CostModifierRpn:
     serializableElementName: 
   ApplyIfCostZero: 0
@@ -25,15 +25,15 @@ MonoBehaviour:
   IsObsolete: 0
   TargetType: 1
   SerializableValidNames:
-  - Technology_Era5_11
-  - Technology_Era5_AntiTorpedoboatWarfare
-  - Technology_Era5_DreadnoughtDesign
-  - Technology_Era5_AluminiumSmelting
-  - Technology_Era5_IntermodalContainer
-  - Technology_Era5_OilRefinement
-  - Technology_Era5_Automobile
-  - Technology_Era5_TankWarfare
---- !u!114 &-8109693059066924651
+  - Technology_Era6_SelfPropelledArtillery
+  - Technology_Era6_JetEngine
+  - Technology_Era6_WireGuidedMissile
+  - Technology_Era6_Pharmaceuticals
+  - Technology_Era6_14
+  - Technology_Era6_13
+  - Technology_Era6_17
+  - Technology_Era6_10
+--- !u!114 &-4255437697164648266
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -43,13 +43,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 808446743, guid: b310e23bee821cb478da05296ba685d0, type: 3}
-  m_Name: TechnologyCostModifierForEra5_09_Mechanisation
+  m_Name: TechnologyCostModifierForEra6Tier0Extra
   m_EditorClassIdentifier: 
   CostType: 4
   OperationType: 1
   ModifierType: 0
   CostModifierValue:
-    RawValue: 850
+    RawValue: 1000
   CostModifierRpn:
     serializableElementName: 
   ApplyIfCostZero: 0
@@ -58,10 +58,76 @@ MonoBehaviour:
   IsObsolete: 0
   TargetType: 1
   SerializableValidNames:
-  - Technology_Era5_09
-  - Technology_Era5_Breechloader
-  - Technology_Era5_IroncladShipbuilding
-  - Technology_Era5_GatlingGun
+  - Technology_Era6_AntitankWarfare
+  - Technology_Era6_01
+  - Technology_Era6_06
+  - Technology_Era6_18
+  - Technology_Era6_DomesticRefrigerator
+  - Technology_Era6_AntiSubmarineWarfare
+--- !u!114 &-948980554670190959
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 808446743, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: TechnologyCostModifierForEra6Tier1
+  m_EditorClassIdentifier: 
+  CostType: 4
+  OperationType: 1
+  ModifierType: 0
+  CostModifierValue:
+    RawValue: 1000
+  CostModifierRpn:
+    serializableElementName: 
+  ApplyIfCostZero: 0
+  CanBeCumulated: 0
+  SpecificLocalization: 
+  IsObsolete: 0
+  TargetType: 1
+  SerializableValidNames:
+  - Technology_Era6_05
+  - Technology_Era6_AirTransportation
+  - Technology_Era6_BallisticMissiles
+  - Technology_Era6_08
+  - Technology_Era6_02
+  - Technology_Era6_ReverseOsmosis
+  - Technology_Era6_FluidDynamics
+--- !u!114 &-910091708581290395
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 808446743, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: TechnologyCostModifierForEra6Tier0
+  m_EditorClassIdentifier: 
+  CostType: 4
+  OperationType: 1
+  ModifierType: 0
+  CostModifierValue:
+    RawValue: 1000
+  CostModifierRpn:
+    serializableElementName: 
+  ApplyIfCostZero: 0
+  CanBeCumulated: 0
+  SpecificLocalization: 
+  IsObsolete: 0
+  TargetType: 1
+  SerializableValidNames:
+  - Technology_Era5_ModernHighway
+  - Technology_Era6_07
+  - Technology_Era6_FireControlSystems
+  - Technology_Era6_AssaultRifles
+  - Technology_Era6_03
+  - Technology_Era6_SewageTreatment
+  - Technology_Era6_04
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -84,13 +150,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 808446743, guid: b310e23bee821cb478da05296ba685d0, type: 3}
-  m_Name: TechnologyCostModifierForEra5_BreachLoader
+  m_Name: TechnologyCostModifierForEra5_GattlingGun
   m_EditorClassIdentifier: 
   CostType: 4
   OperationType: 1
   ModifierType: 0
   CostModifierValue:
-    RawValue: 850
+    RawValue: 700
   CostModifierRpn:
     serializableElementName: 
   ApplyIfCostZero: 0
@@ -99,41 +165,10 @@ MonoBehaviour:
   IsObsolete: 0
   TargetType: 1
   SerializableValidNames:
-  - Technology_Era5_Breechloader
-  - Technology_Era5_IroncladShipbuilding
   - Technology_Era5_GatlingGun
+  - Technology_Era5_Breechloader
   - Technology_Era5_Rifling
---- !u!114 &4870951104548072040
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 808446743, guid: b310e23bee821cb478da05296ba685d0, type: 3}
-  m_Name: TechnologyCostModifierForEra5_IroncladShipbuilding
-  m_EditorClassIdentifier: 
-  CostType: 4
-  OperationType: 1
-  ModifierType: 0
-  CostModifierValue:
-    RawValue: 850
-  CostModifierRpn:
-    serializableElementName: 
-  ApplyIfCostZero: 0
-  CanBeCumulated: 0
-  SpecificLocalization: 
-  IsObsolete: 0
-  TargetType: 1
-  SerializableValidNames:
-  - Technology_Era5_IroncladShipbuilding
-  - Technology_Era5_11
-  - Technology_Era5_OilRefinement
-  - Technology_Era5_AntiTorpedoboatWarfare
-  - Technology_Era5_Automobile
-  - Technology_Era5_DreadnoughtDesign
+  - Technology_Era5_17
 --- !u!114 &6970379622590182644
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -150,7 +185,7 @@ MonoBehaviour:
   OperationType: 1
   ModifierType: 0
   CostModifierValue:
-    RawValue: 700
+    RawValue: 500
   CostModifierRpn:
     serializableElementName: 
   ApplyIfCostZero: 0
@@ -160,5 +195,3 @@ MonoBehaviour:
   TargetType: 1
   SerializableValidNames:
   - Technology_Era6_06
-  - Technology_Era6_BallisticMissiles
-  - Technology_Era6_08
