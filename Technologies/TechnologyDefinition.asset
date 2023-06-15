@@ -857,7 +857,8 @@ MonoBehaviour:
     serializableElementName: Technology_Era4_Tier1_CostExtra
   TechnologyPrerequisite:
     SerializableTechnologyNames:
-    - Technology_Era3_04
+    - Technology_Era4_01
+    - Technology_Era4_GunpowderArtillery
   Visibility: -1
 --- !u!114 &-8317234801423147734
 MonoBehaviour:
@@ -12206,7 +12207,7 @@ MonoBehaviour:
   TechnologyPrerequisite:
     SerializableTechnologyNames:
     - Technology_Era3_ClinkerBoatBuilding
-    - Technology_Era3_02
+    - Technology_Era3_Freehold
   Visibility: -1
 --- !u!114 &-1379203733108086027
 MonoBehaviour:
@@ -26320,7 +26321,6 @@ MonoBehaviour:
   TechnologyPrerequisite:
     SerializableTechnologyNames:
     - Technology_Era3_09
-    - Technology_Era3_05
     - Technology_Era3_10
   Visibility: -1
 --- !u!114 &5065738212387470733

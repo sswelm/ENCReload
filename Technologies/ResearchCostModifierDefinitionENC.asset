@@ -33,6 +33,69 @@ MonoBehaviour:
   - Technology_Era6_13
   - Technology_Era6_17
   - Technology_Era6_10
+--- !u!114 &-6950299755332290127
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 808446743, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: TechnologyCostModifierForEra5_11
+  m_EditorClassIdentifier: 
+  CostType: 4
+  OperationType: 1
+  ModifierType: 0
+  CostModifierValue:
+    RawValue: 700
+  CostModifierRpn:
+    serializableElementName: 
+  ApplyIfCostZero: 0
+  CanBeCumulated: 0
+  SpecificLocalization: 
+  IsObsolete: 0
+  TargetType: 1
+  SerializableValidNames:
+  - Technology_Era5_11
+  - Technology_Era5_OilRefinement
+  - Technology_Era5_AntiTorpedoboatWarfare
+  - Technology_Era5_Automobile
+  - Technology_Era5_TankWarfare
+  - Technology_Era5_DreadnoughtDesign
+  - Technology_Era5_AluminiumSmelting
+  - Technology_Era5_IntermodalContainer
+  - Technology_Era5_15
+--- !u!114 &-6529479062898133548
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 808446743, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: TechnologyCostModifierForEra4_02
+  m_EditorClassIdentifier: 
+  CostType: 4
+  OperationType: 1
+  ModifierType: 0
+  CostModifierValue:
+    RawValue: 700
+  CostModifierRpn:
+    serializableElementName: 
+  ApplyIfCostZero: 0
+  CanBeCumulated: 0
+  SpecificLocalization: 
+  IsObsolete: 0
+  TargetType: 1
+  SerializableValidNames:
+  - Technology_Era4_02
+  - Technology_Era4_06
+  - Technology_Era4_FullRiggedShip
+  - Technology_Era4_ShipOfTheLine
 --- !u!114 &-5064056077998679153
 MonoBehaviour:
   m_ObjectHideFlags: 0
