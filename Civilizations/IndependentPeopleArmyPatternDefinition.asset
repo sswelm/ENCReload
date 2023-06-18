@@ -63,6 +63,33 @@ MonoBehaviour:
   - UnitReference:
       serializableElementName: LandUnit_Era1_Common_Archers
     Count: 2
+--- !u!114 &-8526705214925937737
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1569221641, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitPattern_Crisis_Era2_Defender_2
+  m_EditorClassIdentifier: 
+  SelectionCondition: 18
+  OrLifeTime: 0
+  MaxLifeTimeInTurn: -1
+  MinLifeTimeInTurn: 0
+  FamilyUnitPatterns:
+  - UnitFamilyReference:
+      serializableElementName: UnitFamily_AntiCavalry
+    LevelMin: 8
+    LevelMax: 13
+    Count: 2
+  - UnitFamilyReference:
+      serializableElementName: UnitFamily_Ranged
+    LevelMin: 8
+    LevelMax: 13
+    Count: 1
 --- !u!114 &-8504083121592493156
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -179,6 +206,33 @@ MonoBehaviour:
     LevelMin: 25
     LevelMax: 33
     Count: 4
+--- !u!114 &-7410595879493547813
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1569221641, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitPattern_Crisis_Era1_Attacker_3
+  m_EditorClassIdentifier: 
+  SelectionCondition: 17
+  OrLifeTime: 0
+  MaxLifeTimeInTurn: -1
+  MinLifeTimeInTurn: 0
+  FamilyUnitPatterns:
+  - UnitFamilyReference:
+      serializableElementName: UnitFamily_HeavyCavalry
+    LevelMin: 6
+    LevelMax: 9
+    Count: 1
+  - UnitFamilyReference:
+      serializableElementName: UnitFamily_Melee
+    LevelMin: 6
+    LevelMax: 9
+    Count: 1
 --- !u!114 &-7352785034698892203
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -245,6 +299,33 @@ MonoBehaviour:
   - UnitReference:
       serializableElementName: LandUnit_Era3_Common_Knights
     Count: 2
+--- !u!114 &-7031662053468887736
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1569221641, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitPattern_Crisis_Era2_Defender_1
+  m_EditorClassIdentifier: 
+  SelectionCondition: 10
+  OrLifeTime: 0
+  MaxLifeTimeInTurn: -1
+  MinLifeTimeInTurn: 0
+  FamilyUnitPatterns:
+  - UnitFamilyReference:
+      serializableElementName: UnitFamily_Militia
+    LevelMin: 8
+    LevelMax: 13
+    Count: 3
+  - UnitFamilyReference:
+      serializableElementName: UnitFamily_Ranged
+    LevelMin: 8
+    LevelMax: 13
+    Count: 1
 --- !u!114 &-6870079280794786690
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -400,6 +481,29 @@ MonoBehaviour:
   - UnitReference:
       serializableElementName: LandUnit_Era1_Common_Slingers
     Count: 4
+--- !u!114 &-5239979965527377123
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1953220733, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitPattern_SwordsCavalry_Era2
+  m_EditorClassIdentifier: 
+  SelectionCondition: 19
+  OrLifeTime: 0
+  MaxLifeTimeInTurn: -1
+  MinLifeTimeInTurn: 20
+  UnitPatterns:
+  - UnitReference:
+      serializableElementName: LandUnit_Era2_Common_Swordsmen
+    Count: 2
+  - UnitReference:
+      serializableElementName: LandUnit_Era2_Common_Horsemen
+    Count: 2
 --- !u!114 &-4952806456392228866
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -477,6 +581,29 @@ MonoBehaviour:
   - UnitReference:
       serializableElementName: LandUnit_Era3_Common_Bowmen
     Count: 2
+--- !u!114 &-3598878044893484908
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1953220733, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitPattern_SwordsCavalry_Early_Era4
+  m_EditorClassIdentifier: 
+  SelectionCondition: 15
+  OrLifeTime: 1
+  MaxLifeTimeInTurn: 20
+  MinLifeTimeInTurn: 0
+  UnitPatterns:
+  - UnitReference:
+      serializableElementName: LandUnit_Era3_Common_GreatSwordsmen
+    Count: 2
+  - UnitReference:
+      serializableElementName: LandUnit_Era3_Common_Knights
+    Count: 1
 --- !u!114 &-3556702201691484804
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -759,6 +886,29 @@ MonoBehaviour:
   - UnitReference:
       serializableElementName: LandUnit_Era5_Common_Conscripts
     Count: 7
+--- !u!114 &-162111654469916416
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1953220733, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitPattern_SwordsCavalry_Era1
+  m_EditorClassIdentifier: 
+  SelectionCondition: 19
+  OrLifeTime: 0
+  MaxLifeTimeInTurn: -1
+  MinLifeTimeInTurn: 20
+  UnitPatterns:
+  - UnitReference:
+      serializableElementName: LandUnit_Era1_Common_Warriors
+    Count: 2
+  - UnitReference:
+      serializableElementName: LandUnit_Era1_Common_Chariots
+    Count: 2
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1203,6 +1353,29 @@ MonoBehaviour:
   - UnitReference:
       serializableElementName: LandUnit_Era1_Common_Archers
     Count: 4
+--- !u!114 &4564251890132624467
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1953220733, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitPattern_SwordsCavalry_Early_Era2
+  m_EditorClassIdentifier: 
+  SelectionCondition: 15
+  OrLifeTime: 1
+  MaxLifeTimeInTurn: 20
+  MinLifeTimeInTurn: 0
+  UnitPatterns:
+  - UnitReference:
+      serializableElementName: LandUnit_Era1_Common_Warriors
+    Count: 2
+  - UnitReference:
+      serializableElementName: LandUnit_Era1_Common_Chariots
+    Count: 1
 --- !u!114 &4789621032522235044
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1373,6 +1546,29 @@ MonoBehaviour:
   - UnitReference:
       serializableElementName: LandUnit_Era4_Common_Musketeers
     Count: 2
+--- !u!114 &6664826757878868898
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1953220733, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitPattern_SwordsCavalry_Era4
+  m_EditorClassIdentifier: 
+  SelectionCondition: 19
+  OrLifeTime: 0
+  MaxLifeTimeInTurn: -1
+  MinLifeTimeInTurn: 20
+  UnitPatterns:
+  - UnitReference:
+      serializableElementName: LandUnit_Era3_Common_GreatSwordsmen
+    Count: 3
+  - UnitReference:
+      serializableElementName: LandUnit_Era3_Common_Knights
+    Count: 3
 --- !u!114 &6840028415647078126
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1433,6 +1629,29 @@ MonoBehaviour:
   - UnitReference:
       serializableElementName: LandUnit_Era4_Common_Draftees
     Count: 6
+--- !u!114 &7853442787830314002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1953220733, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitPattern_SwordsCavalry_Early_Era3
+  m_EditorClassIdentifier: 
+  SelectionCondition: 15
+  OrLifeTime: 1
+  MaxLifeTimeInTurn: 20
+  MinLifeTimeInTurn: 0
+  UnitPatterns:
+  - UnitReference:
+      serializableElementName: LandUnit_Era2_Common_Swordsmen
+    Count: 2
+  - UnitReference:
+      serializableElementName: LandUnit_Era2_Common_Horsemen
+    Count: 2
 --- !u!114 &8114020137211873381
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1584,6 +1803,29 @@ MonoBehaviour:
     LevelMin: 25
     LevelMax: 33
     Count: 1
+--- !u!114 &8597998233817770225
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1953220733, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitPattern_SwordsCavalry_Era3
+  m_EditorClassIdentifier: 
+  SelectionCondition: 19
+  OrLifeTime: 0
+  MaxLifeTimeInTurn: -1
+  MinLifeTimeInTurn: 20
+  UnitPatterns:
+  - UnitReference:
+      serializableElementName: LandUnit_Era3_Common_GreatSwordsmen
+    Count: 2
+  - UnitReference:
+      serializableElementName: LandUnit_Era3_Common_Knights
+    Count: 2
 --- !u!114 &8671510927552774356
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1604,3 +1846,26 @@ MonoBehaviour:
   - UnitReference:
       serializableElementName: LandUnit_Era4_Common_Musketeers
     Count: 4
+--- !u!114 &8674171829038612792
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1953220733, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitPattern_SwordsCavalry_Early_Era1
+  m_EditorClassIdentifier: 
+  SelectionCondition: 15
+  OrLifeTime: 1
+  MaxLifeTimeInTurn: 20
+  MinLifeTimeInTurn: 0
+  UnitPatterns:
+  - UnitReference:
+      serializableElementName: LandUnit_Era1_Common_Warriors
+    Count: 1
+  - UnitReference:
+      serializableElementName: LandUnit_Era1_Common_Chariots
+    Count: 1
