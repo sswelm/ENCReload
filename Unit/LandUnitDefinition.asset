@@ -1810,7 +1810,8 @@ MonoBehaviour:
   BaseSynergyDistrict: 0
   UnitClass:
     serializableElementName: UnitClass_Ranged
-  UnitSpecialties: []
+  UnitSpecialties:
+  - serializableElementName: UnitSpecialty_NoMovementPenaltiesFromRocks
   OwnDescriptorReferences:
   - serializableElementName: Effect_LandUnit_Era1_Common_Slingers
   - serializableElementName: Effect_Unit_Era1
@@ -3068,6 +3069,8 @@ MonoBehaviour:
   - serializableElementName: Effect_Unit_Era5
   - serializableElementName: Effect_Unit_Emblematic
   - serializableElementName: Effect_Unit_Era5_Tier1
+  - serializableElementName: Effect_Unit_Era3_StealthDetection
+  - serializableElementName: Effect_Unit_Era5_StealthRegen
   BaseMovementSpeed: 1.8
   MovementSpeedMultiplierPerType:
   - 1.5
@@ -4026,7 +4029,7 @@ MonoBehaviour:
     DownloadableContent: 0
   Category: 6
   SerializableFamily: UnitFamily_Skirmisher
-  Level: 14
+  Level: 16
   Unicity: 0
   ConstructibleVisualAffinity:
     serializableElementName: 
@@ -4096,6 +4099,7 @@ MonoBehaviour:
   - serializableElementName: Effect_Unit_Era3
   - serializableElementName: Effect_Unit_Era3_Tier2
   - serializableElementName: Effect_Unit_Era3_StealthDetection
+  - serializableElementName: Effect_Unit_Era3_StealthRegen
   BaseMovementSpeed: 1.8
   MovementSpeedMultiplierPerType:
   - 1.5
@@ -5338,6 +5342,7 @@ MonoBehaviour:
   - serializableElementName: Effect_Unit_Era6
   - serializableElementName: Effect_Unit_Era6_Tier1
   - serializableElementName: Effect_Unit_Era4_StealthDetection
+  - serializableElementName: Effect_Unit_Era6_StealthRegen
   BaseMovementSpeed: 1.8
   MovementSpeedMultiplierPerType:
   - 1.5
@@ -8673,7 +8678,8 @@ MonoBehaviour:
   - serializableElementName: Effect_Unit_Era2
   - serializableElementName: Effect_Unit_Emblematic
   - serializableElementName: Effect_Unit_Era2_Tier1
-  - serializableElementName: Effect_Unit_Era2_StealthDetection
+  - serializableElementName: Effect_Unit_Era3_StealthDetection
+  - serializableElementName: Effect_Unit_Era2_StealthRegen
   BaseMovementSpeed: 1.8
   MovementSpeedMultiplierPerType:
   - 1.5
@@ -9017,6 +9023,7 @@ MonoBehaviour:
   - serializableElementName: Effect_Unit_Era6
   - serializableElementName: Effect_Unit_Era6_Tier2
   - serializableElementName: Effect_Unit_Era5_StealthDetection
+  - serializableElementName: Effect_Unit_Era7_StealthRegen
   BaseMovementSpeed: 1.8
   MovementSpeedMultiplierPerType:
   - 1.5
@@ -9825,6 +9832,7 @@ MonoBehaviour:
   - serializableElementName: Effect_Unit_Era5
   - serializableElementName: Effect_Unit_Era5_Tier1
   - serializableElementName: Effect_Unit_Era3_StealthDetection
+  - serializableElementName: Effect_Unit_Era5_StealthRegen
   BaseMovementSpeed: 1.8
   MovementSpeedMultiplierPerType:
   - 1.5
@@ -10281,6 +10289,8 @@ MonoBehaviour:
   - serializableElementName: Effect_Unit_Era6
   - serializableElementName: Effect_Unit_Emblematic
   - serializableElementName: Effect_Unit_Era6_Tier1
+  - serializableElementName: Effect_Unit_Era3_StealthDetection
+  - serializableElementName: Effect_Unit_Era6_StealthRegen
   BaseMovementSpeed: 1.8
   MovementSpeedMultiplierPerType:
   - 1.5
@@ -12230,6 +12240,7 @@ MonoBehaviour:
   - serializableElementName: Effect_Unit_Era2
   - serializableElementName: Effect_Unit_Era2_Tier1
   - serializableElementName: Effect_Unit_Era3_StealthDetection
+  - serializableElementName: Effect_Unit_Era2_StealthRegen
   BaseMovementSpeed: 1.8
   MovementSpeedMultiplierPerType:
   - 1.5
@@ -13603,6 +13614,7 @@ MonoBehaviour:
   - serializableElementName: Effect_Unit_Era6
   - serializableElementName: Effect_Unit_Era6_Tier3
   - serializableElementName: Effect_Unit_Era6_StealthDetection
+  - serializableElementName: Effect_Unit_Era8_StealthRegen
   BaseMovementSpeed: 1.8
   MovementSpeedMultiplierPerType:
   - 1.5
@@ -15295,7 +15307,7 @@ MonoBehaviour:
   UnitSpecialties:
   - serializableElementName: UnitSpecialty_Bombard_Level1
   - serializableElementName: UnitSpecialty_DebuffTargetStunArtillery
-  - serializableElementName: UnitSpecialty_WheeledInfo
+  - serializableElementName: UnitSpecialty_WheeledInfo1
   OwnDescriptorReferences:
   - serializableElementName: Effect_LandUnit_Era4_Common_Mortars
   - serializableElementName: Effect_Unit_Era4

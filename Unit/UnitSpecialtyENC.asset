@@ -141,6 +141,22 @@ MonoBehaviour:
   - serializableElementName: UnitAbility_ZoneOfControlIncreasedSize_Level2
   InstantResolveBattleStrengthBonus:
     RawValue: 0
+--- !u!114 &-2068052309793760305
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -374328362, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitSpecialty_NoMovementPenaltiesFromRocks
+  m_EditorClassIdentifier: 
+  AbilityReferences:
+  - serializableElementName: UnitAbility_NoMovementPenaltiesFromRocks
+  InstantResolveBattleStrengthBonus:
+    RawValue: 0
 --- !u!114 &-1966399413038877011
 MonoBehaviour:
   m_ObjectHideFlags: 0

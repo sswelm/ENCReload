@@ -3963,6 +3963,190 @@ MonoBehaviour:
   SubPawnComposition: 0
   SubPawnDefinitions: []
   Offset: {x: 0, y: 0, z: 0}
+--- !u!114 &-3485574639638735728
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1841102959, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Era6_Common_SelfpropelledHowitzer_01
+  m_EditorClassIdentifier: 
+  overrideMaterialAudioSwitchHandleReference:
+    guid:
+      a: 656237417
+      b: 1232845398
+      c: -22644855
+      d: 1575862848
+  weaponAudioSwitchHandleReference:
+    guid:
+      a: 0
+      b: 0
+      c: 0
+      d: 0
+  LegacyCharacterPalette:
+    guid:
+      a: 0
+      b: 0
+      c: 0
+      d: 0
+  characterPalette:
+    colorEntries:
+    - EntryName: hair
+      PrimaryColor: {r: 1, g: 1, b: 1, a: 1}
+      SecondaryColor: {r: 1, g: 1, b: 1, a: 1}
+      PrimaryColorMode: 0
+      SecondaryColorMode: 0
+    - EntryName: body
+      PrimaryColor: {r: 1, g: 1, b: 1, a: 1}
+      SecondaryColor: {r: 1, g: 1, b: 1, a: 1}
+      PrimaryColorMode: 0
+      SecondaryColorMode: 1
+    - EntryName: cape
+      PrimaryColor: {r: 1, g: 1, b: 1, a: 1}
+      SecondaryColor: {r: 1, g: 1, b: 1, a: 1}
+      PrimaryColorMode: 0
+      SecondaryColorMode: 0
+    - EntryName: coat
+      PrimaryColor: {r: 1, g: 1, b: 1, a: 1}
+      SecondaryColor: {r: 1, g: 1, b: 1, a: 1}
+      PrimaryColorMode: 0
+      SecondaryColorMode: 0
+    - EntryName: belt
+      PrimaryColor: {r: 1, g: 1, b: 1, a: 1}
+      SecondaryColor: {r: 1, g: 1, b: 1, a: 1}
+      PrimaryColorMode: 0
+      SecondaryColorMode: 0
+    - EntryName: plastron
+      PrimaryColor: {r: 1, g: 1, b: 1, a: 1}
+      SecondaryColor: {r: 1, g: 1, b: 1, a: 1}
+      PrimaryColorMode: 0
+      SecondaryColorMode: 0
+    - EntryName: dress
+      PrimaryColor: {r: 1, g: 1, b: 1, a: 1}
+      SecondaryColor: {r: 1, g: 1, b: 1, a: 1}
+      PrimaryColorMode: 0
+      SecondaryColorMode: 0
+    - EntryName: loinclothe
+      PrimaryColor: {r: 1, g: 1, b: 1, a: 1}
+      SecondaryColor: {r: 1, g: 1, b: 1, a: 1}
+      PrimaryColorMode: 0
+      SecondaryColorMode: 0
+    - EntryName: glove
+      PrimaryColor: {r: 1, g: 1, b: 1, a: 1}
+      SecondaryColor: {r: 1, g: 1, b: 1, a: 1}
+      PrimaryColorMode: 0
+      SecondaryColorMode: 0
+    - EntryName: boot
+      PrimaryColor: {r: 1, g: 1, b: 1, a: 1}
+      SecondaryColor: {r: 1, g: 1, b: 1, a: 1}
+      PrimaryColorMode: 0
+      SecondaryColorMode: 0
+    - EntryName: shirt
+      PrimaryColor: {r: 1, g: 1, b: 1, a: 1}
+      SecondaryColor: {r: 1, g: 1, b: 1, a: 1}
+      PrimaryColorMode: 0
+      SecondaryColorMode: 0
+    - EntryName: pants
+      PrimaryColor: {r: 1, g: 1, b: 1, a: 1}
+      SecondaryColor: {r: 1, g: 1, b: 1, a: 1}
+      PrimaryColorMode: 0
+      SecondaryColorMode: 0
+    - EntryName: accessory
+      PrimaryColor: {r: 1, g: 1, b: 1, a: 1}
+      SecondaryColor: {r: 1, g: 1, b: 1, a: 1}
+      PrimaryColorMode: 0
+      SecondaryColorMode: 0
+    - EntryName: accessory 2
+      PrimaryColor: {r: 1, g: 1, b: 1, a: 1}
+      SecondaryColor: {r: 1, g: 1, b: 1, a: 1}
+      PrimaryColorMode: 0
+      SecondaryColorMode: 0
+    - EntryName: helmets
+      PrimaryColor: {r: 1, g: 1, b: 1, a: 1}
+      SecondaryColor: {r: 1, g: 1, b: 1, a: 1}
+      PrimaryColorMode: 0
+      SecondaryColorMode: 0
+    - EntryName: weapons
+      PrimaryColor: {r: 1, g: 1, b: 1, a: 1}
+      SecondaryColor: {r: 1, g: 1, b: 1, a: 1}
+      PrimaryColorMode: 0
+      SecondaryColorMode: 0
+    - EntryName: shield
+      PrimaryColor: {r: 1, g: 1, b: 1, a: 1}
+      SecondaryColor: {r: 1, g: 1, b: 1, a: 1}
+      PrimaryColorMode: 0
+      SecondaryColorMode: 0
+    - EntryName: sash
+      PrimaryColor: {r: 1, g: 1, b: 1, a: 1}
+      SecondaryColor: {r: 1, g: 1, b: 1, a: 1}
+      PrimaryColorMode: 0
+      SecondaryColorMode: 0
+  IsWorkInProgress: 0
+  Description:
+    guid:
+      a: -2089812320
+      b: 1116999073
+      c: 1637848711
+      d: -1963604392
+  AnimatorOverrideController:
+    guid:
+      a: 0
+      b: 0
+      c: 0
+      d: 0
+  Attachements:
+  - Name: Body
+    Fragment:
+      guid:
+        a: 991668088
+        b: 1326969616
+        c: 2058891405
+        d: -1014066383
+  - Name: Tracks
+    Fragment:
+      guid:
+        a: 102725164
+        b: 1161814998
+        c: 915929003
+        d: 1165547804
+  UnitVisualAffinityReference:
+    serializableElementName: 
+  PresentationUnitDefinition:
+    serializableElementName: PresentationLandUnit_Era6_Common_SelfpropelledHowitzer_Default
+  SlotRestriction: 0
+  SpawnWeight: 10
+  Projectile:
+    guid:
+      a: -90800943
+      b: 1320003663
+      c: 1714238369
+      d: -962963419
+  SecondProjectile:
+    guid:
+      a: 468448626
+      b: 1266593052
+      c: -1656854382
+      d: -1656351800
+  MaxHeight: 2.526799
+  AnimationCapabilityProfile: 5
+  AnimationCapabilities: 663589
+  HasRangeWeapon: 1
+  ForceRangedMultiKill: 0
+  IndividualIdleAltAnimation: 0
+  IgnoreProtectOnRangedAttack: 0
+  ForceAllowUnitFacingStaticRotation: 0
+  EquipmentTag: VehicleBig_Metal
+  OffhandTag: 
+  MainhandTag: CrossBow
+  RLUDSRestriction: 63
+  UnitVoiceGender: 3
+  SubPawnComposition: 0
+  SubPawnDefinitions: []
+  Offset: {x: 0, y: 0, z: 0}
 --- !u!114 &-3423085888343762047
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8429,190 +8613,6 @@ MonoBehaviour:
   EquipmentTag: Plate
   OffhandTag: ShieldWood
   MainhandTag: Sword
-  RLUDSRestriction: 63
-  UnitVoiceGender: 3
-  SubPawnComposition: 0
-  SubPawnDefinitions: []
-  Offset: {x: 0, y: 0, z: 0}
---- !u!114 &5649314312842703451
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1841102959, guid: b310e23bee821cb478da05296ba685d0, type: 3}
-  m_Name: Era6_Common_SelfpropelledHowitzer_01
-  m_EditorClassIdentifier: 
-  overrideMaterialAudioSwitchHandleReference:
-    guid:
-      a: 656237417
-      b: 1232845398
-      c: -22644855
-      d: 1575862848
-  weaponAudioSwitchHandleReference:
-    guid:
-      a: 0
-      b: 0
-      c: 0
-      d: 0
-  LegacyCharacterPalette:
-    guid:
-      a: 0
-      b: 0
-      c: 0
-      d: 0
-  characterPalette:
-    colorEntries:
-    - EntryName: hair
-      PrimaryColor: {r: 1, g: 1, b: 1, a: 1}
-      SecondaryColor: {r: 1, g: 1, b: 1, a: 1}
-      PrimaryColorMode: 0
-      SecondaryColorMode: 0
-    - EntryName: body
-      PrimaryColor: {r: 1, g: 1, b: 1, a: 1}
-      SecondaryColor: {r: 1, g: 1, b: 1, a: 1}
-      PrimaryColorMode: 0
-      SecondaryColorMode: 2
-    - EntryName: cape
-      PrimaryColor: {r: 1, g: 1, b: 1, a: 1}
-      SecondaryColor: {r: 1, g: 1, b: 1, a: 1}
-      PrimaryColorMode: 0
-      SecondaryColorMode: 0
-    - EntryName: coat
-      PrimaryColor: {r: 1, g: 1, b: 1, a: 1}
-      SecondaryColor: {r: 1, g: 1, b: 1, a: 1}
-      PrimaryColorMode: 0
-      SecondaryColorMode: 0
-    - EntryName: belt
-      PrimaryColor: {r: 1, g: 1, b: 1, a: 1}
-      SecondaryColor: {r: 1, g: 1, b: 1, a: 1}
-      PrimaryColorMode: 0
-      SecondaryColorMode: 0
-    - EntryName: plastron
-      PrimaryColor: {r: 1, g: 1, b: 1, a: 1}
-      SecondaryColor: {r: 1, g: 1, b: 1, a: 1}
-      PrimaryColorMode: 0
-      SecondaryColorMode: 0
-    - EntryName: dress
-      PrimaryColor: {r: 1, g: 1, b: 1, a: 1}
-      SecondaryColor: {r: 1, g: 1, b: 1, a: 1}
-      PrimaryColorMode: 0
-      SecondaryColorMode: 0
-    - EntryName: loinclothe
-      PrimaryColor: {r: 1, g: 1, b: 1, a: 1}
-      SecondaryColor: {r: 1, g: 1, b: 1, a: 1}
-      PrimaryColorMode: 0
-      SecondaryColorMode: 0
-    - EntryName: glove
-      PrimaryColor: {r: 1, g: 1, b: 1, a: 1}
-      SecondaryColor: {r: 1, g: 1, b: 1, a: 1}
-      PrimaryColorMode: 0
-      SecondaryColorMode: 0
-    - EntryName: boot
-      PrimaryColor: {r: 1, g: 1, b: 1, a: 1}
-      SecondaryColor: {r: 1, g: 1, b: 1, a: 1}
-      PrimaryColorMode: 0
-      SecondaryColorMode: 0
-    - EntryName: shirt
-      PrimaryColor: {r: 1, g: 1, b: 1, a: 1}
-      SecondaryColor: {r: 1, g: 1, b: 1, a: 1}
-      PrimaryColorMode: 0
-      SecondaryColorMode: 0
-    - EntryName: pants
-      PrimaryColor: {r: 1, g: 1, b: 1, a: 1}
-      SecondaryColor: {r: 1, g: 1, b: 1, a: 1}
-      PrimaryColorMode: 0
-      SecondaryColorMode: 0
-    - EntryName: accessory
-      PrimaryColor: {r: 1, g: 1, b: 1, a: 1}
-      SecondaryColor: {r: 1, g: 1, b: 1, a: 1}
-      PrimaryColorMode: 0
-      SecondaryColorMode: 0
-    - EntryName: accessory 2
-      PrimaryColor: {r: 1, g: 1, b: 1, a: 1}
-      SecondaryColor: {r: 1, g: 1, b: 1, a: 1}
-      PrimaryColorMode: 0
-      SecondaryColorMode: 0
-    - EntryName: helmets
-      PrimaryColor: {r: 1, g: 1, b: 1, a: 1}
-      SecondaryColor: {r: 1, g: 1, b: 1, a: 1}
-      PrimaryColorMode: 0
-      SecondaryColorMode: 0
-    - EntryName: weapons
-      PrimaryColor: {r: 1, g: 1, b: 1, a: 1}
-      SecondaryColor: {r: 1, g: 1, b: 1, a: 1}
-      PrimaryColorMode: 0
-      SecondaryColorMode: 0
-    - EntryName: shield
-      PrimaryColor: {r: 1, g: 1, b: 1, a: 1}
-      SecondaryColor: {r: 1, g: 1, b: 1, a: 1}
-      PrimaryColorMode: 0
-      SecondaryColorMode: 0
-    - EntryName: sash
-      PrimaryColor: {r: 1, g: 1, b: 1, a: 1}
-      SecondaryColor: {r: 1, g: 1, b: 1, a: 1}
-      PrimaryColorMode: 0
-      SecondaryColorMode: 0
-  IsWorkInProgress: 0
-  Description:
-    guid:
-      a: 1294511489
-      b: 1268500239
-      c: -95883387
-      d: 1976617417
-  AnimatorOverrideController:
-    guid:
-      a: 0
-      b: 0
-      c: 0
-      d: 0
-  Attachements:
-  - Name: Body
-    Fragment:
-      guid:
-        a: -217701504
-        b: 1270390793
-        c: 2002540694
-        d: 1619676242
-  - Name: Tracks
-    Fragment:
-      guid:
-        a: -1816381365
-        b: 1318485443
-        c: 394227855
-        d: 1311868041
-  UnitVisualAffinityReference:
-    serializableElementName: 
-  PresentationUnitDefinition:
-    serializableElementName: PresentationLandUnit_Era6_Common_SelfpropelledHowitzer_Default
-  SlotRestriction: 0
-  SpawnWeight: 10
-  Projectile:
-    guid:
-      a: -90800943
-      b: 1320003663
-      c: 1714238369
-      d: -962963419
-  SecondProjectile:
-    guid:
-      a: 468448626
-      b: 1266593052
-      c: -1656854382
-      d: -1656351800
-  MaxHeight: 2.5267987
-  AnimationCapabilityProfile: 5
-  AnimationCapabilities: 663589
-  HasRangeWeapon: 1
-  ForceRangedMultiKill: 0
-  IndividualIdleAltAnimation: 0
-  IgnoreProtectOnRangedAttack: 0
-  ForceAllowUnitFacingStaticRotation: 0
-  EquipmentTag: VehicleBig_Metal
-  OffhandTag: 
-  MainhandTag: CrossBow
   RLUDSRestriction: 63
   UnitVoiceGender: 3
   SubPawnComposition: 0

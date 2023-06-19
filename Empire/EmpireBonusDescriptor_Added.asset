@@ -273,14 +273,20 @@ MonoBehaviour:
       ConstantStack:
       - RawValue: 100
       PropertyLocalName: []
-  - ApplyEffectOnSource: 1
+  - ApplyEffectOnSource: 0
     Path:
-      PropertyToFollow: []
-      Validations: []
+      PropertyToFollow:
+      - Cities
+      - Districts
+      Validations:
+      - PathIndex: 1
+        ValidableElementCollection: 
+        Inverted: 0
+        serializableElementName: Effect_Extension_Base_Money_Yield
       specificTargetType: 
     PropertyEffects:
     - Note: 
-      TargetProperty: CityCap
+      TargetProperty: PublicOrderProduced
       ToTargetOperation: 0
       RpnOperationStack: 
       ConstantStack:
@@ -322,6 +328,34 @@ MonoBehaviour:
       PropertyLocalName: []
     - Note: 
       TargetProperty: CultureProduced
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 1000
+      PropertyLocalName: []
+  serializableCategory: 
+  startingType: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
+--- !u!114 &-6135757260657000793
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
+  m_Name: Effect_EmpireBonus_CityCap8
+  m_EditorClassIdentifier: 
+  Effects:
+  - ApplyEffectOnSource: 0
+    Path:
+      PropertyToFollow: []
+      Validations: []
+      specificTargetType: 
+    PropertyEffects:
+    - Note: 
+      TargetProperty: CityCap
       ToTargetOperation: 0
       RpnOperationStack: 
       ConstantStack:
@@ -2140,20 +2174,6 @@ MonoBehaviour:
     PropertyEffects:
     - Note: 
       TargetProperty: PollutionNet
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 500
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: MoneyProduced
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 1000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: FoodProduced
       ToTargetOperation: 0
       RpnOperationStack: 
       ConstantStack:

@@ -246,6 +246,31 @@ MonoBehaviour:
     serializableKey: Small
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
+--- !u!114 &-4845528164437615966
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 981126955, guid: f8c4d2d2a3a246a0909e3c6973d4a4e3, type: 3}
+  m_Name: Effect_EmpireBonus_CityCap8
+  m_EditorClassIdentifier: 
+  Title: Household refrigerators
+  Description: Household refrigerators became a necessity as more people moved into
+    growing cities and further away from food sources.
+  Images:
+  - Value:
+      guid:
+        a: 424027132
+        b: 1218685428
+        c: -434751581
+        d: 2078779821
+    serializableKey: Small
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  Symbol: 
 --- !u!114 &-4735831120799289798
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1036,6 +1061,31 @@ MonoBehaviour:
     serializableKey: Small
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
+--- !u!114 &5158092371448199586
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 981126955, guid: f8c4d2d2a3a246a0909e3c6973d4a4e3, type: 3}
+  m_Name: Effect_EmpireBonus_ArmyCap5
+  m_EditorClassIdentifier: 
+  Title: Encrypted Communication
+  Description: Encrypted communication means people can share information with varying
+    degrees of certainty that third parties cannot intercept what was said.
+  Images:
+  - Value:
+      guid:
+        a: -1815770584
+        b: 1198694188
+        c: -1314264145
+        d: 1952218275
+    serializableKey: Small
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  Symbol: 
 --- !u!114 &5659722520540306911
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1150,7 +1200,8 @@ MonoBehaviour:
   m_Name: Effect_EmpireBonus_Pharmaceuticals
   m_EditorClassIdentifier: 
   Title: Drugs
-  Description: '%Effect_EmpireBonus_LeadingFromTheStarsDescription'
+  Description: Increased money on  Cities and improved public order on commercial
+    districts
   Images:
   - Value:
       guid:
