@@ -180,13 +180,6 @@ MonoBehaviour:
       ConstantStack:
       - RawValue: 53000
       PropertyLocalName: []
-    - Note: +1 Range compaired to Torpedo Boat
-      TargetProperty: AttackRange
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 1000
-      PropertyLocalName: []
     - Note: 
       TargetProperty: StealthDetection
       ToTargetOperation: 0
@@ -521,7 +514,7 @@ MonoBehaviour:
       ToTargetOperation: 0
       RpnOperationStack: 
       ConstantStack:
-      - RawValue: 2000
+      - RawValue: 1000
       PropertyLocalName: []
     - Note: 
       TargetProperty: NavalSpeed
@@ -656,13 +649,6 @@ MonoBehaviour:
       ConstantStack:
       - RawValue: 3000
       PropertyLocalName: []
-    - Note: +1 AttackRange compared to Fleet Submarine
-      TargetProperty: AttackRange
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 1000
-      PropertyLocalName: []
     - Note: 
       TargetProperty: NavalSpeed
       ToTargetOperation: 1
@@ -672,6 +658,13 @@ MonoBehaviour:
       PropertyLocalName: []
     - Note: 
       TargetProperty: SpecialtyLevel
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 1000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: AttackRange
       ToTargetOperation: 0
       RpnOperationStack: 
       ConstantStack:
@@ -990,7 +983,7 @@ MonoBehaviour:
       ToTargetOperation: 0
       RpnOperationStack: 
       ConstantStack:
-      - RawValue: 42000
+      - RawValue: 43000
       PropertyLocalName: []
     - Note: 
       TargetProperty: StealthMax
@@ -1774,8 +1767,8 @@ MonoBehaviour:
       - RawValue: 49000
       PropertyLocalName: []
     - Note: 
-      TargetProperty: StealthDetection
-      ToTargetOperation: 0
+      TargetProperty: AttackRange
+      ToTargetOperation: 1
       RpnOperationStack: 
       ConstantStack:
       - RawValue: 1000
@@ -1888,6 +1881,13 @@ MonoBehaviour:
     - Note: 
       TargetProperty: AttackRange
       ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 2000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: NavalSpeed
+      ToTargetOperation: 1
       RpnOperationStack: 
       ConstantStack:
       - RawValue: 2000
@@ -2020,7 +2020,7 @@ MonoBehaviour:
       PropertyLocalName: []
     - Note: 
       TargetProperty: NavalSpeed
-      ToTargetOperation: 0
+      ToTargetOperation: 1
       RpnOperationStack: 
       ConstantStack:
       - RawValue: 1000
@@ -2094,6 +2094,13 @@ MonoBehaviour:
       RpnOperationStack: 
       ConstantStack:
       - RawValue: 3000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: AttackRange
+      ToTargetOperation: 1
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 1000
       PropertyLocalName: []
   serializableCategory: 
   startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
@@ -2175,6 +2182,13 @@ MonoBehaviour:
     - Note: 
       TargetProperty: AttackRange
       ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 2000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: NavalSpeed
+      ToTargetOperation: 1
       RpnOperationStack: 
       ConstantStack:
       - RawValue: 2000
@@ -2339,6 +2353,20 @@ MonoBehaviour:
       RpnOperationStack: 
       ConstantStack:
       - RawValue: 46000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: AttackRange
+      ToTargetOperation: 1
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 1000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: NavalSpeed
+      ToTargetOperation: 1
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 2000
       PropertyLocalName: []
   serializableCategory: 
   startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass

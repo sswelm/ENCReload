@@ -846,7 +846,7 @@ MonoBehaviour:
     Type: 1
     Constant: -1
     RpnDefinitionReference:
-      serializableElementName: ProductionCost_Unit_Era6_High_Oil2_Uranium2
+      serializableElementName: ProductionCost_Unit_Era6_High_Oil2_Aluminium3
   MoneyInstantCostDefinition:
     Constant: 0
     RpnDefinitionReference:
@@ -869,9 +869,6 @@ MonoBehaviour:
     ConstantType: 0
     ConstantValue: 1
   - Resource: 6
-    ConstantType: 0
-    ConstantValue: 1
-  - Resource: 7
     ConstantType: 0
     ConstantValue: 1
   MinimalPopulationPrerequisite: 0
@@ -3692,7 +3689,7 @@ MonoBehaviour:
     Type: 1
     Constant: -1
     RpnDefinitionReference:
-      serializableElementName: ProductionCost_Unit_Era6_High
+      serializableElementName: ProductionCost_Unit_Era6_High_Oil3_Aluminium3
   MoneyInstantCostDefinition:
     Constant: 0
     RpnDefinitionReference:
@@ -3715,9 +3712,6 @@ MonoBehaviour:
     ConstantType: 0
     ConstantValue: 1
   - Resource: 6
-    ConstantType: 0
-    ConstantValue: 1
-  - Resource: 7
     ConstantType: 0
     ConstantValue: 1
   MinimalPopulationPrerequisite: 0
@@ -14060,7 +14054,8 @@ MonoBehaviour:
   BaseSynergyDistrict: 0
   UnitClass:
     serializableElementName: UnitClass_AntiCavalry
-  UnitSpecialties: []
+  UnitSpecialties:
+  - serializableElementName: UnitSpecialty_StrengthFromAlliesAdjacentToUser_Level1
   OwnDescriptorReferences:
   - serializableElementName: Effect_LandUnit_Era1_Common_Spearmen
   - serializableElementName: Effect_Unit_Era1

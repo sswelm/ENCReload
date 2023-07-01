@@ -508,7 +508,15 @@ MonoBehaviour:
         Inverted: 0
         serializableElementName: Effect_Extension_Base_Industry
       specificTargetType: 
-    PropertyEffects: []
+    PropertyEffects:
+    - Note: 
+      TargetProperty: IndustryProduced
+      ToTargetOperation: 0
+      RpnOperationStack: 0a0000000900000002000000
+      ConstantStack:
+      - RawValue: 1000
+      PropertyLocalName:
+      - Resource04AccessCount
   serializableCategory: 
   startingType: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
 --- !u!114 &7221334542217027369

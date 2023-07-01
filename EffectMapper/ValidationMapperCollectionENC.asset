@@ -176,6 +176,22 @@ MonoBehaviour:
   LocalizationInverted: Not Mounted Ranged
   LocalizationTarget: Mounted Ranged
   LocalizationTargetInverted: Not Mounted Ranged
+--- !u!114 &-2842177222243636345
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 771724855, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Effect_UnitAbility_StrengthFromAlliesAdjacentToUserNaval
+  m_EditorClassIdentifier: 
+  Localization: Line of Battle
+  LocalizationInverted: non Line of Battle ships
+  LocalizationTarget: Line of Battle
+  LocalizationTargetInverted: non Line of Battle ships
 --- !u!114 &-2301447379343241363
 MonoBehaviour:
   m_ObjectHideFlags: 0

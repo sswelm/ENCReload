@@ -327,6 +327,24 @@ MonoBehaviour:
   m_Script: {fileID: 763423559, guid: f8c4d2d2a3a246a0909e3c6973d4a4e3, type: 3}
   m_Name: UnitSpecialtyUIMappers
   m_EditorClassIdentifier: 
+--- !u!114 &151615329888108750
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 981126955, guid: f8c4d2d2a3a246a0909e3c6973d4a4e3, type: 3}
+  m_Name: UnitSpecialty_StrengthFromAlliesAdjacentToUserNaval_Level1
+  m_EditorClassIdentifier: 
+  Title: Line of Battle
+  Description: Grants additional Combat Strength for each Unit with the Line of Battle
+    ability adjacent to this unit
+  Images: []
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  Symbol: 
 --- !u!114 &309898500853431342
 MonoBehaviour:
   m_ObjectHideFlags: 0

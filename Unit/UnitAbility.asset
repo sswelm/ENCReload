@@ -94,8 +94,7 @@ MonoBehaviour:
   TagAsAbility: 0
   MovementAbility: 0
   DescriptorReferences: []
-  BattleAbilityReference:
-  - serializableElementName: BattleAbility_NavalSpeedReductionFromBattle
+  BattleAbilityReference: []
   pathfindingFlags: 0
 --- !u!114 &-7179215345705952485
 MonoBehaviour:
@@ -154,6 +153,23 @@ MonoBehaviour:
   MovementAbility: 6
   DescriptorReferences:
   - serializableElementName: Effect_UnitAbility_LostAtSeaDamage_Level1
+  BattleAbilityReference: []
+  pathfindingFlags: 0
+--- !u!114 &-6021190633943219270
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 573507786, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitAbility_CoastalMovement
+  m_EditorClassIdentifier: 
+  TagAsAbility: 0
+  MovementAbility: 6
+  DescriptorReferences: []
   BattleAbilityReference: []
   pathfindingFlags: 0
 --- !u!114 &-5698164423657029203
@@ -231,6 +247,27 @@ MonoBehaviour:
   - serializableElementName: Tag_Unit_Seafaring
   BattleAbilityReference:
   - serializableElementName: BattleAbility_NavalSpeedReductionFromBattle
+  pathfindingFlags: 0
+--- !u!114 &-2168126290387400923
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 573507786, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitAbility_Prototype_Melee
+  m_EditorClassIdentifier: 
+  TagAsAbility: 0
+  MovementAbility: 0
+  DescriptorReferences:
+  - serializableElementName: Effect_UnitPrototype_Melee
+  - serializableElementName: Effect_Unit_RansackStrength2
+  BattleAbilityReference:
+  - serializableElementName: BattleAbility_MoneyFromAnimals
+  - serializableElementName: BattleAbility_AdvancedTerrain
   pathfindingFlags: 0
 --- !u!114 &-1626577165682520420
 MonoBehaviour:
@@ -470,6 +507,28 @@ MonoBehaviour:
   - serializableElementName: Effect_Unit_IncreasedVisionRangeLevel1
   BattleAbilityReference: []
   pathfindingFlags: 0
+--- !u!114 &3389305862896863065
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 573507786, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitAbility_Prototype_NavalTransport
+  m_EditorClassIdentifier: 
+  TagAsAbility: 0
+  MovementAbility: 0
+  DescriptorReferences:
+  - serializableElementName: Effect_UnitPrototype_NavalTransport
+  - serializableElementName: Effect_UnitPrototype_NavalUnit
+  BattleAbilityReference:
+  - serializableElementName: BattleAbility_Common
+  - serializableElementName: BattleAbility_NavalTerrain
+  - serializableElementName: BattleAbility_TransportSpeedReductionFromBattle
+  pathfindingFlags: 0
 --- !u!114 &4228084091550805055
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -566,6 +625,26 @@ MonoBehaviour:
   DescriptorReferences:
   - serializableElementName: Effect_UnitPrototype_StealthBomber
   BattleAbilityReference: []
+  pathfindingFlags: 0
+--- !u!114 &5466422983887382494
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 573507786, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitAbility_StrengthFromAlliesAdjacentToUserNaval_Level1
+  m_EditorClassIdentifier: 
+  TagAsAbility: 0
+  MovementAbility: 0
+  DescriptorReferences:
+  - serializableElementName: Effect_Unit_SpecialtyLevel1
+  - serializableElementName: Effect_UnitAbility_StrengthFromAlliesAdjacentToUser
+  BattleAbilityReference:
+  - serializableElementName: BattleAbility_StrengthFromAlliesAdjacentToUserNaval
   pathfindingFlags: 0
 --- !u!114 &6388087695595240984
 MonoBehaviour:
