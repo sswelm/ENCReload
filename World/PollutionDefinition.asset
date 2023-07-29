@@ -133,7 +133,7 @@ MonoBehaviour:
   m_Name: PollutionDefinition_Endless
   m_EditorClassIdentifier: 
   EndGamePollutionThreshold:
-    RawValue: 1000000000
+    RawValue: 850000000
   TerritoryPollutionStatusCategory:
     serializableElementName: 
   TerritoryPollution:
@@ -167,7 +167,7 @@ MonoBehaviour:
     UiMapperReference:
       serializableElementName: PollutionLevel1
   - Threshold:
-      RawValue: 640000000
+      RawValue: 600000000
     Status:
       serializableElementName: AtmospherePollution_High
     FameBonusForTopPolluter:
