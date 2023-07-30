@@ -75,6 +75,13 @@ MonoBehaviour:
       ConstantStack:
       - RawValue: 1000
       PropertyLocalName: []
+    - Note: 
+      TargetProperty: VisionRange
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 4000
+      PropertyLocalName: []
   serializableCategory: 
   startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
 --- !u!114 &-8319911665825637879
@@ -145,6 +152,13 @@ MonoBehaviour:
       ConstantStack:
       - RawValue: 1000
       PropertyLocalName: []
+    - Note: 
+      TargetProperty: VisionRange
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 2000
+      PropertyLocalName: []
   serializableCategory: 
   startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
 --- !u!114 &-8298887252925639202
@@ -178,7 +192,7 @@ MonoBehaviour:
       ToTargetOperation: 0
       RpnOperationStack: 
       ConstantStack:
-      - RawValue: 59000
+      - RawValue: 58000
       PropertyLocalName: []
     - Note: 
       TargetProperty: StealthDetection
@@ -328,22 +342,29 @@ MonoBehaviour:
       specificTargetType: 
     PropertyEffects:
     - Note: 
+      TargetProperty: HitPoints
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 50000
+      PropertyLocalName: []
+    - Note: 
       TargetProperty: LeaderPriority
       ToTargetOperation: 0
       RpnOperationStack: 
       ConstantStack:
       - RawValue: 7220000
       PropertyLocalName: []
-    - Note: +2 strength +3
+    - Note: +6 compaired to Vanilla
       TargetProperty: BaseStrength
       ToTargetOperation: 0
       RpnOperationStack: 
       ConstantStack:
-      - RawValue: 59000
+      - RawValue: 60000
       PropertyLocalName: []
     - Note: 
-      TargetProperty: AttackRange
-      ToTargetOperation: 0
+      TargetProperty: VisionRange
+      ToTargetOperation: 1
       RpnOperationStack: 
       ConstantStack:
       - RawValue: 1000
@@ -381,14 +402,14 @@ MonoBehaviour:
       ToTargetOperation: 0
       RpnOperationStack: 
       ConstantStack:
-      - RawValue: 57000
+      - RawValue: 58000
       PropertyLocalName: []
     - Note: 
       TargetProperty: AttackRange
       ToTargetOperation: 0
       RpnOperationStack: 
       ConstantStack:
-      - RawValue: 2000
+      - RawValue: 1000
       PropertyLocalName: []
     - Note: 
       TargetProperty: NavalSpeed
@@ -419,18 +440,25 @@ MonoBehaviour:
       specificTargetType: 
     PropertyEffects:
     - Note: 
+      TargetProperty: HitPoints
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 50000
+      PropertyLocalName: []
+    - Note: 
       TargetProperty: LeaderPriority
       ToTargetOperation: 0
       RpnOperationStack: 
       ConstantStack:
-      - RawValue: 8260000
+      - RawValue: 8160000
       PropertyLocalName: []
     - Note: +5 compaired Ironclad
       TargetProperty: BaseStrength
       ToTargetOperation: 0
       RpnOperationStack: 
       ConstantStack:
-      - RawValue: 64000
+      - RawValue: 65000
       PropertyLocalName: []
     - Note: +1 compared to Ironclad
       TargetProperty: AttackRange
@@ -530,6 +558,13 @@ MonoBehaviour:
       ConstantStack:
       - RawValue: 1000
       PropertyLocalName: []
+    - Note: 
+      TargetProperty: VisionRange
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 3000
+      PropertyLocalName: []
   serializableCategory: 
   startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
 --- !u!114 &-7062447915025171905
@@ -552,11 +587,18 @@ MonoBehaviour:
       specificTargetType: 
     PropertyEffects:
     - Note: 
+      TargetProperty: HitPoints
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 50000
+      PropertyLocalName: []
+    - Note: 
       TargetProperty: LeaderPriority
       ToTargetOperation: 0
       RpnOperationStack: 
       ConstantStack:
-      - RawValue: 8280000
+      - RawValue: 8380000
       PropertyLocalName: []
     - Note: +8 compaired to Battleship
       TargetProperty: BaseStrength
@@ -572,12 +614,12 @@ MonoBehaviour:
       ConstantStack:
       - RawValue: 3000
       PropertyLocalName: []
-    - Note: +2 Compared to Battleship
+    - Note: +4 Compared to Battleship
       TargetProperty: AttackRange
       ToTargetOperation: 0
       RpnOperationStack: 
       ConstantStack:
-      - RawValue: 5000
+      - RawValue: 7000
       PropertyLocalName: []
     - Note: +1 Compared to Battleship
       TargetProperty: VisionRange
@@ -619,7 +661,7 @@ MonoBehaviour:
       ToTargetOperation: 0
       RpnOperationStack: 
       ConstantStack:
-      - RawValue: 7980000
+      - RawValue: 8200000
       PropertyLocalName: []
     - Note: Same as Naval Update
       TargetProperty: BaseStrength
@@ -669,6 +711,13 @@ MonoBehaviour:
       RpnOperationStack: 
       ConstantStack:
       - RawValue: 1000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: VisionRange
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 3000
       PropertyLocalName: []
   serializableCategory: 
   startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
@@ -734,18 +783,25 @@ MonoBehaviour:
       specificTargetType: 
     PropertyEffects:
     - Note: 
+      TargetProperty: HitPoints
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 50000
+      PropertyLocalName: []
+    - Note: 
       TargetProperty: LeaderPriority
       ToTargetOperation: 0
       RpnOperationStack: 
       ConstantStack:
       - RawValue: 8460000
       PropertyLocalName: []
-    - Note: Same as Naval Update
+    - Note: +1 Compaired to Naval Update
       TargetProperty: BaseStrength
       ToTargetOperation: 0
       RpnOperationStack: 
       ConstantStack:
-      - RawValue: 69000
+      - RawValue: 70000
       PropertyLocalName: []
     - Note: +1 compared to Dreadnought
       TargetProperty: NavalSpeed
@@ -760,13 +816,6 @@ MonoBehaviour:
       RpnOperationStack: 
       ConstantStack:
       - RawValue: 3000
-      PropertyLocalName: []
-    - Note: +1 compared to Dreadnought
-      TargetProperty: VisionRange
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 1000
       PropertyLocalName: []
     - Note: 
       TargetProperty: StealthDetection
@@ -1269,14 +1318,14 @@ MonoBehaviour:
       ToTargetOperation: 0
       RpnOperationStack: 
       ConstantStack:
-      - RawValue: 2000
+      - RawValue: 3000
       PropertyLocalName: []
     - Note: 
       TargetProperty: VisionHeight
       ToTargetOperation: 0
       RpnOperationStack: 
       ConstantStack:
-      - RawValue: 2000
+      - RawValue: 3000
       PropertyLocalName: []
     - Note: 
       TargetProperty: StealthDetection
@@ -1290,7 +1339,7 @@ MonoBehaviour:
       ToTargetOperation: 0
       RpnOperationStack: 
       ConstantStack:
-      - RawValue: 3000
+      - RawValue: 5000
       PropertyLocalName: []
   serializableCategory: 
   startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
@@ -1374,14 +1423,14 @@ MonoBehaviour:
       ToTargetOperation: 0
       RpnOperationStack: 
       ConstantStack:
-      - RawValue: 62000
+      - RawValue: 63000
       PropertyLocalName: []
     - Note: 
       TargetProperty: AttackRange
       ToTargetOperation: 0
       RpnOperationStack: 
       ConstantStack:
-      - RawValue: 3000
+      - RawValue: 2000
       PropertyLocalName: []
     - Note: 
       TargetProperty: NavalSpeed
@@ -1540,7 +1589,7 @@ MonoBehaviour:
       ToTargetOperation: 0
       RpnOperationStack: 
       ConstantStack:
-      - RawValue: 67000
+      - RawValue: 78000
       PropertyLocalName: []
     - Note: +1 Compaired to Nuclear Aircraft Carrier
       TargetProperty: NavalSpeed
@@ -1554,14 +1603,14 @@ MonoBehaviour:
       ToTargetOperation: 0
       RpnOperationStack: 
       ConstantStack:
-      - RawValue: 3000
+      - RawValue: 4000
       PropertyLocalName: []
     - Note: 
       TargetProperty: VisionHeight
       ToTargetOperation: 0
       RpnOperationStack: 
       ConstantStack:
-      - RawValue: 3000
+      - RawValue: 4000
       PropertyLocalName: []
     - Note: 
       TargetProperty: StealthDetection
@@ -1570,12 +1619,12 @@ MonoBehaviour:
       ConstantStack:
       - RawValue: 3000
       PropertyLocalName: []
-    - Note: +2  Compaired to Nuclear Aircraft Carrier
+    - Note: +1  Compaired to Nuclear Aircraft Carrier
       TargetProperty: AttackRange
       ToTargetOperation: 0
       RpnOperationStack: 
       ConstantStack:
-      - RawValue: 5000
+      - RawValue: 6000
       PropertyLocalName: []
     - Note: 
       TargetProperty: StealthMax
@@ -1660,6 +1709,13 @@ MonoBehaviour:
       RpnOperationStack: 
       ConstantStack:
       - RawValue: 1000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: VisionRange
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 2000
       PropertyLocalName: []
   serializableCategory: 
   startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
@@ -1808,7 +1864,7 @@ MonoBehaviour:
       ConstantStack:
       - RawValue: 67000
       PropertyLocalName: []
-    - Note: +2 NavalSpeed
+    - Note: Same as Fast Battleship
       TargetProperty: NavalSpeed
       ToTargetOperation: 0
       RpnOperationStack: 
@@ -1820,14 +1876,14 @@ MonoBehaviour:
       ToTargetOperation: 0
       RpnOperationStack: 
       ConstantStack:
-      - RawValue: 1000
+      - RawValue: 2000
       PropertyLocalName: []
     - Note: 
       TargetProperty: VisionHeight
       ToTargetOperation: 0
       RpnOperationStack: 
       ConstantStack:
-      - RawValue: 1000
+      - RawValue: 2000
       PropertyLocalName: []
     - Note: 
       TargetProperty: StealthDetection
@@ -1841,7 +1897,7 @@ MonoBehaviour:
       ToTargetOperation: 0
       RpnOperationStack: 
       ConstantStack:
-      - RawValue: 1000
+      - RawValue: 2000
       PropertyLocalName: []
   serializableCategory: 
   startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
@@ -1955,6 +2011,13 @@ MonoBehaviour:
       Validations: []
       specificTargetType: 
     PropertyEffects:
+    - Note: 
+      TargetProperty: HitPoints
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 50000
+      PropertyLocalName: []
     - Note: 
       TargetProperty: LeaderPriority
       ToTargetOperation: 0
@@ -2095,6 +2158,13 @@ MonoBehaviour:
       ConstantStack:
       - RawValue: 1000
       PropertyLocalName: []
+    - Note: 
+      TargetProperty: VisionRange
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 1000
+      PropertyLocalName: []
   serializableCategory: 
   startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
 --- !u!114 &3300030891496303149
@@ -2219,7 +2289,7 @@ MonoBehaviour:
       ToTargetOperation: 0
       RpnOperationStack: 
       ConstantStack:
-      - RawValue: 65000
+      - RawValue: 66000
       PropertyLocalName: []
     - Note: +1 Speed compaired to Torpedo Boat Destroyer
       TargetProperty: NavalSpeed
@@ -2237,6 +2307,13 @@ MonoBehaviour:
       PropertyLocalName: []
     - Note: +1 Range compaired to Torpedo Boat Destroyer
       TargetProperty: AttackRange
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 2000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: VisionRange
       ToTargetOperation: 0
       RpnOperationStack: 
       ConstantStack:
@@ -2311,6 +2388,13 @@ MonoBehaviour:
       RpnOperationStack: 
       ConstantStack:
       - RawValue: 1000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: VisionRange
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 4000
       PropertyLocalName: []
   serializableCategory: 
   startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
@@ -2417,6 +2501,13 @@ MonoBehaviour:
       ConstantStack:
       - RawValue: 1000
       PropertyLocalName: []
+    - Note: 
+      TargetProperty: VisionRange
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 1000
+      PropertyLocalName: []
   serializableCategory: 
   startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
 --- !u!114 &5459191611101247321
@@ -2466,12 +2557,12 @@ MonoBehaviour:
       ConstantStack:
       - RawValue: 3000
       PropertyLocalName: []
-    - Note: +3 compared to Destroyer
+    - Note: +4 compared to Destroyer
       TargetProperty: AttackRange
       ToTargetOperation: 0
       RpnOperationStack: 
       ConstantStack:
-      - RawValue: 5000
+      - RawValue: 6000
       PropertyLocalName: []
     - Note: +1 Compaired to Destroyer
       TargetProperty: VisionRange
