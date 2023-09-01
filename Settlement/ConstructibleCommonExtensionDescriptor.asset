@@ -138,6 +138,27 @@ MonoBehaviour:
       ConstantStack:
       - RawValue: 10000
       PropertyLocalName: []
+    - Note: 
+      TargetProperty: VisionHeight
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 10000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: VisionRange
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 1000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: StealthDetection
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 1000
+      PropertyLocalName: []
   serializableCategory: 
   startingType: Amplitude.Mercury.Simulation.District, Amplitude.Mercury.Firstpass
 --- !u!114 &-3545315006125608784

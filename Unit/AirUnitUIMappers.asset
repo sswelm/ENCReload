@@ -1003,6 +1003,173 @@ MonoBehaviour:
   Symbol: 
   SortPriority: 9402
   ConstructibleTraits: 
+--- !u!114 &-3852928150293736528
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -717291864, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: AirUnit_Era5_Common_Zeppelins
+  m_EditorClassIdentifier: 
+  Title: Zeppelin
+  Description: Zeppelins are lighter than air vehicals capable of delivering the
+    largest payload of air-to-ground weaponry and longest range of their era
+  Images:
+  - Value:
+      guid:
+        a: 1529908372
+        b: 1202720731
+        c: -1662352480
+        d: 1574883957
+    serializableKey: Small
+  - Value:
+      guid:
+        a: 1529908372
+        b: 1202720731
+        c: -1662352480
+        d: 1574883957
+    serializableKey: Tooltip
+  - Value:
+      guid:
+        a: 264978044
+        b: 1300073421
+        c: -78568566
+        d: -1527116620
+    serializableKey: Picto
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Default_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Default_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation1_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation1_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation2_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation2_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation3_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation3_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation4_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation4_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation5_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation5_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation6_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation6_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation7_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation7_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation8_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation8_Tooltip
+  Color: {r: 1, g: 1, b: 1, a: 1}
+  Symbol: 
+  SortPriority: 6405
+  ConstructibleTraits: 
 --- !u!114 &-1308660613122253654
 MonoBehaviour:
   m_ObjectHideFlags: 0

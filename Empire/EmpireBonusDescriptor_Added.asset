@@ -1291,14 +1291,32 @@ MonoBehaviour:
     Path:
       PropertyToFollow:
       - Settlements
-      - Districts
-      Validations:
-      - PathIndex: 1
-        ValidableElementCollection: 
-        Inverted: 0
-        serializableElementName: Effect_Extension_Base_Industry
+      Validations: []
       specificTargetType: 
-    PropertyEffects: []
+    PropertyEffects:
+    - Note: 
+      TargetProperty: FoodWorkplaceGainPerPopulation
+      ToTargetOperation: 0
+      RpnOperationStack: 0a0000000900000002000000
+      ConstantStack:
+      - RawValue: 1000
+      PropertyLocalName:
+      - Resource06AccessCount
+  - ApplyEffectOnSource: 0
+    Path:
+      PropertyToFollow:
+      - Settlements
+      Validations: []
+      specificTargetType: 
+    PropertyEffects:
+    - Note: 
+      TargetProperty: MoneyWorkplaceGainPerPopulation
+      ToTargetOperation: 0
+      RpnOperationStack: 0a0000000900000002000000
+      ConstantStack:
+      - RawValue: 1000
+      PropertyLocalName:
+      - Resource06AccessCount
   - ApplyEffectOnSource: 0
     Path:
       PropertyToFollow:
