@@ -18,6 +18,23 @@ MonoBehaviour:
   Images: []
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
+--- !u!114 &-8518547029681267750
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 981126955, guid: f8c4d2d2a3a246a0909e3c6973d4a4e3, type: 3}
+  m_Name: UnitSpecialty_Fragile
+  m_EditorClassIdentifier: 
+  Title: Fragile
+  Description: Reduced Hotpoints
+  Images: []
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  Symbol: 
 --- !u!114 &-8246009886958906184
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -70,6 +87,23 @@ MonoBehaviour:
   Title: Slow Ocean mover
   Description: Half speed in deep water and Loses (-4 [CombatStrength]) Combat Strength
     when attacking from Deep Water
+  Images: []
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  Symbol: 
+--- !u!114 &-6863084092729305028
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 981126955, guid: f8c4d2d2a3a246a0909e3c6973d4a4e3, type: 3}
+  m_Name: UnitSpecialty_Armored
+  m_EditorClassIdentifier: 
+  Title: Armored
+  Description: Ignore hostile Zone of Control.
   Images: []
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 

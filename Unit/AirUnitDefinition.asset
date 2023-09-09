@@ -1862,7 +1862,8 @@ MonoBehaviour:
   BaseSynergyDistrict: 0
   UnitClass:
     serializableElementName: UnitClass_Bomber
-  UnitSpecialties: []
+  UnitSpecialties:
+  - serializableElementName: UnitSpecialty_Fragile
   OwnDescriptorReferences:
   - serializableElementName: Effect_AirUnit_Era5_Common_Zeppelins
   - serializableElementName: Effect_Unit_Era6
