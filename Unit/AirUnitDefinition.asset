@@ -33,6 +33,7 @@ MonoBehaviour:
   SerializableFamily: UnitFamily_MultiroleCombatAircraft
   Level: 38
   Unicity: 0
+  UnicityAdditionalConstructible: []
   ConstructibleVisualAffinity:
     serializableElementName: 
   CanBeBoughtOut: 1
@@ -147,6 +148,7 @@ MonoBehaviour:
   SerializableFamily: UnitFamily_MIRV
   Level: 43
   Unicity: 0
+  UnicityAdditionalConstructible: []
   ConstructibleVisualAffinity:
     serializableElementName: 
   CanBeBoughtOut: 1
@@ -264,6 +266,7 @@ MonoBehaviour:
   SerializableFamily: UnitFamily_MultiroleAircraft
   Level: 40
   Unicity: 0
+  UnicityAdditionalConstructible: []
   ConstructibleVisualAffinity:
     serializableElementName: 
   CanBeBoughtOut: 1
@@ -381,6 +384,7 @@ MonoBehaviour:
   SerializableFamily: UnitFamily_Bomber
   Level: 36
   Unicity: 0
+  UnicityAdditionalConstructible: []
   ConstructibleVisualAffinity:
     serializableElementName: 
   CanBeBoughtOut: 1
@@ -497,6 +501,7 @@ MonoBehaviour:
   SerializableFamily: UnitFamily_NuclearMissile
   Level: 38
   Unicity: 0
+  UnicityAdditionalConstructible: []
   ConstructibleVisualAffinity:
     serializableElementName: 
   CanBeBoughtOut: 1
@@ -617,6 +622,7 @@ MonoBehaviour:
   SerializableFamily: UnitFamily_StealthMissile
   Level: 40
   Unicity: 0
+  UnicityAdditionalConstructible: []
   ConstructibleVisualAffinity:
     serializableElementName: 
   CanBeBoughtOut: 1
@@ -733,6 +739,7 @@ MonoBehaviour:
   SerializableFamily: UnitFamily_ICBM
   Level: 42
   Unicity: 0
+  UnicityAdditionalConstructible: []
   ConstructibleVisualAffinity:
     serializableElementName: 
   CanBeBoughtOut: 1
@@ -850,6 +857,7 @@ MonoBehaviour:
   SerializableFamily: UnitFamily_StealthFighter
   Level: 41
   Unicity: 0
+  UnicityAdditionalConstructible: []
   ConstructibleVisualAffinity:
     serializableElementName: 
   CanBeBoughtOut: 1
@@ -971,6 +979,7 @@ MonoBehaviour:
   SerializableFamily: UnitFamily_StealthBomber
   Level: 42
   Unicity: 0
+  UnicityAdditionalConstructible: []
   ConstructibleVisualAffinity:
     serializableElementName: 
   CanBeBoughtOut: 1
@@ -1090,6 +1099,7 @@ MonoBehaviour:
   SerializableFamily: UnitFamily_FighterAircraft
   Level: 38
   Unicity: 0
+  UnicityAdditionalConstructible: []
   ConstructibleVisualAffinity:
     serializableElementName: 
   CanBeBoughtOut: 1
@@ -1207,6 +1217,7 @@ MonoBehaviour:
   SerializableFamily: UnitFamily_SupersonicBomber
   Level: 40
   Unicity: 0
+  UnicityAdditionalConstructible: []
   ConstructibleVisualAffinity:
     serializableElementName: 
   CanBeBoughtOut: 1
@@ -1322,6 +1333,7 @@ MonoBehaviour:
   SerializableFamily: UnitFamily_BallisticMissile
   Level: 36
   Unicity: 0
+  UnicityAdditionalConstructible: []
   ConstructibleVisualAffinity:
     serializableElementName: 
   CanBeBoughtOut: 1
@@ -1435,6 +1447,7 @@ MonoBehaviour:
   SerializableFamily: UnitFamily_Bomber
   Level: 38
   Unicity: 0
+  UnicityAdditionalConstructible: []
   ConstructibleVisualAffinity:
     serializableElementName: 
   CanBeBoughtOut: 1
@@ -1551,6 +1564,7 @@ MonoBehaviour:
   SerializableFamily: UnitFamily_TorpedoBomber
   Level: 34
   Unicity: 0
+  UnicityAdditionalConstructible: []
   ConstructibleVisualAffinity:
     serializableElementName: 
   CanBeBoughtOut: 1
@@ -1678,6 +1692,7 @@ MonoBehaviour:
   SerializableFamily: UnitFamily_ThermonuclearMissile
   Level: 40
   Unicity: 0
+  UnicityAdditionalConstructible: []
   ConstructibleVisualAffinity:
     serializableElementName: 
   CanBeBoughtOut: 1
@@ -1795,6 +1810,7 @@ MonoBehaviour:
   SerializableFamily: UnitFamily_Bomber
   Level: 34
   Unicity: 0
+  UnicityAdditionalConstructible: []
   ConstructibleVisualAffinity:
     serializableElementName: 
   CanBeBoughtOut: 1
@@ -1826,13 +1842,13 @@ MonoBehaviour:
   ResourceAccessPrerequisites:
   - Resource: 1
     ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 4
   - Resource: 5
     ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 2
   - Resource: 6
     ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 6
   MinimalPopulationPrerequisite: 0
   ResourceSupremacyPrerequisite: 
   EraPrerequisite:
@@ -1915,6 +1931,7 @@ MonoBehaviour:
   SerializableFamily: UnitFamily_FighterAircraft
   Level: 37
   Unicity: 0
+  UnicityAdditionalConstructible: []
   ConstructibleVisualAffinity:
     serializableElementName: 
   CanBeBoughtOut: 1
@@ -2034,6 +2051,7 @@ MonoBehaviour:
   SerializableFamily: UnitFamily_Interceptor
   Level: 40
   Unicity: 0
+  UnicityAdditionalConstructible: []
   ConstructibleVisualAffinity:
     serializableElementName: 
   CanBeBoughtOut: 1
@@ -2151,6 +2169,7 @@ MonoBehaviour:
   SerializableFamily: UnitFamily_FighterAircraft
   Level: 34
   Unicity: 0
+  UnicityAdditionalConstructible: []
   ConstructibleVisualAffinity:
     serializableElementName: 
   CanBeBoughtOut: 1
@@ -2265,6 +2284,7 @@ MonoBehaviour:
   SerializableFamily: UnitFamily_FighterAircraft
   Level: 36
   Unicity: 0
+  UnicityAdditionalConstructible: []
   ConstructibleVisualAffinity:
     serializableElementName: 
   CanBeBoughtOut: 1
@@ -2382,6 +2402,7 @@ MonoBehaviour:
   SerializableFamily: UnitFamily_StealthMissile
   Level: 40
   Unicity: 0
+  UnicityAdditionalConstructible: []
   ConstructibleVisualAffinity:
     serializableElementName: 
   CanBeBoughtOut: 1
@@ -2499,6 +2520,7 @@ MonoBehaviour:
   SerializableFamily: UnitFamily_CruiseMissile
   Level: 38
   Unicity: 0
+  UnicityAdditionalConstructible: []
   ConstructibleVisualAffinity:
     serializableElementName: 
   CanBeBoughtOut: 1
@@ -2612,6 +2634,7 @@ MonoBehaviour:
   SerializableFamily: UnitFamily_HypersonicMissile
   Level: 42
   Unicity: 0
+  UnicityAdditionalConstructible: []
   ConstructibleVisualAffinity:
     serializableElementName: 
   CanBeBoughtOut: 1
@@ -2729,6 +2752,7 @@ MonoBehaviour:
   SerializableFamily: UnitFamily_HypersonicBomber
   Level: 42
   Unicity: 0
+  UnicityAdditionalConstructible: []
   ConstructibleVisualAffinity:
     serializableElementName: 
   CanBeBoughtOut: 1
@@ -2844,6 +2868,7 @@ MonoBehaviour:
   SerializableFamily: UnitFamily_ICBM
   Level: 42
   Unicity: 0
+  UnicityAdditionalConstructible: []
   ConstructibleVisualAffinity:
     serializableElementName: 
   CanBeBoughtOut: 1
@@ -2961,6 +2986,7 @@ MonoBehaviour:
   SerializableFamily: UnitFamily_StealthFighter
   Level: 42
   Unicity: 0
+  UnicityAdditionalConstructible: []
   ConstructibleVisualAffinity:
     serializableElementName: 
   CanBeBoughtOut: 1

@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-7252618349496974690
+--- !u!114 &-8527892754241862252
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -10,7 +10,444 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 1918750774, guid: b310e23bee821cb478da05296ba685d0, type: 3}
-  m_Name: Extension_NationalProject_SatelliteLaunch_Level2
+  m_Name: Extension_NationalProject_SatelliteLaunch_Level3
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: GainValues
+      Entry: 7
+      Data: 0|Amplitude.Mercury.Data.AI.Gain[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 3
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Mercury.Data.AI.Gain, Amplitude.Mercury.Data
+    - Name: Type
+      Entry: 3
+      Data: 536870912
+    - Name: Importance
+      Entry: 3
+      Data: 2
+    - Name: Gates
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Mercury.Data.AI.Gain, Amplitude.Mercury.Data
+    - Name: Type
+      Entry: 3
+      Data: 4
+    - Name: Importance
+      Entry: 3
+      Data: 2
+    - Name: Gates
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Mercury.Data.AI.Gain, Amplitude.Mercury.Data
+    - Name: Type
+      Entry: 3
+      Data: 8
+    - Name: Importance
+      Entry: 3
+      Data: 2
+    - Name: Gates
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Signature
+      Entry: 7
+      Data: 1|Amplitude.Mercury.Data.Simulation.NarrativeEventConsequenceVariableDeclaration[],
+        Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 2|Amplitude.Mercury.Data.Simulation.NarrativeEventConsequenceVariableDeclaration,
+        Amplitude.Mercury.Data
+    - Name: VariableName
+      Entry: 1
+      Data: Empire
+    - Name: VariableType
+      Entry: 1
+      Data: Amplitude.Mercury.Simulation.Empire, Amplitude.Mercury.Firstpass
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Effects
+      Entry: 7
+      Data: 3|Amplitude.Mercury.Data.Simulation.SimulationEventEffect[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 3
+    - Name: 
+      Entry: 7
+      Data: 4|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_LaunchSatellite,
+        Amplitude.Mercury.Data
+    - Name: SimulationEffectDescriptionOverride
+      Entry: 6
+      Data: 
+    - Name: UIMapperOverride
+      Entry: 6
+      Data: 
+    - Name: Hidden
+      Entry: 5
+      Data: false
+    - Name: DlcPrerequisite
+      Entry: 7
+      Data: Amplitude.Mercury.Data.Simulation.Prerequisites.DownloadableContentPrerequisite,
+        Amplitude.Mercury.Data
+    - Name: DownloadableContent
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: GainValues
+      Entry: 6
+      Data: 
+    - Name: TargetID
+      Entry: 1
+      Data: Empire
+    - Name: HeightCoverageRpnReference
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: NationalProject_Satellite_HeightCoverage
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: HeightCoverageLevel
+      Entry: 7
+      Data: Amplitude.FixedPoint, Amplitude.Framework
+    - Name: RawValue
+      Entry: 3
+      Data: 10000
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 5|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_AddFame, Amplitude.Mercury.Data
+    - Name: SimulationEffectDescriptionOverride
+      Entry: 6
+      Data: 
+    - Name: UIMapperOverride
+      Entry: 6
+      Data: 
+    - Name: Hidden
+      Entry: 5
+      Data: false
+    - Name: DlcPrerequisite
+      Entry: 7
+      Data: Amplitude.Mercury.Data.Simulation.Prerequisites.DownloadableContentPrerequisite,
+        Amplitude.Mercury.Data
+    - Name: DownloadableContent
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: GainValues
+      Entry: 6
+      Data: 
+    - Name: TargetID
+      Entry: 1
+      Data: Empire
+    - Name: Amount
+      Entry: 3
+      Data: 300
+    - Name: AmountRpn
+      Entry: 7
+      Data: Amplitude.Mercury.Data.Simulation.SimulationEventEffectRpn, Amplitude.Mercury.Data
+    - Name: RpnDefinition
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: RpnSource
+      Entry: 6
+      Data: 
+    - Name: RpnTarget
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 6|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_ApplyDescriptor,
+        Amplitude.Mercury.Data
+    - Name: SimulationEffectDescriptionOverride
+      Entry: 6
+      Data: 
+    - Name: UIMapperOverride
+      Entry: 6
+      Data: 
+    - Name: Hidden
+      Entry: 5
+      Data: false
+    - Name: DlcPrerequisite
+      Entry: 7
+      Data: Amplitude.Mercury.Data.Simulation.Prerequisites.DownloadableContentPrerequisite,
+        Amplitude.Mercury.Data
+    - Name: DownloadableContent
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: GainValues
+      Entry: 6
+      Data: 
+    - Name: TargetID
+      Entry: 1
+      Data: Empire
+    - Name: Descriptor
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: Effect_EmpireBonus_SatelliteCityBonuses3
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+  Key: 0
+  Hidden: 0
+  IsObsolete: 0
+  DLCPrerequisite:
+    DownloadableContent: 0
+  Category: 4
+  SerializableFamily: NationalProjectFamily_SatelliteLaunch
+  Level: 0
+  Unicity: 2
+  UnicityAdditionalConstructible: []
+  ConstructibleVisualAffinity:
+    serializableElementName: NationalProject_SatelliteLaunch
+  CanBeBoughtOut: 0
+  CanBeCanceled: 1
+  StartWhenQueued: 0
+  CanBeBoughtOutWithPopulation: 0
+  ProductionCostDefinition:
+    Type: 1
+    Constant: -1
+    RpnDefinitionReference:
+      serializableElementName: ProductionCost_NationalProject_SatelliteLaunch
+  MoneyInstantCostDefinition:
+    Constant: 0
+    RpnDefinitionReference:
+      serializableElementName: 
+  InfluenceInstantCostDefinition:
+    Constant: 0
+    RpnDefinitionReference:
+      serializableElementName: 
+  PopulationInstantCostDefinition:
+    Constant: 0
+  ProvidedByOtherEmpireCostDefinition:
+    ProductionCostModifierRpn:
+      serializableElementName: 
+    ReceiverMoneyCostRpn:
+      serializableElementName: 
+    ProviderMoneyGainRpn:
+      serializableElementName: 
+  ResourceAccessPrerequisites:
+  - Resource: 5
+    ConstantType: 0
+    ConstantValue: 6
+  - Resource: 6
+    ConstantType: 0
+    ConstantValue: 12
+  - Resource: 7
+    ConstantType: 0
+    ConstantValue: 3
+  MinimalPopulationPrerequisite: 0
+  ResourceSupremacyPrerequisite: 
+  EraPrerequisite:
+    Operator: 1
+    EraReference:
+      serializableElementName: Era1
+  FactionPrerequisite:
+    Operator: 0
+    serializableFactionNames: []
+  SettlementStatusPrerequisite:
+    CampConstraint: 0
+    CityConstraint: 1
+  ReligionAffinityPrerequisite:
+    serializableElementName: 
+  SettlementPropertyPrerequisites: []
+  SettlementStabilityPrerequisite:
+    Operator: 0
+    PublicOrderEffects: []
+  DistrictCountPrerequisites: []
+  ActionTypePrerequisite:
+    Operator: 0
+    ActionType: 0
+  ArtificialWonderBuiltPrerequisite:
+    Operator: 0
+    ArtificialWonderDefinition:
+      serializableElementName: 
+  BaseSynergyDistrict: 0
+  Prototype: Extension_Prototype_Base
+  OwnDescriptorReferences:
+  - serializableElementName: Tag_NationalProject_SatelliteLaunch
+  IsReplaceableOrDestroyable: 1
+  CanBeDowngradedToRuin: 1
+  AdditionalVisualLevels: []
+  IsImmuneToBombardment: 0
+  AllowBoroughExtension: 0
+  AllowConnectionWithOtherBorough: 1
+  FieldOfViewFlag: 0
+  OverADistrictPrerequisite:
+    TagOperator: 1
+    ValidIfNoDistrict: 1
+    HideInUI: 1
+    serializableTags:
+    - Tag_NationalProject_SatelliteLaunch
+  PointOfInterestPrerequisite:
+    Constraint: 7
+    HideInUI: 0
+    serializablePointOfInterestNames: []
+  RiverPrerequisite:
+    Constraint: 0
+    HideInUI: 0
+  TerrainPrerequisite:
+    Constraint: 2
+    HideInUI: 0
+    LocalizationOverride: 
+    CanBuildOnWasteland: 0
+    serializableTerrainTypeNames:
+    - TerrainType_Ocean
+    - TerrainType_CoastalWater
+    - TerrainType_Lake
+  BiomePrerequisite:
+    Constraint: 0
+    serializableBiomeNames: []
+  CliffPrerequisite:
+    Constraint: 0
+    HideInUI: 0
+  MountainPrerequisite:
+    Constraint: 0
+    HideInUI: 0
+  TileVisibilityPrerequisite:
+    Constraint: 1
+    Visibility: 0
+  NeighbourTilesPrerequisite:
+    NeighbourOperator: 0
+    TerritoryConstraint: 2
+    IgnoreCliff: 1
+    IgnoreNaturalWonder: 1
+    TerrainPrerequisite:
+      Constraint: 0
+      HideInUI: 0
+      LocalizationOverride: 
+      CanBuildOnWasteland: 0
+      serializableTerrainTypeNames: []
+    RiverPrerequisite:
+      Constraint: 0
+      HideInUI: 0
+    DistrictPrerequisite:
+      TagOperator: 0
+      ValidIfNoDistrict: 0
+      HideInUI: 0
+      serializableTags: []
+  BoroughPrerequisite:
+    ExtensionRules: 1
+    HideInUI: 1
+  ProtectsNeighboursFromRansack: 0
+  ZoneOfControlDistance:
+    RawValue: 0
+  FriendlyUnitOnTopStatus:
+    serializableElementName: 
+  ProtectAgainstStealthDetection: 0
+  DistrictType: 13
+  HasPublicOrderCost: 0
+  CanReplaceDistrict: 0
+  CanBeReplacedByDistrict: 0
+  PlacementPolicies: 0
+  ExploitationRuleReference:
+    serializableElementName: 
+  ExtractResource: 0
+  WondrousResourceType: 64
+  UnitSpawnType: -1
+  AllowShipping: 0
+  ProvidesSecondaryRoad: 0
+  ProvidesRail: 0
+  ForceRiverOnTerrain: 0
+  serializableReplaceTerrainWith: 
+  IsWorkInProgress: 0
+  ExclusionRadiusRpnReference:
+    serializableElementName: Radius_NationalProject_SatelliteLaunch
+  ProjectSitePercentReductionRpnReference:
+    serializableElementName: NationalProject_ProjectSite_ProductionReduction
+  NationalProjectDescriptorReferences: []
+  AdditionalCostRpnReference:
+    serializableElementName: ProductionCost_NationalProject_ComplementaryCost_SatelliteLaunch
+  NationalProjectLevel: 3
+  LockOnCompletion: 1
+  CanBuildProjectSite: 1
+  NextProject:
+    serializableElementName: 
+--- !u!114 &-5812359899470444843
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1918750774, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Extension_NationalProject_NuclearTest_Level3
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -55,11 +492,51 @@ MonoBehaviour:
       Data: 2|Amplitude.Mercury.Data.Simulation.SimulationEventEffect[], Amplitude.Mercury.Data
     - Name: 
       Entry: 12
-      Data: 3
+      Data: 2
     - Name: 
       Entry: 7
-      Data: 3|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_LaunchSatellite,
+      Data: 3|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_ApplyExperienceModifier,
         Amplitude.Mercury.Data
+    - Name: SimulationEffectDescriptionOverride
+      Entry: 1
+      Data: '%ApplyExperienceModifierNuclearTest3_Override'
+    - Name: UIMapperOverride
+      Entry: 6
+      Data: 
+    - Name: Hidden
+      Entry: 5
+      Data: false
+    - Name: DlcPrerequisite
+      Entry: 7
+      Data: Amplitude.Mercury.Data.Simulation.Prerequisites.DownloadableContentPrerequisite,
+        Amplitude.Mercury.Data
+    - Name: DownloadableContent
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: GainValues
+      Entry: 6
+      Data: 
+    - Name: TargetID
+      Entry: 1
+      Data: Empire
+    - Name: ExperienceModifierReference
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: ExperienceModifierDefinition_Class_NuclearMissile
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 4|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_AddFame, Amplitude.Mercury.Data
     - Name: SimulationEffectDescriptionOverride
       Entry: 6
       Data: 
@@ -85,27 +562,293 @@ MonoBehaviour:
     - Name: TargetID
       Entry: 1
       Data: Empire
-    - Name: HeightCoverageRpnReference
+    - Name: Amount
+      Entry: 3
+      Data: 150
+    - Name: AmountRpn
+      Entry: 7
+      Data: Amplitude.Mercury.Data.Simulation.SimulationEventEffectRpn, Amplitude.Mercury.Data
+    - Name: RpnDefinition
       Entry: 7
       Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
     - Name: serializableElementName
-      Entry: 1
-      Data: NationalProject_Satellite_HeightCoverage
+      Entry: 6
+      Data: 
     - Name: 
       Entry: 8
       Data: 
-    - Name: HeightCoverageLevel
+    - Name: RpnSource
+      Entry: 6
+      Data: 
+    - Name: RpnTarget
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+  Key: 0
+  Hidden: 0
+  IsObsolete: 0
+  DLCPrerequisite:
+    DownloadableContent: 0
+  Category: 4
+  SerializableFamily: NationalProjectFamily_NuclearTest
+  Level: 0
+  Unicity: 2
+  UnicityAdditionalConstructible: []
+  ConstructibleVisualAffinity:
+    serializableElementName: NationalProject_NuclearTest
+  CanBeBoughtOut: 0
+  CanBeCanceled: 1
+  StartWhenQueued: 0
+  CanBeBoughtOutWithPopulation: 0
+  ProductionCostDefinition:
+    Type: 1
+    Constant: -1
+    RpnDefinitionReference:
+      serializableElementName: ProductionCost_NationalProject_NuclearTest
+  MoneyInstantCostDefinition:
+    Constant: 0
+    RpnDefinitionReference:
+      serializableElementName: 
+  InfluenceInstantCostDefinition:
+    Constant: 0
+    RpnDefinitionReference:
+      serializableElementName: 
+  PopulationInstantCostDefinition:
+    Constant: 0
+  ProvidedByOtherEmpireCostDefinition:
+    ProductionCostModifierRpn:
+      serializableElementName: 
+    ReceiverMoneyCostRpn:
+      serializableElementName: 
+    ProviderMoneyGainRpn:
+      serializableElementName: 
+  ResourceAccessPrerequisites:
+  - Resource: 5
+    ConstantType: 0
+    ConstantValue: 3
+  - Resource: 6
+    ConstantType: 0
+    ConstantValue: 3
+  - Resource: 7
+    ConstantType: 0
+    ConstantValue: 8
+  MinimalPopulationPrerequisite: 0
+  ResourceSupremacyPrerequisite: 
+  EraPrerequisite:
+    Operator: 1
+    EraReference:
+      serializableElementName: Era1
+  FactionPrerequisite:
+    Operator: 0
+    serializableFactionNames: []
+  SettlementStatusPrerequisite:
+    CampConstraint: 0
+    CityConstraint: 1
+  ReligionAffinityPrerequisite:
+    serializableElementName: 
+  SettlementPropertyPrerequisites: []
+  SettlementStabilityPrerequisite:
+    Operator: 0
+    PublicOrderEffects: []
+  DistrictCountPrerequisites: []
+  ActionTypePrerequisite:
+    Operator: 1
+    ActionType: 45
+  ArtificialWonderBuiltPrerequisite:
+    Operator: 0
+    ArtificialWonderDefinition:
+      serializableElementName: 
+  BaseSynergyDistrict: 0
+  Prototype: Extension_Prototype_Base
+  OwnDescriptorReferences:
+  - serializableElementName: Tag_NationalProject_NuclearTest
+  IsReplaceableOrDestroyable: 1
+  CanBeDowngradedToRuin: 1
+  AdditionalVisualLevels: []
+  IsImmuneToBombardment: 0
+  AllowBoroughExtension: 0
+  AllowConnectionWithOtherBorough: 1
+  FieldOfViewFlag: 0
+  OverADistrictPrerequisite:
+    TagOperator: 0
+    ValidIfNoDistrict: 1
+    HideInUI: 1
+    serializableTags: []
+  PointOfInterestPrerequisite:
+    Constraint: 7
+    HideInUI: 0
+    serializablePointOfInterestNames: []
+  RiverPrerequisite:
+    Constraint: 0
+    HideInUI: 0
+  TerrainPrerequisite:
+    Constraint: 2
+    HideInUI: 0
+    LocalizationOverride: 
+    CanBuildOnWasteland: 1
+    serializableTerrainTypeNames:
+    - TerrainType_Ocean
+    - TerrainType_CoastalWater
+    - TerrainType_Lake
+  BiomePrerequisite:
+    Constraint: 0
+    serializableBiomeNames: []
+  CliffPrerequisite:
+    Constraint: 0
+    HideInUI: 0
+  MountainPrerequisite:
+    Constraint: 0
+    HideInUI: 0
+  TileVisibilityPrerequisite:
+    Constraint: 1
+    Visibility: 0
+  NeighbourTilesPrerequisite:
+    NeighbourOperator: 0
+    TerritoryConstraint: 2
+    IgnoreCliff: 1
+    IgnoreNaturalWonder: 1
+    TerrainPrerequisite:
+      Constraint: 0
+      HideInUI: 0
+      LocalizationOverride: 
+      CanBuildOnWasteland: 0
+      serializableTerrainTypeNames: []
+    RiverPrerequisite:
+      Constraint: 0
+      HideInUI: 0
+    DistrictPrerequisite:
+      TagOperator: 0
+      ValidIfNoDistrict: 0
+      HideInUI: 0
+      serializableTags: []
+  BoroughPrerequisite:
+    ExtensionRules: 1
+    HideInUI: 1
+  ProtectsNeighboursFromRansack: 0
+  ZoneOfControlDistance:
+    RawValue: 0
+  FriendlyUnitOnTopStatus:
+    serializableElementName: 
+  ProtectAgainstStealthDetection: 0
+  DistrictType: 14
+  HasPublicOrderCost: 0
+  CanReplaceDistrict: 0
+  CanBeReplacedByDistrict: 0
+  PlacementPolicies: 0
+  ExploitationRuleReference:
+    serializableElementName: 
+  ExtractResource: 0
+  WondrousResourceType: 64
+  UnitSpawnType: -1
+  AllowShipping: 0
+  ProvidesSecondaryRoad: 0
+  ProvidesRail: 0
+  ForceRiverOnTerrain: 0
+  serializableReplaceTerrainWith: 
+  IsWorkInProgress: 0
+  ExclusionRadiusRpnReference:
+    serializableElementName: Radius_NationalProject_NuclearTest
+  ProjectSitePercentReductionRpnReference:
+    serializableElementName: 
+  NationalProjectDescriptorReferences: []
+  AdditionalCostRpnReference:
+    serializableElementName: ProductionCost_NationalProject_ComplementaryCost_NuclearTest
+  NationalProjectLevel: 3
+  LockOnCompletion: 1
+  CanBuildProjectSite: 0
+  NextProject:
+    serializableElementName: 
+--- !u!114 &-5698118452268933144
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1918750774, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Extension_NationalProject_SpaceRace_Level2
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: GainValues
       Entry: 7
-      Data: Amplitude.FixedPoint, Amplitude.Framework
-    - Name: RawValue
+      Data: 0|Amplitude.Mercury.Data.AI.Gain[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Mercury.Data.AI.Gain, Amplitude.Mercury.Data
+    - Name: Type
       Entry: 3
-      Data: 2000
-    - Name: 
-      Entry: 8
+      Data: 536870912
+    - Name: Importance
+      Entry: 3
+      Data: 2
+    - Name: Gates
+      Entry: 6
       Data: 
     - Name: 
       Entry: 8
       Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Signature
+      Entry: 7
+      Data: 1|Amplitude.Mercury.Data.Simulation.NarrativeEventConsequenceVariableDeclaration[],
+        Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 2|Amplitude.Mercury.Data.Simulation.NarrativeEventConsequenceVariableDeclaration,
+        Amplitude.Mercury.Data
+    - Name: VariableName
+      Entry: 1
+      Data: Empire
+    - Name: VariableType
+      Entry: 1
+      Data: Amplitude.Mercury.Simulation.Empire, Amplitude.Mercury.Firstpass
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Effects
+      Entry: 7
+      Data: 3|Amplitude.Mercury.Data.Simulation.SimulationEventEffect[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 5
     - Name: 
       Entry: 7
       Data: 4|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_AddFame, Amplitude.Mercury.Data
@@ -195,7 +938,130 @@ MonoBehaviour:
       Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
     - Name: serializableElementName
       Entry: 1
-      Data: Effect_EmpireBonus_SatelliteCityBonuses2
+      Data: Effect_EmpireBonus_SpaceRace2
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 6|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_TriggerNationalProjectNarrativeEvent,
+        Amplitude.Mercury.Data
+    - Name: SimulationEffectDescriptionOverride
+      Entry: 6
+      Data: 
+    - Name: UIMapperOverride
+      Entry: 6
+      Data: 
+    - Name: Hidden
+      Entry: 5
+      Data: false
+    - Name: DlcPrerequisite
+      Entry: 7
+      Data: Amplitude.Mercury.Data.Simulation.Prerequisites.DownloadableContentPrerequisite,
+        Amplitude.Mercury.Data
+    - Name: DownloadableContent
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: GainValues
+      Entry: 6
+      Data: 
+    - Name: TargetID
+      Entry: 1
+      Data: Empire
+    - Name: NarrativeEvent
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: NarrativeEvent_SpaceRace03
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_TriggerNationalProjectNarrativeEvent,
+        Amplitude.Mercury.Data
+    - Name: SimulationEffectDescriptionOverride
+      Entry: 6
+      Data: 
+    - Name: UIMapperOverride
+      Entry: 6
+      Data: 
+    - Name: Hidden
+      Entry: 5
+      Data: true
+    - Name: DlcPrerequisite
+      Entry: 7
+      Data: Amplitude.Mercury.Data.Simulation.Prerequisites.DownloadableContentPrerequisite,
+        Amplitude.Mercury.Data
+    - Name: DownloadableContent
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: GainValues
+      Entry: 6
+      Data: 
+    - Name: TargetID
+      Entry: 1
+      Data: Empire
+    - Name: NarrativeEvent
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: NarrativeEvent_SpaceRace04
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 8|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_TriggerNationalProjectNarrativeEvent,
+        Amplitude.Mercury.Data
+    - Name: SimulationEffectDescriptionOverride
+      Entry: 6
+      Data: 
+    - Name: UIMapperOverride
+      Entry: 6
+      Data: 
+    - Name: Hidden
+      Entry: 5
+      Data: true
+    - Name: DlcPrerequisite
+      Entry: 7
+      Data: Amplitude.Mercury.Data.Simulation.Prerequisites.DownloadableContentPrerequisite,
+        Amplitude.Mercury.Data
+    - Name: DownloadableContent
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: GainValues
+      Entry: 6
+      Data: 
+    - Name: TargetID
+      Entry: 1
+      Data: Empire
+    - Name: NarrativeEvent
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: NarrativeEvent_SpaceRace05
     - Name: 
       Entry: 8
       Data: 
@@ -208,17 +1074,18 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-  Key: 4
+  Key: 0
   Hidden: 0
   IsObsolete: 0
   DLCPrerequisite:
     DownloadableContent: 0
   Category: 4
-  SerializableFamily: NationalProjectFamily_SatelliteLaunch
+  SerializableFamily: NationalProjectFamily_SpaceRace
   Level: 0
   Unicity: 2
+  UnicityAdditionalConstructible: []
   ConstructibleVisualAffinity:
-    serializableElementName: NationalProject_SatelliteLaunch
+    serializableElementName: NationalProject_SpaceLaunch
   CanBeBoughtOut: 0
   CanBeCanceled: 1
   StartWhenQueued: 0
@@ -227,7 +1094,7 @@ MonoBehaviour:
     Type: 1
     Constant: -1
     RpnDefinitionReference:
-      serializableElementName: ProductionCost_NationalProject_SatelliteLaunch
+      serializableElementName: ProductionCost_NationalProject_SpaceLaunch
   MoneyInstantCostDefinition:
     Constant: 0
     RpnDefinitionReference:
@@ -248,16 +1115,16 @@ MonoBehaviour:
   ResourceAccessPrerequisites:
   - Resource: 5
     ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 10
   - Resource: 6
     ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 5
   MinimalPopulationPrerequisite: 0
   ResourceSupremacyPrerequisite: 
   EraPrerequisite:
     Operator: 1
     EraReference:
-      serializableElementName: Era6
+      serializableElementName: Era1
   FactionPrerequisite:
     Operator: 0
     serializableFactionNames: []
@@ -279,9 +1146,9 @@ MonoBehaviour:
     ArtificialWonderDefinition:
       serializableElementName: 
   BaseSynergyDistrict: 0
-  Prototype: 
+  Prototype: Extension_Prototype_Base
   OwnDescriptorReferences:
-  - serializableElementName: Tag_NationalProject_SatelliteLaunch
+  - serializableElementName: Tag_NationalProject_SpaceRace
   IsReplaceableOrDestroyable: 1
   CanBeDowngradedToRuin: 1
   AdditionalVisualLevels: []
@@ -290,11 +1157,11 @@ MonoBehaviour:
   AllowConnectionWithOtherBorough: 1
   FieldOfViewFlag: 0
   OverADistrictPrerequisite:
-    TagOperator: 1
+    TagOperator: 0
     ValidIfNoDistrict: 1
     HideInUI: 1
     serializableTags:
-    - Tag_NationalProject_SatelliteLaunch
+    - Tag_NationalProject_SpaceRace
   PointOfInterestPrerequisite:
     Constraint: 7
     HideInUI: 0
@@ -305,6 +1172,7 @@ MonoBehaviour:
   TerrainPrerequisite:
     Constraint: 2
     HideInUI: 0
+    LocalizationOverride: 
     CanBuildOnWasteland: 0
     serializableTerrainTypeNames:
     - TerrainType_Ocean
@@ -312,7 +1180,7 @@ MonoBehaviour:
     - TerrainType_Lake
   BiomePrerequisite:
     Constraint: 0
-    serializableBiomeName: 
+    serializableBiomeNames: []
   CliffPrerequisite:
     Constraint: 0
     HideInUI: 0
@@ -330,6 +1198,7 @@ MonoBehaviour:
     TerrainPrerequisite:
       Constraint: 0
       HideInUI: 0
+      LocalizationOverride: 
       CanBuildOnWasteland: 0
       serializableTerrainTypeNames: []
     RiverPrerequisite:
@@ -349,9 +1218,11 @@ MonoBehaviour:
   FriendlyUnitOnTopStatus:
     serializableElementName: 
   ProtectAgainstStealthDetection: 0
-  DistrictType: 13
+  DistrictType: 15
   HasPublicOrderCost: 0
-  AllowDistrictReplacement: 0
+  CanReplaceDistrict: 0
+  CanBeReplacedByDistrict: 0
+  PlacementPolicies: 0
   ExploitationRuleReference:
     serializableElementName: 
   ExtractResource: 0
@@ -364,18 +1235,18 @@ MonoBehaviour:
   serializableReplaceTerrainWith: 
   IsWorkInProgress: 0
   ExclusionRadiusRpnReference:
-    serializableElementName: Radius_NationalProject_SatelliteLaunch
+    serializableElementName: Radius_NationalProject_SpaceLaunch
   ProjectSitePercentReductionRpnReference:
     serializableElementName: NationalProject_ProjectSite_ProductionReduction
   NationalProjectDescriptorReferences: []
   AdditionalCostRpnReference:
-    serializableElementName: ProductionCost_NationalProject_ComplementaryCost_SatelliteLaunch
+    serializableElementName: ProductionCost_NationalProject_ComplementaryCost_SpaceLaunch
   NationalProjectLevel: 2
   LockOnCompletion: 1
   CanBuildProjectSite: 1
   NextProject:
-    serializableElementName: Extension_NationalProject_SatelliteLaunch_Level3
---- !u!114 &-6938213899666167754
+    serializableElementName: Extension_NationalProject_SpaceRace_Level3
+--- !u!114 &-4572981278813838216
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -385,7 +1256,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 1918750774, guid: b310e23bee821cb478da05296ba685d0, type: 3}
-  m_Name: Extension_NationalProject_SpaceRace_Level2
+  m_Name: Extension_NationalProject_SatelliteLaunch_Level2
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -397,18 +1268,72 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes:
     - Name: GainValues
+      Entry: 7
+      Data: 0|Amplitude.Mercury.Data.AI.Gain[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 3
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Mercury.Data.AI.Gain, Amplitude.Mercury.Data
+    - Name: Type
+      Entry: 3
+      Data: 536870912
+    - Name: Importance
+      Entry: 3
+      Data: 2
+    - Name: Gates
       Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Mercury.Data.AI.Gain, Amplitude.Mercury.Data
+    - Name: Type
+      Entry: 3
+      Data: 4
+    - Name: Importance
+      Entry: 3
+      Data: 2
+    - Name: Gates
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Mercury.Data.AI.Gain, Amplitude.Mercury.Data
+    - Name: Type
+      Entry: 3
+      Data: 8
+    - Name: Importance
+      Entry: 3
+      Data: 2
+    - Name: Gates
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
       Data: 
     - Name: Signature
       Entry: 7
-      Data: 0|Amplitude.Mercury.Data.Simulation.NarrativeEventConsequenceVariableDeclaration[],
+      Data: 1|Amplitude.Mercury.Data.Simulation.NarrativeEventConsequenceVariableDeclaration[],
         Amplitude.Mercury.Data
     - Name: 
       Entry: 12
       Data: 1
     - Name: 
       Entry: 7
-      Data: 1|Amplitude.Mercury.Data.Simulation.NarrativeEventConsequenceVariableDeclaration,
+      Data: 2|Amplitude.Mercury.Data.Simulation.NarrativeEventConsequenceVariableDeclaration,
         Amplitude.Mercury.Data
     - Name: VariableName
       Entry: 1
@@ -427,13 +1352,63 @@ MonoBehaviour:
       Data: 
     - Name: Effects
       Entry: 7
-      Data: 2|Amplitude.Mercury.Data.Simulation.SimulationEventEffect[], Amplitude.Mercury.Data
+      Data: 3|Amplitude.Mercury.Data.Simulation.SimulationEventEffect[], Amplitude.Mercury.Data
     - Name: 
       Entry: 12
-      Data: 5
+      Data: 3
     - Name: 
       Entry: 7
-      Data: 3|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_AddFame, Amplitude.Mercury.Data
+      Data: 4|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_LaunchSatellite,
+        Amplitude.Mercury.Data
+    - Name: SimulationEffectDescriptionOverride
+      Entry: 6
+      Data: 
+    - Name: UIMapperOverride
+      Entry: 6
+      Data: 
+    - Name: Hidden
+      Entry: 5
+      Data: false
+    - Name: DlcPrerequisite
+      Entry: 7
+      Data: Amplitude.Mercury.Data.Simulation.Prerequisites.DownloadableContentPrerequisite,
+        Amplitude.Mercury.Data
+    - Name: DownloadableContent
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: GainValues
+      Entry: 6
+      Data: 
+    - Name: TargetID
+      Entry: 1
+      Data: Empire
+    - Name: HeightCoverageRpnReference
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: NationalProject_Satellite_HeightCoverage
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: HeightCoverageLevel
+      Entry: 7
+      Data: Amplitude.FixedPoint, Amplitude.Framework
+    - Name: RawValue
+      Entry: 3
+      Data: 2000
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 5|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_AddFame, Amplitude.Mercury.Data
     - Name: SimulationEffectDescriptionOverride
       Entry: 6
       Data: 
@@ -488,7 +1463,7 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 4|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_ApplyDescriptor,
+      Data: 6|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_ApplyDescriptor,
         Amplitude.Mercury.Data
     - Name: SimulationEffectDescriptionOverride
       Entry: 6
@@ -520,7 +1495,320 @@ MonoBehaviour:
       Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
     - Name: serializableElementName
       Entry: 1
-      Data: Effect_EmpireBonus_SpaceRace2
+      Data: Effect_EmpireBonus_SatelliteCityBonuses2
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+  Key: 0
+  Hidden: 0
+  IsObsolete: 0
+  DLCPrerequisite:
+    DownloadableContent: 0
+  Category: 4
+  SerializableFamily: NationalProjectFamily_SatelliteLaunch
+  Level: 0
+  Unicity: 2
+  UnicityAdditionalConstructible: []
+  ConstructibleVisualAffinity:
+    serializableElementName: NationalProject_SatelliteLaunch
+  CanBeBoughtOut: 0
+  CanBeCanceled: 1
+  StartWhenQueued: 0
+  CanBeBoughtOutWithPopulation: 0
+  ProductionCostDefinition:
+    Type: 1
+    Constant: -1
+    RpnDefinitionReference:
+      serializableElementName: ProductionCost_NationalProject_SatelliteLaunch
+  MoneyInstantCostDefinition:
+    Constant: 0
+    RpnDefinitionReference:
+      serializableElementName: 
+  InfluenceInstantCostDefinition:
+    Constant: 0
+    RpnDefinitionReference:
+      serializableElementName: 
+  PopulationInstantCostDefinition:
+    Constant: 0
+  ProvidedByOtherEmpireCostDefinition:
+    ProductionCostModifierRpn:
+      serializableElementName: 
+    ReceiverMoneyCostRpn:
+      serializableElementName: 
+    ProviderMoneyGainRpn:
+      serializableElementName: 
+  ResourceAccessPrerequisites:
+  - Resource: 5
+    ConstantType: 0
+    ConstantValue: 5
+  - Resource: 6
+    ConstantType: 0
+    ConstantValue: 10
+  MinimalPopulationPrerequisite: 0
+  ResourceSupremacyPrerequisite: 
+  EraPrerequisite:
+    Operator: 1
+    EraReference:
+      serializableElementName: Era1
+  FactionPrerequisite:
+    Operator: 0
+    serializableFactionNames: []
+  SettlementStatusPrerequisite:
+    CampConstraint: 0
+    CityConstraint: 1
+  ReligionAffinityPrerequisite:
+    serializableElementName: 
+  SettlementPropertyPrerequisites: []
+  SettlementStabilityPrerequisite:
+    Operator: 0
+    PublicOrderEffects: []
+  DistrictCountPrerequisites: []
+  ActionTypePrerequisite:
+    Operator: 0
+    ActionType: 0
+  ArtificialWonderBuiltPrerequisite:
+    Operator: 0
+    ArtificialWonderDefinition:
+      serializableElementName: 
+  BaseSynergyDistrict: 0
+  Prototype: Extension_Prototype_Base
+  OwnDescriptorReferences:
+  - serializableElementName: Tag_NationalProject_SatelliteLaunch
+  IsReplaceableOrDestroyable: 1
+  CanBeDowngradedToRuin: 1
+  AdditionalVisualLevels: []
+  IsImmuneToBombardment: 0
+  AllowBoroughExtension: 0
+  AllowConnectionWithOtherBorough: 1
+  FieldOfViewFlag: 0
+  OverADistrictPrerequisite:
+    TagOperator: 1
+    ValidIfNoDistrict: 1
+    HideInUI: 1
+    serializableTags:
+    - Tag_NationalProject_SatelliteLaunch
+  PointOfInterestPrerequisite:
+    Constraint: 7
+    HideInUI: 0
+    serializablePointOfInterestNames: []
+  RiverPrerequisite:
+    Constraint: 0
+    HideInUI: 0
+  TerrainPrerequisite:
+    Constraint: 2
+    HideInUI: 0
+    LocalizationOverride: 
+    CanBuildOnWasteland: 0
+    serializableTerrainTypeNames:
+    - TerrainType_Ocean
+    - TerrainType_CoastalWater
+    - TerrainType_Lake
+  BiomePrerequisite:
+    Constraint: 0
+    serializableBiomeNames: []
+  CliffPrerequisite:
+    Constraint: 0
+    HideInUI: 0
+  MountainPrerequisite:
+    Constraint: 0
+    HideInUI: 0
+  TileVisibilityPrerequisite:
+    Constraint: 1
+    Visibility: 0
+  NeighbourTilesPrerequisite:
+    NeighbourOperator: 0
+    TerritoryConstraint: 2
+    IgnoreCliff: 1
+    IgnoreNaturalWonder: 1
+    TerrainPrerequisite:
+      Constraint: 0
+      HideInUI: 0
+      LocalizationOverride: 
+      CanBuildOnWasteland: 0
+      serializableTerrainTypeNames: []
+    RiverPrerequisite:
+      Constraint: 0
+      HideInUI: 0
+    DistrictPrerequisite:
+      TagOperator: 0
+      ValidIfNoDistrict: 0
+      HideInUI: 0
+      serializableTags: []
+  BoroughPrerequisite:
+    ExtensionRules: 1
+    HideInUI: 1
+  ProtectsNeighboursFromRansack: 0
+  ZoneOfControlDistance:
+    RawValue: 0
+  FriendlyUnitOnTopStatus:
+    serializableElementName: 
+  ProtectAgainstStealthDetection: 0
+  DistrictType: 13
+  HasPublicOrderCost: 0
+  CanReplaceDistrict: 0
+  CanBeReplacedByDistrict: 0
+  PlacementPolicies: 0
+  ExploitationRuleReference:
+    serializableElementName: 
+  ExtractResource: 0
+  WondrousResourceType: 64
+  UnitSpawnType: -1
+  AllowShipping: 0
+  ProvidesSecondaryRoad: 0
+  ProvidesRail: 0
+  ForceRiverOnTerrain: 0
+  serializableReplaceTerrainWith: 
+  IsWorkInProgress: 0
+  ExclusionRadiusRpnReference:
+    serializableElementName: Radius_NationalProject_SatelliteLaunch
+  ProjectSitePercentReductionRpnReference:
+    serializableElementName: NationalProject_ProjectSite_ProductionReduction
+  NationalProjectDescriptorReferences: []
+  AdditionalCostRpnReference:
+    serializableElementName: ProductionCost_NationalProject_ComplementaryCost_SatelliteLaunch
+  NationalProjectLevel: 2
+  LockOnCompletion: 1
+  CanBuildProjectSite: 1
+  NextProject:
+    serializableElementName: Extension_NationalProject_SatelliteLaunch_Level3
+--- !u!114 &-3460289907008876073
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1918750774, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Extension_NationalProject_SpaceRace_Level1
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: GainValues
+      Entry: 7
+      Data: 0|Amplitude.Mercury.Data.AI.Gain[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Mercury.Data.AI.Gain, Amplitude.Mercury.Data
+    - Name: Type
+      Entry: 3
+      Data: 536870912
+    - Name: Importance
+      Entry: 3
+      Data: 2
+    - Name: Gates
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Signature
+      Entry: 7
+      Data: 1|Amplitude.Mercury.Data.Simulation.NarrativeEventConsequenceVariableDeclaration[],
+        Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 2|Amplitude.Mercury.Data.Simulation.NarrativeEventConsequenceVariableDeclaration,
+        Amplitude.Mercury.Data
+    - Name: VariableName
+      Entry: 1
+      Data: Empire
+    - Name: VariableType
+      Entry: 1
+      Data: Amplitude.Mercury.Simulation.Empire, Amplitude.Mercury.Firstpass
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Effects
+      Entry: 7
+      Data: 3|Amplitude.Mercury.Data.Simulation.SimulationEventEffect[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 3
+    - Name: 
+      Entry: 7
+      Data: 4|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_AddFame, Amplitude.Mercury.Data
+    - Name: SimulationEffectDescriptionOverride
+      Entry: 6
+      Data: 
+    - Name: UIMapperOverride
+      Entry: 6
+      Data: 
+    - Name: Hidden
+      Entry: 5
+      Data: false
+    - Name: DlcPrerequisite
+      Entry: 7
+      Data: Amplitude.Mercury.Data.Simulation.Prerequisites.DownloadableContentPrerequisite,
+        Amplitude.Mercury.Data
+    - Name: DownloadableContent
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: GainValues
+      Entry: 6
+      Data: 
+    - Name: TargetID
+      Entry: 1
+      Data: Empire
+    - Name: Amount
+      Entry: 3
+      Data: 100
+    - Name: AmountRpn
+      Entry: 7
+      Data: Amplitude.Mercury.Data.Simulation.SimulationEventEffectRpn, Amplitude.Mercury.Data
+    - Name: RpnDefinition
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: RpnSource
+      Entry: 6
+      Data: 
+    - Name: RpnTarget
+      Entry: 6
+      Data: 
     - Name: 
       Entry: 8
       Data: 
@@ -529,7 +1817,48 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 5|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_TriggerNationalProjectNarrativeEvent,
+      Data: 5|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_ApplyDescriptor,
+        Amplitude.Mercury.Data
+    - Name: SimulationEffectDescriptionOverride
+      Entry: 6
+      Data: 
+    - Name: UIMapperOverride
+      Entry: 6
+      Data: 
+    - Name: Hidden
+      Entry: 5
+      Data: false
+    - Name: DlcPrerequisite
+      Entry: 7
+      Data: Amplitude.Mercury.Data.Simulation.Prerequisites.DownloadableContentPrerequisite,
+        Amplitude.Mercury.Data
+    - Name: DownloadableContent
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: GainValues
+      Entry: 6
+      Data: 
+    - Name: TargetID
+      Entry: 1
+      Data: Empire
+    - Name: Descriptor
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: Effect_EmpireBonus_SpaceRace1
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 6|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_TriggerNationalProjectNarrativeEvent,
         Amplitude.Mercury.Data
     - Name: SimulationEffectDescriptionOverride
       Entry: 6
@@ -561,89 +1890,7 @@ MonoBehaviour:
       Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
     - Name: serializableElementName
       Entry: 1
-      Data: NarrativeEvent_SpaceRace03
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 6|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_TriggerNationalProjectNarrativeEvent,
-        Amplitude.Mercury.Data
-    - Name: SimulationEffectDescriptionOverride
-      Entry: 6
-      Data: 
-    - Name: UIMapperOverride
-      Entry: 6
-      Data: 
-    - Name: Hidden
-      Entry: 5
-      Data: true
-    - Name: DlcPrerequisite
-      Entry: 7
-      Data: Amplitude.Mercury.Data.Simulation.Prerequisites.DownloadableContentPrerequisite,
-        Amplitude.Mercury.Data
-    - Name: DownloadableContent
-      Entry: 3
-      Data: 0
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: GainValues
-      Entry: 6
-      Data: 
-    - Name: TargetID
-      Entry: 1
-      Data: Empire
-    - Name: NarrativeEvent
-      Entry: 7
-      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
-    - Name: serializableElementName
-      Entry: 1
-      Data: NarrativeEvent_SpaceRace04
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 7|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_TriggerNationalProjectNarrativeEvent,
-        Amplitude.Mercury.Data
-    - Name: SimulationEffectDescriptionOverride
-      Entry: 6
-      Data: 
-    - Name: UIMapperOverride
-      Entry: 6
-      Data: 
-    - Name: Hidden
-      Entry: 5
-      Data: true
-    - Name: DlcPrerequisite
-      Entry: 7
-      Data: Amplitude.Mercury.Data.Simulation.Prerequisites.DownloadableContentPrerequisite,
-        Amplitude.Mercury.Data
-    - Name: DownloadableContent
-      Entry: 3
-      Data: 0
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: GainValues
-      Entry: 6
-      Data: 
-    - Name: TargetID
-      Entry: 1
-      Data: Empire
-    - Name: NarrativeEvent
-      Entry: 7
-      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
-    - Name: serializableElementName
-      Entry: 1
-      Data: NarrativeEvent_SpaceRace05
+      Data: NarrativeEvent_SpaceRace01
     - Name: 
       Entry: 8
       Data: 
@@ -656,7 +1903,7 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-  Key: 11
+  Key: 0
   Hidden: 0
   IsObsolete: 0
   DLCPrerequisite:
@@ -665,6 +1912,7 @@ MonoBehaviour:
   SerializableFamily: NationalProjectFamily_SpaceRace
   Level: 0
   Unicity: 2
+  UnicityAdditionalConstructible: []
   ConstructibleVisualAffinity:
     serializableElementName: NationalProject_SpaceLaunch
   CanBeBoughtOut: 0
@@ -696,16 +1944,16 @@ MonoBehaviour:
   ResourceAccessPrerequisites:
   - Resource: 5
     ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 8
   - Resource: 6
     ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 4
   MinimalPopulationPrerequisite: 0
   ResourceSupremacyPrerequisite: 
   EraPrerequisite:
     Operator: 1
     EraReference:
-      serializableElementName: Era6
+      serializableElementName: Era1
   FactionPrerequisite:
     Operator: 0
     serializableFactionNames: []
@@ -727,7 +1975,7 @@ MonoBehaviour:
     ArtificialWonderDefinition:
       serializableElementName: 
   BaseSynergyDistrict: 0
-  Prototype: 
+  Prototype: Extension_Prototype_Base
   OwnDescriptorReferences:
   - serializableElementName: Tag_NationalProject_SpaceRace
   IsReplaceableOrDestroyable: 1
@@ -753,6 +2001,7 @@ MonoBehaviour:
   TerrainPrerequisite:
     Constraint: 2
     HideInUI: 0
+    LocalizationOverride: 
     CanBuildOnWasteland: 0
     serializableTerrainTypeNames:
     - TerrainType_Ocean
@@ -760,7 +2009,7 @@ MonoBehaviour:
     - TerrainType_Lake
   BiomePrerequisite:
     Constraint: 0
-    serializableBiomeName: 
+    serializableBiomeNames: []
   CliffPrerequisite:
     Constraint: 0
     HideInUI: 0
@@ -778,6 +2027,7 @@ MonoBehaviour:
     TerrainPrerequisite:
       Constraint: 0
       HideInUI: 0
+      LocalizationOverride: 
       CanBuildOnWasteland: 0
       serializableTerrainTypeNames: []
     RiverPrerequisite:
@@ -799,7 +2049,9 @@ MonoBehaviour:
   ProtectAgainstStealthDetection: 0
   DistrictType: 15
   HasPublicOrderCost: 0
-  AllowDistrictReplacement: 0
+  CanReplaceDistrict: 0
+  CanBeReplacedByDistrict: 0
+  PlacementPolicies: 0
   ExploitationRuleReference:
     serializableElementName: 
   ExtractResource: 0
@@ -812,18 +2064,30 @@ MonoBehaviour:
   serializableReplaceTerrainWith: 
   IsWorkInProgress: 0
   ExclusionRadiusRpnReference:
-    serializableElementName: Radius_NationalProject_SatelliteLaunch
+    serializableElementName: Radius_NationalProject_SpaceLaunch
   ProjectSitePercentReductionRpnReference:
     serializableElementName: NationalProject_ProjectSite_ProductionReduction
   NationalProjectDescriptorReferences: []
   AdditionalCostRpnReference:
     serializableElementName: ProductionCost_NationalProject_ComplementaryCost_SpaceLaunch
-  NationalProjectLevel: 2
+  NationalProjectLevel: 1
   LockOnCompletion: 1
   CanBuildProjectSite: 1
   NextProject:
-    serializableElementName: Extension_NationalProject_SpaceRace_Level3
---- !u!114 &-6119233434149395728
+    serializableElementName: Extension_NationalProject_SpaceRace_Level2
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 8581125, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: ConstructibleNationalProjectDefinition
+  m_EditorClassIdentifier: 
+--- !u!114 &3374037377502872789
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -833,7 +2097,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 1918750774, guid: b310e23bee821cb478da05296ba685d0, type: 3}
-  m_Name: Extension_NationalProject_MarsMission_Level1
+  m_Name: Extension_NationalProject_SpaceRace_Level3
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -845,18 +2109,42 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes:
     - Name: GainValues
+      Entry: 7
+      Data: 0|Amplitude.Mercury.Data.AI.Gain[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Mercury.Data.AI.Gain, Amplitude.Mercury.Data
+    - Name: Type
+      Entry: 3
+      Data: 536870912
+    - Name: Importance
+      Entry: 3
+      Data: 2
+    - Name: Gates
       Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
       Data: 
     - Name: Signature
       Entry: 7
-      Data: 0|Amplitude.Mercury.Data.Simulation.NarrativeEventConsequenceVariableDeclaration[],
+      Data: 1|Amplitude.Mercury.Data.Simulation.NarrativeEventConsequenceVariableDeclaration[],
         Amplitude.Mercury.Data
     - Name: 
       Entry: 12
       Data: 1
     - Name: 
       Entry: 7
-      Data: 1|Amplitude.Mercury.Data.Simulation.NarrativeEventConsequenceVariableDeclaration,
+      Data: 2|Amplitude.Mercury.Data.Simulation.NarrativeEventConsequenceVariableDeclaration,
         Amplitude.Mercury.Data
     - Name: VariableName
       Entry: 1
@@ -875,13 +2163,13 @@ MonoBehaviour:
       Data: 
     - Name: Effects
       Entry: 7
-      Data: 2|Amplitude.Mercury.Data.Simulation.SimulationEventEffect[], Amplitude.Mercury.Data
+      Data: 3|Amplitude.Mercury.Data.Simulation.SimulationEventEffect[], Amplitude.Mercury.Data
     - Name: 
       Entry: 12
       Data: 8
     - Name: 
       Entry: 7
-      Data: 3|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_AddFame, Amplitude.Mercury.Data
+      Data: 4|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_AddFame, Amplitude.Mercury.Data
     - Name: SimulationEffectDescriptionOverride
       Entry: 6
       Data: 
@@ -936,7 +2224,7 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 4|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_ApplyDescriptor,
+      Data: 5|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_ApplyDescriptor,
         Amplitude.Mercury.Data
     - Name: SimulationEffectDescriptionOverride
       Entry: 6
@@ -977,7 +2265,7 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 5|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_TriggerNationalProjectNarrativeEvent,
+      Data: 6|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_TriggerNationalProjectNarrativeEvent,
         Amplitude.Mercury.Data
     - Name: SimulationEffectDescriptionOverride
       Entry: 6
@@ -1018,7 +2306,7 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 6|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_TriggerNationalProjectNarrativeEvent,
+      Data: 7|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_TriggerNationalProjectNarrativeEvent,
         Amplitude.Mercury.Data
     - Name: SimulationEffectDescriptionOverride
       Entry: 6
@@ -1059,7 +2347,7 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 7|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_TriggerNationalProjectNarrativeEvent,
+      Data: 8|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_TriggerNationalProjectNarrativeEvent,
         Amplitude.Mercury.Data
     - Name: SimulationEffectDescriptionOverride
       Entry: 6
@@ -1100,7 +2388,7 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 8|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_TriggerNationalProjectNarrativeEvent,
+      Data: 9|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_TriggerNationalProjectNarrativeEvent,
         Amplitude.Mercury.Data
     - Name: SimulationEffectDescriptionOverride
       Entry: 6
@@ -1141,7 +2429,7 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 9|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_TriggerNationalProjectNarrativeEvent,
+      Data: 10|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_TriggerNationalProjectNarrativeEvent,
         Amplitude.Mercury.Data
     - Name: SimulationEffectDescriptionOverride
       Entry: 6
@@ -1182,7 +2470,7 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 10|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_TriggerNationalProjectNarrativeEvent,
+      Data: 11|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_TriggerNationalProjectNarrativeEvent,
         Amplitude.Mercury.Data
     - Name: SimulationEffectDescriptionOverride
       Entry: 6
@@ -1227,15 +2515,16 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-  Key: 12
+  Key: 0
   Hidden: 0
   IsObsolete: 0
   DLCPrerequisite:
     DownloadableContent: 0
   Category: 4
-  SerializableFamily: NationalProjectFamily_MarsMission
+  SerializableFamily: NationalProjectFamily_SpaceRace
   Level: 0
   Unicity: 2
+  UnicityAdditionalConstructible: []
   ConstructibleVisualAffinity:
     serializableElementName: NationalProject_SpaceLaunch
   CanBeBoughtOut: 0
@@ -1246,7 +2535,7 @@ MonoBehaviour:
     Type: 1
     Constant: -1
     RpnDefinitionReference:
-      serializableElementName: ProductionCost_NationalProject_MarsMission
+      serializableElementName: ProductionCost_NationalProject_SpaceLaunch
   MoneyInstantCostDefinition:
     Constant: 0
     RpnDefinitionReference:
@@ -1267,19 +2556,19 @@ MonoBehaviour:
   ResourceAccessPrerequisites:
   - Resource: 5
     ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 12
   - Resource: 6
     ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 6
   - Resource: 7
     ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 3
   MinimalPopulationPrerequisite: 0
   ResourceSupremacyPrerequisite: 
   EraPrerequisite:
     Operator: 1
     EraReference:
-      serializableElementName: Era6
+      serializableElementName: Era1
   FactionPrerequisite:
     Operator: 0
     serializableFactionNames: []
@@ -1301,9 +2590,9 @@ MonoBehaviour:
     ArtificialWonderDefinition:
       serializableElementName: 
   BaseSynergyDistrict: 0
-  Prototype: 
+  Prototype: Extension_Prototype_Base
   OwnDescriptorReferences:
-  - serializableElementName: Tag_NationalProject_MarsMission
+  - serializableElementName: Tag_NationalProject_SpaceRace
   IsReplaceableOrDestroyable: 1
   CanBeDowngradedToRuin: 1
   AdditionalVisualLevels: []
@@ -1316,7 +2605,7 @@ MonoBehaviour:
     ValidIfNoDistrict: 1
     HideInUI: 1
     serializableTags:
-    - Tag_NationalProject_MarsMission
+    - Tag_NationalProject_SpaceRace
   PointOfInterestPrerequisite:
     Constraint: 7
     HideInUI: 0
@@ -1327,6 +2616,7 @@ MonoBehaviour:
   TerrainPrerequisite:
     Constraint: 2
     HideInUI: 0
+    LocalizationOverride: 
     CanBuildOnWasteland: 0
     serializableTerrainTypeNames:
     - TerrainType_Ocean
@@ -1334,7 +2624,7 @@ MonoBehaviour:
     - TerrainType_Lake
   BiomePrerequisite:
     Constraint: 0
-    serializableBiomeName: 
+    serializableBiomeNames: []
   CliffPrerequisite:
     Constraint: 0
     HideInUI: 0
@@ -1352,6 +2642,7 @@ MonoBehaviour:
     TerrainPrerequisite:
       Constraint: 0
       HideInUI: 0
+      LocalizationOverride: 
       CanBuildOnWasteland: 0
       serializableTerrainTypeNames: []
     RiverPrerequisite:
@@ -1373,7 +2664,9 @@ MonoBehaviour:
   ProtectAgainstStealthDetection: 0
   DistrictType: 15
   HasPublicOrderCost: 0
-  AllowDistrictReplacement: 0
+  CanReplaceDistrict: 0
+  CanBeReplacedByDistrict: 0
+  PlacementPolicies: 0
   ExploitationRuleReference:
     serializableElementName: 
   ExtractResource: 0
@@ -1386,109 +2679,18 @@ MonoBehaviour:
   serializableReplaceTerrainWith: 
   IsWorkInProgress: 0
   ExclusionRadiusRpnReference:
-    serializableElementName: Radius_NationalProject_SatelliteLaunch
+    serializableElementName: Radius_NationalProject_SpaceLaunch
   ProjectSitePercentReductionRpnReference:
     serializableElementName: NationalProject_ProjectSite_ProductionReduction
   NationalProjectDescriptorReferences: []
   AdditionalCostRpnReference:
     serializableElementName: ProductionCost_NationalProject_ComplementaryCost_SpaceLaunch
-  NationalProjectLevel: 1
+  NationalProjectLevel: 3
   LockOnCompletion: 1
   CanBuildProjectSite: 1
   NextProject:
     serializableElementName: 
---- !u!114 &-4210485571358833878
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1884236111, guid: b310e23bee821cb478da05296ba685d0, type: 3}
-  m_Name: EmpireWideConstructionParticipation_Extension_NationalProject_NuclearTest_Level3
-  m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes:
-    - Name: GainValues
-      Entry: 6
-      Data: 
-  Key: 41
-  Hidden: 0
-  IsObsolete: 0
-  DLCPrerequisite:
-    DownloadableContent: 0
-  Category: 0
-  SerializableFamily: 
-  Level: 0
-  Unicity: 1
-  ConstructibleVisualAffinity:
-    serializableElementName: 
-  CanBeBoughtOut: 0
-  CanBeCanceled: 1
-  StartWhenQueued: 0
-  CanBeBoughtOutWithPopulation: 0
-  ProductionCostDefinition:
-    Type: 4
-    Constant: 0
-    RpnDefinitionReference:
-      serializableElementName: 
-  MoneyInstantCostDefinition:
-    Constant: 0
-    RpnDefinitionReference:
-      serializableElementName: 
-  InfluenceInstantCostDefinition:
-    Constant: 0
-    RpnDefinitionReference:
-      serializableElementName: 
-  PopulationInstantCostDefinition:
-    Constant: 0
-  ProvidedByOtherEmpireCostDefinition:
-    ProductionCostModifierRpn:
-      serializableElementName: 
-    ReceiverMoneyCostRpn:
-      serializableElementName: 
-    ProviderMoneyGainRpn:
-      serializableElementName: 
-  ResourceAccessPrerequisites: []
-  MinimalPopulationPrerequisite: 0
-  ResourceSupremacyPrerequisite: 
-  EraPrerequisite:
-    Operator: 1
-    EraReference:
-      serializableElementName: Era5
-  FactionPrerequisite:
-    Operator: 0
-    serializableFactionNames: []
-  SettlementStatusPrerequisite:
-    CampConstraint: 0
-    CityConstraint: 1
-  ReligionAffinityPrerequisite:
-    serializableElementName: 
-  SettlementPropertyPrerequisites: []
-  SettlementStabilityPrerequisite:
-    Operator: 0
-    PublicOrderEffects: []
-  DistrictCountPrerequisites: []
-  ActionTypePrerequisite:
-    Operator: 0
-    ActionType: 0
-  ArtificialWonderBuiltPrerequisite:
-    Operator: 0
-    ArtificialWonderDefinition:
-      serializableElementName: 
-  BaseSynergyDistrict: 0
-  EmpireWideConstructionReference:
-    serializableElementName: Extension_NationalProject_NuclearTest_Level3
---- !u!114 &-4071454837532335767
+--- !u!114 &5045737168304537411
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1498,7 +2700,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 1918750774, guid: b310e23bee821cb478da05296ba685d0, type: 3}
-  m_Name: Extension_NationalProject_SatelliteLaunch_Level1
+  m_Name: Extension_NationalProject_NuclearTest_Level1
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -1543,10 +2745,10 @@ MonoBehaviour:
       Data: 2|Amplitude.Mercury.Data.Simulation.SimulationEventEffect[], Amplitude.Mercury.Data
     - Name: 
       Entry: 12
-      Data: 3
+      Data: 2
     - Name: 
       Entry: 7
-      Data: 3|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_LaunchSatellite,
+      Data: 3|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_UnlockConstructible,
         Amplitude.Mercury.Data
     - Name: SimulationEffectDescriptionOverride
       Entry: 6
@@ -1573,62 +2775,24 @@ MonoBehaviour:
     - Name: TargetID
       Entry: 1
       Data: Empire
-    - Name: HeightCoverageRpnReference
+    - Name: ConstructibleReferences
+      Entry: 7
+      Data: 4|Amplitude.Framework.DatatableElementReference[], Amplitude.Framework
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
       Entry: 7
       Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
     - Name: serializableElementName
       Entry: 1
-      Data: NationalProject_Satellite_HeightCoverage
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: HeightCoverageLevel
-      Entry: 7
-      Data: Amplitude.FixedPoint, Amplitude.Framework
-    - Name: RawValue
-      Entry: 3
-      Data: 1000
+      Data: AirUnit_Era6_Common_NuclearWarheads
     - Name: 
       Entry: 8
       Data: 
     - Name: 
-      Entry: 8
+      Entry: 13
       Data: 
-    - Name: 
-      Entry: 7
-      Data: 4|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_ApplyDescriptor,
-        Amplitude.Mercury.Data
-    - Name: SimulationEffectDescriptionOverride
-      Entry: 1
-      Data: 
-    - Name: UIMapperOverride
-      Entry: 6
-      Data: 
-    - Name: Hidden
-      Entry: 5
-      Data: false
-    - Name: DlcPrerequisite
-      Entry: 7
-      Data: Amplitude.Mercury.Data.Simulation.Prerequisites.DownloadableContentPrerequisite,
-        Amplitude.Mercury.Data
-    - Name: DownloadableContent
-      Entry: 3
-      Data: 0
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: GainValues
-      Entry: 6
-      Data: 
-    - Name: TargetID
-      Entry: 1
-      Data: Empire
-    - Name: Descriptor
-      Entry: 7
-      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
-    - Name: serializableElementName
-      Entry: 1
-      Data: Effect_EmpireBonus_SatelliteCityBonuses1
     - Name: 
       Entry: 8
       Data: 
@@ -1665,7 +2829,7 @@ MonoBehaviour:
       Data: Empire
     - Name: Amount
       Entry: 3
-      Data: 100
+      Data: 50
     - Name: AmountRpn
       Entry: 7
       Data: Amplitude.Mercury.Data.Simulation.SimulationEventEffectRpn, Amplitude.Mercury.Data
@@ -1696,17 +2860,18 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-  Key: 9
+  Key: 0
   Hidden: 0
   IsObsolete: 0
   DLCPrerequisite:
     DownloadableContent: 0
   Category: 4
-  SerializableFamily: NationalProjectFamily_SatelliteLaunch
+  SerializableFamily: NationalProjectFamily_NuclearTest
   Level: 0
   Unicity: 2
+  UnicityAdditionalConstructible: []
   ConstructibleVisualAffinity:
-    serializableElementName: NationalProject_SatelliteLaunch
+    serializableElementName: NationalProject_NuclearTest
   CanBeBoughtOut: 0
   CanBeCanceled: 1
   StartWhenQueued: 0
@@ -1715,7 +2880,7 @@ MonoBehaviour:
     Type: 1
     Constant: -1
     RpnDefinitionReference:
-      serializableElementName: ProductionCost_NationalProject_SatelliteLaunch
+      serializableElementName: ProductionCost_NationalProject_NuclearTest
   MoneyInstantCostDefinition:
     Constant: 0
     RpnDefinitionReference:
@@ -1737,12 +2902,18 @@ MonoBehaviour:
   - Resource: 6
     ConstantType: 0
     ConstantValue: 1
+  - Resource: 5
+    ConstantType: 0
+    ConstantValue: 1
+  - Resource: 7
+    ConstantType: 0
+    ConstantValue: 4
   MinimalPopulationPrerequisite: 0
   ResourceSupremacyPrerequisite: 
   EraPrerequisite:
     Operator: 1
     EraReference:
-      serializableElementName: Era6
+      serializableElementName: Era1
   FactionPrerequisite:
     Operator: 0
     serializableFactionNames: []
@@ -1757,16 +2928,16 @@ MonoBehaviour:
     PublicOrderEffects: []
   DistrictCountPrerequisites: []
   ActionTypePrerequisite:
-    Operator: 0
-    ActionType: 0
+    Operator: 1
+    ActionType: 45
   ArtificialWonderBuiltPrerequisite:
     Operator: 0
     ArtificialWonderDefinition:
       serializableElementName: 
   BaseSynergyDistrict: 0
-  Prototype: 
+  Prototype: Extension_Prototype_Base
   OwnDescriptorReferences:
-  - serializableElementName: Tag_NationalProject_SatelliteLaunch
+  - serializableElementName: Tag_NationalProject_NuclearTest
   IsReplaceableOrDestroyable: 1
   CanBeDowngradedToRuin: 1
   AdditionalVisualLevels: []
@@ -1775,11 +2946,10 @@ MonoBehaviour:
   AllowConnectionWithOtherBorough: 1
   FieldOfViewFlag: 0
   OverADistrictPrerequisite:
-    TagOperator: 1
+    TagOperator: 0
     ValidIfNoDistrict: 1
     HideInUI: 1
-    serializableTags:
-    - Tag_NationalProject_SatelliteLaunch
+    serializableTags: []
   PointOfInterestPrerequisite:
     Constraint: 7
     HideInUI: 0
@@ -1790,14 +2960,15 @@ MonoBehaviour:
   TerrainPrerequisite:
     Constraint: 2
     HideInUI: 0
-    CanBuildOnWasteland: 0
+    LocalizationOverride: 
+    CanBuildOnWasteland: 1
     serializableTerrainTypeNames:
     - TerrainType_Ocean
     - TerrainType_CoastalWater
     - TerrainType_Lake
   BiomePrerequisite:
     Constraint: 0
-    serializableBiomeName: 
+    serializableBiomeNames: []
   CliffPrerequisite:
     Constraint: 0
     HideInUI: 0
@@ -1815,6 +2986,7 @@ MonoBehaviour:
     TerrainPrerequisite:
       Constraint: 0
       HideInUI: 0
+      LocalizationOverride: 
       CanBuildOnWasteland: 0
       serializableTerrainTypeNames: []
     RiverPrerequisite:
@@ -1834,9 +3006,11 @@ MonoBehaviour:
   FriendlyUnitOnTopStatus:
     serializableElementName: 
   ProtectAgainstStealthDetection: 0
-  DistrictType: 13
+  DistrictType: 14
   HasPublicOrderCost: 0
-  AllowDistrictReplacement: 0
+  CanReplaceDistrict: 0
+  CanBeReplacedByDistrict: 0
+  PlacementPolicies: 0
   ExploitationRuleReference:
     serializableElementName: 
   ExtractResource: 0
@@ -1849,18 +3023,18 @@ MonoBehaviour:
   serializableReplaceTerrainWith: 
   IsWorkInProgress: 0
   ExclusionRadiusRpnReference:
-    serializableElementName: Radius_NationalProject_SatelliteLaunch
+    serializableElementName: Radius_NationalProject_NuclearTest
   ProjectSitePercentReductionRpnReference:
-    serializableElementName: NationalProject_ProjectSite_ProductionReduction
+    serializableElementName: 
   NationalProjectDescriptorReferences: []
   AdditionalCostRpnReference:
-    serializableElementName: ProductionCost_NationalProject_ComplementaryCost_SatelliteLaunch
+    serializableElementName: ProductionCost_NationalProject_ComplementaryCost_NuclearTest
   NationalProjectLevel: 1
   LockOnCompletion: 1
-  CanBuildProjectSite: 1
+  CanBuildProjectSite: 0
   NextProject:
-    serializableElementName: Extension_NationalProject_SatelliteLaunch_Level2
---- !u!114 &-625133927502428398
+    serializableElementName: Extension_NationalProject_NuclearTest_Level2
+--- !u!114 &5853873408864633229
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1915,7 +3089,7 @@ MonoBehaviour:
       Data: 2|Amplitude.Mercury.Data.Simulation.SimulationEventEffect[], Amplitude.Mercury.Data
     - Name: 
       Entry: 12
-      Data: 3
+      Data: 2
     - Name: 
       Entry: 7
       Data: 3|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_UnlockConstructible,
@@ -2025,65 +3199,12 @@ MonoBehaviour:
       Entry: 8
       Data: 
     - Name: 
-      Entry: 7
-      Data: 6|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_UnlockConstructible,
-        Amplitude.Mercury.Data
-    - Name: SimulationEffectDescriptionOverride
-      Entry: 6
-      Data: 
-    - Name: UIMapperOverride
-      Entry: 6
-      Data: 
-    - Name: Hidden
-      Entry: 5
-      Data: false
-    - Name: DlcPrerequisite
-      Entry: 7
-      Data: Amplitude.Mercury.Data.Simulation.Prerequisites.DownloadableContentPrerequisite,
-        Amplitude.Mercury.Data
-    - Name: DownloadableContent
-      Entry: 3
-      Data: 0
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: GainValues
-      Entry: 6
-      Data: 
-    - Name: TargetID
-      Entry: 1
-      Data: Empire
-    - Name: ConstructibleReferences
-      Entry: 7
-      Data: 7|Amplitude.Framework.DatatableElementReference[], Amplitude.Framework
-    - Name: 
-      Entry: 12
-      Data: 1
-    - Name: 
-      Entry: 7
-      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
-    - Name: serializableElementName
-      Entry: 1
-      Data: AirUnit_Era6_Common_ICBMs
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
       Entry: 13
       Data: 
     - Name: 
       Entry: 8
       Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-  Key: 1
+  Key: 0
   Hidden: 0
   IsObsolete: 0
   DLCPrerequisite:
@@ -2092,6 +3213,7 @@ MonoBehaviour:
   SerializableFamily: NationalProjectFamily_NuclearTest
   Level: 0
   Unicity: 2
+  UnicityAdditionalConstructible: []
   ConstructibleVisualAffinity:
     serializableElementName: NationalProject_NuclearTest
   CanBeBoughtOut: 0
@@ -2121,18 +3243,21 @@ MonoBehaviour:
     ProviderMoneyGainRpn:
       serializableElementName: 
   ResourceAccessPrerequisites:
+  - Resource: 5
+    ConstantType: 0
+    ConstantValue: 2
   - Resource: 6
     ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 2
   - Resource: 7
     ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 6
   MinimalPopulationPrerequisite: 0
   ResourceSupremacyPrerequisite: 
   EraPrerequisite:
     Operator: 1
     EraReference:
-      serializableElementName: Era5
+      serializableElementName: Era1
   FactionPrerequisite:
     Operator: 0
     serializableFactionNames: []
@@ -2154,7 +3279,7 @@ MonoBehaviour:
     ArtificialWonderDefinition:
       serializableElementName: 
   BaseSynergyDistrict: 0
-  Prototype: 
+  Prototype: Extension_Prototype_Base
   OwnDescriptorReferences:
   - serializableElementName: Tag_NationalProject_NuclearTest
   IsReplaceableOrDestroyable: 1
@@ -2179,6 +3304,7 @@ MonoBehaviour:
   TerrainPrerequisite:
     Constraint: 2
     HideInUI: 0
+    LocalizationOverride: 
     CanBuildOnWasteland: 1
     serializableTerrainTypeNames:
     - TerrainType_Ocean
@@ -2186,7 +3312,7 @@ MonoBehaviour:
     - TerrainType_Lake
   BiomePrerequisite:
     Constraint: 0
-    serializableBiomeName: 
+    serializableBiomeNames: []
   CliffPrerequisite:
     Constraint: 0
     HideInUI: 0
@@ -2204,6 +3330,7 @@ MonoBehaviour:
     TerrainPrerequisite:
       Constraint: 0
       HideInUI: 0
+      LocalizationOverride: 
       CanBuildOnWasteland: 0
       serializableTerrainTypeNames: []
     RiverPrerequisite:
@@ -2225,7 +3352,9 @@ MonoBehaviour:
   ProtectAgainstStealthDetection: 0
   DistrictType: 14
   HasPublicOrderCost: 0
-  AllowDistrictReplacement: 0
+  CanReplaceDistrict: 0
+  CanBeReplacedByDistrict: 0
+  PlacementPolicies: 0
   ExploitationRuleReference:
     serializableElementName: 
   ExtractResource: 0
@@ -2249,110 +3378,7 @@ MonoBehaviour:
   CanBuildProjectSite: 0
   NextProject:
     serializableElementName: Extension_NationalProject_NuclearTest_Level3
---- !u!114 &-75972012409083192
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1884236111, guid: b310e23bee821cb478da05296ba685d0, type: 3}
-  m_Name: EmpireWideConstructionParticipation_Extension_NationalProject_MarsMission_Level1
-  m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes:
-    - Name: GainValues
-      Entry: 6
-      Data: 
-  Key: 36
-  Hidden: 0
-  IsObsolete: 0
-  DLCPrerequisite:
-    DownloadableContent: 0
-  Category: 0
-  SerializableFamily: 
-  Level: 0
-  Unicity: 1
-  ConstructibleVisualAffinity:
-    serializableElementName: 
-  CanBeBoughtOut: 0
-  CanBeCanceled: 1
-  StartWhenQueued: 0
-  CanBeBoughtOutWithPopulation: 0
-  ProductionCostDefinition:
-    Type: 4
-    Constant: 0
-    RpnDefinitionReference:
-      serializableElementName: 
-  MoneyInstantCostDefinition:
-    Constant: 0
-    RpnDefinitionReference:
-      serializableElementName: 
-  InfluenceInstantCostDefinition:
-    Constant: 0
-    RpnDefinitionReference:
-      serializableElementName: 
-  PopulationInstantCostDefinition:
-    Constant: 0
-  ProvidedByOtherEmpireCostDefinition:
-    ProductionCostModifierRpn:
-      serializableElementName: 
-    ReceiverMoneyCostRpn:
-      serializableElementName: 
-    ProviderMoneyGainRpn:
-      serializableElementName: 
-  ResourceAccessPrerequisites: []
-  MinimalPopulationPrerequisite: 0
-  ResourceSupremacyPrerequisite: 
-  EraPrerequisite:
-    Operator: 1
-    EraReference:
-      serializableElementName: Era1
-  FactionPrerequisite:
-    Operator: 0
-    serializableFactionNames: []
-  SettlementStatusPrerequisite:
-    CampConstraint: 0
-    CityConstraint: 1
-  ReligionAffinityPrerequisite:
-    serializableElementName: 
-  SettlementPropertyPrerequisites: []
-  SettlementStabilityPrerequisite:
-    Operator: 0
-    PublicOrderEffects: []
-  DistrictCountPrerequisites: []
-  ActionTypePrerequisite:
-    Operator: 0
-    ActionType: 0
-  ArtificialWonderBuiltPrerequisite:
-    Operator: 0
-    ArtificialWonderDefinition:
-      serializableElementName: 
-  BaseSynergyDistrict: 0
-  EmpireWideConstructionReference:
-    serializableElementName: Extension_NationalProject_MarsMission_Level1
---- !u!114 &11400000
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 8581125, guid: b310e23bee821cb478da05296ba685d0, type: 3}
-  m_Name: ConstructibleNationalProjectDefinition
-  m_EditorClassIdentifier: 
---- !u!114 &1989064875306579309
+--- !u!114 &7367425563156034316
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2362,7 +3388,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 1918750774, guid: b310e23bee821cb478da05296ba685d0, type: 3}
-  m_Name: Extension_NationalProject_SpaceRace_Level3
+  m_Name: Extension_NationalProject_SatelliteLaunch_Level1
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -2374,818 +3400,67 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes:
     - Name: GainValues
-      Entry: 6
-      Data: 
-    - Name: Signature
       Entry: 7
-      Data: 0|Amplitude.Mercury.Data.Simulation.NarrativeEventConsequenceVariableDeclaration[],
-        Amplitude.Mercury.Data
+      Data: 0|Amplitude.Mercury.Data.AI.Gain[], Amplitude.Mercury.Data
     - Name: 
       Entry: 12
-      Data: 1
+      Data: 4
     - Name: 
       Entry: 7
-      Data: 1|Amplitude.Mercury.Data.Simulation.NarrativeEventConsequenceVariableDeclaration,
-        Amplitude.Mercury.Data
-    - Name: VariableName
-      Entry: 1
-      Data: Empire
-    - Name: VariableType
-      Entry: 1
-      Data: Amplitude.Mercury.Simulation.Empire, Amplitude.Mercury.Firstpass
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: Effects
-      Entry: 7
-      Data: 2|Amplitude.Mercury.Data.Simulation.SimulationEventEffect[], Amplitude.Mercury.Data
-    - Name: 
-      Entry: 12
-      Data: 8
-    - Name: 
-      Entry: 7
-      Data: 3|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_AddFame, Amplitude.Mercury.Data
-    - Name: SimulationEffectDescriptionOverride
-      Entry: 6
-      Data: 
-    - Name: UIMapperOverride
-      Entry: 6
-      Data: 
-    - Name: Hidden
-      Entry: 5
-      Data: false
-    - Name: DlcPrerequisite
-      Entry: 7
-      Data: Amplitude.Mercury.Data.Simulation.Prerequisites.DownloadableContentPrerequisite,
-        Amplitude.Mercury.Data
-    - Name: DownloadableContent
+      Data: Amplitude.Mercury.Data.AI.Gain, Amplitude.Mercury.Data
+    - Name: Type
       Entry: 3
-      Data: 0
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: GainValues
-      Entry: 6
-      Data: 
-    - Name: TargetID
-      Entry: 1
-      Data: Empire
-    - Name: Amount
+      Data: 536870912
+    - Name: Importance
       Entry: 3
-      Data: 300
-    - Name: AmountRpn
-      Entry: 7
-      Data: Amplitude.Mercury.Data.Simulation.SimulationEventEffectRpn, Amplitude.Mercury.Data
-    - Name: RpnDefinition
-      Entry: 7
-      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
-    - Name: serializableElementName
-      Entry: 6
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: RpnSource
-      Entry: 6
-      Data: 
-    - Name: RpnTarget
-      Entry: 6
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 4|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_ApplyDescriptor,
-        Amplitude.Mercury.Data
-    - Name: SimulationEffectDescriptionOverride
-      Entry: 6
-      Data: 
-    - Name: UIMapperOverride
-      Entry: 6
-      Data: 
-    - Name: Hidden
-      Entry: 5
-      Data: false
-    - Name: DlcPrerequisite
-      Entry: 7
-      Data: Amplitude.Mercury.Data.Simulation.Prerequisites.DownloadableContentPrerequisite,
-        Amplitude.Mercury.Data
-    - Name: DownloadableContent
-      Entry: 3
-      Data: 0
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: GainValues
-      Entry: 6
-      Data: 
-    - Name: TargetID
-      Entry: 1
-      Data: Empire
-    - Name: Descriptor
-      Entry: 7
-      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
-    - Name: serializableElementName
-      Entry: 1
-      Data: Effect_EmpireBonus_SpaceRace3
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 5|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_TriggerNationalProjectNarrativeEvent,
-        Amplitude.Mercury.Data
-    - Name: SimulationEffectDescriptionOverride
-      Entry: 6
-      Data: 
-    - Name: UIMapperOverride
-      Entry: 6
-      Data: 
-    - Name: Hidden
-      Entry: 5
-      Data: false
-    - Name: DlcPrerequisite
-      Entry: 7
-      Data: Amplitude.Mercury.Data.Simulation.Prerequisites.DownloadableContentPrerequisite,
-        Amplitude.Mercury.Data
-    - Name: DownloadableContent
-      Entry: 3
-      Data: 0
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: GainValues
-      Entry: 6
-      Data: 
-    - Name: TargetID
-      Entry: 1
-      Data: Empire
-    - Name: NarrativeEvent
-      Entry: 7
-      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
-    - Name: serializableElementName
-      Entry: 1
-      Data: NarrativeEvent_SpaceRace06
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 6|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_TriggerNationalProjectNarrativeEvent,
-        Amplitude.Mercury.Data
-    - Name: SimulationEffectDescriptionOverride
-      Entry: 6
-      Data: 
-    - Name: UIMapperOverride
-      Entry: 6
-      Data: 
-    - Name: Hidden
-      Entry: 5
-      Data: true
-    - Name: DlcPrerequisite
-      Entry: 7
-      Data: Amplitude.Mercury.Data.Simulation.Prerequisites.DownloadableContentPrerequisite,
-        Amplitude.Mercury.Data
-    - Name: DownloadableContent
-      Entry: 3
-      Data: 0
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: GainValues
-      Entry: 6
-      Data: 
-    - Name: TargetID
-      Entry: 1
-      Data: Empire
-    - Name: NarrativeEvent
-      Entry: 7
-      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
-    - Name: serializableElementName
-      Entry: 1
-      Data: NarrativeEvent_SpaceRace07
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 7|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_TriggerNationalProjectNarrativeEvent,
-        Amplitude.Mercury.Data
-    - Name: SimulationEffectDescriptionOverride
-      Entry: 6
-      Data: 
-    - Name: UIMapperOverride
-      Entry: 6
-      Data: 
-    - Name: Hidden
-      Entry: 5
-      Data: true
-    - Name: DlcPrerequisite
-      Entry: 7
-      Data: Amplitude.Mercury.Data.Simulation.Prerequisites.DownloadableContentPrerequisite,
-        Amplitude.Mercury.Data
-    - Name: DownloadableContent
-      Entry: 3
-      Data: 0
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: GainValues
-      Entry: 6
-      Data: 
-    - Name: TargetID
-      Entry: 1
-      Data: Empire
-    - Name: NarrativeEvent
-      Entry: 7
-      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
-    - Name: serializableElementName
-      Entry: 1
-      Data: NarrativeEvent_SpaceRace08
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 8|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_TriggerNationalProjectNarrativeEvent,
-        Amplitude.Mercury.Data
-    - Name: SimulationEffectDescriptionOverride
-      Entry: 6
-      Data: 
-    - Name: UIMapperOverride
-      Entry: 6
-      Data: 
-    - Name: Hidden
-      Entry: 5
-      Data: true
-    - Name: DlcPrerequisite
-      Entry: 7
-      Data: Amplitude.Mercury.Data.Simulation.Prerequisites.DownloadableContentPrerequisite,
-        Amplitude.Mercury.Data
-    - Name: DownloadableContent
-      Entry: 3
-      Data: 0
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: GainValues
-      Entry: 6
-      Data: 
-    - Name: TargetID
-      Entry: 1
-      Data: Empire
-    - Name: NarrativeEvent
-      Entry: 7
-      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
-    - Name: serializableElementName
-      Entry: 1
-      Data: NarrativeEvent_SpaceRace09
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 9|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_TriggerNationalProjectNarrativeEvent,
-        Amplitude.Mercury.Data
-    - Name: SimulationEffectDescriptionOverride
-      Entry: 6
-      Data: 
-    - Name: UIMapperOverride
-      Entry: 6
-      Data: 
-    - Name: Hidden
-      Entry: 5
-      Data: true
-    - Name: DlcPrerequisite
-      Entry: 7
-      Data: Amplitude.Mercury.Data.Simulation.Prerequisites.DownloadableContentPrerequisite,
-        Amplitude.Mercury.Data
-    - Name: DownloadableContent
-      Entry: 3
-      Data: 0
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: GainValues
-      Entry: 6
-      Data: 
-    - Name: TargetID
-      Entry: 1
-      Data: Empire
-    - Name: NarrativeEvent
-      Entry: 7
-      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
-    - Name: serializableElementName
-      Entry: 1
-      Data: NarrativeEvent_SpaceRace10
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 10|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_TriggerNationalProjectNarrativeEvent,
-        Amplitude.Mercury.Data
-    - Name: SimulationEffectDescriptionOverride
-      Entry: 6
-      Data: 
-    - Name: UIMapperOverride
-      Entry: 6
-      Data: 
-    - Name: Hidden
-      Entry: 5
-      Data: true
-    - Name: DlcPrerequisite
-      Entry: 7
-      Data: Amplitude.Mercury.Data.Simulation.Prerequisites.DownloadableContentPrerequisite,
-        Amplitude.Mercury.Data
-    - Name: DownloadableContent
-      Entry: 3
-      Data: 0
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: GainValues
-      Entry: 6
-      Data: 
-    - Name: TargetID
-      Entry: 1
-      Data: Empire
-    - Name: NarrativeEvent
-      Entry: 7
-      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
-    - Name: serializableElementName
-      Entry: 1
-      Data: NarrativeEvent_SpaceRace11
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-  Key: 12
-  Hidden: 1
-  IsObsolete: 1
-  DLCPrerequisite:
-    DownloadableContent: 0
-  Category: 4
-  SerializableFamily: NationalProjectFamily_SpaceRace
-  Level: 0
-  Unicity: 2
-  ConstructibleVisualAffinity:
-    serializableElementName: NationalProject_SpaceLaunch
-  CanBeBoughtOut: 0
-  CanBeCanceled: 1
-  StartWhenQueued: 0
-  CanBeBoughtOutWithPopulation: 0
-  ProductionCostDefinition:
-    Type: 1
-    Constant: -1
-    RpnDefinitionReference:
-      serializableElementName: ProductionCost_NationalProject_SpaceLaunch
-  MoneyInstantCostDefinition:
-    Constant: 0
-    RpnDefinitionReference:
-      serializableElementName: 
-  InfluenceInstantCostDefinition:
-    Constant: 0
-    RpnDefinitionReference:
-      serializableElementName: 
-  PopulationInstantCostDefinition:
-    Constant: 0
-  ProvidedByOtherEmpireCostDefinition:
-    ProductionCostModifierRpn:
-      serializableElementName: 
-    ReceiverMoneyCostRpn:
-      serializableElementName: 
-    ProviderMoneyGainRpn:
-      serializableElementName: 
-  ResourceAccessPrerequisites:
-  - Resource: 5
-    ConstantType: 0
-    ConstantValue: 1
-  - Resource: 6
-    ConstantType: 0
-    ConstantValue: 1
-  - Resource: 7
-    ConstantType: 0
-    ConstantValue: 1
-  MinimalPopulationPrerequisite: 0
-  ResourceSupremacyPrerequisite: 
-  EraPrerequisite:
-    Operator: 1
-    EraReference:
-      serializableElementName: Era6
-  FactionPrerequisite:
-    Operator: 0
-    serializableFactionNames: []
-  SettlementStatusPrerequisite:
-    CampConstraint: 0
-    CityConstraint: 1
-  ReligionAffinityPrerequisite:
-    serializableElementName: 
-  SettlementPropertyPrerequisites: []
-  SettlementStabilityPrerequisite:
-    Operator: 0
-    PublicOrderEffects: []
-  DistrictCountPrerequisites: []
-  ActionTypePrerequisite:
-    Operator: 0
-    ActionType: 0
-  ArtificialWonderBuiltPrerequisite:
-    Operator: 0
-    ArtificialWonderDefinition:
-      serializableElementName: 
-  BaseSynergyDistrict: 0
-  Prototype: 
-  OwnDescriptorReferences:
-  - serializableElementName: Tag_NationalProject_SpaceRace
-  IsReplaceableOrDestroyable: 1
-  CanBeDowngradedToRuin: 1
-  AdditionalVisualLevels: []
-  IsImmuneToBombardment: 0
-  AllowBoroughExtension: 0
-  AllowConnectionWithOtherBorough: 1
-  FieldOfViewFlag: 0
-  OverADistrictPrerequisite:
-    TagOperator: 0
-    ValidIfNoDistrict: 1
-    HideInUI: 1
-    serializableTags:
-    - Tag_NationalProject_SpaceRace
-  PointOfInterestPrerequisite:
-    Constraint: 7
-    HideInUI: 0
-    serializablePointOfInterestNames: []
-  RiverPrerequisite:
-    Constraint: 0
-    HideInUI: 0
-  TerrainPrerequisite:
-    Constraint: 2
-    HideInUI: 0
-    CanBuildOnWasteland: 0
-    serializableTerrainTypeNames:
-    - TerrainType_Ocean
-    - TerrainType_CoastalWater
-    - TerrainType_Lake
-  BiomePrerequisite:
-    Constraint: 0
-    serializableBiomeName: 
-  CliffPrerequisite:
-    Constraint: 0
-    HideInUI: 0
-  MountainPrerequisite:
-    Constraint: 0
-    HideInUI: 0
-  TileVisibilityPrerequisite:
-    Constraint: 1
-    Visibility: 0
-  NeighbourTilesPrerequisite:
-    NeighbourOperator: 0
-    TerritoryConstraint: 2
-    IgnoreCliff: 1
-    IgnoreNaturalWonder: 1
-    TerrainPrerequisite:
-      Constraint: 0
-      HideInUI: 0
-      CanBuildOnWasteland: 0
-      serializableTerrainTypeNames: []
-    RiverPrerequisite:
-      Constraint: 0
-      HideInUI: 0
-    DistrictPrerequisite:
-      TagOperator: 0
-      ValidIfNoDistrict: 0
-      HideInUI: 0
-      serializableTags: []
-  BoroughPrerequisite:
-    ExtensionRules: 1
-    HideInUI: 1
-  ProtectsNeighboursFromRansack: 0
-  ZoneOfControlDistance:
-    RawValue: 0
-  FriendlyUnitOnTopStatus:
-    serializableElementName: 
-  ProtectAgainstStealthDetection: 0
-  DistrictType: 15
-  HasPublicOrderCost: 0
-  AllowDistrictReplacement: 0
-  ExploitationRuleReference:
-    serializableElementName: 
-  ExtractResource: 0
-  WondrousResourceType: 64
-  UnitSpawnType: -1
-  AllowShipping: 0
-  ProvidesSecondaryRoad: 0
-  ProvidesRail: 0
-  ForceRiverOnTerrain: 0
-  serializableReplaceTerrainWith: 
-  IsWorkInProgress: 0
-  ExclusionRadiusRpnReference:
-    serializableElementName: Radius_NationalProject_SatelliteLaunch
-  ProjectSitePercentReductionRpnReference:
-    serializableElementName: NationalProject_ProjectSite_ProductionReduction
-  NationalProjectDescriptorReferences: []
-  AdditionalCostRpnReference:
-    serializableElementName: ProductionCost_NationalProject_ComplementaryCost_SpaceLaunch
-  NationalProjectLevel: 3
-  LockOnCompletion: 1
-  CanBuildProjectSite: 1
-  NextProject:
-    serializableElementName: 
---- !u!114 &2204376959408493779
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1884236111, guid: b310e23bee821cb478da05296ba685d0, type: 3}
-  m_Name: EmpireWideConstructionParticipation_Extension_NationalProject_NuclearTest_Level2
-  m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes:
-    - Name: GainValues
-      Entry: 6
-      Data: 
-  Key: 37
-  Hidden: 0
-  IsObsolete: 0
-  DLCPrerequisite:
-    DownloadableContent: 0
-  Category: 0
-  SerializableFamily: 
-  Level: 0
-  Unicity: 1
-  ConstructibleVisualAffinity:
-    serializableElementName: 
-  CanBeBoughtOut: 0
-  CanBeCanceled: 1
-  StartWhenQueued: 0
-  CanBeBoughtOutWithPopulation: 0
-  ProductionCostDefinition:
-    Type: 4
-    Constant: 0
-    RpnDefinitionReference:
-      serializableElementName: 
-  MoneyInstantCostDefinition:
-    Constant: 0
-    RpnDefinitionReference:
-      serializableElementName: 
-  InfluenceInstantCostDefinition:
-    Constant: 0
-    RpnDefinitionReference:
-      serializableElementName: 
-  PopulationInstantCostDefinition:
-    Constant: 0
-  ProvidedByOtherEmpireCostDefinition:
-    ProductionCostModifierRpn:
-      serializableElementName: 
-    ReceiverMoneyCostRpn:
-      serializableElementName: 
-    ProviderMoneyGainRpn:
-      serializableElementName: 
-  ResourceAccessPrerequisites: []
-  MinimalPopulationPrerequisite: 0
-  ResourceSupremacyPrerequisite: 
-  EraPrerequisite:
-    Operator: 1
-    EraReference:
-      serializableElementName: Era5
-  FactionPrerequisite:
-    Operator: 0
-    serializableFactionNames: []
-  SettlementStatusPrerequisite:
-    CampConstraint: 0
-    CityConstraint: 1
-  ReligionAffinityPrerequisite:
-    serializableElementName: 
-  SettlementPropertyPrerequisites: []
-  SettlementStabilityPrerequisite:
-    Operator: 0
-    PublicOrderEffects: []
-  DistrictCountPrerequisites: []
-  ActionTypePrerequisite:
-    Operator: 0
-    ActionType: 0
-  ArtificialWonderBuiltPrerequisite:
-    Operator: 0
-    ArtificialWonderDefinition:
-      serializableElementName: 
-  BaseSynergyDistrict: 0
-  EmpireWideConstructionReference:
-    serializableElementName: Extension_NationalProject_NuclearTest_Level2
---- !u!114 &2507276095917841857
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1918750774, guid: b310e23bee821cb478da05296ba685d0, type: 3}
-  m_Name: Extension_NationalProject_NuclearTest_Level1
-  m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes:
-    - Name: GainValues
-      Entry: 6
-      Data: 
-    - Name: Signature
-      Entry: 7
-      Data: 0|Amplitude.Mercury.Data.Simulation.NarrativeEventConsequenceVariableDeclaration[],
-        Amplitude.Mercury.Data
-    - Name: 
-      Entry: 12
-      Data: 1
-    - Name: 
-      Entry: 7
-      Data: 1|Amplitude.Mercury.Data.Simulation.NarrativeEventConsequenceVariableDeclaration,
-        Amplitude.Mercury.Data
-    - Name: VariableName
-      Entry: 1
-      Data: Empire
-    - Name: VariableType
-      Entry: 1
-      Data: Amplitude.Mercury.Simulation.Empire, Amplitude.Mercury.Firstpass
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: Effects
-      Entry: 7
-      Data: 2|Amplitude.Mercury.Data.Simulation.SimulationEventEffect[], Amplitude.Mercury.Data
-    - Name: 
-      Entry: 12
       Data: 2
+    - Name: Gates
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: 
       Entry: 7
-      Data: 3|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_UnlockConstructible,
-        Amplitude.Mercury.Data
-    - Name: SimulationEffectDescriptionOverride
-      Entry: 6
-      Data: 
-    - Name: UIMapperOverride
-      Entry: 6
-      Data: 
-    - Name: Hidden
-      Entry: 5
-      Data: false
-    - Name: DlcPrerequisite
-      Entry: 7
-      Data: Amplitude.Mercury.Data.Simulation.Prerequisites.DownloadableContentPrerequisite,
-        Amplitude.Mercury.Data
-    - Name: DownloadableContent
+      Data: Amplitude.Mercury.Data.AI.Gain, Amplitude.Mercury.Data
+    - Name: Type
       Entry: 3
-      Data: 0
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: GainValues
-      Entry: 7
-      Data: 4|Amplitude.Mercury.Data.AI.Gain[], Amplitude.Mercury.Data
-    - Name: 
-      Entry: 12
-      Data: 0
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: TargetID
-      Entry: 1
-      Data: Empire
-    - Name: ConstructibleReferences
-      Entry: 7
-      Data: 5|Amplitude.Framework.DatatableElementReference[], Amplitude.Framework
-    - Name: 
-      Entry: 12
-      Data: 1
-    - Name: 
-      Entry: 7
-      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
-    - Name: serializableElementName
-      Entry: 1
-      Data: AirUnit_Era6_Common_NuclearWarheads
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 6|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_AddFame, Amplitude.Mercury.Data
-    - Name: SimulationEffectDescriptionOverride
-      Entry: 6
-      Data: 
-    - Name: UIMapperOverride
-      Entry: 6
-      Data: 
-    - Name: Hidden
-      Entry: 5
-      Data: false
-    - Name: DlcPrerequisite
-      Entry: 7
-      Data: Amplitude.Mercury.Data.Simulation.Prerequisites.DownloadableContentPrerequisite,
-        Amplitude.Mercury.Data
-    - Name: DownloadableContent
+      Data: 4
+    - Name: Importance
       Entry: 3
-      Data: 0
+      Data: 2
+    - Name: Gates
+      Entry: 6
+      Data: 
     - Name: 
       Entry: 8
       Data: 
-    - Name: GainValues
-      Entry: 6
-      Data: 
-    - Name: TargetID
-      Entry: 1
-      Data: Empire
-    - Name: Amount
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Mercury.Data.AI.Gain, Amplitude.Mercury.Data
+    - Name: Type
       Entry: 3
-      Data: 50
-    - Name: AmountRpn
-      Entry: 7
-      Data: Amplitude.Mercury.Data.Simulation.SimulationEventEffectRpn, Amplitude.Mercury.Data
-    - Name: RpnDefinition
-      Entry: 7
-      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
-    - Name: serializableElementName
+      Data: 8
+    - Name: Importance
+      Entry: 3
+      Data: 2
+    - Name: Gates
       Entry: 6
       Data: 
     - Name: 
       Entry: 8
       Data: 
-    - Name: RpnSource
-      Entry: 6
-      Data: 
-    - Name: RpnTarget
-      Entry: 6
-      Data: 
     - Name: 
-      Entry: 8
+      Entry: 7
+      Data: Amplitude.Mercury.Data.AI.Gain, Amplitude.Mercury.Data
+    - Name: Type
+      Entry: 3
+      Data: 2147483648
+    - Name: Importance
+      Entry: 3
+      Data: 2
+    - Name: Gates
+      Entry: 6
       Data: 
     - Name: 
       Entry: 8
@@ -3195,204 +3470,17 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 8
-      Data: 
-  Key: 7
-  Hidden: 0
-  IsObsolete: 0
-  DLCPrerequisite:
-    DownloadableContent: 0
-  Category: 4
-  SerializableFamily: NationalProjectFamily_NuclearTest
-  Level: 0
-  Unicity: 2
-  ConstructibleVisualAffinity:
-    serializableElementName: NationalProject_NuclearTest
-  CanBeBoughtOut: 0
-  CanBeCanceled: 1
-  StartWhenQueued: 0
-  CanBeBoughtOutWithPopulation: 0
-  ProductionCostDefinition:
-    Type: 1
-    Constant: -1
-    RpnDefinitionReference:
-      serializableElementName: ProductionCost_NationalProject_NuclearTest
-  MoneyInstantCostDefinition:
-    Constant: 0
-    RpnDefinitionReference:
-      serializableElementName: 
-  InfluenceInstantCostDefinition:
-    Constant: 0
-    RpnDefinitionReference:
-      serializableElementName: 
-  PopulationInstantCostDefinition:
-    Constant: 0
-  ProvidedByOtherEmpireCostDefinition:
-    ProductionCostModifierRpn:
-      serializableElementName: 
-    ReceiverMoneyCostRpn:
-      serializableElementName: 
-    ProviderMoneyGainRpn:
-      serializableElementName: 
-  ResourceAccessPrerequisites:
-  - Resource: 7
-    ConstantType: 0
-    ConstantValue: 1
-  MinimalPopulationPrerequisite: 0
-  ResourceSupremacyPrerequisite: 
-  EraPrerequisite:
-    Operator: 1
-    EraReference:
-      serializableElementName: Era5
-  FactionPrerequisite:
-    Operator: 0
-    serializableFactionNames: []
-  SettlementStatusPrerequisite:
-    CampConstraint: 0
-    CityConstraint: 1
-  ReligionAffinityPrerequisite:
-    serializableElementName: 
-  SettlementPropertyPrerequisites: []
-  SettlementStabilityPrerequisite:
-    Operator: 0
-    PublicOrderEffects: []
-  DistrictCountPrerequisites: []
-  ActionTypePrerequisite:
-    Operator: 1
-    ActionType: 45
-  ArtificialWonderBuiltPrerequisite:
-    Operator: 0
-    ArtificialWonderDefinition:
-      serializableElementName: 
-  BaseSynergyDistrict: 0
-  Prototype: 
-  OwnDescriptorReferences:
-  - serializableElementName: Tag_NationalProject_NuclearTest
-  IsReplaceableOrDestroyable: 1
-  CanBeDowngradedToRuin: 1
-  AdditionalVisualLevels: []
-  IsImmuneToBombardment: 0
-  AllowBoroughExtension: 0
-  AllowConnectionWithOtherBorough: 1
-  FieldOfViewFlag: 0
-  OverADistrictPrerequisite:
-    TagOperator: 0
-    ValidIfNoDistrict: 1
-    HideInUI: 1
-    serializableTags: []
-  PointOfInterestPrerequisite:
-    Constraint: 7
-    HideInUI: 0
-    serializablePointOfInterestNames: []
-  RiverPrerequisite:
-    Constraint: 0
-    HideInUI: 0
-  TerrainPrerequisite:
-    Constraint: 2
-    HideInUI: 0
-    CanBuildOnWasteland: 1
-    serializableTerrainTypeNames:
-    - TerrainType_Ocean
-    - TerrainType_CoastalWater
-    - TerrainType_Lake
-  BiomePrerequisite:
-    Constraint: 0
-    serializableBiomeName: 
-  CliffPrerequisite:
-    Constraint: 0
-    HideInUI: 0
-  MountainPrerequisite:
-    Constraint: 0
-    HideInUI: 0
-  TileVisibilityPrerequisite:
-    Constraint: 1
-    Visibility: 0
-  NeighbourTilesPrerequisite:
-    NeighbourOperator: 0
-    TerritoryConstraint: 2
-    IgnoreCliff: 1
-    IgnoreNaturalWonder: 1
-    TerrainPrerequisite:
-      Constraint: 0
-      HideInUI: 0
-      CanBuildOnWasteland: 0
-      serializableTerrainTypeNames: []
-    RiverPrerequisite:
-      Constraint: 0
-      HideInUI: 0
-    DistrictPrerequisite:
-      TagOperator: 0
-      ValidIfNoDistrict: 0
-      HideInUI: 0
-      serializableTags: []
-  BoroughPrerequisite:
-    ExtensionRules: 1
-    HideInUI: 1
-  ProtectsNeighboursFromRansack: 0
-  ZoneOfControlDistance:
-    RawValue: 0
-  FriendlyUnitOnTopStatus:
-    serializableElementName: 
-  ProtectAgainstStealthDetection: 0
-  DistrictType: 14
-  HasPublicOrderCost: 0
-  AllowDistrictReplacement: 0
-  ExploitationRuleReference:
-    serializableElementName: 
-  ExtractResource: 0
-  WondrousResourceType: 64
-  UnitSpawnType: -1
-  AllowShipping: 0
-  ProvidesSecondaryRoad: 0
-  ProvidesRail: 0
-  ForceRiverOnTerrain: 0
-  serializableReplaceTerrainWith: 
-  IsWorkInProgress: 0
-  ExclusionRadiusRpnReference:
-    serializableElementName: Radius_NationalProject_NuclearTest
-  ProjectSitePercentReductionRpnReference:
-    serializableElementName: 
-  NationalProjectDescriptorReferences: []
-  AdditionalCostRpnReference:
-    serializableElementName: ProductionCost_NationalProject_ComplementaryCost_NuclearTest
-  NationalProjectLevel: 1
-  LockOnCompletion: 1
-  CanBuildProjectSite: 0
-  NextProject:
-    serializableElementName: Extension_NationalProject_NuclearTest_Level2
---- !u!114 &5278741835093074070
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1918750774, guid: b310e23bee821cb478da05296ba685d0, type: 3}
-  m_Name: Extension_NationalProject_SatelliteLaunch_Level3
-  m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes:
-    - Name: GainValues
-      Entry: 6
       Data: 
     - Name: Signature
       Entry: 7
-      Data: 0|Amplitude.Mercury.Data.Simulation.NarrativeEventConsequenceVariableDeclaration[],
+      Data: 1|Amplitude.Mercury.Data.Simulation.NarrativeEventConsequenceVariableDeclaration[],
         Amplitude.Mercury.Data
     - Name: 
       Entry: 12
       Data: 1
     - Name: 
       Entry: 7
-      Data: 1|Amplitude.Mercury.Data.Simulation.NarrativeEventConsequenceVariableDeclaration,
+      Data: 2|Amplitude.Mercury.Data.Simulation.NarrativeEventConsequenceVariableDeclaration,
         Amplitude.Mercury.Data
     - Name: VariableName
       Entry: 1
@@ -3411,13 +3499,13 @@ MonoBehaviour:
       Data: 
     - Name: Effects
       Entry: 7
-      Data: 2|Amplitude.Mercury.Data.Simulation.SimulationEventEffect[], Amplitude.Mercury.Data
+      Data: 3|Amplitude.Mercury.Data.Simulation.SimulationEventEffect[], Amplitude.Mercury.Data
     - Name: 
       Entry: 12
       Data: 3
     - Name: 
       Entry: 7
-      Data: 3|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_LaunchSatellite,
+      Data: 4|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_LaunchSatellite,
         Amplitude.Mercury.Data
     - Name: SimulationEffectDescriptionOverride
       Entry: 6
@@ -3458,62 +3546,7 @@ MonoBehaviour:
       Data: Amplitude.FixedPoint, Amplitude.Framework
     - Name: RawValue
       Entry: 3
-      Data: 10000
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 4|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_AddFame, Amplitude.Mercury.Data
-    - Name: SimulationEffectDescriptionOverride
-      Entry: 6
-      Data: 
-    - Name: UIMapperOverride
-      Entry: 6
-      Data: 
-    - Name: Hidden
-      Entry: 5
-      Data: false
-    - Name: DlcPrerequisite
-      Entry: 7
-      Data: Amplitude.Mercury.Data.Simulation.Prerequisites.DownloadableContentPrerequisite,
-        Amplitude.Mercury.Data
-    - Name: DownloadableContent
-      Entry: 3
-      Data: 0
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: GainValues
-      Entry: 6
-      Data: 
-    - Name: TargetID
-      Entry: 1
-      Data: Empire
-    - Name: Amount
-      Entry: 3
-      Data: 300
-    - Name: AmountRpn
-      Entry: 7
-      Data: Amplitude.Mercury.Data.Simulation.SimulationEventEffectRpn, Amplitude.Mercury.Data
-    - Name: RpnDefinition
-      Entry: 7
-      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
-    - Name: serializableElementName
-      Entry: 6
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: RpnSource
-      Entry: 6
-      Data: 
-    - Name: RpnTarget
-      Entry: 6
-      Data: 
+      Data: 1000
     - Name: 
       Entry: 8
       Data: 
@@ -3525,7 +3558,7 @@ MonoBehaviour:
       Data: 5|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_ApplyDescriptor,
         Amplitude.Mercury.Data
     - Name: SimulationEffectDescriptionOverride
-      Entry: 6
+      Entry: 1
       Data: 
     - Name: UIMapperOverride
       Entry: 6
@@ -3554,280 +3587,7 @@ MonoBehaviour:
       Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
     - Name: serializableElementName
       Entry: 1
-      Data: Effect_EmpireBonus_SatelliteCityBonuses3
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-  Key: 2
-  Hidden: 0
-  IsObsolete: 0
-  DLCPrerequisite:
-    DownloadableContent: 0
-  Category: 4
-  SerializableFamily: NationalProjectFamily_SatelliteLaunch
-  Level: 0
-  Unicity: 2
-  ConstructibleVisualAffinity:
-    serializableElementName: NationalProject_SatelliteLaunch
-  CanBeBoughtOut: 0
-  CanBeCanceled: 1
-  StartWhenQueued: 0
-  CanBeBoughtOutWithPopulation: 0
-  ProductionCostDefinition:
-    Type: 1
-    Constant: -1
-    RpnDefinitionReference:
-      serializableElementName: ProductionCost_NationalProject_SatelliteLaunch
-  MoneyInstantCostDefinition:
-    Constant: 0
-    RpnDefinitionReference:
-      serializableElementName: 
-  InfluenceInstantCostDefinition:
-    Constant: 0
-    RpnDefinitionReference:
-      serializableElementName: 
-  PopulationInstantCostDefinition:
-    Constant: 0
-  ProvidedByOtherEmpireCostDefinition:
-    ProductionCostModifierRpn:
-      serializableElementName: 
-    ReceiverMoneyCostRpn:
-      serializableElementName: 
-    ProviderMoneyGainRpn:
-      serializableElementName: 
-  ResourceAccessPrerequisites:
-  - Resource: 5
-    ConstantType: 0
-    ConstantValue: 1
-  - Resource: 6
-    ConstantType: 0
-    ConstantValue: 1
-  - Resource: 7
-    ConstantType: 0
-    ConstantValue: 1
-  MinimalPopulationPrerequisite: 0
-  ResourceSupremacyPrerequisite: 
-  EraPrerequisite:
-    Operator: 1
-    EraReference:
-      serializableElementName: Era6
-  FactionPrerequisite:
-    Operator: 0
-    serializableFactionNames: []
-  SettlementStatusPrerequisite:
-    CampConstraint: 0
-    CityConstraint: 1
-  ReligionAffinityPrerequisite:
-    serializableElementName: 
-  SettlementPropertyPrerequisites: []
-  SettlementStabilityPrerequisite:
-    Operator: 0
-    PublicOrderEffects: []
-  DistrictCountPrerequisites: []
-  ActionTypePrerequisite:
-    Operator: 0
-    ActionType: 0
-  ArtificialWonderBuiltPrerequisite:
-    Operator: 0
-    ArtificialWonderDefinition:
-      serializableElementName: 
-  BaseSynergyDistrict: 0
-  Prototype: 
-  OwnDescriptorReferences:
-  - serializableElementName: Tag_NationalProject_SatelliteLaunch
-  IsReplaceableOrDestroyable: 1
-  CanBeDowngradedToRuin: 1
-  AdditionalVisualLevels: []
-  IsImmuneToBombardment: 0
-  AllowBoroughExtension: 0
-  AllowConnectionWithOtherBorough: 1
-  FieldOfViewFlag: 0
-  OverADistrictPrerequisite:
-    TagOperator: 1
-    ValidIfNoDistrict: 1
-    HideInUI: 1
-    serializableTags:
-    - Tag_NationalProject_SatelliteLaunch
-  PointOfInterestPrerequisite:
-    Constraint: 7
-    HideInUI: 0
-    serializablePointOfInterestNames: []
-  RiverPrerequisite:
-    Constraint: 0
-    HideInUI: 0
-  TerrainPrerequisite:
-    Constraint: 2
-    HideInUI: 0
-    CanBuildOnWasteland: 0
-    serializableTerrainTypeNames:
-    - TerrainType_Ocean
-    - TerrainType_CoastalWater
-    - TerrainType_Lake
-  BiomePrerequisite:
-    Constraint: 0
-    serializableBiomeName: 
-  CliffPrerequisite:
-    Constraint: 0
-    HideInUI: 0
-  MountainPrerequisite:
-    Constraint: 0
-    HideInUI: 0
-  TileVisibilityPrerequisite:
-    Constraint: 1
-    Visibility: 0
-  NeighbourTilesPrerequisite:
-    NeighbourOperator: 0
-    TerritoryConstraint: 2
-    IgnoreCliff: 1
-    IgnoreNaturalWonder: 1
-    TerrainPrerequisite:
-      Constraint: 0
-      HideInUI: 0
-      CanBuildOnWasteland: 0
-      serializableTerrainTypeNames: []
-    RiverPrerequisite:
-      Constraint: 0
-      HideInUI: 0
-    DistrictPrerequisite:
-      TagOperator: 0
-      ValidIfNoDistrict: 0
-      HideInUI: 0
-      serializableTags: []
-  BoroughPrerequisite:
-    ExtensionRules: 1
-    HideInUI: 1
-  ProtectsNeighboursFromRansack: 0
-  ZoneOfControlDistance:
-    RawValue: 0
-  FriendlyUnitOnTopStatus:
-    serializableElementName: 
-  ProtectAgainstStealthDetection: 0
-  DistrictType: 13
-  HasPublicOrderCost: 0
-  AllowDistrictReplacement: 0
-  ExploitationRuleReference:
-    serializableElementName: 
-  ExtractResource: 0
-  WondrousResourceType: 64
-  UnitSpawnType: -1
-  AllowShipping: 0
-  ProvidesSecondaryRoad: 0
-  ProvidesRail: 0
-  ForceRiverOnTerrain: 0
-  serializableReplaceTerrainWith: 
-  IsWorkInProgress: 0
-  ExclusionRadiusRpnReference:
-    serializableElementName: Radius_NationalProject_SatelliteLaunch
-  ProjectSitePercentReductionRpnReference:
-    serializableElementName: NationalProject_ProjectSite_ProductionReduction
-  NationalProjectDescriptorReferences: []
-  AdditionalCostRpnReference:
-    serializableElementName: ProductionCost_NationalProject_ComplementaryCost_SatelliteLaunch
-  NationalProjectLevel: 3
-  LockOnCompletion: 1
-  CanBuildProjectSite: 1
-  NextProject:
-    serializableElementName: 
---- !u!114 &7209059132194258149
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1918750774, guid: b310e23bee821cb478da05296ba685d0, type: 3}
-  m_Name: Extension_NationalProject_NuclearTest_Level3
-  m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes:
-    - Name: GainValues
-      Entry: 6
-      Data: 
-    - Name: Signature
-      Entry: 7
-      Data: 0|Amplitude.Mercury.Data.Simulation.NarrativeEventConsequenceVariableDeclaration[],
-        Amplitude.Mercury.Data
-    - Name: 
-      Entry: 12
-      Data: 1
-    - Name: 
-      Entry: 7
-      Data: 1|Amplitude.Mercury.Data.Simulation.NarrativeEventConsequenceVariableDeclaration,
-        Amplitude.Mercury.Data
-    - Name: VariableName
-      Entry: 1
-      Data: Empire
-    - Name: VariableType
-      Entry: 1
-      Data: Amplitude.Mercury.Simulation.Empire, Amplitude.Mercury.Firstpass
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: Effects
-      Entry: 7
-      Data: 2|Amplitude.Mercury.Data.Simulation.SimulationEventEffect[], Amplitude.Mercury.Data
-    - Name: 
-      Entry: 12
-      Data: 3
-    - Name: 
-      Entry: 7
-      Data: 3|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_ApplyExperienceModifier,
-        Amplitude.Mercury.Data
-    - Name: SimulationEffectDescriptionOverride
-      Entry: 1
-      Data: '%ApplyExperienceModifierNuclearTest3_Override'
-    - Name: UIMapperOverride
-      Entry: 6
-      Data: 
-    - Name: Hidden
-      Entry: 5
-      Data: false
-    - Name: DlcPrerequisite
-      Entry: 7
-      Data: Amplitude.Mercury.Data.Simulation.Prerequisites.DownloadableContentPrerequisite,
-        Amplitude.Mercury.Data
-    - Name: DownloadableContent
-      Entry: 3
-      Data: 0
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: GainValues
-      Entry: 6
-      Data: 
-    - Name: TargetID
-      Entry: 1
-      Data: Empire
-    - Name: ExperienceModifierReference
-      Entry: 7
-      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
-    - Name: serializableElementName
-      Entry: 1
-      Data: ExperienceModifierDefinition_Class_NuclearMissile
+      Data: Effect_EmpireBonus_SatelliteCityBonuses1
     - Name: 
       Entry: 8
       Data: 
@@ -3836,346 +3596,7 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 4|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_AddFame, Amplitude.Mercury.Data
-    - Name: SimulationEffectDescriptionOverride
-      Entry: 6
-      Data: 
-    - Name: UIMapperOverride
-      Entry: 6
-      Data: 
-    - Name: Hidden
-      Entry: 5
-      Data: false
-    - Name: DlcPrerequisite
-      Entry: 7
-      Data: Amplitude.Mercury.Data.Simulation.Prerequisites.DownloadableContentPrerequisite,
-        Amplitude.Mercury.Data
-    - Name: DownloadableContent
-      Entry: 3
-      Data: 0
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: GainValues
-      Entry: 6
-      Data: 
-    - Name: TargetID
-      Entry: 1
-      Data: Empire
-    - Name: Amount
-      Entry: 3
-      Data: 150
-    - Name: AmountRpn
-      Entry: 7
-      Data: Amplitude.Mercury.Data.Simulation.SimulationEventEffectRpn, Amplitude.Mercury.Data
-    - Name: RpnDefinition
-      Entry: 7
-      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
-    - Name: serializableElementName
-      Entry: 6
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: RpnSource
-      Entry: 6
-      Data: 
-    - Name: RpnTarget
-      Entry: 6
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 5|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_UnlockConstructible,
-        Amplitude.Mercury.Data
-    - Name: SimulationEffectDescriptionOverride
-      Entry: 6
-      Data: 
-    - Name: UIMapperOverride
-      Entry: 6
-      Data: 
-    - Name: Hidden
-      Entry: 5
-      Data: false
-    - Name: DlcPrerequisite
-      Entry: 7
-      Data: Amplitude.Mercury.Data.Simulation.Prerequisites.DownloadableContentPrerequisite,
-        Amplitude.Mercury.Data
-    - Name: DownloadableContent
-      Entry: 3
-      Data: 0
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: GainValues
-      Entry: 6
-      Data: 
-    - Name: TargetID
-      Entry: 1
-      Data: Empire
-    - Name: ConstructibleReferences
-      Entry: 7
-      Data: 6|Amplitude.Framework.DatatableElementReference[], Amplitude.Framework
-    - Name: 
-      Entry: 12
-      Data: 1
-    - Name: 
-      Entry: 7
-      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
-    - Name: serializableElementName
-      Entry: 1
-      Data: AirUnit_Era6_Common_MIRVs
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-  Key: 8
-  Hidden: 0
-  IsObsolete: 0
-  DLCPrerequisite:
-    DownloadableContent: 0
-  Category: 4
-  SerializableFamily: NationalProjectFamily_NuclearTest
-  Level: 0
-  Unicity: 2
-  ConstructibleVisualAffinity:
-    serializableElementName: NationalProject_NuclearTest
-  CanBeBoughtOut: 0
-  CanBeCanceled: 1
-  StartWhenQueued: 0
-  CanBeBoughtOutWithPopulation: 0
-  ProductionCostDefinition:
-    Type: 1
-    Constant: -1
-    RpnDefinitionReference:
-      serializableElementName: ProductionCost_NationalProject_NuclearTest
-  MoneyInstantCostDefinition:
-    Constant: 0
-    RpnDefinitionReference:
-      serializableElementName: 
-  InfluenceInstantCostDefinition:
-    Constant: 0
-    RpnDefinitionReference:
-      serializableElementName: 
-  PopulationInstantCostDefinition:
-    Constant: 0
-  ProvidedByOtherEmpireCostDefinition:
-    ProductionCostModifierRpn:
-      serializableElementName: 
-    ReceiverMoneyCostRpn:
-      serializableElementName: 
-    ProviderMoneyGainRpn:
-      serializableElementName: 
-  ResourceAccessPrerequisites:
-  - Resource: 5
-    ConstantType: 0
-    ConstantValue: 1
-  - Resource: 6
-    ConstantType: 0
-    ConstantValue: 1
-  - Resource: 7
-    ConstantType: 0
-    ConstantValue: 1
-  MinimalPopulationPrerequisite: 0
-  ResourceSupremacyPrerequisite: 
-  EraPrerequisite:
-    Operator: 1
-    EraReference:
-      serializableElementName: Era5
-  FactionPrerequisite:
-    Operator: 0
-    serializableFactionNames: []
-  SettlementStatusPrerequisite:
-    CampConstraint: 0
-    CityConstraint: 1
-  ReligionAffinityPrerequisite:
-    serializableElementName: 
-  SettlementPropertyPrerequisites: []
-  SettlementStabilityPrerequisite:
-    Operator: 0
-    PublicOrderEffects: []
-  DistrictCountPrerequisites: []
-  ActionTypePrerequisite:
-    Operator: 1
-    ActionType: 45
-  ArtificialWonderBuiltPrerequisite:
-    Operator: 0
-    ArtificialWonderDefinition:
-      serializableElementName: 
-  BaseSynergyDistrict: 0
-  Prototype: 
-  OwnDescriptorReferences:
-  - serializableElementName: Tag_NationalProject_NuclearTest
-  IsReplaceableOrDestroyable: 1
-  CanBeDowngradedToRuin: 1
-  AdditionalVisualLevels: []
-  IsImmuneToBombardment: 0
-  AllowBoroughExtension: 0
-  AllowConnectionWithOtherBorough: 1
-  FieldOfViewFlag: 0
-  OverADistrictPrerequisite:
-    TagOperator: 0
-    ValidIfNoDistrict: 1
-    HideInUI: 1
-    serializableTags: []
-  PointOfInterestPrerequisite:
-    Constraint: 7
-    HideInUI: 0
-    serializablePointOfInterestNames: []
-  RiverPrerequisite:
-    Constraint: 0
-    HideInUI: 0
-  TerrainPrerequisite:
-    Constraint: 2
-    HideInUI: 0
-    CanBuildOnWasteland: 1
-    serializableTerrainTypeNames:
-    - TerrainType_Ocean
-    - TerrainType_CoastalWater
-    - TerrainType_Lake
-  BiomePrerequisite:
-    Constraint: 0
-    serializableBiomeName: 
-  CliffPrerequisite:
-    Constraint: 0
-    HideInUI: 0
-  MountainPrerequisite:
-    Constraint: 0
-    HideInUI: 0
-  TileVisibilityPrerequisite:
-    Constraint: 1
-    Visibility: 0
-  NeighbourTilesPrerequisite:
-    NeighbourOperator: 0
-    TerritoryConstraint: 2
-    IgnoreCliff: 1
-    IgnoreNaturalWonder: 1
-    TerrainPrerequisite:
-      Constraint: 0
-      HideInUI: 0
-      CanBuildOnWasteland: 0
-      serializableTerrainTypeNames: []
-    RiverPrerequisite:
-      Constraint: 0
-      HideInUI: 0
-    DistrictPrerequisite:
-      TagOperator: 0
-      ValidIfNoDistrict: 0
-      HideInUI: 0
-      serializableTags: []
-  BoroughPrerequisite:
-    ExtensionRules: 1
-    HideInUI: 1
-  ProtectsNeighboursFromRansack: 0
-  ZoneOfControlDistance:
-    RawValue: 0
-  FriendlyUnitOnTopStatus:
-    serializableElementName: 
-  ProtectAgainstStealthDetection: 0
-  DistrictType: 14
-  HasPublicOrderCost: 0
-  AllowDistrictReplacement: 0
-  ExploitationRuleReference:
-    serializableElementName: 
-  ExtractResource: 0
-  WondrousResourceType: 64
-  UnitSpawnType: -1
-  AllowShipping: 0
-  ProvidesSecondaryRoad: 0
-  ProvidesRail: 0
-  ForceRiverOnTerrain: 0
-  serializableReplaceTerrainWith: 
-  IsWorkInProgress: 0
-  ExclusionRadiusRpnReference:
-    serializableElementName: Radius_NationalProject_NuclearTest
-  ProjectSitePercentReductionRpnReference:
-    serializableElementName: 
-  NationalProjectDescriptorReferences: []
-  AdditionalCostRpnReference:
-    serializableElementName: ProductionCost_NationalProject_ComplementaryCost_NuclearTest
-  NationalProjectLevel: 3
-  LockOnCompletion: 1
-  CanBuildProjectSite: 0
-  NextProject:
-    serializableElementName: 
---- !u!114 &7677588384156231119
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1918750774, guid: b310e23bee821cb478da05296ba685d0, type: 3}
-  m_Name: Extension_NationalProject_SpaceRace_Level1
-  m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes:
-    - Name: GainValues
-      Entry: 6
-      Data: 
-    - Name: Signature
-      Entry: 7
-      Data: 0|Amplitude.Mercury.Data.Simulation.NarrativeEventConsequenceVariableDeclaration[],
-        Amplitude.Mercury.Data
-    - Name: 
-      Entry: 12
-      Data: 1
-    - Name: 
-      Entry: 7
-      Data: 1|Amplitude.Mercury.Data.Simulation.NarrativeEventConsequenceVariableDeclaration,
-        Amplitude.Mercury.Data
-    - Name: VariableName
-      Entry: 1
-      Data: Empire
-    - Name: VariableType
-      Entry: 1
-      Data: Amplitude.Mercury.Simulation.Empire, Amplitude.Mercury.Firstpass
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: Effects
-      Entry: 7
-      Data: 2|Amplitude.Mercury.Data.Simulation.SimulationEventEffect[], Amplitude.Mercury.Data
-    - Name: 
-      Entry: 12
-      Data: 3
-    - Name: 
-      Entry: 7
-      Data: 3|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_AddFame, Amplitude.Mercury.Data
+      Data: 6|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_AddFame, Amplitude.Mercury.Data
     - Name: SimulationEffectDescriptionOverride
       Entry: 6
       Data: 
@@ -4229,104 +3650,23 @@ MonoBehaviour:
       Entry: 8
       Data: 
     - Name: 
-      Entry: 7
-      Data: 4|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_ApplyDescriptor,
-        Amplitude.Mercury.Data
-    - Name: SimulationEffectDescriptionOverride
-      Entry: 6
-      Data: 
-    - Name: UIMapperOverride
-      Entry: 6
-      Data: 
-    - Name: Hidden
-      Entry: 5
-      Data: false
-    - Name: DlcPrerequisite
-      Entry: 7
-      Data: Amplitude.Mercury.Data.Simulation.Prerequisites.DownloadableContentPrerequisite,
-        Amplitude.Mercury.Data
-    - Name: DownloadableContent
-      Entry: 3
-      Data: 0
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: GainValues
-      Entry: 6
-      Data: 
-    - Name: TargetID
-      Entry: 1
-      Data: Empire
-    - Name: Descriptor
-      Entry: 7
-      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
-    - Name: serializableElementName
-      Entry: 1
-      Data: Effect_EmpireBonus_SpaceRace1
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 5|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_TriggerNationalProjectNarrativeEvent,
-        Amplitude.Mercury.Data
-    - Name: SimulationEffectDescriptionOverride
-      Entry: 6
-      Data: 
-    - Name: UIMapperOverride
-      Entry: 6
-      Data: 
-    - Name: Hidden
-      Entry: 5
-      Data: false
-    - Name: DlcPrerequisite
-      Entry: 7
-      Data: Amplitude.Mercury.Data.Simulation.Prerequisites.DownloadableContentPrerequisite,
-        Amplitude.Mercury.Data
-    - Name: DownloadableContent
-      Entry: 3
-      Data: 0
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: GainValues
-      Entry: 6
-      Data: 
-    - Name: TargetID
-      Entry: 1
-      Data: Empire
-    - Name: NarrativeEvent
-      Entry: 7
-      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
-    - Name: serializableElementName
-      Entry: 1
-      Data: NarrativeEvent_SpaceRace01
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
       Entry: 13
       Data: 
     - Name: 
       Entry: 8
       Data: 
-  Key: 10
+  Key: 0
   Hidden: 0
   IsObsolete: 0
   DLCPrerequisite:
     DownloadableContent: 0
   Category: 4
-  SerializableFamily: NationalProjectFamily_SpaceRace
+  SerializableFamily: NationalProjectFamily_SatelliteLaunch
   Level: 0
   Unicity: 2
+  UnicityAdditionalConstructible: []
   ConstructibleVisualAffinity:
-    serializableElementName: NationalProject_SpaceLaunch
+    serializableElementName: NationalProject_SatelliteLaunch
   CanBeBoughtOut: 0
   CanBeCanceled: 1
   StartWhenQueued: 0
@@ -4335,7 +3675,7 @@ MonoBehaviour:
     Type: 1
     Constant: -1
     RpnDefinitionReference:
-      serializableElementName: ProductionCost_NationalProject_SpaceLaunch
+      serializableElementName: ProductionCost_NationalProject_SatelliteLaunch
   MoneyInstantCostDefinition:
     Constant: 0
     RpnDefinitionReference:
@@ -4354,15 +3694,18 @@ MonoBehaviour:
     ProviderMoneyGainRpn:
       serializableElementName: 
   ResourceAccessPrerequisites:
+  - Resource: 5
+    ConstantType: 0
+    ConstantValue: 4
   - Resource: 6
     ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 8
   MinimalPopulationPrerequisite: 0
   ResourceSupremacyPrerequisite: 
   EraPrerequisite:
     Operator: 1
     EraReference:
-      serializableElementName: Era6
+      serializableElementName: Era1
   FactionPrerequisite:
     Operator: 0
     serializableFactionNames: []
@@ -4384,9 +3727,9 @@ MonoBehaviour:
     ArtificialWonderDefinition:
       serializableElementName: 
   BaseSynergyDistrict: 0
-  Prototype: 
+  Prototype: Extension_Prototype_Base
   OwnDescriptorReferences:
-  - serializableElementName: Tag_NationalProject_SpaceRace
+  - serializableElementName: Tag_NationalProject_SatelliteLaunch
   IsReplaceableOrDestroyable: 1
   CanBeDowngradedToRuin: 1
   AdditionalVisualLevels: []
@@ -4395,11 +3738,11 @@ MonoBehaviour:
   AllowConnectionWithOtherBorough: 1
   FieldOfViewFlag: 0
   OverADistrictPrerequisite:
-    TagOperator: 0
+    TagOperator: 1
     ValidIfNoDistrict: 1
     HideInUI: 1
     serializableTags:
-    - Tag_NationalProject_SpaceRace
+    - Tag_NationalProject_SatelliteLaunch
   PointOfInterestPrerequisite:
     Constraint: 7
     HideInUI: 0
@@ -4410,6 +3753,7 @@ MonoBehaviour:
   TerrainPrerequisite:
     Constraint: 2
     HideInUI: 0
+    LocalizationOverride: 
     CanBuildOnWasteland: 0
     serializableTerrainTypeNames:
     - TerrainType_Ocean
@@ -4417,7 +3761,7 @@ MonoBehaviour:
     - TerrainType_Lake
   BiomePrerequisite:
     Constraint: 0
-    serializableBiomeName: 
+    serializableBiomeNames: []
   CliffPrerequisite:
     Constraint: 0
     HideInUI: 0
@@ -4435,6 +3779,7 @@ MonoBehaviour:
     TerrainPrerequisite:
       Constraint: 0
       HideInUI: 0
+      LocalizationOverride: 
       CanBuildOnWasteland: 0
       serializableTerrainTypeNames: []
     RiverPrerequisite:
@@ -4454,9 +3799,11 @@ MonoBehaviour:
   FriendlyUnitOnTopStatus:
     serializableElementName: 
   ProtectAgainstStealthDetection: 0
-  DistrictType: 15
+  DistrictType: 13
   HasPublicOrderCost: 0
-  AllowDistrictReplacement: 0
+  CanReplaceDistrict: 0
+  CanBeReplacedByDistrict: 0
+  PlacementPolicies: 0
   ExploitationRuleReference:
     serializableElementName: 
   ExtractResource: 0
@@ -4474,100 +3821,9 @@ MonoBehaviour:
     serializableElementName: NationalProject_ProjectSite_ProductionReduction
   NationalProjectDescriptorReferences: []
   AdditionalCostRpnReference:
-    serializableElementName: ProductionCost_NationalProject_ComplementaryCost_SpaceLaunch
+    serializableElementName: ProductionCost_NationalProject_ComplementaryCost_SatelliteLaunch
   NationalProjectLevel: 1
   LockOnCompletion: 1
   CanBuildProjectSite: 1
   NextProject:
-    serializableElementName: Extension_NationalProject_SpaceRace_Level2
---- !u!114 &9139744156825240001
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1884236111, guid: b310e23bee821cb478da05296ba685d0, type: 3}
-  m_Name: EmpireWideConstructionParticipation_Extension_NationalProject_NuclearTest_Level1
-  m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes:
-    - Name: GainValues
-      Entry: 6
-      Data: 
-  Key: 42
-  Hidden: 0
-  IsObsolete: 0
-  DLCPrerequisite:
-    DownloadableContent: 0
-  Category: 0
-  SerializableFamily: 
-  Level: 0
-  Unicity: 1
-  ConstructibleVisualAffinity:
-    serializableElementName: 
-  CanBeBoughtOut: 0
-  CanBeCanceled: 1
-  StartWhenQueued: 0
-  CanBeBoughtOutWithPopulation: 0
-  ProductionCostDefinition:
-    Type: 4
-    Constant: 0
-    RpnDefinitionReference:
-      serializableElementName: 
-  MoneyInstantCostDefinition:
-    Constant: 0
-    RpnDefinitionReference:
-      serializableElementName: 
-  InfluenceInstantCostDefinition:
-    Constant: 0
-    RpnDefinitionReference:
-      serializableElementName: 
-  PopulationInstantCostDefinition:
-    Constant: 0
-  ProvidedByOtherEmpireCostDefinition:
-    ProductionCostModifierRpn:
-      serializableElementName: 
-    ReceiverMoneyCostRpn:
-      serializableElementName: 
-    ProviderMoneyGainRpn:
-      serializableElementName: 
-  ResourceAccessPrerequisites: []
-  MinimalPopulationPrerequisite: 0
-  ResourceSupremacyPrerequisite: 
-  EraPrerequisite:
-    Operator: 1
-    EraReference:
-      serializableElementName: Era5
-  FactionPrerequisite:
-    Operator: 0
-    serializableFactionNames: []
-  SettlementStatusPrerequisite:
-    CampConstraint: 0
-    CityConstraint: 1
-  ReligionAffinityPrerequisite:
-    serializableElementName: 
-  SettlementPropertyPrerequisites: []
-  SettlementStabilityPrerequisite:
-    Operator: 0
-    PublicOrderEffects: []
-  DistrictCountPrerequisites: []
-  ActionTypePrerequisite:
-    Operator: 0
-    ActionType: 0
-  ArtificialWonderBuiltPrerequisite:
-    Operator: 0
-    ArtificialWonderDefinition:
-      serializableElementName: 
-  BaseSynergyDistrict: 0
-  EmpireWideConstructionReference:
-    serializableElementName: Extension_NationalProject_NuclearTest_Level1
+    serializableElementName: Extension_NationalProject_SatelliteLaunch_Level2

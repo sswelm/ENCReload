@@ -1,5 +1,171 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-9137017883373302230
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -717291864, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: NavalUnit_Era6_Common_MissileFrigates
+  m_EditorClassIdentifier: 
+  Title: '%NavalUnit_Era6_Common_FrigateTitle'
+  Description: '%NavalUnit_Era6_Common_FrigateDescription'
+  Images:
+  - Value:
+      guid:
+        a: -1079126261
+        b: 1315423115
+        c: -744353626
+        d: -1401702203
+    serializableKey: Picto
+  - Value:
+      guid:
+        a: -1259882318
+        b: 1287901819
+        c: 469349302
+        d: 286252670
+    serializableKey: Default_Small
+  - Value:
+      guid:
+        a: 1862222676
+        b: 1312318480
+        c: -1354511712
+        d: 1294073104
+    serializableKey: Default_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation1_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation1_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation2_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation2_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation3_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation3_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation4_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation4_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation5_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation5_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation6_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation6_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation7_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation7_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation8_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation8_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation9_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation9_Tooltip
+  Color: {r: 1, g: 1, b: 1, a: 1}
+  Symbol: 
+  SortPriority: 8400
+  ConstructibleTraits: 
 --- !u!114 &-9118494801904364449
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -607,159 +773,6 @@ MonoBehaviour:
   Color: {r: 1, g: 1, b: 1, a: 1}
   Symbol: 
   SortPriority: 8550
-  ConstructibleTraits: 
---- !u!114 &-7415598380035824885
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -717291864, guid: b310e23bee821cb478da05296ba685d0, type: 3}
-  m_Name: NavalUnit_Era6_Common_MissileFrigates
-  m_EditorClassIdentifier: 
-  Title: Missile Frigate
-  Description: Missile Frigate are relatively small vessels tarked with protecting
-    the fleet
-  Images:
-  - Value:
-      guid:
-        a: -5622813
-        b: 1249176334
-        c: -1333746273
-        d: 1903272453
-    serializableKey: Picto
-  - Value:
-      guid:
-        a: -1192454814
-        b: 1207714653
-        c: -208251763
-        d: -372867638
-    serializableKey: Default_Small
-  - Value:
-      guid:
-        a: -1265232172
-        b: 1119282791
-        c: 1164064685
-        d: 1537334101
-    serializableKey: Default_Tooltip
-  - Value:
-      guid:
-        a: 0
-        b: 0
-        c: 0
-        d: 0
-    serializableKey: Variation1_Small
-  - Value:
-      guid:
-        a: 0
-        b: 0
-        c: 0
-        d: 0
-    serializableKey: Variation1_Tooltip
-  - Value:
-      guid:
-        a: 0
-        b: 0
-        c: 0
-        d: 0
-    serializableKey: Variation2_Small
-  - Value:
-      guid:
-        a: 0
-        b: 0
-        c: 0
-        d: 0
-    serializableKey: Variation2_Tooltip
-  - Value:
-      guid:
-        a: 0
-        b: 0
-        c: 0
-        d: 0
-    serializableKey: Variation3_Small
-  - Value:
-      guid:
-        a: 0
-        b: 0
-        c: 0
-        d: 0
-    serializableKey: Variation3_Tooltip
-  - Value:
-      guid:
-        a: 0
-        b: 0
-        c: 0
-        d: 0
-    serializableKey: Variation4_Small
-  - Value:
-      guid:
-        a: 0
-        b: 0
-        c: 0
-        d: 0
-    serializableKey: Variation4_Tooltip
-  - Value:
-      guid:
-        a: 0
-        b: 0
-        c: 0
-        d: 0
-    serializableKey: Variation5_Small
-  - Value:
-      guid:
-        a: 0
-        b: 0
-        c: 0
-        d: 0
-    serializableKey: Variation5_Tooltip
-  - Value:
-      guid:
-        a: 0
-        b: 0
-        c: 0
-        d: 0
-    serializableKey: Variation6_Small
-  - Value:
-      guid:
-        a: 0
-        b: 0
-        c: 0
-        d: 0
-    serializableKey: Variation6_Tooltip
-  - Value:
-      guid:
-        a: 0
-        b: 0
-        c: 0
-        d: 0
-    serializableKey: Variation7_Small
-  - Value:
-      guid:
-        a: 0
-        b: 0
-        c: 0
-        d: 0
-    serializableKey: Variation7_Tooltip
-  - Value:
-      guid:
-        a: 0
-        b: 0
-        c: 0
-        d: 0
-    serializableKey: Variation8_Small
-  - Value:
-      guid:
-        a: 0
-        b: 0
-        c: 0
-        d: 0
-    serializableKey: Variation8_Tooltip
-  Color: {r: 1, g: 1, b: 1, a: 1}
-  Symbol: 
-  SortPriority: 8400
   ConstructibleTraits: 
 --- !u!114 &-7215836877573478822
 MonoBehaviour:
@@ -1988,163 +2001,6 @@ MonoBehaviour:
   Symbol: 
   SortPriority: 8850
   ConstructibleTraits: 
---- !u!114 &-3446626469021628741
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -717291864, guid: b310e23bee821cb478da05296ba685d0, type: 3}
-  m_Name: NavalUnit_Era6_Common_Destroyers
-  m_EditorClassIdentifier: 
-  Title: Destroyer
-  Description: 'The Destroyer is a Modern Era multipurpose naval melee attack unit
-    designed to defend your fleet from all new dangers of modern combat. It is small
-    and agile, but at the same time it packs quite a punch in naval melee combat.
-    It is especially useful against submarines thanks to its sonar systems, which
-    allow it to detect them from afar; and its depth-charges, which can destroy them
-    even though they''re under the water. '
-  Images:
-  - Value:
-      guid:
-        a: -2116142358
-        b: 1157882498
-        c: 1209086630
-        d: 1093448402
-    serializableKey: Picto
-  - Value:
-      guid:
-        a: 670058784
-        b: 1135912255
-        c: 1975532731
-        d: 756163601
-    serializableKey: Default_Small
-  - Value:
-      guid:
-        a: 670058784
-        b: 1135912255
-        c: 1975532731
-        d: 756163601
-    serializableKey: Default_Tooltip
-  - Value:
-      guid:
-        a: 0
-        b: 0
-        c: 0
-        d: 0
-    serializableKey: Variation1_Small
-  - Value:
-      guid:
-        a: 0
-        b: 0
-        c: 0
-        d: 0
-    serializableKey: Variation1_Tooltip
-  - Value:
-      guid:
-        a: 0
-        b: 0
-        c: 0
-        d: 0
-    serializableKey: Variation2_Small
-  - Value:
-      guid:
-        a: 0
-        b: 0
-        c: 0
-        d: 0
-    serializableKey: Variation2_Tooltip
-  - Value:
-      guid:
-        a: 0
-        b: 0
-        c: 0
-        d: 0
-    serializableKey: Variation3_Small
-  - Value:
-      guid:
-        a: 0
-        b: 0
-        c: 0
-        d: 0
-    serializableKey: Variation3_Tooltip
-  - Value:
-      guid:
-        a: 0
-        b: 0
-        c: 0
-        d: 0
-    serializableKey: Variation4_Small
-  - Value:
-      guid:
-        a: 0
-        b: 0
-        c: 0
-        d: 0
-    serializableKey: Variation4_Tooltip
-  - Value:
-      guid:
-        a: 0
-        b: 0
-        c: 0
-        d: 0
-    serializableKey: Variation5_Small
-  - Value:
-      guid:
-        a: 0
-        b: 0
-        c: 0
-        d: 0
-    serializableKey: Variation5_Tooltip
-  - Value:
-      guid:
-        a: 0
-        b: 0
-        c: 0
-        d: 0
-    serializableKey: Variation6_Small
-  - Value:
-      guid:
-        a: 0
-        b: 0
-        c: 0
-        d: 0
-    serializableKey: Variation6_Tooltip
-  - Value:
-      guid:
-        a: 0
-        b: 0
-        c: 0
-        d: 0
-    serializableKey: Variation7_Small
-  - Value:
-      guid:
-        a: 0
-        b: 0
-        c: 0
-        d: 0
-    serializableKey: Variation7_Tooltip
-  - Value:
-      guid:
-        a: 0
-        b: 0
-        c: 0
-        d: 0
-    serializableKey: Variation8_Small
-  - Value:
-      guid:
-        a: 0
-        b: 0
-        c: 0
-        d: 0
-    serializableKey: Variation8_Tooltip
-  Color: {r: 1, g: 1, b: 1, a: 1}
-  Symbol: 
-  SortPriority: 8400
-  ConstructibleTraits: 
 --- !u!114 &-3249617315867400850
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2908,158 +2764,6 @@ MonoBehaviour:
   Color: {r: 1, g: 1, b: 1, a: 1}
   Symbol: 
   SortPriority: 8500
-  ConstructibleTraits: 
---- !u!114 &-1769918726014970250
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -717291864, guid: b310e23bee821cb478da05296ba685d0, type: 3}
-  m_Name: NavalUnit_Era6_Common_DieselSubmarines
-  m_EditorClassIdentifier: 
-  Title: Diesel Submarine
-  Description: The Diesel Submarine can enter other Empire's territory without permission
-  Images:
-  - Value:
-      guid:
-        a: -2116142358
-        b: 1157882498
-        c: 1209086630
-        d: 1093448402
-    serializableKey: Picto
-  - Value:
-      guid:
-        a: -1157249300
-        b: 1136517651
-        c: -1984974171
-        d: 1537293149
-    serializableKey: Default_Small
-  - Value:
-      guid:
-        a: -1157249300
-        b: 1136517651
-        c: -1984974171
-        d: 1537293149
-    serializableKey: Default_Tooltip
-  - Value:
-      guid:
-        a: 0
-        b: 0
-        c: 0
-        d: 0
-    serializableKey: Variation1_Small
-  - Value:
-      guid:
-        a: 0
-        b: 0
-        c: 0
-        d: 0
-    serializableKey: Variation1_Tooltip
-  - Value:
-      guid:
-        a: 0
-        b: 0
-        c: 0
-        d: 0
-    serializableKey: Variation2_Small
-  - Value:
-      guid:
-        a: 0
-        b: 0
-        c: 0
-        d: 0
-    serializableKey: Variation2_Tooltip
-  - Value:
-      guid:
-        a: 0
-        b: 0
-        c: 0
-        d: 0
-    serializableKey: Variation3_Small
-  - Value:
-      guid:
-        a: 0
-        b: 0
-        c: 0
-        d: 0
-    serializableKey: Variation3_Tooltip
-  - Value:
-      guid:
-        a: 0
-        b: 0
-        c: 0
-        d: 0
-    serializableKey: Variation4_Small
-  - Value:
-      guid:
-        a: 0
-        b: 0
-        c: 0
-        d: 0
-    serializableKey: Variation4_Tooltip
-  - Value:
-      guid:
-        a: 0
-        b: 0
-        c: 0
-        d: 0
-    serializableKey: Variation5_Small
-  - Value:
-      guid:
-        a: 0
-        b: 0
-        c: 0
-        d: 0
-    serializableKey: Variation5_Tooltip
-  - Value:
-      guid:
-        a: 0
-        b: 0
-        c: 0
-        d: 0
-    serializableKey: Variation6_Small
-  - Value:
-      guid:
-        a: 0
-        b: 0
-        c: 0
-        d: 0
-    serializableKey: Variation6_Tooltip
-  - Value:
-      guid:
-        a: 0
-        b: 0
-        c: 0
-        d: 0
-    serializableKey: Variation7_Small
-  - Value:
-      guid:
-        a: 0
-        b: 0
-        c: 0
-        d: 0
-    serializableKey: Variation7_Tooltip
-  - Value:
-      guid:
-        a: 0
-        b: 0
-        c: 0
-        d: 0
-    serializableKey: Variation8_Small
-  - Value:
-      guid:
-        a: 0
-        b: 0
-        c: 0
-        d: 0
-    serializableKey: Variation8_Tooltip
-  Color: {r: 1, g: 1, b: 1, a: 1}
-  Symbol: 
-  SortPriority: 8450
   ConstructibleTraits: 
 --- !u!114 &-1427857820093948267
 MonoBehaviour:
@@ -5212,6 +4916,172 @@ MonoBehaviour:
   Symbol: 
   SortPriority: 8400
   ConstructibleTraits: 
+--- !u!114 &5143486026783938802
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -717291864, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: NavalUnit_Era6_Common_Destroyers
+  m_EditorClassIdentifier: 
+  Title: '%NavalUnit_Era6_Common_DestroyerTitle'
+  Description: '%NavalUnit_Era6_Common_DestroyerDescription'
+  Images:
+  - Value:
+      guid:
+        a: -1079126261
+        b: 1315423115
+        c: -744353626
+        d: -1401702203
+    serializableKey: Picto
+  - Value:
+      guid:
+        a: 1212093236
+        b: 1244028909
+        c: 1527889806
+        d: 1901322211
+    serializableKey: Default_Small
+  - Value:
+      guid:
+        a: 1817241320
+        b: 1243581393
+        c: -514856007
+        d: -2045484866
+    serializableKey: Default_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation1_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation1_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation2_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation2_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation3_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation3_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation4_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation4_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation5_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation5_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation6_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation6_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation7_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation7_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation8_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation8_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation9_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation9_Tooltip
+  Color: {r: 1, g: 1, b: 1, a: 1}
+  Symbol: 
+  SortPriority: 8400
+  ConstructibleTraits: 
 --- !u!114 &5173280230823267948
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5515,6 +5385,172 @@ MonoBehaviour:
         c: 0
         d: 0
     serializableKey: Variation8_Tooltip
+  Color: {r: 1, g: 1, b: 1, a: 1}
+  Symbol: 
+  SortPriority: 8400
+  ConstructibleTraits: 
+--- !u!114 &5368810256712439249
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -717291864, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: NavalUnit_Era6_Common_DieselSubmarines
+  m_EditorClassIdentifier: 
+  Title: '%NavalUnit_Era6_Common_DieselSubmarineTitle'
+  Description: '%NavalUnit_Era6_Common_DieselSubmarineDescription'
+  Images:
+  - Value:
+      guid:
+        a: -2116142358
+        b: 1157882498
+        c: 1209086630
+        d: 1093448402
+    serializableKey: Picto
+  - Value:
+      guid:
+        a: 835666903
+        b: 1125772871
+        c: 1368423066
+        d: 1180503703
+    serializableKey: Default_Small
+  - Value:
+      guid:
+        a: 888674580
+        b: 1203656389
+        c: -1058905180
+        d: 1916314115
+    serializableKey: Default_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation1_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation1_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation2_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation2_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation3_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation3_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation4_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation4_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation5_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation5_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation6_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation6_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation7_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation7_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation8_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation8_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation9_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation9_Tooltip
   Color: {r: 1, g: 1, b: 1, a: 1}
   Symbol: 
   SortPriority: 8400
