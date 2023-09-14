@@ -156,8 +156,8 @@ MonoBehaviour:
   DLCPrerequisite:
     DownloadableContent: 0
   Category: 6
-  SerializableFamily: UnitFamily_Galleon
-  Level: 25
+  SerializableFamily: UnitFamily_Carrack
+  Level: 22
   Unicity: 0
   UnicityAdditionalConstructible: []
   ConstructibleVisualAffinity:
@@ -191,10 +191,10 @@ MonoBehaviour:
   ResourceAccessPrerequisites:
   - Resource: 1
     ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 6
   - Resource: 4
     ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 3
   MinimalPopulationPrerequisite: 0
   ResourceSupremacyPrerequisite: 
   EraPrerequisite:
@@ -223,15 +223,13 @@ MonoBehaviour:
       serializableElementName: 
   BaseSynergyDistrict: 0
   UnitClass:
-    serializableElementName: UnitClass_GunPlatform
+    serializableElementName: UnitClass_EscortShip
   UnitSpecialties:
   - serializableElementName: UnitSpecialty_LostAtSeaNever
-  - serializableElementName: UnitSpecialty_Shatter
-  - serializableElementName: UnitSpecialty_ShipOfTheLine
   OwnDescriptorReferences:
-  - serializableElementName: Effect_NavalUnit_Era4_Common_Galleons
+  - serializableElementName: Effect_NavalUnit_Era4_Common_Carracks
   - serializableElementName: Effect_Unit_Era4
-  - serializableElementName: Effect_Unit_Era4_Tier2
+  - serializableElementName: Effect_Unit_Era4_Tier1
   - serializableElementName: Tag_Unit_Vehicle
   BaseMovementSpeed: 1.8
   MovementSpeedMultiplierPerType:
@@ -602,6 +600,125 @@ MonoBehaviour:
   AlwaysUseCurrentEraVisualAffinity: 0
   visualAffinityEraReference:
     serializableElementName: Era5
+  unitSpecialty:
+    serializableElementName: 
+--- !u!114 &-5629098563085080969
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1850805416, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: NavalUnit_Era4_Common_Galleons
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: GainValues
+      Entry: 6
+      Data: 
+  Key: 0
+  Hidden: 0
+  IsObsolete: 0
+  DLCPrerequisite:
+    DownloadableContent: 0
+  Category: 6
+  SerializableFamily: UnitFamily_Galleon
+  Level: 26
+  Unicity: 0
+  UnicityAdditionalConstructible: []
+  ConstructibleVisualAffinity:
+    serializableElementName: 
+  CanBeBoughtOut: 1
+  CanBeCanceled: 1
+  StartWhenQueued: 0
+  CanBeBoughtOutWithPopulation: 0
+  ProductionCostDefinition:
+    Type: 1
+    Constant: -1
+    RpnDefinitionReference:
+      serializableElementName: ProductionCost_Unit_Era5_Medium
+  MoneyInstantCostDefinition:
+    Constant: -1
+    RpnDefinitionReference:
+      serializableElementName: 
+  InfluenceInstantCostDefinition:
+    Constant: 0
+    RpnDefinitionReference:
+      serializableElementName: 
+  PopulationInstantCostDefinition:
+    Constant: 1
+  ProvidedByOtherEmpireCostDefinition:
+    ProductionCostModifierRpn:
+      serializableElementName: 
+    ReceiverMoneyCostRpn:
+      serializableElementName: 
+    ProviderMoneyGainRpn:
+      serializableElementName: 
+  ResourceAccessPrerequisites:
+  - Resource: 1
+    ConstantType: 0
+    ConstantValue: 16
+  - Resource: 4
+    ConstantType: 0
+    ConstantValue: 6
+  MinimalPopulationPrerequisite: 0
+  ResourceSupremacyPrerequisite: 
+  EraPrerequisite:
+    Operator: 1
+    EraReference:
+      serializableElementName: 
+  FactionPrerequisite:
+    Operator: 0
+    serializableFactionNames: []
+  SettlementStatusPrerequisite:
+    CampConstraint: 0
+    CityConstraint: 1
+  ReligionAffinityPrerequisite:
+    serializableElementName: 
+  SettlementPropertyPrerequisites: []
+  SettlementStabilityPrerequisite:
+    Operator: 0
+    PublicOrderEffects: []
+  DistrictCountPrerequisites: []
+  ActionTypePrerequisite:
+    Operator: 0
+    ActionType: 0
+  ArtificialWonderBuiltPrerequisite:
+    Operator: 0
+    ArtificialWonderDefinition:
+      serializableElementName: 
+  BaseSynergyDistrict: 0
+  UnitClass:
+    serializableElementName: UnitClass_CapitalShip
+  UnitSpecialties:
+  - serializableElementName: UnitSpecialty_LostAtSeaNever
+  - serializableElementName: UnitSpecialty_Shatter
+  - serializableElementName: UnitSpecialty_ShipOfTheLine
+  OwnDescriptorReferences:
+  - serializableElementName: Effect_NavalUnit_Era4_Common_Galleons
+  - serializableElementName: Effect_Unit_Era4
+  - serializableElementName: Effect_Unit_Era5_Tier2
+  - serializableElementName: Tag_Unit_Vehicle
+  BaseMovementSpeed: 1.8
+  MovementSpeedMultiplierPerType:
+  - 1.5
+  - 2.5
+  - 4
+  - 1.03
+  UnitTags: 82
+  AlwaysUseCurrentEraVisualAffinity: 0
+  visualAffinityEraReference:
+    serializableElementName: Era4
   unitSpecialty:
     serializableElementName: 
 --- !u!114 &-5457188064282710079
@@ -1492,7 +1609,7 @@ MonoBehaviour:
     Type: 1
     Constant: -1
     RpnDefinitionReference:
-      serializableElementName: ProductionCost_Unit_Era4_Low_Copper2_Salpeter2
+      serializableElementName: ProductionCost_Unit_Era4_High
   MoneyInstantCostDefinition:
     Constant: -1
     RpnDefinitionReference:
@@ -1553,7 +1670,7 @@ MonoBehaviour:
   OwnDescriptorReferences:
   - serializableElementName: Effect_NavalUnit_Era4_Common_Galleasses
   - serializableElementName: Effect_Unit_Era4
-  - serializableElementName: Effect_Unit_Era4_Tier1
+  - serializableElementName: Effect_Unit_Era4_Tier3
   - serializableElementName: Tag_Unit_Vehicle
   BaseMovementSpeed: 1.8
   MovementSpeedMultiplierPerType:
@@ -2831,7 +2948,7 @@ MonoBehaviour:
     ConstantValue: 16
   - Resource: 4
     ConstantType: 0
-    ConstantValue: 6
+    ConstantValue: 8
   MinimalPopulationPrerequisite: 0
   ResourceSupremacyPrerequisite: 
   EraPrerequisite:
@@ -3892,7 +4009,7 @@ MonoBehaviour:
     DownloadableContent: 0
   Category: 6
   SerializableFamily: UnitFamily_HeavyWarship
-  Level: 22
+  Level: 21
   Unicity: 0
   UnicityAdditionalConstructible: []
   ConstructibleVisualAffinity:
@@ -3905,7 +4022,7 @@ MonoBehaviour:
     Type: 1
     Constant: -1
     RpnDefinitionReference:
-      serializableElementName: ProductionCost_Unit_Era4_Low_Copper2_Salpeter2
+      serializableElementName: ProductionCost_Unit_Era4_High
   MoneyInstantCostDefinition:
     Constant: -1
     RpnDefinitionReference:
@@ -3926,10 +4043,10 @@ MonoBehaviour:
   ResourceAccessPrerequisites:
   - Resource: 1
     ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 12
   - Resource: 4
     ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 4
   MinimalPopulationPrerequisite: 0
   ResourceSupremacyPrerequisite: 
   EraPrerequisite:
@@ -3958,7 +4075,7 @@ MonoBehaviour:
       serializableElementName: 
   BaseSynergyDistrict: 0
   UnitClass:
-    serializableElementName: UnitClass_BoardingVessel
+    serializableElementName: UnitClass_CapitalShip
   UnitSpecialties:
   - serializableElementName: UnitSpecialty_StrengthFromCloseRange_Level1
   - serializableElementName: UnitSpecialty_LostAtSeaDamage_Level3
@@ -3966,7 +4083,7 @@ MonoBehaviour:
   OwnDescriptorReferences:
   - serializableElementName: Effect_NavalUnit_Era4_Common_Galleasses
   - serializableElementName: Effect_Unit_Era4
-  - serializableElementName: Effect_Unit_Era4_Tier1
+  - serializableElementName: Effect_Unit_Era4_Tier3
   - serializableElementName: Tag_Unit_Vehicle
   BaseMovementSpeed: 1.8
   MovementSpeedMultiplierPerType:
@@ -4127,13 +4244,13 @@ MonoBehaviour:
       Entry: 6
       Data: 
   Key: 18
-  Hidden: 0
+  Hidden: 1
   IsObsolete: 0
   DLCPrerequisite:
     DownloadableContent: 0
   Category: 6
   SerializableFamily: UnitFamily_Carrack
-  Level: 22
+  Level: 24
   Unicity: 0
   UnicityAdditionalConstructible: []
   ConstructibleVisualAffinity:
@@ -4167,10 +4284,10 @@ MonoBehaviour:
   ResourceAccessPrerequisites:
   - Resource: 1
     ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 6
   - Resource: 4
     ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 3
   MinimalPopulationPrerequisite: 0
   ResourceSupremacyPrerequisite: 
   EraPrerequisite:
@@ -4202,11 +4319,10 @@ MonoBehaviour:
     serializableElementName: UnitClass_GunPlatform
   UnitSpecialties:
   - serializableElementName: UnitSpecialty_LostAtSeaNever
-  - serializableElementName: UnitSpecialty_ShipOfTheLine
   OwnDescriptorReferences:
   - serializableElementName: Effect_NavalUnit_Era4_Common_Carracks
   - serializableElementName: Effect_Unit_Era4
-  - serializableElementName: Effect_Unit_Era4_Tier1
+  - serializableElementName: Effect_Unit_Era4_Tier2
   - serializableElementName: Tag_Unit_Vehicle
   BaseMovementSpeed: 1.8
   MovementSpeedMultiplierPerType:
@@ -5607,10 +5723,10 @@ MonoBehaviour:
   ResourceAccessPrerequisites:
   - Resource: 1
     ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 6
   - Resource: 4
     ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 3
   MinimalPopulationPrerequisite: 0
   ResourceSupremacyPrerequisite: 
   EraPrerequisite:
@@ -5642,11 +5758,10 @@ MonoBehaviour:
     serializableElementName: UnitClass_GunPlatform
   UnitSpecialties:
   - serializableElementName: UnitSpecialty_LostAtSeaNever
-  - serializableElementName: UnitSpecialty_ShipOfTheLine
   OwnDescriptorReferences:
   - serializableElementName: Effect_NavalUnit_Era4_Common_Carracks
   - serializableElementName: Effect_Unit_Era4
-  - serializableElementName: Effect_Unit_Era4_Tier1
+  - serializableElementName: Effect_Unit_Era4_Tier2
   - serializableElementName: Tag_Unit_Vehicle
   BaseMovementSpeed: 1.8
   MovementSpeedMultiplierPerType:
