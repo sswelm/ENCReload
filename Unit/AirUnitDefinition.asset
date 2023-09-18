@@ -1575,7 +1575,7 @@ MonoBehaviour:
     Type: 1
     Constant: -1
     RpnDefinitionReference:
-      serializableElementName: ProductionCost_Unit_Era6_Low_Oil2
+      serializableElementName: ProductionCost_Unit_Era6_Low
   MoneyInstantCostDefinition:
     Constant: -1
     RpnDefinitionReference:
@@ -1596,7 +1596,10 @@ MonoBehaviour:
   ResourceAccessPrerequisites:
   - Resource: 5
     ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 2
+  - Resource: 6
+    ConstantType: 0
+    ConstantValue: 2
   MinimalPopulationPrerequisite: 0
   ResourceSupremacyPrerequisite: 
   EraPrerequisite:
@@ -1821,7 +1824,7 @@ MonoBehaviour:
     Type: 1
     Constant: -1
     RpnDefinitionReference:
-      serializableElementName: ProductionCost_Unit_Era6_Low_Oil2
+      serializableElementName: ProductionCost_Unit_Era6_Low
   MoneyInstantCostDefinition:
     Constant: -1
     RpnDefinitionReference:
@@ -2180,7 +2183,7 @@ MonoBehaviour:
     Type: 1
     Constant: -1
     RpnDefinitionReference:
-      serializableElementName: ProductionCost_Unit_Era5_Medium_Oil2
+      serializableElementName: ProductionCost_Unit_Era5_Medium
   MoneyInstantCostDefinition:
     Constant: -1
     RpnDefinitionReference:
@@ -2201,7 +2204,7 @@ MonoBehaviour:
   ResourceAccessPrerequisites:
   - Resource: 5
     ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 2
   MinimalPopulationPrerequisite: 0
   ResourceSupremacyPrerequisite: 
   EraPrerequisite:
