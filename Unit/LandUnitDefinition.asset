@@ -277,7 +277,7 @@ MonoBehaviour:
     Type: 1
     Constant: -1
     RpnDefinitionReference:
-      serializableElementName: ProductionCost_Unit_Era4_Medium_Copper3_Salpeter3
+      serializableElementName: ProductionCost_Unit_Era4_Medium
   MoneyInstantCostDefinition:
     Constant: 0
     RpnDefinitionReference:
@@ -298,10 +298,10 @@ MonoBehaviour:
   ResourceAccessPrerequisites:
   - Resource: 1
     ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 20
   - Resource: 4
     ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 14
   MinimalPopulationPrerequisite: 0
   ResourceSupremacyPrerequisite: 
   EraPrerequisite:
@@ -755,10 +755,7 @@ MonoBehaviour:
       serializableElementName: 
     ProviderMoneyGainRpn:
       serializableElementName: 
-  ResourceAccessPrerequisites:
-  - Resource: 2
-    ConstantType: 0
-    ConstantValue: 1
+  ResourceAccessPrerequisites: []
   MinimalPopulationPrerequisite: 0
   ResourceSupremacyPrerequisite: 
   EraPrerequisite:
@@ -1197,7 +1194,7 @@ MonoBehaviour:
     Type: 1
     Constant: -1
     RpnDefinitionReference:
-      serializableElementName: ProductionCost_Unit_Era6_Low_Iron2
+      serializableElementName: ProductionCost_Unit_Era6_Low
   MoneyInstantCostDefinition:
     Constant: 0
     RpnDefinitionReference:
@@ -1216,9 +1213,12 @@ MonoBehaviour:
     ProviderMoneyGainRpn:
       serializableElementName: 
   ResourceAccessPrerequisites:
+  - Resource: 0
+    ConstantType: 0
+    ConstantValue: 16
   - Resource: 2
     ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 10
   MinimalPopulationPrerequisite: 0
   ResourceSupremacyPrerequisite: 
   EraPrerequisite:
@@ -2117,7 +2117,7 @@ MonoBehaviour:
     Type: 1
     Constant: -1
     RpnDefinitionReference:
-      serializableElementName: ProductionCost_Unit_Era4_Medium_Iron2_Salpeter2
+      serializableElementName: ProductionCost_Unit_Era4_Medium
   MoneyInstantCostDefinition:
     Constant: 0
     RpnDefinitionReference:
@@ -2138,10 +2138,10 @@ MonoBehaviour:
   ResourceAccessPrerequisites:
   - Resource: 2
     ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 6
   - Resource: 4
     ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 6
   MinimalPopulationPrerequisite: 0
   ResourceSupremacyPrerequisite: 
   EraPrerequisite:
@@ -2352,7 +2352,7 @@ MonoBehaviour:
     Type: 1
     Constant: -1
     RpnDefinitionReference:
-      serializableElementName: ProductionCost_Unit_Era5_High_Iron2
+      serializableElementName: ProductionCost_Unit_Era5_High
   MoneyInstantCostDefinition:
     Constant: 0
     RpnDefinitionReference:
@@ -2373,7 +2373,7 @@ MonoBehaviour:
   ResourceAccessPrerequisites:
   - Resource: 2
     ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 12
   MinimalPopulationPrerequisite: 0
   ResourceSupremacyPrerequisite: 
   EraPrerequisite:
@@ -3843,7 +3843,7 @@ MonoBehaviour:
     Type: 1
     Constant: -1
     RpnDefinitionReference:
-      serializableElementName: ProductionCost_Unit_Era5_Medium_Horse3
+      serializableElementName: ProductionCost_Unit_Era5_Medium
   MoneyInstantCostDefinition:
     Constant: 0
     RpnDefinitionReference:
@@ -3864,10 +3864,7 @@ MonoBehaviour:
   ResourceAccessPrerequisites:
   - Resource: 0
     ConstantType: 0
-    ConstantValue: 1
-  - Resource: 4
-    ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 16
   MinimalPopulationPrerequisite: 0
   ResourceSupremacyPrerequisite: 
   EraPrerequisite:
@@ -4207,12 +4204,9 @@ MonoBehaviour:
     ProviderMoneyGainRpn:
       serializableElementName: 
   ResourceAccessPrerequisites:
-  - Resource: 2
-    ConstantType: 0
-    ConstantValue: 1
   - Resource: 4
     ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 3
   MinimalPopulationPrerequisite: 0
   ResourceSupremacyPrerequisite: 
   EraPrerequisite:
@@ -4438,10 +4432,10 @@ MonoBehaviour:
   ResourceAccessPrerequisites:
   - Resource: 2
     ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 7
   - Resource: 4
     ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 3
   MinimalPopulationPrerequisite: 0
   ResourceSupremacyPrerequisite: 
   EraPrerequisite:
@@ -4759,7 +4753,7 @@ MonoBehaviour:
     Type: 1
     Constant: -1
     RpnDefinitionReference:
-      serializableElementName: ProductionCost_Unit_Era6_Low_Iron2
+      serializableElementName: ProductionCost_Unit_Era6_Low
   MoneyInstantCostDefinition:
     Constant: 0
     RpnDefinitionReference:
@@ -4780,7 +4774,7 @@ MonoBehaviour:
   ResourceAccessPrerequisites:
   - Resource: 2
     ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 10
   MinimalPopulationPrerequisite: 0
   ResourceSupremacyPrerequisite: 
   EraPrerequisite:
@@ -5909,7 +5903,7 @@ MonoBehaviour:
     Type: 1
     Constant: -1
     RpnDefinitionReference:
-      serializableElementName: ProductionCost_Unit_Era5_Medium_Horse3
+      serializableElementName: ProductionCost_Unit_Era5_Medium
   MoneyInstantCostDefinition:
     Constant: 0
     RpnDefinitionReference:
@@ -5930,10 +5924,10 @@ MonoBehaviour:
   ResourceAccessPrerequisites:
   - Resource: 0
     ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 16
   - Resource: 4
     ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 5
   MinimalPopulationPrerequisite: 0
   ResourceSupremacyPrerequisite: 
   EraPrerequisite:
@@ -6279,10 +6273,7 @@ MonoBehaviour:
       serializableElementName: 
     ProviderMoneyGainRpn:
       serializableElementName: 
-  ResourceAccessPrerequisites:
-  - Resource: 2
-    ConstantType: 0
-    ConstantValue: 1
+  ResourceAccessPrerequisites: []
   MinimalPopulationPrerequisite: 0
   ResourceSupremacyPrerequisite: 
   EraPrerequisite:
@@ -6485,7 +6476,7 @@ MonoBehaviour:
     Type: 1
     Constant: -1
     RpnDefinitionReference:
-      serializableElementName: ProductionCost_Unit_Era5_Medium_Iron2
+      serializableElementName: ProductionCost_Unit_Era5_Medium
   MoneyInstantCostDefinition:
     Constant: 0
     RpnDefinitionReference:
@@ -7291,7 +7282,7 @@ MonoBehaviour:
     Type: 1
     Constant: -1
     RpnDefinitionReference:
-      serializableElementName: ProductionCost_Unit_Era4_Medium_Horse3
+      serializableElementName: ProductionCost_Unit_Era4_Medium
   MoneyInstantCostDefinition:
     Constant: 0
     RpnDefinitionReference:
@@ -7312,10 +7303,7 @@ MonoBehaviour:
   ResourceAccessPrerequisites:
   - Resource: 0
     ConstantType: 0
-    ConstantValue: 1
-  - Resource: 2
-    ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 8
   MinimalPopulationPrerequisite: 0
   ResourceSupremacyPrerequisite: 
   EraPrerequisite:
@@ -7408,7 +7396,7 @@ MonoBehaviour:
     Type: 1
     Constant: -1
     RpnDefinitionReference:
-      serializableElementName: ProductionCost_Unit_Era4_Medium_Salpeter2
+      serializableElementName: ProductionCost_Unit_Era4_Medium
   MoneyInstantCostDefinition:
     Constant: 0
     RpnDefinitionReference:
@@ -7427,9 +7415,12 @@ MonoBehaviour:
     ProviderMoneyGainRpn:
       serializableElementName: 
   ResourceAccessPrerequisites:
+  - Resource: 2
+    ConstantType: 0
+    ConstantValue: 7
   - Resource: 4
     ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 6
   MinimalPopulationPrerequisite: 0
   ResourceSupremacyPrerequisite: 
   EraPrerequisite:
@@ -7630,7 +7621,7 @@ MonoBehaviour:
     Type: 1
     Constant: -1
     RpnDefinitionReference:
-      serializableElementName: ProductionCost_Unit_Era5_Medium_Horse4
+      serializableElementName: ProductionCost_Unit_Era5_Medium
   MoneyInstantCostDefinition:
     Constant: 0
     RpnDefinitionReference:
@@ -7651,10 +7642,10 @@ MonoBehaviour:
   ResourceAccessPrerequisites:
   - Resource: 0
     ConstantType: 0
-    ConstantValue: 2
+    ConstantValue: 16
   - Resource: 4
     ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 5
   MinimalPopulationPrerequisite: 0
   ResourceSupremacyPrerequisite: 
   EraPrerequisite:
@@ -8225,7 +8216,7 @@ MonoBehaviour:
     Type: 1
     Constant: -1
     RpnDefinitionReference:
-      serializableElementName: ProductionCost_Unit_Era6_Low_Iron2
+      serializableElementName: ProductionCost_Unit_Era6_Low
   MoneyInstantCostDefinition:
     Constant: 0
     RpnDefinitionReference:
@@ -8246,10 +8237,10 @@ MonoBehaviour:
   ResourceAccessPrerequisites:
   - Resource: 2
     ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 10
   - Resource: 5
     ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 8
   MinimalPopulationPrerequisite: 0
   ResourceSupremacyPrerequisite: 
   EraPrerequisite:
@@ -8464,7 +8455,7 @@ MonoBehaviour:
     Type: 1
     Constant: -1
     RpnDefinitionReference:
-      serializableElementName: ProductionCost_Unit_Era5_High_Iron2
+      serializableElementName: ProductionCost_Unit_Era5_High
   MoneyInstantCostDefinition:
     Constant: 0
     RpnDefinitionReference:
@@ -8485,7 +8476,7 @@ MonoBehaviour:
   ResourceAccessPrerequisites:
   - Resource: 2
     ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 6
   MinimalPopulationPrerequisite: 0
   ResourceSupremacyPrerequisite: 
   EraPrerequisite:
@@ -8579,7 +8570,7 @@ MonoBehaviour:
     Type: 1
     Constant: -1
     RpnDefinitionReference:
-      serializableElementName: ProductionCost_Unit_Era6_Low_Iron2_Oil2
+      serializableElementName: ProductionCost_Unit_Era6_Low
   MoneyInstantCostDefinition:
     Constant: 0
     RpnDefinitionReference:
@@ -8600,10 +8591,10 @@ MonoBehaviour:
   ResourceAccessPrerequisites:
   - Resource: 2
     ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 10
   - Resource: 5
     ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 8
   MinimalPopulationPrerequisite: 0
   ResourceSupremacyPrerequisite: 
   EraPrerequisite:
@@ -9162,7 +9153,7 @@ MonoBehaviour:
     Type: 1
     Constant: -1
     RpnDefinitionReference:
-      serializableElementName: ProductionCost_Unit_Era4_High_Iron2_Salpeter2
+      serializableElementName: ProductionCost_Unit_Era4_High
   MoneyInstantCostDefinition:
     Constant: 0
     RpnDefinitionReference:
@@ -9183,13 +9174,13 @@ MonoBehaviour:
   ResourceAccessPrerequisites:
   - Resource: 0
     ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 8
   - Resource: 2
     ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 6
   - Resource: 4
     ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 6
   MinimalPopulationPrerequisite: 0
   ResourceSupremacyPrerequisite: 
   EraPrerequisite:
@@ -9394,7 +9385,7 @@ MonoBehaviour:
     Type: 1
     Constant: -1
     RpnDefinitionReference:
-      serializableElementName: ProductionCost_Unit_Era5_Medium_Horse3_Iron2
+      serializableElementName: ProductionCost_Unit_Era5_Medium
   MoneyInstantCostDefinition:
     Constant: 0
     RpnDefinitionReference:
@@ -9415,10 +9406,10 @@ MonoBehaviour:
   ResourceAccessPrerequisites:
   - Resource: 0
     ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 16
   - Resource: 2
     ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 14
   MinimalPopulationPrerequisite: 0
   ResourceSupremacyPrerequisite: 
   EraPrerequisite:
@@ -9999,10 +9990,10 @@ MonoBehaviour:
   ResourceAccessPrerequisites:
   - Resource: 2
     ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 14
   - Resource: 5
     ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 16
   MinimalPopulationPrerequisite: 0
   ResourceSupremacyPrerequisite: 
   EraPrerequisite:
@@ -10776,7 +10767,7 @@ MonoBehaviour:
     Type: 1
     Constant: -1
     RpnDefinitionReference:
-      serializableElementName: ProductionCost_Unit_Era4_High_Iron2_Horse2
+      serializableElementName: ProductionCost_Unit_Era4_High
   MoneyInstantCostDefinition:
     Constant: 0
     RpnDefinitionReference:
@@ -10797,10 +10788,10 @@ MonoBehaviour:
   ResourceAccessPrerequisites:
   - Resource: 0
     ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 14
   - Resource: 2
     ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 7
   MinimalPopulationPrerequisite: 0
   ResourceSupremacyPrerequisite: 
   EraPrerequisite:
@@ -11467,7 +11458,7 @@ MonoBehaviour:
     Type: 1
     Constant: -1
     RpnDefinitionReference:
-      serializableElementName: ProductionCost_Unit_Era6_Medium_Iron2_Oil2
+      serializableElementName: ProductionCost_Unit_Era6_Medium
   MoneyInstantCostDefinition:
     Constant: 0
     RpnDefinitionReference:
@@ -11488,10 +11479,10 @@ MonoBehaviour:
   ResourceAccessPrerequisites:
   - Resource: 2
     ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 12
   - Resource: 5
     ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 6
   MinimalPopulationPrerequisite: 0
   ResourceSupremacyPrerequisite: 
   EraPrerequisite:
@@ -11587,7 +11578,7 @@ MonoBehaviour:
     Type: 1
     Constant: -1
     RpnDefinitionReference:
-      serializableElementName: ProductionCost_Unit_Era4_High_Copper2_Salpeter2
+      serializableElementName: ProductionCost_Unit_Era4_High
   MoneyInstantCostDefinition:
     Constant: 0
     RpnDefinitionReference:
@@ -11608,10 +11599,10 @@ MonoBehaviour:
   ResourceAccessPrerequisites:
   - Resource: 1
     ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 14
   - Resource: 4
     ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 6
   MinimalPopulationPrerequisite: 0
   ResourceSupremacyPrerequisite: 
   EraPrerequisite:
@@ -11827,7 +11818,7 @@ MonoBehaviour:
     Type: 1
     Constant: -1
     RpnDefinitionReference:
-      serializableElementName: ProductionCost_Unit_Era5_Medium_Iron3_Salpeter3
+      serializableElementName: ProductionCost_Unit_Era5_Medium
   MoneyInstantCostDefinition:
     Constant: 0
     RpnDefinitionReference:
@@ -11848,10 +11839,10 @@ MonoBehaviour:
   ResourceAccessPrerequisites:
   - Resource: 2
     ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 12
   - Resource: 4
     ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 14
   MinimalPopulationPrerequisite: 0
   ResourceSupremacyPrerequisite: 
   EraPrerequisite:
@@ -12173,7 +12164,7 @@ MonoBehaviour:
     Type: 1
     Constant: -1
     RpnDefinitionReference:
-      serializableElementName: ProductionCost_Unit_Era5_Medium_Horse3_Iron2
+      serializableElementName: ProductionCost_Unit_Era5_Medium
   MoneyInstantCostDefinition:
     Constant: 0
     RpnDefinitionReference:
@@ -12194,10 +12185,10 @@ MonoBehaviour:
   ResourceAccessPrerequisites:
   - Resource: 0
     ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 16
   - Resource: 2
     ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 14
   MinimalPopulationPrerequisite: 0
   ResourceSupremacyPrerequisite: 
   EraPrerequisite:
@@ -12634,7 +12625,7 @@ MonoBehaviour:
     Type: 1
     Constant: -1
     RpnDefinitionReference:
-      serializableElementName: ProductionCost_Unit_Era4_High_Salpeter2
+      serializableElementName: ProductionCost_Unit_Era4_High
   MoneyInstantCostDefinition:
     Constant: 0
     RpnDefinitionReference:
@@ -12655,7 +12646,7 @@ MonoBehaviour:
   ResourceAccessPrerequisites:
   - Resource: 4
     ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 6
   MinimalPopulationPrerequisite: 0
   ResourceSupremacyPrerequisite: 
   EraPrerequisite:
@@ -13555,7 +13546,7 @@ MonoBehaviour:
     Type: 1
     Constant: -1
     RpnDefinitionReference:
-      serializableElementName: ProductionCost_Unit_Era6_Medium_Iron2_Oil2
+      serializableElementName: ProductionCost_Unit_Era6_Medium
   MoneyInstantCostDefinition:
     Constant: 0
     RpnDefinitionReference:
@@ -13576,10 +13567,10 @@ MonoBehaviour:
   ResourceAccessPrerequisites:
   - Resource: 2
     ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 12
   - Resource: 5
     ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 6
   MinimalPopulationPrerequisite: 0
   ResourceSupremacyPrerequisite: 
   EraPrerequisite:
@@ -13814,7 +13805,7 @@ MonoBehaviour:
   ResourceAccessPrerequisites:
   - Resource: 4
     ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 6
   MinimalPopulationPrerequisite: 0
   ResourceSupremacyPrerequisite: 
   EraPrerequisite:
@@ -14038,10 +14029,10 @@ MonoBehaviour:
   ResourceAccessPrerequisites:
   - Resource: 2
     ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 12
   - Resource: 4
     ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 14
   MinimalPopulationPrerequisite: 0
   ResourceSupremacyPrerequisite: 
   EraPrerequisite:
@@ -15181,10 +15172,10 @@ MonoBehaviour:
   ResourceAccessPrerequisites:
   - Resource: 2
     ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 7
   - Resource: 4
     ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 3
   MinimalPopulationPrerequisite: 0
   ResourceSupremacyPrerequisite: 
   EraPrerequisite:
@@ -15388,7 +15379,7 @@ MonoBehaviour:
     Type: 1
     Constant: -1
     RpnDefinitionReference:
-      serializableElementName: ProductionCost_Unit_Era4_High_Copper3_Salpeter3
+      serializableElementName: ProductionCost_Unit_Era4_High
   MoneyInstantCostDefinition:
     Constant: 0
     RpnDefinitionReference:
@@ -15409,10 +15400,10 @@ MonoBehaviour:
   ResourceAccessPrerequisites:
   - Resource: 1
     ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 20
   - Resource: 4
     ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 14
   MinimalPopulationPrerequisite: 0
   ResourceSupremacyPrerequisite: 
   EraPrerequisite:
