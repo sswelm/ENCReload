@@ -913,7 +913,7 @@ MonoBehaviour:
     ConstantValue: 20
   - Resource: 3
     ConstantType: 0
-    ConstantValue: 6
+    ConstantValue: 8
   MinimalPopulationPrerequisite: 0
   ResourceSupremacyPrerequisite: 
   EraPrerequisite:
@@ -3066,7 +3066,7 @@ MonoBehaviour:
     ConstantValue: 24
   - Resource: 3
     ConstantType: 0
-    ConstantValue: 8
+    ConstantValue: 12
   MinimalPopulationPrerequisite: 0
   ResourceSupremacyPrerequisite: 
   EraPrerequisite:
@@ -3437,7 +3437,7 @@ MonoBehaviour:
     ProviderMoneyGainRpn:
       serializableElementName: 
   ResourceAccessPrerequisites:
-  - Resource: 1
+  - Resource: 2
     ConstantType: 0
     ConstantValue: 4
   - Resource: 5
@@ -3916,10 +3916,10 @@ MonoBehaviour:
   ResourceAccessPrerequisites:
   - Resource: 2
     ConstantType: 0
-    ConstantValue: 20
+    ConstantValue: 24
   - Resource: 5
     ConstantType: 0
-    ConstantValue: 10
+    ConstantValue: 12
   - Resource: 6
     ConstantType: 0
     ConstantValue: 8

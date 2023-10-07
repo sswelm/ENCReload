@@ -7312,7 +7312,10 @@ MonoBehaviour:
   ResourceAccessPrerequisites:
   - Resource: 0
     ConstantType: 0
-    ConstantValue: 8
+    ConstantValue: 12
+  - Resource: 2
+    ConstantType: 0
+    ConstantValue: 6
   MinimalPopulationPrerequisite: 0
   ResourceSupremacyPrerequisite: 
   EraPrerequisite:
@@ -8127,10 +8130,10 @@ MonoBehaviour:
   ResourceAccessPrerequisites:
   - Resource: 2
     ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 12
   - Resource: 5
     ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 8
   MinimalPopulationPrerequisite: 0
   ResourceSupremacyPrerequisite: 
   EraPrerequisite:
@@ -9063,9 +9066,9 @@ MonoBehaviour:
     ProviderMoneyGainRpn:
       serializableElementName: 
   ResourceAccessPrerequisites:
-  - Resource: 7
+  - Resource: 5
     ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 4
   MinimalPopulationPrerequisite: 0
   ResourceSupremacyPrerequisite: 
   EraPrerequisite:
@@ -9651,7 +9654,7 @@ MonoBehaviour:
   ResourceAccessPrerequisites:
   - Resource: 2
     ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 12
   MinimalPopulationPrerequisite: 0
   ResourceSupremacyPrerequisite: 
   EraPrerequisite:
@@ -13342,7 +13345,10 @@ MonoBehaviour:
   ResourceAccessPrerequisites:
   - Resource: 6
     ConstantType: 0
-    ConstantValue: 8
+    ConstantValue: 6
+  - Resource: 7
+    ConstantType: 0
+    ConstantValue: 2
   MinimalPopulationPrerequisite: 0
   ResourceSupremacyPrerequisite: 
   EraPrerequisite:
@@ -13697,9 +13703,12 @@ MonoBehaviour:
     ProviderMoneyGainRpn:
       serializableElementName: 
   ResourceAccessPrerequisites:
+  - Resource: 5
+    ConstantType: 0
+    ConstantValue: 4
   - Resource: 7
     ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 2
   MinimalPopulationPrerequisite: 0
   ResourceSupremacyPrerequisite: 
   EraPrerequisite:

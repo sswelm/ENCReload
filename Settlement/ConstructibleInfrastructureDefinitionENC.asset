@@ -57,6 +57,7 @@ MonoBehaviour:
   SerializableFamily: InfrastructureFamily_Military_Family05
   Level: 0
   Unicity: 1
+  UnicityAdditionalConstructible: []
   ConstructibleVisualAffinity:
     serializableElementName: 
   CanBeBoughtOut: 1
@@ -88,7 +89,10 @@ MonoBehaviour:
   ResourceAccessPrerequisites:
   - Resource: 2
     ConstantType: 0
-    ConstantValue: 2
+    ConstantValue: 14
+  - Resource: 6
+    ConstantType: 0
+    ConstantValue: 3
   MinimalPopulationPrerequisite: 0
   ResourceSupremacyPrerequisite: 
   EraPrerequisite:
@@ -228,6 +232,7 @@ MonoBehaviour:
   SerializableFamily: InfrastructureFamily_Industry_Family01
   Level: 3
   Unicity: 1
+  UnicityAdditionalConstructible: []
   ConstructibleVisualAffinity:
     serializableElementName: 
   CanBeBoughtOut: 1
@@ -259,10 +264,10 @@ MonoBehaviour:
   ResourceAccessPrerequisites:
   - Resource: 1
     ConstantType: 0
-    ConstantValue: 2
+    ConstantValue: 14
   - Resource: 3
     ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 7
   MinimalPopulationPrerequisite: 0
   ResourceSupremacyPrerequisite: 
   EraPrerequisite:
@@ -352,6 +357,7 @@ MonoBehaviour:
   SerializableFamily: InfrastructureFamily_Military_Family01
   Level: 3
   Unicity: 1
+  UnicityAdditionalConstructible: []
   ConstructibleVisualAffinity:
     serializableElementName: 
   CanBeBoughtOut: 0
@@ -383,7 +389,10 @@ MonoBehaviour:
   ResourceAccessPrerequisites:
   - Resource: 2
     ConstantType: 0
-    ConstantValue: 3
+    ConstantValue: 20
+  - Resource: 0
+    ConstantType: 0
+    ConstantValue: 6
   MinimalPopulationPrerequisite: 0
   ResourceSupremacyPrerequisite: 
   EraPrerequisite:
@@ -472,6 +481,7 @@ MonoBehaviour:
   SerializableFamily: InfrastructureFamily_Food_Family02
   Level: 1
   Unicity: 1
+  UnicityAdditionalConstructible: []
   ConstructibleVisualAffinity:
     serializableElementName: 
   CanBeBoughtOut: 1
@@ -503,13 +513,13 @@ MonoBehaviour:
   ResourceAccessPrerequisites:
   - Resource: 5
     ConstantType: 0
-    ConstantValue: 2
+    ConstantValue: 14
   - Resource: 6
     ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 12
   - Resource: 4
     ConstantType: 0
-    ConstantValue: 3
+    ConstantValue: 5
   MinimalPopulationPrerequisite: 0
   ResourceSupremacyPrerequisite: 
   EraPrerequisite:
@@ -598,6 +608,7 @@ MonoBehaviour:
   SerializableFamily: InfrastructureFamily_Military_Family01
   Level: 0
   Unicity: 1
+  UnicityAdditionalConstructible: []
   ConstructibleVisualAffinity:
     serializableElementName: 
   CanBeBoughtOut: 0
@@ -715,6 +726,7 @@ MonoBehaviour:
   SerializableFamily: InfrastructureFamily_Industry_Family01
   Level: 2
   Unicity: 1
+  UnicityAdditionalConstructible: []
   ConstructibleVisualAffinity:
     serializableElementName: 
   CanBeBoughtOut: 1
@@ -746,7 +758,10 @@ MonoBehaviour:
   ResourceAccessPrerequisites:
   - Resource: 1
     ConstantType: 0
-    ConstantValue: 2
+    ConstantValue: 7
+  - Resource: 2
+    ConstantType: 0
+    ConstantValue: 5
   MinimalPopulationPrerequisite: 0
   ResourceSupremacyPrerequisite: 
   EraPrerequisite:
@@ -836,6 +851,7 @@ MonoBehaviour:
   SerializableFamily: InfrastructureFamily_Military_Family01
   Level: 1
   Unicity: 1
+  UnicityAdditionalConstructible: []
   ConstructibleVisualAffinity:
     serializableElementName: 
   CanBeBoughtOut: 0
@@ -989,6 +1005,7 @@ MonoBehaviour:
   SerializableFamily: InfrastructureFamily_Industry_Family06
   Level: 0
   Unicity: 1
+  UnicityAdditionalConstructible: []
   ConstructibleVisualAffinity:
     serializableElementName: 
   CanBeBoughtOut: 1
@@ -1020,13 +1037,13 @@ MonoBehaviour:
   ResourceAccessPrerequisites:
   - Resource: 1
     ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 6
   - Resource: 2
     ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 6
   - Resource: 7
     ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 6
   MinimalPopulationPrerequisite: 0
   ResourceSupremacyPrerequisite: 
   EraPrerequisite:
@@ -1115,6 +1132,7 @@ MonoBehaviour:
   SerializableFamily: InfrastructureFamily_Military_Family06
   Level: 0
   Unicity: 1
+  UnicityAdditionalConstructible: []
   ConstructibleVisualAffinity:
     serializableElementName: 
   CanBeBoughtOut: 1
@@ -1146,7 +1164,7 @@ MonoBehaviour:
   ResourceAccessPrerequisites:
   - Resource: 6
     ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 6
   MinimalPopulationPrerequisite: 0
   ResourceSupremacyPrerequisite: 
   EraPrerequisite:
@@ -1250,6 +1268,7 @@ MonoBehaviour:
   SerializableFamily: InfrastructureFamily_Science_Family01
   Level: 2
   Unicity: 1
+  UnicityAdditionalConstructible: []
   ConstructibleVisualAffinity:
     serializableElementName: 
   CanBeBoughtOut: 1
@@ -1281,22 +1300,25 @@ MonoBehaviour:
   ResourceAccessPrerequisites:
   - Resource: 1
     ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 7
   - Resource: 2
     ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 7
   - Resource: 3
     ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 4
   - Resource: 4
     ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 5
   - Resource: 5
     ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 6
   - Resource: 6
     ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 3
+  - Resource: 7
+    ConstantType: 0
+    ConstantValue: 2
   MinimalPopulationPrerequisite: 0
   ResourceSupremacyPrerequisite: 
   EraPrerequisite:
@@ -1412,6 +1434,7 @@ MonoBehaviour:
   SerializableFamily: InfrastructureFamily_Food_Family03
   Level: 2
   Unicity: 1
+  UnicityAdditionalConstructible: []
   ConstructibleVisualAffinity:
     serializableElementName: 
   CanBeBoughtOut: 1
@@ -1443,7 +1466,7 @@ MonoBehaviour:
   ResourceAccessPrerequisites:
   - Resource: 3
     ConstantType: 0
-    ConstantValue: 2
+    ConstantValue: 4
   MinimalPopulationPrerequisite: 0
   ResourceSupremacyPrerequisite: 
   EraPrerequisite:
@@ -1532,6 +1555,7 @@ MonoBehaviour:
   SerializableFamily: InfrastructureFamily_Military_Family06
   Level: 1
   Unicity: 1
+  UnicityAdditionalConstructible: []
   ConstructibleVisualAffinity:
     serializableElementName: 
   CanBeBoughtOut: 1
@@ -1563,10 +1587,10 @@ MonoBehaviour:
   ResourceAccessPrerequisites:
   - Resource: 5
     ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 6
   - Resource: 6
     ConstantType: 0
-    ConstantValue: 2
+    ConstantValue: 14
   MinimalPopulationPrerequisite: 0
   ResourceSupremacyPrerequisite: 
   EraPrerequisite:
@@ -1655,6 +1679,7 @@ MonoBehaviour:
   SerializableFamily: InfrastructureFamily_Military_Family04
   Level: 2
   Unicity: 1
+  UnicityAdditionalConstructible: []
   ConstructibleVisualAffinity:
     serializableElementName: 
   CanBeBoughtOut: 1
@@ -1686,10 +1711,10 @@ MonoBehaviour:
   ResourceAccessPrerequisites:
   - Resource: 1
     ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 14
   - Resource: 2
     ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 12
   MinimalPopulationPrerequisite: 0
   ResourceSupremacyPrerequisite: 
   EraPrerequisite:
@@ -1781,6 +1806,7 @@ MonoBehaviour:
   SerializableFamily: InfrastructureFamily_Science_Family04
   Level: 2
   Unicity: 1
+  UnicityAdditionalConstructible: []
   ConstructibleVisualAffinity:
     serializableElementName: 
   CanBeBoughtOut: 1
@@ -1812,10 +1838,10 @@ MonoBehaviour:
   ResourceAccessPrerequisites:
   - Resource: 0
     ConstantType: 0
-    ConstantValue: 3
+    ConstantValue: 16
   - Resource: 6
     ConstantType: 0
-    ConstantValue: 2
+    ConstantValue: 12
   MinimalPopulationPrerequisite: 0
   ResourceSupremacyPrerequisite: 
   EraPrerequisite:
@@ -1925,6 +1951,7 @@ MonoBehaviour:
   SerializableFamily: InfrastructureFamily_Communication_Family
   Level: 3
   Unicity: 1
+  UnicityAdditionalConstructible: []
   ConstructibleVisualAffinity:
     serializableElementName: 
   CanBeBoughtOut: 1
@@ -1954,9 +1981,12 @@ MonoBehaviour:
     ProviderMoneyGainRpn:
       serializableElementName: 
   ResourceAccessPrerequisites:
+  - Resource: 1
+    ConstantType: 0
+    ConstantValue: 8
   - Resource: 5
     ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 8
   MinimalPopulationPrerequisite: 0
   ResourceSupremacyPrerequisite: 
   EraPrerequisite:
@@ -2081,6 +2111,7 @@ MonoBehaviour:
   SerializableFamily: InfrastructureFamily_Industry_Family06
   Level: 1
   Unicity: 1
+  UnicityAdditionalConstructible: []
   ConstructibleVisualAffinity:
     serializableElementName: 
   CanBeBoughtOut: 1
@@ -2112,13 +2143,13 @@ MonoBehaviour:
   ResourceAccessPrerequisites:
   - Resource: 1
     ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 6
   - Resource: 2
     ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 6
   - Resource: 7
     ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 6
   MinimalPopulationPrerequisite: 0
   ResourceSupremacyPrerequisite: 
   EraPrerequisite:
@@ -2228,6 +2259,7 @@ MonoBehaviour:
   SerializableFamily: InfrastructureFamily_Communication_Family
   Level: 1
   Unicity: 1
+  UnicityAdditionalConstructible: []
   ConstructibleVisualAffinity:
     serializableElementName: 
   CanBeBoughtOut: 1
@@ -2259,7 +2291,7 @@ MonoBehaviour:
   ResourceAccessPrerequisites:
   - Resource: 1
     ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 12
   MinimalPopulationPrerequisite: 0
   ResourceSupremacyPrerequisite: 
   EraPrerequisite:
@@ -2363,6 +2395,7 @@ MonoBehaviour:
   SerializableFamily: InfrastructureFamily_Food_Family01
   Level: 1
   Unicity: 1
+  UnicityAdditionalConstructible: []
   ConstructibleVisualAffinity:
     serializableElementName: 
   CanBeBoughtOut: 1
@@ -2394,10 +2427,13 @@ MonoBehaviour:
   ResourceAccessPrerequisites:
   - Resource: 2
     ConstantType: 0
-    ConstantValue: 2
+    ConstantValue: 12
+  - Resource: 4
+    ConstantType: 0
+    ConstantValue: 4
   - Resource: 6
     ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 4
   MinimalPopulationPrerequisite: 0
   ResourceSupremacyPrerequisite: 
   EraPrerequisite:
@@ -2511,6 +2547,7 @@ MonoBehaviour:
   SerializableFamily: InfrastructureFamily_Communication_Family
   Level: 2
   Unicity: 1
+  UnicityAdditionalConstructible: []
   ConstructibleVisualAffinity:
     serializableElementName: 
   CanBeBoughtOut: 1
@@ -2542,7 +2579,7 @@ MonoBehaviour:
   ResourceAccessPrerequisites:
   - Resource: 6
     ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 12
   MinimalPopulationPrerequisite: 0
   ResourceSupremacyPrerequisite: 
   EraPrerequisite:
@@ -2646,6 +2683,7 @@ MonoBehaviour:
   SerializableFamily: InfrastructureFamily_Industry_Family07
   Level: 0
   Unicity: 1
+  UnicityAdditionalConstructible: []
   ConstructibleVisualAffinity:
     serializableElementName: 
   CanBeBoughtOut: 1
@@ -2677,13 +2715,13 @@ MonoBehaviour:
   ResourceAccessPrerequisites:
   - Resource: 1
     ConstantType: 0
-    ConstantValue: 1
-  - Resource: 6
-    ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 10
   - Resource: 3
     ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 10
+  - Resource: 6
+    ConstantType: 0
+    ConstantValue: 10
   MinimalPopulationPrerequisite: 0
   ResourceSupremacyPrerequisite: 
   EraPrerequisite:
@@ -2787,6 +2825,7 @@ MonoBehaviour:
   SerializableFamily: InfrastructureFamily_Industry_Family08
   Level: 0
   Unicity: 1
+  UnicityAdditionalConstructible: []
   ConstructibleVisualAffinity:
     serializableElementName: 
   CanBeBoughtOut: 1
@@ -2816,15 +2855,15 @@ MonoBehaviour:
     ProviderMoneyGainRpn:
       serializableElementName: 
   ResourceAccessPrerequisites:
-  - Resource: 2
-    ConstantType: 0
-    ConstantValue: 1
   - Resource: 1
     ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 20
+  - Resource: 2
+    ConstantType: 0
+    ConstantValue: 7
   - Resource: 6
     ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 5
   MinimalPopulationPrerequisite: 0
   ResourceSupremacyPrerequisite: 
   EraPrerequisite:
@@ -2964,6 +3003,7 @@ MonoBehaviour:
   SerializableFamily: InfrastructureFamily_Transportation_Family
   Level: 0
   Unicity: 1
+  UnicityAdditionalConstructible: []
   ConstructibleVisualAffinity:
     serializableElementName: 
   CanBeBoughtOut: 1
@@ -2993,9 +3033,12 @@ MonoBehaviour:
     ProviderMoneyGainRpn:
       serializableElementName: 
   ResourceAccessPrerequisites:
+  - Resource: 2
+    ConstantType: 0
+    ConstantValue: 12
   - Resource: 5
     ConstantType: 0
-    ConstantValue: 0
+    ConstantValue: 12
   MinimalPopulationPrerequisite: 0
   ResourceSupremacyPrerequisite: 
   EraPrerequisite:
@@ -3135,6 +3178,7 @@ MonoBehaviour:
   SerializableFamily: InfrastructureFamily_Industry_Family01
   Level: 4
   Unicity: 1
+  UnicityAdditionalConstructible: []
   ConstructibleVisualAffinity:
     serializableElementName: 
   CanBeBoughtOut: 1
@@ -3166,10 +3210,10 @@ MonoBehaviour:
   ResourceAccessPrerequisites:
   - Resource: 1
     ConstantType: 0
-    ConstantValue: 2
-  - Resource: 2
+    ConstantValue: 14
+  - Resource: 3
     ConstantType: 0
-    ConstantValue: 2
+    ConstantValue: 7
   MinimalPopulationPrerequisite: 0
   ResourceSupremacyPrerequisite: 
   EraPrerequisite:
@@ -3259,6 +3303,7 @@ MonoBehaviour:
   SerializableFamily: InfrastructureFamily_Military_Family01
   Level: 2
   Unicity: 1
+  UnicityAdditionalConstructible: []
   ConstructibleVisualAffinity:
     serializableElementName: 
   CanBeBoughtOut: 0
@@ -3397,6 +3442,7 @@ MonoBehaviour:
   SerializableFamily: InfrastructureFamily_Communication_Family
   Level: 0
   Unicity: 1
+  UnicityAdditionalConstructible: []
   ConstructibleVisualAffinity:
     serializableElementName: 
   CanBeBoughtOut: 1
@@ -3428,7 +3474,7 @@ MonoBehaviour:
   ResourceAccessPrerequisites:
   - Resource: 1
     ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 12
   MinimalPopulationPrerequisite: 0
   ResourceSupremacyPrerequisite: 
   EraPrerequisite:

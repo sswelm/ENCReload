@@ -72,6 +72,7 @@ MonoBehaviour:
   SerializableFamily: 
   Level: 0
   Unicity: 0
+  UnicityAdditionalConstructible: []
   ConstructibleVisualAffinity:
     serializableElementName: DistrictVisualAffinity_MissileSilo
   CanBeBoughtOut: 1
@@ -100,7 +101,10 @@ MonoBehaviour:
       serializableElementName: 
     ProviderMoneyGainRpn:
       serializableElementName: 
-  ResourceAccessPrerequisites: []
+  ResourceAccessPrerequisites:
+  - Resource: 2
+    ConstantType: 0
+    ConstantValue: 4
   MinimalPopulationPrerequisite: 0
   ResourceSupremacyPrerequisite: 
   EraPrerequisite:
@@ -156,6 +160,7 @@ MonoBehaviour:
   TerrainPrerequisite:
     Constraint: 2
     HideInUI: 1
+    LocalizationOverride: 
     CanBuildOnWasteland: 0
     serializableTerrainTypeNames:
     - TerrainType_Ocean
@@ -164,7 +169,7 @@ MonoBehaviour:
     - TerrainType_CityTerrain
   BiomePrerequisite:
     Constraint: 0
-    serializableBiomeName: 
+    serializableBiomeNames: []
   CliffPrerequisite:
     Constraint: 0
     HideInUI: 0
@@ -182,6 +187,7 @@ MonoBehaviour:
     TerrainPrerequisite:
       Constraint: 0
       HideInUI: 0
+      LocalizationOverride: 
       CanBuildOnWasteland: 0
       serializableTerrainTypeNames: []
     RiverPrerequisite:
@@ -203,7 +209,9 @@ MonoBehaviour:
   ProtectAgainstStealthDetection: 0
   DistrictType: 12
   HasPublicOrderCost: 1
-  AllowDistrictReplacement: 0
+  CanReplaceDistrict: 0
+  CanBeReplacedByDistrict: 0
+  PlacementPolicies: 0
   ExploitationRuleReference:
     serializableElementName: ExploitationRule_Neighbours
   ExtractResource: 0
@@ -316,6 +324,7 @@ MonoBehaviour:
   SerializableFamily: 
   Level: 0
   Unicity: 4
+  UnicityAdditionalConstructible: []
   ConstructibleVisualAffinity:
     serializableElementName: DistrictVisualAffinity_Base_Airport
   CanBeBoughtOut: 1
@@ -347,10 +356,10 @@ MonoBehaviour:
   ResourceAccessPrerequisites:
   - Resource: 5
     ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 4
   - Resource: 6
     ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 4
   MinimalPopulationPrerequisite: 0
   ResourceSupremacyPrerequisite: 
   EraPrerequisite:
@@ -407,6 +416,7 @@ MonoBehaviour:
   TerrainPrerequisite:
     Constraint: 2
     HideInUI: 1
+    LocalizationOverride: 
     CanBuildOnWasteland: 0
     serializableTerrainTypeNames:
     - TerrainType_Ocean
@@ -415,7 +425,7 @@ MonoBehaviour:
     - TerrainType_CityTerrain
   BiomePrerequisite:
     Constraint: 0
-    serializableBiomeName: 
+    serializableBiomeNames: []
   CliffPrerequisite:
     Constraint: 0
     HideInUI: 0
@@ -433,6 +443,7 @@ MonoBehaviour:
     TerrainPrerequisite:
       Constraint: 0
       HideInUI: 0
+      LocalizationOverride: 
       CanBuildOnWasteland: 0
       serializableTerrainTypeNames: []
     RiverPrerequisite:
@@ -454,7 +465,9 @@ MonoBehaviour:
   ProtectAgainstStealthDetection: 0
   DistrictType: 5
   HasPublicOrderCost: 1
-  AllowDistrictReplacement: 0
+  CanReplaceDistrict: 0
+  CanBeReplacedByDistrict: 0
+  PlacementPolicies: 0
   ExploitationRuleReference:
     serializableElementName: ExploitationRule_Neighbours
   ExtractResource: 0
@@ -537,6 +550,7 @@ MonoBehaviour:
   SerializableFamily: 
   Level: 0
   Unicity: 0
+  UnicityAdditionalConstructible: []
   ConstructibleVisualAffinity:
     serializableElementName: DistrictVisualAffinity_Base_Airfield
   CanBeBoughtOut: 1
@@ -568,7 +582,7 @@ MonoBehaviour:
   ResourceAccessPrerequisites:
   - Resource: 5
     ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 4
   MinimalPopulationPrerequisite: 0
   ResourceSupremacyPrerequisite: 
   EraPrerequisite:
@@ -624,6 +638,7 @@ MonoBehaviour:
   TerrainPrerequisite:
     Constraint: 2
     HideInUI: 1
+    LocalizationOverride: 
     CanBuildOnWasteland: 0
     serializableTerrainTypeNames:
     - TerrainType_Ocean
@@ -632,7 +647,7 @@ MonoBehaviour:
     - TerrainType_CityTerrain
   BiomePrerequisite:
     Constraint: 0
-    serializableBiomeName: 
+    serializableBiomeNames: []
   CliffPrerequisite:
     Constraint: 0
     HideInUI: 1
@@ -650,6 +665,7 @@ MonoBehaviour:
     TerrainPrerequisite:
       Constraint: 0
       HideInUI: 0
+      LocalizationOverride: 
       CanBuildOnWasteland: 0
       serializableTerrainTypeNames: []
     RiverPrerequisite:
@@ -671,7 +687,9 @@ MonoBehaviour:
   ProtectAgainstStealthDetection: 0
   DistrictType: 4
   HasPublicOrderCost: 1
-  AllowDistrictReplacement: 0
+  CanReplaceDistrict: 0
+  CanBeReplacedByDistrict: 0
+  PlacementPolicies: 0
   ExploitationRuleReference:
     serializableElementName: ExploitationRule_Neighbours
   ExtractResource: 0
@@ -754,6 +772,7 @@ MonoBehaviour:
   SerializableFamily: 
   Level: 0
   Unicity: 2
+  UnicityAdditionalConstructible: []
   ConstructibleVisualAffinity:
     serializableElementName: DistrictVisualAffinity_Base_Industry
   CanBeBoughtOut: 1
@@ -782,7 +801,10 @@ MonoBehaviour:
       serializableElementName: 
     ProviderMoneyGainRpn:
       serializableElementName: 
-  ResourceAccessPrerequisites: []
+  ResourceAccessPrerequisites:
+  - Resource: 7
+    ConstantType: 0
+    ConstantValue: 4
   MinimalPopulationPrerequisite: 0
   ResourceSupremacyPrerequisite: 
   EraPrerequisite:
@@ -869,6 +891,7 @@ MonoBehaviour:
   TerrainPrerequisite:
     Constraint: 2
     HideInUI: 0
+    LocalizationOverride: 
     CanBuildOnWasteland: 0
     serializableTerrainTypeNames:
     - TerrainType_Ocean
@@ -877,7 +900,7 @@ MonoBehaviour:
     - TerrainType_CityTerrain
   BiomePrerequisite:
     Constraint: 0
-    serializableBiomeName: 
+    serializableBiomeNames: []
   CliffPrerequisite:
     Constraint: 0
     HideInUI: 0
@@ -895,6 +918,7 @@ MonoBehaviour:
     TerrainPrerequisite:
       Constraint: 0
       HideInUI: 0
+      LocalizationOverride: 
       CanBuildOnWasteland: 0
       serializableTerrainTypeNames:
       - TerrainType_Lake
@@ -919,7 +943,9 @@ MonoBehaviour:
   ProtectAgainstStealthDetection: 0
   DistrictType: 0
   HasPublicOrderCost: 1
-  AllowDistrictReplacement: 0
+  CanReplaceDistrict: 0
+  CanBeReplacedByDistrict: 0
+  PlacementPolicies: 0
   ExploitationRuleReference:
     serializableElementName: ExploitationRule_Neighbours_Industry
   ExtractResource: 1
@@ -932,6 +958,7 @@ MonoBehaviour:
   serializableReplaceTerrainWith: 
   ResourceType:
     serializableElementName: Strategic08
+  NumberOfProvidedAccess: 0
 --- !u!114 &-6098146120596110
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1019,6 +1046,7 @@ MonoBehaviour:
   SerializableFamily: 
   Level: 0
   Unicity: 4
+  UnicityAdditionalConstructible: []
   ConstructibleVisualAffinity:
     serializableElementName: DistrictVisualAffinity_Base_TrainStation
   CanBeBoughtOut: 1
@@ -1048,9 +1076,15 @@ MonoBehaviour:
     ProviderMoneyGainRpn:
       serializableElementName: 
   ResourceAccessPrerequisites:
+  - Resource: 1
+    ConstantType: 0
+    ConstantValue: 4
   - Resource: 2
     ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 4
+  - Resource: 4
+    ConstantType: 0
+    ConstantValue: 4
   MinimalPopulationPrerequisite: 0
   ResourceSupremacyPrerequisite: 
   EraPrerequisite:
@@ -1108,6 +1142,7 @@ MonoBehaviour:
   TerrainPrerequisite:
     Constraint: 2
     HideInUI: 1
+    LocalizationOverride: 
     CanBuildOnWasteland: 0
     serializableTerrainTypeNames:
     - TerrainType_Ocean
@@ -1116,7 +1151,7 @@ MonoBehaviour:
     - TerrainType_CityTerrain
   BiomePrerequisite:
     Constraint: 0
-    serializableBiomeName: 
+    serializableBiomeNames: []
   CliffPrerequisite:
     Constraint: 0
     HideInUI: 0
@@ -1134,6 +1169,7 @@ MonoBehaviour:
     TerrainPrerequisite:
       Constraint: 0
       HideInUI: 0
+      LocalizationOverride: 
       CanBuildOnWasteland: 0
       serializableTerrainTypeNames: []
     RiverPrerequisite:
@@ -1155,7 +1191,9 @@ MonoBehaviour:
   ProtectAgainstStealthDetection: 0
   DistrictType: 3
   HasPublicOrderCost: 1
-  AllowDistrictReplacement: 0
+  CanReplaceDistrict: 0
+  CanBeReplacedByDistrict: 0
+  PlacementPolicies: 0
   ExploitationRuleReference:
     serializableElementName: ExploitationRule_Neighbours
   ExtractResource: 0
