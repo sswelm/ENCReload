@@ -938,6 +938,69 @@ MonoBehaviour:
       PropertyLocalName: []
   serializableCategory: 
   startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
+--- !u!114 &-5857150241932408832
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
+  m_Name: Effect_NavalUnit_Era6_Common_Frigate
+  m_EditorClassIdentifier: 
+  Effects:
+  - ApplyEffectOnSource: 0
+    Path:
+      PropertyToFollow: []
+      Validations: []
+      specificTargetType: 
+    PropertyEffects:
+    - Note: 
+      TargetProperty: LeaderPriority
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 8280000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: BaseStrength
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 71000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: NavalSpeed
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 4000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: StealthDetection
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 3000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: AttackRange
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 4000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: VisionRange
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 2000
+      PropertyLocalName: []
+  serializableCategory: 
+  startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
 --- !u!114 &-5571024399669413854
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1166,68 +1229,6 @@ MonoBehaviour:
       RpnOperationStack: 
       ConstantStack:
       - RawValue: 1000
-      PropertyLocalName: []
-  serializableCategory: 
-  startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
---- !u!114 &-4013906767942110800
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
-  m_Name: Effect_NavalUnit_Era6_Common_MissileFrigates
-  m_EditorClassIdentifier: 
-  Effects:
-  - ApplyEffectOnSource: 0
-    Path:
-      PropertyToFollow: []
-      Validations: []
-      specificTargetType: 
-    PropertyEffects:
-    - Note: 
-      TargetProperty: LeaderPriority
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 8280000
-      PropertyLocalName: []
-    - Note: -3 Compaired Same as Naval Update
-      TargetProperty: BaseStrength
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 71000
-      PropertyLocalName: []
-    - Note: +1 compared to Light Cruiser
-      TargetProperty: NavalSpeed
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 4000
-      PropertyLocalName: []
-    - Note: +1 compared to Light Cruiser
-      TargetProperty: StealthDetection
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 2000
-      PropertyLocalName: []
-    - Note: +1 compared to  Light Cruiser
-      TargetProperty: AttackRange
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 4000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: AttackRange
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack: []
       PropertyLocalName: []
   serializableCategory: 
   startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
