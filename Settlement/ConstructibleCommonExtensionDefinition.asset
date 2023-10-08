@@ -102,7 +102,7 @@ MonoBehaviour:
     ProviderMoneyGainRpn:
       serializableElementName: 
   ResourceAccessPrerequisites:
-  - Resource: 2
+  - Resource: 6
     ConstantType: 0
     ConstantValue: 4
   MinimalPopulationPrerequisite: 0
@@ -1076,9 +1076,6 @@ MonoBehaviour:
     ProviderMoneyGainRpn:
       serializableElementName: 
   ResourceAccessPrerequisites:
-  - Resource: 1
-    ConstantType: 0
-    ConstantValue: 4
   - Resource: 2
     ConstantType: 0
     ConstantValue: 4
