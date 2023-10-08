@@ -1306,8 +1306,9 @@ MonoBehaviour:
       serializableElementName: 
   BaseSynergyDistrict: 0
   UnitClass:
-    serializableElementName: UnitClass_GunPlatform
+    serializableElementName: UnitClass_CapitalShip
   UnitSpecialties:
+  - serializableElementName: UnitSpecialty_ArmouredVessel
   - serializableElementName: UnitSpecialty_AntiAircraft_Level1
   - serializableElementName: UnitSpecialty_Bombard_Level1
   - serializableElementName: UnitSpecialty_Stealth
@@ -3109,8 +3110,9 @@ MonoBehaviour:
       serializableElementName: 
   BaseSynergyDistrict: 0
   UnitClass:
-    serializableElementName: UnitClass_ArmouredVessel
+    serializableElementName: UnitClass_CapitalShip
   UnitSpecialties:
+  - serializableElementName: UnitSpecialty_ArmouredVessel
   - serializableElementName: UnitSpecialty_Bombard_Level1
   - serializableElementName: UnitSpecialty_ZoneOfControlIncreasedSize_Level3
   - serializableElementName: UnitSpecialty_DebuffTargetStunArtillery
