@@ -110,12 +110,12 @@ MonoBehaviour:
       ConstantStack:
       - RawValue: 7951000
       PropertyLocalName: []
-    - Note: -3 Strength compaired to Uboat
+    - Note: -2 Strength compaired to Uboat
       TargetProperty: BaseStrength
       ToTargetOperation: 0
       RpnOperationStack: 
       ConstantStack:
-      - RawValue: 56000
+      - RawValue: 58000
       PropertyLocalName: []
     - Note: similar to Uboat
       TargetProperty: StealthMax
@@ -187,12 +187,12 @@ MonoBehaviour:
       ConstantStack:
       - RawValue: 6940000
       PropertyLocalName: []
-    - Note: +5 strength compaired to Torpedo Boat
+    - Note: +6 strength compaired to Steam Torpedo Boat
       TargetProperty: BaseStrength
       ToTargetOperation: 0
       RpnOperationStack: 
       ConstantStack:
-      - RawValue: 58000
+      - RawValue: 60000
       PropertyLocalName: []
     - Note: 
       TargetProperty: StealthDetection
@@ -203,7 +203,7 @@ MonoBehaviour:
       PropertyLocalName: []
     - Note: 
       TargetProperty: NavalSpeed
-      ToTargetOperation: 0
+      ToTargetOperation: 1
       RpnOperationStack: 
       ConstantStack:
       - RawValue: 1000
@@ -257,13 +257,6 @@ MonoBehaviour:
       ConstantStack:
       - RawValue: 4000
       PropertyLocalName: []
-    - Note: + 1 Speed Compaired to Missile Boat
-      TargetProperty: NavalSpeed
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 4000
-      PropertyLocalName: []
     - Note: 
       TargetProperty: StealthDetection
       ToTargetOperation: 0
@@ -273,6 +266,13 @@ MonoBehaviour:
       PropertyLocalName: []
     - Note: +1 Range Compaired to Missile Boat
       TargetProperty: AttackRange
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 3000
+      PropertyLocalName: []
+    - Note: + 1 Speed Compaired to Missile Boat
+      TargetProperty: NavalSpeed
       ToTargetOperation: 0
       RpnOperationStack: 
       ConstantStack:
@@ -404,12 +404,12 @@ MonoBehaviour:
       ConstantStack:
       - RawValue: 6860000
       PropertyLocalName: []
-    - Note: -2 Compaired to Ironclad
+    - Note: -1 Compaired to Ironclad
       TargetProperty: BaseStrength
       ToTargetOperation: 0
       RpnOperationStack: 
       ConstantStack:
-      - RawValue: 58000
+      - RawValue: 59000
       PropertyLocalName: []
     - Note: 
       TargetProperty: AttackRange
@@ -1020,12 +1020,12 @@ MonoBehaviour:
       ConstantStack:
       - RawValue: 6951000
       PropertyLocalName: []
-    - Note: -2 Compaired to Fleet Submaine
+    - Note: -1 Compaired to Fleet Submaine
       TargetProperty: BaseStrength
       ToTargetOperation: 0
       RpnOperationStack: 
       ConstantStack:
-      - RawValue: 55000
+      - RawValue: 57000
       PropertyLocalName: []
     - Note: 
       TargetProperty: StealthMax
@@ -1412,12 +1412,12 @@ MonoBehaviour:
       ConstantStack:
       - RawValue: 7460000
       PropertyLocalName: []
-    - Note: -2 Compaired to Dreadnought
+    - Note: -1 Compaired to Dreadnought
       TargetProperty: BaseStrength
       ToTargetOperation: 0
       RpnOperationStack: 
       ConstantStack:
-      - RawValue: 63000
+      - RawValue: 64000
       PropertyLocalName: []
     - Note: 
       TargetProperty: AttackRange
@@ -1466,14 +1466,14 @@ MonoBehaviour:
       ToTargetOperation: 0
       RpnOperationStack: 
       ConstantStack:
-      - RawValue: 67000
+      - RawValue: 68000
       PropertyLocalName: []
     - Note: +1 Speed compaired to Motor torpedo Boat
       TargetProperty: NavalSpeed
       ToTargetOperation: 0
       RpnOperationStack: 
       ConstantStack:
-      - RawValue: 3000
+      - RawValue: 2000
       PropertyLocalName: []
     - Note: +2 Range compaired to Motor Torpedo Boat
       TargetProperty: AttackRange
@@ -1676,12 +1676,12 @@ MonoBehaviour:
       ConstantStack:
       - RawValue: 7951000
       PropertyLocalName: []
-    - Note: -5 Strength compaired to Diesel Submarine
+    - Note: -6 Strength compaired to Diesel Submarine
       TargetProperty: BaseStrength
       ToTargetOperation: 0
       RpnOperationStack: 
       ConstantStack:
-      - RawValue: 59000
+      - RawValue: 60000
       PropertyLocalName: []
     - Note: +2 StealthMax
       TargetProperty: StealthMax
@@ -1774,13 +1774,6 @@ MonoBehaviour:
       ConstantStack:
       - RawValue: 5000
       PropertyLocalName: []
-    - Note: same to missile boat
-      TargetProperty: NavalSpeed
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 2000
-      PropertyLocalName: []
     - Note: 
       TargetProperty: StealthDetection
       ToTargetOperation: 0
@@ -1790,6 +1783,13 @@ MonoBehaviour:
       PropertyLocalName: []
     - Note: 
       TargetProperty: AttackRange
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 3000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: NavalSpeed
       ToTargetOperation: 0
       RpnOperationStack: 
       ConstantStack:
@@ -1828,7 +1828,7 @@ MonoBehaviour:
       ToTargetOperation: 0
       RpnOperationStack: 
       ConstantStack:
-      - RawValue: 53000
+      - RawValue: 54000
       PropertyLocalName: []
     - Note: 
       TargetProperty: AttackRange
@@ -1836,6 +1836,13 @@ MonoBehaviour:
       RpnOperationStack: 
       ConstantStack:
       - RawValue: 1000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: NavalSpeed
+      ToTargetOperation: 1
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 2000
       PropertyLocalName: []
   serializableCategory: 
   startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
@@ -2045,7 +2052,7 @@ MonoBehaviour:
       ToTargetOperation: 0
       RpnOperationStack: 
       ConstantStack:
-      - RawValue: 2000
+      - RawValue: 3000
       PropertyLocalName: []
     - Note: 
       TargetProperty: AttackRange
@@ -2199,7 +2206,7 @@ MonoBehaviour:
       ToTargetOperation: 0
       RpnOperationStack: 
       ConstantStack:
-      - RawValue: 52000
+      - RawValue: 53000
       PropertyLocalName: []
     - Note: -4 compaired to Uboat
       TargetProperty: StealthMax
@@ -2493,7 +2500,7 @@ MonoBehaviour:
       ToTargetOperation: 0
       RpnOperationStack: 
       ConstantStack:
-      - RawValue: 56000
+      - RawValue: 58000
       PropertyLocalName: []
     - Note: 
       TargetProperty: NavalSpeed

@@ -1031,10 +1031,10 @@ MonoBehaviour:
   ResourceAccessPrerequisites:
   - Resource: 2
     ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 5
   - Resource: 3
     ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 2
   MinimalPopulationPrerequisite: 0
   ResourceSupremacyPrerequisite: 
   EraPrerequisite:
@@ -2148,7 +2148,7 @@ MonoBehaviour:
   UnitSpecialties:
   - serializableElementName: UnitSpecialty_Bombard_Level1
   - serializableElementName: UnitSpecialty_DebuffTargetStunArtillery
-  - serializableElementName: UnitSpecialty_AntiAircraft_75
+  - serializableElementName: UnitSpecialty_AntiAircraft_50
   OwnDescriptorReferences:
   - serializableElementName: Effect_NavalUnit_Era6_Common_LightCruisers
   - serializableElementName: Effect_Unit_Era5
@@ -2348,10 +2348,10 @@ MonoBehaviour:
   ResourceAccessPrerequisites:
   - Resource: 2
     ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 7
   - Resource: 3
     ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 4
   MinimalPopulationPrerequisite: 0
   ResourceSupremacyPrerequisite: 
   EraPrerequisite:
@@ -2469,7 +2469,7 @@ MonoBehaviour:
     ConstantValue: 12
   - Resource: 4
     ConstantType: 0
-    ConstantValue: 6
+    ConstantValue: 12
   MinimalPopulationPrerequisite: 0
   ResourceSupremacyPrerequisite: 
   EraPrerequisite:
@@ -4754,10 +4754,10 @@ MonoBehaviour:
   ResourceAccessPrerequisites:
   - Resource: 2
     ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 5
   - Resource: 3
     ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 2
   MinimalPopulationPrerequisite: 0
   ResourceSupremacyPrerequisite: 
   EraPrerequisite:
