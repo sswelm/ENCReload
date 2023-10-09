@@ -104,7 +104,7 @@ MonoBehaviour:
   ResourceAccessPrerequisites:
   - Resource: 6
     ConstantType: 0
-    ConstantValue: 4
+    ConstantValue: 1
   MinimalPopulationPrerequisite: 0
   ResourceSupremacyPrerequisite: 
   EraPrerequisite:
@@ -356,10 +356,10 @@ MonoBehaviour:
   ResourceAccessPrerequisites:
   - Resource: 5
     ConstantType: 0
-    ConstantValue: 4
+    ConstantValue: 1
   - Resource: 6
     ConstantType: 0
-    ConstantValue: 4
+    ConstantValue: 1
   MinimalPopulationPrerequisite: 0
   ResourceSupremacyPrerequisite: 
   EraPrerequisite:
@@ -582,7 +582,7 @@ MonoBehaviour:
   ResourceAccessPrerequisites:
   - Resource: 5
     ConstantType: 0
-    ConstantValue: 4
+    ConstantValue: 1
   MinimalPopulationPrerequisite: 0
   ResourceSupremacyPrerequisite: 
   EraPrerequisite:
@@ -621,7 +621,7 @@ MonoBehaviour:
   IsImmuneToBombardment: 0
   AllowBoroughExtension: 0
   AllowConnectionWithOtherBorough: 1
-  FieldOfViewFlag: 0
+  FieldOfViewFlag: 3
   OverADistrictPrerequisite:
     TagOperator: 0
     ValidIfNoDistrict: 1
@@ -763,7 +763,7 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-  Key: 2
+  Key: 4
   Hidden: 0
   IsObsolete: 0
   DLCPrerequisite:
@@ -771,7 +771,7 @@ MonoBehaviour:
   Category: 2
   SerializableFamily: 
   Level: 0
-  Unicity: 2
+  Unicity: 1
   UnicityAdditionalConstructible: []
   ConstructibleVisualAffinity:
     serializableElementName: DistrictVisualAffinity_Base_Industry
@@ -804,18 +804,18 @@ MonoBehaviour:
   ResourceAccessPrerequisites:
   - Resource: 7
     ConstantType: 0
-    ConstantValue: 4
+    ConstantValue: 1
   MinimalPopulationPrerequisite: 0
   ResourceSupremacyPrerequisite: 
   EraPrerequisite:
     Operator: 0
     EraReference:
-      serializableElementName: Era6
+      serializableElementName: 
   FactionPrerequisite:
     Operator: 0
     serializableFactionNames: []
   SettlementStatusPrerequisite:
-    CampConstraint: 3
+    CampConstraint: 0
     CityConstraint: 1
   ReligionAffinityPrerequisite:
     serializableElementName: 
@@ -890,7 +890,7 @@ MonoBehaviour:
     HideInUI: 1
   TerrainPrerequisite:
     Constraint: 2
-    HideInUI: 0
+    HideInUI: 1
     LocalizationOverride: 
     CanBuildOnWasteland: 0
     serializableTerrainTypeNames:
@@ -916,14 +916,15 @@ MonoBehaviour:
     IgnoreCliff: 1
     IgnoreNaturalWonder: 1
     TerrainPrerequisite:
-      Constraint: 0
-      HideInUI: 0
+      Constraint: 2
+      HideInUI: 1
       LocalizationOverride: 
       CanBuildOnWasteland: 0
       serializableTerrainTypeNames:
       - TerrainType_Lake
       - TerrainType_Ocean
       - TerrainType_CoastalWater
+      - TerrainType_CityTerrain
     RiverPrerequisite:
       Constraint: 0
       HideInUI: 0
@@ -958,7 +959,261 @@ MonoBehaviour:
   serializableReplaceTerrainWith: 
   ResourceType:
     serializableElementName: Strategic08
-  NumberOfProvidedAccess: 0
+  NumberOfProvidedAccess: 1
+--- !u!114 &-2043640494738774019
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -857316133, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Extension_Base_SalpeterWorks
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: GainValues
+      Entry: 7
+      Data: 0|Amplitude.Mercury.Data.AI.Gain[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 2
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Mercury.Data.AI.Gain, Amplitude.Mercury.Data
+    - Name: Type
+      Entry: 3
+      Data: 33554432
+    - Name: Importance
+      Entry: 3
+      Data: 2
+    - Name: Gates
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Mercury.Data.AI.Gain, Amplitude.Mercury.Data
+    - Name: Type
+      Entry: 3
+      Data: 512
+    - Name: Importance
+      Entry: 3
+      Data: 1
+    - Name: Gates
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+  Key: 2
+  Hidden: 0
+  IsObsolete: 0
+  DLCPrerequisite:
+    DownloadableContent: 5
+  Category: 2
+  SerializableFamily: 
+  Level: 0
+  Unicity: 1
+  UnicityAdditionalConstructible: []
+  ConstructibleVisualAffinity:
+    serializableElementName: DistrictVisualAffinity_Base_Industry
+  CanBeBoughtOut: 1
+  CanBeCanceled: 1
+  StartWhenQueued: 0
+  CanBeBoughtOutWithPopulation: 1
+  ProductionCostDefinition:
+    Type: 1
+    Constant: -1
+    RpnDefinitionReference:
+      serializableElementName: ProductionCost_Extension_Base_Industry
+  MoneyInstantCostDefinition:
+    Constant: 0
+    RpnDefinitionReference:
+      serializableElementName: 
+  InfluenceInstantCostDefinition:
+    Constant: 0
+    RpnDefinitionReference:
+      serializableElementName: 
+  PopulationInstantCostDefinition:
+    Constant: 0
+  ProvidedByOtherEmpireCostDefinition:
+    ProductionCostModifierRpn:
+      serializableElementName: 
+    ReceiverMoneyCostRpn:
+      serializableElementName: 
+    ProviderMoneyGainRpn:
+      serializableElementName: 
+  ResourceAccessPrerequisites: []
+  MinimalPopulationPrerequisite: 0
+  ResourceSupremacyPrerequisite: 
+  EraPrerequisite:
+    Operator: 0
+    EraReference:
+      serializableElementName: 
+  FactionPrerequisite:
+    Operator: 0
+    serializableFactionNames: []
+  SettlementStatusPrerequisite:
+    CampConstraint: 0
+    CityConstraint: 1
+  ReligionAffinityPrerequisite:
+    serializableElementName: 
+  SettlementPropertyPrerequisites: []
+  SettlementStabilityPrerequisite:
+    Operator: 1
+    PublicOrderEffects:
+    - serializableElementName: PublicOrderEffect_Unhappy
+  DistrictCountPrerequisites: []
+  ActionTypePrerequisite:
+    Operator: 0
+    ActionType: 0
+  ArtificialWonderBuiltPrerequisite:
+    Operator: 0
+    ArtificialWonderDefinition:
+      serializableElementName: 
+  BaseSynergyDistrict: 0
+  Prototype: Extension_Prototype_BaseEconomy
+  OwnDescriptorReferences:
+  - serializableElementName: Effect_Extension_Base_SalpeterWorks
+  - serializableElementName: Effect_Extension_Base_Industry_Yield
+  - serializableElementName: Effect_Extension_Synergy_Industry_SynergyIndustry00
+  - serializableElementName: Effect_Extension_WorkplaceSlot_Industry
+  - serializableElementName: Tag_Extension_PublicOrderLoss
+  IsReplaceableOrDestroyable: 1
+  CanBeDowngradedToRuin: 1
+  AdditionalVisualLevels:
+  - OutputThresholdPerEra: 01000000010000000100000001000000010000000100000001000000
+  IsImmuneToBombardment: 0
+  AllowBoroughExtension: 0
+  AllowConnectionWithOtherBorough: 1
+  FieldOfViewFlag: 0
+  OverADistrictPrerequisite:
+    TagOperator: 0
+    ValidIfNoDistrict: 1
+    HideInUI: 1
+    serializableTags:
+    - Tag_Extension_Base
+  PointOfInterestPrerequisite:
+    Constraint: 2
+    HideInUI: 1
+    serializablePointOfInterestNames:
+    - POI_ResourceDeposit11
+    - POI_ResourceDeposit12
+    - POI_ResourceDeposit13
+    - POI_ResourceDeposit14
+    - POI_ResourceDeposit15
+    - POI_ResourceDeposit16
+    - POI_ResourceDeposit17
+    - POI_ResourceDeposit18
+    - POI_ResourceDeposit19
+    - POI_ResourceDeposit20
+    - POI_ResourceDeposit21
+    - POI_ResourceDeposit22
+    - POI_ResourceDeposit23
+    - POI_ResourceDeposit24
+    - POI_ResourceDeposit25
+    - POI_ResourceDeposit26
+    - POI_ResourceDeposit27
+    - POI_ResourceDeposit28
+    - POI_ResourceDeposit29
+    - POI_ResourceDeposit30
+    - POI_ResourceDeposit31
+    - POI_NaturalModifier21
+    - POI_NaturalModifier23
+    - POI_ResourceDeposit06
+  RiverPrerequisite:
+    Constraint: 0
+    HideInUI: 1
+  TerrainPrerequisite:
+    Constraint: 2
+    HideInUI: 1
+    LocalizationOverride: 
+    CanBuildOnWasteland: 0
+    serializableTerrainTypeNames:
+    - TerrainType_Ocean
+    - TerrainType_CoastalWater
+    - TerrainType_Lake
+    - TerrainType_CityTerrain
+  BiomePrerequisite:
+    Constraint: 0
+    serializableBiomeNames: []
+  CliffPrerequisite:
+    Constraint: 0
+    HideInUI: 0
+  MountainPrerequisite:
+    Constraint: 0
+    HideInUI: 0
+  TileVisibilityPrerequisite:
+    Constraint: 1
+    Visibility: 0
+  NeighbourTilesPrerequisite:
+    NeighbourOperator: 2
+    TerritoryConstraint: 2
+    IgnoreCliff: 1
+    IgnoreNaturalWonder: 1
+    TerrainPrerequisite:
+      Constraint: 2
+      HideInUI: 1
+      LocalizationOverride: 
+      CanBuildOnWasteland: 0
+      serializableTerrainTypeNames:
+      - TerrainType_Lake
+      - TerrainType_Ocean
+      - TerrainType_CoastalWater
+      - TerrainType_CityTerrain
+    RiverPrerequisite:
+      Constraint: 0
+      HideInUI: 0
+    DistrictPrerequisite:
+      TagOperator: 0
+      ValidIfNoDistrict: 0
+      HideInUI: 1
+      serializableTags: []
+  BoroughPrerequisite:
+    ExtensionRules: 0
+    HideInUI: 1
+  ProtectsNeighboursFromRansack: 0
+  ZoneOfControlDistance:
+    RawValue: 0
+  FriendlyUnitOnTopStatus:
+    serializableElementName: 
+  ProtectAgainstStealthDetection: 0
+  DistrictType: 0
+  HasPublicOrderCost: 1
+  CanReplaceDistrict: 0
+  CanBeReplacedByDistrict: 0
+  PlacementPolicies: 0
+  ExploitationRuleReference:
+    serializableElementName: ExploitationRule_Neighbours_Industry
+  ExtractResource: 1
+  WondrousResourceType: 64
+  UnitSpawnType: -1
+  AllowShipping: 0
+  ProvidesSecondaryRoad: 0
+  ProvidesRail: 0
+  ForceRiverOnTerrain: 0
+  serializableReplaceTerrainWith: 
+  ResourceType:
+    serializableElementName: Strategic05
+  NumberOfProvidedAccess: 1
 --- !u!114 &-6098146120596110
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1078,10 +1333,10 @@ MonoBehaviour:
   ResourceAccessPrerequisites:
   - Resource: 2
     ConstantType: 0
-    ConstantValue: 4
-  - Resource: 4
+    ConstantValue: 1
+  - Resource: 3
     ConstantType: 0
-    ConstantValue: 4
+    ConstantValue: 1
   MinimalPopulationPrerequisite: 0
   ResourceSupremacyPrerequisite: 
   EraPrerequisite:
