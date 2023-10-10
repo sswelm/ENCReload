@@ -137,6 +137,24 @@ MonoBehaviour:
   - serializableElementName: BattleAbility_AdvancedTerrain
   - serializableElementName: BattleAbility_WeakAgainstShips
   pathfindingFlags: 0
+--- !u!114 &-6802197481143053927
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 573507786, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitAbility_DebuffTargetCannotRetaliate
+  m_EditorClassIdentifier: 
+  TagAsAbility: 0
+  MovementAbility: 0
+  DescriptorReferences: []
+  BattleAbilityReference:
+  - serializableElementName: BattleAbility_DebuffTargetCannotRetaliate
+  pathfindingFlags: 0
 --- !u!114 &-6025204654056195608
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -306,6 +324,26 @@ MonoBehaviour:
   BattleAbilityReference:
   - serializableElementName: BattleAbility_StrengthFromOcean
   pathfindingFlags: 0
+--- !u!114 &-1545956220859959229
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 573507786, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitAbility_Prototype_Cruiser
+  m_EditorClassIdentifier: 
+  TagAsAbility: 0
+  MovementAbility: 0
+  DescriptorReferences:
+  - serializableElementName: Effect_UnitPrototype_CapitalShip
+  - serializableElementName: Effect_UnitPrototype_Cruiser
+  - serializableElementName: Effect_Unit_HasRangedAttack
+  BattleAbilityReference: []
+  pathfindingFlags: 0
 --- !u!114 &-1407886868899811707
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -371,6 +409,25 @@ MonoBehaviour:
   MovementAbility: 0
   DescriptorReferences:
   - serializableElementName: Effect_Unit_Fragile
+  BattleAbilityReference: []
+  pathfindingFlags: 0
+--- !u!114 &447678853298471200
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 573507786, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitAbility_Prototype_CapitalShip
+  m_EditorClassIdentifier: 
+  TagAsAbility: 0
+  MovementAbility: 0
+  DescriptorReferences:
+  - serializableElementName: Effect_UnitPrototype_CapitalShip
+  - serializableElementName: Effect_Unit_HasRangedAttack
   BattleAbilityReference: []
   pathfindingFlags: 0
 --- !u!114 &457999346820853581

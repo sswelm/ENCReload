@@ -1183,7 +1183,7 @@ MonoBehaviour:
   UnitClass:
     serializableElementName: UnitClass_TorpedoVessel
   UnitSpecialties:
-  - serializableElementName: UnitSpecialty_StrengthFromTargetClassArmoured_Level1
+  - serializableElementName: UnitSpecialty_TorpedoAttack_Surface
   - serializableElementName: UnitSpecialty_SpeedFromHarbor_Level1
   - serializableElementName: UnitSpecialty_MoveOneAfterAttack
   OwnDescriptorReferences:
@@ -2144,16 +2144,16 @@ MonoBehaviour:
       serializableElementName: 
   BaseSynergyDistrict: 0
   UnitClass:
-    serializableElementName: UnitClass_ArmouredVessel
+    serializableElementName: UnitClass_Cruiser
   UnitSpecialties:
   - serializableElementName: UnitSpecialty_Bombard_Level1
   - serializableElementName: UnitSpecialty_DebuffTargetStunArtillery
   - serializableElementName: UnitSpecialty_AntiAircraft_50
+  - serializableElementName: UnitSpecialty_ArmouredVessel
   OwnDescriptorReferences:
   - serializableElementName: Effect_NavalUnit_Era6_Common_LightCruisers
   - serializableElementName: Effect_Unit_Era5
   - serializableElementName: Effect_Unit_Era6_Tier2
-  - serializableElementName: Tag_Unit_Vehicle
   BaseMovementSpeed: 1.8
   MovementSpeedMultiplierPerType:
   - 1.5
@@ -3233,7 +3233,7 @@ MonoBehaviour:
   UnitClass:
     serializableElementName: UnitClass_TorpedoVessel
   UnitSpecialties:
-  - serializableElementName: UnitSpecialty_StrengthFromTargetClassArmoured_Level1
+  - serializableElementName: UnitSpecialty_TorpedoAttack_Surface
   - serializableElementName: UnitSpecialty_SpeedFromHarbor_Level1
   - serializableElementName: UnitSpecialty_MoveOneAfterAttack
   OwnDescriptorReferences:
@@ -4426,16 +4426,16 @@ MonoBehaviour:
       serializableElementName: 
   BaseSynergyDistrict: 0
   UnitClass:
-    serializableElementName: UnitClass_ArmouredVessel
+    serializableElementName: UnitClass_Cruiser
   UnitSpecialties:
   - serializableElementName: UnitSpecialty_Bombard_Level1
   - serializableElementName: UnitSpecialty_DebuffTargetStunArtillery
   - serializableElementName: UnitSpecialty_AntiAircraft_50
+  - serializableElementName: UnitSpecialty_ArmouredVessel
   OwnDescriptorReferences:
   - serializableElementName: Effect_NavalUnit_Era5_Common_ProtectedCruisers
   - serializableElementName: Effect_Unit_Era5
   - serializableElementName: Effect_Unit_Era6_Tier1
-  - serializableElementName: Tag_Unit_Vehicle
   BaseMovementSpeed: 1.8
   MovementSpeedMultiplierPerType:
   - 1.5
@@ -5524,6 +5524,121 @@ MonoBehaviour:
   AlwaysUseCurrentEraVisualAffinity: 0
   visualAffinityEraReference:
     serializableElementName: Era1
+  unitSpecialty:
+    serializableElementName: 
+--- !u!114 &8101494366404431208
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1850805416, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: NavalUnit_Era5_Common_HandCrankedSubmarines
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: GainValues
+      Entry: 6
+      Data: 
+  Key: 0
+  Hidden: 0
+  IsObsolete: 0
+  DLCPrerequisite:
+    DownloadableContent: 0
+  Category: 6
+  SerializableFamily: UnitFamily_StealthShip
+  Level: 30
+  Unicity: 0
+  UnicityAdditionalConstructible: []
+  ConstructibleVisualAffinity:
+    serializableElementName: 
+  CanBeBoughtOut: 1
+  CanBeCanceled: 1
+  StartWhenQueued: 0
+  CanBeBoughtOutWithPopulation: 0
+  ProductionCostDefinition:
+    Type: 1
+    Constant: -1
+    RpnDefinitionReference:
+      serializableElementName: ProductionCost_Unit_Era4_Medium
+  MoneyInstantCostDefinition:
+    Constant: -1
+    RpnDefinitionReference:
+      serializableElementName: 
+  InfluenceInstantCostDefinition:
+    Constant: 0
+    RpnDefinitionReference:
+      serializableElementName: 
+  PopulationInstantCostDefinition:
+    Constant: 1
+  ProvidedByOtherEmpireCostDefinition:
+    ProductionCostModifierRpn:
+      serializableElementName: 
+    ReceiverMoneyCostRpn:
+      serializableElementName: 
+    ProviderMoneyGainRpn:
+      serializableElementName: 
+  ResourceAccessPrerequisites:
+  - Resource: 2
+    ConstantType: 0
+    ConstantValue: 6
+  MinimalPopulationPrerequisite: 0
+  ResourceSupremacyPrerequisite: 
+  EraPrerequisite:
+    Operator: 1
+    EraReference:
+      serializableElementName: 
+  FactionPrerequisite:
+    Operator: 0
+    serializableFactionNames: []
+  SettlementStatusPrerequisite:
+    CampConstraint: 0
+    CityConstraint: 1
+  ReligionAffinityPrerequisite:
+    serializableElementName: 
+  SettlementPropertyPrerequisites: []
+  SettlementStabilityPrerequisite:
+    Operator: 0
+    PublicOrderEffects: []
+  DistrictCountPrerequisites: []
+  ActionTypePrerequisite:
+    Operator: 0
+    ActionType: 0
+  ArtificialWonderBuiltPrerequisite:
+    Operator: 0
+    ArtificialWonderDefinition:
+      serializableElementName: 
+  BaseSynergyDistrict: 0
+  UnitClass:
+    serializableElementName: UnitClass_TorpedoVessel
+  UnitSpecialties:
+  - serializableElementName: UnitSpecialty_Stealth
+  - serializableElementName: UnitSpecialty_TorpedoAttack
+  OwnDescriptorReferences:
+  - serializableElementName: Effect_NavalUnit_Era5_Common_HandCrankedSubmarines
+  - serializableElementName: Effect_Unit_Era5
+  - serializableElementName: Effect_Unit_Era4_Tier2
+  - serializableElementName: Tag_Unit_Vehicle
+  BaseMovementSpeed: 1.8
+  MovementSpeedMultiplierPerType:
+  - 1.5
+  - 2.5
+  - 4
+  - 1.03
+  UnitTags: 8392778
+  AlwaysUseCurrentEraVisualAffinity: 0
+  visualAffinityEraReference:
+    serializableElementName: Era5
   unitSpecialty:
     serializableElementName: 
 --- !u!114 &8948231301950245176
