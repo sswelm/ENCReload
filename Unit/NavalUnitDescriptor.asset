@@ -1260,6 +1260,55 @@ MonoBehaviour:
       PropertyLocalName: []
   serializableCategory: 
   startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
+--- !u!114 &-3760830111970430705
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
+  m_Name: Effect_NavalUnit_Era4_Common_Hellburners
+  m_EditorClassIdentifier: 
+  Effects:
+  - ApplyEffectOnSource: 0
+    Path:
+      PropertyToFollow: []
+      Validations: []
+      specificTargetType: 
+    PropertyEffects:
+    - Note: 
+      TargetProperty: LeaderPriority
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 5560000
+      PropertyLocalName: []
+    - Note: -5 compaired to Hand Cranked Submarine
+      TargetProperty: BaseStrength
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 43000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: AttackRange
+      ToTargetOperation: 1
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 2000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: NavalSpeed
+      ToTargetOperation: 1
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 4000
+      PropertyLocalName: []
+  serializableCategory: 
+  startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
 --- !u!114 &-3575241588991331262
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2383,12 +2432,12 @@ MonoBehaviour:
       ConstantStack:
       - RawValue: 6660000
       PropertyLocalName: []
-    - Note: +7 Compaied to Bomb Ketch
+    - Note: '- 10 Compaied to Protected Cruiser'
       TargetProperty: BaseStrength
       ToTargetOperation: 0
       RpnOperationStack: 
       ConstantStack:
-      - RawValue: 47000
+      - RawValue: 48000
       PropertyLocalName: []
     - Note: 
       TargetProperty: AttackRange
@@ -2509,12 +2558,12 @@ MonoBehaviour:
       ConstantStack:
       - RawValue: 7020000
       PropertyLocalName: []
-    - Note: -3 Compaired to Steam Frigate
+    - Note: -4 Compaired to Steam Frigate
       TargetProperty: BaseStrength
       ToTargetOperation: 0
       RpnOperationStack: 
       ConstantStack:
-      - RawValue: 50000
+      - RawValue: 51000
       PropertyLocalName: []
     - Note: 
       TargetProperty: AttackRange

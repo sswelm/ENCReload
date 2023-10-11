@@ -133,6 +133,29 @@ MonoBehaviour:
     RawValue: 0
   InstantResolveAttackingOrder: 2
   InstantResolveBlockingOrder: 3
+--- !u!114 &-1291927971388479312
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -553307230, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitClass_FireShip
+  m_EditorClassIdentifier: 
+  Prototype:
+    serializableElementName: UnitClass_Prototype_NavalUnit
+  OwnAbilityReferences:
+  - serializableElementName: UnitAbility_Prototype_TorpedoVessel
+  - serializableElementName: UnitAbility_Seafaring
+  - serializableElementName: UnitAbility_CannotTargetLand
+  - serializableElementName: UnitAbility_CannotRetaliate
+  InstantResolveBattleStrengthBonus:
+    RawValue: 1000
+  InstantResolveAttackingOrder: 1
+  InstantResolveBlockingOrder: 1
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0

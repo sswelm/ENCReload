@@ -2527,6 +2527,190 @@ MonoBehaviour:
   SubPawnComposition: 0
   SubPawnDefinitions: []
   Offset: {x: 0, y: 0, z: 0}
+--- !u!114 &2672273951544992800
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1841102959, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Era4_Common_Hellburners_01
+  m_EditorClassIdentifier: 
+  overrideMaterialAudioSwitchHandleReference:
+    guid:
+      a: 0
+      b: 0
+      c: 0
+      d: 0
+  weaponAudioSwitchHandleReference:
+    guid:
+      a: 0
+      b: 0
+      c: 0
+      d: 0
+  LegacyCharacterPalette:
+    guid:
+      a: 0
+      b: 0
+      c: 0
+      d: 0
+  characterPalette:
+    colorEntries:
+    - EntryName: hair
+      PrimaryColor: {r: 0, g: 0, b: 0, a: 1}
+      SecondaryColor: {r: 0.6792453, g: 0.6792453, b: 0.6792453, a: 1}
+      PrimaryColorMode: 0
+      SecondaryColorMode: 0
+    - EntryName: body
+      PrimaryColor: {r: 0.8773585, g: 0.73968, b: 0.59180313, a: 1}
+      SecondaryColor: {r: 1, g: 1, b: 1, a: 1}
+      PrimaryColorMode: 0
+      SecondaryColorMode: 1
+    - EntryName: cape
+      PrimaryColor: {r: 1, g: 1, b: 1, a: 1}
+      SecondaryColor: {r: 0.7735849, g: 0.7735849, b: 0.7735849, a: 1}
+      PrimaryColorMode: 0
+      SecondaryColorMode: 2
+    - EntryName: coat
+      PrimaryColor: {r: 1, g: 1, b: 1, a: 1}
+      SecondaryColor: {r: 1, g: 1, b: 1, a: 1}
+      PrimaryColorMode: 0
+      SecondaryColorMode: 0
+    - EntryName: belt
+      PrimaryColor: {r: 1, g: 1, b: 1, a: 1}
+      SecondaryColor: {r: 1, g: 1, b: 1, a: 1}
+      PrimaryColorMode: 0
+      SecondaryColorMode: 2
+    - EntryName: plastron
+      PrimaryColor: {r: 1, g: 1, b: 1, a: 1}
+      SecondaryColor: {r: 0.24528301, g: 0.18396226, b: 0.18396226, a: 1}
+      PrimaryColorMode: 1
+      SecondaryColorMode: 0
+    - EntryName: dress
+      PrimaryColor: {r: 0.5566038, g: 0.5566038, b: 0.5566038, a: 1}
+      SecondaryColor: {r: 0.24705884, g: 0.18431373, b: 0.18431373, a: 1}
+      PrimaryColorMode: 0
+      SecondaryColorMode: 0
+    - EntryName: loinclothe
+      PrimaryColor: {r: 1, g: 1, b: 1, a: 1}
+      SecondaryColor: {r: 1, g: 1, b: 1, a: 1}
+      PrimaryColorMode: 0
+      SecondaryColorMode: 0
+    - EntryName: glove
+      PrimaryColor: {r: 0.49056602, g: 0.3759526, b: 0.3262727, a: 1}
+      SecondaryColor: {r: 0.5849056, g: 0.5849056, b: 0.5849056, a: 1}
+      PrimaryColorMode: 0
+      SecondaryColorMode: 0
+    - EntryName: boot
+      PrimaryColor: {r: 0.32156864, g: 0.21960786, b: 0.16862746, a: 1}
+      SecondaryColor: {r: 0.126, g: 0.08604878, b: 0.06607317, a: 1}
+      PrimaryColorMode: 0
+      SecondaryColorMode: 0
+    - EntryName: shirt
+      PrimaryColor: {r: 0.1254902, g: 0.08627451, b: 0.06666667, a: 1}
+      SecondaryColor: {r: 0.8679245, g: 0.76768214, b: 0.7164471, a: 1}
+      PrimaryColorMode: 0
+      SecondaryColorMode: 0
+    - EntryName: pants
+      PrimaryColor: {r: 0.86666673, g: 0.7686275, b: 0.7176471, a: 1}
+      SecondaryColor: {r: 1, g: 1, b: 1, a: 1}
+      PrimaryColorMode: 0
+      SecondaryColorMode: 0
+    - EntryName: accessory
+      PrimaryColor: {r: 0.322, g: 0.21995774, b: 0.16780281, a: 1}
+      SecondaryColor: {r: 0.5568628, g: 0.3803922, b: 0.2901961, a: 1}
+      PrimaryColorMode: 0
+      SecondaryColorMode: 0
+    - EntryName: accessory 2
+      PrimaryColor: {r: 1, g: 1, b: 1, a: 1}
+      SecondaryColor: {r: 1, g: 1, b: 1, a: 1}
+      PrimaryColorMode: 0
+      SecondaryColorMode: 0
+    - EntryName: helmets
+      PrimaryColor: {r: 1, g: 0.99687916, b: 0.995283, a: 1}
+      SecondaryColor: {r: 0.24705884, g: 0.18431373, b: 0.18431373, a: 1}
+      PrimaryColorMode: 2
+      SecondaryColorMode: 0
+    - EntryName: weapons
+      PrimaryColor: {r: 1, g: 1, b: 1, a: 1}
+      SecondaryColor: {r: 1, g: 1, b: 1, a: 1}
+      PrimaryColorMode: 0
+      SecondaryColorMode: 0
+    - EntryName: shield
+      PrimaryColor: {r: 1, g: 1, b: 1, a: 1}
+      SecondaryColor: {r: 1, g: 1, b: 1, a: 1}
+      PrimaryColorMode: 0
+      SecondaryColorMode: 0
+    - EntryName: sash
+      PrimaryColor: {r: 1, g: 1, b: 1, a: 1}
+      SecondaryColor: {r: 1, g: 1, b: 1, a: 1}
+      PrimaryColorMode: 0
+      SecondaryColorMode: 0
+  IsWorkInProgress: 0
+  Description:
+    guid:
+      a: -2098189585
+      b: 1261842657
+      c: -677140827
+      d: 1158959804
+  AnimatorOverrideController:
+    guid:
+      a: 0
+      b: 0
+      c: 0
+      d: 0
+  Attachements:
+  - Name: BaseWaterProof
+    Fragment:
+      guid:
+        a: 47241582
+        b: 1151209308
+        c: 1168744623
+        d: 656774365
+  - Name: Body
+    Fragment:
+      guid:
+        a: -458752779
+        b: 1333843720
+        c: 2111954094
+        d: -1749990384
+  UnitVisualAffinityReference:
+    serializableElementName: 
+  PresentationUnitDefinition:
+    serializableElementName: PresentationNavalUnit_Era4_Common_Hellburners_Default
+  SlotRestriction: 0
+  SpawnWeight: 10
+  Projectile:
+    guid:
+      a: 1184380840
+      b: 1149130511
+      c: 2028763032
+      d: -1104647664
+  SecondProjectile:
+    guid:
+      a: 1184380840
+      b: 1149130511
+      c: 2028763032
+      d: -1104647664
+  MaxHeight: 3.9586594
+  AnimationCapabilityProfile: 7
+  AnimationCapabilities: 680237
+  HasRangeWeapon: 1
+  ForceRangedMultiKill: 0
+  IndividualIdleAltAnimation: 0
+  IgnoreProtectOnRangedAttack: 0
+  ForceAllowUnitFacingStaticRotation: 0
+  EquipmentTag: Boat_Wood
+  OffhandTag: 
+  MainhandTag: CrossBow
+  RLUDSRestriction: 63
+  UnitVoiceGender: 2
+  SubPawnComposition: 0
+  SubPawnDefinitions: []
+  Offset: {x: 0, y: 0, z: 0}
 --- !u!114 &2874672841992076247
 MonoBehaviour:
   m_ObjectHideFlags: 0
