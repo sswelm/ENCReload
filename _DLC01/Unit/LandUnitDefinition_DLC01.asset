@@ -33,6 +33,7 @@ MonoBehaviour:
   SerializableFamily: UnitFamily_MechanizedInfantry
   Level: 41
   Unicity: 0
+  UnicityAdditionalConstructible: []
   ConstructibleVisualAffinity:
     serializableElementName: 
   CanBeBoughtOut: 1
@@ -43,7 +44,7 @@ MonoBehaviour:
     Type: 1
     Constant: -1
     RpnDefinitionReference:
-      serializableElementName: ProductionCost_Unit_Era6_Medium_Iron2_Oil2
+      serializableElementName: ProductionCost_Unit_Era6_Medium
   MoneyInstantCostDefinition:
     Constant: 0
     RpnDefinitionReference:
@@ -153,6 +154,7 @@ MonoBehaviour:
   SerializableFamily: UnitFamily_Cavalry
   Level: 31
   Unicity: 0
+  UnicityAdditionalConstructible: []
   ConstructibleVisualAffinity:
     serializableElementName: 
   CanBeBoughtOut: 1
@@ -163,7 +165,7 @@ MonoBehaviour:
     Type: 1
     Constant: -1
     RpnDefinitionReference:
-      serializableElementName: ProductionCost_Unit_Era5_Medium_Horse3
+      serializableElementName: ProductionCost_Unit_Era5_Medium
   MoneyInstantCostDefinition:
     Constant: -1
     RpnDefinitionReference:
@@ -284,6 +286,7 @@ MonoBehaviour:
   SerializableFamily: UnitFamily_HorseArcher
   Level: 15
   Unicity: 0
+  UnicityAdditionalConstructible: []
   ConstructibleVisualAffinity:
     serializableElementName: 
   CanBeBoughtOut: 1
