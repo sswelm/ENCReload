@@ -6127,7 +6127,7 @@ MonoBehaviour:
       Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
     - Name: serializableElementName
       Entry: 1
-      Data: Infrastructure_Industry_Family03_02
+      Data: Infrastructure_Industry_Family03_03
     - Name: 
       Entry: 8
       Data: 
@@ -23812,7 +23812,7 @@ MonoBehaviour:
   IsExclusiveToEra: 0
   Priority: 0
   OverrideTierCostRpnReference:
-    serializableElementName: Technology_Era3_Tier3_Cost
+    serializableElementName: Technology_Era3_Tier3_CostExtra
   TechnologyPrerequisite:
     SerializableTechnologyNames:
     - Technology_Era3_ClinkerBoatBuilding
@@ -25655,7 +25655,7 @@ MonoBehaviour:
   TechnologyPrerequisite:
     SerializableTechnologyNames:
     - Technology_Era3_10
-    - Technology_Era3_07
+    - Technology_Era3_08
   Visibility: -1
 --- !u!114 &4932179527906699277
 MonoBehaviour:
@@ -26639,7 +26639,7 @@ MonoBehaviour:
   IsExclusiveToEra: 0
   Priority: 0
   OverrideTierCostRpnReference:
-    serializableElementName: 
+    serializableElementName: Technology_Era3_Tier3_CostExtra
   TechnologyPrerequisite:
     SerializableTechnologyNames:
     - Technology_Era3_09
@@ -29456,6 +29456,7 @@ MonoBehaviour:
   TechnologyPrerequisite:
     SerializableTechnologyNames:
     - Technology_Era4_04
+    - Technology_Era3_07
   Visibility: -1
 --- !u!114 &6069619243554686652
 MonoBehaviour:
