@@ -474,6 +474,125 @@ MonoBehaviour:
     serializableElementName: Era1
   unitSpecialty:
     serializableElementName: 
+--- !u!114 &-7521467394534094060
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1850805416, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: NavalUnit_Era3_Common_Galliot
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: GainValues
+      Entry: 6
+      Data: 
+  Key: 0
+  Hidden: 0
+  IsObsolete: 0
+  DLCPrerequisite:
+    DownloadableContent: 0
+  Category: 6
+  SerializableFamily: UnitFamily_Privateer
+  Level: 20
+  Unicity: 0
+  UnicityAdditionalConstructible: []
+  ConstructibleVisualAffinity:
+    serializableElementName: 
+  CanBeBoughtOut: 1
+  CanBeCanceled: 1
+  StartWhenQueued: 0
+  CanBeBoughtOutWithPopulation: 0
+  ProductionCostDefinition:
+    Type: 1
+    Constant: -1
+    RpnDefinitionReference:
+      serializableElementName: ProductionCost_Unit_Era3_Medium
+  MoneyInstantCostDefinition:
+    Constant: -1
+    RpnDefinitionReference:
+      serializableElementName: 
+  InfluenceInstantCostDefinition:
+    Constant: 0
+    RpnDefinitionReference:
+      serializableElementName: 
+  PopulationInstantCostDefinition:
+    Constant: 1
+  ProvidedByOtherEmpireCostDefinition:
+    ProductionCostModifierRpn:
+      serializableElementName: 
+    ReceiverMoneyCostRpn:
+      serializableElementName: 
+    ProviderMoneyGainRpn:
+      serializableElementName: 
+  ResourceAccessPrerequisites:
+  - Resource: 1
+    ConstantType: 0
+    ConstantValue: 6
+  - Resource: 4
+    ConstantType: 0
+    ConstantValue: 2
+  MinimalPopulationPrerequisite: 0
+  ResourceSupremacyPrerequisite: 
+  EraPrerequisite:
+    Operator: 1
+    EraReference:
+      serializableElementName: 
+  FactionPrerequisite:
+    Operator: 0
+    serializableFactionNames: []
+  SettlementStatusPrerequisite:
+    CampConstraint: 0
+    CityConstraint: 1
+  ReligionAffinityPrerequisite:
+    serializableElementName: 
+  SettlementPropertyPrerequisites: []
+  SettlementStabilityPrerequisite:
+    Operator: 0
+    PublicOrderEffects: []
+  DistrictCountPrerequisites: []
+  ActionTypePrerequisite:
+    Operator: 0
+    ActionType: 0
+  ArtificialWonderBuiltPrerequisite:
+    Operator: 0
+    ArtificialWonderDefinition:
+      serializableElementName: 
+  BaseSynergyDistrict: 0
+  UnitClass:
+    serializableElementName: UnitClass_BoardingVessel
+  UnitSpecialties:
+  - serializableElementName: UnitSpecialty_Privateer
+  - serializableElementName: UnitSpecialty_SpeedFromHarbor_Level1
+  - serializableElementName: UnitSpecialty_MoveOneAfterAttack
+  OwnDescriptorReferences:
+  - serializableElementName: Effect_NavalUnit_Era3_Common_Galliot
+  - serializableElementName: Effect_Unit_Era3
+  - serializableElementName: Effect_Unit_Era3_Tier2
+  - serializableElementName: Tag_Unit_Vehicle
+  BaseMovementSpeed: 1.8
+  MovementSpeedMultiplierPerType:
+  - 1.5
+  - 2.5
+  - 4
+  - 1.03
+  UnitTags: 4106
+  AlwaysUseCurrentEraVisualAffinity: 0
+  visualAffinityEraReference:
+    serializableElementName: Era4
+  unitSpecialty:
+    serializableElementName: 
 --- !u!114 &-7103423810318529942
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -643,7 +762,7 @@ MonoBehaviour:
     Type: 1
     Constant: -1
     RpnDefinitionReference:
-      serializableElementName: ProductionCost_Unit_Era5_Medium
+      serializableElementName: ProductionCost_Unit_Era5_Low
   MoneyInstantCostDefinition:
     Constant: -1
     RpnDefinitionReference:
@@ -1665,7 +1784,7 @@ MonoBehaviour:
   OwnDescriptorReferences:
   - serializableElementName: Effect_NavalUnit_Era4_Common_Galleasses
   - serializableElementName: Effect_Unit_Era4
-  - serializableElementName: Effect_Unit_Era4_Tier3
+  - serializableElementName: Effect_Unit_Era4_Tier4
   - serializableElementName: Tag_Unit_Vehicle
   BaseMovementSpeed: 1.8
   MovementSpeedMultiplierPerType:
@@ -1920,6 +2039,120 @@ MonoBehaviour:
   AlwaysUseCurrentEraVisualAffinity: 0
   visualAffinityEraReference:
     serializableElementName: Era6
+  unitSpecialty:
+    serializableElementName: 
+--- !u!114 &-2456950041119175236
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1850805416, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: NavalUnit_Era2_Common_Lembos
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: GainValues
+      Entry: 6
+      Data: 
+  Key: 0
+  Hidden: 0
+  IsObsolete: 0
+  DLCPrerequisite:
+    DownloadableContent: 0
+  Category: 6
+  SerializableFamily: UnitFamily_Privateer
+  Level: 12
+  Unicity: 0
+  UnicityAdditionalConstructible: []
+  ConstructibleVisualAffinity:
+    serializableElementName: 
+  CanBeBoughtOut: 1
+  CanBeCanceled: 1
+  StartWhenQueued: 0
+  CanBeBoughtOutWithPopulation: 0
+  ProductionCostDefinition:
+    Type: 1
+    Constant: -1
+    RpnDefinitionReference:
+      serializableElementName: ProductionCost_Unit_Era2_Medium
+  MoneyInstantCostDefinition:
+    Constant: -1
+    RpnDefinitionReference:
+      serializableElementName: 
+  InfluenceInstantCostDefinition:
+    Constant: 0
+    RpnDefinitionReference:
+      serializableElementName: 
+  PopulationInstantCostDefinition:
+    Constant: 1
+  ProvidedByOtherEmpireCostDefinition:
+    ProductionCostModifierRpn:
+      serializableElementName: 
+    ReceiverMoneyCostRpn:
+      serializableElementName: 
+    ProviderMoneyGainRpn:
+      serializableElementName: 
+  ResourceAccessPrerequisites: []
+  MinimalPopulationPrerequisite: 0
+  ResourceSupremacyPrerequisite: 
+  EraPrerequisite:
+    Operator: 1
+    EraReference:
+      serializableElementName: 
+  FactionPrerequisite:
+    Operator: 0
+    serializableFactionNames: []
+  SettlementStatusPrerequisite:
+    CampConstraint: 0
+    CityConstraint: 1
+  ReligionAffinityPrerequisite:
+    serializableElementName: 
+  SettlementPropertyPrerequisites: []
+  SettlementStabilityPrerequisite:
+    Operator: 0
+    PublicOrderEffects: []
+  DistrictCountPrerequisites: []
+  ActionTypePrerequisite:
+    Operator: 0
+    ActionType: 0
+  ArtificialWonderBuiltPrerequisite:
+    Operator: 0
+    ArtificialWonderDefinition:
+      serializableElementName: 
+  BaseSynergyDistrict: 0
+  UnitClass:
+    serializableElementName: UnitClass_BoardingVessel
+  UnitSpecialties:
+  - serializableElementName: UnitSpecialty_LostAtSeaDeath
+  - serializableElementName: UnitSpecialty_SlowMovementInOcean
+  - serializableElementName: UnitSpecialty_SpeedFromHarbor_Level1
+  - serializableElementName: UnitSpecialty_MoveOneAfterAttack
+  OwnDescriptorReferences:
+  - serializableElementName: Effect_NavalUnit_Era2_Common_Lembos
+  - serializableElementName: Effect_Unit_Era2
+  - serializableElementName: Effect_Unit_Era2_Tier2
+  - serializableElementName: Tag_Unit_Vehicle
+  BaseMovementSpeed: 1.8
+  MovementSpeedMultiplierPerType:
+  - 1.5
+  - 2.5
+  - 4
+  - 1.03
+  UnitTags: 10
+  AlwaysUseCurrentEraVisualAffinity: 0
+  visualAffinityEraReference:
+    serializableElementName: Era1
   unitSpecialty:
     serializableElementName: 
 --- !u!114 &-2302044435288875842
@@ -2197,7 +2430,7 @@ MonoBehaviour:
     DownloadableContent: 0
   Category: 6
   SerializableFamily: UnitFamily_Privateer
-  Level: 27
+  Level: 24
   Unicity: 0
   UnicityAdditionalConstructible: []
   ConstructibleVisualAffinity:
@@ -2266,6 +2499,8 @@ MonoBehaviour:
     serializableElementName: UnitClass_BoardingVessel
   UnitSpecialties:
   - serializableElementName: UnitSpecialty_Privateer
+  - serializableElementName: UnitSpecialty_MoveOneAfterAttack
+  - serializableElementName: UnitSpecialty_SpeedFromHarbor_Level1
   OwnDescriptorReferences:
   - serializableElementName: Effect_NavalUnit_Era4_Common_Privateers
   - serializableElementName: Effect_Unit_Era4
@@ -3840,7 +4075,7 @@ MonoBehaviour:
   OwnDescriptorReferences:
   - serializableElementName: Effect_NavalUnit_Era4_Common_Galleasses
   - serializableElementName: Effect_Unit_Era4
-  - serializableElementName: Effect_Unit_Era4_Tier3
+  - serializableElementName: Effect_Unit_Era4_Tier4
   - serializableElementName: Tag_Unit_Vehicle
   BaseMovementSpeed: 1.8
   MovementSpeedMultiplierPerType:

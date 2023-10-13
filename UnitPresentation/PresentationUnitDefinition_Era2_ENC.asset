@@ -20,6 +20,7 @@ MonoBehaviour:
   FormationBehaviourDefinition:
     serializableElementName: 
   ChoreographyOverride: 0
+  NoAttackRotation: 0
   FacingAngleOffset: 0
   MinDistanceBetweenFormationDummies: 0
   RestrictionPerSlot: []
@@ -66,6 +67,7 @@ MonoBehaviour:
   FormationBehaviourDefinition:
     serializableElementName: 
   ChoreographyOverride: 0
+  NoAttackRotation: 0
   FacingAngleOffset: 90
   MinDistanceBetweenFormationDummies: 0
   RestrictionPerSlot: []
@@ -124,6 +126,7 @@ MonoBehaviour:
   FormationBehaviourDefinition:
     serializableElementName: 
   ChoreographyOverride: 3
+  NoAttackRotation: 0
   FacingAngleOffset: 0
   MinDistanceBetweenFormationDummies: 0
   RestrictionPerSlot: []
@@ -170,6 +173,7 @@ MonoBehaviour:
   FormationBehaviourDefinition:
     serializableElementName: 
   ChoreographyOverride: 0
+  NoAttackRotation: 0
   FacingAngleOffset: 0
   MinDistanceBetweenFormationDummies: 0
   RestrictionPerSlot: []
@@ -216,6 +220,7 @@ MonoBehaviour:
   FormationBehaviourDefinition:
     serializableElementName: 
   ChoreographyOverride: 0
+  NoAttackRotation: 0
   FacingAngleOffset: 0
   MinDistanceBetweenFormationDummies: 0
   RestrictionPerSlot: []
@@ -242,3 +247,50 @@ MonoBehaviour:
       b: 1244152260
       c: 732419475
       d: -1635721152
+--- !u!114 &9159037472504925043
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 759592875, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: PresentationLandUnit_Era2_Common_Lembos
+  m_EditorClassIdentifier: 
+  IsWorkInProgress: 0
+  UnitDefinitionReference:
+    serializableElementName: NavalUnit_Era2_Common_Lembos
+  PresentationFormationDefinition:
+    serializableElementName: Formation_1
+  FormationBehaviourDefinition:
+    serializableElementName: 
+  ChoreographyOverride: 0
+  NoAttackRotation: 0
+  FacingAngleOffset: 90
+  MinDistanceBetweenFormationDummies: 0
+  RestrictionPerSlot: []
+  UnitSpecification: 0
+  CoordinationMasterValue: 0.5
+  CoordinationValues:
+    DummyOffsetPosition: {x: 0.1, y: 0.175}
+    DummyOffsetAngle: {x: 10, y: 15}
+    AnimationDelay: {x: 0, y: 0.5}
+    MinDistanceReformationMultiplier: 1
+    CoordinateAttackMovement: 0
+    SameRowAttack: 1
+    AveragePathLength: 0
+    UseDisciplinedVariation: 0
+  StealthRevealAudioEvent:
+    guid:
+      a: -1326129278
+      b: 1160368417
+      c: 1151361188
+      d: -1076931018
+  unitVoiceProviderReference:
+    guid:
+      a: 2111542706
+      b: 1261554029
+      c: -1363695428
+      d: 454133168

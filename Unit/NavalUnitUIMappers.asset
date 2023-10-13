@@ -1707,17 +1707,17 @@ MonoBehaviour:
     serializableKey: Picto
   - Value:
       guid:
-        a: 257112705
-        b: 1242947947
-        c: 703538588
-        d: -1899541790
+        a: -286893203
+        b: 1149630936
+        c: -767609455
+        d: -611223907
     serializableKey: Default_Small
   - Value:
       guid:
-        a: -12708622
-        b: 1149203181
-        c: -1616049762
-        d: 1087857204
+        a: -286893203
+        b: 1149630936
+        c: -767609455
+        d: -611223907
     serializableKey: Default_Tooltip
   - Value:
       guid:
@@ -4634,6 +4634,160 @@ MonoBehaviour:
   Symbol: 
   SortPriority: 8450
   ConstructibleTraits: 
+--- !u!114 &3565747024044588645
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -717291864, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: NavalUnit_Era2_Common_Lembos
+  m_EditorClassIdentifier: 
+  Title: Lembos
+  Description: This small warship is the basic warship of most warfleets, and being
+    small, fairly fast and manoeuvreable, is ideal for raiding, patrolling and interception
+    duty.
+  Images:
+  - Value:
+      guid:
+        a: -824710551
+        b: 1338005461
+        c: -1009416831
+        d: 1251461539
+    serializableKey: Picto
+  - Value:
+      guid:
+        a: -1198755215
+        b: 1151958487
+        c: -1422393678
+        d: 1954093707
+    serializableKey: Default_Small
+  - Value:
+      guid:
+        a: -1198755215
+        b: 1151958487
+        c: -1422393678
+        d: 1954093707
+    serializableKey: Default_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation1_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation1_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation2_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation2_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation3_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation3_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation4_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation4_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation5_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation5_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation6_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation6_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation7_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation7_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation8_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation8_Tooltip
+  Color: {r: 1, g: 1, b: 1, a: 1}
+  Symbol: 
+  SortPriority: 8850
+  ConstructibleTraits: 
 --- !u!114 &3581331821765298309
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4646,7 +4800,7 @@ MonoBehaviour:
   m_Script: {fileID: -717291864, guid: b310e23bee821cb478da05296ba685d0, type: 3}
   m_Name: NavalUnit_Era4_Common_Privateers
   m_EditorClassIdentifier: 
-  Title: '%NavalUnit_Era4_Common_PrivateersTitle'
+  Title: Sloop of War
   Description: '%NavalUnit_Era4_Common_PrivateersDescription'
   Images:
   - Value:
@@ -4939,6 +5093,159 @@ MonoBehaviour:
   Color: {r: 1, g: 1, b: 1, a: 1}
   Symbol: 
   SortPriority: 8400
+  ConstructibleTraits: 
+--- !u!114 &4484281952126477157
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -717291864, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: NavalUnit_Era3_Common_Galliot
+  m_EditorClassIdentifier: 
+  Title: Galliot
+  Description: The Galliot was a small Galley-like ship armed with cannons that specialized
+    in either mercantile or escort duty, but was also used for piracy.
+  Images:
+  - Value:
+      guid:
+        a: -824710551
+        b: 1338005461
+        c: -1009416831
+        d: 1251461539
+    serializableKey: Picto
+  - Value:
+      guid:
+        a: 2034385718
+        b: 1123880026
+        c: -78507360
+        d: -691482978
+    serializableKey: Default_Small
+  - Value:
+      guid:
+        a: 2034385718
+        b: 1123880026
+        c: -78507360
+        d: -691482978
+    serializableKey: Default_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation1_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation1_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation2_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation2_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation3_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation3_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation4_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation4_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation5_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation5_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation6_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation6_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation7_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation7_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation8_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation8_Tooltip
+  Color: {r: 1, g: 1, b: 1, a: 1}
+  Symbol: 
+  SortPriority: 8600
   ConstructibleTraits: 
 --- !u!114 &4726713028151354435
 MonoBehaviour:
