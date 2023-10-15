@@ -4677,6 +4677,49 @@ MonoBehaviour:
   TechTreeX: 364
   TechTreeY: 16
   OptionalUnlockTechnologyMovie: 
+--- !u!114 &1259562029876054984
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 301062344, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Technology_Era3_Forestry
+  m_EditorClassIdentifier: 
+  Title: Forestry
+  Description: Forestry is the science and craft of creating, managing, planting,
+    using, conserving and repairing forests and woodlands for associated resources
+    for human and environmental benefits.
+  Images:
+  - Value:
+      guid:
+        a: 411481067
+        b: 1157032220
+        c: -743585888
+        d: -1140257281
+    serializableKey: TechnologyPopupBackground
+  - Value:
+      guid:
+        a: 209776758
+        b: 1286721164
+        c: -1264855650
+        d: 577032575
+    serializableKey: Picto
+  - Value:
+      guid:
+        a: 411481067
+        b: 1157032220
+        c: -743585888
+        d: -1140257281
+    serializableKey: TechnologyScreenItemBackground
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  Symbol: 
+  TechTreeX: 101
+  TechTreeY: 15
+  OptionalUnlockTechnologyMovie: 
 --- !u!114 &1390412190814305448
 MonoBehaviour:
   m_ObjectHideFlags: 0
