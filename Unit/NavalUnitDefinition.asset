@@ -294,7 +294,7 @@ MonoBehaviour:
     RpnDefinitionReference:
       serializableElementName: 
   PopulationInstantCostDefinition:
-    Constant: 1
+    Constant: 2
   ProvidedByOtherEmpireCostDefinition:
     ProductionCostModifierRpn:
       serializableElementName: 
@@ -518,7 +518,7 @@ MonoBehaviour:
     Type: 1
     Constant: -1
     RpnDefinitionReference:
-      serializableElementName: ProductionCost_Unit_Era3_Medium
+      serializableElementName: ProductionCost_Unit_Era4_Low
   MoneyInstantCostDefinition:
     Constant: -1
     RpnDefinitionReference:
@@ -772,7 +772,7 @@ MonoBehaviour:
     RpnDefinitionReference:
       serializableElementName: 
   PopulationInstantCostDefinition:
-    Constant: 1
+    Constant: 4
   ProvidedByOtherEmpireCostDefinition:
     ProductionCostModifierRpn:
       serializableElementName: 
@@ -786,7 +786,7 @@ MonoBehaviour:
     ConstantValue: 16
   - Resource: 4
     ConstantType: 0
-    ConstantValue: 10
+    ConstantValue: 8
   MinimalPopulationPrerequisite: 0
   ResourceSupremacyPrerequisite: 
   EraPrerequisite:
@@ -891,7 +891,7 @@ MonoBehaviour:
     RpnDefinitionReference:
       serializableElementName: 
   PopulationInstantCostDefinition:
-    Constant: 3
+    Constant: 4
   ProvidedByOtherEmpireCostDefinition:
     ProductionCostModifierRpn:
       serializableElementName: 
@@ -1015,7 +1015,7 @@ MonoBehaviour:
     RpnDefinitionReference:
       serializableElementName: 
   PopulationInstantCostDefinition:
-    Constant: 3
+    Constant: 4
   ProvidedByOtherEmpireCostDefinition:
     ProductionCostModifierRpn:
       serializableElementName: 
@@ -1733,7 +1733,7 @@ MonoBehaviour:
     RpnDefinitionReference:
       serializableElementName: 
   PopulationInstantCostDefinition:
-    Constant: 2
+    Constant: 3
   ProvidedByOtherEmpireCostDefinition:
     ProductionCostModifierRpn:
       serializableElementName: 
@@ -1776,7 +1776,7 @@ MonoBehaviour:
       serializableElementName: 
   BaseSynergyDistrict: 0
   UnitClass:
-    serializableElementName: UnitClass_BoardingVessel
+    serializableElementName: UnitClass_CapitalShip
   UnitSpecialties:
   - serializableElementName: UnitSpecialty_StrengthFromCloseRange_Level1
   - serializableElementName: UnitSpecialty_LostAtSeaDamage_Level3
@@ -2334,7 +2334,7 @@ MonoBehaviour:
     RpnDefinitionReference:
       serializableElementName: 
   PopulationInstantCostDefinition:
-    Constant: 2
+    Constant: 3
   ProvidedByOtherEmpireCostDefinition:
     ProductionCostModifierRpn:
       serializableElementName: 
@@ -2690,7 +2690,7 @@ MonoBehaviour:
     RpnDefinitionReference:
       serializableElementName: 
   PopulationInstantCostDefinition:
-    Constant: 1
+    Constant: 2
   ProvidedByOtherEmpireCostDefinition:
     ProductionCostModifierRpn:
       serializableElementName: 
@@ -2822,7 +2822,7 @@ MonoBehaviour:
     ConstantValue: 8
   - Resource: 4
     ConstantType: 0
-    ConstantValue: 3
+    ConstantValue: 6
   MinimalPopulationPrerequisite: 0
   ResourceSupremacyPrerequisite: 
   EraPrerequisite:
@@ -2926,7 +2926,7 @@ MonoBehaviour:
     RpnDefinitionReference:
       serializableElementName: 
   PopulationInstantCostDefinition:
-    Constant: 3
+    Constant: 4
   ProvidedByOtherEmpireCostDefinition:
     ProductionCostModifierRpn:
       serializableElementName: 
@@ -3044,7 +3044,7 @@ MonoBehaviour:
     RpnDefinitionReference:
       serializableElementName: 
   PopulationInstantCostDefinition:
-    Constant: 3
+    Constant: 4
   ProvidedByOtherEmpireCostDefinition:
     ProductionCostModifierRpn:
       serializableElementName: 
@@ -3299,7 +3299,7 @@ MonoBehaviour:
     RpnDefinitionReference:
       serializableElementName: 
   PopulationInstantCostDefinition:
-    Constant: 3
+    Constant: 4
   ProvidedByOtherEmpireCostDefinition:
     ProductionCostModifierRpn:
       serializableElementName: 
@@ -4024,7 +4024,7 @@ MonoBehaviour:
     RpnDefinitionReference:
       serializableElementName: 
   PopulationInstantCostDefinition:
-    Constant: 2
+    Constant: 3
   ProvidedByOtherEmpireCostDefinition:
     ProductionCostModifierRpn:
       serializableElementName: 
@@ -4615,7 +4615,7 @@ MonoBehaviour:
     RpnDefinitionReference:
       serializableElementName: 
   PopulationInstantCostDefinition:
-    Constant: 2
+    Constant: 3
   ProvidedByOtherEmpireCostDefinition:
     ProductionCostModifierRpn:
       serializableElementName: 
@@ -5093,7 +5093,7 @@ MonoBehaviour:
     RpnDefinitionReference:
       serializableElementName: 
   PopulationInstantCostDefinition:
-    Constant: 1
+    Constant: 2
   ProvidedByOtherEmpireCostDefinition:
     ProductionCostModifierRpn:
       serializableElementName: 
@@ -5624,7 +5624,7 @@ MonoBehaviour:
       serializableElementName: 
   BaseSynergyDistrict: 0
   UnitClass:
-    serializableElementName: UnitClass_BoardingVessel
+    serializableElementName: UnitClass_CapitalShip
   UnitSpecialties:
   - serializableElementName: UnitSpecialty_StrengthFromCloseRange_Level1
   - serializableElementName: UnitSpecialty_SlowMovementInOcean
