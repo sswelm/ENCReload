@@ -1394,7 +1394,7 @@ MonoBehaviour:
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
   TechTreeX: 119
-  TechTreeY: 11
+  TechTreeY: 10
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &-6076899768317737889
 MonoBehaviour:
@@ -2507,7 +2507,7 @@ MonoBehaviour:
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
   TechTreeX: 125
-  TechTreeY: 20
+  TechTreeY: 19
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &-3739317850848436674
 MonoBehaviour:
@@ -3255,6 +3255,49 @@ MonoBehaviour:
   TechTreeX: 262
   TechTreeY: 10
   OptionalUnlockTechnologyMovie: 
+--- !u!114 &-2621255140941623728
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 301062344, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Technology_Era3_FineArts
+  m_EditorClassIdentifier: 
+  Title: Fine Arts
+  Description: ' The Renaissance introduced a huge explosion of painting, sculping,
+    new musical forms, the great artists, composers all lived during the later Enlightenment,
+    while the great artists during the renaissance.'
+  Images:
+  - Value:
+      guid:
+        a: -917823257
+        b: 1274727517
+        c: -239135078
+        d: -628342309
+    serializableKey: TechnologyPopupBackground
+  - Value:
+      guid:
+        a: 209776758
+        b: 1286721164
+        c: -1264855650
+        d: 577032575
+    serializableKey: Picto
+  - Value:
+      guid:
+        a: -917823257
+        b: 1274727517
+        c: -239135078
+        d: -628342309
+    serializableKey: TechnologyScreenItemBackground
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  Symbol: 
+  TechTreeX: 107
+  TechTreeY: 13
+  OptionalUnlockTechnologyMovie: 
 --- !u!114 &-2594300400321537060
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3682,8 +3725,8 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 109
-  TechTreeY: 18
+  TechTreeX: 116
+  TechTreeY: 22
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &-1680948443661534677
 MonoBehaviour:
@@ -4717,8 +4760,8 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 101
-  TechTreeY: 15
+  TechTreeX: 100
+  TechTreeY: 16
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &1390412190814305448
 MonoBehaviour:
