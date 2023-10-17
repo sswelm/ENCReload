@@ -1377,6 +1377,20 @@ MonoBehaviour:
       ConstantStack:
       - RawValue: 4000
       PropertyLocalName: []
+    - Note: 
+      TargetProperty: StealthMax
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 4000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: StealthRegen
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 1000
+      PropertyLocalName: []
   serializableCategory: 
   startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
 --- !u!114 &-3575241588991331262

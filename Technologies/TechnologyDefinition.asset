@@ -9719,14 +9719,38 @@ MonoBehaviour:
       Entry: 8
       Data: 
     - Name: GainValues
+      Entry: 7
+      Data: 2|Amplitude.Mercury.Data.AI.Gain[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Mercury.Data.AI.Gain, Amplitude.Mercury.Data
+    - Name: Type
+      Entry: 3
+      Data: 1
+    - Name: Importance
+      Entry: 3
+      Data: 3
+    - Name: Gates
       Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
       Data: 
     - Name: TargetID
       Entry: 1
       Data: Empire
     - Name: ConstructibleReferences
       Entry: 7
-      Data: 2|Amplitude.Framework.DatatableElementReference[], Amplitude.Framework
+      Data: 3|Amplitude.Framework.DatatableElementReference[], Amplitude.Framework
     - Name: 
       Entry: 12
       Data: 1
@@ -11046,7 +11070,22 @@ MonoBehaviour:
       Data: 5|Amplitude.Mercury.Data.AI.Gain[], Amplitude.Mercury.Data
     - Name: 
       Entry: 12
-      Data: 0
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Mercury.Data.AI.Gain, Amplitude.Mercury.Data
+    - Name: Type
+      Entry: 3
+      Data: 8
+    - Name: Importance
+      Entry: 3
+      Data: 3
+    - Name: Gates
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: 
       Entry: 13
       Data: 
@@ -11108,7 +11147,22 @@ MonoBehaviour:
       Data: 8|Amplitude.Mercury.Data.AI.Gain[], Amplitude.Mercury.Data
     - Name: 
       Entry: 12
-      Data: 0
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Mercury.Data.AI.Gain, Amplitude.Mercury.Data
+    - Name: Type
+      Entry: 3
+      Data: 4
+    - Name: Importance
+      Entry: 3
+      Data: 3
+    - Name: Gates
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: 
       Entry: 13
       Data: 
@@ -13005,7 +13059,7 @@ MonoBehaviour:
       Data: 64
     - Name: Importance
       Entry: 3
-      Data: 3
+      Data: 4
     - Name: Gates
       Entry: 6
       Data: 
@@ -22189,7 +22243,7 @@ MonoBehaviour:
       Data: 8192
     - Name: Importance
       Entry: 3
-      Data: 3
+      Data: 4
     - Name: Gates
       Entry: 6
       Data: 
@@ -22266,7 +22320,7 @@ MonoBehaviour:
       Data: 268435456
     - Name: Importance
       Entry: 3
-      Data: 3
+      Data: 4
     - Name: Gates
       Entry: 6
       Data: 
