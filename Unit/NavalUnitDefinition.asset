@@ -1548,8 +1548,8 @@ MonoBehaviour:
   UnitClass:
     serializableElementName: UnitClass_EscortShip
   UnitSpecialties:
-  - serializableElementName: UnitSpecialty_ScreeningShip
   - serializableElementName: UnitSpecialty_Shatter
+  - serializableElementName: UnitSpecialty_ScreeningShip
   - serializableElementName: UnitSpecialty_AntiAircraft_50
   OwnDescriptorReferences:
   - serializableElementName: Effect_NavalUnit_Era5_Common_TorpedoBoatDestroyers
@@ -2618,7 +2618,7 @@ MonoBehaviour:
     serializableElementName: UnitClass_EscortShip
   UnitSpecialties:
   - serializableElementName: UnitSpecialty_Shatter
-  - serializableElementName: UnitSpecialty_ShipOfTheLine
+  - serializableElementName: UnitSpecialty_ScreeningShip
   OwnDescriptorReferences:
   - serializableElementName: Effect_NavalUnit_Era5_Common_SteamFrigates
   - serializableElementName: Effect_Unit_Era5

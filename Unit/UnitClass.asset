@@ -253,12 +253,13 @@ MonoBehaviour:
   - serializableElementName: UnitAbility_Prototype_TorpedoVessel
   - serializableElementName: UnitAbility_Seafaring
   - serializableElementName: UnitAbility_CannotTargetLand
+  - serializableElementName: UnitAbility_AttackBlockedByScreeningShip
   - serializableElementName: UnitAbility_IndirectFire
   - serializableElementName: UnitAbility_CannotRetaliate
   InstantResolveBattleStrengthBonus:
     RawValue: 1000
-  InstantResolveAttackingOrder: 1
-  InstantResolveBlockingOrder: 1
+  InstantResolveAttackingOrder: 2
+  InstantResolveBlockingOrder: 2
 --- !u!114 &7898162922352718588
 MonoBehaviour:
   m_ObjectHideFlags: 0
