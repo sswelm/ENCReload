@@ -45,29 +45,6 @@ MonoBehaviour:
     RawValue: 0
   InstantResolveAttackingOrder: 1
   InstantResolveBlockingOrder: 1
---- !u!114 &-6180698480251659545
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -553307230, guid: b310e23bee821cb478da05296ba685d0, type: 3}
-  m_Name: UnitClass_FieldArtillery
-  m_EditorClassIdentifier: 
-  Prototype:
-    serializableElementName: UnitClass_Prototype_LandUnit
-  OwnAbilityReferences:
-  - serializableElementName: UnitAbility_Prototype_FieldArtillery
-  - serializableElementName: UnitAbility_CannotClimbFortification
-  - serializableElementName: UnitAbility_MoveOrAttack
-  - serializableElementName: UnitAbility_CannotRetaliate
-  InstantResolveBattleStrengthBonus:
-    RawValue: 0
-  InstantResolveAttackingOrder: 2
-  InstantResolveBlockingOrder: 2
 --- !u!114 &-4692915828298506383
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -112,27 +89,6 @@ MonoBehaviour:
     RawValue: 0
   InstantResolveAttackingOrder: 1
   InstantResolveBlockingOrder: 1
---- !u!114 &-1478305944535645159
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -553307230, guid: b310e23bee821cb478da05296ba685d0, type: 3}
-  m_Name: UnitClass_CapitalShip
-  m_EditorClassIdentifier: 
-  Prototype:
-    serializableElementName: UnitClass_Prototype_NavalUnit
-  OwnAbilityReferences:
-  - serializableElementName: UnitAbility_Prototype_CapitalShip
-  - serializableElementName: UnitAbility_Seafaring
-  InstantResolveBattleStrengthBonus:
-    RawValue: 0
-  InstantResolveAttackingOrder: 2
-  InstantResolveBlockingOrder: 3
 --- !u!114 &-1291927971388479312
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -189,31 +145,6 @@ MonoBehaviour:
     RawValue: 0
   InstantResolveAttackingOrder: 2
   InstantResolveBlockingOrder: 3
---- !u!114 &3476454640885726066
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -553307230, guid: b310e23bee821cb478da05296ba685d0, type: 3}
-  m_Name: UnitClass_SiegeWeapon
-  m_EditorClassIdentifier: 
-  Prototype:
-    serializableElementName: UnitClass_Prototype_LandUnit
-  OwnAbilityReferences:
-  - serializableElementName: UnitAbility_Prototype_SiegeWeapon
-  - serializableElementName: UnitAbility_CannotRetaliate
-  - serializableElementName: UnitAbility_SiegeSpawnable
-  - serializableElementName: UnitAbility_CanAttackFortification
-  - serializableElementName: UnitAbility_Artillery
-  - serializableElementName: UnitAbility_StrengthFromFortification_Level1
-  InstantResolveBattleStrengthBonus:
-    RawValue: 0
-  InstantResolveAttackingOrder: 1
-  InstantResolveBlockingOrder: 1
 --- !u!114 &6262694060627237953
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -260,28 +191,6 @@ MonoBehaviour:
     RawValue: 1000
   InstantResolveAttackingOrder: 2
   InstantResolveBlockingOrder: 2
---- !u!114 &7898162922352718588
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -553307230, guid: b310e23bee821cb478da05296ba685d0, type: 3}
-  m_Name: UnitClass_Cavalry
-  m_EditorClassIdentifier: 
-  Prototype:
-    serializableElementName: UnitClass_Prototype_Mounted
-  OwnAbilityReferences:
-  - serializableElementName: UnitAbility_CannotTargetSeafaring
-  - serializableElementName: UnitAbility_NoMovementPenaltiesFromZonesOfControl
-  - serializableElementName: UnitAbility_Prototype_Cavalry
-  InstantResolveBattleStrengthBonus:
-    RawValue: 1000
-  InstantResolveAttackingOrder: 1
-  InstantResolveBlockingOrder: 1
 --- !u!114 &8795979988640593234
 MonoBehaviour:
   m_ObjectHideFlags: 0
