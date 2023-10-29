@@ -900,15 +900,15 @@ MonoBehaviour:
     ProviderMoneyGainRpn:
       serializableElementName: 
   ResourceAccessPrerequisites:
-  - Resource: 1
-    ConstantType: 0
-    ConstantValue: 6
   - Resource: 2
     ConstantType: 0
-    ConstantValue: 28
+    ConstantValue: 24
   - Resource: 5
     ConstantType: 0
-    ConstantValue: 12
+    ConstantValue: 10
+  - Resource: 6
+    ConstantType: 0
+    ConstantValue: 4
   MinimalPopulationPrerequisite: 0
   ResourceSupremacyPrerequisite: 
   EraPrerequisite:
@@ -1150,7 +1150,7 @@ MonoBehaviour:
   ResourceAccessPrerequisites:
   - Resource: 2
     ConstantType: 0
-    ConstantValue: 5
+    ConstantValue: 6
   - Resource: 3
     ConstantType: 0
     ConstantValue: 2
@@ -1517,7 +1517,7 @@ MonoBehaviour:
     ConstantValue: 8
   - Resource: 3
     ConstantType: 0
-    ConstantValue: 4
+    ConstantValue: 6
   MinimalPopulationPrerequisite: 0
   ResourceSupremacyPrerequisite: 
   EraPrerequisite:
@@ -2226,7 +2226,7 @@ MonoBehaviour:
     ConstantValue: 20
   - Resource: 5
     ConstantType: 0
-    ConstantValue: 12
+    ConstantValue: 10
   - Resource: 6
     ConstantType: 0
     ConstantValue: 4
@@ -2583,7 +2583,7 @@ MonoBehaviour:
   ResourceAccessPrerequisites:
   - Resource: 2
     ConstantType: 0
-    ConstantValue: 7
+    ConstantValue: 8
   - Resource: 3
     ConstantType: 0
     ConstantValue: 4
@@ -2817,6 +2817,9 @@ MonoBehaviour:
     ProviderMoneyGainRpn:
       serializableElementName: 
   ResourceAccessPrerequisites:
+  - Resource: 1
+    ConstantType: 0
+    ConstantValue: 8
   - Resource: 2
     ConstantType: 0
     ConstantValue: 8
@@ -2935,12 +2938,15 @@ MonoBehaviour:
     ProviderMoneyGainRpn:
       serializableElementName: 
   ResourceAccessPrerequisites:
+  - Resource: 1
+    ConstantType: 0
+    ConstantValue: 12
   - Resource: 2
     ConstantType: 0
-    ConstantValue: 16
+    ConstantValue: 12
   - Resource: 4
     ConstantType: 0
-    ConstantValue: 10
+    ConstantValue: 9
   MinimalPopulationPrerequisite: 0
   ResourceSupremacyPrerequisite: 
   EraPrerequisite:
@@ -4629,7 +4635,7 @@ MonoBehaviour:
     ConstantValue: 4
   - Resource: 2
     ConstantType: 0
-    ConstantValue: 20
+    ConstantValue: 16
   - Resource: 3
     ConstantType: 0
     ConstantValue: 6
@@ -5105,7 +5111,7 @@ MonoBehaviour:
   ResourceAccessPrerequisites:
   - Resource: 2
     ConstantType: 0
-    ConstantValue: 5
+    ConstantValue: 8
   - Resource: 3
     ConstantType: 0
     ConstantValue: 2
