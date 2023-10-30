@@ -250,7 +250,7 @@ MonoBehaviour:
       ToTargetOperation: 4
       RpnOperationStack: 0a0000000800000002000000
       ConstantStack:
-      - RawValue: 20
+      - RawValue: 10
       PropertyLocalName:
       - Resource06AccessCount
   serializableCategory: 
@@ -303,48 +303,6 @@ MonoBehaviour:
       - RawValue: 1000
       PropertyLocalName:
       - Resource07AccessCount
-  serializableCategory: 
-  startingType: Amplitude.Mercury.Simulation.Settlement, Amplitude.Mercury.Firstpass
---- !u!114 &-5998282036104188598
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
-  m_Name: Effect_Infrastructure_Food_Family02_02
-  m_EditorClassIdentifier: 
-  Effects:
-  - ApplyEffectOnSource: 1
-    Path:
-      PropertyToFollow: []
-      Validations: []
-      specificTargetType: 
-    PropertyEffects:
-    - Note: 
-      TargetProperty: FoodProduced
-      ToTargetOperation: 0
-      RpnOperationStack: 090000000a00000002000000
-      ConstantStack:
-      - RawValue: 2000
-      PropertyLocalName:
-      - Population
-  - ApplyEffectOnSource: 0
-    Path:
-      PropertyToFollow: []
-      Validations: []
-      specificTargetType: 
-    PropertyEffects:
-    - Note: 
-      TargetProperty: FoodWorkplaceNumberOfSlots
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 2000
-      PropertyLocalName: []
   serializableCategory: 
   startingType: Amplitude.Mercury.Simulation.Settlement, Amplitude.Mercury.Firstpass
 --- !u!114 &-5830105598759294208
@@ -541,67 +499,6 @@ MonoBehaviour:
       - EraLevel
   serializableCategory: 
   startingType: Amplitude.Mercury.Simulation.Settlement, Amplitude.Mercury.Firstpass
---- !u!114 &-3294242868637457426
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
-  m_Name: Effect_Infrastructure_Food_Family01_01
-  m_EditorClassIdentifier: 
-  Effects:
-  - ApplyEffectOnSource: 0
-    Path:
-      PropertyToFollow:
-      - Districts
-      Validations:
-      - PathIndex: 0
-        ValidableElementCollection: 
-        Inverted: 0
-        serializableElementName: Effect_Extension_Base_Food
-      specificTargetType: 
-    PropertyEffects:
-    - Note: 
-      TargetProperty: FoodProduced
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 1000
-      PropertyLocalName: []
-  - ApplyEffectOnSource: 1
-    Path:
-      PropertyToFollow:
-      - Empire
-      Validations: []
-      specificTargetType: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
-    PropertyEffects:
-    - Note: 
-      TargetProperty: GrowthNet
-      ToTargetOperation: 0
-      RpnOperationStack: 0a0000000800000002000000
-      ConstantStack:
-      - RawValue: 5000
-      PropertyLocalName:
-      - Resource01AccessCount
-  - ApplyEffectOnSource: 0
-    Path:
-      PropertyToFollow: []
-      Validations: []
-      specificTargetType: 
-    PropertyEffects:
-    - Note: 
-      TargetProperty: FoodProduced
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 3000
-      PropertyLocalName: []
-  serializableCategory: 
-  startingType: Amplitude.Mercury.Simulation.Settlement, Amplitude.Mercury.Firstpass
 --- !u!114 &-2803820322235302124
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -717,7 +614,7 @@ MonoBehaviour:
       ToTargetOperation: 4
       RpnOperationStack: 0a0000000800000002000000
       ConstantStack:
-      - RawValue: 20
+      - RawValue: 10
       PropertyLocalName:
       - Resource08AccessCount
   - ApplyEffectOnSource: 0
@@ -740,74 +637,6 @@ MonoBehaviour:
       PropertyLocalName: []
   serializableCategory: 
   startingType: Amplitude.Mercury.Simulation.Settlement, Amplitude.Mercury.Firstpass
---- !u!114 &-1543079463053584159
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
-  m_Name: Effect_Infrastructure_Food_Family03_03
-  m_EditorClassIdentifier: 
-  Effects:
-  - ApplyEffectOnSource: 0
-    Path:
-      PropertyToFollow: []
-      Validations: []
-      specificTargetType: 
-    PropertyEffects:
-    - Note: 
-      TargetProperty: FoodWorkplaceNumberOfSlots
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 1000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: FoodWorkplaceGainPerPopulation
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 2000
-      PropertyLocalName: []
-  serializableCategory: 
-  startingType: Amplitude.Mercury.Simulation.Settlement, Amplitude.Mercury.Firstpass
---- !u!114 &-417083268837299974
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
-  m_Name: Effect_Infrastructure_Industry_Family01_Synergy03
-  m_EditorClassIdentifier: 
-  Effects:
-  - ApplyEffectOnSource: 1
-    Path:
-      PropertyToFollow:
-      - Neighbours
-      Validations:
-      - PathIndex: 0
-        ValidableElementCollection: 
-        Inverted: 0
-        serializableElementName: Effect_Extension_Base_Industry
-      specificTargetType: 
-    PropertyEffects:
-    - Note: 
-      TargetProperty: IndustryProduced
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 1000
-      PropertyLocalName: []
-  serializableCategory: District_Synergy
-  startingType: Amplitude.Mercury.Simulation.District, Amplitude.Mercury.Firstpass
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -845,7 +674,7 @@ MonoBehaviour:
       ToTargetOperation: 0
       RpnOperationStack: 090000000a00000002000000
       ConstantStack:
-      - RawValue: 3000
+      - RawValue: 5000
       PropertyLocalName:
       - Population
     - Note: 
@@ -853,7 +682,7 @@ MonoBehaviour:
       ToTargetOperation: 0
       RpnOperationStack: 080000000a00000002000000
       ConstantStack:
-      - RawValue: 10000
+      - RawValue: 5000
       PropertyLocalName:
       - Resource02AccessCount
   serializableCategory: 
@@ -1047,72 +876,6 @@ MonoBehaviour:
       PropertyLocalName: []
   serializableCategory: 
   startingType: Amplitude.Mercury.Simulation.Settlement, Amplitude.Mercury.Firstpass
---- !u!114 &5003078391517450676
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
-  m_Name: Effect_Infrastructure_Industry_Family01_03
-  m_EditorClassIdentifier: 
-  Effects:
-  - ApplyEffectOnSource: 0
-    Path:
-      PropertyToFollow:
-      - Districts
-      Validations:
-      - PathIndex: 0
-        ValidableElementCollection: 
-        Inverted: 0
-        serializableElementName: Effect_Extension_Base_Industry
-      specificTargetType: 
-    PropertyEffects:
-    - Note: 
-      TargetProperty: IndustryProduced
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 1000
-      PropertyLocalName: []
-  serializableCategory: 
-  startingType: Amplitude.Mercury.Simulation.Settlement, Amplitude.Mercury.Firstpass
---- !u!114 &5058717846077606164
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
-  m_Name: Effect_Infrastructure_Industry_Family01_Synergy04
-  m_EditorClassIdentifier: 
-  Effects:
-  - ApplyEffectOnSource: 1
-    Path:
-      PropertyToFollow:
-      - Neighbours
-      Validations:
-      - PathIndex: 0
-        ValidableElementCollection: 
-        Inverted: 0
-        serializableElementName: Effect_Extension_Base_Industry
-      specificTargetType: 
-    PropertyEffects:
-    - Note: 
-      TargetProperty: IndustryProduced
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 1000
-      PropertyLocalName: []
-  serializableCategory: District_Synergy
-  startingType: Amplitude.Mercury.Simulation.District, Amplitude.Mercury.Firstpass
 --- !u!114 &5486734818895269014
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1320,13 +1083,6 @@ MonoBehaviour:
       - RawValue: 5000
       PropertyLocalName: []
     - Note: 
-      TargetProperty: MoneyGainPerTradeRoad
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 1000
-      PropertyLocalName: []
-    - Note: 
       TargetProperty: MoneyWorkplaceNumberOfSlots
       ToTargetOperation: 0
       RpnOperationStack: 
@@ -1339,6 +1095,19 @@ MonoBehaviour:
       RpnOperationStack: 
       ConstantStack:
       - RawValue: 10000
+      PropertyLocalName: []
+  - ApplyEffectOnSource: 0
+    Path:
+      PropertyToFollow: []
+      Validations: []
+      specificTargetType: 
+    PropertyEffects:
+    - Note: 
+      TargetProperty: MoneyGainPerTradeRoad
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 2000
       PropertyLocalName: []
   serializableCategory: 
   startingType: Amplitude.Mercury.Simulation.Settlement, Amplitude.Mercury.Firstpass
@@ -1366,7 +1135,7 @@ MonoBehaviour:
       ToTargetOperation: 4
       RpnOperationStack: 
       ConstantStack:
-      - RawValue: 150
+      - RawValue: 50
       PropertyLocalName: []
   - ApplyEffectOnSource: 1
     Path:
@@ -1380,7 +1149,7 @@ MonoBehaviour:
       ToTargetOperation: 4
       RpnOperationStack: 0a0000000800000002000000
       ConstantStack:
-      - RawValue: 20
+      - RawValue: 10
       PropertyLocalName:
       - Resource06AccessCount
   - ApplyEffectOnSource: 0
@@ -1401,106 +1170,5 @@ MonoBehaviour:
       ConstantStack:
       - RawValue: 1000
       PropertyLocalName: []
-  serializableCategory: 
-  startingType: Amplitude.Mercury.Simulation.Settlement, Amplitude.Mercury.Firstpass
---- !u!114 &8948236070617508883
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
-  m_Name: Effect_Infrastructure_Food_Family01_02
-  m_EditorClassIdentifier: 
-  Effects:
-  - ApplyEffectOnSource: 0
-    Path:
-      PropertyToFollow:
-      - Districts
-      Validations:
-      - PathIndex: 0
-        ValidableElementCollection: 
-        Inverted: 0
-        serializableElementName: Effect_Extension_Base_Food
-      specificTargetType: 
-    PropertyEffects:
-    - Note: 
-      TargetProperty: FoodProduced
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 2000
-      PropertyLocalName: []
-  - ApplyEffectOnSource: 0
-    Path:
-      PropertyToFollow: []
-      Validations: []
-      specificTargetType: 
-    PropertyEffects:
-    - Note: 
-      TargetProperty: FoodWorkplaceNumberOfSlots
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 1000
-      PropertyLocalName: []
-  serializableCategory: 
-  startingType: Amplitude.Mercury.Simulation.Settlement, Amplitude.Mercury.Firstpass
---- !u!114 &9089177389990776874
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
-  m_Name: Effect_Infrastructure_Industry_Family01_04
-  m_EditorClassIdentifier: 
-  Effects:
-  - ApplyEffectOnSource: 0
-    Path:
-      PropertyToFollow:
-      - Districts
-      Validations:
-      - PathIndex: 0
-        ValidableElementCollection: 
-        Inverted: 0
-        serializableElementName: Effect_Extension_Base_Industry
-      specificTargetType: 
-    PropertyEffects:
-    - Note: 
-      TargetProperty: IndustryProduced
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 2000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: PollutionNet
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 1000
-      PropertyLocalName: []
-  - ApplyEffectOnSource: 1
-    Path:
-      PropertyToFollow:
-      - Empire
-      Validations: []
-      specificTargetType: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
-    PropertyEffects:
-    - Note: 
-      TargetProperty: ProductionNet
-      ToTargetOperation: 0
-      RpnOperationStack: 0a0000000800000002000000
-      ConstantStack:
-      - RawValue: 10000
-      PropertyLocalName:
-      - Resource04AccessCount
   serializableCategory: 
   startingType: Amplitude.Mercury.Simulation.Settlement, Amplitude.Mercury.Firstpass

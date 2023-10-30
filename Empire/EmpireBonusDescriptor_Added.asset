@@ -271,7 +271,7 @@ MonoBehaviour:
       ToTargetOperation: 4
       RpnOperationStack: 
       ConstantStack:
-      - RawValue: 50
+      - RawValue: 40
       PropertyLocalName: []
   - ApplyEffectOnSource: 0
     Path:
@@ -701,7 +701,7 @@ MonoBehaviour:
       ToTargetOperation: 0
       RpnOperationStack: 0a0000000800000002000000
       ConstantStack:
-      - RawValue: 5000
+      - RawValue: 2000
       PropertyLocalName:
       - NavalTradeRoadsCount
   serializableCategory: 
@@ -1163,12 +1163,12 @@ MonoBehaviour:
       Validations: []
       specificTargetType: 
     PropertyEffects:
-    - Note: 
+    - Note: 0.5% gold per trade route
       TargetProperty: MoneyNet
-      ToTargetOperation: 4
+      ToTargetOperation: 0
       RpnOperationStack: 0a0000000800000002000000
       ConstantStack:
-      - RawValue: 10
+      - RawValue: 4000
       PropertyLocalName:
       - LandTradeRoadsCount
   serializableCategory: 
@@ -2219,12 +2219,12 @@ MonoBehaviour:
       Validations: []
       specificTargetType: 
     PropertyEffects:
-    - Note: 1% gold per trade route
+    - Note: 0.5% gold per trade route
       TargetProperty: MoneyNet
-      ToTargetOperation: 4
+      ToTargetOperation: 0
       RpnOperationStack: 0a0000000800000002000000
       ConstantStack:
-      - RawValue: 10
+      - RawValue: 4000
       PropertyLocalName:
       - LandTradeRoadsCount
   serializableCategory: 
