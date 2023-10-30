@@ -38,8 +38,8 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 51
-  TechTreeY: 10
+  TechTreeX: 48
+  TechTreeY: 9
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &-9198726849712131047
 MonoBehaviour:
@@ -1565,6 +1565,47 @@ MonoBehaviour:
   TechTreeX: 298
   TechTreeY: 4
   OptionalUnlockTechnologyMovie: 
+--- !u!114 &-5755706377995383196
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 301062344, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Technology_Era2_NavalShoreTactics
+  m_EditorClassIdentifier: 
+  Title: Naval Shore Tactics
+  Description: '%Technology_Era2_10Description'
+  Images:
+  - Value:
+      guid:
+        a: 109375127
+        b: 1281678124
+        c: -213002072
+        d: -152524295
+    serializableKey: TechnologyPopupBackground
+  - Value:
+      guid:
+        a: 209776758
+        b: 1286721164
+        c: -1264855650
+        d: 577032575
+    serializableKey: Picto
+  - Value:
+      guid:
+        a: 109375127
+        b: 1281678124
+        c: -213002072
+        d: -152524295
+    serializableKey: TechnologyScreenItemBackground
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  Symbol: 
+  TechTreeX: 56
+  TechTreeY: 10
+  OptionalUnlockTechnologyMovie: 
 --- !u!114 &-5739775582436435243
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1865,6 +1906,47 @@ MonoBehaviour:
   Symbol: 
   TechTreeX: 274
   TechTreeY: 29
+  OptionalUnlockTechnologyMovie: 
+--- !u!114 &-5388167262834886995
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 301062344, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Technology_Era1_12
+  m_EditorClassIdentifier: 
+  Title: '%Technology_Era1_12Title'
+  Description: '%Technology_Era1_12Description'
+  Images:
+  - Value:
+      guid:
+        a: 227435045
+        b: 1214862494
+        c: 693416330
+        d: 361233981
+    serializableKey: TechnologyPopupBackground
+  - Value:
+      guid:
+        a: 209776758
+        b: 1286721164
+        c: -1264855650
+        d: 577032575
+    serializableKey: Picto
+  - Value:
+      guid:
+        a: 227435045
+        b: 1214862494
+        c: 693416330
+        d: 361233981
+    serializableKey: TechnologyScreenItemBackground
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  Symbol: 
+  TechTreeX: 30
+  TechTreeY: 20
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &-5281639951266785709
 MonoBehaviour:
@@ -4186,7 +4268,7 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 17
+  TechTreeX: 18
   TechTreeY: 23
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &-221497281738397155
@@ -4847,7 +4929,7 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 54
+  TechTreeX: 51
   TechTreeY: 17
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &1480552448596039150
@@ -5740,8 +5822,8 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 45
-  TechTreeY: 13
+  TechTreeX: 42
+  TechTreeY: 15
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &4065181374044385218
 MonoBehaviour:
@@ -6473,6 +6555,47 @@ MonoBehaviour:
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
   TechTreeX: 83
+  TechTreeY: 6
+  OptionalUnlockTechnologyMovie: 
+--- !u!114 &5793125621476818053
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 301062344, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Technology_Era2_10
+  m_EditorClassIdentifier: 
+  Title: '%Technology_Era2_10Title'
+  Description: '%Technology_Era2_10Description'
+  Images:
+  - Value:
+      guid:
+        a: -786452440
+        b: 1117937609
+        c: 543352485
+        d: 1525807929
+    serializableKey: TechnologyPopupBackground
+  - Value:
+      guid:
+        a: 209776758
+        b: 1286721164
+        c: -1264855650
+        d: 577032575
+    serializableKey: Picto
+  - Value:
+      guid:
+        a: -786452440
+        b: 1117937609
+        c: 543352485
+        d: 1525807929
+    serializableKey: TechnologyScreenItemBackground
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  Symbol: 
+  TechTreeX: 67
   TechTreeY: 6
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &5802789617008370765
@@ -7496,7 +7619,7 @@ MonoBehaviour:
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
   TechTreeX: 23
-  TechTreeY: 14
+  TechTreeY: 13
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &8994468559314119868
 MonoBehaviour:
