@@ -294,6 +294,53 @@ MonoBehaviour:
       b: 1291519931
       c: -298038903
       d: -465984803
+--- !u!114 &5960201135982246889
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 759592875, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: PresentationLandUnit_Era3_Common_Marin
+  m_EditorClassIdentifier: 
+  IsWorkInProgress: 0
+  UnitDefinitionReference:
+    serializableElementName: LandUnit_Era3_Common_Marin
+  PresentationFormationDefinition:
+    serializableElementName: Formation_Wedge_Close_9_2R5C
+  FormationBehaviourDefinition:
+    serializableElementName: Shieldwall PR_F / PR_P / Safe
+  ChoreographyOverride: 0
+  NoAttackRotation: 0
+  FacingAngleOffset: 0
+  MinDistanceBetweenFormationDummies: 0.5
+  RestrictionPerSlot: []
+  UnitSpecification: 0
+  CoordinationMasterValue: 0.01
+  CoordinationValues:
+    DummyOffsetPosition: {x: 0.198, y: 0.3465}
+    DummyOffsetAngle: {x: 19.8, y: 29.7}
+    AnimationDelay: {x: 0, y: 0.99}
+    MinDistanceReformationMultiplier: 1
+    CoordinateAttackMovement: 0
+    SameRowAttack: 1
+    AveragePathLength: 0
+    UseDisciplinedVariation: 0
+  StealthRevealAudioEvent:
+    guid:
+      a: -1326129278
+      b: 1160368417
+      c: 1151361188
+      d: -1076931018
+  unitVoiceProviderReference:
+    guid:
+      a: -2145363952
+      b: 1075603880
+      c: -897795945
+      d: -27781113
 --- !u!114 &7708972074230452599
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1177,10 +1177,14 @@ MonoBehaviour:
         ValidableElementCollection: 
         Inverted: 0
         serializableElementName: Effect_Status_Unit_IsEmbarked
+      - PathIndex: -1
+        ValidableElementCollection: 
+        Inverted: 0
+        serializableElementName: Effect_Marine
       specificTargetType: 
     PropertyEffects:
     - Note: 
-      TargetProperty: BaseStrength
+      TargetProperty: TransportCombatStrength
       ToTargetOperation: 0
       RpnOperationStack: 
       ConstantStack:

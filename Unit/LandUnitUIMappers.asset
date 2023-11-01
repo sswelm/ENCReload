@@ -209,7 +209,9 @@ MonoBehaviour:
   m_Name: LandUnit_Era2_Common_Myridon
   m_EditorClassIdentifier: 
   Title: Myridon
-  Description: Classical Era Marine Unit capable of Amfibious Assaults
+  Description: 'The Myrmidon is an ancient melee soldier capable of amphibious assaults
+    on locations. The name comes from Homer''s Iliad and the elite soldiers which
+    accompanied Achilles in the assault on Troy. '
   Images:
   - Value:
       guid:
@@ -736,6 +738,160 @@ MonoBehaviour:
   Color: {r: 1, g: 1, b: 1, a: 1}
   Symbol: 
   SortPriority: 7800
+  ConstructibleTraits: 
+--- !u!114 &-7414968768661488468
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -717291864, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: LandUnit_Era3_Common_Marin
+  m_EditorClassIdentifier: 
+  Title: Marin
+  Description: The Marin represent skilled Medieval soldiers trained to fight in
+    ship to land combat, such as various Nordic peoples, the Irish, Southeast Asian
+    or Japanese Pirates of the time and others.
+  Images:
+  - Value:
+      guid:
+        a: -609458823
+        b: 1324969296
+        c: 1436889481
+        d: -1530992078
+    serializableKey: Picto
+  - Value:
+      guid:
+        a: 1707122700
+        b: 1268132715
+        c: 1131537048
+        d: -400567350
+    serializableKey: Default_Small
+  - Value:
+      guid:
+        a: 1707122700
+        b: 1268132715
+        c: 1131537048
+        d: -400567350
+    serializableKey: Default_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation2_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation2_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation3_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation3_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation4_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation4_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation5_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation5_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation6_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation6_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation7_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation7_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation8_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation8_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation1_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation1_Tooltip
+  Color: {r: 1, g: 1, b: 1, a: 1}
+  Symbol: 
+  SortPriority: 7900
   ConstructibleTraits: 
 --- !u!114 &-7248016518647237342
 MonoBehaviour:

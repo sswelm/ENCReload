@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 771724855, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
   m_Name: Effect_LandUnit_Era6_Common_AntiTankGuns
   m_EditorClassIdentifier: 
+  IsHidden: 0
   Localization: Antitank Gun
   LocalizationInverted: Not a Antitank Gun
   LocalizationTarget: Antitank Gun
@@ -28,6 +29,7 @@ MonoBehaviour:
   m_Script: {fileID: 771724855, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
   m_Name: Effect_Unit_Era3
   m_EditorClassIdentifier: 
+  IsHidden: 0
   Localization: Medieval Era Unit
   LocalizationInverted: non Medieval Era Unit
   LocalizationTarget: Medieval Era Unit
@@ -44,6 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 771724855, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
   m_Name: Effect_Unit_HasNuclearReactor
   m_EditorClassIdentifier: 
+  IsHidden: 0
   Localization: Has a NuclearReactor
   LocalizationInverted: Has no NuclearReactor
   LocalizationTarget: Has a NuclearReactor
@@ -60,6 +63,7 @@ MonoBehaviour:
   m_Script: {fileID: 771724855, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
   m_Name: Effect_Unit_CanAirstrike
   m_EditorClassIdentifier: 
+  IsHidden: 0
   Localization: Airstrike capable plane
   LocalizationInverted: non airstrike capable plane
   LocalizationTarget: Airstrike capable plane
@@ -76,10 +80,28 @@ MonoBehaviour:
   m_Script: {fileID: 771724855, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
   m_Name: Effect_LandUnit_Era6_Common_MainBattleTanks
   m_EditorClassIdentifier: 
+  IsHidden: 0
   Localization: Main battle tank
   LocalizationInverted: non Main battle tank
   LocalizationTarget: Main battle tank
   LocalizationTargetInverted: non Main battle tank
+--- !u!114 &-6909974139636502302
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 771724855, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Effect_Marine
+  m_EditorClassIdentifier: 
+  IsHidden: 0
+  Localization: Marine Unit
+  LocalizationInverted: non Marine Unit
+  LocalizationTarget: Marine  Unit
+  LocalizationTargetInverted: non Marine Unit
 --- !u!114 &-6266244114416169045
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -92,6 +114,7 @@ MonoBehaviour:
   m_Script: {fileID: 771724855, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
   m_Name: Effect_Extension_Base_NaturalReserve
   m_EditorClassIdentifier: 
+  IsHidden: 0
   Localization: Nature Reserve
   LocalizationInverted: All Districts other than Nature Reserve
   LocalizationTarget: Nature Reserve
@@ -108,6 +131,7 @@ MonoBehaviour:
   m_Script: {fileID: 771724855, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
   m_Name: Effect_Unit_Era6
   m_EditorClassIdentifier: 
+  IsHidden: 0
   Localization: Contemporary Era Unit
   LocalizationInverted: non Contemporary Era Unit
   LocalizationTarget: Contemporary Era Unit
@@ -124,6 +148,7 @@ MonoBehaviour:
   m_Script: {fileID: 771724855, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
   m_Name: Effect_Extension_Base_Harbour
   m_EditorClassIdentifier: 
+  IsHidden: 0
   Localization: Harbour
   LocalizationInverted: All Districts other than Harbour
   LocalizationTarget: Harbour
@@ -140,6 +165,7 @@ MonoBehaviour:
   m_Script: {fileID: 771724855, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
   m_Name: Effect_LandUnit_Era6_Common_SelfpropelledHowitzer
   m_EditorClassIdentifier: 
+  IsHidden: 0
   Localization: Selfpropelled Howitzer
   LocalizationInverted: Not a Selfpropelled Howitzer
   LocalizationTarget: Selfpropelled Howitzer
@@ -156,6 +182,7 @@ MonoBehaviour:
   m_Script: {fileID: 771724855, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
   m_Name: Effect_Unit_HasSpecialEquipment
   m_EditorClassIdentifier: 
+  IsHidden: 0
   Localization: Has Special Equipment
   LocalizationInverted: Has no Special Equipment
   LocalizationTarget: Has Special Equipment
@@ -172,6 +199,7 @@ MonoBehaviour:
   m_Script: {fileID: 771724855, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
   m_Name: Effect_UnitPrototype_MountedRanged
   m_EditorClassIdentifier: 
+  IsHidden: 0
   Localization: Mounted Ranged
   LocalizationInverted: Not Mounted Ranged
   LocalizationTarget: Mounted Ranged
@@ -188,6 +216,7 @@ MonoBehaviour:
   m_Script: {fileID: 771724855, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
   m_Name: Effect_UnitAbility_StrengthFromAlliesAdjacentToUserNaval
   m_EditorClassIdentifier: 
+  IsHidden: 0
   Localization: Line of Battle
   LocalizationInverted: non Line of Battle ships
   LocalizationTarget: Line of Battle
@@ -204,6 +233,7 @@ MonoBehaviour:
   m_Script: {fileID: 771724855, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
   m_Name: Effect_Unit_Era2
   m_EditorClassIdentifier: 
+  IsHidden: 0
   Localization: Classical Era Unit
   LocalizationInverted: non Classical Era Unit
   LocalizationTarget: Classical Era Unit
@@ -220,6 +250,7 @@ MonoBehaviour:
   m_Script: {fileID: 771724855, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
   m_Name: Effect_Unit_Era1
   m_EditorClassIdentifier: 
+  IsHidden: 0
   Localization: Ancient Era Unit
   LocalizationInverted: non Ancient Era Unit
   LocalizationTarget: Ancient Era Unit
@@ -236,6 +267,7 @@ MonoBehaviour:
   m_Script: {fileID: 771724855, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
   m_Name: Effect_Unit_Era5
   m_EditorClassIdentifier: 
+  IsHidden: 0
   Localization: Industrial Era Unit
   LocalizationInverted: non Industrial Era Unit
   LocalizationTarget: Industrial Era Unit
@@ -252,6 +284,7 @@ MonoBehaviour:
   m_Script: {fileID: 771724855, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
   m_Name: Effect_UnitPrototype_MainBattleTank
   m_EditorClassIdentifier: 
+  IsHidden: 0
   Localization: Main BattleTank
   LocalizationInverted: Not Main BattleTank
   LocalizationTarget: Main BattleTank
@@ -268,6 +301,7 @@ MonoBehaviour:
   m_Script: {fileID: 771724855, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
   m_Name: Effect_UnitPrototype_Marine
   m_EditorClassIdentifier: 
+  IsHidden: 0
   Localization: Marine
   LocalizationInverted: Not Marine
   LocalizationTarget: Marine
@@ -296,6 +330,7 @@ MonoBehaviour:
   m_Script: {fileID: 771724855, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
   m_Name: Effect_Unit_HasRadarCapability
   m_EditorClassIdentifier: 
+  IsHidden: 0
   Localization: Has Radar Capability
   LocalizationInverted: Has no Radar Capability
   LocalizationTarget: Has Radar Capability
@@ -312,6 +347,7 @@ MonoBehaviour:
   m_Script: {fileID: 771724855, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
   m_Name: Effect_LandUnit_Era6_Common_SelfpropelledHowitzers
   m_EditorClassIdentifier: 
+  IsHidden: 0
   Localization: Selfpropelled Howitzer
   LocalizationInverted: Not a Selfpropelled Howitzer
   LocalizationTarget: Selfpropelled Howitzer
@@ -328,6 +364,7 @@ MonoBehaviour:
   m_Script: {fileID: 771724855, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
   m_Name: Effect_UnitPrototype_Ranged
   m_EditorClassIdentifier: 
+  IsHidden: 0
   Localization: Ranged
   LocalizationInverted: Not Ranged
   LocalizationTarget: Ranged
@@ -344,6 +381,7 @@ MonoBehaviour:
   m_Script: {fileID: 771724855, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
   m_Name: Effect_Unit_HasSteamTurbine
   m_EditorClassIdentifier: 
+  IsHidden: 0
   Localization: Has Steam Turbine
   LocalizationInverted: Has no Steam Turbine
   LocalizationTarget: Has Steam Turbine
@@ -360,6 +398,7 @@ MonoBehaviour:
   m_Script: {fileID: 771724855, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
   m_Name: Effect_Unit_Armoured
   m_EditorClassIdentifier: 
+  IsHidden: 0
   Localization: Armored Unit
   LocalizationInverted: non Armored Unit
   LocalizationTarget: Armored Unit
@@ -376,6 +415,7 @@ MonoBehaviour:
   m_Script: {fileID: 771724855, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
   m_Name: Effect_Unit_HasFluidDynamics
   m_EditorClassIdentifier: 
+  IsHidden: 0
   Localization: Has Fluid Dynamics
   LocalizationInverted: Has no Fluid Dynamics
   LocalizationTarget: Has Fluid Dynamics
@@ -392,6 +432,7 @@ MonoBehaviour:
   m_Script: {fileID: 771724855, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
   m_Name: Effect_Unit_IsThermalNuclearExplosive
   m_EditorClassIdentifier: 
+  IsHidden: 0
   Localization: Is a Thermal Nuclear Explosive
   LocalizationInverted: Is not a Thermal Nuclear Explosive
   LocalizationTarget: Is a Thermal Nuclear Explosive
@@ -408,6 +449,7 @@ MonoBehaviour:
   m_Script: {fileID: 771724855, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
   m_Name: Tag_Unit_Stealth
   m_EditorClassIdentifier: 
+  IsHidden: 0
   Localization: Steath Unit
   LocalizationInverted: Non Steath Unit
   LocalizationTarget: Steath Unit
@@ -424,6 +466,7 @@ MonoBehaviour:
   m_Script: {fileID: 771724855, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
   m_Name: Effect_Unit_Era4
   m_EditorClassIdentifier: 
+  IsHidden: 0
   Localization: Early Modern Era Unit
   LocalizationInverted: non Early Modern Era Unit
   LocalizationTarget: Early Modern Era Unit
