@@ -1,5 +1,52 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-6563618985414804508
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 759592875, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: PresentationLandUnit_Era2_Common_Myridon_Default
+  m_EditorClassIdentifier: 
+  IsWorkInProgress: 0
+  UnitDefinitionReference:
+    serializableElementName: LandUnit_Era2_Common_Myridon
+  PresentationFormationDefinition:
+    serializableElementName: Formation_Wedge_Close_9_2R5C
+  FormationBehaviourDefinition:
+    serializableElementName: 
+  ChoreographyOverride: 0
+  NoAttackRotation: 0
+  FacingAngleOffset: 0
+  MinDistanceBetweenFormationDummies: 0
+  RestrictionPerSlot: []
+  UnitSpecification: 0
+  CoordinationMasterValue: 0.25
+  CoordinationValues:
+    DummyOffsetPosition: {x: 0.15, y: 0.2625}
+    DummyOffsetAngle: {x: 15, y: 22.5}
+    AnimationDelay: {x: 0, y: 0.75}
+    MinDistanceReformationMultiplier: 1
+    CoordinateAttackMovement: 0
+    SameRowAttack: 1
+    AveragePathLength: 0
+    UseDisciplinedVariation: 0
+  StealthRevealAudioEvent:
+    guid:
+      a: -1326129278
+      b: 1160368417
+      c: 1151361188
+      d: -1076931018
+  unitVoiceProviderReference:
+    guid:
+      a: 1554864864
+      b: 1095930667
+      c: 314152843
+      d: -782786198
 --- !u!114 &-6011629157322325045
 MonoBehaviour:
   m_ObjectHideFlags: 0
