@@ -92,9 +92,7 @@ MonoBehaviour:
   BaseSynergyDistrict: 0
   UnitClass:
     serializableElementName: UnitClass_NavalTransport
-  UnitSpecialties:
-  - serializableElementName: UnitSpecialty_InstantDisembark
-  - serializableElementName: UnitSpecialty_SpeedFromHarbor_Level1
+  UnitSpecialties: []
   OwnDescriptorReferences:
   - serializableElementName: Effect_NavalTransport_Era6_Common_LandingCrafts
   - serializableElementName: Tag_Unit_Vehicle
