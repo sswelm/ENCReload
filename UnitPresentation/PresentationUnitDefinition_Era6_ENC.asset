@@ -1234,6 +1234,53 @@ MonoBehaviour:
       b: 1113973168
       c: -1583439949
       d: 2048849493
+--- !u!114 &3608520378974240959
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 759592875, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: PresentationLandUnit_Era6_Common_AssaultInfantry_Default
+  m_EditorClassIdentifier: 
+  IsWorkInProgress: 0
+  UnitDefinitionReference:
+    serializableElementName: LandUnit_Era6_Common_AssaultInfantry
+  PresentationFormationDefinition:
+    serializableElementName: Formation_Scatter_Spaced_5
+  FormationBehaviourDefinition:
+    serializableElementName: Army Era 6 PR_F / PR_F / PR_P / PR_P / PR_P
+  ChoreographyOverride: 0
+  NoAttackRotation: 0
+  FacingAngleOffset: 0
+  MinDistanceBetweenFormationDummies: 0
+  RestrictionPerSlot: []
+  UnitSpecification: 0
+  CoordinationMasterValue: 0.713
+  CoordinationValues:
+    DummyOffsetPosition: {x: 0.0574, y: 0.10045}
+    DummyOffsetAngle: {x: 5.74, y: 8.61}
+    AnimationDelay: {x: 0, y: 0.287}
+    MinDistanceReformationMultiplier: 0.6435
+    CoordinateAttackMovement: 0
+    SameRowAttack: 1
+    AveragePathLength: 0
+    UseDisciplinedVariation: 0
+  StealthRevealAudioEvent:
+    guid:
+      a: -1326129278
+      b: 1160368417
+      c: 1151361188
+      d: -1076931018
+  unitVoiceProviderReference:
+    guid:
+      a: 1878016339
+      b: 1115263322
+      c: 1445056182
+      d: 1580512386
 --- !u!114 &4316127784948743295
 MonoBehaviour:
   m_ObjectHideFlags: 0
