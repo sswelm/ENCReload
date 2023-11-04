@@ -188,6 +188,53 @@ MonoBehaviour:
       b: 1252527417
       c: -93283429
       d: 322409869
+--- !u!114 &-5031676552211942602
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 759592875, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: PresentationLandUnit_Era4_Common_CompanyMarines_Default
+  m_EditorClassIdentifier: 
+  IsWorkInProgress: 0
+  UnitDefinitionReference:
+    serializableElementName: LandUnit_Era4_Common_CompanyMarines
+  PresentationFormationDefinition:
+    serializableElementName: Formation_Line_Back_9_2R5C
+  FormationBehaviourDefinition:
+    serializableElementName: Shieldwall PR_F / PR_ P / PR_P
+  ChoreographyOverride: 0
+  NoAttackRotation: 0
+  FacingAngleOffset: 0
+  MinDistanceBetweenFormationDummies: 0
+  RestrictionPerSlot: []
+  UnitSpecification: 0
+  CoordinationMasterValue: 0.75
+  CoordinationValues:
+    DummyOffsetPosition: {x: 0.05, y: 0.0875}
+    DummyOffsetAngle: {x: 5, y: 7.5}
+    AnimationDelay: {x: 0, y: 0.25}
+    MinDistanceReformationMultiplier: 0.625
+    CoordinateAttackMovement: 1
+    SameRowAttack: 0
+    AveragePathLength: 1
+    UseDisciplinedVariation: 1
+  StealthRevealAudioEvent:
+    guid:
+      a: -1326129278
+      b: 1160368417
+      c: 1151361188
+      d: -1076931018
+  unitVoiceProviderReference:
+    guid:
+      a: -1878475388
+      b: 1081947340
+      c: 1541000123
+      d: -844589432
 --- !u!114 &-3672025796333425085
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -811,6 +858,53 @@ MonoBehaviour:
       b: 1291519931
       c: -298038903
       d: -465984803
+--- !u!114 &6622455257482623168
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 759592875, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: PresentationLandUnit_Era4_Common_Seatroops
+  m_EditorClassIdentifier: 
+  IsWorkInProgress: 0
+  UnitDefinitionReference:
+    serializableElementName: LandUnit_Era4_Common_Seatroops
+  PresentationFormationDefinition:
+    serializableElementName: Formation_Close_5
+  FormationBehaviourDefinition:
+    serializableElementName: 
+  ChoreographyOverride: 0
+  NoAttackRotation: 0
+  FacingAngleOffset: 0
+  MinDistanceBetweenFormationDummies: 0
+  RestrictionPerSlot: []
+  UnitSpecification: 0
+  CoordinationMasterValue: 0.5
+  CoordinationValues:
+    DummyOffsetPosition: {x: 0.1, y: 0.175}
+    DummyOffsetAngle: {x: 10, y: 15}
+    AnimationDelay: {x: 0, y: 0.5}
+    MinDistanceReformationMultiplier: 1
+    CoordinateAttackMovement: 0
+    SameRowAttack: 1
+    AveragePathLength: 0
+    UseDisciplinedVariation: 0
+  StealthRevealAudioEvent:
+    guid:
+      a: -1326129278
+      b: 1160368417
+      c: 1151361188
+      d: -1076931018
+  unitVoiceProviderReference:
+    guid:
+      a: 1014752943
+      b: 1252527417
+      c: -93283429
+      d: 322409869
 --- !u!114 &7856401673358190096
 MonoBehaviour:
   m_ObjectHideFlags: 0

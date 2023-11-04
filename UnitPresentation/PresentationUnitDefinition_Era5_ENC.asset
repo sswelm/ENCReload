@@ -94,6 +94,53 @@ MonoBehaviour:
       b: 1244152260
       c: 732419475
       d: -1635721152
+--- !u!114 &-5771816232694721355
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 759592875, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: PresentationLandUnit_Era5_Common_SeaBattaleon_Default
+  m_EditorClassIdentifier: 
+  IsWorkInProgress: 0
+  UnitDefinitionReference:
+    serializableElementName: LandUnit_Era5_Common_SeaBattaleon
+  PresentationFormationDefinition:
+    serializableElementName: Formation_Line_Spaced_9
+  FormationBehaviourDefinition:
+    serializableElementName: Shieldwall PR_F / PR_ P / PR_P
+  ChoreographyOverride: 0
+  NoAttackRotation: 0
+  FacingAngleOffset: 0
+  MinDistanceBetweenFormationDummies: 0
+  RestrictionPerSlot: []
+  UnitSpecification: 0
+  CoordinationMasterValue: 0.668
+  CoordinationValues:
+    DummyOffsetPosition: {x: 0.06640001, y: 0.11620001}
+    DummyOffsetAngle: {x: 6.6400003, y: 9.960001}
+    AnimationDelay: {x: 0, y: 0.33200002}
+    MinDistanceReformationMultiplier: 0.666
+    CoordinateAttackMovement: 0
+    SameRowAttack: 1
+    AveragePathLength: 0
+    UseDisciplinedVariation: 0
+  StealthRevealAudioEvent:
+    guid:
+      a: -1326129278
+      b: 1160368417
+      c: 1151361188
+      d: -1076931018
+  unitVoiceProviderReference:
+    guid:
+      a: 899845277
+      b: 1235144673
+      c: -104551012
+      d: 1883255994
 --- !u!114 &-5349252969697133065
 MonoBehaviour:
   m_ObjectHideFlags: 0
