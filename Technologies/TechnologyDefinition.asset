@@ -866,7 +866,7 @@ MonoBehaviour:
   IsExclusiveToEra: 0
   Priority: 0
   OverrideTierCostRpnReference:
-    serializableElementName: Technology_Era6_Tier0_Cost
+    serializableElementName: Technology_Era5_Tier4_CostExtra
   TechnologyPrerequisite:
     SerializableTechnologyNames:
     - Technology_Era5_13
@@ -4099,7 +4099,7 @@ MonoBehaviour:
     DownloadableContent: 0
   TechnologyTier: 2
   EraReference:
-    serializableElementName: Era5
+    serializableElementName: Era6
   IsExclusiveToEra: 0
   Priority: 0
   OverrideTierCostRpnReference:
@@ -4509,10 +4509,10 @@ MonoBehaviour:
   IsExclusiveToEra: 0
   Priority: 0
   OverrideTierCostRpnReference:
-    serializableElementName: Technology_Era5_Tier4_CostExtra
+    serializableElementName: Technology_Era6_Tier0_Cost
   TechnologyPrerequisite:
     SerializableTechnologyNames:
-    - Technology_Era5_SubmarineWarfare
+    - Technology_Era6_04
   Visibility: -1
 --- !u!114 &-6719364602363805481
 MonoBehaviour:
@@ -10198,7 +10198,7 @@ MonoBehaviour:
     DownloadableContent: 0
   TechnologyTier: 2
   EraReference:
-    serializableElementName: Era5
+    serializableElementName: Era6
   IsExclusiveToEra: 0
   Priority: 0
   OverrideTierCostRpnReference:
@@ -21006,7 +21006,7 @@ MonoBehaviour:
     DownloadableContent: 0
   TechnologyTier: 2
   EraReference:
-    serializableElementName: Era5
+    serializableElementName: Era6
   IsExclusiveToEra: 0
   Priority: 0
   OverrideTierCostRpnReference:
@@ -21469,10 +21469,10 @@ MonoBehaviour:
   IsExclusiveToEra: 0
   Priority: 0
   OverrideTierCostRpnReference:
-    serializableElementName: Technology_Era6_Tier0_Cost
+    serializableElementName: Technology_Era5_Tier4_CostExtra
   TechnologyPrerequisite:
     SerializableTechnologyNames:
-    - Technology_Era6_09
+    - Technology_Era5_SubmarineWarfare
   Visibility: -1
 --- !u!114 &2172756510766879409
 MonoBehaviour:
@@ -24612,7 +24612,7 @@ MonoBehaviour:
     DownloadableContent: 0
   TechnologyTier: 2
   EraReference:
-    serializableElementName: Era5
+    serializableElementName: Era6
   IsExclusiveToEra: 0
   Priority: 0
   OverrideTierCostRpnReference:
@@ -25458,7 +25458,7 @@ MonoBehaviour:
     DownloadableContent: 0
   TechnologyTier: 2
   EraReference:
-    serializableElementName: Era5
+    serializableElementName: Era6
   IsExclusiveToEra: 0
   Priority: 0
   OverrideTierCostRpnReference:
@@ -35151,7 +35151,7 @@ MonoBehaviour:
     serializableElementName: Technology_Era6_Tier0_CostExtra
   TechnologyPrerequisite:
     SerializableTechnologyNames:
-    - Technology_Era6_04
+    - Technology_Era6_09
   Visibility: -1
 --- !u!114 &6856549210295371044
 MonoBehaviour:
