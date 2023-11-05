@@ -3561,6 +3561,7 @@ MonoBehaviour:
   - serializableElementName: Effect_Unit_Era5_Tier1
   - serializableElementName: Effect_Unit_Era3_StealthDetection
   - serializableElementName: Effect_Unit_Era5_StealthRegen
+  - serializableElementName: Effect_LandUnit_Era5_PartisanWeapons
   BaseMovementSpeed: 1.8
   MovementSpeedMultiplierPerType:
   - 1.5
@@ -10498,6 +10499,7 @@ MonoBehaviour:
   - serializableElementName: Effect_Unit_Era5_Tier2
   - serializableElementName: Effect_Unit_Era3_StealthDetection
   - serializableElementName: Effect_Unit_Era5_StealthRegen
+  - serializableElementName: Effect_LandUnit_Era5_PartisanWeapons
   BaseMovementSpeed: 1.8
   MovementSpeedMultiplierPerType:
   - 1.5
@@ -14484,7 +14486,7 @@ MonoBehaviour:
     Type: 1
     Constant: -1
     RpnDefinitionReference:
-      serializableElementName: ProductionCost_Unit_Era6_High
+      serializableElementName: ProductionCost_Unit_Era6_VeryHigh
   MoneyInstantCostDefinition:
     Constant: 0
     RpnDefinitionReference:
@@ -14546,7 +14548,7 @@ MonoBehaviour:
   OwnDescriptorReferences:
   - serializableElementName: Effect_LandUnit_Era6_Common_AugmentedIntantry
   - serializableElementName: Effect_Unit_Era6
-  - serializableElementName: Effect_Unit_Era6_Tier3
+  - serializableElementName: Effect_Unit_Era6_Tier4
   - serializableElementName: Effect_Unit_Era6_StealthDetection
   - serializableElementName: Effect_Unit_Era8_StealthRegen
   BaseMovementSpeed: 1.8
@@ -15806,6 +15808,7 @@ MonoBehaviour:
   - serializableElementName: Effect_Unit_Emblematic
   - serializableElementName: Effect_Unit_Era5_Tier1
   - serializableElementName: Effect_Unit_Era5_StealthDetection
+  - serializableElementName: Effect_LandUnit_Era5_PartisanWeapons
   BaseMovementSpeed: 1.8
   MovementSpeedMultiplierPerType:
   - 1.5
