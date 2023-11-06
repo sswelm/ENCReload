@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-9194390027122462641
+--- !u!114 &-9193515377620179795
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -10,28 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
-  m_Name: ProductionCost_Unit_Era6_Max_Iron3_Oil3_Uranium2
+  m_Name: ProductionCost_Unit_Era6_Tier5
   m_EditorClassIdentifier: 
-  RpnOperationStack: 0a0000000a0000000a0000000a0000000a00000009000000060000000300000006000000020000000a0000000a0000000a0000000a0000000900000006000000030000000600000002000000000000000a0000000a0000000a0000000a00000009000000060000000300000006000000020000000000000002000000
+  RpnOperationStack: 
   ConstantStack:
   - RawValue: 15000000
-  - RawValue: 334
-  - RawValue: 1000
-  - RawValue: 3000
-  - RawValue: 1000
-  - RawValue: 333
-  - RawValue: 1000
-  - RawValue: 3000
-  - RawValue: 1000
-  - RawValue: 333
-  - RawValue: 1000
-  - RawValue: 2000
-  - RawValue: 1000
   Note: 
-  PropertyLocalNameStack:
-  - Resource03AccessCount
-  - Resource06AccessCount
-  - Resource08AccessCount
+  PropertyLocalNameStack: []
   VariableNameStack: []
   DefinedVariables: []
   targetTypeName: Amplitude.Mercury.Simulation.Settlement, Amplitude.Mercury.Firstpass
@@ -63,68 +48,6 @@ MonoBehaviour:
   - ExtensionDistrictsCount
   - ExtensionDistrictsCount
   - IndustryWorkplaceNumberOfSlots
-  VariableNameStack: []
-  DefinedVariables: []
-  targetTypeName: Amplitude.Mercury.Simulation.Settlement, Amplitude.Mercury.Firstpass
-  sourceTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
---- !u!114 &-8929385977559387857
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
-  m_Name: ProductionCost_Unit_Era6_Max_Aluminium3_Uranium3
-  m_EditorClassIdentifier: 
-  RpnOperationStack: 0a0000000a0000000a0000000a0000000a00000009000000060000000300000006000000020000000a0000000a0000000a0000000a00000009000000060000000300000006000000020000000000000002000000
-  ConstantStack:
-  - RawValue: 15000000
-  - RawValue: 500
-  - RawValue: 1000
-  - RawValue: 3000
-  - RawValue: 1000
-  - RawValue: 500
-  - RawValue: 1000
-  - RawValue: 3000
-  - RawValue: 1000
-  Note: 
-  PropertyLocalNameStack:
-  - Resource06AccessCount
-  - Resource08AccessCount
-  VariableNameStack: []
-  DefinedVariables: []
-  targetTypeName: Amplitude.Mercury.Simulation.Settlement, Amplitude.Mercury.Firstpass
-  sourceTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
---- !u!114 &-8828204862799560945
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
-  m_Name: ProductionCost_Unit_Era5_Medium_Iron2_Salpeter2
-  m_EditorClassIdentifier: 
-  RpnOperationStack: 0a0000000a0000000a0000000a0000000a00000009000000060000000300000006000000020000000a0000000a0000000a0000000a00000009000000060000000300000006000000020000000000000002000000
-  ConstantStack:
-  - RawValue: 2400000
-  - RawValue: 500
-  - RawValue: 1000
-  - RawValue: 2000
-  - RawValue: 1000
-  - RawValue: 500
-  - RawValue: 1000
-  - RawValue: 2000
-  - RawValue: 1000
-  Note: 
-  PropertyLocalNameStack:
-  - Resource03AccessCount
-  - Resource05AccessCount
   VariableNameStack: []
   DefinedVariables: []
   targetTypeName: Amplitude.Mercury.Simulation.Settlement, Amplitude.Mercury.Firstpass
@@ -213,7 +136,7 @@ MonoBehaviour:
   DefinedVariables: []
   targetTypeName: Amplitude.Mercury.Simulation.Settlement, Amplitude.Mercury.Firstpass
   sourceTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
---- !u!114 &-8194606121647055747
+--- !u!114 &-8255335802457127677
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -223,23 +146,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
-  m_Name: ProductionCost_Unit_Era6_Medium_Iron2_Oil3
+  m_Name: ProductionCost_Unit_Era6_Tier6
   m_EditorClassIdentifier: 
-  RpnOperationStack: 0a0000000a0000000a0000000a0000000a00000009000000060000000300000006000000020000000a0000000a0000000a0000000a00000009000000060000000300000006000000020000000000000002000000
+  RpnOperationStack: 
   ConstantStack:
-  - RawValue: 6000000
-  - RawValue: 500
-  - RawValue: 1000
-  - RawValue: 2000
-  - RawValue: 1000
-  - RawValue: 500
-  - RawValue: 1000
-  - RawValue: 3000
-  - RawValue: 1000
+  - RawValue: 20000000
   Note: 
-  PropertyLocalNameStack:
-  - Resource03AccessCount
-  - Resource06AccessCount
+  PropertyLocalNameStack: []
   VariableNameStack: []
   DefinedVariables: []
   targetTypeName: Amplitude.Mercury.Simulation.Settlement, Amplitude.Mercury.Firstpass
@@ -282,114 +195,6 @@ MonoBehaviour:
   - RawValue: 1600000
   Note: 
   PropertyLocalNameStack: []
-  VariableNameStack: []
-  DefinedVariables: []
-  targetTypeName: Amplitude.Mercury.Simulation.Settlement, Amplitude.Mercury.Firstpass
-  sourceTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
---- !u!114 &-7727696458874116136
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
-  m_Name: ProductionCost_Unit_Era6_Medium_Iron3_Coal3
-  m_EditorClassIdentifier: 
-  RpnOperationStack: 0a0000000a0000000a0000000a0000000a00000009000000060000000300000006000000020000000a0000000a0000000a0000000a00000009000000060000000300000006000000020000000000000002000000
-  ConstantStack:
-  - RawValue: 6000000
-  - RawValue: 500
-  - RawValue: 1000
-  - RawValue: 3000
-  - RawValue: 1000
-  - RawValue: 500
-  - RawValue: 1000
-  - RawValue: 3000
-  - RawValue: 1000
-  Note: 
-  PropertyLocalNameStack:
-  - Resource03AccessCount
-  - Resource04AccessCount
-  VariableNameStack: []
-  DefinedVariables: []
-  targetTypeName: Amplitude.Mercury.Simulation.Settlement, Amplitude.Mercury.Firstpass
-  sourceTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
---- !u!114 &-7554292271285381412
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
-  m_Name: ProductionCost_Unit_Era6_Low_Iron3_Oil3
-  m_EditorClassIdentifier: 
-  RpnOperationStack: 0a0000000a0000000a0000000a0000000a00000009000000060000000300000006000000020000000a0000000a0000000a0000000a00000009000000060000000300000006000000020000000000000002000000
-  ConstantStack:
-  - RawValue: 4000000
-  - RawValue: 500
-  - RawValue: 1000
-  - RawValue: 3000
-  - RawValue: 1000
-  - RawValue: 500
-  - RawValue: 1000
-  - RawValue: 3000
-  - RawValue: 1000
-  Note: 
-  PropertyLocalNameStack:
-  - Resource03AccessCount
-  - Resource06AccessCount
-  VariableNameStack: []
-  DefinedVariables: []
-  targetTypeName: Amplitude.Mercury.Simulation.Settlement, Amplitude.Mercury.Firstpass
-  sourceTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
---- !u!114 &-7362794037347662750
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
-  m_Name: ProductionCost_Unit_Era6_Cheap
-  m_EditorClassIdentifier: 
-  RpnOperationStack: 
-  ConstantStack:
-  - RawValue: 3000000
-  Note: 
-  PropertyLocalNameStack: []
-  VariableNameStack: []
-  DefinedVariables: []
-  targetTypeName: Amplitude.Mercury.Simulation.Settlement, Amplitude.Mercury.Firstpass
-  sourceTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
---- !u!114 &-7353126320249583231
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
-  m_Name: ProductionCost_Unit_Era6_Medium_Oil2
-  m_EditorClassIdentifier: 
-  RpnOperationStack: 0a0000000a0000000a0000000900000006000000030000000a0000000600000002000000
-  ConstantStack:
-  - RawValue: 6000000
-  - RawValue: 4000
-  - RawValue: 1000
-  - RawValue: 1000
-  Note: 
-  PropertyLocalNameStack:
-  - Resource06AccessCount
   VariableNameStack: []
   DefinedVariables: []
   targetTypeName: Amplitude.Mercury.Simulation.Settlement, Amplitude.Mercury.Firstpass
@@ -499,68 +304,6 @@ MonoBehaviour:
   DefinedVariables: []
   targetTypeName: Amplitude.Mercury.Simulation.Settlement, Amplitude.Mercury.Firstpass
   sourceTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
---- !u!114 &-6478926568514121813
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
-  m_Name: ProductionCost_Unit_Era6_Medium_Iron3_Oil3
-  m_EditorClassIdentifier: 
-  RpnOperationStack: 0a0000000a0000000a0000000a0000000a00000009000000060000000300000006000000020000000a0000000a0000000a0000000a00000009000000060000000300000006000000020000000000000002000000
-  ConstantStack:
-  - RawValue: 6000000
-  - RawValue: 500
-  - RawValue: 1000
-  - RawValue: 3000
-  - RawValue: 1000
-  - RawValue: 500
-  - RawValue: 1000
-  - RawValue: 3000
-  - RawValue: 1000
-  Note: 
-  PropertyLocalNameStack:
-  - Resource03AccessCount
-  - Resource06AccessCount
-  VariableNameStack: []
-  DefinedVariables: []
-  targetTypeName: Amplitude.Mercury.Simulation.Settlement, Amplitude.Mercury.Firstpass
-  sourceTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
---- !u!114 &-6312985372227146600
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
-  m_Name: ProductionCost_Unit_Era5_Medium_Iron3_Salpeter3
-  m_EditorClassIdentifier: 
-  RpnOperationStack: 0a0000000a0000000a0000000a0000000a00000009000000060000000300000006000000020000000a0000000a0000000a0000000a00000009000000060000000300000006000000020000000000000002000000
-  ConstantStack:
-  - RawValue: 2400000
-  - RawValue: 500
-  - RawValue: 1000
-  - RawValue: 3000
-  - RawValue: 1000
-  - RawValue: 500
-  - RawValue: 1000
-  - RawValue: 3000
-  - RawValue: 1000
-  Note: 
-  PropertyLocalNameStack:
-  - Resource03AccessCount
-  - Resource05AccessCount
-  VariableNameStack: []
-  DefinedVariables: []
-  targetTypeName: Amplitude.Mercury.Simulation.Settlement, Amplitude.Mercury.Firstpass
-  sourceTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
 --- !u!114 &-6146721113614385707
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -613,37 +356,6 @@ MonoBehaviour:
   DefinedVariables: []
   targetTypeName: Amplitude.Mercury.Simulation.Settlement, Amplitude.Mercury.Firstpass
   sourceTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
---- !u!114 &-5905026632814624087
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
-  m_Name: ProductionCost_Unit_Era6_Medium_Iron3_Oil2
-  m_EditorClassIdentifier: 
-  RpnOperationStack: 0a0000000a0000000a0000000a0000000a00000009000000060000000300000006000000020000000a0000000a0000000a0000000a00000009000000060000000300000006000000020000000000000002000000
-  ConstantStack:
-  - RawValue: 6000000
-  - RawValue: 500
-  - RawValue: 1000
-  - RawValue: 3000
-  - RawValue: 1000
-  - RawValue: 500
-  - RawValue: 1000
-  - RawValue: 2000
-  - RawValue: 1000
-  Note: 
-  PropertyLocalNameStack:
-  - Resource03AccessCount
-  - Resource06AccessCount
-  VariableNameStack: []
-  DefinedVariables: []
-  targetTypeName: Amplitude.Mercury.Simulation.Settlement, Amplitude.Mercury.Firstpass
-  sourceTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
 --- !u!114 &-5893801147989629458
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -661,37 +373,6 @@ MonoBehaviour:
   - RawValue: 50000
   Note: 
   PropertyLocalNameStack: []
-  VariableNameStack: []
-  DefinedVariables: []
-  targetTypeName: Amplitude.Mercury.Simulation.Settlement, Amplitude.Mercury.Firstpass
-  sourceTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
---- !u!114 &-5812546555395516520
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
-  m_Name: ProductionCost_Unit_Era6_Medium_Iron3_Aluminium3
-  m_EditorClassIdentifier: 
-  RpnOperationStack: 0a0000000a0000000a0000000a0000000a00000009000000060000000300000006000000020000000a0000000a0000000a0000000a00000009000000060000000300000006000000020000000000000002000000
-  ConstantStack:
-  - RawValue: 6000000
-  - RawValue: 500
-  - RawValue: 1000
-  - RawValue: 3000
-  - RawValue: 1000
-  - RawValue: 500
-  - RawValue: 1000
-  - RawValue: 3000
-  - RawValue: 1000
-  Note: 
-  PropertyLocalNameStack:
-  - Resource03AccessCount
-  - Resource07AccessCount
   VariableNameStack: []
   DefinedVariables: []
   targetTypeName: Amplitude.Mercury.Simulation.Settlement, Amplitude.Mercury.Firstpass
@@ -765,37 +446,6 @@ MonoBehaviour:
   - RawValue: 8000000
   Note: 
   PropertyLocalNameStack: []
-  VariableNameStack: []
-  DefinedVariables: []
-  targetTypeName: Amplitude.Mercury.Simulation.Settlement, Amplitude.Mercury.Firstpass
-  sourceTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
---- !u!114 &-5092749318284046988
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
-  m_Name: ProductionCost_Unit_Era6_Medium_Iron2_Oil2
-  m_EditorClassIdentifier: 
-  RpnOperationStack: 0a0000000a0000000a0000000a0000000a00000009000000060000000300000006000000020000000a0000000a0000000a0000000a00000009000000060000000300000006000000020000000000000002000000
-  ConstantStack:
-  - RawValue: 6000000
-  - RawValue: 500
-  - RawValue: 1000
-  - RawValue: 2000
-  - RawValue: 1000
-  - RawValue: 500
-  - RawValue: 1000
-  - RawValue: 2000
-  - RawValue: 1000
-  Note: 
-  PropertyLocalNameStack:
-  - Resource03AccessCount
-  - Resource06AccessCount
   VariableNameStack: []
   DefinedVariables: []
   targetTypeName: Amplitude.Mercury.Simulation.Settlement, Amplitude.Mercury.Firstpass
@@ -929,37 +579,6 @@ MonoBehaviour:
   DefinedVariables: []
   targetTypeName: Amplitude.Mercury.Simulation.Settlement, Amplitude.Mercury.Firstpass
   sourceTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
---- !u!114 &-3306509548954259918
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
-  m_Name: ProductionCost_Unit_Era6_Max_Iron3_Uranium3
-  m_EditorClassIdentifier: 
-  RpnOperationStack: 0a0000000a0000000a0000000a0000000a00000009000000060000000300000006000000020000000a0000000a0000000a0000000a00000009000000060000000300000006000000020000000000000002000000
-  ConstantStack:
-  - RawValue: 15000000
-  - RawValue: 500
-  - RawValue: 1000
-  - RawValue: 3000
-  - RawValue: 1000
-  - RawValue: 500
-  - RawValue: 1000
-  - RawValue: 3000
-  - RawValue: 1000
-  Note: 
-  PropertyLocalNameStack:
-  - Resource03AccessCount
-  - Resource08AccessCount
-  VariableNameStack: []
-  DefinedVariables: []
-  targetTypeName: Amplitude.Mercury.Simulation.Settlement, Amplitude.Mercury.Firstpass
-  sourceTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
 --- !u!114 &-2842925579140214732
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -981,7 +600,7 @@ MonoBehaviour:
   DefinedVariables: []
   targetTypeName: Amplitude.Mercury.Simulation.Settlement, Amplitude.Mercury.Firstpass
   sourceTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
---- !u!114 &-2278412487122016165
+--- !u!114 &-1784460435274731411
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -991,85 +610,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
-  m_Name: ProductionCost_Unit_Era6_Low_Iron3_Coal3
+  m_Name: ProductionCost_Unit_Era6_Tier2
   m_EditorClassIdentifier: 
-  RpnOperationStack: 0a0000000a0000000a0000000a0000000a00000009000000060000000300000006000000020000000a0000000a0000000a0000000a00000009000000060000000300000006000000020000000000000002000000
+  RpnOperationStack: 
   ConstantStack:
-  - RawValue: 4000000
-  - RawValue: 500
-  - RawValue: 1000
-  - RawValue: 3000
-  - RawValue: 1000
-  - RawValue: 500
-  - RawValue: 1000
-  - RawValue: 3000
-  - RawValue: 1000
+  - RawValue: 6000000
   Note: 
-  PropertyLocalNameStack:
-  - Resource03AccessCount
-  - Resource04AccessCount
-  VariableNameStack: []
-  DefinedVariables: []
-  targetTypeName: Amplitude.Mercury.Simulation.Settlement, Amplitude.Mercury.Firstpass
-  sourceTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
---- !u!114 &-2095598058535716244
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
-  m_Name: ProductionCost_Infrastructure_Era6_Tier2_Copper3_Uranium3
-  m_EditorClassIdentifier: 
-  RpnOperationStack: 0a0000000a0000000a0000000a0000000a00000009000000060000000300000006000000020000000a0000000a0000000a0000000a00000009000000060000000300000006000000020000000000000002000000
-  ConstantStack:
-  - RawValue: 7615000
-  - RawValue: 500
-  - RawValue: 1000
-  - RawValue: 3000
-  - RawValue: 1000
-  - RawValue: 500
-  - RawValue: 1000
-  - RawValue: 3000
-  - RawValue: 1000
-  Note: 
-  PropertyLocalNameStack:
-  - Resource02AccessCount
-  - Resource08AccessCount
-  VariableNameStack: []
-  DefinedVariables: []
-  targetTypeName: Amplitude.Mercury.Simulation.Settlement, Amplitude.Mercury.Firstpass
-  sourceTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
---- !u!114 &-1628611061351899077
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
-  m_Name: ProductionCost_Unit_Era6_Low_Aluminium2_Uranium2
-  m_EditorClassIdentifier: 
-  RpnOperationStack: 0a0000000a0000000a0000000a0000000a00000009000000060000000300000006000000020000000a0000000a0000000a0000000a00000009000000060000000300000006000000020000000000000002000000
-  ConstantStack:
-  - RawValue: 4000000
-  - RawValue: 500
-  - RawValue: 1000
-  - RawValue: 2000
-  - RawValue: 1000
-  - RawValue: 500
-  - RawValue: 1000
-  - RawValue: 2000
-  - RawValue: 1000
-  Note: 
-  PropertyLocalNameStack:
-  - Resource07AccessCount
-  - Resource08AccessCount
+  PropertyLocalNameStack: []
   VariableNameStack: []
   DefinedVariables: []
   targetTypeName: Amplitude.Mercury.Simulation.Settlement, Amplitude.Mercury.Firstpass
@@ -1091,125 +638,6 @@ MonoBehaviour:
   - RawValue: 1600000
   Note: 
   PropertyLocalNameStack: []
-  VariableNameStack: []
-  DefinedVariables: []
-  targetTypeName: Amplitude.Mercury.Simulation.Settlement, Amplitude.Mercury.Firstpass
-  sourceTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
---- !u!114 &-1443711010686100111
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
-  m_Name: ProductionCost_Unit_Era6_Medium_Oil2_Aluminium2_Uranium2
-  m_EditorClassIdentifier: 
-  RpnOperationStack: 0a0000000a0000000a0000000a0000000a00000009000000060000000300000006000000020000000a0000000a0000000a0000000a0000000900000006000000030000000600000002000000000000000a0000000a0000000a0000000a00000009000000060000000300000006000000020000000000000002000000
-  ConstantStack:
-  - RawValue: 6000000
-  - RawValue: 334
-  - RawValue: 1000
-  - RawValue: 2000
-  - RawValue: 1000
-  - RawValue: 333
-  - RawValue: 1000
-  - RawValue: 2000
-  - RawValue: 1000
-  - RawValue: 333
-  - RawValue: 1000
-  - RawValue: 2000
-  - RawValue: 1000
-  Note: 
-  PropertyLocalNameStack:
-  - Resource06AccessCount
-  - Resource07AccessCount
-  - Resource08AccessCount
-  VariableNameStack: []
-  DefinedVariables: []
-  targetTypeName: Amplitude.Mercury.Simulation.Settlement, Amplitude.Mercury.Firstpass
-  sourceTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
---- !u!114 &-1362744903900677436
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
-  m_Name: ProductionCost_Unit_Era6_Medium_Iron3_Coal2
-  m_EditorClassIdentifier: 
-  RpnOperationStack: 0a0000000a0000000a0000000a0000000a00000009000000060000000300000006000000020000000a0000000a0000000a0000000a00000009000000060000000300000006000000020000000000000002000000
-  ConstantStack:
-  - RawValue: 6000000
-  - RawValue: 500
-  - RawValue: 1000
-  - RawValue: 3000
-  - RawValue: 1000
-  - RawValue: 500
-  - RawValue: 1000
-  - RawValue: 2000
-  - RawValue: 1000
-  Note: 
-  PropertyLocalNameStack:
-  - Resource03AccessCount
-  - Resource04AccessCount
-  VariableNameStack: []
-  DefinedVariables: []
-  targetTypeName: Amplitude.Mercury.Simulation.Settlement, Amplitude.Mercury.Firstpass
-  sourceTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
---- !u!114 &-1255498498598245366
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
-  m_Name: ProductionCost_NationalProject_MarsMission
-  m_EditorClassIdentifier: 
-  RpnOperationStack: 
-  ConstantStack:
-  - RawValue: 100000000
-  Note: 
-  PropertyLocalNameStack: []
-  VariableNameStack: []
-  DefinedVariables: []
-  targetTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
-  sourceTypeName: 
---- !u!114 &-1132874858754268192
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
-  m_Name: ProductionCost_Unit_Era6_Medium_Iron4_Oil4
-  m_EditorClassIdentifier: 
-  RpnOperationStack: 0a0000000a0000000a0000000a0000000a00000009000000060000000300000006000000020000000a0000000a0000000a0000000a00000009000000060000000300000006000000020000000000000002000000
-  ConstantStack:
-  - RawValue: 6000000
-  - RawValue: 500
-  - RawValue: 1000
-  - RawValue: 4000
-  - RawValue: 1000
-  - RawValue: 500
-  - RawValue: 1000
-  - RawValue: 4000
-  - RawValue: 1000
-  Note: 
-  PropertyLocalNameStack:
-  - Resource03AccessCount
-  - Resource06AccessCount
   VariableNameStack: []
   DefinedVariables: []
   targetTypeName: Amplitude.Mercury.Simulation.Settlement, Amplitude.Mercury.Firstpass
@@ -1278,68 +706,6 @@ MonoBehaviour:
   DefinedVariables: []
   targetTypeName: Amplitude.Mercury.Simulation.Settlement, Amplitude.Mercury.Firstpass
   sourceTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
---- !u!114 &-827972047539381829
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
-  m_Name: ProductionCost_Unit_Era6_Medium_Oil2_Aluminium3
-  m_EditorClassIdentifier: 
-  RpnOperationStack: 0a0000000a0000000a0000000a0000000a00000009000000060000000300000006000000020000000a0000000a0000000a0000000a00000009000000060000000300000006000000020000000000000002000000
-  ConstantStack:
-  - RawValue: 6000000
-  - RawValue: 400
-  - RawValue: 1000
-  - RawValue: 2000
-  - RawValue: 1000
-  - RawValue: 600
-  - RawValue: 1000
-  - RawValue: 3000
-  - RawValue: 1000
-  Note: 
-  PropertyLocalNameStack:
-  - Resource06AccessCount
-  - Resource07AccessCount
-  VariableNameStack: []
-  DefinedVariables: []
-  targetTypeName: Amplitude.Mercury.Simulation.Settlement, Amplitude.Mercury.Firstpass
-  sourceTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
---- !u!114 &-546825479207124054
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
-  m_Name: ProductionCost_Infrastructure_Era6_Tier3_Copper3_Coal3
-  m_EditorClassIdentifier: 
-  RpnOperationStack: 0a0000000a0000000a0000000a0000000a00000009000000060000000300000006000000020000000a0000000a0000000a0000000a00000009000000060000000300000006000000020000000000000002000000
-  ConstantStack:
-  - RawValue: 9055000
-  - RawValue: 500
-  - RawValue: 1000
-  - RawValue: 3000
-  - RawValue: 1000
-  - RawValue: 500
-  - RawValue: 1000
-  - RawValue: 3000
-  - RawValue: 1000
-  Note: 
-  PropertyLocalNameStack:
-  - Resource02AccessCount
-  - Resource04AccessCount
-  VariableNameStack: []
-  DefinedVariables: []
-  targetTypeName: Amplitude.Mercury.Simulation.Settlement, Amplitude.Mercury.Firstpass
-  sourceTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
 --- !u!114 &-53519504534872988
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1373,6 +739,27 @@ MonoBehaviour:
   m_Script: {fileID: 633835022, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
   m_Name: RpnIndustryDefinition
   m_EditorClassIdentifier: 
+--- !u!114 &129250700390890070
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
+  m_Name: ProductionCost_Unit_Era6_Tier4
+  m_EditorClassIdentifier: 
+  RpnOperationStack: 
+  ConstantStack:
+  - RawValue: 11000000
+  Note: 
+  PropertyLocalNameStack: []
+  VariableNameStack: []
+  DefinedVariables: []
+  targetTypeName: Amplitude.Mercury.Simulation.Settlement, Amplitude.Mercury.Firstpass
+  sourceTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
 --- !u!114 &409693660640294693
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1390,31 +777,6 @@ MonoBehaviour:
   - RawValue: 7615000
   Note: 
   PropertyLocalNameStack: []
-  VariableNameStack: []
-  DefinedVariables: []
-  targetTypeName: Amplitude.Mercury.Simulation.Settlement, Amplitude.Mercury.Firstpass
-  sourceTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
---- !u!114 &480221206232494915
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
-  m_Name: ProductionCost_Infrastructure_Era6_Tier2_Uranium3
-  m_EditorClassIdentifier: 
-  RpnOperationStack: 0a0000000a0000000a0000000a0000000900000006000000030000000600000002000000
-  ConstantStack:
-  - RawValue: 7615000
-  - RawValue: 1000
-  - RawValue: 3000
-  - RawValue: 1000
-  Note: 
-  PropertyLocalNameStack:
-  - Resource08AccessCount
   VariableNameStack: []
   DefinedVariables: []
   targetTypeName: Amplitude.Mercury.Simulation.Settlement, Amplitude.Mercury.Firstpass
@@ -1461,37 +823,6 @@ MonoBehaviour:
   DefinedVariables: []
   targetTypeName: Amplitude.Mercury.Simulation.Settlement, Amplitude.Mercury.Firstpass
   sourceTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
---- !u!114 &1062438774620860355
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
-  m_Name: ProductionCost_Unit_Era6_Medium_Oil2_Aluminium2
-  m_EditorClassIdentifier: 
-  RpnOperationStack: 0a0000000a0000000a0000000a0000000a00000009000000060000000300000006000000020000000a0000000a0000000a0000000a00000009000000060000000300000006000000020000000000000002000000
-  ConstantStack:
-  - RawValue: 6000000
-  - RawValue: 500
-  - RawValue: 1000
-  - RawValue: 2000
-  - RawValue: 1000
-  - RawValue: 500
-  - RawValue: 1000
-  - RawValue: 2000
-  - RawValue: 1000
-  Note: 
-  PropertyLocalNameStack:
-  - Resource06AccessCount
-  - Resource07AccessCount
-  VariableNameStack: []
-  DefinedVariables: []
-  targetTypeName: Amplitude.Mercury.Simulation.Settlement, Amplitude.Mercury.Firstpass
-  sourceTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
 --- !u!114 &1165325882290245291
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1513,7 +844,7 @@ MonoBehaviour:
   DefinedVariables: []
   targetTypeName: Amplitude.Mercury.Simulation.Settlement, Amplitude.Mercury.Firstpass
   sourceTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
---- !u!114 &1455715556638224901
+--- !u!114 &1568988841131419697
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1523,151 +854,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
-  m_Name: ProductionCost_Unit_Era6_Low_Oil2_Aluminium2_Uranium2
+  m_Name: ProductionCost_Unit_Era6_Tier1
   m_EditorClassIdentifier: 
-  RpnOperationStack: 0a0000000a0000000a0000000a0000000a00000009000000060000000300000006000000020000000a0000000a0000000a0000000a0000000900000006000000030000000600000002000000000000000a0000000a0000000a0000000a00000009000000060000000300000006000000020000000000000002000000
+  RpnOperationStack: 
   ConstantStack:
   - RawValue: 4000000
-  - RawValue: 334
-  - RawValue: 1000
-  - RawValue: 2000
-  - RawValue: 1000
-  - RawValue: 333
-  - RawValue: 1000
-  - RawValue: 2000
-  - RawValue: 1000
-  - RawValue: 333
-  - RawValue: 1000
-  - RawValue: 2000
-  - RawValue: 1000
   Note: 
-  PropertyLocalNameStack:
-  - Resource06AccessCount
-  - Resource07AccessCount
-  - Resource08AccessCount
-  VariableNameStack: []
-  DefinedVariables: []
-  targetTypeName: Amplitude.Mercury.Simulation.Settlement, Amplitude.Mercury.Firstpass
-  sourceTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
---- !u!114 &1561293734584339421
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
-  m_Name: ProductionCost_Unit_Era6_VeryHigh_Oil3_Aluminium3_Uranium3
-  m_EditorClassIdentifier: 
-  RpnOperationStack: 0a0000000a0000000a0000000a0000000a00000009000000060000000300000006000000020000000a0000000a0000000a0000000a0000000900000006000000030000000600000002000000000000000a0000000a0000000a0000000a00000009000000060000000300000006000000020000000000000002000000
-  ConstantStack:
-  - RawValue: 11000000
-  - RawValue: 334
-  - RawValue: 1000
-  - RawValue: 3000
-  - RawValue: 1000
-  - RawValue: 333
-  - RawValue: 1000
-  - RawValue: 3000
-  - RawValue: 1000
-  - RawValue: 333
-  - RawValue: 1000
-  - RawValue: 3000
-  - RawValue: 1000
-  Note: 
-  PropertyLocalNameStack:
-  - Resource06AccessCount
-  - Resource07AccessCount
-  - Resource08AccessCount
-  VariableNameStack: []
-  DefinedVariables: []
-  targetTypeName: Amplitude.Mercury.Simulation.Settlement, Amplitude.Mercury.Firstpass
-  sourceTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
---- !u!114 &1688883599933775255
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
-  m_Name: ProductionCost_Unit_Era5_Medium_Iron2_Coal2
-  m_EditorClassIdentifier: 
-  RpnOperationStack: 0a0000000a0000000a0000000a0000000a00000009000000060000000300000006000000020000000a0000000a0000000a0000000a00000009000000060000000300000006000000020000000000000002000000
-  ConstantStack:
-  - RawValue: 2400000
-  - RawValue: 500
-  - RawValue: 1000
-  - RawValue: 2000
-  - RawValue: 1000
-  - RawValue: 500
-  - RawValue: 1000
-  - RawValue: 2000
-  - RawValue: 1000
-  Note: 
-  PropertyLocalNameStack:
-  - Resource03AccessCount
-  - Resource04AccessCount
-  VariableNameStack: []
-  DefinedVariables: []
-  targetTypeName: Amplitude.Mercury.Simulation.Settlement, Amplitude.Mercury.Firstpass
-  sourceTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
---- !u!114 &1895805554581025527
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
-  m_Name: ProductionCost_Unit_Era6_VeryHigh_Aluminium3_Uranium3
-  m_EditorClassIdentifier: 
-  RpnOperationStack: 0a0000000a0000000a0000000a0000000a00000009000000060000000300000006000000020000000a0000000a0000000a0000000a00000009000000060000000300000006000000020000000000000002000000
-  ConstantStack:
-  - RawValue: 11000000
-  - RawValue: 500
-  - RawValue: 1000
-  - RawValue: 3000
-  - RawValue: 1000
-  - RawValue: 500
-  - RawValue: 1000
-  - RawValue: 3000
-  - RawValue: 1000
-  Note: 
-  PropertyLocalNameStack:
-  - Resource07AccessCount
-  - Resource08AccessCount
-  VariableNameStack: []
-  DefinedVariables: []
-  targetTypeName: Amplitude.Mercury.Simulation.Settlement, Amplitude.Mercury.Firstpass
-  sourceTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
---- !u!114 &2045468256418797752
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
-  m_Name: ProductionCost_Unit_Era6_Low_Aluminium3
-  m_EditorClassIdentifier: 
-  RpnOperationStack: 0a0000000a0000000a0000000a0000000900000006000000030000000600000002000000
-  ConstantStack:
-  - RawValue: 4000000
-  - RawValue: 1000
-  - RawValue: 3000
-  - RawValue: 1000
-  Note: 
-  PropertyLocalNameStack:
-  - Resource07AccessCount
+  PropertyLocalNameStack: []
   VariableNameStack: []
   DefinedVariables: []
   targetTypeName: Amplitude.Mercury.Simulation.Settlement, Amplitude.Mercury.Firstpass
@@ -1756,124 +949,6 @@ MonoBehaviour:
   DefinedVariables: []
   targetTypeName: Amplitude.Mercury.Simulation.Settlement, Amplitude.Mercury.Firstpass
   sourceTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
---- !u!114 &2935427830454780621
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
-  m_Name: ProductionCost_Unit_Era6_VeryHigh_Iron3_Uranium3
-  m_EditorClassIdentifier: 
-  RpnOperationStack: 0a0000000a0000000a0000000a0000000a00000009000000060000000300000006000000020000000a0000000a0000000a0000000a00000009000000060000000300000006000000020000000000000002000000
-  ConstantStack:
-  - RawValue: 11000000
-  - RawValue: 500
-  - RawValue: 1000
-  - RawValue: 3000
-  - RawValue: 1000
-  - RawValue: 500
-  - RawValue: 1000
-  - RawValue: 3000
-  - RawValue: 1000
-  Note: 
-  PropertyLocalNameStack:
-  - Resource03AccessCount
-  - Resource08AccessCount
-  VariableNameStack: []
-  DefinedVariables: []
-  targetTypeName: Amplitude.Mercury.Simulation.Settlement, Amplitude.Mercury.Firstpass
-  sourceTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
---- !u!114 &3023170216187894572
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
-  m_Name: ProductionCost_Unit_Era6_Low_Iron4_Coal4
-  m_EditorClassIdentifier: 
-  RpnOperationStack: 0a0000000a0000000a0000000a0000000a00000009000000060000000300000006000000020000000a0000000a0000000a0000000a00000009000000060000000300000006000000020000000000000002000000
-  ConstantStack:
-  - RawValue: 4000000
-  - RawValue: 500
-  - RawValue: 1000
-  - RawValue: 4000
-  - RawValue: 1000
-  - RawValue: 500
-  - RawValue: 1000
-  - RawValue: 4000
-  - RawValue: 1000
-  Note: 
-  PropertyLocalNameStack:
-  - Resource03AccessCount
-  - Resource04AccessCount
-  VariableNameStack: []
-  DefinedVariables: []
-  targetTypeName: Amplitude.Mercury.Simulation.Settlement, Amplitude.Mercury.Firstpass
-  sourceTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
---- !u!114 &3360925844120268143
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
-  m_Name: ProductionCost_Unit_Era6_Low_Iron2
-  m_EditorClassIdentifier: 
-  RpnOperationStack: 0a0000000a0000000a0000000900000006000000030000000a0000000600000002000000
-  ConstantStack:
-  - RawValue: 4000000
-  - RawValue: 2000
-  - RawValue: 1000
-  - RawValue: 1000
-  Note: 
-  PropertyLocalNameStack:
-  - Resource03AccessCount
-  VariableNameStack: []
-  DefinedVariables: []
-  targetTypeName: Amplitude.Mercury.Simulation.Settlement, Amplitude.Mercury.Firstpass
-  sourceTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
---- !u!114 &3424223087003591861
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
-  m_Name: ProductionCost_Unit_Era6_Low_Oil2_Aluminium2
-  m_EditorClassIdentifier: 
-  RpnOperationStack: 0a0000000a0000000a0000000a0000000a00000009000000060000000300000006000000020000000a0000000a0000000a0000000a00000009000000060000000300000006000000020000000000000002000000
-  ConstantStack:
-  - RawValue: 4000000
-  - RawValue: 500
-  - RawValue: 1000
-  - RawValue: 2000
-  - RawValue: 1000
-  - RawValue: 500
-  - RawValue: 1000
-  - RawValue: 2000
-  - RawValue: 1000
-  Note: 
-  PropertyLocalNameStack:
-  - Resource06AccessCount
-  - Resource07AccessCount
-  VariableNameStack: []
-  DefinedVariables: []
-  targetTypeName: Amplitude.Mercury.Simulation.Settlement, Amplitude.Mercury.Firstpass
-  sourceTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
 --- !u!114 &3427074495471199132
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1941,68 +1016,6 @@ MonoBehaviour:
   DefinedVariables: []
   targetTypeName: Amplitude.Mercury.Simulation.Settlement, Amplitude.Mercury.Firstpass
   sourceTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
---- !u!114 &3690587320725224341
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
-  m_Name: ProductionCost_Unit_Era6_Low_Aluminium3_Uranium3
-  m_EditorClassIdentifier: 
-  RpnOperationStack: 0a0000000a0000000a0000000a0000000a00000009000000060000000300000006000000020000000a0000000a0000000a0000000a00000009000000060000000300000006000000020000000000000002000000
-  ConstantStack:
-  - RawValue: 4000000
-  - RawValue: 500
-  - RawValue: 1000
-  - RawValue: 3000
-  - RawValue: 1000
-  - RawValue: 500
-  - RawValue: 1000
-  - RawValue: 3000
-  - RawValue: 1000
-  Note: 
-  PropertyLocalNameStack:
-  - Resource07AccessCount
-  - Resource08AccessCount
-  VariableNameStack: []
-  DefinedVariables: []
-  targetTypeName: Amplitude.Mercury.Simulation.Settlement, Amplitude.Mercury.Firstpass
-  sourceTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
---- !u!114 &3714023343190328214
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
-  m_Name: ProductionCost_Unit_Era5_Medium_Iron3_Coal2
-  m_EditorClassIdentifier: 
-  RpnOperationStack: 0a0000000a0000000a0000000a0000000a00000009000000060000000300000006000000020000000a0000000a0000000a0000000a00000009000000060000000300000006000000020000000000000002000000
-  ConstantStack:
-  - RawValue: 2400000
-  - RawValue: 500
-  - RawValue: 1000
-  - RawValue: 3000
-  - RawValue: 1000
-  - RawValue: 500
-  - RawValue: 1000
-  - RawValue: 2000
-  - RawValue: 1000
-  Note: 
-  PropertyLocalNameStack:
-  - Resource03AccessCount
-  - Resource04AccessCount
-  VariableNameStack: []
-  DefinedVariables: []
-  targetTypeName: Amplitude.Mercury.Simulation.Settlement, Amplitude.Mercury.Firstpass
-  sourceTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
 --- !u!114 &3957998216085612898
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2024,7 +1037,7 @@ MonoBehaviour:
   DefinedVariables: []
   targetTypeName: Amplitude.Mercury.Simulation.Settlement, Amplitude.Mercury.Firstpass
   sourceTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
---- !u!114 &4003005000384566975
+--- !u!114 &4190391289635276477
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2034,28 +1047,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
-  m_Name: ProductionCost_Unit_Era6_VeryHigh_Iron3_Oil3_Uranium2
+  m_Name: ProductionCost_Unit_Era6_Tier7
   m_EditorClassIdentifier: 
-  RpnOperationStack: 0a0000000a0000000a0000000a0000000a00000009000000060000000300000006000000020000000a0000000a0000000a0000000a0000000900000006000000030000000600000002000000000000000a0000000a0000000a0000000a00000009000000060000000300000006000000020000000000000002000000
+  RpnOperationStack: 
   ConstantStack:
-  - RawValue: 11000000
-  - RawValue: 334
-  - RawValue: 1000
-  - RawValue: 3000
-  - RawValue: 1000
-  - RawValue: 333
-  - RawValue: 1000
-  - RawValue: 3000
-  - RawValue: 1000
-  - RawValue: 333
-  - RawValue: 1000
-  - RawValue: 2000
-  - RawValue: 1000
+  - RawValue: 26000000
   Note: 
-  PropertyLocalNameStack:
-  - Resource03AccessCount
-  - Resource06AccessCount
-  - Resource08AccessCount
+  PropertyLocalNameStack: []
   VariableNameStack: []
   DefinedVariables: []
   targetTypeName: Amplitude.Mercury.Simulation.Settlement, Amplitude.Mercury.Firstpass
@@ -2081,37 +1079,6 @@ MonoBehaviour:
   DefinedVariables: []
   targetTypeName: Amplitude.Mercury.Simulation.Settlement, Amplitude.Mercury.Firstpass
   sourceTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
---- !u!114 &4722728141973585477
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
-  m_Name: ProductionCost_Unit_Era6_VeryHigh_Aluminium3_Oil3
-  m_EditorClassIdentifier: 
-  RpnOperationStack: 0a0000000a0000000a0000000a0000000a00000009000000060000000300000006000000020000000a0000000a0000000a0000000a00000009000000060000000300000006000000020000000000000002000000
-  ConstantStack:
-  - RawValue: 11000000
-  - RawValue: 500
-  - RawValue: 1000
-  - RawValue: 3000
-  - RawValue: 1000
-  - RawValue: 500
-  - RawValue: 1000
-  - RawValue: 3000
-  - RawValue: 1000
-  Note: 
-  PropertyLocalNameStack:
-  - Resource03AccessCount
-  - Resource06AccessCount
-  VariableNameStack: []
-  DefinedVariables: []
-  targetTypeName: Amplitude.Mercury.Simulation.Settlement, Amplitude.Mercury.Firstpass
-  sourceTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
 --- !u!114 &4855797557014627847
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2133,7 +1100,7 @@ MonoBehaviour:
   DefinedVariables: []
   targetTypeName: Amplitude.Mercury.Simulation.Settlement, Amplitude.Mercury.Firstpass
   sourceTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
---- !u!114 &5093854024394762721
+--- !u!114 &5185434792382550262
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2143,17 +1110,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
-  m_Name: ProductionCost_Unit_Era5_Medium_Horse4
+  m_Name: ProductionCost_Unit_Era6_Tier8
   m_EditorClassIdentifier: 
-  RpnOperationStack: 0a0000000a0000000a0000000a0000000900000006000000030000000600000002000000
+  RpnOperationStack: 
   ConstantStack:
-  - RawValue: 2400000
-  - RawValue: 1000
-  - RawValue: 4000
-  - RawValue: 1000
+  - RawValue: 32000000
   Note: 
-  PropertyLocalNameStack:
-  - Resource01AccessCount
+  PropertyLocalNameStack: []
   VariableNameStack: []
   DefinedVariables: []
   targetTypeName: Amplitude.Mercury.Simulation.Settlement, Amplitude.Mercury.Firstpass
@@ -2179,31 +1142,6 @@ MonoBehaviour:
   DefinedVariables: []
   targetTypeName: Amplitude.Mercury.Simulation.Settlement, Amplitude.Mercury.Firstpass
   sourceTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
---- !u!114 &5521518219590310971
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
-  m_Name: ProductionCost_Unit_Era6_Max_Uranium3
-  m_EditorClassIdentifier: 
-  RpnOperationStack: 0a0000000a0000000a0000000900000006000000030000000a0000000600000002000000
-  ConstantStack:
-  - RawValue: 15000000
-  - RawValue: 3000
-  - RawValue: 1000
-  - RawValue: 1000
-  Note: 
-  PropertyLocalNameStack:
-  - Resource08AccessCount
-  VariableNameStack: []
-  DefinedVariables: []
-  targetTypeName: Amplitude.Mercury.Simulation.Settlement, Amplitude.Mercury.Firstpass
-  sourceTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
 --- !u!114 &5528768415841219025
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2225,124 +1163,6 @@ MonoBehaviour:
   DefinedVariables: []
   targetTypeName: Amplitude.Mercury.Simulation.Settlement, Amplitude.Mercury.Firstpass
   sourceTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
---- !u!114 &5580036439875340042
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
-  m_Name: ProductionCost_Unit_Era6_VeryHigh_Iron3_Oil3
-  m_EditorClassIdentifier: 
-  RpnOperationStack: 0a0000000a0000000a0000000a0000000a00000009000000060000000300000006000000020000000a0000000a0000000a0000000a00000009000000060000000300000006000000020000000000000002000000
-  ConstantStack:
-  - RawValue: 11000000
-  - RawValue: 500
-  - RawValue: 1000
-  - RawValue: 3000
-  - RawValue: 1000
-  - RawValue: 500
-  - RawValue: 1000
-  - RawValue: 3000
-  - RawValue: 1000
-  Note: 
-  PropertyLocalNameStack:
-  - Resource03AccessCount
-  - Resource06AccessCount
-  VariableNameStack: []
-  DefinedVariables: []
-  targetTypeName: Amplitude.Mercury.Simulation.Settlement, Amplitude.Mercury.Firstpass
-  sourceTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
---- !u!114 &5585661338704729916
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
-  m_Name: ProductionCost_Unit_Era5_Medium_Oil2
-  m_EditorClassIdentifier: 
-  RpnOperationStack: 0a0000000a0000000a0000000a0000000900000006000000030000000600000002000000
-  ConstantStack:
-  - RawValue: 2400000
-  - RawValue: 1000
-  - RawValue: 2000
-  - RawValue: 1000
-  Note: 
-  PropertyLocalNameStack:
-  - Resource06AccessCount
-  VariableNameStack: []
-  DefinedVariables: []
-  targetTypeName: Amplitude.Mercury.Simulation.Settlement, Amplitude.Mercury.Firstpass
-  sourceTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
---- !u!114 &5656413087301769742
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
-  m_Name: ProductionCost_Unit_Era5_Medium_Iron2_Oil2
-  m_EditorClassIdentifier: 
-  RpnOperationStack: 0a0000000a0000000a0000000a0000000a00000009000000060000000300000006000000020000000a0000000a0000000a0000000a00000009000000060000000300000006000000020000000000000002000000
-  ConstantStack:
-  - RawValue: 2400000
-  - RawValue: 500
-  - RawValue: 1000
-  - RawValue: 2000
-  - RawValue: 1000
-  - RawValue: 500
-  - RawValue: 1000
-  - RawValue: 2000
-  - RawValue: 1000
-  Note: 
-  PropertyLocalNameStack:
-  - Resource03AccessCount
-  - Resource06AccessCount
-  VariableNameStack: []
-  DefinedVariables: []
-  targetTypeName: Amplitude.Mercury.Simulation.Settlement, Amplitude.Mercury.Firstpass
-  sourceTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
---- !u!114 &5701594922788228255
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
-  m_Name: ProductionCost_Unit_Era6_Max_Iron3_Oil3
-  m_EditorClassIdentifier: 
-  RpnOperationStack: 0a0000000a0000000a0000000a0000000a00000009000000060000000300000006000000020000000a0000000a0000000a0000000a00000009000000060000000300000006000000020000000000000002000000
-  ConstantStack:
-  - RawValue: 15000000
-  - RawValue: 500
-  - RawValue: 1000
-  - RawValue: 3000
-  - RawValue: 1000
-  - RawValue: 500
-  - RawValue: 1000
-  - RawValue: 3000
-  - RawValue: 1000
-  Note: 
-  PropertyLocalNameStack:
-  - Resource03AccessCount
-  - Resource06AccessCount
-  VariableNameStack: []
-  DefinedVariables: []
-  targetTypeName: Amplitude.Mercury.Simulation.Settlement, Amplitude.Mercury.Firstpass
-  sourceTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
 --- !u!114 &6000147408804648897
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2360,37 +1180,6 @@ MonoBehaviour:
   - RawValue: 800000
   Note: 
   PropertyLocalNameStack: []
-  VariableNameStack: []
-  DefinedVariables: []
-  targetTypeName: Amplitude.Mercury.Simulation.Settlement, Amplitude.Mercury.Firstpass
-  sourceTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
---- !u!114 &6248306437317239223
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
-  m_Name: ProductionCost_Unit_Era6_Medium_Oil3_Aluminium3
-  m_EditorClassIdentifier: 
-  RpnOperationStack: 0a0000000a0000000a0000000a0000000a00000009000000060000000300000006000000020000000a0000000a0000000a0000000a00000009000000060000000300000006000000020000000000000002000000
-  ConstantStack:
-  - RawValue: 6000000
-  - RawValue: 500
-  - RawValue: 1000
-  - RawValue: 3000
-  - RawValue: 1000
-  - RawValue: 500
-  - RawValue: 1000
-  - RawValue: 3000
-  - RawValue: 1000
-  Note: 
-  PropertyLocalNameStack:
-  - Resource06AccessCount
-  - Resource07AccessCount
   VariableNameStack: []
   DefinedVariables: []
   targetTypeName: Amplitude.Mercury.Simulation.Settlement, Amplitude.Mercury.Firstpass
@@ -2438,31 +1227,6 @@ MonoBehaviour:
   DefinedVariables: []
   targetTypeName: Amplitude.Mercury.Simulation.Settlement, Amplitude.Mercury.Firstpass
   sourceTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
---- !u!114 &6709637734884973167
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
-  m_Name: ProductionCost_Unit_Era6_Medium_Iron3
-  m_EditorClassIdentifier: 
-  RpnOperationStack: 0a0000000a0000000a0000000a0000000900000006000000030000000600000002000000
-  ConstantStack:
-  - RawValue: 6000000
-  - RawValue: 1000
-  - RawValue: 3000
-  - RawValue: 1000
-  Note: 
-  PropertyLocalNameStack:
-  - Resource03AccessCount
-  VariableNameStack: []
-  DefinedVariables: []
-  targetTypeName: Amplitude.Mercury.Simulation.Settlement, Amplitude.Mercury.Firstpass
-  sourceTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
 --- !u!114 &6757728574931613185
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2484,37 +1248,6 @@ MonoBehaviour:
   DefinedVariables: []
   targetTypeName: Amplitude.Mercury.Simulation.Settlement, Amplitude.Mercury.Firstpass
   sourceTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
---- !u!114 &6929257831587083917
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
-  m_Name: ProductionCost_Unit_Era6_Low_Iron2_Oil2
-  m_EditorClassIdentifier: 
-  RpnOperationStack: 0a0000000a0000000a0000000a0000000a00000009000000060000000300000006000000020000000a0000000a0000000a0000000a00000009000000060000000300000006000000020000000000000002000000
-  ConstantStack:
-  - RawValue: 4000000
-  - RawValue: 500
-  - RawValue: 1000
-  - RawValue: 2000
-  - RawValue: 1000
-  - RawValue: 500
-  - RawValue: 1000
-  - RawValue: 2000
-  - RawValue: 1000
-  Note: 
-  PropertyLocalNameStack:
-  - Resource03AccessCount
-  - Resource06AccessCount
-  VariableNameStack: []
-  DefinedVariables: []
-  targetTypeName: Amplitude.Mercury.Simulation.Settlement, Amplitude.Mercury.Firstpass
-  sourceTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
 --- !u!114 &7284942183902091960
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2532,73 +1265,6 @@ MonoBehaviour:
   - RawValue: 15000000
   Note: 
   PropertyLocalNameStack: []
-  VariableNameStack: []
-  DefinedVariables: []
-  targetTypeName: Amplitude.Mercury.Simulation.Settlement, Amplitude.Mercury.Firstpass
-  sourceTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
---- !u!114 &7321688804102584522
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
-  m_Name: ProductionCost_Unit_Era6_Max_Oil3_Aluminium3_Uranium3
-  m_EditorClassIdentifier: 
-  RpnOperationStack: 0a0000000a0000000a0000000a0000000a00000009000000060000000300000006000000020000000a0000000a0000000a0000000a0000000900000006000000030000000600000002000000000000000a0000000a0000000a0000000a00000009000000060000000300000006000000020000000000000002000000
-  ConstantStack:
-  - RawValue: 15000000
-  - RawValue: 334
-  - RawValue: 1000
-  - RawValue: 3000
-  - RawValue: 1000
-  - RawValue: 333
-  - RawValue: 1000
-  - RawValue: 3000
-  - RawValue: 1000
-  - RawValue: 333
-  - RawValue: 1000
-  - RawValue: 3000
-  - RawValue: 1000
-  Note: 
-  PropertyLocalNameStack:
-  - Resource06AccessCount
-  - Resource07AccessCount
-  - Resource08AccessCount
-  VariableNameStack: []
-  DefinedVariables: []
-  targetTypeName: Amplitude.Mercury.Simulation.Settlement, Amplitude.Mercury.Firstpass
-  sourceTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
---- !u!114 &7366813037082637346
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
-  m_Name: ProductionCost_Unit_Era6_VeryHigh_Oil3_Aluminium3
-  m_EditorClassIdentifier: 
-  RpnOperationStack: 0a0000000a0000000a0000000a0000000a00000009000000060000000300000006000000020000000a0000000a0000000a0000000a00000009000000060000000300000006000000020000000000000002000000
-  ConstantStack:
-  - RawValue: 11000000
-  - RawValue: 500
-  - RawValue: 1000
-  - RawValue: 3000
-  - RawValue: 1000
-  - RawValue: 500
-  - RawValue: 1000
-  - RawValue: 3000
-  - RawValue: 1000
-  Note: 
-  PropertyLocalNameStack:
-  - Resource06AccessCount
-  - Resource07AccessCount
   VariableNameStack: []
   DefinedVariables: []
   targetTypeName: Amplitude.Mercury.Simulation.Settlement, Amplitude.Mercury.Firstpass
@@ -2708,93 +1374,6 @@ MonoBehaviour:
   DefinedVariables: []
   targetTypeName: Amplitude.Mercury.Simulation.Settlement, Amplitude.Mercury.Firstpass
   sourceTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
---- !u!114 &7980617677231272973
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
-  m_Name: ProductionCost_Infrastructure_Era6_Tier3_Copper3_Iron3
-  m_EditorClassIdentifier: 
-  RpnOperationStack: 0a0000000a0000000a0000000a0000000a00000009000000060000000300000006000000020000000a0000000a0000000a0000000a00000009000000060000000300000006000000020000000000000002000000
-  ConstantStack:
-  - RawValue: 9055000
-  - RawValue: 500
-  - RawValue: 1000
-  - RawValue: 3000
-  - RawValue: 1000
-  - RawValue: 500
-  - RawValue: 1000
-  - RawValue: 3000
-  - RawValue: 1000
-  Note: 
-  PropertyLocalNameStack:
-  - Resource02AccessCount
-  - Resource03AccessCount
-  VariableNameStack: []
-  DefinedVariables: []
-  targetTypeName: Amplitude.Mercury.Simulation.Settlement, Amplitude.Mercury.Firstpass
-  sourceTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
---- !u!114 &8032933318741635752
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
-  m_Name: ProductionCost_Unit_Era5_Medium_Iron2
-  m_EditorClassIdentifier: 
-  RpnOperationStack: 0a0000000a0000000a0000000a0000000900000006000000030000000600000002000000
-  ConstantStack:
-  - RawValue: 2400000
-  - RawValue: 1000
-  - RawValue: 2000
-  - RawValue: 1000
-  Note: 
-  PropertyLocalNameStack:
-  - Resource03AccessCount
-  VariableNameStack: []
-  DefinedVariables: []
-  targetTypeName: Amplitude.Mercury.Simulation.Settlement, Amplitude.Mercury.Firstpass
-  sourceTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
---- !u!114 &8199869678132891700
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
-  m_Name: ProductionCost_Infrastructure_Era6_Tier1_Copper3_Uranium3
-  m_EditorClassIdentifier: 
-  RpnOperationStack: 0a0000000a0000000a0000000a0000000a00000009000000060000000300000006000000020000000a0000000a0000000a0000000a00000009000000060000000300000006000000020000000000000002000000
-  ConstantStack:
-  - RawValue: 6400000
-  - RawValue: 500
-  - RawValue: 1000
-  - RawValue: 3000
-  - RawValue: 1000
-  - RawValue: 500
-  - RawValue: 1000
-  - RawValue: 3000
-  - RawValue: 1000
-  Note: 
-  PropertyLocalNameStack:
-  - Resource02AccessCount
-  - Resource08AccessCount
-  VariableNameStack: []
-  DefinedVariables: []
-  targetTypeName: Amplitude.Mercury.Simulation.Settlement, Amplitude.Mercury.Firstpass
-  sourceTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
 --- !u!114 &8413721537248776901
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2816,7 +1395,7 @@ MonoBehaviour:
   DefinedVariables: []
   targetTypeName: Amplitude.Mercury.Simulation.Settlement, Amplitude.Mercury.Firstpass
   sourceTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
---- !u!114 &8580861209537887644
+--- !u!114 &8592594164220690963
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2826,17 +1405,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
-  m_Name: ProductionCost_Unit_Era6_Low_Oil2
+  m_Name: ProductionCost_Unit_Era6_Tier3
   m_EditorClassIdentifier: 
-  RpnOperationStack: 0a0000000a0000000a0000000900000006000000030000000a0000000600000002000000
+  RpnOperationStack: 
   ConstantStack:
-  - RawValue: 4000000
-  - RawValue: 2000
-  - RawValue: 1000
-  - RawValue: 1000
+  - RawValue: 8000000
   Note: 
-  PropertyLocalNameStack:
-  - Resource06AccessCount
+  PropertyLocalNameStack: []
   VariableNameStack: []
   DefinedVariables: []
   targetTypeName: Amplitude.Mercury.Simulation.Settlement, Amplitude.Mercury.Firstpass
