@@ -1,5 +1,29 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-8533336676289739752
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 981126955, guid: f8c4d2d2a3a246a0909e3c6973d4a4e3, type: 3}
+  m_Name: Effect_EmpireBonus_FieldTelephone
+  m_EditorClassIdentifier: 
+  Title: Field Camp Telephone
+  Description: Coordinate battle with Field Camp Telephones
+  Images:
+  - Value:
+      guid:
+        a: 143282305
+        b: 1280028640
+        c: 1766937739
+        d: 405257795
+    serializableKey: Small
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  Symbol: 
 --- !u!114 &-8398529887656235633
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -307,8 +331,8 @@ MonoBehaviour:
   m_Script: {fileID: 981126955, guid: 722acb04e362a9243a944ac3117daa73, type: 3}
   m_Name: Effect_EmpireBonus_Radar
   m_EditorClassIdentifier: 
-  Title: Radar
-  Description: Add Radar to capable naval and air Units
+  Title: Surface Radar
+  Description: Adds Surface Radar to contemporary naval  units
   Images:
   - Value:
       guid:
@@ -941,6 +965,30 @@ MonoBehaviour:
     serializableKey: Small
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: '[Pollution2]'
+--- !u!114 &3761373361023962393
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 981126955, guid: f8c4d2d2a3a246a0909e3c6973d4a4e3, type: 3}
+  m_Name: Effect_EmpireBonus_RadioTelegrams
+  m_EditorClassIdentifier: 
+  Title: Radio Telegrams
+  Description: Send Orders directly from Headquaters
+  Images:
+  - Value:
+      guid:
+        a: 143282305
+        b: 1280028640
+        c: 1766937739
+        d: 405257795
+    serializableKey: Small
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  Symbol: 
 --- !u!114 &4018768096679547544
 MonoBehaviour:
   m_ObjectHideFlags: 0

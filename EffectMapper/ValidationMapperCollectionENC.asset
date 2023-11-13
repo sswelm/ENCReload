@@ -1,5 +1,22 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-8351014666050512871
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 771724855, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Effect_UnitPrototype_GunPlatform
+  m_EditorClassIdentifier: 
+  IsHidden: 0
+  Localization: Naval Gunplatforms
+  LocalizationInverted: non Naval Gunplatforms
+  LocalizationTarget: Naval Gunplatform
+  LocalizationTargetInverted: non Naval Gunplatform
 --- !u!114 &-7882884757167203077
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -302,8 +319,8 @@ MonoBehaviour:
   m_Name: Effect_UnitPrototype_MainBattleTank
   m_EditorClassIdentifier: 
   IsHidden: 0
-  Localization: Main BattleTank
-  LocalizationInverted: Not Main BattleTank
+  Localization: Main BattleTanks
+  LocalizationInverted: Not Main BattleTanks
   LocalizationTarget: Main BattleTank
   LocalizationTargetInverted: Not Main BattleTank
 --- !u!114 &-1080686302553195447
@@ -369,23 +386,6 @@ MonoBehaviour:
   LocalizationInverted: Not a Selfpropelled Howitzer
   LocalizationTarget: Selfpropelled Howitzer
   LocalizationTargetInverted: Not a Selfpropelled Howitzer
---- !u!114 &1903451799075670048
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 771724855, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
-  m_Name: Effect_UnitPrototype_Ranged
-  m_EditorClassIdentifier: 
-  IsHidden: 0
-  Localization: Ranged
-  LocalizationInverted: Not Ranged
-  LocalizationTarget: Ranged
-  LocalizationTargetInverted: Not Ranged
 --- !u!114 &2235335256898634880
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -454,23 +454,6 @@ MonoBehaviour:
   LocalizationInverted: Is not a Thermal Nuclear Explosive
   LocalizationTarget: Is a Thermal Nuclear Explosive
   LocalizationTargetInverted: Is not a Thermal Nuclear Explosive
---- !u!114 &7466015418728487380
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 771724855, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
-  m_Name: Tag_Unit_Stealth
-  m_EditorClassIdentifier: 
-  IsHidden: 0
-  Localization: Steath Unit
-  LocalizationInverted: Non Steath Unit
-  LocalizationTarget: Steath Unit
-  LocalizationTargetInverted: Non Steath Unit
 --- !u!114 &7984004924919627082
 MonoBehaviour:
   m_ObjectHideFlags: 0
