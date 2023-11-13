@@ -38,7 +38,7 @@ MonoBehaviour:
       ToTargetOperation: 0
       RpnOperationStack: 
       ConstantStack:
-      - RawValue: 8000
+      - RawValue: 4000
       PropertyLocalName: []
     - Note: 
       TargetProperty: StealthRegen
@@ -53,13 +53,6 @@ MonoBehaviour:
       RpnOperationStack: 
       ConstantStack:
       - RawValue: 1000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: NavalSpeed
-      ToTargetOperation: 1
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 3000
       PropertyLocalName: []
   serializableCategory: 
   startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
@@ -1172,7 +1165,7 @@ MonoBehaviour:
       ToTargetOperation: 0
       RpnOperationStack: 
       ConstantStack:
-      - RawValue: 8000
+      - RawValue: 4000
       PropertyLocalName: []
     - Note: 
       TargetProperty: StealthRegen
@@ -1183,17 +1176,10 @@ MonoBehaviour:
       PropertyLocalName: []
     - Note: 
       TargetProperty: AttackRange
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 1000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: NavalSpeed
       ToTargetOperation: 1
       RpnOperationStack: 
       ConstantStack:
-      - RawValue: 3000
+      - RawValue: 2000
       PropertyLocalName: []
   serializableCategory: 
   startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass

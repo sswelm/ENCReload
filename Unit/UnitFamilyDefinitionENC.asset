@@ -1370,6 +1370,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsObsolete: 0
   SerializableNextFamilyName: UnitFamily_MissileInfantry
+--- !u!114 &5387650364154381939
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1527816587, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitFamily_MediumMelee
+  m_EditorClassIdentifier: 
+  IsObsolete: 0
+  SerializableNextFamilyName: UnitFamily_GunpowderInfantry
 --- !u!114 &5414562749331890857
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1803,7 +1817,7 @@ MonoBehaviour:
   m_Name: UnitFamily_Melee
   m_EditorClassIdentifier: 
   IsObsolete: 0
-  SerializableNextFamilyName: UnitFamily_HeavyMelee
+  SerializableNextFamilyName: UnitFamily_MediumMelee
 --- !u!114 &8861420592203172377
 MonoBehaviour:
   m_ObjectHideFlags: 0

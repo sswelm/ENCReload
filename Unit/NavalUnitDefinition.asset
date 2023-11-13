@@ -574,7 +574,6 @@ MonoBehaviour:
     serializableElementName: UnitClass_BoardingVessel
   UnitSpecialties:
   - serializableElementName: UnitSpecialty_Privateer
-  - serializableElementName: UnitSpecialty_SpeedFromHarbor_Level1
   - serializableElementName: UnitSpecialty_MoveOneAfterAttack
   OwnDescriptorReferences:
   - serializableElementName: Effect_NavalUnit_Era3_Common_Galliot
@@ -2496,11 +2495,11 @@ MonoBehaviour:
       serializableElementName: 
   BaseSynergyDistrict: 0
   UnitClass:
-    serializableElementName: UnitClass_BoardingVessel
+    serializableElementName: UnitClass_GunPlatform
   UnitSpecialties:
   - serializableElementName: UnitSpecialty_Privateer
   - serializableElementName: UnitSpecialty_MoveOneAfterAttack
-  - serializableElementName: UnitSpecialty_SpeedFromHarbor_Level1
+  - serializableElementName: UnitSpecialty_Grapeshot
   OwnDescriptorReferences:
   - serializableElementName: Effect_NavalUnit_Era4_Common_Privateers
   - serializableElementName: Effect_Unit_Era4

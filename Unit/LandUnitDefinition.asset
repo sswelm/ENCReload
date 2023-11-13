@@ -380,7 +380,7 @@ MonoBehaviour:
   DLCPrerequisite:
     DownloadableContent: 0
   Category: 6
-  SerializableFamily: UnitFamily_Melee
+  SerializableFamily: UnitFamily_MediumMelee
   Level: 15
   Unicity: 0
   UnicityAdditionalConstructible: []
@@ -445,7 +445,8 @@ MonoBehaviour:
   BaseSynergyDistrict: 0
   UnitClass:
     serializableElementName: UnitClass_Melee
-  UnitSpecialties: []
+  UnitSpecialties:
+  - serializableElementName: UnitSpecialty_ShieldWall
   OwnDescriptorReferences:
   - serializableElementName: Effect_LandUnit_Era2_Common_IronSwordsmen
   - serializableElementName: Effect_Unit_Era3
