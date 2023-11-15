@@ -247,6 +247,53 @@ MonoBehaviour:
       b: 1095930667
       c: 314152843
       d: -782786198
+--- !u!114 &6278345741002545500
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 759592875, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: PresentationLandUnit_Era2_Common_StaffSlingers_Default
+  m_EditorClassIdentifier: 
+  IsWorkInProgress: 0
+  UnitDefinitionReference:
+    serializableElementName: LandUnit_Era2_Common_StaffSlingers
+  PresentationFormationDefinition:
+    serializableElementName: Formation_Wedge_Spaced_9
+  FormationBehaviourDefinition:
+    serializableElementName: 
+  ChoreographyOverride: 0
+  NoAttackRotation: 0
+  FacingAngleOffset: 0
+  MinDistanceBetweenFormationDummies: 0
+  RestrictionPerSlot: []
+  UnitSpecification: 0
+  CoordinationMasterValue: 0.01
+  CoordinationValues:
+    DummyOffsetPosition: {x: 0.198, y: 0.3465}
+    DummyOffsetAngle: {x: 19.8, y: 29.7}
+    AnimationDelay: {x: 0, y: 0.99}
+    MinDistanceReformationMultiplier: 1
+    CoordinateAttackMovement: 0
+    SameRowAttack: 1
+    AveragePathLength: 0
+    UseDisciplinedVariation: 0
+  StealthRevealAudioEvent:
+    guid:
+      a: -1326129278
+      b: 1160368417
+      c: 1151361188
+      d: -1076931018
+  unitVoiceProviderReference:
+    guid:
+      a: 1799665559
+      b: 1139678947
+      c: 832313261
+      d: -1124329116
 --- !u!114 &6938405272805549165
 MonoBehaviour:
   m_ObjectHideFlags: 0

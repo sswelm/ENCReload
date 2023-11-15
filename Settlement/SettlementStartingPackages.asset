@@ -1,0 +1,49 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1526722790, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: SettlementStartingPackages
+  m_EditorClassIdentifier: 
+--- !u!114 &6601785853617609089
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -950249564, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Package04
+  m_EditorClassIdentifier: 
+  Improvements:
+  - serializableElementName: Infrastructure_Food_Family03_01
+  - serializableElementName: Infrastructure_Food_Family01_01
+  - serializableElementName: Infrastructure_Industry_Family02_01
+  - serializableElementName: Infrastructure_Military_Family01_01
+  - serializableElementName: Infrastructure_Industry_Family03_01
+  - serializableElementName: Infrastructure_Food_Family04_01
+  - serializableElementName: Infrastructure_PublicOrder_Family02_01
+  - serializableElementName: Infrastructure_Harbour_Family01_01
+  - serializableElementName: Infrastructure_Industry_Family01_01
+  - serializableElementName: Infrastructure_Military_Family04_01
+  - serializableElementName: Infrastructure_Money_Family02_01
+  - serializableElementName: Infrastructure_Science_Family03_01
+  - serializableElementName: Infrastructure_Harbour_Family02_01
+  - serializableElementName: Infrastructure_Military_Family02_01
+  - serializableElementName: Infrastructure_Industry_Family00_01
+  - serializableElementName: Infrastructure_Food_Family00_01
+  - serializableElementName: Infrastructure_Money_Family00_01
+  StartingPopulation:
+    RawValue: 1000
+  StartingIndustry:
+    RawValue: 60000
+  Level: 0
