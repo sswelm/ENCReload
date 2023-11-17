@@ -744,6 +744,40 @@ MonoBehaviour:
       - NavalTradeRoadsCount
   serializableCategory: 
   startingType: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
+--- !u!114 &-4296663979766615645
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
+  m_Name: Effect_EmpireBonus_AnatomyResearch
+  m_EditorClassIdentifier: 
+  Effects:
+  - ApplyEffectOnSource: 0
+    Path:
+      PropertyToFollow:
+      - Settlements
+      - Districts
+      Validations:
+      - PathIndex: 1
+        ValidableElementCollection: 
+        Inverted: 0
+        serializableElementName: Effect_Extension_Base_Science
+      specificTargetType: 
+    PropertyEffects:
+    - Note: 
+      TargetProperty: ScienceProduced
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 1000
+      PropertyLocalName: []
+  serializableCategory: 
+  startingType: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
 --- !u!114 &-3741138228142273645
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1697,22 +1731,6 @@ MonoBehaviour:
       Validations:
       - PathIndex: 1
         ValidableElementCollection: 
-        Inverted: 1
-        serializableElementName: Effect_Extension_Base_EnchAtoll
-      - PathIndex: 1
-        ValidableElementCollection: 
-        Inverted: 1
-        serializableElementName: Effect_Extension_Base_EnchOffshoreTrawlers
-      - PathIndex: 1
-        ValidableElementCollection: 
-        Inverted: 1
-        serializableElementName: Effect_Extension_Base_EnchArchipelago
-      - PathIndex: 1
-        ValidableElementCollection: 
-        Inverted: 1
-        serializableElementName: Effect_Extension_Base_EnchFishingVillage
-      - PathIndex: 1
-        ValidableElementCollection: 
         Inverted: 0
         serializableElementName: Effect_Extension_Base_Food
       specificTargetType: 
@@ -1935,6 +1953,44 @@ MonoBehaviour:
       RpnOperationStack: 
       ConstantStack:
       - RawValue: 1000
+      PropertyLocalName: []
+  serializableCategory: 
+  startingType: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
+--- !u!114 &5767564285140123724
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
+  m_Name: Effect_EmpireBonus_FieldSurgery
+  m_EditorClassIdentifier: 
+  Effects:
+  - ApplyEffectOnSource: 0
+    Path:
+      PropertyToFollow:
+      - Armies
+      - Units
+      Validations:
+      - PathIndex: 1
+        ValidableElementCollection: 
+        Inverted: 0
+        serializableElementName: Effect_Unit_Era6
+      - PathIndex: 1
+        ValidableElementCollection: 
+        Inverted: 1
+        serializableElementName: Effect_UnitPrototype_NavalUnit
+      specificTargetType: 
+    PropertyEffects:
+    - Note: 
+      TargetProperty: HealthRegenAfterBattle
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 5000
       PropertyLocalName: []
   serializableCategory: 
   startingType: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
@@ -2172,14 +2228,6 @@ MonoBehaviour:
       Validations:
       - PathIndex: 1
         ValidableElementCollection: 
-        Inverted: 1
-        serializableElementName: Effect_Extension_Base_EnchAggregateExtraction
-      - PathIndex: 1
-        ValidableElementCollection: 
-        Inverted: 1
-        serializableElementName: Effect_Extension_Base_EnchVolcano
-      - PathIndex: 1
-        ValidableElementCollection: 
         Inverted: 0
         serializableElementName: Effect_Extension_Base_Industry
       specificTargetType: 
@@ -2322,12 +2370,12 @@ MonoBehaviour:
       Validations: []
       specificTargetType: 
     PropertyEffects:
-    - Note: 0.5% gold per trade route
+    - Note: 
       TargetProperty: MoneyNet
       ToTargetOperation: 0
       RpnOperationStack: 0a0000000800000002000000
       ConstantStack:
-      - RawValue: 4000
+      - RawValue: 3000
       PropertyLocalName:
       - LandTradeRoadsCount
   serializableCategory: 

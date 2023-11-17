@@ -869,6 +869,30 @@ MonoBehaviour:
     serializableKey: Small
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: '[Pollution2]'
+--- !u!114 &2626851519906181421
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 981126955, guid: f8c4d2d2a3a246a0909e3c6973d4a4e3, type: 3}
+  m_Name: Effect_EmpireBonus_AnatomyResearch
+  m_EditorClassIdentifier: 
+  Title: Anatomy Research
+  Description: Reseaching the Anatomy of dead bodies
+  Images:
+  - Value:
+      guid:
+        a: -1498882830
+        b: 1193919851
+        c: -264294996
+        d: 474351959
+    serializableKey: Small
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  Symbol: 
 --- !u!114 &2854433860604125001
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1456,3 +1480,27 @@ MonoBehaviour:
     serializableKey: Small
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: '[Pollution2]'
+--- !u!114 &9138982842509028616
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 981126955, guid: f8c4d2d2a3a246a0909e3c6973d4a4e3, type: 3}
+  m_Name: Effect_EmpireBonus_FieldSurgery
+  m_EditorClassIdentifier: 
+  Title: Field Surgery
+  Description: Recover small amount of health after combat
+  Images:
+  - Value:
+      guid:
+        a: 143282305
+        b: 1280028640
+        c: 1766937739
+        d: 405257795
+    serializableKey: Small
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  Symbol: 

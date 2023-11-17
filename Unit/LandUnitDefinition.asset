@@ -5611,6 +5611,7 @@ MonoBehaviour:
   UnitSpecialties:
   - serializableElementName: UnitSpecialty_Shatter
   - serializableElementName: UnitSpecialty_ChargeNoRetaliation_Level1
+  - serializableElementName: UnitSpecialty_StrengthFromSiege_Level1
   OwnDescriptorReferences:
   - serializableElementName: Effect_LandUnit_Era3_Sapper
   - serializableElementName: Effect_Unit_Era3
@@ -10143,7 +10144,7 @@ MonoBehaviour:
   - serializableElementName: Effect_Unit_Era5
   - serializableElementName: Effect_Unit_SpecialtyLevel3
   - serializableElementName: Effect_Unit_Era5_Tier2
-  - serializableElementName: Effect_Unit_Era3_StealthDetection
+  - serializableElementName: Effect_Unit_Era4_StealthDetection
   BaseMovementSpeed: 1.8
   MovementSpeedMultiplierPerType:
   - 1.5
@@ -13043,7 +13044,7 @@ MonoBehaviour:
   - serializableElementName: Effect_Unit_Emblematic
   - serializableElementName: Effect_Unit_SpecialtyLevel3
   - serializableElementName: Effect_Unit_Era5_Tier2
-  - serializableElementName: Effect_Unit_Era3_StealthDetection
+  - serializableElementName: Effect_Unit_Era4_StealthRegen
   BaseMovementSpeed: 1.8
   MovementSpeedMultiplierPerType:
   - 1.5
