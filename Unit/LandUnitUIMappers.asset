@@ -1335,31 +1335,31 @@ MonoBehaviour:
     serializableKey: Default_Tooltip
   - Value:
       guid:
-        a: 0
-        b: 0
-        c: 0
-        d: 0
+        a: 170836651
+        b: 1256393327
+        c: 1654158750
+        d: -1624729703
     serializableKey: Variation1_Small
   - Value:
       guid:
-        a: 0
-        b: 0
-        c: 0
-        d: 0
+        a: -1225433914
+        b: 1323978044
+        c: 2008543902
+        d: 401255067
     serializableKey: Variation1_Tooltip
   - Value:
       guid:
-        a: 0
-        b: 0
-        c: 0
-        d: 0
+        a: 170836651
+        b: 1256393327
+        c: 1654158750
+        d: -1624729703
     serializableKey: Variation2_Small
   - Value:
       guid:
-        a: 0
-        b: 0
-        c: 0
-        d: 0
+        a: -1225433914
+        b: 1323978044
+        c: 2008543902
+        d: 401255067
     serializableKey: Variation2_Tooltip
   - Value:
       guid:
@@ -2894,6 +2894,177 @@ MonoBehaviour:
   Color: {r: 1, g: 1, b: 1, a: 1}
   Symbol: 
   SortPriority: 7400
+  ConstructibleTraits: 
+--- !u!114 &-2824252869024964932
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -717291864, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: LandUnit_Era2_Common_CompositeBowmen
+  m_EditorClassIdentifier: 
+  Title: Composite Bowmen
+  Description: A Composite Bow was of finer make than older forms of bows. This made
+    for more reliable, and more powerful archers. It also made for a more versatile
+    weapon. Because of the superior craftsmenship of the Composite Bow, not just
+    foot Archers but the possibility of Horseback Archery existed. Composite Bowmen
+    themselves were more deadly, and more accurate then previous archers, and able
+    to fire quicker if trained.
+  Images:
+  - Value:
+      guid:
+        a: -2050062855
+        b: 1235914082
+        c: 860837565
+        d: -1919701341
+    serializableKey: Picto
+  - Value:
+      guid:
+        a: 210817058
+        b: 1127737082
+        c: 2050244754
+        d: 1829775572
+    serializableKey: Default_Small
+  - Value:
+      guid:
+        a: 644098692
+        b: 1083312253
+        c: -261727072
+        d: 813332991
+    serializableKey: Default_Tooltip
+  - Value:
+      guid:
+        a: -324444569
+        b: 1310346036
+        c: 730174651
+        d: 1272670653
+    serializableKey: Variation1_Small
+  - Value:
+      guid:
+        a: -1757003905
+        b: 1162458214
+        c: -1971617397
+        d: 733303181
+    serializableKey: Variation1_Tooltip
+  - Value:
+      guid:
+        a: -324444569
+        b: 1310346036
+        c: 730174651
+        d: 1272670653
+    serializableKey: Variation2_Small
+  - Value:
+      guid:
+        a: -1757003905
+        b: 1162458214
+        c: -1971617397
+        d: 733303181
+    serializableKey: Variation2_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation3_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation3_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation4_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation4_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation5_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation5_Tooltip
+  - Value:
+      guid:
+        a: 1629753758
+        b: 1318736139
+        c: 23592851
+        d: 1523175843
+    serializableKey: Variation6_Small
+  - Value:
+      guid:
+        a: -1890562198
+        b: 1320742828
+        c: -1696280398
+        d: 515173371
+    serializableKey: Variation6_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation7_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation7_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation8_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation8_Tooltip
+  - Value:
+      guid:
+        a: 1799681028
+        b: 1225722480
+        c: -393335386
+        d: 1834892559
+    serializableKey: Variation9_Small
+  - Value:
+      guid:
+        a: 775692052
+        b: 1123580843
+        c: 1666448281
+        d: -650451981
+    serializableKey: Variation9_Tooltip
+  Color: {r: 1, g: 1, b: 1, a: 1}
+  Symbol: 
+  SortPriority: 7650
   ConstructibleTraits: 
 --- !u!114 &-2759838824158771070
 MonoBehaviour:
@@ -7160,10 +7331,15 @@ MonoBehaviour:
   m_Script: {fileID: -717291864, guid: b310e23bee821cb478da05296ba685d0, type: 3}
   m_Name: LandUnit_Era3_Common_Bowmen
   m_EditorClassIdentifier: 
-  Title: Bowmen
-  Description: 'The medieval short bow was, with the exception of improved materials
-    used for its construction, the unaltered descendent of its classical predecessor.
-    The weapon was effective at shorter ranges, within 100 yards in capable hands. '
+  Title: Recurve bowmen
+  Description: The Recurve Bow was a cousin of the Longbow. Unlike the Longbow it
+    was more versatile and much easier to use and train for, being the second most
+    used bow in the Middle Ages after the Shortbow. Recurve Bows could fire further
+    than shortbows, and its ancestor the Composite Bow. They were also useful for
+    firing volleys of arrows from behind lines of melee such as walls of Pikemen,
+    or fire from a great distances at foes. This made them deadly in and out of Sieges.
+    In fact bowmen such as this still had a place in some armies until the advent
+    of more accurate firearms.
   Images:
   - Value:
       guid:
@@ -7188,31 +7364,31 @@ MonoBehaviour:
     serializableKey: Default_Tooltip
   - Value:
       guid:
-        a: -324444569
-        b: 1310346036
-        c: 730174651
-        d: 1272670653
+        a: 0
+        b: 0
+        c: 0
+        d: 0
     serializableKey: Variation1_Small
   - Value:
       guid:
-        a: -1757003905
-        b: 1162458214
-        c: -1971617397
-        d: 733303181
+        a: 0
+        b: 0
+        c: 0
+        d: 0
     serializableKey: Variation1_Tooltip
   - Value:
       guid:
-        a: -324444569
-        b: 1310346036
-        c: 730174651
-        d: 1272670653
+        a: 0
+        b: 0
+        c: 0
+        d: 0
     serializableKey: Variation2_Small
   - Value:
       guid:
-        a: -1757003905
-        b: 1162458214
-        c: -1971617397
-        d: 733303181
+        a: 0
+        b: 0
+        c: 0
+        d: 0
     serializableKey: Variation2_Tooltip
   - Value:
       guid:
@@ -7258,17 +7434,17 @@ MonoBehaviour:
     serializableKey: Variation5_Tooltip
   - Value:
       guid:
-        a: 1629753758
-        b: 1318736139
-        c: 23592851
-        d: 1523175843
+        a: -698722584
+        b: 1218254776
+        c: 601820340
+        d: 431781575
     serializableKey: Variation6_Small
   - Value:
       guid:
-        a: -1890562198
-        b: 1320742828
-        c: -1696280398
-        d: 515173371
+        a: 1658798922
+        b: 1166058931
+        c: -391519830
+        d: 432775761
     serializableKey: Variation6_Tooltip
   - Value:
       guid:
@@ -7286,31 +7462,31 @@ MonoBehaviour:
     serializableKey: Variation7_Tooltip
   - Value:
       guid:
-        a: -1174248875
-        b: 1108269937
-        c: 454478470
-        d: 480001807
+        a: -1311871678
+        b: 1273757951
+        c: 1433466551
+        d: 1992591110
     serializableKey: Variation8_Small
   - Value:
       guid:
-        a: -1174248875
-        b: 1108269937
-        c: 454478470
-        d: 480001807
+        a: 1746052399
+        b: 1263674622
+        c: 508842139
+        d: 2134623265
     serializableKey: Variation8_Tooltip
   - Value:
       guid:
-        a: 1799681028
-        b: 1225722480
-        c: -393335386
-        d: 1834892559
+        a: 0
+        b: 0
+        c: 0
+        d: 0
     serializableKey: Variation9_Small
   - Value:
       guid:
-        a: 775692052
-        b: 1123580843
-        c: 1666448281
-        d: -650451981
+        a: 0
+        b: 0
+        c: 0
+        d: 0
     serializableKey: Variation9_Tooltip
   Color: {r: 1, g: 1, b: 1, a: 1}
   Symbol: 
