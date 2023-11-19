@@ -13119,7 +13119,10 @@ MonoBehaviour:
       serializableElementName: 
     ProviderMoneyGainRpn:
       serializableElementName: 
-  ResourceAccessPrerequisites: []
+  ResourceAccessPrerequisites:
+  - Resource: 1
+    ConstantType: 0
+    ConstantValue: 2
   MinimalPopulationPrerequisite: 0
   ResourceSupremacyPrerequisite: 
   EraPrerequisite:
@@ -14834,7 +14837,7 @@ MonoBehaviour:
     Type: 1
     Constant: -1
     RpnDefinitionReference:
-      serializableElementName: ProductionCost_Unit_Era3_Low
+      serializableElementName: ProductionCost_Unit_Era2_High
   MoneyInstantCostDefinition:
     Constant: 0
     RpnDefinitionReference:
@@ -15082,7 +15085,7 @@ MonoBehaviour:
   ResourceAccessPrerequisites:
   - Resource: 1
     ConstantType: 0
-    ConstantValue: 2
+    ConstantValue: 3
   MinimalPopulationPrerequisite: 0
   ResourceSupremacyPrerequisite: 
   EraPrerequisite:
