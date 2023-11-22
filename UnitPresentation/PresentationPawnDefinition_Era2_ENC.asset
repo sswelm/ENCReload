@@ -183,6 +183,438 @@ MonoBehaviour:
       serializableElementName: Era2_Common_Ballistas_Servant_Right
     Offset: {x: 0, y: 0, z: 0}
   Offset: {x: 0, y: 0, z: 0}
+--- !u!114 &-9136238401524115347
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1841102959, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Era2_Common_HorseArchers_01
+  m_EditorClassIdentifier: 
+  overrideMaterialAudioSwitchHandleReference:
+    guid:
+      a: 584614700
+      b: 1269131754
+      c: -1366574663
+      d: 1440805131
+  weaponAudioSwitchHandleReference:
+    guid:
+      a: 0
+      b: 0
+      c: 0
+      d: 0
+  LegacyCharacterPalette:
+    guid:
+      a: 0
+      b: 0
+      c: 0
+      d: 0
+  characterPalette:
+    colorEntries:
+    - EntryName: hair
+      PrimaryColor: {r: 1, g: 1, b: 1, a: 1}
+      SecondaryColor: {r: 1, g: 1, b: 1, a: 1}
+      PrimaryColorMode: 2
+      SecondaryColorMode: 2
+    - EntryName: body
+      PrimaryColor: {r: 1, g: 1, b: 1, a: 1}
+      SecondaryColor: {r: 1, g: 1, b: 1, a: 1}
+      PrimaryColorMode: 2
+      SecondaryColorMode: 2
+    - EntryName: cape
+      PrimaryColor: {r: 0.8396226, g: 0.70749414, b: 0.6455589, a: 1}
+      SecondaryColor: {r: 0.38679248, g: 0.29169315, b: 0.24265754, a: 1}
+      PrimaryColorMode: 0
+      SecondaryColorMode: 0
+    - EntryName: coat
+      PrimaryColor: {r: 1, g: 1, b: 1, a: 1}
+      SecondaryColor: {r: 1, g: 1, b: 1, a: 1}
+      PrimaryColorMode: 0
+      SecondaryColorMode: 0
+    - EntryName: belt
+      PrimaryColor: {r: 1, g: 1, b: 1, a: 1}
+      SecondaryColor: {r: 1, g: 1, b: 1, a: 1}
+      PrimaryColorMode: 0
+      SecondaryColorMode: 0
+    - EntryName: plastron
+      PrimaryColor: {r: 1, g: 1, b: 1, a: 1}
+      SecondaryColor: {r: 1, g: 1, b: 1, a: 1}
+      PrimaryColorMode: 0
+      SecondaryColorMode: 0
+    - EntryName: dress
+      PrimaryColor: {r: 0.745283, g: 0.6193906, b: 0.5589622, a: 1}
+      SecondaryColor: {r: 1, g: 1, b: 1, a: 1}
+      PrimaryColorMode: 0
+      SecondaryColorMode: 1
+    - EntryName: loinclothe
+      PrimaryColor: {r: 1, g: 1, b: 1, a: 1}
+      SecondaryColor: {r: 1, g: 1, b: 1, a: 1}
+      PrimaryColorMode: 0
+      SecondaryColorMode: 0
+    - EntryName: glove
+      PrimaryColor: {r: 0.5377358, g: 0.41344783, b: 0.41344783, a: 1}
+      SecondaryColor: {r: 0.38823533, g: 0.2901961, b: 0.24313727, a: 1}
+      PrimaryColorMode: 0
+      SecondaryColorMode: 0
+    - EntryName: boot
+      PrimaryColor: {r: 0.6037736, g: 0.43670496, b: 0.36169454, a: 1}
+      SecondaryColor: {r: 0.254717, g: 0.19584373, b: 0.19584373, a: 1}
+      PrimaryColorMode: 0
+      SecondaryColorMode: 0
+    - EntryName: shirt
+      PrimaryColor: {r: 0.8490566, g: 0.71822715, b: 0.65281236, a: 1}
+      SecondaryColor: {r: 1, g: 1, b: 1, a: 1}
+      PrimaryColorMode: 0
+      SecondaryColorMode: 1
+    - EntryName: pants
+      PrimaryColor: {r: 1, g: 1, b: 1, a: 1}
+      SecondaryColor: {r: 0.3038198, g: 0.30980393, b: 0.23137255, a: 1}
+      PrimaryColorMode: 0
+      SecondaryColorMode: 0
+    - EntryName: accessory
+      PrimaryColor: {r: 0.5754717, g: 0.21444464, b: 0.21444464, a: 1}
+      SecondaryColor: {r: 1, g: 1, b: 1, a: 1}
+      PrimaryColorMode: 0
+      SecondaryColorMode: 0
+    - EntryName: accessory 2
+      PrimaryColor: {r: 1, g: 1, b: 1, a: 1}
+      SecondaryColor: {r: 1, g: 1, b: 1, a: 1}
+      PrimaryColorMode: 0
+      SecondaryColorMode: 0
+    - EntryName: helmets
+      PrimaryColor: {r: 1, g: 1, b: 1, a: 1}
+      SecondaryColor: {r: 0.92549026, g: 0.8470589, b: 0.7019608, a: 1}
+      PrimaryColorMode: 2
+      SecondaryColorMode: 0
+    - EntryName: weapons
+      PrimaryColor: {r: 1, g: 1, b: 1, a: 1}
+      SecondaryColor: {r: 1, g: 1, b: 1, a: 1}
+      PrimaryColorMode: 1
+      SecondaryColorMode: 0
+    - EntryName: shield
+      PrimaryColor: {r: 1, g: 1, b: 1, a: 1}
+      SecondaryColor: {r: 1, g: 1, b: 1, a: 1}
+      PrimaryColorMode: 0
+      SecondaryColorMode: 0
+    - EntryName: sash
+      PrimaryColor: {r: 0.9245283, g: 0.84900385, b: 0.70211816, a: 1}
+      SecondaryColor: {r: 1, g: 0.64912283, b: 0, a: 1}
+      PrimaryColorMode: 0
+      SecondaryColorMode: 0
+  IsWorkInProgress: 0
+  Description:
+    guid:
+      a: 396769736
+      b: 1154320448
+      c: -1702446956
+      d: -1163269036
+  AnimatorOverrideController:
+    guid:
+      a: 1192589782
+      b: 1151566385
+      c: -1499379058
+      d: 729958479
+  Attachements:
+  - Name: Body
+    Fragment:
+      guid:
+        a: -2101143517
+        b: 1216224346
+        c: 957416838
+        d: 999192101
+  - Name: Weapon_LeftHand_0
+    Fragment:
+      guid:
+        a: -1097054666
+        b: 1238766803
+        c: 1899785122
+        d: -302215620
+  - Name: Weapon_RightHand_0
+    Fragment:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+  - Name: Head_Hair_0
+    Fragment:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+  - Name: Head_Hair_1
+    Fragment:
+      guid:
+        a: 689947713
+        b: 1086473917
+        c: 1012041629
+        d: -1382699445
+  - Name: Head_Hair_2
+    Fragment:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+  - Name: Head_Helmet_0
+    Fragment:
+      guid:
+        a: -1838627927
+        b: 1258401521
+        c: 1845140368
+        d: -42585155
+  - Name: Head_Helmet_1
+    Fragment:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+  - Name: Head_Helmet_2
+    Fragment:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+  - Name: LeftArm_Accessory_0
+    Fragment:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+  - Name: RightArm_Accessory_0
+    Fragment:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+  - Name: LeftForeArm_Accessory_0
+    Fragment:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+  - Name: RightForeArm_Accessory_0
+    Fragment:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+  - Name: Cape
+    Fragment:
+      guid:
+        a: -139104261
+        b: 1128724728
+        c: -785606770
+        d: -1658016576
+  - Name: Plastron
+    Fragment:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+  - Name: Coat
+    Fragment:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+  - Name: ShirtBaggy
+    Fragment:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+  - Name: ShirtLarge
+    Fragment:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+  - Name: ShirtSlim
+    Fragment:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+  - Name: ShirtStandard
+    Fragment:
+      guid:
+        a: -77556039
+        b: 1202041302
+        c: -279985999
+        d: 1094418669
+  - Name: ShirtGlove
+    Fragment:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+  - Name: Gloves
+    Fragment:
+      guid:
+        a: -67179915
+        b: 1104365289
+        c: 948682653
+        d: -968823058
+  - Name: Sash
+    Fragment:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+  - Name: Belt
+    Fragment:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+  - Name: Loincloth
+    Fragment:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+  - Name: Dress
+    Fragment:
+      guid:
+        a: 1528532921
+        b: 1093373561
+        c: -1687024717
+        d: -1347632505
+  - Name: PantsBaggy
+    Fragment:
+      guid:
+        a: 395924959
+        b: 1264777378
+        c: -1408708728
+        d: -1248448121
+  - Name: PantsLarge
+    Fragment:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+  - Name: PantsSlim
+    Fragment:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+  - Name: PantsStandard
+    Fragment:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+  - Name: PantsBoot
+    Fragment:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+  - Name: Boots
+    Fragment:
+      guid:
+        a: -757181114
+        b: 1192723069
+        c: -1930974581
+        d: -97024569
+  - Name: Spine_Accessory_0
+    Fragment:
+      guid:
+        a: -620451866
+        b: 1124856632
+        c: 2010579357
+        d: -983066123
+  - Name: Spine_Accessory_1
+    Fragment:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+  - Name: Spine1_Accessory_0
+    Fragment:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+  - Name: LeftLeg_Accessory_0
+    Fragment:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+  - Name: RightLeg_Accessory_0
+    Fragment:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+  UnitVisualAffinityReference:
+    serializableElementName: 
+  PresentationUnitDefinition:
+    serializableElementName: PresentationLandUnit_Era2_Common_HorseArchers
+  SlotRestriction: 0
+  SpawnWeight: 10
+  Projectile:
+    guid:
+      a: 1143772332
+      b: 1276513597
+      c: -1932518723
+      d: -243616355
+  SecondProjectile:
+    guid:
+      a: 0
+      b: 0
+      c: 0
+      d: 0
+  MaxHeight: 2.6400049
+  AnimationCapabilityProfile: 2
+  AnimationCapabilities: -327681
+  HasRangeWeapon: 1
+  ForceRangedMultiKill: 0
+  IndividualIdleAltAnimation: 0
+  IgnoreProtectOnRangedAttack: 0
+  ForceAllowUnitFacingStaticRotation: 0
+  EquipmentTag: Leather
+  OffhandTag: ShieldWood
+  MainhandTag: Sword
+  RLUDSRestriction: 63
+  UnitVoiceGender: 2
+  SubPawnComposition: 1
+  SubPawnDefinitions:
+  - DefinitionRef:
+      serializableElementName: Era2_Huns_HunnicHorde_Mount_01
+    Offset: {x: 0, y: 0, z: 0}
+  Offset: {x: 0, y: 0, z: 0}
 --- !u!114 &-4854451841045052396
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -973,6 +973,62 @@ MonoBehaviour:
       PropertyLocalName: []
   serializableCategory: 
   startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
+--- !u!114 &-6549733900866083481
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
+  m_Name: Effect_LandUnit_Era2_Common_HorseArchers
+  m_EditorClassIdentifier: 
+  Effects:
+  - ApplyEffectOnSource: 0
+    Path:
+      PropertyToFollow: []
+      Validations: []
+      specificTargetType: 
+    PropertyEffects:
+    - Note: 
+      TargetProperty: LandLeaderPriority
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 3221000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: LandCombatStrength
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 22000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: LandAttackRange
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 1000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: AttackRange
+      ToTargetOperation: 1
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 2000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: LandSpeed
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 1000
+      PropertyLocalName: []
+  serializableCategory: 
+  startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
 --- !u!114 &-6549345354622646047
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2942,7 +2998,7 @@ MonoBehaviour:
       ToTargetOperation: 0
       RpnOperationStack: 
       ConstantStack:
-      - RawValue: 21000
+      - RawValue: 20000
       PropertyLocalName: []
     - Note: 
       TargetProperty: RoadSpeedMultiplier
