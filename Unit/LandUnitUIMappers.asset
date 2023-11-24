@@ -2911,16 +2911,18 @@ MonoBehaviour:
   m_Name: LandUnit_Era2_Common_HorseArchers
   m_EditorClassIdentifier: 
   Title: Horse Archers
-  Description: Archery has occasionally been used from the backs of other riding
-    animals. In large open areas, it was a highly successful technique for hunting,
-    for protecting herds, and for war.
+  Description: The Horse Archer is the result of adding the mobility of cavalry to
+    skilled archers. First appearing among the skilled nomadic and semi-nomadic peoples
+    of Euroasia, the concept spread quickly, and eventually became nearly universal.
+    Mobility and range are the Horse Archer's strengths and can give armies trouble
+    if they aren't used to dealing with them.
   Images:
   - Value:
       guid:
-        a: -1704839773
-        b: 1316623185
-        c: -419218282
-        d: 1913459024
+        a: -2050062855
+        b: 1235914082
+        c: 860837565
+        d: -1919701341
     serializableKey: Picto
   - Value:
       guid:
@@ -6046,6 +6048,162 @@ MonoBehaviour:
   Symbol: 
   SortPriority: 7700
   ConstructibleTraits: 
+--- !u!114 &2275243211298765574
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -717291864, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: LandUnit_Era3_Common_Stradiots
+  m_EditorClassIdentifier: 
+  Title: Stradiots
+  Description: Stradiots were a form of Light Cavalry used during the Middle Ages.
+    They were equipped with lighter melee weapons and less armor than the Knight
+    and were mainly tasked with attacking vulnerable positions in an enemy army.
+    Usually used to engage enemy melee, Stradiots would also eagerly target unprotected
+    enemy archers.
+  Images:
+  - Value:
+      guid:
+        a: -1704839773
+        b: 1316623185
+        c: -419218282
+        d: 1913459024
+    serializableKey: Picto
+  - Value:
+      guid:
+        a: -984628465
+        b: 1222276669
+        c: -2088448862
+        d: -816277409
+    serializableKey: Default_Small
+  - Value:
+      guid:
+        a: -1516511079
+        b: 1205374811
+        c: 1265554592
+        d: -1948355349
+    serializableKey: Default_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation1_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation1_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation2_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation2_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation3_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation3_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation4_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation4_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation5_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation5_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation6_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation6_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation7_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation7_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation8_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation8_Tooltip
+  Color: {r: 1, g: 1, b: 1, a: 1}
+  Symbol: 
+  SortPriority: 7450
+  ConstructibleTraits: 
 --- !u!114 &2322045847041699006
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6220,10 +6378,10 @@ MonoBehaviour:
   Images:
   - Value:
       guid:
-        a: -1704839773
-        b: 1316623185
-        c: -419218282
-        d: 1913459024
+        a: -2050062855
+        b: 1235914082
+        c: 860837565
+        d: -1919701341
     serializableKey: Picto
   - Value:
       guid:
