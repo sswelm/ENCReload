@@ -12,10 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: -717291864, guid: b310e23bee821cb478da05296ba685d0, type: 3}
   m_Name: LandUnit_Era1_Common_Spearmen
   m_EditorClassIdentifier: 
-  Title: Phalanx
-  Description: A military formation developed in Greece and perfected in Macedonia,
-    the Phalanx was a large block of men in ranks and files, generally ranging from
-    8 to 32 men deep. All were armed with long pikes.
+  Title: '%LandUnit_Era1_Common_SpearmenTitle'
+  Description: '%LandUnit_Era1_Common_SpearmenDescription'
   Images:
   - Value:
       guid:
@@ -5282,6 +5280,160 @@ MonoBehaviour:
   Symbol: 
   SortPriority: 7350
   ConstructibleTraits: 
+--- !u!114 &554676553215474516
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -717291864, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: LandUnit_Era2_Common_Phalanx
+  m_EditorClassIdentifier: 
+  Title: Phalanx
+  Description: A Phalanx is military formation developed in Greece and perfected
+    in Macedonia, the Phalanx was a large block of men in ranks and files, generally
+    ranging from 8 to 32 men deep. All were armed with long pikes.
+  Images:
+  - Value:
+      guid:
+        a: -609458823
+        b: 1324969296
+        c: 1436889481
+        d: -1530992078
+    serializableKey: Picto
+  - Value:
+      guid:
+        a: -111317251
+        b: 1317307051
+        c: -1267950178
+        d: -784666052
+    serializableKey: Default_Small
+  - Value:
+      guid:
+        a: 1250100447
+        b: 1204282680
+        c: -660147327
+        d: -1294480220
+    serializableKey: Default_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation1_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation1_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation2_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation2_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation3_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation3_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation4_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation4_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation5_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation5_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation6_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation6_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation7_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation7_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation8_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation8_Tooltip
+  Color: {r: 1, g: 1, b: 1, a: 1}
+  Symbol: 
+  SortPriority: 7850
+  ConstructibleTraits: 
 --- !u!114 &604724180410200882
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6174,17 +6326,17 @@ MonoBehaviour:
     serializableKey: Variation6_Tooltip
   - Value:
       guid:
-        a: 0
-        b: 0
-        c: 0
-        d: 0
+        a: -1719655180
+        b: 1290810849
+        c: 982380940
+        d: -2048150164
     serializableKey: Variation7_Small
   - Value:
       guid:
-        a: 0
-        b: 0
-        c: 0
-        d: 0
+        a: -1853392090
+        b: 1292128773
+        c: -1258708566
+        d: -884922922
     serializableKey: Variation7_Tooltip
   - Value:
       guid:
