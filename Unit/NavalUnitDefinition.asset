@@ -2807,7 +2807,7 @@ MonoBehaviour:
     RpnDefinitionReference:
       serializableElementName: 
   PopulationInstantCostDefinition:
-    Constant: 2
+    Constant: 3
   ProvidedByOtherEmpireCostDefinition:
     ProductionCostModifierRpn:
       serializableElementName: 
@@ -4742,7 +4742,7 @@ MonoBehaviour:
     RpnDefinitionReference:
       serializableElementName: 
   PopulationInstantCostDefinition:
-    Constant: 1
+    Constant: 3
   ProvidedByOtherEmpireCostDefinition:
     ProductionCostModifierRpn:
       serializableElementName: 
@@ -4786,7 +4786,7 @@ MonoBehaviour:
       serializableElementName: 
   BaseSynergyDistrict: 0
   UnitClass:
-    serializableElementName: UnitClass_GunPlatform
+    serializableElementName: UnitClass_CapitalShip
   UnitSpecialties:
   - serializableElementName: UnitSpecialty_StrengthFromCloseRange_Level1
   - serializableElementName: UnitSpecialty_SlowMovementInOcean
@@ -4794,7 +4794,7 @@ MonoBehaviour:
   - serializableElementName: Effect_NavalUnit_Era4_JoseonKorea_TurtleShips
   - serializableElementName: Effect_Unit_Era4
   - serializableElementName: Effect_Unit_Emblematic
-  - serializableElementName: Effect_Unit_Era4_Tier3
+  - serializableElementName: Effect_Unit_Era4_Tier4
   - serializableElementName: Tag_Unit_Vehicle
   BaseMovementSpeed: 1.8
   MovementSpeedMultiplierPerType:
@@ -5638,7 +5638,7 @@ MonoBehaviour:
   - serializableElementName: Effect_NavalUnit_Era4_VenetianRepublic_Galleasses
   - serializableElementName: Effect_Unit_Era4
   - serializableElementName: Effect_Unit_Emblematic
-  - serializableElementName: Effect_Unit_Era4_Tier2
+  - serializableElementName: Effect_Unit_Era4_Tier4
   - serializableElementName: Tag_Unit_Vehicle
   BaseMovementSpeed: 1.8
   MovementSpeedMultiplierPerType:
