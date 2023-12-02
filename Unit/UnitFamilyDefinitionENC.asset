@@ -42,6 +42,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsObsolete: 0
   SerializableNextFamilyName: 
+--- !u!114 &-8774002700842631397
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1527816587, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitFamily_MountedInfantry
+  m_EditorClassIdentifier: 
+  IsObsolete: 0
+  SerializableNextFamilyName: UnitFamily_ArmouredScout
 --- !u!114 &-8693158446392102491
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -532,20 +546,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsObsolete: 0
   SerializableNextFamilyName: UnitFamily_Cruiser
---- !u!114 &-3236665189454584742
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1527816587, guid: b310e23bee821cb478da05296ba685d0, type: 3}
-  m_Name: UnitFamily_Biplane
-  m_EditorClassIdentifier: 
-  IsObsolete: 0
-  SerializableNextFamilyName: UnitFamily_FighterAircraft
 --- !u!114 &-3169576822401189731
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -671,7 +671,7 @@ MonoBehaviour:
   m_Name: UnitFamily_LightCavalry
   m_EditorClassIdentifier: 
   IsObsolete: 0
-  SerializableNextFamilyName: UnitFamily_Cavalry
+  SerializableNextFamilyName: UnitFamily_MountedInfantry
 --- !u!114 &-1929544256748472126
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -728,20 +728,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsObsolete: 0
   SerializableNextFamilyName: UnitFamily_MechanizedInfantry
---- !u!114 &-1538289552041177544
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1527816587, guid: b310e23bee821cb478da05296ba685d0, type: 3}
-  m_Name: UnitFamily_Dreadnoughts
-  m_EditorClassIdentifier: 
-  IsObsolete: 0
-  SerializableNextFamilyName: UnitFamily_CapitalShip
 --- !u!114 &-1517872734391161375
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1075,7 +1061,7 @@ MonoBehaviour:
   m_Name: UnitFamily_Cavalry
   m_EditorClassIdentifier: 
   IsObsolete: 0
-  SerializableNextFamilyName: UnitFamily_ArmouredScout
+  SerializableNextFamilyName: UnitFamily_MountedInfantry
 --- !u!114 &1295529704584051843
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1398,20 +1384,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsObsolete: 0
   SerializableNextFamilyName: UnitFamily_StealthBomber
---- !u!114 &5419148470965687456
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1527816587, guid: b310e23bee821cb478da05296ba685d0, type: 3}
-  m_Name: UnitFamily_Cog
-  m_EditorClassIdentifier: 
-  IsObsolete: 0
-  SerializableNextFamilyName: UnitFamily_Carrack
 --- !u!114 &5451384506487072433
 MonoBehaviour:
   m_ObjectHideFlags: 0
