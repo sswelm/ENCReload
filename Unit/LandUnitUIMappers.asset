@@ -204,11 +204,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: -717291864, guid: b310e23bee821cb478da05296ba685d0, type: 3}
-  m_Name: LandUnit_Era5_Common_LightCavalry
+  m_Name: LandUnit_Era5_Common_Chasseur
   m_EditorClassIdentifier: 
-  Title: Light Cavalry
-  Description: Light cavalry are used to screen an army and act as its eyes and ears;
-    they can also pursue fleeing enemies and keep them from regrouping.
+  Title: Chasseur
+  Description: A Chasseur is type of light cavalry in industrial era of the later
+    19th century, the name even carries on today in some countries. Chasseur were
+    scouts, mounted infantry and generaly purpose light cavalry generally used a
+    repeating rifle in combat. They were effective in hit and run tactics but were
+    also effective when used in conjuction with other forms of cavalry.
   Images:
   - Value:
       guid:
@@ -219,17 +222,17 @@ MonoBehaviour:
     serializableKey: Picto
   - Value:
       guid:
-        a: -912993388
-        b: 1336445305
-        c: -1364763240
-        d: -867420063
+        a: 565943658
+        b: 1187470754
+        c: 559202967
+        d: 6678888
     serializableKey: Default_Small
   - Value:
       guid:
-        a: 1284720998
-        b: 1197881316
-        c: -1861263444
-        d: -1902117301
+        a: -1394853325
+        b: 1277203289
+        c: -226999662
+        d: -2104419790
     serializableKey: Default_Tooltip
   - Value:
       guid:
@@ -387,31 +390,31 @@ MonoBehaviour:
     serializableKey: Default_Tooltip
   - Value:
       guid:
-        a: 0
-        b: 0
-        c: 0
-        d: 0
+        a: 2130848280
+        b: 1325154398
+        c: -1391758208
+        d: -1325817404
     serializableKey: Variation1_Small
   - Value:
       guid:
-        a: 0
-        b: 0
-        c: 0
-        d: 0
+        a: -526275662
+        b: 1114281494
+        c: 1527038641
+        d: 1048245516
     serializableKey: Variation1_Tooltip
   - Value:
       guid:
-        a: 0
-        b: 0
-        c: 0
-        d: 0
+        a: 2130848280
+        b: 1325154398
+        c: -1391758208
+        d: -1325817404
     serializableKey: Variation2_Small
   - Value:
       guid:
-        a: 0
-        b: 0
-        c: 0
-        d: 0
+        a: -526275662
+        b: 1114281494
+        c: 1527038641
+        d: 1048245516
     serializableKey: Variation2_Tooltip
   - Value:
       guid:
@@ -4402,17 +4405,17 @@ MonoBehaviour:
     serializableKey: Variation1_Small
   - Value:
       guid:
-        a: 257081420
-        b: 1309885956
-        c: -1860038727
-        d: -1102328089
+        a: 667775481
+        b: 1322818168
+        c: -1489544565
+        d: -1109437690
     serializableKey: Variation2_Small
   - Value:
       guid:
-        a: 399440927
-        b: 1098026420
-        c: -1482772072
-        d: 1191234133
+        a: -1614199260
+        b: 1326389128
+        c: -1910141311
+        d: -1570129154
     serializableKey: Variation2_Tooltip
   - Value:
       guid:
@@ -7198,13 +7201,11 @@ MonoBehaviour:
   m_Name: LandUnit_Era5_Common_Cuirassiers
   m_EditorClassIdentifier: 
   Title: '%LandUnit_Era5_FrenchRepublic_CuirassiersTitle'
-  Description: ' Though the armour could not protect against contemporary flintlock
-    musket fire, it could deflect shots fired from long-range, stop ricochets, and
-    offer protection from all but very close range pistol fire. More importantly,
-    in an age which saw cavalry used in large numbers, the breastplates provided
-    excellent protection against the swords and lances of opposing cavalry and against
-    infantry equipped with bayonets. It also had some psychological effect for the
-    wearer and the enemy, while it also added weight to a charge.'
+  Description: The Cuirassier started out as the Renaissance successor to the Knight,
+    with a heavy hand cannon in place of a lance. Gradually it took on a new role,
+    with lighter armor and armnaments. Nevertheless Cuirassiers maintained a place
+    as Heavy Cavalry, opportunisticly charging enemy positions with a flintlock musket,
+    then switching to a rapier for close-range combat.
   Images:
   - Value:
       guid:
@@ -8292,11 +8293,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: -717291864, guid: b310e23bee821cb478da05296ba685d0, type: 3}
-  m_Name: LandUnit_Era4_Common_LightHorsemen
+  m_Name: LandUnit_Era4_Common_LightCavalry
   m_EditorClassIdentifier: 
-  Title: Light Horsemen
-  Description: Light Horsemen are used to screen an army and act as its eyes and
-    ears; they can also pursue fleeing enemies and keep them from regrouping.
+  Title: Light Cavalry
+  Description: Light Cavalry are used to screen an army and act as its eyes and ears;
+    they can also pursue fleeing enemies and keep them from regrouping.
   Images:
   - Value:
       guid:

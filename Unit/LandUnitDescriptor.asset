@@ -2468,7 +2468,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
-  m_Name: Effect_LandUnit_Era5_Common_LightCavalry
+  m_Name: Effect_LandUnit_Era5_Common_Chasseur
   m_EditorClassIdentifier: 
   Effects:
   - ApplyEffectOnSource: 0
@@ -2489,7 +2489,7 @@ MonoBehaviour:
       ToTargetOperation: 0
       RpnOperationStack: 
       ConstantStack:
-      - RawValue: 49000
+      - RawValue: 47000
       PropertyLocalName: []
     - Note: 
       TargetProperty: LandSpeed
@@ -3859,7 +3859,7 @@ MonoBehaviour:
       ToTargetOperation: 0
       RpnOperationStack: 
       ConstantStack:
-      - RawValue: 53000
+      - RawValue: 54000
       PropertyLocalName: []
     - Note: 
       TargetProperty: LandSpeed
@@ -5639,7 +5639,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
-  m_Name: Effect_LandUnit_Era4_Common_LightHorsemen
+  m_Name: Effect_LandUnit_Era4_Common_LightCavalry
   m_EditorClassIdentifier: 
   Effects:
   - ApplyEffectOnSource: 0

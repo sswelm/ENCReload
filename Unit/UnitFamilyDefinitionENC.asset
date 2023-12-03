@@ -181,7 +181,7 @@ MonoBehaviour:
   m_Name: UnitFamily_Ranged
   m_EditorClassIdentifier: 
   IsObsolete: 0
-  SerializableNextFamilyName: UnitFamily_LightArtillery
+  SerializableNextFamilyName: UnitFamily_GunpowderInfantry
 --- !u!114 &-6883485296305934151
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -615,7 +615,7 @@ MonoBehaviour:
   m_Name: UnitFamily_Harpax
   m_EditorClassIdentifier: 
   IsObsolete: 0
-  SerializableNextFamilyName: UnitFamily_Cog
+  SerializableNextFamilyName: UnitFamily_Carrack
 --- !u!114 &-2524228789730927308
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1467,7 +1467,7 @@ MonoBehaviour:
   m_Name: UnitFamily_HeavyMelee
   m_EditorClassIdentifier: 
   IsObsolete: 0
-  SerializableNextFamilyName: UnitFamily_GunpowderInfantry
+  SerializableNextFamilyName: UnitFamily_MeleeAntiCavalry
 --- !u!114 &6224736077260076230
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1720,6 +1720,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsObsolete: 0
   SerializableNextFamilyName: UnitFamily_Cavalry
+--- !u!114 &8215265714380663198
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1527816587, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitFamily_Dreadnoughts
+  m_EditorClassIdentifier: 
+  IsObsolete: 0
+  SerializableNextFamilyName: UnitFamily_CapitalShip
 --- !u!114 &8499306150154078238
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -4844,7 +4844,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: -1069260532, guid: b310e23bee821cb478da05296ba685d0, type: 3}
-  m_Name: LandUnit_Era5_Common_LightCavalry
+  m_Name: LandUnit_Era5_Common_Chasseur
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -4932,7 +4932,7 @@ MonoBehaviour:
   UnitSpecialties:
   - serializableElementName: UnitSpecialty_MoveOneAfterAttack
   OwnDescriptorReferences:
-  - serializableElementName: Effect_LandUnit_Era5_Common_LightCavalry
+  - serializableElementName: Effect_LandUnit_Era5_Common_Chasseur
   - serializableElementName: Effect_Unit_Era5
   - serializableElementName: Effect_Unit_Era5_Tier1
   - serializableElementName: Effect_Unit_Era4_StealthDetection
@@ -16972,7 +16972,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: -1069260532, guid: b310e23bee821cb478da05296ba685d0, type: 3}
-  m_Name: LandUnit_Era4_Common_LightHorsemen
+  m_Name: LandUnit_Era4_Common_LightCavalry
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -17060,7 +17060,7 @@ MonoBehaviour:
   UnitSpecialties:
   - serializableElementName: UnitSpecialty_MoveOneAfterAttack
   OwnDescriptorReferences:
-  - serializableElementName: Effect_LandUnit_Era4_Common_LightHorsemen
+  - serializableElementName: Effect_LandUnit_Era4_Common_LightCavalry
   - serializableElementName: Effect_Unit_Era4
   - serializableElementName: Effect_Unit_Era4_Tier1
   - serializableElementName: Effect_Unit_Era4_StealthDetection
