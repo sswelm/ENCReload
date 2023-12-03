@@ -840,6 +840,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsObsolete: 0
   SerializableNextFamilyName: UnitFamily_ShockCavalry
+--- !u!114 &-703374004569297238
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1527816587, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitFamily_RevolverCavalry
+  m_EditorClassIdentifier: 
+  IsObsolete: 0
+  SerializableNextFamilyName: UnitFamily_ArmouredScout
 --- !u!114 &-108828247814122785
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1061,7 +1075,7 @@ MonoBehaviour:
   m_Name: UnitFamily_Cavalry
   m_EditorClassIdentifier: 
   IsObsolete: 0
-  SerializableNextFamilyName: UnitFamily_MountedInfantry
+  SerializableNextFamilyName: UnitFamily_RevolverCavalry
 --- !u!114 &1295529704584051843
 MonoBehaviour:
   m_ObjectHideFlags: 0

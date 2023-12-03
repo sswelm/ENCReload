@@ -450,6 +450,35 @@ MonoBehaviour:
   DefinedVariables: []
   targetTypeName: Amplitude.Mercury.Simulation.Settlement, Amplitude.Mercury.Firstpass
   sourceTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
+--- !u!114 &-4879860850576973993
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
+  m_Name: ProductionCost_Extension_Base_Medium
+  m_EditorClassIdentifier: 
+  RpnOperationStack: 0a0000000a000000080000000a000000010000000a000000050000000200000000000000080000000a000000010000000a000000020000000a0000000500000000000000
+  ConstantStack:
+  - RawValue: 50000
+  - RawValue: 20000
+  - RawValue: 1000
+  - RawValue: 1160
+  - RawValue: 1000
+  - RawValue: 850
+  - RawValue: 2025
+  Note: 
+  PropertyLocalNameStack:
+  - ExtensionDistrictsCount
+  - ExtensionDistrictsCount
+  VariableNameStack: []
+  DefinedVariables: []
+  targetTypeName: Amplitude.Mercury.Simulation.Settlement, Amplitude.Mercury.Firstpass
+  sourceTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
 --- !u!114 &-4646042651471267461
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -936,6 +965,35 @@ MonoBehaviour:
   DefinedVariables: []
   targetTypeName: Amplitude.Mercury.Simulation.Settlement, Amplitude.Mercury.Firstpass
   sourceTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
+--- !u!114 &2512818692662536601
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
+  m_Name: ProductionCost_Extension_Base_PublicOrder
+  m_EditorClassIdentifier: 
+  RpnOperationStack: 0a0000000a000000080000000a000000010000000a000000050000000200000000000000080000000a000000020000000a000000010000000a0000000500000000000000
+  ConstantStack:
+  - RawValue: 100000
+  - RawValue: 40000
+  - RawValue: 1000
+  - RawValue: 1150
+  - RawValue: 850
+  - RawValue: 1000
+  - RawValue: 2025
+  Note: 
+  PropertyLocalNameStack:
+  - ExtensionDistrictsCount
+  - ExtensionDistrictsCount
+  VariableNameStack: []
+  DefinedVariables: []
+  targetTypeName: Amplitude.Mercury.Simulation.Settlement, Amplitude.Mercury.Firstpass
+  sourceTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
 --- !u!114 &2595211767502162795
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1285,6 +1343,35 @@ MonoBehaviour:
   DefinedVariables: []
   targetTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
   sourceTypeName: Amplitude.Mercury.Simulation.NationalProject, Amplitude.Mercury.Firstpass
+--- !u!114 &6479365608219673023
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
+  m_Name: ProductionCost_Extension_Base_High
+  m_EditorClassIdentifier: 
+  RpnOperationStack: 0a0000000a000000080000000a000000010000000a000000050000000200000000000000080000000a000000010000000a000000020000000a0000000500000000000000
+  ConstantStack:
+  - RawValue: 100000
+  - RawValue: 40000
+  - RawValue: 1000
+  - RawValue: 1160
+  - RawValue: 1000
+  - RawValue: 850
+  - RawValue: 2050
+  Note: 
+  PropertyLocalNameStack:
+  - ExtensionDistrictsCount
+  - ExtensionDistrictsCount
+  VariableNameStack: []
+  DefinedVariables: []
+  targetTypeName: Amplitude.Mercury.Simulation.Settlement, Amplitude.Mercury.Firstpass
+  sourceTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
 --- !u!114 &6540016066980037468
 MonoBehaviour:
   m_ObjectHideFlags: 0
