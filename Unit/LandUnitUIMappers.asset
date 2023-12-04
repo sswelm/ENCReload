@@ -1061,6 +1061,160 @@ MonoBehaviour:
   Symbol: 
   SortPriority: 7900
   ConstructibleTraits: 
+--- !u!114 &-7334997763157778736
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -717291864, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: LandUnit_Era6_Common_InfantryTanks
+  m_EditorClassIdentifier: 
+  Title: Infantry Tank
+  Description: "These tanks were the solution to the problem of how do you cross
+    \u2018no-man\u2019s land\u2019 under rifle plus machine gun fire and breach the
+    enemy\u2019s front line of trenches."
+  Images:
+  - Value:
+      guid:
+        a: 1965454753
+        b: 1212735515
+        c: -59006040
+        d: -1810710166
+    serializableKey: Picto
+  - Value:
+      guid:
+        a: -1749888469
+        b: 1286925495
+        c: 1021873824
+        d: 1779252538
+    serializableKey: Default_Small
+  - Value:
+      guid:
+        a: -411130624
+        b: 1166454033
+        c: 373992605
+        d: 624697994
+    serializableKey: Default_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation1_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation1_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation2_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation2_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation3_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation3_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation4_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation4_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation5_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation5_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation6_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation6_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation7_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation7_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation8_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation8_Tooltip
+  Color: {r: 1, g: 1, b: 1, a: 1}
+  Symbol: 
+  SortPriority: 7400
+  ConstructibleTraits: 
 --- !u!114 &-7248016518647237342
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3702,7 +3856,7 @@ MonoBehaviour:
   m_Script: {fileID: -717291864, guid: b310e23bee821cb478da05296ba685d0, type: 3}
   m_Name: LandUnit_Era6_Common_LightTanks
   m_EditorClassIdentifier: 
-  Title: Infantry Tank
+  Title: Light Tanks
   Description: "These tanks were the solution to the problem of how do you cross
     \u2018no-man\u2019s land\u2019 under rifle plus machine gun fire and breach the
     enemy\u2019s front line of trenches."
@@ -3716,17 +3870,17 @@ MonoBehaviour:
     serializableKey: Picto
   - Value:
       guid:
-        a: -1749888469
-        b: 1286925495
-        c: 1021873824
-        d: 1779252538
+        a: 1784601957
+        b: 1297398100
+        c: -1724197478
+        d: -1565674376
     serializableKey: Default_Small
   - Value:
       guid:
-        a: -411130624
-        b: 1166454033
-        c: 373992605
-        d: 624697994
+        a: 1784601957
+        b: 1297398100
+        c: -1724197478
+        d: -1565674376
     serializableKey: Default_Tooltip
   - Value:
       guid:

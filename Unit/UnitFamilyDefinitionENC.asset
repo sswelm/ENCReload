@@ -55,7 +55,7 @@ MonoBehaviour:
   m_Name: UnitFamily_MountedInfantry
   m_EditorClassIdentifier: 
   IsObsolete: 0
-  SerializableNextFamilyName: UnitFamily_ArmouredScout
+  SerializableNextFamilyName: UnitFamily_LightTank
 --- !u!114 &-8693158446392102491
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -503,7 +503,7 @@ MonoBehaviour:
   m_Name: UnitFamily_LightTank
   m_EditorClassIdentifier: 
   IsObsolete: 0
-  SerializableNextFamilyName: UnitFamily_MediumTank
+  SerializableNextFamilyName: UnitFamily_TankDestroyer
 --- !u!114 &-3820719462790637755
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1734,6 +1734,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsObsolete: 0
   SerializableNextFamilyName: UnitFamily_Cavalry
+--- !u!114 &8170839939508816514
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1527816587, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitFamily_InfantryTank
+  m_EditorClassIdentifier: 
+  IsObsolete: 0
+  SerializableNextFamilyName: UnitFamily_MediumTank
 --- !u!114 &8215265714380663198
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1831,7 +1845,7 @@ MonoBehaviour:
   m_Name: UnitFamily_ModernHeavyCavalry
   m_EditorClassIdentifier: 
   IsObsolete: 0
-  SerializableNextFamilyName: UnitFamily_LightTank
+  SerializableNextFamilyName: UnitFamily_InfantryTank
 --- !u!114 &8941937857500847719
 MonoBehaviour:
   m_ObjectHideFlags: 0
