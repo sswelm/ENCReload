@@ -94,6 +94,53 @@ MonoBehaviour:
       b: 1244152260
       c: 732419475
       d: -1635721152
+--- !u!114 &-6275771392799371459
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 759592875, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: PresentationLandUnit_Era5_Common_Lancers_Default
+  m_EditorClassIdentifier: 
+  IsWorkInProgress: 0
+  UnitDefinitionReference:
+    serializableElementName: LandUnit_Era5_Common_MountedInfantry
+  PresentationFormationDefinition:
+    serializableElementName: Formation_Wedge_3
+  FormationBehaviourDefinition:
+    serializableElementName: 
+  ChoreographyOverride: 3
+  NoAttackRotation: 0
+  FacingAngleOffset: 0
+  MinDistanceBetweenFormationDummies: 0
+  RestrictionPerSlot: []
+  UnitSpecification: 1
+  CoordinationMasterValue: 0.01
+  CoordinationValues:
+    DummyOffsetPosition: {x: 0.198, y: 0.3465}
+    DummyOffsetAngle: {x: 19.8, y: 29.7}
+    AnimationDelay: {x: 0, y: 0.99}
+    MinDistanceReformationMultiplier: 1
+    CoordinateAttackMovement: 0
+    SameRowAttack: 1
+    AveragePathLength: 0
+    UseDisciplinedVariation: 0
+  StealthRevealAudioEvent:
+    guid:
+      a: -1326129278
+      b: 1160368417
+      c: 1151361188
+      d: -1076931018
+  unitVoiceProviderReference:
+    guid:
+      a: -736668661
+      b: 1171018243
+      c: 1213494146
+      d: -110608850
 --- !u!114 &-5771816232694721355
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -245,11 +292,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 759592875, guid: b310e23bee821cb478da05296ba685d0, type: 3}
-  m_Name: PresentationLandUnit_Era5_Common_MountedInfantry_Default
+  m_Name: PresentationLandUnit_Era5_Common_CarbineCavalry_Default
   m_EditorClassIdentifier: 
   IsWorkInProgress: 0
   UnitDefinitionReference:
-    serializableElementName: LandUnit_Era5_Common_MountedInfantry
+    serializableElementName: LandUnit_Era5_Common_CarbineCavalry
   PresentationFormationDefinition:
     serializableElementName: Formation_Wedge_3
   FormationBehaviourDefinition:

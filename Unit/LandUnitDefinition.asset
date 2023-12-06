@@ -4381,120 +4381,6 @@ MonoBehaviour:
     serializableElementName: Era6
   unitSpecialty:
     serializableElementName: 
---- !u!114 &-4972900419868610180
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1069260532, guid: b310e23bee821cb478da05296ba685d0, type: 3}
-  m_Name: LandUnit_Era5_Common_MountedInfantry
-  m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes:
-    - Name: GainValues
-      Entry: 6
-      Data: 
-  Key: 33
-  Hidden: 0
-  IsObsolete: 0
-  DLCPrerequisite:
-    DownloadableContent: 0
-  Category: 6
-  SerializableFamily: UnitFamily_MountedInfantry
-  Level: 32
-  Unicity: 0
-  UnicityAdditionalConstructible: []
-  ConstructibleVisualAffinity:
-    serializableElementName: 
-  CanBeBoughtOut: 1
-  CanBeCanceled: 1
-  StartWhenQueued: 0
-  CanBeBoughtOutWithPopulation: 0
-  ProductionCostDefinition:
-    Type: 1
-    Constant: -1
-    RpnDefinitionReference:
-      serializableElementName: ProductionCost_Unit_Era5_Medium
-  MoneyInstantCostDefinition:
-    Constant: 0
-    RpnDefinitionReference:
-      serializableElementName: 
-  InfluenceInstantCostDefinition:
-    Constant: 0
-    RpnDefinitionReference:
-      serializableElementName: 
-  PopulationInstantCostDefinition:
-    Constant: 3
-  ProvidedByOtherEmpireCostDefinition:
-    ProductionCostModifierRpn:
-      serializableElementName: 
-    ReceiverMoneyCostRpn:
-      serializableElementName: 
-    ProviderMoneyGainRpn:
-      serializableElementName: 
-  ResourceAccessPrerequisites:
-  - Resource: 0
-    ConstantType: 0
-    ConstantValue: 16
-  MinimalPopulationPrerequisite: 0
-  ResourceSupremacyPrerequisite: 
-  EraPrerequisite:
-    Operator: 1
-    EraReference:
-      serializableElementName: 
-  FactionPrerequisite:
-    Operator: 1
-    serializableFactionNames: []
-  SettlementStatusPrerequisite:
-    CampConstraint: 0
-    CityConstraint: 1
-  ReligionAffinityPrerequisite:
-    serializableElementName: 
-  SettlementPropertyPrerequisites: []
-  SettlementStabilityPrerequisite:
-    Operator: 0
-    PublicOrderEffects: []
-  DistrictCountPrerequisites: []
-  ActionTypePrerequisite:
-    Operator: 0
-    ActionType: 0
-  ArtificialWonderBuiltPrerequisite:
-    Operator: 0
-    ArtificialWonderDefinition:
-      serializableElementName: 
-  BaseSynergyDistrict: 0
-  UnitClass:
-    serializableElementName: UnitClass_MountedGunner
-  UnitSpecialties:
-  - serializableElementName: UnitSpecialty_MoveOneAfterAttack
-  OwnDescriptorReferences:
-  - serializableElementName: Effect_LandUnit_Era5_Common_MountedInfantry
-  - serializableElementName: Effect_Unit_Era5
-  - serializableElementName: Effect_Unit_Era5_Tier3
-  - serializableElementName: Effect_Unit_Era4_StealthDetection
-  BaseMovementSpeed: 1.8
-  MovementSpeedMultiplierPerType:
-  - 1.5
-  - 2.5
-  - 4
-  - 1.03
-  UnitTags: 16777305
-  AlwaysUseCurrentEraVisualAffinity: 0
-  visualAffinityEraReference:
-    serializableElementName: Era5
-  unitSpecialty:
-    serializableElementName: 
 --- !u!114 &-4823861885268885258
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6536,7 +6422,6 @@ MonoBehaviour:
     serializableElementName: UnitClass_Ballista
   UnitSpecialties:
   - serializableElementName: UnitSpecialty_WheeledInfo1
-  - serializableElementName: UnitSpecialty_StrengthFromTargetClassCavalry_Half
   OwnDescriptorReferences:
   - serializableElementName: Effect_LandUnit_Era2_Common_Ballistas
   - serializableElementName: Effect_Unit_Era2
@@ -7715,6 +7600,120 @@ MonoBehaviour:
     serializableElementName: Era5
   unitSpecialty:
     serializableElementName: 
+--- !u!114 &-790856256008245694
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1069260532, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: LandUnit_Era5_Common_CarbineCavalry
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: GainValues
+      Entry: 6
+      Data: 
+  Key: 0
+  Hidden: 0
+  IsObsolete: 0
+  DLCPrerequisite:
+    DownloadableContent: 0
+  Category: 6
+  SerializableFamily: UnitFamily_CarbineCavalry
+  Level: 32
+  Unicity: 0
+  UnicityAdditionalConstructible: []
+  ConstructibleVisualAffinity:
+    serializableElementName: 
+  CanBeBoughtOut: 1
+  CanBeCanceled: 1
+  StartWhenQueued: 0
+  CanBeBoughtOutWithPopulation: 0
+  ProductionCostDefinition:
+    Type: 1
+    Constant: -1
+    RpnDefinitionReference:
+      serializableElementName: ProductionCost_Unit_Era5_Medium
+  MoneyInstantCostDefinition:
+    Constant: 0
+    RpnDefinitionReference:
+      serializableElementName: 
+  InfluenceInstantCostDefinition:
+    Constant: 0
+    RpnDefinitionReference:
+      serializableElementName: 
+  PopulationInstantCostDefinition:
+    Constant: 3
+  ProvidedByOtherEmpireCostDefinition:
+    ProductionCostModifierRpn:
+      serializableElementName: 
+    ReceiverMoneyCostRpn:
+      serializableElementName: 
+    ProviderMoneyGainRpn:
+      serializableElementName: 
+  ResourceAccessPrerequisites:
+  - Resource: 0
+    ConstantType: 0
+    ConstantValue: 16
+  MinimalPopulationPrerequisite: 0
+  ResourceSupremacyPrerequisite: 
+  EraPrerequisite:
+    Operator: 1
+    EraReference:
+      serializableElementName: 
+  FactionPrerequisite:
+    Operator: 1
+    serializableFactionNames: []
+  SettlementStatusPrerequisite:
+    CampConstraint: 0
+    CityConstraint: 1
+  ReligionAffinityPrerequisite:
+    serializableElementName: 
+  SettlementPropertyPrerequisites: []
+  SettlementStabilityPrerequisite:
+    Operator: 0
+    PublicOrderEffects: []
+  DistrictCountPrerequisites: []
+  ActionTypePrerequisite:
+    Operator: 0
+    ActionType: 0
+  ArtificialWonderBuiltPrerequisite:
+    Operator: 0
+    ArtificialWonderDefinition:
+      serializableElementName: 
+  BaseSynergyDistrict: 0
+  UnitClass:
+    serializableElementName: UnitClass_MountedGunner
+  UnitSpecialties:
+  - serializableElementName: UnitSpecialty_MoveOneAfterAttack
+  OwnDescriptorReferences:
+  - serializableElementName: Effect_LandUnit_Era5_Common_CarbineCavalry
+  - serializableElementName: Effect_Unit_Era5
+  - serializableElementName: Effect_Unit_Era5_Tier3
+  - serializableElementName: Effect_Unit_Era4_StealthDetection
+  BaseMovementSpeed: 1.8
+  MovementSpeedMultiplierPerType:
+  - 1.5
+  - 2.5
+  - 4
+  - 1.03
+  UnitTags: 16777305
+  AlwaysUseCurrentEraVisualAffinity: 0
+  visualAffinityEraReference:
+    serializableElementName: Era5
+  unitSpecialty:
+    serializableElementName: 
 --- !u!114 &-641671885610721377
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8170,6 +8169,124 @@ MonoBehaviour:
   AlwaysUseCurrentEraVisualAffinity: 0
   visualAffinityEraReference:
     serializableElementName: Era4
+  unitSpecialty:
+    serializableElementName: 
+--- !u!114 &-299918417339907979
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1069260532, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: LandUnit_Era5_Common_MountedInfantry
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: GainValues
+      Entry: 6
+      Data: 
+  Key: 0
+  Hidden: 0
+  IsObsolete: 0
+  DLCPrerequisite:
+    DownloadableContent: 0
+  Category: 6
+  SerializableFamily: UnitFamily_MountedInfantry
+  Level: 32
+  Unicity: 0
+  UnicityAdditionalConstructible: []
+  ConstructibleVisualAffinity:
+    serializableElementName: 
+  CanBeBoughtOut: 1
+  CanBeCanceled: 1
+  StartWhenQueued: 0
+  CanBeBoughtOutWithPopulation: 0
+  ProductionCostDefinition:
+    Type: 1
+    Constant: -1
+    RpnDefinitionReference:
+      serializableElementName: ProductionCost_Unit_Era5_Medium
+  MoneyInstantCostDefinition:
+    Constant: 0
+    RpnDefinitionReference:
+      serializableElementName: 
+  InfluenceInstantCostDefinition:
+    Constant: 0
+    RpnDefinitionReference:
+      serializableElementName: 
+  PopulationInstantCostDefinition:
+    Constant: 3
+  ProvidedByOtherEmpireCostDefinition:
+    ProductionCostModifierRpn:
+      serializableElementName: 
+    ReceiverMoneyCostRpn:
+      serializableElementName: 
+    ProviderMoneyGainRpn:
+      serializableElementName: 
+  ResourceAccessPrerequisites:
+  - Resource: 0
+    ConstantType: 0
+    ConstantValue: 16
+  - Resource: 2
+    ConstantType: 0
+    ConstantValue: 14
+  MinimalPopulationPrerequisite: 0
+  ResourceSupremacyPrerequisite: 
+  EraPrerequisite:
+    Operator: 1
+    EraReference:
+      serializableElementName: 
+  FactionPrerequisite:
+    Operator: 0
+    serializableFactionNames: []
+  SettlementStatusPrerequisite:
+    CampConstraint: 0
+    CityConstraint: 1
+  ReligionAffinityPrerequisite:
+    serializableElementName: 
+  SettlementPropertyPrerequisites: []
+  SettlementStabilityPrerequisite:
+    Operator: 0
+    PublicOrderEffects: []
+  DistrictCountPrerequisites: []
+  ActionTypePrerequisite:
+    Operator: 0
+    ActionType: 0
+  ArtificialWonderBuiltPrerequisite:
+    Operator: 0
+    ArtificialWonderDefinition:
+      serializableElementName: 
+  BaseSynergyDistrict: 0
+  UnitClass:
+    serializableElementName: UnitClass_HeavyCavalry
+  UnitSpecialties:
+  - serializableElementName: UnitSpecialty_Charge_Level3
+  OwnDescriptorReferences:
+  - serializableElementName: Effect_LandUnit_Era5_Common_MountedInfantry
+  - serializableElementName: Effect_Unit_Era5
+  - serializableElementName: Effect_Unit_SpecialtyLevel3
+  - serializableElementName: Effect_Unit_Era5_Tier3
+  - serializableElementName: Effect_Unit_Era3_StealthDetection
+  BaseMovementSpeed: 1.8
+  MovementSpeedMultiplierPerType:
+  - 1.5
+  - 2.5
+  - 4
+  - 1.03
+  UnitTags: 16777673
+  AlwaysUseCurrentEraVisualAffinity: 0
+  visualAffinityEraReference:
+    serializableElementName: Era5
   unitSpecialty:
     serializableElementName: 
 --- !u!114 &-274419398401201904
@@ -11767,7 +11884,6 @@ MonoBehaviour:
     serializableElementName: UnitClass_SiegeWeapon
   UnitSpecialties:
   - serializableElementName: UnitSpecialty_WheeledInfo1
-  - serializableElementName: UnitSpecialty_StrengthFromTargetClassCavalry_Half
   OwnDescriptorReferences:
   - serializableElementName: Effect_LandUnit_Era2_Common_Ballistas
   - serializableElementName: Effect_Unit_Era2
