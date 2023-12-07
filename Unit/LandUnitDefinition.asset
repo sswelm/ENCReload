@@ -3001,6 +3001,128 @@ MonoBehaviour:
     serializableElementName: Era1
   unitSpecialty:
     serializableElementName: 
+--- !u!114 &-6087584643278449031
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1069260532, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: LandUnit_Era6_Common_AntiTankIFV
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: GainValues
+      Entry: 6
+      Data: 
+  Key: 0
+  Hidden: 0
+  IsObsolete: 0
+  DLCPrerequisite:
+    DownloadableContent: 0
+  Category: 6
+  SerializableFamily: UnitFamily_AntiTankIFV
+  Level: 40
+  Unicity: 0
+  UnicityAdditionalConstructible: []
+  ConstructibleVisualAffinity:
+    serializableElementName: 
+  CanBeBoughtOut: 1
+  CanBeCanceled: 1
+  StartWhenQueued: 0
+  CanBeBoughtOutWithPopulation: 0
+  ProductionCostDefinition:
+    Type: 1
+    Constant: -1
+    RpnDefinitionReference:
+      serializableElementName: ProductionCost_Unit_Era6_Tier4
+  MoneyInstantCostDefinition:
+    Constant: 0
+    RpnDefinitionReference:
+      serializableElementName: 
+  InfluenceInstantCostDefinition:
+    Constant: 0
+    RpnDefinitionReference:
+      serializableElementName: 
+  PopulationInstantCostDefinition:
+    Constant: 3
+  ProvidedByOtherEmpireCostDefinition:
+    ProductionCostModifierRpn:
+      serializableElementName: 
+    ReceiverMoneyCostRpn:
+      serializableElementName: 
+    ProviderMoneyGainRpn:
+      serializableElementName: 
+  ResourceAccessPrerequisites:
+  - Resource: 2
+    ConstantType: 0
+    ConstantValue: 16
+  - Resource: 5
+    ConstantType: 0
+    ConstantValue: 8
+  - Resource: 6
+    ConstantType: 0
+    ConstantValue: 8
+  MinimalPopulationPrerequisite: 0
+  ResourceSupremacyPrerequisite: 
+  EraPrerequisite:
+    Operator: 1
+    EraReference:
+      serializableElementName: 
+  FactionPrerequisite:
+    Operator: 1
+    serializableFactionNames: []
+  SettlementStatusPrerequisite:
+    CampConstraint: 0
+    CityConstraint: 1
+  ReligionAffinityPrerequisite:
+    serializableElementName: 
+  SettlementPropertyPrerequisites: []
+  SettlementStabilityPrerequisite:
+    Operator: 0
+    PublicOrderEffects: []
+  DistrictCountPrerequisites: []
+  ActionTypePrerequisite:
+    Operator: 0
+    ActionType: 0
+  ArtificialWonderBuiltPrerequisite:
+    Operator: 0
+    ArtificialWonderDefinition:
+      serializableElementName: 
+  BaseSynergyDistrict: 0
+  UnitClass:
+    serializableElementName: UnitClass_ArmouredVehicle
+  UnitSpecialties:
+  - serializableElementName: UnitSpecialty_DebuffTargetStun
+  - serializableElementName: UnitSpecialty_MoveOneAfterAttack
+  - serializableElementName: UnitSpecialty_StrengthFromTargetClassArmoured_Level1
+  OwnDescriptorReferences:
+  - serializableElementName: Effect_LandUnit_Era6_Common_AntiTankIFV
+  - serializableElementName: Effect_Unit_Era6
+  - serializableElementName: Effect_Unit_Era6_Tier4
+  - serializableElementName: Tag_Unit_Vehicle
+  BaseMovementSpeed: 1.8
+  MovementSpeedMultiplierPerType:
+  - 1.5
+  - 2.5
+  - 4
+  - 1.03
+  UnitTags: 249
+  AlwaysUseCurrentEraVisualAffinity: 0
+  visualAffinityEraReference:
+    serializableElementName: Era6
+  unitSpecialty:
+    serializableElementName: 
 --- !u!114 &-5966159424953927094
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4079,7 +4201,7 @@ MonoBehaviour:
     Type: 1
     Constant: -1
     RpnDefinitionReference:
-      serializableElementName: ProductionCost_Unit_Era5_Medium
+      serializableElementName: ProductionCost_Unit_Era5_High
   MoneyInstantCostDefinition:
     Constant: 0
     RpnDefinitionReference:
@@ -4131,7 +4253,7 @@ MonoBehaviour:
   OwnDescriptorReferences:
   - serializableElementName: Effect_LandUnit_Era6_Common_Riflemen
   - serializableElementName: Effect_Unit_Era6
-  - serializableElementName: Effect_Unit_Era5_Tier2
+  - serializableElementName: Effect_Unit_Era5_Tier3
   BaseMovementSpeed: 1.8
   MovementSpeedMultiplierPerType:
   - 1.5
@@ -5841,6 +5963,7 @@ MonoBehaviour:
   - serializableElementName: UnitSpecialty_DebuffTargetStun
   - serializableElementName: UnitSpecialty_ZoneOfControlIncreasedSize_Level1
   - serializableElementName: UnitSpecialty_RegenerateAfterFight_Level1
+  - serializableElementName: UnitSpecialty_WheeledInfo4
   OwnDescriptorReferences:
   - serializableElementName: Effect_LandUnit_Era6_Common_ArmouredPersonnelCarriers
   - serializableElementName: Effect_Unit_Era6
@@ -8689,7 +8812,7 @@ MonoBehaviour:
     Type: 1
     Constant: -1
     RpnDefinitionReference:
-      serializableElementName: ProductionCost_Unit_Era6_Tier1
+      serializableElementName: ProductionCost_Unit_Era6_Tier2
   MoneyInstantCostDefinition:
     Constant: 0
     RpnDefinitionReference:
@@ -8747,7 +8870,7 @@ MonoBehaviour:
   OwnDescriptorReferences:
   - serializableElementName: Effect_LandUnit_Era6_Common_TOW-Infantry
   - serializableElementName: Effect_Unit_Era6
-  - serializableElementName: Effect_Unit_Era6_Tier1
+  - serializableElementName: Effect_Unit_Era6_Tier2
   - serializableElementName: Effect_Unit_Era3_StealthDetection
   BaseMovementSpeed: 1.8
   MovementSpeedMultiplierPerType:
@@ -9451,7 +9574,7 @@ MonoBehaviour:
   OwnDescriptorReferences:
   - serializableElementName: Effect_LandUnit_Era5_Common_MachineGuns
   - serializableElementName: Effect_Unit_Era6
-  - serializableElementName: Effect_Unit_Era5_Tier3
+  - serializableElementName: Effect_Unit_Era5_Tier4
   BaseMovementSpeed: 1.8
   MovementSpeedMultiplierPerType:
   - 1.5
@@ -10845,7 +10968,7 @@ MonoBehaviour:
   OwnDescriptorReferences:
   - serializableElementName: Effect_LandUnit_Era6_Common_AntiTankGuns
   - serializableElementName: Effect_Unit_Era6
-  - serializableElementName: Effect_Unit_Era5_Tier4
+  - serializableElementName: Effect_Unit_Era6_Tier1
   BaseMovementSpeed: 1.8
   MovementSpeedMultiplierPerType:
   - 1.5
@@ -14309,7 +14432,7 @@ MonoBehaviour:
   OwnDescriptorReferences:
   - serializableElementName: Effect_LandUnit_Era6_Common_AssaultInfantry
   - serializableElementName: Effect_Unit_Era6
-  - serializableElementName: Effect_Unit_Era5_Tier3
+  - serializableElementName: Effect_Unit_Era5_Tier4
   BaseMovementSpeed: 1.8
   MovementSpeedMultiplierPerType:
   - 1.5
@@ -14938,7 +15061,7 @@ MonoBehaviour:
     Type: 1
     Constant: -1
     RpnDefinitionReference:
-      serializableElementName: ProductionCost_Unit_Era6_Tier2
+      serializableElementName: ProductionCost_Unit_Era6_Tier3
   MoneyInstantCostDefinition:
     Constant: 0
     RpnDefinitionReference:
@@ -15000,7 +15123,7 @@ MonoBehaviour:
   OwnDescriptorReferences:
   - serializableElementName: Effect_LandUnit_Era6_Common_ManPortableATMSquad
   - serializableElementName: Effect_Unit_Era6
-  - serializableElementName: Effect_Unit_Era6_Tier2
+  - serializableElementName: Effect_Unit_Era6_Tier3
   - serializableElementName: Effect_Unit_Era4_StealthDetection
   BaseMovementSpeed: 1.8
   MovementSpeedMultiplierPerType:

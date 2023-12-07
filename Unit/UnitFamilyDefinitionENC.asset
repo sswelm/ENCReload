@@ -27,7 +27,7 @@ MonoBehaviour:
   m_Name: UnitFamily_Marine
   m_EditorClassIdentifier: 
   IsObsolete: 0
-  SerializableNextFamilyName: UnitFamily_AllTerrainPMV
+  SerializableNextFamilyName: UnitFamily_MechanizedInfantry
 --- !u!114 &-8949858111551819007
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1230,6 +1230,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsObsolete: 0
   SerializableNextFamilyName: 
+--- !u!114 &3110420870927567207
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1527816587, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitFamily_AntiTankIFV
+  m_EditorClassIdentifier: 
+  IsObsolete: 0
+  SerializableNextFamilyName: 
 --- !u!114 &3484829034735259834
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1523,7 +1537,7 @@ MonoBehaviour:
   m_Name: UnitFamily_TankDestroyer
   m_EditorClassIdentifier: 
   IsObsolete: 0
-  SerializableNextFamilyName: UnitFamily_MechanizedInfantry
+  SerializableNextFamilyName: UnitFamily_AntiTankIFV
 --- !u!114 &6330398426230028143
 MonoBehaviour:
   m_ObjectHideFlags: 0
