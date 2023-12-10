@@ -172,6 +172,56 @@ MonoBehaviour:
     serializableKey: Small
   Color: {r: 1, g: 1, b: 1, a: 1}
   Symbol: '[UnitClass_SiegeArtillery]'
+--- !u!114 &-4550968734164377441
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 981126955, guid: f8c4d2d2a3a246a0909e3c6973d4a4e3, type: 3}
+  m_Name: UnitClass_Ranged
+  m_EditorClassIdentifier: 
+  Title: '%UnitClass_RangedTitle'
+  Description: Ranged combat unit. Receives a (-8 [CombatStrength]) Combat Strength
+    penalty when defending against close-combat attacks.
+  Images:
+  - Value:
+      guid:
+        a: -2050062855
+        b: 1235914082
+        c: 860837565
+        d: -1919701341
+    serializableKey: Small
+  Color: {r: 1, g: 1, b: 1, a: 1}
+  Symbol: '[UnitClass_Ranged]'
+--- !u!114 &-3096883174444415659
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 981126955, guid: f8c4d2d2a3a246a0909e3c6973d4a4e3, type: 3}
+  m_Name: UnitClass_Javelin
+  m_EditorClassIdentifier: 
+  Title: Javelin Thrower
+  Description: Ranged combat unit. Receives a (-4 [CombatStrength]) Combat Strength
+    penalty when defending against close-combat attacks.
+  Images:
+  - Value:
+      guid:
+        a: -2050062855
+        b: 1235914082
+        c: 860837565
+        d: -1919701341
+    serializableKey: Small
+  Color: {r: 1, g: 1, b: 1, a: 1}
+  Symbol: '[UnitClass_Ranged]'
 --- !u!114 &-577698212936743909
 MonoBehaviour:
   m_ObjectHideFlags: 0
