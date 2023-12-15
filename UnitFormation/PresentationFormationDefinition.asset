@@ -1,0 +1,131 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-5786243136748464532
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -368647753, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Formation_Close_12
+  m_EditorClassIdentifier: 
+  LowSpecFormationDefinition:
+    serializableElementName: Formation_1
+  Dummies:
+  - Position: {x: -1.9444796, y: 0, z: 1.3630434}
+    CoordinatePerDirection:
+    - {x: 0, y: 0}
+    - {x: 6, y: 0}
+    - {x: 8, y: 0}
+    - {x: 2, y: 3}
+    - {x: 2, y: 1}
+    - {x: 0, y: 0}
+  - Position: {x: -0.59305996, y: 0, z: 1.3782607}
+    CoordinatePerDirection:
+    - {x: 0, y: 1}
+    - {x: 4, y: 0}
+    - {x: 6, y: 0}
+    - {x: 2, y: 2}
+    - {x: 4, y: 1}
+    - {x: 2, y: 1}
+  - Position: {x: 0.7457414, y: 0, z: 1.395652}
+    CoordinatePerDirection:
+    - {x: 0, y: 2}
+    - {x: 2, y: 0}
+    - {x: 4, y: 0}
+    - {x: 2, y: 1}
+    - {x: 6, y: 1}
+    - {x: 4, y: 1}
+  - Position: {x: 2.0195582, y: 0, z: 1.4021739}
+    CoordinatePerDirection:
+    - {x: 0, y: 3}
+    - {x: 0, y: 0}
+    - {x: 2, y: 0}
+    - {x: 2, y: 0}
+    - {x: 8, y: 0}
+    - {x: 6, y: 1}
+  - Position: {x: -1.9432176, y: 0, z: 0.22826087}
+    CoordinatePerDirection:
+    - {x: 1, y: 0}
+    - {x: 7, y: 0}
+    - {x: 7, y: 0}
+    - {x: 1, y: 3}
+    - {x: 1, y: 0}
+    - {x: 1, y: 0}
+  - Position: {x: -0.606309, y: 0, z: 0.23913044}
+    CoordinatePerDirection:
+    - {x: 1, y: 1}
+    - {x: 5, y: 0}
+    - {x: 5, y: 0}
+    - {x: 1, y: 2}
+    - {x: 3, y: 0}
+    - {x: 3, y: 0}
+  - Position: {x: 0.7305997, y: 0, z: 0.24565224}
+    CoordinatePerDirection:
+    - {x: 1, y: 2}
+    - {x: 3, y: 0}
+    - {x: 3, y: 0}
+    - {x: 1, y: 1}
+    - {x: 5, y: 0}
+    - {x: 5, y: 0}
+  - Position: {x: 2.0567822, y: 0, z: 0.25217405}
+    CoordinatePerDirection:
+    - {x: 1, y: 3}
+    - {x: 1, y: 0}
+    - {x: 1, y: 0}
+    - {x: 1, y: 0}
+    - {x: 7, y: 0}
+    - {x: 7, y: 0}
+  - Position: {x: -1.9798106, y: 0, z: -0.93913037}
+    CoordinatePerDirection:
+    - {x: 2, y: 0}
+    - {x: 8, y: 0}
+    - {x: 6, y: 1}
+    - {x: 0, y: 3}
+    - {x: 0, y: 0}
+    - {x: 2, y: 0}
+  - Position: {x: -0.6340694, y: 0, z: -0.9347826}
+    CoordinatePerDirection:
+    - {x: 2, y: 1}
+    - {x: 6, y: 1}
+    - {x: 4, y: 1}
+    - {x: 0, y: 2}
+    - {x: 2, y: 0}
+    - {x: 4, y: 0}
+  - Position: {x: 0.7570978, y: 0, z: -0.9130435}
+    CoordinatePerDirection:
+    - {x: 2, y: 2}
+    - {x: 4, y: 1}
+    - {x: 2, y: 1}
+    - {x: 0, y: 1}
+    - {x: 4, y: 0}
+    - {x: 6, y: 0}
+  - Position: {x: 2.097792, y: 0, z: -0.92391306}
+    CoordinatePerDirection:
+    - {x: 2, y: 3}
+    - {x: 2, y: 1}
+    - {x: 0, y: 0}
+    - {x: 0, y: 0}
+    - {x: 6, y: 0}
+    - {x: 8, y: 0}
+  ColumnsCountPerRow0: 040000000400000004000000
+  ColumnsCountPerRow1: 010000000100000002000000010000000200000001000000020000000100000001000000
+  ColumnsCountPerRow2: 010000000100000002000000010000000200000001000000020000000100000001000000
+  ColumnsCountPerRow3: 040000000400000004000000
+  ColumnsCountPerRow4: 010000000100000002000000010000000200000001000000020000000100000001000000
+  ColumnsCountPerRow5: 010000000100000002000000010000000200000001000000020000000100000001000000
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1532519503, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: PresentationFormationDefinition
+  m_EditorClassIdentifier: 

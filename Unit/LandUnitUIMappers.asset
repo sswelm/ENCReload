@@ -500,6 +500,20 @@ MonoBehaviour:
         c: 0
         d: 0
     serializableKey: Variation8_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation9_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation9_Tooltip
   Color: {r: 1, g: 1, b: 1, a: 1}
   Symbol: 
   SortPriority: 7800
@@ -893,7 +907,7 @@ MonoBehaviour:
   Symbol: 
   SortPriority: 7800
   ConstructibleTraits: 
---- !u!114 &-7414968768661488468
+--- !u!114 &-7472666878059420738
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -903,61 +917,62 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: -717291864, guid: b310e23bee821cb478da05296ba685d0, type: 3}
-  m_Name: LandUnit_Era3_Common_Marin
+  m_Name: LandUnit_Era0_Common_Neanderthals
   m_EditorClassIdentifier: 
-  Title: Marin
-  Description: The Marin represent skilled Medieval soldiers trained to fight in
-    ship to land combat, such as various Nordic peoples, the Irish, Southeast Asian
-    or Japanese Pirates of the time and others.
+  Title: Neanderthals
+  Description: Compared with modern humans, Neanderthals had a more robust build
+    and proportionally shorter limbs. They were aggressive, powerful and terrifying
+    carnivores, ruthless and efficient apex predators, who hunted, raped and ate
+    early humans
   Images:
   - Value:
       guid:
-        a: -609458823
-        b: 1324969296
-        c: 1436889481
-        d: -1530992078
+        a: 1793834360
+        b: 1234890458
+        c: 354422707
+        d: -2026760989
     serializableKey: Picto
   - Value:
       guid:
-        a: 1707122700
-        b: 1268132715
-        c: 1131537048
-        d: -400567350
+        a: -882714190
+        b: 1125209684
+        c: 454342304
+        d: 1298060822
     serializableKey: Default_Small
   - Value:
       guid:
-        a: 1707122700
-        b: 1268132715
-        c: 1131537048
-        d: -400567350
+        a: -882714190
+        b: 1125209684
+        c: 454342304
+        d: 1298060822
     serializableKey: Default_Tooltip
   - Value:
       guid:
-        a: 615780467
-        b: 1199338262
-        c: 679249288
-        d: -1576429501
+        a: 0
+        b: 0
+        c: 0
+        d: 0
     serializableKey: Variation1_Small
   - Value:
       guid:
-        a: 64649885
-        b: 1335852303
-        c: 809409953
-        d: -507601261
+        a: 0
+        b: 0
+        c: 0
+        d: 0
     serializableKey: Variation1_Tooltip
   - Value:
       guid:
-        a: 615780467
-        b: 1199338262
-        c: 679249288
-        d: -1576429501
+        a: 0
+        b: 0
+        c: 0
+        d: 0
     serializableKey: Variation2_Small
   - Value:
       guid:
-        a: 64649885
-        b: 1335852303
-        c: 809409953
-        d: -507601261
+        a: 0
+        b: 0
+        c: 0
+        d: 0
     serializableKey: Variation2_Tooltip
   - Value:
       guid:
@@ -1003,17 +1018,17 @@ MonoBehaviour:
     serializableKey: Variation5_Tooltip
   - Value:
       guid:
-        a: 982927902
-        b: 1193779559
-        c: -442307448
-        d: 1316342358
+        a: 0
+        b: 0
+        c: 0
+        d: 0
     serializableKey: Variation6_Small
   - Value:
       guid:
-        a: -1598012869
-        b: 1176914522
-        c: -326706277
-        d: -1158176115
+        a: 0
+        b: 0
+        c: 0
+        d: 0
     serializableKey: Variation6_Tooltip
   - Value:
       guid:
@@ -1045,17 +1060,185 @@ MonoBehaviour:
     serializableKey: Variation8_Tooltip
   - Value:
       guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation9_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation9_Tooltip
+  Color: {r: 1, g: 1, b: 1, a: 1}
+  Symbol: 
+  SortPriority: 7900
+  ConstructibleTraits: 
+--- !u!114 &-7414968768661488468
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -717291864, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: LandUnit_Era3_Common_Marin
+  m_EditorClassIdentifier: 
+  Title: Marin
+  Description: The Marin represent skilled Medieval soldiers trained to fight in
+    ship to land combat, such as various Nordic peoples, the Irish, Southeast Asian
+    or Japanese Pirates of the time and others.
+  Images:
+  - Value:
+      guid:
+        a: -609458823
+        b: 1324969296
+        c: 1436889481
+        d: -1530992078
+    serializableKey: Picto
+  - Value:
+      guid:
+        a: 77764058
+        b: 1126792362
+        c: 488803220
+        d: 1812452021
+    serializableKey: Default_Small
+  - Value:
+      guid:
+        a: 1126962914
+        b: 1212088945
+        c: 1408492464
+        d: 254431596
+    serializableKey: Default_Tooltip
+  - Value:
+      guid:
         a: 615780467
         b: 1199338262
         c: 679249288
         d: -1576429501
-    serializableKey: Variation9_Small
+    serializableKey: Variation1_Small
   - Value:
       guid:
         a: 64649885
         b: 1335852303
         c: 809409953
         d: -507601261
+    serializableKey: Variation1_Tooltip
+  - Value:
+      guid:
+        a: 615780467
+        b: 1199338262
+        c: 679249288
+        d: -1576429501
+    serializableKey: Variation2_Small
+  - Value:
+      guid:
+        a: 64649885
+        b: 1335852303
+        c: 809409953
+        d: -507601261
+    serializableKey: Variation2_Tooltip
+  - Value:
+      guid:
+        a: 237088835
+        b: 1305847221
+        c: 1043127448
+        d: -969245154
+    serializableKey: Variation3_Small
+  - Value:
+      guid:
+        a: 1282096484
+        b: 1120779965
+        c: -182888271
+        d: 1057958868
+    serializableKey: Variation3_Tooltip
+  - Value:
+      guid:
+        a: -1123264587
+        b: 1211347983
+        c: -2002373231
+        d: -1781285114
+    serializableKey: Variation4_Small
+  - Value:
+      guid:
+        a: 742578231
+        b: 1082904812
+        c: -553505388
+        d: 1430939764
+    serializableKey: Variation4_Tooltip
+  - Value:
+      guid:
+        a: 1122294364
+        b: 1327664913
+        c: -429766229
+        d: 195178782
+    serializableKey: Variation5_Small
+  - Value:
+      guid:
+        a: 906144791
+        b: 1281731186
+        c: -1765071686
+        d: -1954758909
+    serializableKey: Variation5_Tooltip
+  - Value:
+      guid:
+        a: 982927902
+        b: 1193779559
+        c: -442307448
+        d: 1316342358
+    serializableKey: Variation6_Small
+  - Value:
+      guid:
+        a: -1598012869
+        b: 1176914522
+        c: -326706277
+        d: -1158176115
+    serializableKey: Variation6_Tooltip
+  - Value:
+      guid:
+        a: -1085419620
+        b: 1110805845
+        c: -2054553179
+        d: 2017009307
+    serializableKey: Variation7_Small
+  - Value:
+      guid:
+        a: -1651390465
+        b: 1261925712
+        c: 151736221
+        d: 842122415
+    serializableKey: Variation7_Tooltip
+  - Value:
+      guid:
+        a: 77764058
+        b: 1126792362
+        c: 488803220
+        d: 1812452021
+    serializableKey: Variation8_Small
+  - Value:
+      guid:
+        a: 1126962914
+        b: 1212088945
+        c: 1408492464
+        d: 254431596
+    serializableKey: Variation8_Tooltip
+  - Value:
+      guid:
+        a: 1297275401
+        b: 1187876689
+        c: -1717256513
+        d: -1251176657
+    serializableKey: Variation9_Small
+  - Value:
+      guid:
+        a: -1064123407
+        b: 1088452989
+        c: 288902559
+        d: 2019723789
     serializableKey: Variation9_Tooltip
   Color: {r: 1, g: 1, b: 1, a: 1}
   Symbol: 
@@ -1773,6 +1956,160 @@ MonoBehaviour:
   Color: {r: 1, g: 1, b: 1, a: 1}
   Symbol: 
   SortPriority: 7900
+  ConstructibleTraits: 
+--- !u!114 &-5861561847128461442
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -717291864, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: LandUnit_Era6_Common_Tankettes
+  m_EditorClassIdentifier: 
+  Title: Tankette
+  Description: A tankette is a tracked armoured fighting vehicle that resembles a
+    small tank, roughly the size of a car. It is mainly intended for light infantry
+    support and scouting.
+  Images:
+  - Value:
+      guid:
+        a: 1965454753
+        b: 1212735515
+        c: -59006040
+        d: -1810710166
+    serializableKey: Picto
+  - Value:
+      guid:
+        a: 602571370
+        b: 1161897624
+        c: -1368349803
+        d: 698970466
+    serializableKey: Default_Small
+  - Value:
+      guid:
+        a: 602571370
+        b: 1161897624
+        c: -1368349803
+        d: 698970466
+    serializableKey: Default_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation1_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation1_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation2_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation2_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation3_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation3_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation4_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation4_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation5_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation5_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation6_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation6_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation7_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation7_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation8_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation8_Tooltip
+  Color: {r: 1, g: 1, b: 1, a: 1}
+  Symbol: 
+  SortPriority: 7400
   ConstructibleTraits: 
 --- !u!114 &-5631978163563249403
 MonoBehaviour:
@@ -3774,31 +4111,31 @@ MonoBehaviour:
     serializableKey: Variation3_Tooltip
   - Value:
       guid:
-        a: 0
-        b: 0
-        c: 0
-        d: 0
+        a: -722249652
+        b: 1192120101
+        c: -1980481376
+        d: -252295099
     serializableKey: Variation4_Small
   - Value:
       guid:
-        a: 0
-        b: 0
-        c: 0
-        d: 0
+        a: -974655347
+        b: 1136430532
+        c: 1265628824
+        d: -1852740864
     serializableKey: Variation4_Tooltip
   - Value:
       guid:
-        a: 0
-        b: 0
-        c: 0
-        d: 0
+        a: -722249652
+        b: 1192120101
+        c: -1980481376
+        d: -252295099
     serializableKey: Variation5_Small
   - Value:
       guid:
-        a: 0
-        b: 0
-        c: 0
-        d: 0
+        a: -974655347
+        b: 1136430532
+        c: 1265628824
+        d: -1852740864
     serializableKey: Variation5_Tooltip
   - Value:
       guid:
@@ -3816,17 +4153,17 @@ MonoBehaviour:
     serializableKey: Variation6_Tooltip
   - Value:
       guid:
-        a: 0
-        b: 0
-        c: 0
-        d: 0
+        a: 1476818092
+        b: 1079163837
+        c: 2124198797
+        d: 1637296187
     serializableKey: Variation7_Small
   - Value:
       guid:
-        a: 0
-        b: 0
-        c: 0
-        d: 0
+        a: -778839199
+        b: 1097049435
+        c: -832871782
+        d: 40872083
     serializableKey: Variation7_Tooltip
   - Value:
       guid:
@@ -3842,6 +4179,20 @@ MonoBehaviour:
         c: -1534411607
         d: 490908257
     serializableKey: Variation8_Tooltip
+  - Value:
+      guid:
+        a: 1343973203
+        b: 1252128091
+        c: -1525517121
+        d: -185629138
+    serializableKey: Variation9_Small
+  - Value:
+      guid:
+        a: -306182668
+        b: 1307196280
+        c: 849923726
+        d: -1593295649
+    serializableKey: Variation9_Tooltip
   Color: {r: 1, g: 1, b: 1, a: 1}
   Symbol: 
   SortPriority: 7900
@@ -4165,7 +4516,7 @@ MonoBehaviour:
   m_Script: {fileID: -717291864, guid: b310e23bee821cb478da05296ba685d0, type: 3}
   m_Name: LandUnit_Era6_Common_LightTanks
   m_EditorClassIdentifier: 
-  Title: Light Tanks
+  Title: Light Tank
   Description: "These tanks were the solution to the problem of how do you cross
     \u2018no-man\u2019s land\u2019 under rifle plus machine gun fire and breach the
     enemy\u2019s front line of trenches."
@@ -4965,6 +5316,20 @@ MonoBehaviour:
         c: 40385665
         d: -352264221
     serializableKey: Variation8_Tooltip
+  - Value:
+      guid:
+        a: -1320171520
+        b: 1323674159
+        c: 339724473
+        d: -39898665
+    serializableKey: Variation9_Small
+  - Value:
+      guid:
+        a: -1644024963
+        b: 1191755192
+        c: -1419609442
+        d: 940604637
+    serializableKey: Variation9_Tooltip
   Color: {r: 1, g: 1, b: 1, a: 1}
   Symbol: 
   SortPriority: 7900
@@ -8905,17 +9270,17 @@ MonoBehaviour:
     serializableKey: Variation8_Tooltip
   - Value:
       guid:
-        a: 0
-        b: 0
-        c: 0
-        d: 0
+        a: 1797147996
+        b: 1217711003
+        c: 343043231
+        d: 170086796
     serializableKey: Variation9_Small
   - Value:
       guid:
-        a: 0
-        b: 0
-        c: 0
-        d: 0
+        a: 1957935058
+        b: 1310572776
+        c: -475106684
+        d: 1128081337
     serializableKey: Variation9_Tooltip
   Color: {r: 1, g: 1, b: 1, a: 1}
   Symbol: 
@@ -9605,45 +9970,45 @@ MonoBehaviour:
     serializableKey: Picto
   - Value:
       guid:
-        a: 419498182
-        b: 1084441801
-        c: 513394345
-        d: -2036085041
+        a: 332038955
+        b: 1173803091
+        c: 1725574023
+        d: -309661298
     serializableKey: Default_Small
   - Value:
       guid:
+        a: -1800181988
+        b: 1286106202
+        c: 266756270
+        d: 225888409
+    serializableKey: Default_Tooltip
+  - Value:
+      guid:
         a: 419498182
         b: 1084441801
         c: 513394345
         d: -2036085041
-    serializableKey: Default_Tooltip
-  - Value:
-      guid:
-        a: 0
-        b: 0
-        c: 0
-        d: 0
     serializableKey: Variation1_Small
   - Value:
       guid:
-        a: 0
-        b: 0
-        c: 0
-        d: 0
+        a: 419498182
+        b: 1084441801
+        c: 513394345
+        d: -2036085041
     serializableKey: Variation1_Tooltip
   - Value:
       guid:
-        a: 0
-        b: 0
-        c: 0
-        d: 0
+        a: 419498182
+        b: 1084441801
+        c: 513394345
+        d: -2036085041
     serializableKey: Variation2_Small
   - Value:
       guid:
-        a: 0
-        b: 0
-        c: 0
-        d: 0
+        a: 419498182
+        b: 1084441801
+        c: 513394345
+        d: -2036085041
     serializableKey: Variation2_Tooltip
   - Value:
       guid:
@@ -9689,17 +10054,17 @@ MonoBehaviour:
     serializableKey: Variation5_Tooltip
   - Value:
       guid:
-        a: 0
-        b: 0
-        c: 0
-        d: 0
+        a: -1826920670
+        b: 1313749058
+        c: 829450394
+        d: 233665737
     serializableKey: Variation6_Small
   - Value:
       guid:
-        a: 0
-        b: 0
-        c: 0
-        d: 0
+        a: -283815277
+        b: 1224180356
+        c: 200981928
+        d: -2132079563
     serializableKey: Variation6_Tooltip
   - Value:
       guid:

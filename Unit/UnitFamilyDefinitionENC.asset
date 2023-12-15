@@ -517,7 +517,7 @@ MonoBehaviour:
   m_Name: UnitFamily_LightTank
   m_EditorClassIdentifier: 
   IsObsolete: 0
-  SerializableNextFamilyName: UnitFamily_TankDestroyer
+  SerializableNextFamilyName: UnitFamily_AntiTankIFV
 --- !u!114 &-3820719462790637755
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1258,6 +1258,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsObsolete: 0
   SerializableNextFamilyName: 
+--- !u!114 &3434596427050711727
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1527816587, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitFamily_Tankettes
+  m_EditorClassIdentifier: 
+  IsObsolete: 0
+  SerializableNextFamilyName: UnitFamily_LightTank
 --- !u!114 &3484829034735259834
 MonoBehaviour:
   m_ObjectHideFlags: 0
