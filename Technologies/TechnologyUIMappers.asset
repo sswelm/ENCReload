@@ -850,11 +850,13 @@ MonoBehaviour:
   m_Script: {fileID: 301062344, guid: b310e23bee821cb478da05296ba685d0, type: 3}
   m_Name: Technology_Era6_05
   m_EditorClassIdentifier: 
-  Title: Sloped Armour
-  Description: Sloped armour is armour that is oriented neither vertically nor horizontally.
-    Sloping an armour plate makes it more difficult to penetrate by anti-tank weapons,
-    such as armour-piercing shells  and rockets, if they follow a more or less horizontal
-    trajectory to their target, as is often the case.
+  Title: Blitzkrieg warfare
+  Description: Blitzkrieg is a surprise attack using a rapid, overwhelming force
+    concentration that may consist of armored and motorized or mechanized infantry
+    formations, together with artillery, air assault and close air support, with
+    intent to break through the opponent's lines of defense, dislocate the defenders,
+    unbalance the enemies by making it difficult to respond to the continuously changing
+    front, and defeat them in a decisive battle of annihilation.
   Images:
   - Value:
       guid:
@@ -6119,7 +6121,7 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 11
+  TechTreeX: 10
   TechTreeY: 26
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &4394295577589134966
@@ -6724,6 +6726,47 @@ MonoBehaviour:
   Symbol: 
   TechTreeX: 292
   TechTreeY: 32
+  OptionalUnlockTechnologyMovie: 
+--- !u!114 &5502275994994956517
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 301062344, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Technology_Era1_05
+  m_EditorClassIdentifier: 
+  Title: '%Technology_Era1_05Title'
+  Description: '%Technology_Era1_05Description'
+  Images:
+  - Value:
+      guid:
+        a: 1524544675
+        b: 1082332250
+        c: 2068400822
+        d: 1423480955
+    serializableKey: TechnologyPopupBackground
+  - Value:
+      guid:
+        a: 209776758
+        b: 1286721164
+        c: -1264855650
+        d: 577032575
+    serializableKey: Picto
+  - Value:
+      guid:
+        a: 1524544675
+        b: 1082332250
+        c: 2068400822
+        d: 1423480955
+    serializableKey: TechnologyScreenItemBackground
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  Symbol: 
+  TechTreeX: 16
+  TechTreeY: 6
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &5734144819878006962
 MonoBehaviour:
