@@ -502,8 +502,8 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 120
-  TechTreeY: 29
+  TechTreeX: 115
+  TechTreeY: 31
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &-7823863758528891771
 MonoBehaviour:
@@ -987,10 +987,10 @@ MonoBehaviour:
   Images:
   - Value:
       guid:
-        a: 1102931133
-        b: 1098761053
-        c: 1446785162
-        d: -149850947
+        a: -724939578
+        b: 1223393241
+        c: -500268906
+        d: -1480818318
     serializableKey: TechnologyPopupBackground
   - Value:
       guid:
@@ -1001,15 +1001,15 @@ MonoBehaviour:
     serializableKey: Picto
   - Value:
       guid:
-        a: 1102931133
-        b: 1098761053
-        c: 1446785162
-        d: -149850947
+        a: -724939578
+        b: 1223393241
+        c: -500268906
+        d: -1480818318
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 141
-  TechTreeY: 29
+  TechTreeX: 127
+  TechTreeY: 31
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &-6838726824550680016
 MonoBehaviour:
@@ -2636,8 +2636,8 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 125
-  TechTreeY: 19
+  TechTreeX: 128
+  TechTreeY: 17
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &-3739317850848436674
 MonoBehaviour:
@@ -3328,8 +3328,8 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 113
-  TechTreeY: 29
+  TechTreeX: 112
+  TechTreeY: 24
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &-2733586806483789853
 MonoBehaviour:
@@ -3939,8 +3939,8 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 116
-  TechTreeY: 22
+  TechTreeX: 118
+  TechTreeY: 20
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &-1680948443661534677
 MonoBehaviour:
@@ -3982,6 +3982,47 @@ MonoBehaviour:
   Symbol: 
   TechTreeX: 74
   TechTreeY: 22
+  OptionalUnlockTechnologyMovie: 
+--- !u!114 &-1447691656323864092
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 301062344, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Technology_Era4_Frontier
+  m_EditorClassIdentifier: 
+  Title: Frontier Tactics
+  Description: '%Technology_Era4_11Description'
+  Images:
+  - Value:
+      guid:
+        a: 1102931133
+        b: 1098761053
+        c: 1446785162
+        d: -149850947
+    serializableKey: TechnologyPopupBackground
+  - Value:
+      guid:
+        a: 209776758
+        b: 1286721164
+        c: -1264855650
+        d: 577032575
+    serializableKey: Picto
+  - Value:
+      guid:
+        a: 1102931133
+        b: 1098761053
+        c: 1446785162
+        d: -149850947
+    serializableKey: TechnologyScreenItemBackground
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  Symbol: 
+  TechTreeX: 139
+  TechTreeY: 28
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &-1280454414424104181
 MonoBehaviour:
@@ -5291,17 +5332,16 @@ MonoBehaviour:
   m_Script: {fileID: 301062344, guid: b310e23bee821cb478da05296ba685d0, type: 3}
   m_Name: Technology_Era4_Musket
   m_EditorClassIdentifier: 
-  Title: Musket Warfare
-  Description: A musket is a muzzle-loaded long gun that appeared as a smoothbore
-    weapon, at first as a heavier variant of the arquebus, capable of penetrating
-    plate armour.
+  Title: Privatering
+  Description: Privateering allowed sovereigns to raise revenue for war by mobilizing
+    privately owned armed ships and sailors to supplement state power.
   Images:
   - Value:
       guid:
-        a: -724939578
-        b: 1223393241
-        c: -500268906
-        d: -1480818318
+        a: -983323325
+        b: 1149982042
+        c: 58752952
+        d: 986463919
     serializableKey: TechnologyPopupBackground
   - Value:
       guid:
@@ -5312,15 +5352,15 @@ MonoBehaviour:
     serializableKey: Picto
   - Value:
       guid:
-        a: -724939578
-        b: 1223393241
-        c: -500268906
-        d: -1480818318
+        a: -983323325
+        b: 1149982042
+        c: 58752952
+        d: 986463919
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 134
-  TechTreeY: 29
+  TechTreeX: 133
+  TechTreeY: 28
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &1912950379018743241
 MonoBehaviour:
@@ -6891,8 +6931,8 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 127
-  TechTreeY: 29
+  TechTreeX: 121
+  TechTreeY: 27
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &5920447020722211321
 MonoBehaviour:
@@ -7963,7 +8003,7 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 141
+  TechTreeX: 142
   TechTreeY: 14
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &8979217565746882839
