@@ -5022,6 +5022,173 @@ MonoBehaviour:
   Symbol: 
   SortPriority: 7500
   ConstructibleTraits: 
+--- !u!114 &-1318382730201307263
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -717291864, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: LandUnit_Era4_Common_Buccaneer
+  m_EditorClassIdentifier: 
+  Title: Privateer
+  Description: A privateer is a private person who engages in maritime warfare under
+    a commission of war.
+  Images:
+  - Value:
+      guid:
+        a: -1602574519
+        b: 1249058262
+        c: -1451767403
+        d: 1883891725
+    serializableKey: Picto
+  - Value:
+      guid:
+        a: 1091445877
+        b: 1220486920
+        c: -856254280
+        d: -814399088
+    serializableKey: Default_Small
+  - Value:
+      guid:
+        a: -646061041
+        b: 1149187450
+        c: 844993920
+        d: 1361943008
+    serializableKey: Default_Tooltip
+  - Value:
+      guid:
+        a: -124156410
+        b: 1218217937
+        c: -2057684814
+        d: 445399349
+    serializableKey: Variation1_Small
+  - Value:
+      guid:
+        a: 2059202128
+        b: 1249905530
+        c: 1055863444
+        d: 1970715399
+    serializableKey: Variation1_Tooltip
+  - Value:
+      guid:
+        a: -124156410
+        b: 1218217937
+        c: -2057684814
+        d: 445399349
+    serializableKey: Variation2_Small
+  - Value:
+      guid:
+        a: 2059202128
+        b: 1249905530
+        c: 1055863444
+        d: 1970715399
+    serializableKey: Variation2_Tooltip
+  - Value:
+      guid:
+        a: -443789821
+        b: 1210874553
+        c: -1950334286
+        d: -1353127305
+    serializableKey: Variation3_Small
+  - Value:
+      guid:
+        a: 1170955040
+        b: 1322215809
+        c: -1727395455
+        d: -902274015
+    serializableKey: Variation3_Tooltip
+  - Value:
+      guid:
+        a: -737602142
+        b: 1184465516
+        c: -96016712
+        d: 255156632
+    serializableKey: Variation4_Small
+  - Value:
+      guid:
+        a: 88085508
+        b: 1224223506
+        c: -2034137685
+        d: 709679894
+    serializableKey: Variation4_Tooltip
+  - Value:
+      guid:
+        a: 1658284068
+        b: 1210741964
+        c: 1145038740
+        d: 1804553762
+    serializableKey: Variation5_Small
+  - Value:
+      guid:
+        a: 1825809295
+        b: 1254947470
+        c: -820512633
+        d: -389047471
+    serializableKey: Variation5_Tooltip
+  - Value:
+      guid:
+        a: 1037781954
+        b: 1136918858
+        c: -1034610774
+        d: -416728605
+    serializableKey: Variation6_Small
+  - Value:
+      guid:
+        a: 1410799726
+        b: 1272187874
+        c: -414961750
+        d: 246367446
+    serializableKey: Variation6_Tooltip
+  - Value:
+      guid:
+        a: 1142984022
+        b: 1082092848
+        c: 1259763334
+        d: 820612927
+    serializableKey: Variation7_Small
+  - Value:
+      guid:
+        a: 1839325301
+        b: 1123446528
+        c: 1632450450
+        d: -1144053711
+    serializableKey: Variation7_Tooltip
+  - Value:
+      guid:
+        a: 1091445877
+        b: 1220486920
+        c: -856254280
+        d: -814399088
+    serializableKey: Variation8_Small
+  - Value:
+      guid:
+        a: -646061041
+        b: 1149187450
+        c: 844993920
+        d: 1361943008
+    serializableKey: Variation8_Tooltip
+  - Value:
+      guid:
+        a: 737270997
+        b: 1170631444
+        c: 1981855115
+        d: 1922518142
+    serializableKey: Variation9_Small
+  - Value:
+      guid:
+        a: -1662903338
+        b: 1183266130
+        c: -1883958872
+        d: 1888885846
+    serializableKey: Variation9_Tooltip
+  Color: {r: 1, g: 1, b: 1, a: 1}
+  Symbol: 
+  SortPriority: 7500
+  ConstructibleTraits: 
 --- !u!114 &-1313345304500139518
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6161,10 +6328,10 @@ MonoBehaviour:
     serializableKey: Picto
   - Value:
       guid:
-        a: 1079036473
-        b: 1221410946
-        c: -383763548
-        d: 584209564
+        a: -317927947
+        b: 1276023937
+        c: -1482366586
+        d: -1298223089
     serializableKey: Default_Small
   - Value:
       guid:
@@ -6273,10 +6440,10 @@ MonoBehaviour:
     serializableKey: Variation7_Tooltip
   - Value:
       guid:
-        a: 1079036473
-        b: 1221410946
-        c: -383763548
-        d: 584209564
+        a: -317927947
+        b: 1276023937
+        c: -1482366586
+        d: -1298223089
     serializableKey: Variation8_Small
   - Value:
       guid:
@@ -6284,14 +6451,14 @@ MonoBehaviour:
         b: 1221410946
         c: -383763548
         d: 584209564
-    serializableKey: Variation9_Small
+    serializableKey: Variation8_Tooltip
   - Value:
       guid:
         a: 901740160
         b: 1173416274
         c: -81848400
         d: -834581631
-    serializableKey: Variation8_Tooltip
+    serializableKey: Variation9_Small
   - Value:
       guid:
         a: -2041997464

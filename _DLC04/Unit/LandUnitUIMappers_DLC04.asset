@@ -1,0 +1,54 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 763423559, guid: f8c4d2d2a3a246a0909e3c6973d4a4e3, type: 3}
+  m_Name: LandUnitUIMappers_DLC04
+  m_EditorClassIdentifier: 
+--- !u!114 &2783343778470914792
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -717291864, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: LandUnit_Era4_CaribbeanPirates_EmblematicLand
+  m_EditorClassIdentifier: 
+  Title: '%LandUnit_Era4_CaribbeanPirates_EmblematicLandTitle'
+  Description: '%LandUnit_Era4_CaribbeanPirates_EmblematicLandDescription'
+  Images:
+  - Value:
+      guid:
+        a: -1798088278
+        b: 1104475525
+        c: -657729378
+        d: 216360174
+    serializableKey: Default_Small
+  - Value:
+      guid:
+        a: -586481318
+        b: 1114455162
+        c: -397247093
+        d: -1046872075
+    serializableKey: Default_Tooltip
+  - Value:
+      guid:
+        a: -1602574519
+        b: 1249058262
+        c: -1451767403
+        d: 1883891725
+    serializableKey: Picto
+  Color: {r: 1, g: 1, b: 1, a: 1}
+  Symbol: 
+  SortPriority: 7850
+  ConstructibleTraits: 

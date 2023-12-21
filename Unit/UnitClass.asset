@@ -144,6 +144,26 @@ MonoBehaviour:
   m_Script: {fileID: -211960278, guid: b310e23bee821cb478da05296ba685d0, type: 3}
   m_Name: UnitClass
   m_EditorClassIdentifier: 
+--- !u!114 &1996014336110536222
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -553307230, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitClass_Hybrid
+  m_EditorClassIdentifier: 
+  Prototype:
+    serializableElementName: UnitClass_Prototype_LandUnit
+  OwnAbilityReferences:
+  - serializableElementName: UnitAbility_Prototype_Javelin
+  InstantResolveBattleStrengthBonus:
+    RawValue: 0
+  InstantResolveAttackingOrder: 2
+  InstantResolveBlockingOrder: 2
 --- !u!114 &3055015224108935962
 MonoBehaviour:
   m_ObjectHideFlags: 0
