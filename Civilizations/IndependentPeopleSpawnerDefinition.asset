@@ -88,15 +88,15 @@ MonoBehaviour:
   m_Script: {fileID: 1375915831, guid: b310e23bee821cb478da05296ba685d0, type: 3}
   m_Name: IndependentPeopleSpawner_Era0_ViolentAnimal
   m_EditorClassIdentifier: 
-  Ratio: 0.2
-  BaseLifeTimeInTurns: 24
+  Ratio: 0.25
+  BaseLifeTimeInTurns: 12
   TimeBeforeFactionRespawn: 1
   VisualAffinity:
     serializableElementName: SpawnPoint_ViolentAnimal
   serializableSpawnPointName: 
   ForcedLifeTimeInTurnsWhenSpawnPointLost: 5
-  TimeBetweenArmySpawn: 3
-  TimeBeforeFirstArmySpawn: 3
+  TimeBetweenArmySpawn: 4
+  TimeBeforeFirstArmySpawn: 4
   MaxArmyCountPerGroup: 1
   MaxDefenderArmyCountPerGroup: 0
   MinArmySize: 1
@@ -378,7 +378,7 @@ MonoBehaviour:
   m_Script: {fileID: 1375915831, guid: b310e23bee821cb478da05296ba685d0, type: 3}
   m_Name: IndependentPeopleSpawner_Era0_PeacefulAnimal
   m_EditorClassIdentifier: 
-  Ratio: 0.8
+  Ratio: 0.75
   BaseLifeTimeInTurns: 24
   TimeBeforeFactionRespawn: 1
   VisualAffinity:

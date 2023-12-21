@@ -316,6 +316,22 @@ MonoBehaviour:
   - serializableElementName: UnitAbility_DebuffTargetCannotRetaliate
   InstantResolveBattleStrengthBonus:
     RawValue: 0
+--- !u!114 &684865486215626864
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -374328362, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitSpecialty_Corsair
+  m_EditorClassIdentifier: 
+  AbilityReferences:
+  - serializableElementName: UnitAbility_Marine
+  InstantResolveBattleStrengthBonus:
+    RawValue: 0
 --- !u!114 &2245207103952915921
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -331,6 +347,22 @@ MonoBehaviour:
   AbilityReferences:
   - serializableElementName: UnitAbility_SlowOceanMover
   - serializableElementName: UnitAbility_WeaknessFromOcean_Level1
+  InstantResolveBattleStrengthBonus:
+    RawValue: 0
+--- !u!114 &2527652621170667613
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -374328362, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitSpecialty_Armored
+  m_EditorClassIdentifier: 
+  AbilityReferences:
+  - serializableElementName: UnitAbility_NoMovementPenaltiesFromZonesOfControl
   InstantResolveBattleStrengthBonus:
     RawValue: 0
 --- !u!114 &2855283439142941829
@@ -428,6 +460,22 @@ MonoBehaviour:
   AbilityReferences: []
   InstantResolveBattleStrengthBonus:
     RawValue: 0
+--- !u!114 &5174280733050355100
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -374328362, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitSpecialty_StrengthFromTargetClassCavalry_Half
+  m_EditorClassIdentifier: 
+  AbilityReferences:
+  - serializableElementName: UnitAbility_StrengthFromTargetClassCavalry_Half
+  InstantResolveBattleStrengthBonus:
+    RawValue: 0
 --- !u!114 &5280395104450598719
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -442,6 +490,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AbilityReferences:
   - serializableElementName: UnitAbility_StrengthFromTargetClassArmoured_Level2
+  InstantResolveBattleStrengthBonus:
+    RawValue: 0
+--- !u!114 &6703327488170212974
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -374328362, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitSpecialty_Fragile
+  m_EditorClassIdentifier: 
+  AbilityReferences:
+  - serializableElementName: UnitAbility_Fragile
   InstantResolveBattleStrengthBonus:
     RawValue: 0
 --- !u!114 &7604180802725597833
@@ -505,6 +569,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AbilityReferences:
   - serializableElementName: UnitAbility_StrengthFromAlliesAdjacentToUserNaval_Level1
+  InstantResolveBattleStrengthBonus:
+    RawValue: 0
+--- !u!114 &8731803443199481630
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -374328362, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitSpecialty_Marine
+  m_EditorClassIdentifier: 
+  AbilityReferences:
+  - serializableElementName: UnitAbility_Marine
   InstantResolveBattleStrengthBonus:
     RawValue: 0
 --- !u!114 &8975904104885182499
