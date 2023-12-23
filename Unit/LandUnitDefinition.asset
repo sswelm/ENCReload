@@ -795,7 +795,7 @@ MonoBehaviour:
   - serializableElementName: Effect_LandUnit_Era1_EgyptianKingdom_ChariotArchers
   - serializableElementName: Effect_Unit_Era1
   - serializableElementName: Effect_Unit_Emblematic
-  - serializableElementName: Effect_Unit_Era1_Tier3
+  - serializableElementName: Effect_Unit_Era2_Tier1
   BaseMovementSpeed: 1.8
   MovementSpeedMultiplierPerType:
   - 1.5
@@ -6897,7 +6897,6 @@ MonoBehaviour:
     serializableElementName: UnitClass_MountedGunner
   UnitSpecialties:
   - serializableElementName: UnitSpecialty_AfterAttackingAllowMove
-  - serializableElementName: UnitSpecialty_IncreasedVision_Level1
   OwnDescriptorReferences:
   - serializableElementName: Effect_LandUnit_Era5_Common_Dragoons
   - serializableElementName: Effect_Unit_Era5
@@ -7934,7 +7933,7 @@ MonoBehaviour:
   UnitClass:
     serializableElementName: UnitClass_MountedGunner
   UnitSpecialties:
-  - serializableElementName: UnitSpecialty_MoveOneAfterAttack
+  - serializableElementName: UnitSpecialty_AfterAttackingAllowMove
   OwnDescriptorReferences:
   - serializableElementName: Effect_LandUnit_Era5_Common_CarbineCavalry
   - serializableElementName: Effect_Unit_Era5
@@ -14593,7 +14592,7 @@ MonoBehaviour:
   DLCPrerequisite:
     DownloadableContent: 0
   Category: 6
-  SerializableFamily: UnitFamily_LightCavalry
+  SerializableFamily: UnitFamily_RevolverCavalry
   Level: 32
   Unicity: 0
   UnicityAdditionalConstructible: []
@@ -14659,7 +14658,7 @@ MonoBehaviour:
   UnitClass:
     serializableElementName: UnitClass_MountedGunner
   UnitSpecialties:
-  - serializableElementName: UnitSpecialty_AfterAttackingAllowMove
+  - serializableElementName: UnitSpecialty_MoveOneAfterAttack
   - serializableElementName: UnitSpecialty_IncreasedVision_Level1
   OwnDescriptorReferences:
   - serializableElementName: Effect_LandUnit_Era5_Common_RevolverCavalry

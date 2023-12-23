@@ -290,25 +290,25 @@ MonoBehaviour:
       ToTargetOperation: 0
       RpnOperationStack: 
       ConstantStack:
-      - RawValue: 49000
+      - RawValue: 51000
       PropertyLocalName: []
     - Note: 
       TargetProperty: LandSpeed
       ToTargetOperation: 0
       RpnOperationStack: 
       ConstantStack:
-      - RawValue: 1000
+      - RawValue: 2000
       PropertyLocalName: []
     - Note: 
       TargetProperty: AttackRange
       ToTargetOperation: 1
       RpnOperationStack: 
       ConstantStack:
-      - RawValue: 1000
+      - RawValue: 2000
       PropertyLocalName: []
     - Note: 
       TargetProperty: VisionRange
-      ToTargetOperation: 0
+      ToTargetOperation: 1
       RpnOperationStack: 
       ConstantStack:
       - RawValue: 1000
@@ -1078,13 +1078,6 @@ MonoBehaviour:
       PropertyLocalName: []
     - Note: 
       TargetProperty: LandSpeed
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 1000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: VisionRange
       ToTargetOperation: 0
       RpnOperationStack: 
       ConstantStack:
@@ -1910,13 +1903,6 @@ MonoBehaviour:
       ConstantStack:
       - RawValue: 31000
       PropertyLocalName: []
-    - Note: 
-      TargetProperty: LandSpeed
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 1000
-      PropertyLocalName: []
   serializableCategory: 
   startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
 --- !u!114 &-3365250599536533142
@@ -2203,13 +2189,6 @@ MonoBehaviour:
       RpnOperationStack: 
       ConstantStack:
       - RawValue: 15000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: VisionRange
-      ToTargetOperation: 1
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 1000
       PropertyLocalName: []
   serializableCategory: 
   startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
@@ -2755,20 +2734,6 @@ MonoBehaviour:
       ToTargetOperation: 0
       RpnOperationStack: 
       ConstantStack:
-      - RawValue: 2000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: VisionRange
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 2000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: VisionHeight
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
       - RawValue: 1000
       PropertyLocalName: []
   serializableCategory: 
@@ -2886,13 +2851,6 @@ MonoBehaviour:
     - Note: 
       TargetProperty: LandAttackRange
       ToTargetOperation: 1
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 1000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: VisionRange
-      ToTargetOperation: 0
       RpnOperationStack: 
       ConstantStack:
       - RawValue: 1000
@@ -3559,13 +3517,6 @@ MonoBehaviour:
       RpnOperationStack: 
       ConstantStack:
       - RawValue: 2000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: VisionRange
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 1000
       PropertyLocalName: []
     - Note: 
       TargetProperty: AttackRange
@@ -4552,14 +4503,21 @@ MonoBehaviour:
       ToTargetOperation: 0
       RpnOperationStack: 
       ConstantStack:
-      - RawValue: 2000
+      - RawValue: 1000
       PropertyLocalName: []
     - Note: 
       TargetProperty: VisionRange
       ToTargetOperation: 0
       RpnOperationStack: 
       ConstantStack:
-      - RawValue: 2000
+      - RawValue: 1000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: AttackRange
+      ToTargetOperation: 1
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 1000
       PropertyLocalName: []
   serializableCategory: 
   startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
@@ -4845,6 +4803,13 @@ MonoBehaviour:
     - Note: 
       TargetProperty: LandSpeed
       ToTargetOperation: 1
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 1000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: VisionRange
+      ToTargetOperation: 0
       RpnOperationStack: 
       ConstantStack:
       - RawValue: 1000
@@ -5774,13 +5739,6 @@ MonoBehaviour:
       ConstantStack:
       - RawValue: 26000
       PropertyLocalName: []
-    - Note: 
-      TargetProperty: LandSpeed
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 1000
-      PropertyLocalName: []
   serializableCategory: 
   startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
 --- !u!114 &6055491769037268590
@@ -5921,13 +5879,6 @@ MonoBehaviour:
       ConstantStack:
       - RawValue: 1000
       PropertyLocalName: []
-    - Note: 
-      TargetProperty: VisionRange
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 1000
-      PropertyLocalName: []
   serializableCategory: 
   startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
 --- !u!114 &6453219088760809246
@@ -5962,6 +5913,13 @@ MonoBehaviour:
       RpnOperationStack: 
       ConstantStack:
       - RawValue: 16000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: LandSpeed
+      ToTargetOperation: 1
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 1000
       PropertyLocalName: []
   serializableCategory: 
   startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
@@ -6096,6 +6054,13 @@ MonoBehaviour:
       ConstantStack:
       - RawValue: 1000
       PropertyLocalName: []
+    - Note: 
+      TargetProperty: VisionRange
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 1000
+      PropertyLocalName: []
   serializableCategory: 
   startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
 --- !u!114 &6665152274097291911
@@ -6224,20 +6189,6 @@ MonoBehaviour:
       PropertyLocalName: []
     - Note: 
       TargetProperty: LandSpeed
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 2000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: VisionRange
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 2000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: VisionHeight
       ToTargetOperation: 0
       RpnOperationStack: 
       ConstantStack:
@@ -6963,6 +6914,13 @@ MonoBehaviour:
       RpnOperationStack: 
       ConstantStack:
       - RawValue: 13000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: VisionRange
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 1000
       PropertyLocalName: []
   serializableCategory: 
   startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass

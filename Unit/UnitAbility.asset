@@ -234,6 +234,27 @@ MonoBehaviour:
   BattleAbilityReference:
   - serializableElementName: BattleAbility_StrengthFromTargetClassGunship
   pathfindingFlags: 0
+--- !u!114 &-719428414060779047
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 573507786, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitAbility_Prototype_Cavalry
+  m_EditorClassIdentifier: 
+  TagAsAbility: 0
+  MovementAbility: 0
+  DescriptorReferences:
+  - serializableElementName: Effect_UnitPrototype_Cavalry
+  - serializableElementName: Effect_Unit_RansackStrength2
+  BattleAbilityReference:
+  - serializableElementName: BattleAbility_MoneyFromAnimals
+  - serializableElementName: BattleAbility_AdvancedTerrain
+  pathfindingFlags: 0
 --- !u!114 &-113258664228749157
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -651,6 +672,47 @@ MonoBehaviour:
   - serializableElementName: Effect_UnitAbility_StrengthFromAlliesAdjacentToUser
   BattleAbilityReference:
   - serializableElementName: BattleAbility_StrengthFromAlliesAdjacentToUserNaval
+  pathfindingFlags: 0
+--- !u!114 &5686901617482070963
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 573507786, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitAbility_Prototype_MountedFast
+  m_EditorClassIdentifier: 
+  TagAsAbility: 0
+  MovementAbility: 0
+  DescriptorReferences:
+  - serializableElementName: Effect_UnitPrototype_MountedFast
+  BattleAbilityReference:
+  - serializableElementName: BattleAbility_MoneyFromAnimals
+  - serializableElementName: BattleAbility_AdvancedTerrain
+  pathfindingFlags: 0
+--- !u!114 &5882739500102452692
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 573507786, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitAbility_Prototype_HeavyCavalry
+  m_EditorClassIdentifier: 
+  TagAsAbility: 0
+  MovementAbility: 0
+  DescriptorReferences:
+  - serializableElementName: Effect_UnitPrototype_HeavyCavalry
+  - serializableElementName: Effect_Unit_RansackStrength2
+  BattleAbilityReference:
+  - serializableElementName: BattleAbility_MoneyFromAnimals
+  - serializableElementName: BattleAbility_AdvancedTerrain
   pathfindingFlags: 0
 --- !u!114 &6388087695595240984
 MonoBehaviour:
