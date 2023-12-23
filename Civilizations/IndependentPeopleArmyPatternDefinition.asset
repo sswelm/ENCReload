@@ -21,7 +21,7 @@ MonoBehaviour:
       serializableElementName: UnitFamily_Militia
     LevelMin: 6
     LevelMax: 9
-    Count: 3
+    Count: 4
 --- !u!114 &-8915133722726692916
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -133,7 +133,7 @@ MonoBehaviour:
       serializableElementName: UnitFamily_AntiCavalry_Copper
     LevelMin: 8
     LevelMax: 13
-    Count: 2
+    Count: 3
   - UnitFamilyReference:
       serializableElementName: UnitFamily_Ranged
     LevelMin: 8
@@ -255,6 +255,28 @@ MonoBehaviour:
     LevelMin: 25
     LevelMax: 33
     Count: 4
+--- !u!114 &-7583393450745619548
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1569221641, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitPattern_Crisis_Era3_Attacker_6
+  m_EditorClassIdentifier: 
+  SelectionCondition: 17
+  OrLifeTime: 0
+  MaxLifeTimeInTurn: -1
+  MinLifeTimeInTurn: 0
+  FamilyUnitPatterns:
+  - UnitFamilyReference:
+      serializableElementName: UnitFamily_Skirmisher
+    LevelMin: 12
+    LevelMax: 21
+    Count: 4
 --- !u!114 &-7410595879493547813
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -275,12 +297,12 @@ MonoBehaviour:
   - UnitFamilyReference:
       serializableElementName: UnitFamily_HeavyCavalry
     LevelMin: 6
-    LevelMax: 9
+    LevelMax: 14
     Count: 1
   - UnitFamilyReference:
-      serializableElementName: UnitFamily_Melee
+      serializableElementName: UnitFamily_ChariotArcher
     LevelMin: 6
-    LevelMax: 9
+    LevelMax: 14
     Count: 1
 --- !u!114 &-7352785034698892203
 MonoBehaviour:
@@ -366,7 +388,7 @@ MonoBehaviour:
   MinLifeTimeInTurn: 0
   FamilyUnitPatterns:
   - UnitFamilyReference:
-      serializableElementName: UnitFamily_Militia
+      serializableElementName: UnitFamily_AntiCavalry_Copper
     LevelMin: 8
     LevelMax: 13
     Count: 3
@@ -442,12 +464,12 @@ MonoBehaviour:
   MinLifeTimeInTurn: 0
   FamilyUnitPatterns:
   - UnitFamilyReference:
-      serializableElementName: UnitFamily_SpearThrower
+      serializableElementName: UnitFamily_AntiCavalry_Stone
     LevelMin: 6
     LevelMax: 9
     Count: 2
   - UnitFamilyReference:
-      serializableElementName: UnitFamily_AntiCavalry_Stone
+      serializableElementName: UnitFamily_SpearThrower
     LevelMin: 6
     LevelMax: 9
     Count: 2
@@ -471,6 +493,28 @@ MonoBehaviour:
   - UnitReference:
       serializableElementName: LandUnit_Era3_Common_GreatSwordsmen
     Count: 3
+--- !u!114 &-6598999146969383531
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1569221641, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitPattern_Crisis_Era3_Attacker_7
+  m_EditorClassIdentifier: 
+  SelectionCondition: 17
+  OrLifeTime: 0
+  MaxLifeTimeInTurn: -1
+  MinLifeTimeInTurn: 0
+  FamilyUnitPatterns:
+  - UnitFamilyReference:
+      serializableElementName: UnitFamily_DesertCavalry
+    LevelMin: 12
+    LevelMax: 21
+    Count: 3
 --- !u!114 &-6426134453124568571
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -493,6 +537,28 @@ MonoBehaviour:
     LevelMin: 25
     LevelMax: 33
     Count: 6
+--- !u!114 &-6415780606132338343
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1569221641, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitPattern_Crisis_Era3_Attacker_4
+  m_EditorClassIdentifier: 
+  SelectionCondition: 17
+  OrLifeTime: 0
+  MaxLifeTimeInTurn: -1
+  MinLifeTimeInTurn: 0
+  FamilyUnitPatterns:
+  - UnitFamilyReference:
+      serializableElementName: UnitFamily_Militia
+    LevelMin: 12
+    LevelMax: 21
+    Count: 5
 --- !u!114 &-5836200977367026338
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -537,7 +603,7 @@ MonoBehaviour:
       serializableElementName: UnitFamily_Scout
     LevelMin: 6
     LevelMax: 9
-    Count: 2
+    Count: 3
 --- !u!114 &-5697653211387995209
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -601,6 +667,28 @@ MonoBehaviour:
   - UnitReference:
       serializableElementName: LandUnit_Era1_Common_Slingers
     Count: 4
+--- !u!114 &-5513517439270278863
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1569221641, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitPattern_Crisis_Era3_Attacker_1
+  m_EditorClassIdentifier: 
+  SelectionCondition: 13
+  OrLifeTime: 0
+  MaxLifeTimeInTurn: -1
+  MinLifeTimeInTurn: 0
+  FamilyUnitPatterns:
+  - UnitFamilyReference:
+      serializableElementName: UnitFamily_ShockCavalry
+    LevelMin: 12
+    LevelMax: 21
+    Count: 3
 --- !u!114 &-5239979965527377123
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -774,6 +862,116 @@ MonoBehaviour:
   - UnitReference:
       serializableElementName: LandUnit_Era1_Common_SpearThrowers
     Count: 2
+--- !u!114 &-3517372053838021644
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1569221641, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitPattern_Crisis_Era4_Attacker_3
+  m_EditorClassIdentifier: 
+  SelectionCondition: 17
+  OrLifeTime: 0
+  MaxLifeTimeInTurn: -1
+  MinLifeTimeInTurn: 0
+  FamilyUnitPatterns:
+  - UnitFamilyReference:
+      serializableElementName: UnitFamily_Marine
+    LevelMin: 20
+    LevelMax: 26
+    Count: 4
+--- !u!114 &-3164531623662022896
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1569221641, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitPattern_Crisis_Era4_Attacker_2
+  m_EditorClassIdentifier: 
+  SelectionCondition: 17
+  OrLifeTime: 0
+  MaxLifeTimeInTurn: -1
+  MinLifeTimeInTurn: 0
+  FamilyUnitPatterns:
+  - UnitFamilyReference:
+      serializableElementName: UnitFamily_SiegeInfantry
+    LevelMin: 20
+    LevelMax: 26
+    Count: 4
+--- !u!114 &-3071365383514750906
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1569221641, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitPattern_Crisis_Era4_Attacker_5
+  m_EditorClassIdentifier: 
+  SelectionCondition: 17
+  OrLifeTime: 0
+  MaxLifeTimeInTurn: -1
+  MinLifeTimeInTurn: 0
+  FamilyUnitPatterns:
+  - UnitFamilyReference:
+      serializableElementName: UnitFamily_StealthInfantry
+    LevelMin: 20
+    LevelMax: 26
+    Count: 4
+--- !u!114 &-2972274153102856644
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1569221641, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitPattern_Crisis_Era4_Attacker_4
+  m_EditorClassIdentifier: 
+  SelectionCondition: 17
+  OrLifeTime: 0
+  MaxLifeTimeInTurn: -1
+  MinLifeTimeInTurn: 0
+  FamilyUnitPatterns:
+  - UnitFamilyReference:
+      serializableElementName: UnitFamily_Militia
+    LevelMin: 20
+    LevelMax: 26
+    Count: 5
+--- !u!114 &-2681887465077755558
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1569221641, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitPattern_Crisis_Era3_Defender_1
+  m_EditorClassIdentifier: 
+  SelectionCondition: 14
+  OrLifeTime: 0
+  MaxLifeTimeInTurn: -1
+  MinLifeTimeInTurn: 0
+  FamilyUnitPatterns:
+  - UnitFamilyReference:
+      serializableElementName: UnitFamily_HeavyMelee
+    LevelMin: 12
+    LevelMax: 21
+    Count: 3
 --- !u!114 &-2565734703072341625
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1355,6 +1553,33 @@ MonoBehaviour:
   - UnitReference:
       serializableElementName: LandUnit_Era4_Common_Reiters
     Count: 3
+--- !u!114 &2422290897905561694
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1569221641, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitPattern_Crisis_Era3_Attacker_3
+  m_EditorClassIdentifier: 
+  SelectionCondition: 17
+  OrLifeTime: 0
+  MaxLifeTimeInTurn: -1
+  MinLifeTimeInTurn: 0
+  FamilyUnitPatterns:
+  - UnitFamilyReference:
+      serializableElementName: UnitFamily_Ranged
+    LevelMin: 12
+    LevelMax: 21
+    Count: 2
+  - UnitFamilyReference:
+      serializableElementName: UnitFamily_HeavyMelee
+    LevelMin: 12
+    LevelMax: 21
+    Count: 2
 --- !u!114 &2518124902489022457
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1398,6 +1623,28 @@ MonoBehaviour:
   - UnitReference:
       serializableElementName: LandUnit_Era4_Common_Lancers
     Count: 2
+--- !u!114 &3470150976633828250
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1569221641, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitPattern_Crisis_Era3_Attacker_5
+  m_EditorClassIdentifier: 
+  SelectionCondition: 17
+  OrLifeTime: 0
+  MaxLifeTimeInTurn: -1
+  MinLifeTimeInTurn: 0
+  FamilyUnitPatterns:
+  - UnitFamilyReference:
+      serializableElementName: UnitFamily_ShockInfantry
+    LevelMin: 12
+    LevelMax: 21
+    Count: 4
 --- !u!114 &3486751431682621586
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1444,7 +1691,7 @@ MonoBehaviour:
     LevelMax: 9
     Count: 1
   - UnitFamilyReference:
-      serializableElementName: UnitFamily_Melee
+      serializableElementName: UnitFamily_Ranged
     LevelMin: 6
     LevelMax: 9
     Count: 1
@@ -1527,6 +1774,28 @@ MonoBehaviour:
   - UnitReference:
       serializableElementName: LandUnit_Era1_Common_ChariotArchers
     Count: 3
+--- !u!114 &4171766894850687908
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1569221641, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitPattern_Crisis_Era4_Attacker_1
+  m_EditorClassIdentifier: 
+  SelectionCondition: 13
+  OrLifeTime: 0
+  MaxLifeTimeInTurn: -1
+  MinLifeTimeInTurn: 0
+  FamilyUnitPatterns:
+  - UnitFamilyReference:
+      serializableElementName: UnitFamily_ColonialInfantry
+    LevelMin: 20
+    LevelMax: 26
+    Count: 4
 --- !u!114 &4251150420149725636
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1588,7 +1857,7 @@ MonoBehaviour:
       serializableElementName: UnitFamily_ScoutCavalry
     LevelMin: 6
     LevelMax: 9
-    Count: 2
+    Count: 3
 --- !u!114 &4564251890132624467
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1650,10 +1919,32 @@ MonoBehaviour:
   MinLifeTimeInTurn: 0
   FamilyUnitPatterns:
   - UnitFamilyReference:
-      serializableElementName: UnitFamily_AntiCavalry_Copper
+      serializableElementName: UnitFamily_Melee
     LevelMin: 6
     LevelMax: 9
     Count: 3
+--- !u!114 &5021873238411138380
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1569221641, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitPattern_Crisis_Era3_Defender_2
+  m_EditorClassIdentifier: 
+  SelectionCondition: 18
+  OrLifeTime: 0
+  MaxLifeTimeInTurn: -1
+  MinLifeTimeInTurn: 0
+  FamilyUnitPatterns:
+  - UnitFamilyReference:
+      serializableElementName: UnitFamily_AntiCavalry
+    LevelMin: 12
+    LevelMax: 21
+    Count: 4
 --- !u!114 &5229339942228682250
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1757,7 +2048,7 @@ MonoBehaviour:
   MinLifeTimeInTurn: 0
   FamilyUnitPatterns:
   - UnitFamilyReference:
-      serializableElementName: UnitFamily_Melee
+      serializableElementName: UnitFamily_AntiCavalry_Copper
     LevelMin: 6
     LevelMax: 9
     Count: 2
@@ -1899,6 +2190,33 @@ MonoBehaviour:
   - UnitReference:
       serializableElementName: LandUnit_Era3_Common_Crossbowmen
     Count: 4
+--- !u!114 &7358117864134625837
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1569221641, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitPattern_Crisis_Era3_Attacker_2
+  m_EditorClassIdentifier: 
+  SelectionCondition: 17
+  OrLifeTime: 0
+  MaxLifeTimeInTurn: -1
+  MinLifeTimeInTurn: 0
+  FamilyUnitPatterns:
+  - UnitFamilyReference:
+      serializableElementName: UnitFamily_AntiCavalry
+    LevelMin: 12
+    LevelMax: 21
+    Count: 2
+  - UnitFamilyReference:
+      serializableElementName: UnitFamily_Ranged
+    LevelMin: 12
+    LevelMax: 21
+    Count: 2
 --- !u!114 &7378854154241968356
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1951,6 +2269,33 @@ MonoBehaviour:
     LevelMin: 8
     LevelMax: 13
     Count: 1
+--- !u!114 &7776918289859151038
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1569221641, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitPattern_Crisis_Era4_Attacker_6
+  m_EditorClassIdentifier: 
+  SelectionCondition: 17
+  OrLifeTime: 0
+  MaxLifeTimeInTurn: -1
+  MinLifeTimeInTurn: 0
+  FamilyUnitPatterns:
+  - UnitFamilyReference:
+      serializableElementName: UnitFamily_Cavalry
+    LevelMin: 20
+    LevelMax: 26
+    Count: 2
+  - UnitFamilyReference:
+      serializableElementName: UnitFamily_ShockCavalry
+    LevelMin: 20
+    LevelMax: 26
+    Count: 2
 --- !u!114 &7853442787830314002
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2097,7 +2442,7 @@ MonoBehaviour:
       serializableElementName: UnitFamily_MeleeAntiCavalry
     LevelMin: 20
     LevelMax: 28
-    Count: 2
+    Count: 3
   - UnitFamilyReference:
       serializableElementName: UnitFamily_Cannon
     LevelMin: 20

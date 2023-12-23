@@ -253,9 +253,10 @@ MonoBehaviour:
   m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
   m_Name: Technology_Era1_Tier2_CostExtra
   m_EditorClassIdentifier: 
-  RpnOperationStack: 
+  RpnOperationStack: 0a0000000a00000002000000
   ConstantStack:
   - RawValue: 150000
+  - RawValue: 1100
   Note: 
   PropertyLocalNameStack: []
   VariableNameStack: []
@@ -299,7 +300,7 @@ MonoBehaviour:
   RpnOperationStack: 0a0000000a00000002000000
   ConstantStack:
   - RawValue: 180000
-  - RawValue: 1100
+  - RawValue: 1200
   Note: 
   PropertyLocalNameStack: []
   VariableNameStack: []
@@ -388,7 +389,7 @@ MonoBehaviour:
   RpnOperationStack: 0a0000000a00000002000000
   ConstantStack:
   - RawValue: 250000
-  - RawValue: 1200
+  - RawValue: 1300
   Note: 
   PropertyLocalNameStack: []
   VariableNameStack: []

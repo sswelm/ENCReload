@@ -86,7 +86,7 @@ MonoBehaviour:
       serializableElementName: Technology_Era5_Tier3_Cost
   - Tier: 3
     TechnologyCostRpnReference:
-      serializableElementName: 
+      serializableElementName: Technology_Era5_Tier4_Cost
   DescriptorReferences: []
   UpgradeTraitsReferences:
   - serializableElementName: LegacyTrait_Era5_Upgrade
@@ -446,7 +446,7 @@ MonoBehaviour:
   EraIndex: 2
   TheoreticalTurnCount: 50
   EraStarsCountEvolutionRequirement:
-    RawValue: 7000
+    RawValue: 8000
   EvolutionBaseRequirementMiscEmpireFlags: 
   BaseGlobalEraThreshold: 14
   TechnologyCostRpnPerTier:
