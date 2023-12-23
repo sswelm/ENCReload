@@ -989,6 +989,30 @@ MonoBehaviour:
     serializableKey: Small
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
+--- !u!114 &3173046364258124202
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 981126955, guid: f8c4d2d2a3a246a0909e3c6973d4a4e3, type: 3}
+  m_Name: Effect_EmpireBonus_GunnerRifleUpgradeEra6
+  m_EditorClassIdentifier: 
+  Title: Rifle Upgrade
+  Description: All riffle units gain increased attack range
+  Images:
+  - Value:
+      guid:
+        a: 143282305
+        b: 1280028640
+        c: 1766937739
+        d: 405257795
+    serializableKey: Small
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  Symbol: '[combatStrength]'
 --- !u!114 &3173975411528543350
 MonoBehaviour:
   m_ObjectHideFlags: 0
