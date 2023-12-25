@@ -7663,7 +7663,7 @@ MonoBehaviour:
       Data: 9|Amplitude.Framework.DatatableElementReference[], Amplitude.Framework
     - Name: 
       Entry: 12
-      Data: 3
+      Data: 4
     - Name: 
       Entry: 7
       Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
@@ -7688,6 +7688,15 @@ MonoBehaviour:
     - Name: serializableElementName
       Entry: 1
       Data: LandUnit_Era1_Sumer_AgaUsh
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: LandUnit_Era1_EgyptianKingdom_Spearmen
     - Name: 
       Entry: 8
       Data: 
@@ -10990,7 +10999,7 @@ MonoBehaviour:
   IsExclusiveToEra: 0
   Priority: 0
   OverrideTierCostRpnReference:
-    serializableElementName: 
+    serializableElementName: Technology_Era1_Tier3_CostExtra
   TechnologyPrerequisite:
     SerializableTechnologyNames:
     - Technology_Era1_06
@@ -34502,7 +34511,7 @@ MonoBehaviour:
   IsExclusiveToEra: 0
   Priority: 0
   OverrideTierCostRpnReference:
-    serializableElementName: 
+    serializableElementName: Technology_Era1_Tier3_CostExtra
   TechnologyPrerequisite:
     SerializableTechnologyNames:
     - Technology_Era1_09
@@ -36798,13 +36807,22 @@ MonoBehaviour:
       Data: 6|Amplitude.Framework.DatatableElementReference[], Amplitude.Framework
     - Name: 
       Entry: 12
-      Data: 1
+      Data: 2
     - Name: 
       Entry: 7
       Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
     - Name: serializableElementName
       Entry: 1
       Data: NavalUnit_Era1_Common_Biremes
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: NavalUnit_Era1_EgyptianKingdom_RamsesWarGalley
     - Name: 
       Entry: 8
       Data: 
@@ -36875,13 +36893,22 @@ MonoBehaviour:
       Data: 9|Amplitude.Framework.DatatableElementReference[], Amplitude.Framework
     - Name: 
       Entry: 12
-      Data: 1
+      Data: 2
     - Name: 
       Entry: 7
       Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
     - Name: serializableElementName
       Entry: 1
       Data: NavalTransport_Era1_Common_EarlyTransports
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: NavalTransport_Era2_EgyptianKingdom_TransportGalleys
     - Name: 
       Entry: 8
       Data: 
@@ -40797,7 +40824,7 @@ MonoBehaviour:
       Data: 3|Amplitude.Framework.DatatableElementReference[], Amplitude.Framework
     - Name: 
       Entry: 12
-      Data: 2
+      Data: 3
     - Name: 
       Entry: 7
       Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
@@ -40813,6 +40840,15 @@ MonoBehaviour:
     - Name: serializableElementName
       Entry: 1
       Data: LandUnit_Era1_Nubia_NubianArchers
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: LandUnit_Era1_EgyptianKingdom_Archers
     - Name: 
       Entry: 8
       Data: 
