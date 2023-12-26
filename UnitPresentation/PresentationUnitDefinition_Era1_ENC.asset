@@ -341,6 +341,53 @@ MonoBehaviour:
       b: 1139678947
       c: 832313261
       d: -1124329116
+--- !u!114 &1442249073296495974
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 759592875, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: PresentationLandUnit_Era1_EgyptianKingdom_Chariots
+  m_EditorClassIdentifier: 
+  IsWorkInProgress: 0
+  UnitDefinitionReference:
+    serializableElementName: LandUnit_Era1_EgyptianKingdom_Chariots
+  PresentationFormationDefinition:
+    serializableElementName: Formation_1
+  FormationBehaviourDefinition:
+    serializableElementName: 
+  ChoreographyOverride: 3
+  NoAttackRotation: 0
+  FacingAngleOffset: 0
+  MinDistanceBetweenFormationDummies: 0
+  RestrictionPerSlot: []
+  UnitSpecification: 2
+  CoordinationMasterValue: 0.66
+  CoordinationValues:
+    DummyOffsetPosition: {x: 0.067999996, y: 0.11899999}
+    DummyOffsetAngle: {x: 6.799999, y: 10.199999}
+    AnimationDelay: {x: 0, y: 0.33999997}
+    MinDistanceReformationMultiplier: 0.66999996
+    CoordinateAttackMovement: 0
+    SameRowAttack: 1
+    AveragePathLength: 0
+    UseDisciplinedVariation: 0
+  StealthRevealAudioEvent:
+    guid:
+      a: -1326129278
+      b: 1160368417
+      c: 1151361188
+      d: -1076931018
+  unitVoiceProviderReference:
+    guid:
+      a: 1799665559
+      b: 1139678947
+      c: 832313261
+      d: -1124329116
 --- !u!114 &2536030742474410528
 MonoBehaviour:
   m_ObjectHideFlags: 0
