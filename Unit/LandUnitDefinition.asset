@@ -381,8 +381,8 @@ MonoBehaviour:
   DLCPrerequisite:
     DownloadableContent: 0
   Category: 6
-  SerializableFamily: UnitFamily_Slinger
-  Level: 12
+  SerializableFamily: UnitFamily_StaffSlinger
+  Level: 16
   Unicity: 0
   UnicityAdditionalConstructible: []
   ConstructibleVisualAffinity:
@@ -395,7 +395,7 @@ MonoBehaviour:
     Type: 1
     Constant: -1
     RpnDefinitionReference:
-      serializableElementName: ProductionCost_Unit_Era1_Low
+      serializableElementName: ProductionCost_Unit_Era2_High
   MoneyInstantCostDefinition:
     Constant: 0
     RpnDefinitionReference:
@@ -444,11 +444,12 @@ MonoBehaviour:
   UnitClass:
     serializableElementName: UnitClass_Ranged
   UnitSpecialties:
-  - serializableElementName: UnitSpecialty_NoMovementPenaltiesFromRocks
+  - serializableElementName: UnitSpecialty_StrengthFromSiege_Level1
+  - serializableElementName: UnitSpecialty_IgnoreLineOfSight
   OwnDescriptorReferences:
   - serializableElementName: Effect_LandUnit_Era2_Common_StaffSlingers
   - serializableElementName: Effect_Unit_Era2
-  - serializableElementName: Effect_Unit_Era2_Tier1
+  - serializableElementName: Effect_Unit_Era2_Tier3
   BaseMovementSpeed: 1.8
   MovementSpeedMultiplierPerType:
   - 1.5
@@ -2473,7 +2474,7 @@ MonoBehaviour:
     Type: 1
     Constant: -1
     RpnDefinitionReference:
-      serializableElementName: ProductionCost_Unit_Era1_Low
+      serializableElementName: ProductionCost_Unit_Era1_Medium
   MoneyInstantCostDefinition:
     Constant: 0
     RpnDefinitionReference:
@@ -2523,10 +2524,11 @@ MonoBehaviour:
     serializableElementName: UnitClass_Ranged
   UnitSpecialties:
   - serializableElementName: UnitSpecialty_NoMovementPenaltiesFromRocks
+  - serializableElementName: UnitSpecialty_BonusStrengthFromExperience_Level1
   OwnDescriptorReferences:
   - serializableElementName: Effect_LandUnit_Era1_Common_Slingers
   - serializableElementName: Effect_Unit_Era1
-  - serializableElementName: Effect_Unit_Era1_Tier1
+  - serializableElementName: Effect_Unit_Era1_Tier2
   BaseMovementSpeed: 1.8
   MovementSpeedMultiplierPerType:
   - 1.5
@@ -2720,7 +2722,7 @@ MonoBehaviour:
   - Resource: 2
     ConstantType: 0
     ConstantValue: 5
-  MinimalPopulationPrerequisite: 0
+  MinimalPopulationPrerequisite: 9
   ResourceSupremacyPrerequisite: 
   EraPrerequisite:
     Operator: 1
@@ -3235,6 +3237,120 @@ MonoBehaviour:
   AlwaysUseCurrentEraVisualAffinity: 0
   visualAffinityEraReference:
     serializableElementName: Era3
+  unitSpecialty:
+    serializableElementName: 
+--- !u!114 &-6192859541711636095
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1069260532, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: LandUnit_Era2_Common_ShieldedSlingers
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: GainValues
+      Entry: 6
+      Data: 
+  Key: 0
+  Hidden: 0
+  IsObsolete: 0
+  DLCPrerequisite:
+    DownloadableContent: 0
+  Category: 6
+  SerializableFamily: UnitFamily_Slinger
+  Level: 12
+  Unicity: 0
+  UnicityAdditionalConstructible: []
+  ConstructibleVisualAffinity:
+    serializableElementName: 
+  CanBeBoughtOut: 1
+  CanBeCanceled: 1
+  StartWhenQueued: 0
+  CanBeBoughtOutWithPopulation: 0
+  ProductionCostDefinition:
+    Type: 1
+    Constant: -1
+    RpnDefinitionReference:
+      serializableElementName: ProductionCost_Unit_Era2_Low
+  MoneyInstantCostDefinition:
+    Constant: 0
+    RpnDefinitionReference:
+      serializableElementName: 
+  InfluenceInstantCostDefinition:
+    Constant: 0
+    RpnDefinitionReference:
+      serializableElementName: 
+  PopulationInstantCostDefinition:
+    Constant: 1
+  ProvidedByOtherEmpireCostDefinition:
+    ProductionCostModifierRpn:
+      serializableElementName: 
+    ReceiverMoneyCostRpn:
+      serializableElementName: 
+    ProviderMoneyGainRpn:
+      serializableElementName: 
+  ResourceAccessPrerequisites:
+  - Resource: 1
+    ConstantType: 0
+    ConstantValue: 2
+  MinimalPopulationPrerequisite: 0
+  ResourceSupremacyPrerequisite: 
+  EraPrerequisite:
+    Operator: 1
+    EraReference:
+      serializableElementName: 
+  FactionPrerequisite:
+    Operator: 0
+    serializableFactionNames: []
+  SettlementStatusPrerequisite:
+    CampConstraint: 0
+    CityConstraint: 1
+  ReligionAffinityPrerequisite:
+    serializableElementName: 
+  SettlementPropertyPrerequisites: []
+  SettlementStabilityPrerequisite:
+    Operator: 0
+    PublicOrderEffects: []
+  DistrictCountPrerequisites: []
+  ActionTypePrerequisite:
+    Operator: 0
+    ActionType: 0
+  ArtificialWonderBuiltPrerequisite:
+    Operator: 0
+    ArtificialWonderDefinition:
+      serializableElementName: 
+  BaseSynergyDistrict: 0
+  UnitClass:
+    serializableElementName: UnitClass_ShieldedRanged
+  UnitSpecialties:
+  - serializableElementName: UnitSpecialty_NoMovementPenaltiesFromRocks
+  - serializableElementName: UnitSpecialty_BonusStrengthFromExperience_Level1
+  OwnDescriptorReferences:
+  - serializableElementName: Effect_LandUnit_Era2_Common_ShieldedSlingers
+  - serializableElementName: Effect_Unit_Era2
+  - serializableElementName: Effect_Unit_Era2_Tier1
+  BaseMovementSpeed: 1.8
+  MovementSpeedMultiplierPerType:
+  - 1.5
+  - 2.5
+  - 4
+  - 1.03
+  UnitTags: 49
+  AlwaysUseCurrentEraVisualAffinity: 0
+  visualAffinityEraReference:
+    serializableElementName: Era1
   unitSpecialty:
     serializableElementName: 
 --- !u!114 &-6164461771635907963
