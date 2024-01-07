@@ -329,6 +329,53 @@ MonoBehaviour:
       b: 1127163104
       c: -6804313
       d: -1489757415
+--- !u!114 &-1408291314495641605
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 759592875, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: PresentationLandUnit_Era2_RomanEmpire_Cataphracts
+  m_EditorClassIdentifier: 
+  IsWorkInProgress: 0
+  UnitDefinitionReference:
+    serializableElementName: LandUnit_Era2_RomanEmpire_Cataphracts
+  PresentationFormationDefinition:
+    serializableElementName: Formation_Wedge_3
+  FormationBehaviourDefinition:
+    serializableElementName: 
+  ChoreographyOverride: 3
+  NoAttackRotation: 0
+  FacingAngleOffset: 0
+  MinDistanceBetweenFormationDummies: 0
+  RestrictionPerSlot: []
+  UnitSpecification: 1
+  CoordinationMasterValue: 0.5
+  CoordinationValues:
+    DummyOffsetPosition: {x: 0.1, y: 0.175}
+    DummyOffsetAngle: {x: 10, y: 15}
+    AnimationDelay: {x: 0, y: 0.5}
+    MinDistanceReformationMultiplier: 1
+    CoordinateAttackMovement: 0
+    SameRowAttack: 1
+    AveragePathLength: 0
+    UseDisciplinedVariation: 0
+  StealthRevealAudioEvent:
+    guid:
+      a: -1326129278
+      b: 1160368417
+      c: 1151361188
+      d: -1076931018
+  unitVoiceProviderReference:
+    guid:
+      a: -956707267
+      b: 1127163104
+      c: -6804313
+      d: -1489757415
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -388,6 +435,100 @@ MonoBehaviour:
       b: 1127163104
       c: -6804313
       d: -1489757415
+--- !u!114 &2364454924710366706
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 759592875, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: PresentationLandUnit_Era2_RomanEmpire_Marines
+  m_EditorClassIdentifier: 
+  IsWorkInProgress: 0
+  UnitDefinitionReference:
+    serializableElementName: LandUnit_Era2_RomanEmpire_Marines
+  PresentationFormationDefinition:
+    serializableElementName: Formation_Turtle_9
+  FormationBehaviourDefinition:
+    serializableElementName: Shieldwall PR_F / PR_ P / PR_P
+  ChoreographyOverride: 0
+  NoAttackRotation: 0
+  FacingAngleOffset: 0
+  MinDistanceBetweenFormationDummies: 0
+  RestrictionPerSlot: []
+  UnitSpecification: 0
+  CoordinationMasterValue: 0.99
+  CoordinationValues:
+    DummyOffsetPosition: {x: 0.0019999982, y: 0.0034999966}
+    DummyOffsetAngle: {x: 0.19999981, y: 0.2999997}
+    AnimationDelay: {x: 0, y: 0.00999999}
+    MinDistanceReformationMultiplier: 0.505
+    CoordinateAttackMovement: 1
+    SameRowAttack: 1
+    AveragePathLength: 1
+    UseDisciplinedVariation: 1
+  StealthRevealAudioEvent:
+    guid:
+      a: -1326129278
+      b: 1160368417
+      c: 1151361188
+      d: -1076931018
+  unitVoiceProviderReference:
+    guid:
+      a: -337862565
+      b: 1121253423
+      c: -1803005051
+      d: -274124500
+--- !u!114 &2604481721910378893
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 759592875, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: PresentationLandUnit_Era2_RomanEmpire_Slingers
+  m_EditorClassIdentifier: 
+  IsWorkInProgress: 0
+  UnitDefinitionReference:
+    serializableElementName: LandUnit_Era2_RomanEmpire_Slingers
+  PresentationFormationDefinition:
+    serializableElementName: Formation_Wedge_Spaced_9
+  FormationBehaviourDefinition:
+    serializableElementName: 
+  ChoreographyOverride: 0
+  NoAttackRotation: 0
+  FacingAngleOffset: 0
+  MinDistanceBetweenFormationDummies: 0
+  RestrictionPerSlot: []
+  UnitSpecification: 0
+  CoordinationMasterValue: 0.01
+  CoordinationValues:
+    DummyOffsetPosition: {x: 0.198, y: 0.3465}
+    DummyOffsetAngle: {x: 19.8, y: 29.7}
+    AnimationDelay: {x: 0, y: 0.99}
+    MinDistanceReformationMultiplier: 1
+    CoordinateAttackMovement: 0
+    SameRowAttack: 1
+    AveragePathLength: 0
+    UseDisciplinedVariation: 0
+  StealthRevealAudioEvent:
+    guid:
+      a: -1326129278
+      b: 1160368417
+      c: 1151361188
+      d: -1076931018
+  unitVoiceProviderReference:
+    guid:
+      a: 1799665559
+      b: 1139678947
+      c: 832313261
+      d: -1124329116
 --- !u!114 &3148112714476139250
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -670,6 +811,53 @@ MonoBehaviour:
       b: 1244152260
       c: 732419475
       d: -1635721152
+--- !u!114 &8691202849677109850
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 759592875, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: PresentationLandUnit_Era2_RomanEmpire_AuxiliaryHorseSkirmisher
+  m_EditorClassIdentifier: 
+  IsWorkInProgress: 0
+  UnitDefinitionReference:
+    serializableElementName: LandUnit_Era2_Garamantes_JavelinRiders
+  PresentationFormationDefinition:
+    serializableElementName: Formation_Wedge_3
+  FormationBehaviourDefinition:
+    serializableElementName: All Prepared Fighting
+  ChoreographyOverride: 0
+  NoAttackRotation: 0
+  FacingAngleOffset: 0
+  MinDistanceBetweenFormationDummies: 0
+  RestrictionPerSlot: []
+  UnitSpecification: 1
+  CoordinationMasterValue: 0.696
+  CoordinationValues:
+    DummyOffsetPosition: {x: 0.060800005, y: 0.106400006}
+    DummyOffsetAngle: {x: 6.0800004, y: 9.120001}
+    AnimationDelay: {x: 0, y: 0.30400002}
+    MinDistanceReformationMultiplier: 0.652
+    CoordinateAttackMovement: 0
+    SameRowAttack: 1
+    AveragePathLength: 0
+    UseDisciplinedVariation: 0
+  StealthRevealAudioEvent:
+    guid:
+      a: -1326129278
+      b: 1160368417
+      c: 1151361188
+      d: -1076931018
+  unitVoiceProviderReference:
+    guid:
+      a: 1554864864
+      b: 1095930667
+      c: 314152843
+      d: -782786198
 --- !u!114 &9159037472504925043
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1073,6 +1073,172 @@ MonoBehaviour:
   Symbol: 
   SortPriority: 7800
   ConstructibleTraits: 
+--- !u!114 &-7507735381083747012
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -717291864, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: LandUnit_Era1_EgyptianKingdom_Warriors
+  m_EditorClassIdentifier: 
+  Title: Egyptian Warrior
+  Description: '%LandUnit_Era1_Common_WarriorsDescription'
+  Images:
+  - Value:
+      guid:
+        a: -609458823
+        b: 1324969296
+        c: 1436889481
+        d: -1530992078
+    serializableKey: Picto
+  - Value:
+      guid:
+        a: -1727432026
+        b: 1129422785
+        c: -416399448
+        d: -358403325
+    serializableKey: Default_Small
+  - Value:
+      guid:
+        a: 191230917
+        b: 1105506783
+        c: -908466540
+        d: 923988106
+    serializableKey: Default_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation1_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation1_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation2_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation2_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation3_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation3_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation4_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation4_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation5_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation5_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation6_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation6_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation7_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation7_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation8_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation8_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation9_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation9_Tooltip
+  Color: {r: 1, g: 1, b: 1, a: 1}
+  Symbol: 
+  SortPriority: 7900
+  ConstructibleTraits: 
 --- !u!114 &-7472666878059420738
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1605,6 +1771,176 @@ MonoBehaviour:
   Symbol: 
   SortPriority: 7500
   ConstructibleTraits: 
+--- !u!114 &-7176422455900003771
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -717291864, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: LandUnit_Era2_RomanEmpire_AuxiliaryHorseSkirmisher
+  m_EditorClassIdentifier: 
+  Title: Roman Auxiliary Horse Skirmisher
+  Description: The Horse Archer is the result of adding the mobility of cavalry to
+    skilled archers. First appearing among the skilled nomadic and semi-nomadic peoples
+    of Euroasia, the concept spread quickly, and eventually became nearly universal.
+    Mobility and range are the Horse Archer's strengths and can give armies trouble
+    if they aren't used to dealing with them.
+  Images:
+  - Value:
+      guid:
+        a: -371367507
+        b: 1188708411
+        c: 1275946898
+        d: -1235675135
+    serializableKey: Picto
+  - Value:
+      guid:
+        a: -1495466363
+        b: 1166670808
+        c: -1857918046
+        d: 1983179274
+    serializableKey: Default_Small
+  - Value:
+      guid:
+        a: -710549678
+        b: 1239790721
+        c: -164308340
+        d: 285157001
+    serializableKey: Default_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation1_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation1_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation2_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation2_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation3_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation3_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation4_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation4_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation5_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation5_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation6_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation6_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation7_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation7_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation8_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation8_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation9_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation9_Tooltip
+  Color: {r: 1, g: 1, b: 1, a: 1}
+  Symbol: 
+  SortPriority: 7450
+  ConstructibleTraits: 
 --- !u!114 &-6926952287579249190
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2123,6 +2459,175 @@ MonoBehaviour:
   Symbol: 
   SortPriority: 7900
   ConstructibleTraits: 
+--- !u!114 &-5953075096229985573
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -717291864, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: LandUnit_Era2_RomanEmpire_Slingers
+  m_EditorClassIdentifier: 
+  Title: Roman Slingers
+  Description: The Slinger would undergo refinements in the classical era in the
+    armies of various powers that made it a more dangerous enemy. Equipped with leaden
+    bullets, and with a range superior to that of contemporary archers or javelins,
+    an army going up against one with these kinds of Slingers was sure to be routed.
+  Images:
+  - Value:
+      guid:
+        a: -2050062855
+        b: 1235914082
+        c: 860837565
+        d: -1919701341
+    serializableKey: Picto
+  - Value:
+      guid:
+        a: 1903709957
+        b: 1128599258
+        c: 1478800805
+        d: 1603844427
+    serializableKey: Default_Small
+  - Value:
+      guid:
+        a: -1349352267
+        b: 1130137218
+        c: -1994448478
+        d: -988787394
+    serializableKey: Default_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation1_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation1_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation2_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation2_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation3_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation3_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation4_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation4_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation5_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation5_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation6_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation6_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation7_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation7_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation8_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation8_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation9_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation9_Tooltip
+  Color: {r: 1, g: 1, b: 1, a: 1}
+  Symbol: 
+  SortPriority: 7900
+  ConstructibleTraits: 
 --- !u!114 &-5861561847128461442
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2601,6 +3106,175 @@ MonoBehaviour:
   Symbol: 
   SortPriority: 7900
   ConstructibleTraits: 
+--- !u!114 &-5455471574776605336
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -717291864, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: LandUnit_Era2_RomanEmpire_Cataphracts
+  m_EditorClassIdentifier: 
+  Title: Roman Cataphracts
+  Description: Derives from kataphraktos literally meaning "armored" or "completely
+    enclosed". Cataphracts served as the elite cavalry force for most empires and
+    nations that fielded them, primarily used for charges to break through opposing
+    heavy cavalry and infantry formations.
+  Images:
+  - Value:
+      guid:
+        a: -1704839773
+        b: 1316623185
+        c: -419218282
+        d: 1913459024
+    serializableKey: Picto
+  - Value:
+      guid:
+        a: 2101484913
+        b: 1194256194
+        c: -1957429086
+        d: -1131744992
+    serializableKey: Default_Small
+  - Value:
+      guid:
+        a: -1636401672
+        b: 1116616767
+        c: -179620470
+        d: 58184226
+    serializableKey: Default_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation1_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation1_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation2_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation2_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation3_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation3_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation4_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation4_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation5_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation5_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation6_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation6_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation7_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation7_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation8_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation8_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation9_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation9_Tooltip
+  Color: {r: 1, g: 1, b: 1, a: 1}
+  Symbol: 
+  SortPriority: 7900
+  ConstructibleTraits: 
 --- !u!114 &-5321589878586234171
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2995,31 +3669,31 @@ MonoBehaviour:
     serializableKey: Default_Tooltip
   - Value:
       guid:
-        a: 2051667567
-        b: 1247669015
-        c: -1097914456
-        d: 2013854592
-    serializableKey: Variation1_Tooltip
-  - Value:
-      guid:
-        a: 2051667567
-        b: 1247669015
-        c: -1097914456
-        d: 2013854592
+        a: 951875800
+        b: 1261216436
+        c: -308213062
+        d: 1651400780
     serializableKey: Variation1_Small
   - Value:
       guid:
-        a: 859995266
-        b: 1214254406
-        c: -1290796888
-        d: 2109915653
+        a: 1894002595
+        b: 1249980355
+        c: -1479537752
+        d: 1000705724
+    serializableKey: Variation1_Tooltip
+  - Value:
+      guid:
+        a: 951875800
+        b: 1261216436
+        c: -308213062
+        d: 1651400780
     serializableKey: Variation2_Small
   - Value:
       guid:
-        a: 859995266
-        b: 1214254406
-        c: -1290796888
-        d: 2109915653
+        a: 1894002595
+        b: 1249980355
+        c: -1479537752
+        d: 1000705724
     serializableKey: Variation2_Tooltip
   - Value:
       guid:
@@ -3105,6 +3779,20 @@ MonoBehaviour:
         c: 76097951
         d: -2036902953
     serializableKey: Variation8_Tooltip
+  - Value:
+      guid:
+        a: -1485842949
+        b: 1074787563
+        c: 76097951
+        d: -2036902953
+    serializableKey: Variation9_Small
+  - Value:
+      guid:
+        a: -1485842949
+        b: 1074787563
+        c: 76097951
+        d: -2036902953
+    serializableKey: Variation9_Tooltip
   Color: {r: 1, g: 1, b: 1, a: 1}
   Symbol: 
   SortPriority: 7900
@@ -3908,14 +4596,14 @@ MonoBehaviour:
   m_Name: LandUnit_Era1_EgyptianKingdom_Archers
   m_EditorClassIdentifier: 
   Title: Egyptian Archer
-  Description: '%LandUnit_Era1_Common_SpearmenDescription'
+  Description: '%LandUnit_Era1_Common_ArchersDescription'
   Images:
   - Value:
       guid:
-        a: -609458823
-        b: 1324969296
-        c: 1436889481
-        d: -1530992078
+        a: -2050062855
+        b: 1235914082
+        c: 860837565
+        d: -1919701341
     serializableKey: Picto
   - Value:
       guid:
@@ -9571,31 +10259,31 @@ MonoBehaviour:
     serializableKey: Default_Tooltip
   - Value:
       guid:
-        a: 0
-        b: 0
-        c: 0
-        d: 0
-    serializableKey: Variation1_Tooltip
-  - Value:
-      guid:
-        a: 0
-        b: 0
-        c: 0
-        d: 0
+        a: 1634918143
+        b: 1164615501
+        c: -1548390985
+        d: 516400338
     serializableKey: Variation1_Small
   - Value:
       guid:
-        a: 0
-        b: 0
-        c: 0
-        d: 0
+        a: -80996352
+        b: 1332181556
+        c: -1749458799
+        d: 817482281
+    serializableKey: Variation1_Tooltip
+  - Value:
+      guid:
+        a: 1634918143
+        b: 1164615501
+        c: -1548390985
+        d: 516400338
     serializableKey: Variation2_Small
   - Value:
       guid:
-        a: 0
-        b: 0
-        c: 0
-        d: 0
+        a: -80996352
+        b: 1332181556
+        c: -1749458799
+        d: 817482281
     serializableKey: Variation2_Tooltip
   - Value:
       guid:
@@ -9641,17 +10329,17 @@ MonoBehaviour:
     serializableKey: Variation5_Tooltip
   - Value:
       guid:
-        a: 0
-        b: 0
-        c: 0
-        d: 0
+        a: 1491544469
+        b: 1075924734
+        c: 1351068343
+        d: -1620212745
     serializableKey: Variation6_Small
   - Value:
       guid:
-        a: 0
-        b: 0
-        c: 0
-        d: 0
+        a: 1151053304
+        b: 1302131006
+        c: 1926548403
+        d: -669003022
     serializableKey: Variation6_Tooltip
   - Value:
       guid:
@@ -12080,6 +12768,176 @@ MonoBehaviour:
   Symbol: 
   SortPriority: 7400
   ConstructibleTraits: 
+--- !u!114 &7227555466313642020
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -717291864, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: LandUnit_Era4_Common_Militia
+  m_EditorClassIdentifier: 
+  Title: Militia
+  Description: Militia are civilians which take up arms with firearms in defense
+    of home, town or city, they are also known as Irregulars when they conscipted
+    into active service. Most musket-armed troops are recruited to defend their own
+    locality, not carry the war to an enemy's land. Some forms of Militia continue
+    activities even in peacetime to maintain a position of readiness in case of war.
+  Images:
+  - Value:
+      guid:
+        a: -1602574519
+        b: 1249058262
+        c: -1451767403
+        d: 1883891725
+    serializableKey: Picto
+  - Value:
+      guid:
+        a: -1485422603
+        b: 1274957714
+        c: -1852640089
+        d: 1864645993
+    serializableKey: Default_Small
+  - Value:
+      guid:
+        a: 449106817
+        b: 1085310258
+        c: -246734714
+        d: 804122107
+    serializableKey: Default_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation1_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation1_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation2_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation2_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation3_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation3_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation4_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation4_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation5_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation5_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation6_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation6_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation7_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation7_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation8_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation8_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation9_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation9_Tooltip
+  Color: {r: 1, g: 1, b: 1, a: 1}
+  Symbol: 
+  SortPriority: 7600
+  ConstructibleTraits: 
 --- !u!114 &7501305142335070412
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12872,4 +13730,338 @@ MonoBehaviour:
   Color: {r: 1, g: 1, b: 1, a: 1}
   Symbol: 
   SortPriority: 7500
+  ConstructibleTraits: 
+--- !u!114 &8981105454845314372
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -717291864, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: LandUnit_Era1_Common_Archers
+  m_EditorClassIdentifier: 
+  Title: '%LandUnit_Era1_Common_ArchersTitle'
+  Description: '%LandUnit_Era1_Common_ArchersDescription'
+  Images:
+  - Value:
+      guid:
+        a: -2050062855
+        b: 1235914082
+        c: 860837565
+        d: -1919701341
+    serializableKey: Picto
+  - Value:
+      guid:
+        a: -868710107
+        b: 1126878336
+        c: -1465927531
+        d: -1654635415
+    serializableKey: Default_Small
+  - Value:
+      guid:
+        a: 1906191143
+        b: 1161242661
+        c: 517770388
+        d: -1885292753
+    serializableKey: Default_Tooltip
+  - Value:
+      guid:
+        a: 1821841424
+        b: 1106879081
+        c: -322743679
+        d: -709301984
+    serializableKey: Variation1_Small
+  - Value:
+      guid:
+        a: -257196797
+        b: 1227690602
+        c: -247358808
+        d: -1334404975
+    serializableKey: Variation1_Tooltip
+  - Value:
+      guid:
+        a: 1821841424
+        b: 1106879081
+        c: -322743679
+        d: -709301984
+    serializableKey: Variation2_Small
+  - Value:
+      guid:
+        a: -257196797
+        b: 1227690602
+        c: -247358808
+        d: -1334404975
+    serializableKey: Variation2_Tooltip
+  - Value:
+      guid:
+        a: -1717177110
+        b: 1279757383
+        c: -403873092
+        d: -129690200
+    serializableKey: Variation3_Small
+  - Value:
+      guid:
+        a: -358015122
+        b: 1156252558
+        c: -2056187746
+        d: -1606386315
+    serializableKey: Variation3_Tooltip
+  - Value:
+      guid:
+        a: 815388630
+        b: 1320240797
+        c: -498041696
+        d: -579995284
+    serializableKey: Variation4_Small
+  - Value:
+      guid:
+        a: -2078908643
+        b: 1179571430
+        c: -417635456
+        d: 1906718892
+    serializableKey: Variation4_Tooltip
+  - Value:
+      guid:
+        a: 1680391025
+        b: 1168030515
+        c: 729330100
+        d: -572276760
+    serializableKey: Variation5_Small
+  - Value:
+      guid:
+        a: 2122097808
+        b: 1230024452
+        c: -1134546756
+        d: 1947495520
+    serializableKey: Variation5_Tooltip
+  - Value:
+      guid:
+        a: -2016375090
+        b: 1265474347
+        c: 2102717361
+        d: 2123255294
+    serializableKey: Variation6_Small
+  - Value:
+      guid:
+        a: 81279937
+        b: 1311639182
+        c: 829265295
+        d: -539463191
+    serializableKey: Variation6_Tooltip
+  - Value:
+      guid:
+        a: 815388630
+        b: 1320240797
+        c: -498041696
+        d: -579995284
+    serializableKey: Variation7_Small
+  - Value:
+      guid:
+        a: -2078908643
+        b: 1179571430
+        c: -417635456
+        d: 1906718892
+    serializableKey: Variation7_Tooltip
+  - Value:
+      guid:
+        a: 78659707
+        b: 1272767932
+        c: -1757541490
+        d: -1531697760
+    serializableKey: Variation8_Small
+  - Value:
+      guid:
+        a: -484225980
+        b: 1200720935
+        c: -530313556
+        d: -2135722165
+    serializableKey: Variation8_Tooltip
+  - Value:
+      guid:
+        a: -11345392
+        b: 1299864196
+        c: 246167982
+        d: 754099898
+    serializableKey: Variation9_Small
+  - Value:
+      guid:
+        a: 1328462601
+        b: 1295111192
+        c: -190077805
+        d: 511727538
+    serializableKey: Variation9_Tooltip
+  Color: {r: 1, g: 1, b: 1, a: 1}
+  Symbol: 
+  SortPriority: 7900
+  ConstructibleTraits: 
+--- !u!114 &9096081103762603367
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -717291864, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: LandUnit_Era2_RomanEmpire_Marines
+  m_EditorClassIdentifier: 
+  Title: Roman Marine
+  Description: 'The Myrmidon is an ancient melee soldier capable of amphibious assaults
+    on locations. The name comes from Homer''s Iliad and the elite soldiers which
+    accompanied Achilles in the assault on Troy. '
+  Images:
+  - Value:
+      guid:
+        a: -609458823
+        b: 1324969296
+        c: 1436889481
+        d: -1530992078
+    serializableKey: Picto
+  - Value:
+      guid:
+        a: -1844849617
+        b: 1154044353
+        c: 1666515333
+        d: -333414808
+    serializableKey: Default_Small
+  - Value:
+      guid:
+        a: -250444116
+        b: 1169287544
+        c: -1633573753
+        d: 1800319260
+    serializableKey: Default_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation1_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation1_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation2_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation2_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation3_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation3_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation4_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation4_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation5_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation5_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation6_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation6_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation7_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation7_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation8_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation8_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation9_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation9_Tooltip
+  Color: {r: 1, g: 1, b: 1, a: 1}
+  Symbol: 
+  SortPriority: 7800
   ConstructibleTraits: 
