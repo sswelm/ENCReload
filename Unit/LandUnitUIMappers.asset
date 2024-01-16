@@ -6068,6 +6068,174 @@ MonoBehaviour:
   Symbol: 
   SortPriority: 7400
   ConstructibleTraits: 
+--- !u!114 &-2151443008789076748
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -717291864, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: LandUnit_Era2_Indian_ChakramThrowers
+  m_EditorClassIdentifier: 
+  Title: Chakram Throwers
+  Description: In battles, it was usually thrown vertically so as to avoid accidentally
+    hitting an ally on the left or right side. A stack of chakram could be quickly
+    thrown one at a time
+  Images:
+  - Value:
+      guid:
+        a: -2050062855
+        b: 1235914082
+        c: 860837565
+        d: -1919701341
+    serializableKey: Picto
+  - Value:
+      guid:
+        a: -1649284538
+        b: 1191316964
+        c: -406539335
+        d: -707471268
+    serializableKey: Default_Small
+  - Value:
+      guid:
+        a: -1767132064
+        b: 1127863625
+        c: 1414079107
+        d: -1271541517
+    serializableKey: Default_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation1_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation1_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation2_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation2_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation3_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation3_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation4_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation4_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation5_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation5_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation6_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation6_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation7_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation7_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation8_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation8_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation9_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation9_Tooltip
+  Color: {r: 1, g: 1, b: 1, a: 1}
+  Symbol: 
+  SortPriority: 7900
+  ConstructibleTraits: 
 --- !u!114 &-2137996609572417466
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12810,129 +12978,129 @@ MonoBehaviour:
     serializableKey: Default_Tooltip
   - Value:
       guid:
-        a: 0
-        b: 0
-        c: 0
-        d: 0
+        a: -2023009899
+        b: 1157191047
+        c: -1538552954
+        d: 1629474215
     serializableKey: Variation1_Small
   - Value:
       guid:
-        a: 0
-        b: 0
-        c: 0
-        d: 0
+        a: 1088526334
+        b: 1208210663
+        c: -919734114
+        d: 589015990
     serializableKey: Variation1_Tooltip
   - Value:
       guid:
-        a: 0
-        b: 0
-        c: 0
-        d: 0
+        a: -2023009899
+        b: 1157191047
+        c: -1538552954
+        d: 1629474215
     serializableKey: Variation2_Small
   - Value:
       guid:
-        a: 0
-        b: 0
-        c: 0
-        d: 0
+        a: 1088526334
+        b: 1208210663
+        c: -919734114
+        d: 589015990
     serializableKey: Variation2_Tooltip
   - Value:
       guid:
-        a: 0
-        b: 0
-        c: 0
-        d: 0
+        a: 1864097257
+        b: 1097107368
+        c: -860999507
+        d: 1743338721
     serializableKey: Variation3_Small
   - Value:
       guid:
-        a: 0
-        b: 0
-        c: 0
-        d: 0
+        a: 183296973
+        b: 1175367733
+        c: 1764511108
+        d: -1971421336
     serializableKey: Variation3_Tooltip
   - Value:
       guid:
-        a: 0
-        b: 0
-        c: 0
-        d: 0
+        a: -455638799
+        b: 1200164943
+        c: 2056464287
+        d: 1516426746
     serializableKey: Variation4_Small
   - Value:
       guid:
-        a: 0
-        b: 0
-        c: 0
-        d: 0
+        a: -2098978379
+        b: 1148629774
+        c: 804166317
+        d: -1762413361
     serializableKey: Variation4_Tooltip
   - Value:
       guid:
-        a: 0
-        b: 0
-        c: 0
-        d: 0
+        a: -1306305595
+        b: 1332727974
+        c: 1824230829
+        d: 1554851826
     serializableKey: Variation5_Small
   - Value:
       guid:
-        a: 0
-        b: 0
-        c: 0
-        d: 0
+        a: -59778041
+        b: 1197674761
+        c: -2086670675
+        d: -22240780
     serializableKey: Variation5_Tooltip
   - Value:
       guid:
-        a: 0
-        b: 0
-        c: 0
-        d: 0
+        a: 492619171
+        b: 1293428915
+        c: 792683967
+        d: -253391162
     serializableKey: Variation6_Small
   - Value:
       guid:
-        a: 0
-        b: 0
-        c: 0
-        d: 0
+        a: 204466971
+        b: 1146934327
+        c: -280729950
+        d: 429876416
     serializableKey: Variation6_Tooltip
   - Value:
       guid:
-        a: 0
-        b: 0
-        c: 0
-        d: 0
+        a: -2114572159
+        b: 1128803703
+        c: -340877943
+        d: 1849251006
     serializableKey: Variation7_Small
   - Value:
       guid:
-        a: 0
-        b: 0
-        c: 0
-        d: 0
+        a: -1292996956
+        b: 1321721333
+        c: -1203385155
+        d: -1377192547
     serializableKey: Variation7_Tooltip
   - Value:
       guid:
-        a: 0
-        b: 0
-        c: 0
-        d: 0
+        a: -1485422603
+        b: 1274957714
+        c: -1852640089
+        d: 1864645993
     serializableKey: Variation8_Small
   - Value:
       guid:
-        a: 0
-        b: 0
-        c: 0
-        d: 0
+        a: 449106817
+        b: 1085310258
+        c: -246734714
+        d: 804122107
     serializableKey: Variation8_Tooltip
   - Value:
       guid:
-        a: 0
-        b: 0
-        c: 0
-        d: 0
+        a: -459451082
+        b: 1137413079
+        c: 316440233
+        d: -74137281
     serializableKey: Variation9_Small
   - Value:
       guid:
-        a: 0
-        b: 0
-        c: 0
-        d: 0
+        a: 1208612227
+        b: 1282307103
+        c: 362413220
+        d: 464512231
     serializableKey: Variation9_Tooltip
   Color: {r: 1, g: 1, b: 1, a: 1}
   Symbol: 
