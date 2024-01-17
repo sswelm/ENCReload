@@ -721,21 +721,6 @@ MonoBehaviour:
       ConstantStack:
       - RawValue: 50
       PropertyLocalName: []
-  - ApplyEffectOnSource: 1
-    Path:
-      PropertyToFollow:
-      - Empire
-      Validations: []
-      specificTargetType: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
-    PropertyEffects:
-    - Note: 
-      TargetProperty: MoneyNet
-      ToTargetOperation: 4
-      RpnOperationStack: 0a0000000800000002000000
-      ConstantStack:
-      - RawValue: 10
-      PropertyLocalName:
-      - Resource06AccessCount
   - ApplyEffectOnSource: 0
     Path:
       PropertyToFollow:
@@ -1323,21 +1308,24 @@ MonoBehaviour:
       ConstantStack:
       - RawValue: 100
       PropertyLocalName: []
-  - ApplyEffectOnSource: 1
+  - ApplyEffectOnSource: 0
     Path:
       PropertyToFollow:
-      - Empire
-      Validations: []
-      specificTargetType: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
+      - Districts
+      Validations:
+      - PathIndex: 0
+        ValidableElementCollection: 
+        Inverted: 0
+        serializableElementName: Effect_Extension_Base_Food
+      specificTargetType: 
     PropertyEffects:
     - Note: 
-      TargetProperty: MoneyNet
+      TargetProperty: FoodProduced
       ToTargetOperation: 4
-      RpnOperationStack: 0a0000000800000002000000
+      RpnOperationStack: 
       ConstantStack:
-      - RawValue: 10
-      PropertyLocalName:
-      - Resource06AccessCount
+      - RawValue: 100
+      PropertyLocalName: []
   serializableCategory: 
   startingType: Amplitude.Mercury.Simulation.Settlement, Amplitude.Mercury.Firstpass
 --- !u!114 &8313954370552251138
