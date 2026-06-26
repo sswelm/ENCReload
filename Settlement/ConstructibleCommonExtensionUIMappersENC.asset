@@ -27,6 +27,32 @@ MonoBehaviour:
   Symbol: 
   SortPriority: 4002
   ConstructibleTraits: 
+--- !u!114 &-3054538983792220451
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -717291864, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Extension_Base_SonarBuoy
+  m_EditorClassIdentifier: 
+  Title: Sonar Buoy
+  Description: Sonar Buoy are used for detecting surface and submarine units
+  Images:
+  - Value:
+      guid:
+        a: 78742656
+        b: 1276670875
+        c: -66634111
+        d: 1508728834
+    serializableKey: Small
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  Symbol: 
+  SortPriority: 4002
+  ConstructibleTraits: 
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -39,6 +65,66 @@ MonoBehaviour:
   m_Script: {fileID: 763423559, guid: f8c4d2d2a3a246a0909e3c6973d4a4e3, type: 3}
   m_Name: ConstructibleCommonExtensionUIMappersENC
   m_EditorClassIdentifier: 
+--- !u!114 &2615112640745449178
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -717291864, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Extension_Base_Military
+  m_EditorClassIdentifier: 
+  Title: '%ConstructibleExtensionMilitaryTitle'
+  Description: '%ConstructibleExtensionMilitaryDescription'
+  Images:
+  - Value:
+      guid:
+        a: 1565244862
+        b: 1312408948
+        c: -211260001
+        d: -1929573693
+    serializableKey: Small
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  Symbol: 
+  SortPriority: 4006
+  ConstructibleTraits: 
+--- !u!114 &8506761021930268602
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -717291864, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Extension_Base_MountainTopRadarStation
+  m_EditorClassIdentifier: 
+  Title: Mountain Top Radar Station
+  Description: Located on the top of a High mountain, the skies and surrounding lands
+    can be observed well
+  Images:
+  - Value:
+      guid:
+        a: -323613069
+        b: 1252433340
+        c: 527649947
+        d: 1017786600
+    serializableKey: Small
+  - Value:
+      guid:
+        a: -116181294
+        b: 1273118523
+        c: 1586970777
+        d: 943893612
+    serializableKey: Tooltip
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  Symbol: 
+  SortPriority: 4002
+  ConstructibleTraits: 
 --- !u!114 &9005373231353512682
 MonoBehaviour:
   m_ObjectHideFlags: 0

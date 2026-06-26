@@ -1,5 +1,61 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-9128024302812981322
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1227601893, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: IndependentPeopleSpawner_Era6_ViolentHuman
+  m_EditorClassIdentifier: 
+  Ratio: 0
+  BaseLifeTimeInTurns: 40
+  TimeBeforeFactionRespawn: 5
+  VisualAffinity:
+    serializableElementName: SpawnPoint_ViolentHuman
+  serializableSpawnPointName: 
+  MinorEmpireBaseDescriptors:
+  - serializableElementName: Effect_HumanViolent_Era6_Base
+  MinorEmpireCampDescriptors:
+  - serializableElementName: Effect_HumanViolent_Era6_Camp
+  MinorEmpireCityDescriptors:
+  - serializableElementName: Effect_HumanViolent_Era6_City
+  AddedLifeTimeInTurnsWhenCampCreated: 10
+  AddedLifeTimeInTurnsWhenCityCreated: 40
+  AddedLifeTimeInTurnsForNewPatronnage: 5
+  ForcedLifeTimeInTurnsWhenSettlementLost: 5
+  DeclineLifeTimeThreshold: 10
+  AttackerArmyLocalizedName: '%IndependentPeople_World_AttackerArmyName'
+  DefenderArmyLocalizedName: '%IndependentPeople_World_DefenderArmyName'
+  ArmyPatternReferences: []
+  ArmyPatternFallbackReference:
+    serializableElementName: UnitPattern_Crisis_Era6_Fallback
+  CanSettle: 1
+  CanCaptureSettlement: 1
+  CanAskForCamp: 0
+  CanRansack: 1
+  RoamingDurationBeforeSettle: 3
+  RoamingDurationBeforeRansack: 5
+  AttackersComebackDuration: 5
+  StartingCityPopulation: 7
+  TimeBeforeEvolveToCity: 5
+  TimeBetweenDistrictConstructionRPN:
+    serializableElementName: TimeBetweenDistrictConstructionRPN
+  TimeBetweenInfrastructureConstructionRPN:
+    serializableElementName: TimeBetweenInfrastructureConstructionRPN
+  MaxDistrictPerSettlementRPN:
+    serializableElementName: MaxDistrictPerSettlementRPN
+  PatronageDefinitionReference:
+    serializableElementName: Patronage_ViolentHuman
+  FoodAIWeight: 1
+  IndustryAIWeight: 1
+  MoneyAIWeight: 1
+  ScienceAIWeight: 1
+  PublicOrderAIWeight: 1
 --- !u!114 &-7916346683078535326
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13,7 +69,7 @@ MonoBehaviour:
   m_Name: IndependentPeopleSpawner_Era1_PeacefulHuman
   m_EditorClassIdentifier: 
   Ratio: 0.5
-  BaseLifeTimeInTurns: 24
+  BaseLifeTimeInTurns: 20
   TimeBeforeFactionRespawn: 5
   VisualAffinity:
     serializableElementName: SpawnPoint_PeacefulHuman
@@ -25,7 +81,7 @@ MonoBehaviour:
   MinorEmpireCityDescriptors:
   - serializableElementName: Effect_HumanPeaceful_Era1_City
   AddedLifeTimeInTurnsWhenCampCreated: 10
-  AddedLifeTimeInTurnsWhenCityCreated: 30
+  AddedLifeTimeInTurnsWhenCityCreated: 40
   AddedLifeTimeInTurnsForNewPatronnage: 5
   ForcedLifeTimeInTurnsWhenSettlementLost: 5
   DeclineLifeTimeThreshold: 10
@@ -76,6 +132,225 @@ MonoBehaviour:
   MoneyAIWeight: 1
   ScienceAIWeight: 1
   PublicOrderAIWeight: 1
+--- !u!114 &-7274096765504016331
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1375915831, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: IndependentPeopleSpawner_Era3_ViolentAnimal
+  m_EditorClassIdentifier: 
+  Ratio: 0.3
+  BaseLifeTimeInTurns: 40
+  TimeBeforeFactionRespawn: 5
+  VisualAffinity:
+    serializableElementName: SpawnPoint_ViolentAnimal
+  serializableSpawnPointName: 
+  ForcedLifeTimeInTurnsWhenSpawnPointLost: 5
+  TimeBetweenArmySpawn: 6
+  TimeBeforeFirstArmySpawn: 0
+  MaxArmyCountPerGroup: 2
+  MaxDefenderArmyCountPerGroup: 0
+  MinArmySize: 1
+  MaxArmySize: 4
+--- !u!114 &-7039779906397529299
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 381639392, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: IndependentPeopleSpawner_Era0_ViolentCrisis
+  m_EditorClassIdentifier: 
+  Ratio: 0
+  BaseLifeTimeInTurns: 30
+  TimeBeforeFactionRespawn: 5
+  VisualAffinity:
+    serializableElementName: SpawnPoint_ViolentCrisis
+  serializableSpawnPointName: 
+  MinorEmpireBaseDescriptors:
+  - serializableElementName: Effect_CrisisViolent_Era1_Base
+  MinorEmpireCampDescriptors:
+  - serializableElementName: Effect_CrisisViolent_Era1_Camp
+  MinorEmpireCityDescriptors:
+  - serializableElementName: Effect_CrisisViolent_Era1_City
+  AddedLifeTimeInTurnsWhenCampCreated: 10
+  AddedLifeTimeInTurnsWhenCityCreated: 30
+  AddedLifeTimeInTurnsForNewPatronnage: 5
+  ForcedLifeTimeInTurnsWhenSettlementLost: 5
+  DeclineLifeTimeThreshold: 10
+  AttackerArmyLocalizedName: '%IndependentPeople_World_CrisisArmyName'
+  DefenderArmyLocalizedName: '%IndependentPeople_World_DefenderArmyName'
+  ArmyPatternReferences:
+  - serializableElementName: UnitPattern_Crisis_Era0_Attacker_1
+  - serializableElementName: UnitPattern_Crisis_Era0_Attacker_2
+  - serializableElementName: UnitPattern_Crisis_Era0_Attacker_4
+  - serializableElementName: UnitPattern_Crisis_Era0_Attacker_5
+  ArmyPatternFallbackReference:
+    serializableElementName: UnitPattern_Crisis_Era1_Fallback
+  CanSettle: 0
+  CanCaptureSettlement: 1
+  CanAskForCamp: 0
+  CanRansack: 1
+  RoamingDurationBeforeSettle: 10
+  RoamingDurationBeforeRansack: 2
+  AttackersComebackDuration: 5
+  StartingCityPopulation: 2
+  TimeBeforeEvolveToCity: 5
+  TimeBetweenDistrictConstructionRPN:
+    serializableElementName: TimeBetweenDistrictConstructionRPN
+  TimeBetweenInfrastructureConstructionRPN:
+    serializableElementName: TimeBetweenInfrastructureConstructionRPN
+  MaxDistrictPerSettlementRPN:
+    serializableElementName: MaxDistrictPerSettlementRPN
+  PatronageDefinitionReference:
+    serializableElementName: Patronage_ViolentHuman
+  FoodAIWeight: 1
+  IndustryAIWeight: 1
+  MoneyAIWeight: 1
+  ScienceAIWeight: 1
+  PublicOrderAIWeight: 1
+  MinTimeBetweenCrisisArmySpawn: 20
+  MaxTimeBetweenCrisisArmySpawn: 40
+  MaximalCrisisTurnProgression: 5
+  CrisisPublicOrderThreshold: 30
+--- !u!114 &-5111361687207410510
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1227601893, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: IndependentPeopleSpawner_Era0_ViolentHuman
+  m_EditorClassIdentifier: 
+  Ratio: 0.3
+  BaseLifeTimeInTurns: 40
+  TimeBeforeFactionRespawn: 5
+  VisualAffinity:
+    serializableElementName: SpawnPoint_ViolentHuman
+  serializableSpawnPointName: 
+  MinorEmpireBaseDescriptors:
+  - serializableElementName: Effect_HumanViolent_Era1_Base
+  MinorEmpireCampDescriptors:
+  - serializableElementName: Effect_HumanViolent_Era1_Camp
+  MinorEmpireCityDescriptors:
+  - serializableElementName: Effect_HumanViolent_Era1_City
+  AddedLifeTimeInTurnsWhenCampCreated: 10
+  AddedLifeTimeInTurnsWhenCityCreated: 40
+  AddedLifeTimeInTurnsForNewPatronnage: 5
+  ForcedLifeTimeInTurnsWhenSettlementLost: 5
+  DeclineLifeTimeThreshold: 10
+  AttackerArmyLocalizedName: '%IndependentPeople_World_AttackerArmyName'
+  DefenderArmyLocalizedName: '%IndependentPeople_World_DefenderArmyName'
+  ArmyPatternReferences:
+  - serializableElementName: UnitPattern_FullMelee_Early_Era0
+  - serializableElementName: UnitPattern_FullRange_Early_Era0
+  - serializableElementName: UnitPattern_FullMelee_Era0
+  - serializableElementName: UnitPattern_FullRange_Era0
+  - serializableElementName: UnitPattern_SpearsArrows_Era0
+  - serializableElementName: UnitPattern_FullAntiCavalry_Early_Era0
+  ArmyPatternFallbackReference:
+    serializableElementName: UnitPattern_Crisis_Era0_Fallback
+  CanSettle: 0
+  CanCaptureSettlement: 1
+  CanAskForCamp: 0
+  CanRansack: 1
+  RoamingDurationBeforeSettle: 3
+  RoamingDurationBeforeRansack: 5
+  AttackersComebackDuration: 5
+  StartingCityPopulation: 2
+  TimeBeforeEvolveToCity: 5
+  TimeBetweenDistrictConstructionRPN:
+    serializableElementName: TimeBetweenDistrictConstructionRPN
+  TimeBetweenInfrastructureConstructionRPN:
+    serializableElementName: TimeBetweenInfrastructureConstructionRPN
+  MaxDistrictPerSettlementRPN:
+    serializableElementName: MaxDistrictPerSettlementRPN
+  PatronageDefinitionReference:
+    serializableElementName: Patronage_ViolentHuman
+  FoodAIWeight: 1
+  IndustryAIWeight: 1
+  MoneyAIWeight: 1
+  ScienceAIWeight: 1
+  PublicOrderAIWeight: 1
+--- !u!114 &-5001142804594751431
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 381639392, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: IndependentPeopleSpawner_Era1_ViolentCrisis
+  m_EditorClassIdentifier: 
+  Ratio: 0
+  BaseLifeTimeInTurns: 30
+  TimeBeforeFactionRespawn: 5
+  VisualAffinity:
+    serializableElementName: SpawnPoint_ViolentCrisis
+  serializableSpawnPointName: 
+  MinorEmpireBaseDescriptors:
+  - serializableElementName: Effect_CrisisViolent_Era1_Base
+  MinorEmpireCampDescriptors:
+  - serializableElementName: Effect_CrisisViolent_Era1_Camp
+  MinorEmpireCityDescriptors:
+  - serializableElementName: Effect_CrisisViolent_Era1_City
+  AddedLifeTimeInTurnsWhenCampCreated: 10
+  AddedLifeTimeInTurnsWhenCityCreated: 30
+  AddedLifeTimeInTurnsForNewPatronnage: 5
+  ForcedLifeTimeInTurnsWhenSettlementLost: 5
+  DeclineLifeTimeThreshold: 10
+  AttackerArmyLocalizedName: '%IndependentPeople_World_CrisisArmyName'
+  DefenderArmyLocalizedName: '%IndependentPeople_World_DefenderArmyName'
+  ArmyPatternReferences:
+  - serializableElementName: UnitPattern_Crisis_Era1_Attacker_1
+  - serializableElementName: UnitPattern_Crisis_Era1_Attacker_2
+  - serializableElementName: UnitPattern_Crisis_Era1_Attacker_3
+  - serializableElementName: UnitPattern_Crisis_Era1_Attacker_4
+  - serializableElementName: UnitPattern_Crisis_Era1_Attacker_5
+  - serializableElementName: UnitPattern_Crisis_Era1_Attacker_6
+  - serializableElementName: UnitPattern_Crisis_Era1_Attacker_7
+  - serializableElementName: UnitPattern_Crisis_Era1_Defender_1
+  ArmyPatternFallbackReference:
+    serializableElementName: UnitPattern_Crisis_Era1_Fallback
+  CanSettle: 0
+  CanCaptureSettlement: 1
+  CanAskForCamp: 0
+  CanRansack: 1
+  RoamingDurationBeforeSettle: 10
+  RoamingDurationBeforeRansack: 2
+  AttackersComebackDuration: 5
+  StartingCityPopulation: 2
+  TimeBeforeEvolveToCity: 5
+  TimeBetweenDistrictConstructionRPN:
+    serializableElementName: TimeBetweenDistrictConstructionRPN
+  TimeBetweenInfrastructureConstructionRPN:
+    serializableElementName: TimeBetweenInfrastructureConstructionRPN
+  MaxDistrictPerSettlementRPN:
+    serializableElementName: MaxDistrictPerSettlementRPN
+  PatronageDefinitionReference:
+    serializableElementName: Patronage_ViolentHuman
+  FoodAIWeight: 1
+  IndustryAIWeight: 1
+  MoneyAIWeight: 1
+  ScienceAIWeight: 1
+  PublicOrderAIWeight: 1
+  MinTimeBetweenCrisisArmySpawn: 20
+  MaxTimeBetweenCrisisArmySpawn: 40
+  MaximalCrisisTurnProgression: 5
+  CrisisPublicOrderThreshold: 30
 --- !u!114 &-4732205177593418477
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -88,8 +363,8 @@ MonoBehaviour:
   m_Script: {fileID: 1375915831, guid: b310e23bee821cb478da05296ba685d0, type: 3}
   m_Name: IndependentPeopleSpawner_Era0_ViolentAnimal
   m_EditorClassIdentifier: 
-  Ratio: 0.25
-  BaseLifeTimeInTurns: 12
+  Ratio: 0.3
+  BaseLifeTimeInTurns: 20
   TimeBeforeFactionRespawn: 1
   VisualAffinity:
     serializableElementName: SpawnPoint_ViolentAnimal
@@ -101,6 +376,82 @@ MonoBehaviour:
   MaxDefenderArmyCountPerGroup: 0
   MinArmySize: 1
   MaxArmySize: 1
+--- !u!114 &-4185071429685608427
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1227601893, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: IndependentPeopleSpawner_Era3_PeacefulHuman
+  m_EditorClassIdentifier: 
+  Ratio: 0.5
+  BaseLifeTimeInTurns: 20
+  TimeBeforeFactionRespawn: 5
+  VisualAffinity:
+    serializableElementName: SpawnPoint_PeacefulHuman
+  serializableSpawnPointName: 
+  MinorEmpireBaseDescriptors:
+  - serializableElementName: Effect_HumanPeaceful_Era3_Base
+  MinorEmpireCampDescriptors:
+  - serializableElementName: Effect_HumanPeaceful_Era3_Camp
+  MinorEmpireCityDescriptors:
+  - serializableElementName: Effect_HumanPeaceful_Era3_City
+  AddedLifeTimeInTurnsWhenCampCreated: 10
+  AddedLifeTimeInTurnsWhenCityCreated: 30
+  AddedLifeTimeInTurnsForNewPatronnage: 5
+  ForcedLifeTimeInTurnsWhenSettlementLost: 5
+  DeclineLifeTimeThreshold: 10
+  AttackerArmyLocalizedName: '%IndependentPeople_World_AttackerArmyName'
+  DefenderArmyLocalizedName: '%IndependentPeople_World_DefenderArmyName'
+  ArmyPatternReferences:
+  - serializableElementName: UnitPattern_CavalryArrows_Early_Era3
+  - serializableElementName: UnitPattern_CavalryArrows_Era3
+  - serializableElementName: UnitPattern_FullAntiCavalry_Early_Era3
+  - serializableElementName: UnitPattern_FullAntiCavalry_Era3
+  - serializableElementName: UnitPattern_FullCavalry_Early_Era3
+  - serializableElementName: UnitPattern_FullCavalry_Era3
+  - serializableElementName: UnitPattern_FullMelee_Early_Era3
+  - serializableElementName: UnitPattern_FullMelee_Era3
+  - serializableElementName: UnitPattern_FullRange_Early_Era3
+  - serializableElementName: UnitPattern_FullRange_Era3
+  - serializableElementName: UnitPattern_SpearsArrows_Early_Era3
+  - serializableElementName: UnitPattern_SpearsArrows_Era3
+  - serializableElementName: UnitPattern_SpearsCavalry_Early_Era3
+  - serializableElementName: UnitPattern_SpearsCavalry_Era3
+  - serializableElementName: UnitPattern_SpearsSwords_Early_Era3
+  - serializableElementName: UnitPattern_SwordsCavalry_Era3
+  - serializableElementName: UnitPattern_SwordsArrows_Early_Era3
+  - serializableElementName: UnitPattern_SwordsArrows_Era3
+  - serializableElementName: UnitPattern_SwordsCavalry_Early_Era3
+  - serializableElementName: UnitPattern_SwordsCavalry_Era3
+  ArmyPatternFallbackReference:
+    serializableElementName: UnitPattern_Crisis_Era3_Fallback
+  CanSettle: 1
+  CanCaptureSettlement: 0
+  CanAskForCamp: 1
+  CanRansack: 0
+  RoamingDurationBeforeSettle: 3
+  RoamingDurationBeforeRansack: 0
+  AttackersComebackDuration: 5
+  StartingCityPopulation: 4
+  TimeBeforeEvolveToCity: 5
+  TimeBetweenDistrictConstructionRPN:
+    serializableElementName: TimeBetweenDistrictConstructionRPN
+  TimeBetweenInfrastructureConstructionRPN:
+    serializableElementName: TimeBetweenInfrastructureConstructionRPN
+  MaxDistrictPerSettlementRPN:
+    serializableElementName: MaxDistrictPerSettlementRPN
+  PatronageDefinitionReference:
+    serializableElementName: Patronage_PeacefulHuman
+  FoodAIWeight: 1
+  IndustryAIWeight: 1
+  MoneyAIWeight: 1
+  ScienceAIWeight: 1
+  PublicOrderAIWeight: 1
 --- !u!114 &-3931199306936756557
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -114,7 +465,7 @@ MonoBehaviour:
   m_Name: IndependentPeopleSpawner_Era2_ViolentHuman
   m_EditorClassIdentifier: 
   Ratio: 0.5
-  BaseLifeTimeInTurns: 24
+  BaseLifeTimeInTurns: 40
   TimeBeforeFactionRespawn: 5
   VisualAffinity:
     serializableElementName: SpawnPoint_ViolentHuman
@@ -126,7 +477,7 @@ MonoBehaviour:
   MinorEmpireCityDescriptors:
   - serializableElementName: Effect_HumanViolent_Era2_City
   AddedLifeTimeInTurnsWhenCampCreated: 10
-  AddedLifeTimeInTurnsWhenCityCreated: 30
+  AddedLifeTimeInTurnsWhenCityCreated: 40
   AddedLifeTimeInTurnsForNewPatronnage: 5
   ForcedLifeTimeInTurnsWhenSettlementLost: 5
   DeclineLifeTimeThreshold: 10
@@ -177,6 +528,62 @@ MonoBehaviour:
   MoneyAIWeight: 1
   ScienceAIWeight: 1
   PublicOrderAIWeight: 1
+--- !u!114 &-2581951513014735684
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1227601893, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: IndependentPeopleSpawner_Era5_ViolentHuman
+  m_EditorClassIdentifier: 
+  Ratio: 0
+  BaseLifeTimeInTurns: 40
+  TimeBeforeFactionRespawn: 5
+  VisualAffinity:
+    serializableElementName: SpawnPoint_ViolentHuman
+  serializableSpawnPointName: 
+  MinorEmpireBaseDescriptors:
+  - serializableElementName: Effect_HumanViolent_Era5_Base
+  MinorEmpireCampDescriptors:
+  - serializableElementName: Effect_HumanViolent_Era5_Camp
+  MinorEmpireCityDescriptors:
+  - serializableElementName: Effect_HumanViolent_Era5_City
+  AddedLifeTimeInTurnsWhenCampCreated: 10
+  AddedLifeTimeInTurnsWhenCityCreated: 40
+  AddedLifeTimeInTurnsForNewPatronnage: 5
+  ForcedLifeTimeInTurnsWhenSettlementLost: 5
+  DeclineLifeTimeThreshold: 10
+  AttackerArmyLocalizedName: '%IndependentPeople_World_AttackerArmyName'
+  DefenderArmyLocalizedName: '%IndependentPeople_World_DefenderArmyName'
+  ArmyPatternReferences: []
+  ArmyPatternFallbackReference:
+    serializableElementName: UnitPattern_Crisis_Era5_Fallback
+  CanSettle: 1
+  CanCaptureSettlement: 1
+  CanAskForCamp: 1
+  CanRansack: 1
+  RoamingDurationBeforeSettle: 3
+  RoamingDurationBeforeRansack: 5
+  AttackersComebackDuration: 5
+  StartingCityPopulation: 6
+  TimeBeforeEvolveToCity: 5
+  TimeBetweenDistrictConstructionRPN:
+    serializableElementName: TimeBetweenDistrictConstructionRPN
+  TimeBetweenInfrastructureConstructionRPN:
+    serializableElementName: TimeBetweenInfrastructureConstructionRPN
+  MaxDistrictPerSettlementRPN:
+    serializableElementName: MaxDistrictPerSettlementRPN
+  PatronageDefinitionReference:
+    serializableElementName: Patronage_ViolentHuman
+  FoodAIWeight: 1
+  IndustryAIWeight: 1
+  MoneyAIWeight: 1
+  ScienceAIWeight: 1
+  PublicOrderAIWeight: 1
 --- !u!114 &-2391436009426632558
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -189,8 +596,8 @@ MonoBehaviour:
   m_Script: {fileID: 1375915831, guid: b310e23bee821cb478da05296ba685d0, type: 3}
   m_Name: IndependentPeopleSpawner_Era1_ViolentAnimal
   m_EditorClassIdentifier: 
-  Ratio: 0.25
-  BaseLifeTimeInTurns: 24
+  Ratio: 0.5
+  BaseLifeTimeInTurns: 80
   TimeBeforeFactionRespawn: 5
   VisualAffinity:
     serializableElementName: SpawnPoint_ViolentAnimal
@@ -202,6 +609,200 @@ MonoBehaviour:
   MaxDefenderArmyCountPerGroup: 0
   MinArmySize: 1
   MaxArmySize: 2
+--- !u!114 &-1557735536877836122
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1227601893, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: IndependentPeopleSpawner_Era0_PeacefulHuman
+  m_EditorClassIdentifier: 
+  Ratio: 0.5
+  BaseLifeTimeInTurns: 40
+  TimeBeforeFactionRespawn: 5
+  VisualAffinity:
+    serializableElementName: SpawnPoint_PeacefulHuman
+  serializableSpawnPointName: 
+  MinorEmpireBaseDescriptors:
+  - serializableElementName: Effect_HumanPeaceful_Era1_Base
+  MinorEmpireCampDescriptors:
+  - serializableElementName: Effect_HumanPeaceful_Era1_Camp
+  MinorEmpireCityDescriptors:
+  - serializableElementName: Effect_HumanPeaceful_Era1_City
+  AddedLifeTimeInTurnsWhenCampCreated: 10
+  AddedLifeTimeInTurnsWhenCityCreated: 40
+  AddedLifeTimeInTurnsForNewPatronnage: 5
+  ForcedLifeTimeInTurnsWhenSettlementLost: 5
+  DeclineLifeTimeThreshold: 10
+  AttackerArmyLocalizedName: '%IndependentPeople_World_AttackerArmyName'
+  DefenderArmyLocalizedName: '%IndependentPeople_World_DefenderArmyName'
+  ArmyPatternReferences:
+  - serializableElementName: UnitPattern_FullMelee_Early_Era0
+  - serializableElementName: UnitPattern_FullRange_Early_Era0
+  - serializableElementName: UnitPattern_FullMelee_Era0
+  - serializableElementName: UnitPattern_FullRange_Era0
+  - serializableElementName: UnitPattern_SpearsArrows_Era0
+  - serializableElementName: UnitPattern_FullAntiCavalry_Early_Era0
+  ArmyPatternFallbackReference:
+    serializableElementName: UnitPattern_Crisis_Era0_Fallback
+  CanSettle: 1
+  CanCaptureSettlement: 0
+  CanAskForCamp: 1
+  CanRansack: 0
+  RoamingDurationBeforeSettle: 3
+  RoamingDurationBeforeRansack: 0
+  AttackersComebackDuration: 5
+  StartingCityPopulation: 2
+  TimeBeforeEvolveToCity: 5
+  TimeBetweenDistrictConstructionRPN:
+    serializableElementName: TimeBetweenDistrictConstructionRPN
+  TimeBetweenInfrastructureConstructionRPN:
+    serializableElementName: TimeBetweenInfrastructureConstructionRPN
+  MaxDistrictPerSettlementRPN:
+    serializableElementName: MaxDistrictPerSettlementRPN
+  PatronageDefinitionReference:
+    serializableElementName: Patronage_PeacefulHuman
+  FoodAIWeight: 1
+  IndustryAIWeight: 1
+  MoneyAIWeight: 1
+  ScienceAIWeight: 1
+  PublicOrderAIWeight: 1
+--- !u!114 &-1112695859354434345
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1227601893, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: IndependentPeopleSpawner_Era6_PeacefulHuman
+  m_EditorClassIdentifier: 
+  Ratio: 0
+  BaseLifeTimeInTurns: 20
+  TimeBeforeFactionRespawn: 5
+  VisualAffinity:
+    serializableElementName: SpawnPoint_PeacefulHuman
+  serializableSpawnPointName: 
+  MinorEmpireBaseDescriptors:
+  - serializableElementName: Effect_HumanPeaceful_Era6_Base
+  MinorEmpireCampDescriptors:
+  - serializableElementName: Effect_HumanPeaceful_Era6_Camp
+  MinorEmpireCityDescriptors:
+  - serializableElementName: Effect_HumanPeaceful_Era6_City
+  AddedLifeTimeInTurnsWhenCampCreated: 10
+  AddedLifeTimeInTurnsWhenCityCreated: 30
+  AddedLifeTimeInTurnsForNewPatronnage: 5
+  ForcedLifeTimeInTurnsWhenSettlementLost: 5
+  DeclineLifeTimeThreshold: 10
+  AttackerArmyLocalizedName: '%IndependentPeople_World_AttackerArmyName'
+  DefenderArmyLocalizedName: '%IndependentPeople_World_DefenderArmyName'
+  ArmyPatternReferences: []
+  ArmyPatternFallbackReference:
+    serializableElementName: UnitPattern_Crisis_Era6_Fallback
+  CanSettle: 1
+  CanCaptureSettlement: 0
+  CanAskForCamp: 1
+  CanRansack: 0
+  RoamingDurationBeforeSettle: 10
+  RoamingDurationBeforeRansack: 0
+  AttackersComebackDuration: 5
+  StartingCityPopulation: 7
+  TimeBeforeEvolveToCity: 5
+  TimeBetweenDistrictConstructionRPN:
+    serializableElementName: TimeBetweenDistrictConstructionRPN
+  TimeBetweenInfrastructureConstructionRPN:
+    serializableElementName: TimeBetweenInfrastructureConstructionRPN
+  MaxDistrictPerSettlementRPN:
+    serializableElementName: MaxDistrictPerSettlementRPN
+  PatronageDefinitionReference:
+    serializableElementName: Patronage_PeacefulHuman
+  FoodAIWeight: 1
+  IndustryAIWeight: 1
+  MoneyAIWeight: 1
+  ScienceAIWeight: 1
+  PublicOrderAIWeight: 1
+--- !u!114 &-689777508718187887
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1227601893, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: IndependentPeopleSpawner_Era4_PeacefulHuman
+  m_EditorClassIdentifier: 
+  Ratio: 0.4
+  BaseLifeTimeInTurns: 30
+  TimeBeforeFactionRespawn: 5
+  VisualAffinity:
+    serializableElementName: SpawnPoint_PeacefulAnimal
+  serializableSpawnPointName: 
+  MinorEmpireBaseDescriptors:
+  - serializableElementName: Effect_HumanPeaceful_Era4_Base
+  MinorEmpireCampDescriptors:
+  - serializableElementName: Effect_HumanPeaceful_Era4_Camp
+  MinorEmpireCityDescriptors:
+  - serializableElementName: Effect_HumanPeaceful_Era4_City
+  AddedLifeTimeInTurnsWhenCampCreated: 10
+  AddedLifeTimeInTurnsWhenCityCreated: 30
+  AddedLifeTimeInTurnsForNewPatronnage: 5
+  ForcedLifeTimeInTurnsWhenSettlementLost: 5
+  DeclineLifeTimeThreshold: 10
+  AttackerArmyLocalizedName: '%IndependentPeople_World_AttackerArmyName'
+  DefenderArmyLocalizedName: '%IndependentPeople_World_DefenderArmyName'
+  ArmyPatternReferences:
+  - serializableElementName: UnitPattern_CavalryArrows_Early_Era4
+  - serializableElementName: UnitPattern_CavalryArrows_Era4
+  - serializableElementName: UnitPattern_FullAntiCavalry_Early_Era4
+  - serializableElementName: UnitPattern_FullAntiCavalry_Era4
+  - serializableElementName: UnitPattern_FullCavalry_Early_Era4
+  - serializableElementName: UnitPattern_FullCavalry_Era4
+  - serializableElementName: UnitPattern_FullMelee_Early_Era4
+  - serializableElementName: UnitPattern_FullMelee_Era4
+  - serializableElementName: UnitPattern_FullRange_Early_Era4
+  - serializableElementName: UnitPattern_FullRange_Era4
+  - serializableElementName: UnitPattern_SpearsArrows_Early_Era4
+  - serializableElementName: UnitPattern_SpearsArrows_Era4
+  - serializableElementName: UnitPattern_SpearsCavalry_Early_Era4
+  - serializableElementName: UnitPattern_SpearsCavalry_Era4
+  - serializableElementName: UnitPattern_SpearsSwords_Early_Era4
+  - serializableElementName: UnitPattern_SwordsCavalry_Era4
+  - serializableElementName: UnitPattern_SwordsArrows_Early_Era4
+  - serializableElementName: UnitPattern_SwordsArrows_Era4
+  - serializableElementName: UnitPattern_SwordsCavalry_Early_Era4
+  - serializableElementName: UnitPattern_SwordsCavalry_Era4
+  ArmyPatternFallbackReference:
+    serializableElementName: UnitPattern_Crisis_Era4_Fallback
+  CanSettle: 1
+  CanCaptureSettlement: 0
+  CanAskForCamp: 1
+  CanRansack: 0
+  RoamingDurationBeforeSettle: 3
+  RoamingDurationBeforeRansack: 0
+  AttackersComebackDuration: 5
+  StartingCityPopulation: 5
+  TimeBeforeEvolveToCity: 5
+  TimeBetweenDistrictConstructionRPN:
+    serializableElementName: TimeBetweenDistrictConstructionRPN
+  TimeBetweenInfrastructureConstructionRPN:
+    serializableElementName: TimeBetweenInfrastructureConstructionRPN
+  MaxDistrictPerSettlementRPN:
+    serializableElementName: MaxDistrictPerSettlementRPN
+  PatronageDefinitionReference:
+    serializableElementName: Patronage_PeacefulHuman
+  FoodAIWeight: 1
+  IndustryAIWeight: 1
+  MoneyAIWeight: 1
+  ScienceAIWeight: 1
+  PublicOrderAIWeight: 1
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -214,6 +815,239 @@ MonoBehaviour:
   m_Script: {fileID: 288930611, guid: b310e23bee821cb478da05296ba685d0, type: 3}
   m_Name: IndependentPeopleSpawnerDefinition
   m_EditorClassIdentifier: 
+--- !u!114 &2021502893771999387
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1227601893, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: IndependentPeopleSpawner_Era4_ViolentHuman
+  m_EditorClassIdentifier: 
+  Ratio: 0.9
+  BaseLifeTimeInTurns: 60
+  TimeBeforeFactionRespawn: 5
+  VisualAffinity:
+    serializableElementName: SpawnPoint_ViolentHuman
+  serializableSpawnPointName: 
+  MinorEmpireBaseDescriptors:
+  - serializableElementName: Effect_HumanViolent_Era4_Base
+  MinorEmpireCampDescriptors:
+  - serializableElementName: Effect_HumanViolent_Era4_Camp
+  MinorEmpireCityDescriptors:
+  - serializableElementName: Effect_HumanViolent_Era4_City
+  AddedLifeTimeInTurnsWhenCampCreated: 10
+  AddedLifeTimeInTurnsWhenCityCreated: 40
+  AddedLifeTimeInTurnsForNewPatronnage: 5
+  ForcedLifeTimeInTurnsWhenSettlementLost: 5
+  DeclineLifeTimeThreshold: 10
+  AttackerArmyLocalizedName: '%IndependentPeople_World_AttackerArmyName'
+  DefenderArmyLocalizedName: '%IndependentPeople_World_DefenderArmyName'
+  ArmyPatternReferences:
+  - serializableElementName: UnitPattern_CavalryArrows_Early_Era4
+  - serializableElementName: UnitPattern_CavalryArrows_Era4
+  - serializableElementName: UnitPattern_FullAntiCavalry_Early_Era4
+  - serializableElementName: UnitPattern_FullAntiCavalry_Era4
+  - serializableElementName: UnitPattern_FullCavalry_Early_Era4
+  - serializableElementName: UnitPattern_FullCavalry_Era4
+  - serializableElementName: UnitPattern_FullMelee_Early_Era4
+  - serializableElementName: UnitPattern_FullMelee_Era4
+  - serializableElementName: UnitPattern_FullRange_Early_Era4
+  - serializableElementName: UnitPattern_FullRange_Era4
+  - serializableElementName: UnitPattern_SpearsArrows_Early_Era4
+  - serializableElementName: UnitPattern_SpearsArrows_Era4
+  - serializableElementName: UnitPattern_SpearsCavalry_Early_Era4
+  - serializableElementName: UnitPattern_SpearsCavalry_Era4
+  - serializableElementName: UnitPattern_SpearsSwords_Early_Era4
+  - serializableElementName: UnitPattern_SwordsCavalry_Era4
+  - serializableElementName: UnitPattern_SwordsArrows_Early_Era4
+  - serializableElementName: UnitPattern_SwordsArrows_Era4
+  - serializableElementName: UnitPattern_SwordsCavalry_Early_Era4
+  - serializableElementName: UnitPattern_SwordsCavalry_Era4
+  ArmyPatternFallbackReference:
+    serializableElementName: UnitPattern_Crisis_Era4_Fallback
+  CanSettle: 1
+  CanCaptureSettlement: 1
+  CanAskForCamp: 1
+  CanRansack: 1
+  RoamingDurationBeforeSettle: 3
+  RoamingDurationBeforeRansack: 5
+  AttackersComebackDuration: 5
+  StartingCityPopulation: 5
+  TimeBeforeEvolveToCity: 5
+  TimeBetweenDistrictConstructionRPN:
+    serializableElementName: TimeBetweenDistrictConstructionRPN
+  TimeBetweenInfrastructureConstructionRPN:
+    serializableElementName: TimeBetweenInfrastructureConstructionRPN
+  MaxDistrictPerSettlementRPN:
+    serializableElementName: MaxDistrictPerSettlementRPN
+  PatronageDefinitionReference:
+    serializableElementName: Patronage_ViolentHuman
+  FoodAIWeight: 1
+  IndustryAIWeight: 1
+  MoneyAIWeight: 1
+  ScienceAIWeight: 1
+  PublicOrderAIWeight: 1
+--- !u!114 &2735208622716551305
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1375915831, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: IndependentPeopleSpawner_Era1_PeacefulAnimal
+  m_EditorClassIdentifier: 
+  Ratio: 0.1
+  BaseLifeTimeInTurns: 30
+  TimeBeforeFactionRespawn: 5
+  VisualAffinity:
+    serializableElementName: SpawnPoint_PeacefulAnimal
+  serializableSpawnPointName: 
+  ForcedLifeTimeInTurnsWhenSpawnPointLost: 5
+  TimeBetweenArmySpawn: 6
+  TimeBeforeFirstArmySpawn: 0
+  MaxArmyCountPerGroup: 2
+  MaxDefenderArmyCountPerGroup: 0
+  MinArmySize: 1
+  MaxArmySize: 2
+--- !u!114 &2835932594739128064
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1227601893, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: IndependentPeopleSpawner_Era2_PeacefulHuman
+  m_EditorClassIdentifier: 
+  Ratio: 0.6
+  BaseLifeTimeInTurns: 20
+  TimeBeforeFactionRespawn: 5
+  VisualAffinity:
+    serializableElementName: SpawnPoint_PeacefulHuman
+  serializableSpawnPointName: 
+  MinorEmpireBaseDescriptors:
+  - serializableElementName: Effect_HumanPeaceful_Era2_Base
+  MinorEmpireCampDescriptors:
+  - serializableElementName: Effect_HumanPeaceful_Era2_Camp
+  MinorEmpireCityDescriptors:
+  - serializableElementName: Effect_HumanPeaceful_Era2_City
+  AddedLifeTimeInTurnsWhenCampCreated: 10
+  AddedLifeTimeInTurnsWhenCityCreated: 30
+  AddedLifeTimeInTurnsForNewPatronnage: 5
+  ForcedLifeTimeInTurnsWhenSettlementLost: 5
+  DeclineLifeTimeThreshold: 10
+  AttackerArmyLocalizedName: '%IndependentPeople_World_AttackerArmyName'
+  DefenderArmyLocalizedName: '%IndependentPeople_World_DefenderArmyName'
+  ArmyPatternReferences:
+  - serializableElementName: UnitPattern_CavalryArrows_Early_Era2
+  - serializableElementName: UnitPattern_CavalryArrows_Era2
+  - serializableElementName: UnitPattern_FullAntiCavalry_Early_Era2
+  - serializableElementName: UnitPattern_FullAntiCavalry_Era2
+  - serializableElementName: UnitPattern_FullCavalry_Early_Era2
+  - serializableElementName: UnitPattern_FullCavalry_Era2
+  - serializableElementName: UnitPattern_FullMelee_Early_Era2
+  - serializableElementName: UnitPattern_FullMelee_Era2
+  - serializableElementName: UnitPattern_FullRange_Early_Era2
+  - serializableElementName: UnitPattern_FullRange_Era2
+  - serializableElementName: UnitPattern_SpearsArrows_Early_Era2
+  - serializableElementName: UnitPattern_SpearsArrows_Era2
+  - serializableElementName: UnitPattern_SpearsCavalry_Early_Era2
+  - serializableElementName: UnitPattern_SpearsCavalry_Era2
+  - serializableElementName: UnitPattern_SpearsSwords_Early_Era2
+  - serializableElementName: UnitPattern_SwordsCavalry_Era2
+  - serializableElementName: UnitPattern_SwordsArrows_Early_Era2
+  - serializableElementName: UnitPattern_SwordsArrows_Era2
+  - serializableElementName: UnitPattern_SwordsCavalry_Early_Era2
+  - serializableElementName: UnitPattern_SwordsCavalry_Era2
+  ArmyPatternFallbackReference:
+    serializableElementName: UnitPattern_Crisis_Era2_Fallback
+  CanSettle: 1
+  CanCaptureSettlement: 0
+  CanAskForCamp: 1
+  CanRansack: 0
+  RoamingDurationBeforeSettle: 3
+  RoamingDurationBeforeRansack: 0
+  AttackersComebackDuration: 5
+  StartingCityPopulation: 3
+  TimeBeforeEvolveToCity: 5
+  TimeBetweenDistrictConstructionRPN:
+    serializableElementName: TimeBetweenDistrictConstructionRPN
+  TimeBetweenInfrastructureConstructionRPN:
+    serializableElementName: TimeBetweenInfrastructureConstructionRPN
+  MaxDistrictPerSettlementRPN:
+    serializableElementName: MaxDistrictPerSettlementRPN
+  PatronageDefinitionReference:
+    serializableElementName: Patronage_PeacefulHuman
+  FoodAIWeight: 1
+  IndustryAIWeight: 1
+  MoneyAIWeight: 1
+  ScienceAIWeight: 1
+  PublicOrderAIWeight: 1
+--- !u!114 &3026146120875569294
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1227601893, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: IndependentPeopleSpawner_Era5_PeacefulHuman
+  m_EditorClassIdentifier: 
+  Ratio: 0
+  BaseLifeTimeInTurns: 20
+  TimeBeforeFactionRespawn: 5
+  VisualAffinity:
+    serializableElementName: SpawnPoint_PeacefulHuman
+  serializableSpawnPointName: 
+  MinorEmpireBaseDescriptors:
+  - serializableElementName: Effect_HumanPeaceful_Era5_Base
+  MinorEmpireCampDescriptors:
+  - serializableElementName: Effect_HumanPeaceful_Era5_Camp
+  MinorEmpireCityDescriptors:
+  - serializableElementName: Effect_HumanPeaceful_Era5_City
+  AddedLifeTimeInTurnsWhenCampCreated: 10
+  AddedLifeTimeInTurnsWhenCityCreated: 30
+  AddedLifeTimeInTurnsForNewPatronnage: 5
+  ForcedLifeTimeInTurnsWhenSettlementLost: 5
+  DeclineLifeTimeThreshold: 10
+  AttackerArmyLocalizedName: '%IndependentPeople_World_AttackerArmyName'
+  DefenderArmyLocalizedName: '%IndependentPeople_World_DefenderArmyName'
+  ArmyPatternReferences: []
+  ArmyPatternFallbackReference:
+    serializableElementName: UnitPattern_Crisis_Era5_Fallback
+  CanSettle: 1
+  CanCaptureSettlement: 0
+  CanAskForCamp: 1
+  CanRansack: 0
+  RoamingDurationBeforeSettle: 3
+  RoamingDurationBeforeRansack: 0
+  AttackersComebackDuration: 5
+  StartingCityPopulation: 6
+  TimeBeforeEvolveToCity: 5
+  TimeBetweenDistrictConstructionRPN:
+    serializableElementName: TimeBetweenDistrictConstructionRPN
+  TimeBetweenInfrastructureConstructionRPN:
+    serializableElementName: TimeBetweenInfrastructureConstructionRPN
+  MaxDistrictPerSettlementRPN:
+    serializableElementName: MaxDistrictPerSettlementRPN
+  PatronageDefinitionReference:
+    serializableElementName: Patronage_PeacefulHuman
+  FoodAIWeight: 1
+  IndustryAIWeight: 1
+  MoneyAIWeight: 1
+  ScienceAIWeight: 1
+  PublicOrderAIWeight: 1
 --- !u!114 &5338648045143429922
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -226,8 +1060,8 @@ MonoBehaviour:
   m_Script: {fileID: 1227601893, guid: b310e23bee821cb478da05296ba685d0, type: 3}
   m_Name: IndependentPeopleSpawner_Era3_ViolentHuman
   m_EditorClassIdentifier: 
-  Ratio: 0.6
-  BaseLifeTimeInTurns: 24
+  Ratio: 0.7
+  BaseLifeTimeInTurns: 40
   TimeBeforeFactionRespawn: 5
   VisualAffinity:
     serializableElementName: SpawnPoint_ViolentHuman
@@ -239,7 +1073,7 @@ MonoBehaviour:
   MinorEmpireCityDescriptors:
   - serializableElementName: Effect_HumanViolent_Era3_City
   AddedLifeTimeInTurnsWhenCampCreated: 10
-  AddedLifeTimeInTurnsWhenCityCreated: 30
+  AddedLifeTimeInTurnsWhenCityCreated: 40
   AddedLifeTimeInTurnsForNewPatronnage: 5
   ForcedLifeTimeInTurnsWhenSettlementLost: 5
   DeclineLifeTimeThreshold: 10
@@ -290,6 +1124,56 @@ MonoBehaviour:
   MoneyAIWeight: 1
   ScienceAIWeight: 1
   PublicOrderAIWeight: 1
+--- !u!114 &7477665785962891067
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1375915831, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: IndependentPeopleSpawner_Era4_ViolentAnimal
+  m_EditorClassIdentifier: 
+  Ratio: 0.5
+  BaseLifeTimeInTurns: 40
+  TimeBeforeFactionRespawn: 5
+  VisualAffinity:
+    serializableElementName: SpawnPoint_ViolentAnimal
+  serializableSpawnPointName: 
+  ForcedLifeTimeInTurnsWhenSpawnPointLost: 5
+  TimeBetweenArmySpawn: 6
+  TimeBeforeFirstArmySpawn: 0
+  MaxArmyCountPerGroup: 2
+  MaxDefenderArmyCountPerGroup: 0
+  MinArmySize: 1
+  MaxArmySize: 5
+--- !u!114 &7596990798496422878
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1375915831, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: IndependentPeopleSpawner_Era2_ViolentAnimal
+  m_EditorClassIdentifier: 
+  Ratio: 0.4
+  BaseLifeTimeInTurns: 40
+  TimeBeforeFactionRespawn: 5
+  VisualAffinity:
+    serializableElementName: SpawnPoint_ViolentAnimal
+  serializableSpawnPointName: 
+  ForcedLifeTimeInTurnsWhenSpawnPointLost: 5
+  TimeBetweenArmySpawn: 6
+  TimeBeforeFirstArmySpawn: 0
+  MaxArmyCountPerGroup: 2
+  MaxDefenderArmyCountPerGroup: 0
+  MinArmySize: 1
+  MaxArmySize: 3
 --- !u!114 &7790490136748015743
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -302,8 +1186,8 @@ MonoBehaviour:
   m_Script: {fileID: 1227601893, guid: b310e23bee821cb478da05296ba685d0, type: 3}
   m_Name: IndependentPeopleSpawner_Era1_ViolentHuman
   m_EditorClassIdentifier: 
-  Ratio: 0.25
-  BaseLifeTimeInTurns: 24
+  Ratio: 0.3
+  BaseLifeTimeInTurns: 40
   TimeBeforeFactionRespawn: 5
   VisualAffinity:
     serializableElementName: SpawnPoint_ViolentHuman
@@ -315,7 +1199,7 @@ MonoBehaviour:
   MinorEmpireCityDescriptors:
   - serializableElementName: Effect_HumanViolent_Era1_City
   AddedLifeTimeInTurnsWhenCampCreated: 10
-  AddedLifeTimeInTurnsWhenCityCreated: 30
+  AddedLifeTimeInTurnsWhenCityCreated: 40
   AddedLifeTimeInTurnsForNewPatronnage: 5
   ForcedLifeTimeInTurnsWhenSettlementLost: 5
   DeclineLifeTimeThreshold: 10
@@ -349,7 +1233,7 @@ MonoBehaviour:
   CanAskForCamp: 1
   CanRansack: 1
   RoamingDurationBeforeSettle: 3
-  RoamingDurationBeforeRansack: 10
+  RoamingDurationBeforeRansack: 5
   AttackersComebackDuration: 5
   StartingCityPopulation: 2
   TimeBeforeEvolveToCity: 5
@@ -378,8 +1262,8 @@ MonoBehaviour:
   m_Script: {fileID: 1375915831, guid: b310e23bee821cb478da05296ba685d0, type: 3}
   m_Name: IndependentPeopleSpawner_Era0_PeacefulAnimal
   m_EditorClassIdentifier: 
-  Ratio: 0.75
-  BaseLifeTimeInTurns: 24
+  Ratio: 0.9
+  BaseLifeTimeInTurns: 20
   TimeBeforeFactionRespawn: 1
   VisualAffinity:
     serializableElementName: SpawnPoint_PeacefulAnimal

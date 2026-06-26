@@ -28,6 +28,21 @@ MonoBehaviour:
       PropertyLocalName: []
   - ApplyEffectOnSource: 0
     Path:
+      PropertyToFollow:
+      - Territory
+      - InternalTradeToCapital
+      Validations: []
+      specificTargetType: 
+    PropertyEffects:
+    - Note: 
+      TargetProperty: RawResource04AccessCount
+      ToTargetOperation: 0
+      RpnOperationStack: 09000000
+      ConstantStack: []
+      PropertyLocalName:
+      - ResourceAccessProduced
+  - ApplyEffectOnSource: 0
+    Path:
       PropertyToFollow: []
       Validations:
       - PathIndex: -1
@@ -43,21 +58,34 @@ MonoBehaviour:
       ConstantStack:
       - RawValue: 3000
       PropertyLocalName: []
-  - ApplyEffectOnSource: 0
-    Path:
-      PropertyToFollow:
-      - Territory
-      - InternalTradeToCapital
-      Validations: []
-      specificTargetType: 
-    PropertyEffects:
     - Note: 
-      TargetProperty: RawResource04AccessCount
+      TargetProperty: InfluenceNet
       ToTargetOperation: 0
-      RpnOperationStack: 09000000
-      ConstantStack: []
-      PropertyLocalName:
-      - ResourceAccessProduced
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 3000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: MoneyFromTerrain
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 4000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: IndustryFromTerrain
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 4000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: CultureProduced
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 4000
+      PropertyLocalName: []
   serializableCategory: 
   startingType: Amplitude.Mercury.Simulation.District, Amplitude.Mercury.Firstpass
 --- !u!114 &-6106498392771403503
@@ -88,6 +116,21 @@ MonoBehaviour:
       PropertyLocalName: []
   - ApplyEffectOnSource: 0
     Path:
+      PropertyToFollow:
+      - Territory
+      - InternalTradeToCapital
+      Validations: []
+      specificTargetType: 
+    PropertyEffects:
+    - Note: 
+      TargetProperty: RawResource05AccessCount
+      ToTargetOperation: 0
+      RpnOperationStack: 09000000
+      ConstantStack: []
+      PropertyLocalName:
+      - ResourceAccessProduced
+  - ApplyEffectOnSource: 0
+    Path:
       PropertyToFollow: []
       Validations:
       - PathIndex: -1
@@ -103,6 +146,62 @@ MonoBehaviour:
       ConstantStack:
       - RawValue: 1000
       PropertyLocalName: []
+    - Note: 
+      TargetProperty: InfluenceNet
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 1000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: MoneyFromTerrain
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 4000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: IndustryFromTerrain
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 4000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: CultureProduced
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 4000
+      PropertyLocalName: []
+  serializableCategory: 
+  startingType: Amplitude.Mercury.Simulation.District, Amplitude.Mercury.Firstpass
+--- !u!114 &-4134053141393388542
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
+  m_Name: Effect_Extractor_ResourceDeposit09
+  m_EditorClassIdentifier: 
+  Effects:
+  - ApplyEffectOnSource: 0
+    Path:
+      PropertyToFollow: []
+      Validations: []
+      specificTargetType: 
+    PropertyEffects:
+    - Note: 
+      TargetProperty: MoneyFromTerrain
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 1000
+      PropertyLocalName: []
   - ApplyEffectOnSource: 0
     Path:
       PropertyToFollow:
@@ -112,7 +211,7 @@ MonoBehaviour:
       specificTargetType: 
     PropertyEffects:
     - Note: 
-      TargetProperty: RawResource05AccessCount
+      TargetProperty: RawResource09AccessCount
       ToTargetOperation: 0
       RpnOperationStack: 09000000
       ConstantStack: []
@@ -148,23 +247,6 @@ MonoBehaviour:
       PropertyLocalName: []
   - ApplyEffectOnSource: 0
     Path:
-      PropertyToFollow: []
-      Validations:
-      - PathIndex: -1
-        ValidableElementCollection: 
-        Inverted: 0
-        serializableElementName: Tag_Extension_Urban
-      specificTargetType: 
-    PropertyEffects:
-    - Note: 
-      TargetProperty: PollutionNet
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 1000
-      PropertyLocalName: []
-  - ApplyEffectOnSource: 0
-    Path:
       PropertyToFollow:
       - Territory
       - InternalTradeToCapital
@@ -178,6 +260,65 @@ MonoBehaviour:
       ConstantStack: []
       PropertyLocalName:
       - ResourceAccessProduced
+  - ApplyEffectOnSource: 0
+    Path:
+      PropertyToFollow: []
+      Validations:
+      - PathIndex: -1
+        ValidableElementCollection: 
+        Inverted: 0
+        serializableElementName: Tag_Extension_Urban
+      specificTargetType: 
+    PropertyEffects:
+    - Note: 
+      TargetProperty: VisionHeight
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 1000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: VisionRange
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 1000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: PollutionNet
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 1000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: InfluenceNet
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 1000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: MoneyFromTerrain
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 8000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: IndustryFromTerrain
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 8000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: CultureProduced
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 8000
+      PropertyLocalName: []
   serializableCategory: 
   startingType: Amplitude.Mercury.Simulation.District, Amplitude.Mercury.Firstpass
 --- !u!114 &11400000
@@ -220,23 +361,6 @@ MonoBehaviour:
       PropertyLocalName: []
   - ApplyEffectOnSource: 0
     Path:
-      PropertyToFollow: []
-      Validations:
-      - PathIndex: -1
-        ValidableElementCollection: 
-        Inverted: 0
-        serializableElementName: Tag_Extension_Urban
-      specificTargetType: 
-    PropertyEffects:
-    - Note: 
-      TargetProperty: PollutionNet
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 2000
-      PropertyLocalName: []
-  - ApplyEffectOnSource: 0
-    Path:
       PropertyToFollow:
       - Territory
       - InternalTradeToCapital
@@ -250,6 +374,65 @@ MonoBehaviour:
       ConstantStack: []
       PropertyLocalName:
       - ResourceAccessProduced
+  - ApplyEffectOnSource: 0
+    Path:
+      PropertyToFollow: []
+      Validations:
+      - PathIndex: -1
+        ValidableElementCollection: 
+        Inverted: 0
+        serializableElementName: Tag_Extension_Urban
+      specificTargetType: 
+    PropertyEffects:
+    - Note: 
+      TargetProperty: VisionHeight
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 1000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: VisionRange
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 1000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: PollutionNet
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 1000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: InfluenceNet
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 2000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: MoneyFromTerrain
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 8000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: IndustryFromTerrain
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 8000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: CultureProduced
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 8000
+      PropertyLocalName: []
   serializableCategory: 
   startingType: Amplitude.Mercury.Simulation.District, Amplitude.Mercury.Firstpass
 --- !u!114 &7287634542418602177
@@ -280,23 +463,6 @@ MonoBehaviour:
       PropertyLocalName: []
   - ApplyEffectOnSource: 0
     Path:
-      PropertyToFollow: []
-      Validations:
-      - PathIndex: -1
-        ValidableElementCollection: 
-        Inverted: 0
-        serializableElementName: Tag_Extension_Urban
-      specificTargetType: 
-    PropertyEffects:
-    - Note: 
-      TargetProperty: PollutionNet
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 2000
-      PropertyLocalName: []
-  - ApplyEffectOnSource: 0
-    Path:
       PropertyToFollow:
       - Territory
       - InternalTradeToCapital
@@ -310,5 +476,64 @@ MonoBehaviour:
       ConstantStack: []
       PropertyLocalName:
       - ResourceAccessProduced
+  - ApplyEffectOnSource: 0
+    Path:
+      PropertyToFollow: []
+      Validations:
+      - PathIndex: -1
+        ValidableElementCollection: 
+        Inverted: 0
+        serializableElementName: Tag_Extension_Urban
+      specificTargetType: 
+    PropertyEffects:
+    - Note: 
+      TargetProperty: VisionHeight
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 2000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: VisionRange
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 2000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: PollutionNet
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 2000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: InfluenceNet
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 2000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: MoneyFromTerrain
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 8000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: IndustryFromTerrain
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 8000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: CultureProduced
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 8000
+      PropertyLocalName: []
   serializableCategory: 
   startingType: Amplitude.Mercury.Simulation.District, Amplitude.Mercury.Firstpass

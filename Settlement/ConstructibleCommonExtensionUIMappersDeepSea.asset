@@ -1,0 +1,650 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-9170678653001013097
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -717291864, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Extension_Base_EnchCoralHunting
+  m_EditorClassIdentifier: 
+  Title: Coral Hunting
+  Description: Divers hunt corals, sponges, rare species, pearl crustaceans in a
+    large area. Reinforce transports.
+  Images:
+  - Value:
+      guid:
+        a: -904838179
+        b: 1077739608
+        c: -1257901156
+        d: 1739063096
+    serializableKey: Small
+  - Value:
+      guid:
+        a: 169075194
+        b: 1244940871
+        c: 1939967413
+        d: -980210593
+    serializableKey: Tooltip
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  Symbol: 
+  SortPriority: 4007
+  ConstructibleTraits: 
+--- !u!114 &-7990980618924884041
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -717291864, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Extension_Base_EnchBlocus
+  m_EditorClassIdentifier: 
+  Title: Blocus
+  Description: 'A patrolled and trapped maritime zone, where navigation must be cautious. '
+  Images:
+  - Value:
+      guid:
+        a: -1591207877
+        b: 1258426429
+        c: -1287018066
+        d: 555816064
+    serializableKey: Small
+  - Value:
+      guid:
+        a: 1108658239
+        b: 1218477790
+        c: 705600129
+        d: 1139101967
+    serializableKey: Tooltip
+  Color: {r: 0.10412957, g: 0.33517355, b: 0.4716981, a: 0}
+  Symbol: 
+  SortPriority: 4008
+  ConstructibleTraits: 
+--- !u!114 &-7973603715107367412
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -717291864, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Extension_Base_EnchCruise
+  m_EditorClassIdentifier: 
+  Title: Cruise
+  Description: Tours of the world's wonders. Enjoy high luxury, spend cash on touristic
+    locations, learn history on famous cultural places.
+  Images:
+  - Value:
+      guid:
+        a: -1404074648
+        b: 1264806323
+        c: -1503574371
+        d: 1375514224
+    serializableKey: Small
+  - Value:
+      guid:
+        a: -1790947885
+        b: 1205431288
+        c: -272098632
+        d: 844206945
+    serializableKey: Tooltip
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  Symbol: 
+  SortPriority: 4010
+  ConstructibleTraits: 
+--- !u!114 &-7482856203062088995
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -717291864, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Extension_Base_EnchFishingVillage
+  m_EditorClassIdentifier: 
+  Title: Fishing Village
+  Description: 'The fishermen turn to the ocean, benefactor or angry Divinity. Source
+    of fish and faith. '
+  Images:
+  - Value:
+      guid:
+        a: -426532620
+        b: 1340351258
+        c: 618171816
+        d: -284454074
+    serializableKey: Small
+  - Value:
+      guid:
+        a: 1956529175
+        b: 1151734774
+        c: 1829497228
+        d: 526750681
+    serializableKey: Tooltip
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  Symbol: 
+  SortPriority: 4007
+  ConstructibleTraits: 
+--- !u!114 &-7178309038582972907
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -717291864, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Extension_Base_EnchArchipelago
+  m_EditorClassIdentifier: 
+  Title: Archipelago
+  Description: Many lush inhabited islets.
+  Images:
+  - Value:
+      guid:
+        a: 728541404
+        b: 1076787399
+        c: -369019730
+        d: 270154955
+    serializableKey: Small
+  - Value:
+      guid:
+        a: 1164186039
+        b: 1147639865
+        c: 1281097149
+        d: -333270642
+    serializableKey: Tooltip
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  Symbol: 
+  SortPriority: 4999
+  ConstructibleTraits: 
+--- !u!114 &-4394438355525689400
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -717291864, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Extension_Base_EnchNavalBase
+  m_EditorClassIdentifier: 
+  Title: Naval Base
+  Description: Shipyard and coastal fortress.
+  Images:
+  - Value:
+      guid:
+        a: 480204760
+        b: 1218509528
+        c: -2045909350
+        d: 1225819323
+    serializableKey: Small
+  - Value:
+      guid:
+        a: -206331113
+        b: 1170028154
+        c: 1787402401
+        d: -1719293911
+    serializableKey: Tooltip
+  Color: {r: 0.10412957, g: 0.33517355, b: 0.4716981, a: 0}
+  Symbol: 
+  SortPriority: 4008
+  ConstructibleTraits: 
+--- !u!114 &-3548288895525177079
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -717291864, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Extension_Base_EnchSubmarineHold
+  m_EditorClassIdentifier: 
+  Title: Submarine Hold
+  Description: A huge bunker in the natural or artificial cave of a cliff.
+  Images:
+  - Value:
+      guid:
+        a: -1543358071
+        b: 1142485801
+        c: 1428313998
+        d: 2033978844
+    serializableKey: Small
+  - Value:
+      guid:
+        a: -6899389
+        b: 1088018473
+        c: 998473889
+        d: 819311887
+    serializableKey: Tooltip
+  Color: {r: 0.10412957, g: 0.33517355, b: 0.4716981, a: 0}
+  Symbol: 
+  SortPriority: 4009
+  ConstructibleTraits: 
+--- !u!114 &-3101792361562345891
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -717291864, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Extension_Base_EnchLighthouse
+  m_EditorClassIdentifier: 
+  Title: Lighthouse
+  Description: The light helping to brave the storms.
+  Images:
+  - Value:
+      guid:
+        a: -1870774022
+        b: 1233058679
+        c: 915055762
+        d: 326905625
+    serializableKey: Small
+  - Value:
+      guid:
+        a: -1053948185
+        b: 1330801629
+        c: 138413721
+        d: -1806496928
+    serializableKey: Tooltip
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  Symbol: 
+  SortPriority: 4990
+  ConstructibleTraits: 
+--- !u!114 &-3023657725759479959
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -717291864, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Extension_Base_EnchVolcano
+  m_EditorClassIdentifier: 
+  Title: Volcano
+  Description: A volcanic island lost in the sea.
+  Images:
+  - Value:
+      guid:
+        a: -1287214828
+        b: 1330356846
+        c: -271579235
+        d: 1736154668
+    serializableKey: Small
+  - Value:
+      guid:
+        a: 184984358
+        b: 1169061813
+        c: 931580590
+        d: -1146101070
+    serializableKey: Tooltip
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  Symbol: 
+  SortPriority: 4999
+  ConstructibleTraits: 
+--- !u!114 &-2513117171369325900
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -717291864, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Extension_Base_EnchOffshoreTrawlers
+  m_EditorClassIdentifier: 
+  Title: Offshore Trawlers
+  Description: Offshore fishing, large boats dragging vast nets. However, overfishing
+    has a decreasing yield and causes species extinction.
+  Images:
+  - Value:
+      guid:
+        a: -1313384818
+        b: 1246442401
+        c: -919245900
+        d: 324775395
+    serializableKey: Small
+  - Value:
+      guid:
+        a: 687019198
+        b: 1199235094
+        c: 351339393
+        d: -107100712
+    serializableKey: Tooltip
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  Symbol: 
+  SortPriority: 4007
+  ConstructibleTraits: 
+--- !u!114 &-2098918881753085028
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -717291864, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Extension_Base_EnchAtoll
+  m_EditorClassIdentifier: 
+  Title: Atoll
+  Description: A tiny island in the open ocean
+  Images:
+  - Value:
+      guid:
+        a: 566090648
+        b: 1240493989
+        c: 967274684
+        d: -437366809
+    serializableKey: Small
+  - Value:
+      guid:
+        a: -1351628955
+        b: 1148666642
+        c: -676645502
+        d: 1653710948
+    serializableKey: Tooltip
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  Symbol: 
+  SortPriority: 4008
+  ConstructibleTraits: 
+--- !u!114 &-246309992763133284
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -717291864, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Extension_Base_EnchInsularAirfield
+  m_EditorClassIdentifier: 
+  Title: Insular Airfield
+  Description: Short track on an island.
+  Images:
+  - Value:
+      guid:
+        a: -133988157
+        b: 1179386321
+        c: 180154241
+        d: 420250540
+    serializableKey: Small
+  - Value:
+      guid:
+        a: 750916560
+        b: 1134722340
+        c: 1463517102
+        d: -786591547
+    serializableKey: Tooltip
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  Symbol: 
+  SortPriority: 4999
+  ConstructibleTraits: 
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 763423559, guid: 722acb04e362a9243a944ac3117daa73, type: 3}
+  m_Name: ConstructibleCommonExtensionUIMappersDeepSea
+  m_EditorClassIdentifier: 
+--- !u!114 &707135366761861715
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -717291864, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Extension_Base_EnchMaritimeHub
+  m_EditorClassIdentifier: 
+  Title: Maritime Hub
+  Description: The regulation of maritime traffic prevents incidents and pilfering.
+  Images:
+  - Value:
+      guid:
+        a: -749487006
+        b: 1282427038
+        c: 1390613691
+        d: -717303432
+    serializableKey: Small
+  - Value:
+      guid:
+        a: -716005862
+        b: 1103931332
+        c: 318417066
+        d: 207049588
+    serializableKey: Tooltip
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  Symbol: 
+  SortPriority: 4007
+  ConstructibleTraits: 
+--- !u!114 &1487315217234696466
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -717291864, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Extension_Base_EnchGulfStream
+  m_EditorClassIdentifier: 
+  Title: Gulf Stream
+  Description: Powerful tidal currents sweep the boats upstream and wash the ocean.
+  Images:
+  - Value:
+      guid:
+        a: 412114317
+        b: 1314520764
+        c: 385391544
+        d: -154127225
+    serializableKey: Small
+  - Value:
+      guid:
+        a: 2023708505
+        b: 1188166081
+        c: -1440188031
+        d: -635598387
+    serializableKey: Tooltip
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  Symbol: 
+  SortPriority: 4008
+  ConstructibleTraits: 
+--- !u!114 &2544293357142474484
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -717291864, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Extension_Base_EnchAbyssLab
+  m_EditorClassIdentifier: 
+  Title: Abyss Lab
+  Description: Dedication to deep-sea exploration is ambitious and expensive. It
+    requires enough popular support. The surroundings of the area should preferably
+    remain untouched, so as not to disturb the research.
+  Images:
+  - Value:
+      guid:
+        a: 1160958466
+        b: 1213469407
+        c: 1390094493
+        d: 516795234
+    serializableKey: Small
+  - Value:
+      guid:
+        a: -1195848723
+        b: 1157716803
+        c: 252590511
+        d: 1431278735
+    serializableKey: Tooltip
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  Symbol: 
+  SortPriority: 4007
+  ConstructibleTraits: 
+--- !u!114 &2547247233649858589
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -717291864, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Extension_Base_EnchAggregateExtraction
+  m_EditorClassIdentifier: 
+  Title: Aggregate Extraction
+  Description: Extraction of sediments, aggregates, glass stones, limestones, on
+    beach and maritime cliff.
+  Images:
+  - Value:
+      guid:
+        a: -857891951
+        b: 1275407403
+        c: 1801108886
+        d: -1272026824
+    serializableKey: Small
+  - Value:
+      guid:
+        a: 293163079
+        b: 1301485253
+        c: 978453176
+        d: 531788590
+    serializableKey: Tooltip
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  Symbol: 
+  SortPriority: 4007
+  ConstructibleTraits: 
+--- !u!114 &7867337569844092353
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -717291864, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Extension_Base_EnchGillnetters
+  m_EditorClassIdentifier: 
+  Title: Gillnetters
+  Description: A method of fishing that allows nets to be left to rest and to be
+    retrieved later.
+  Images:
+  - Value:
+      guid:
+        a: 1888582492
+        b: 1138629685
+        c: -964562029
+        d: 726749622
+    serializableKey: Small
+  - Value:
+      guid:
+        a: 1899585034
+        b: 1298652449
+        c: 696702896
+        d: 1150523618
+    serializableKey: Tooltip
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  Symbol: 
+  SortPriority: 4007
+  ConstructibleTraits: 
+--- !u!114 &8626427792264589292
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -717291864, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Extension_Base_EnchJetty
+  m_EditorClassIdentifier: 
+  Title: Jetty
+  Description: Makeshift pier for troops in a hurry to sail away.
+  Images:
+  - Value:
+      guid:
+        a: -1247081480
+        b: 1257017681
+        c: 370776710
+        d: 1873369450
+    serializableKey: Small
+  - Value:
+      guid:
+        a: -1982404534
+        b: 1143660775
+        c: -917388128
+        d: -1296301424
+    serializableKey: Tooltip
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  Symbol: 
+  SortPriority: 4990
+  ConstructibleTraits: 
+--- !u!114 &8901731236217228964
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -717291864, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Extension_Base_EnchShellfishFarm
+  m_EditorClassIdentifier: 
+  Title: Shellfish Farm
+  Description: 'Shellfish are prized for eating, but also for all kinds of ornaments
+    and handicrafts using the shells. '
+  Images:
+  - Value:
+      guid:
+        a: -1188704659
+        b: 1332196155
+        c: -1808903014
+        d: 1968824263
+    serializableKey: Small
+  - Value:
+      guid:
+        a: 542752524
+        b: 1294520963
+        c: -1757818696
+        d: -2042230586
+    serializableKey: Tooltip
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  Symbol: 
+  SortPriority: 4007
+  ConstructibleTraits: 

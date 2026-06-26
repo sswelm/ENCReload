@@ -51,11 +51,12 @@ MonoBehaviour:
   - serializableElementName: Infrastructure_Industry_Family00_01
   - serializableElementName: Infrastructure_Food_Family00_01
   - serializableElementName: Infrastructure_Money_Family00_01
+  - serializableElementName: Infrastructure_Harbour_EnchTideCalendar
   StartingPopulation:
     RawValue: 3000
   StartingIndustry:
     RawValue: 210000
-  Level: 1
+  Level: 2
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -110,11 +111,12 @@ MonoBehaviour:
   - serializableElementName: Infrastructure_Industry_Family00_01
   - serializableElementName: Infrastructure_Food_Family00_01
   - serializableElementName: Infrastructure_Money_Family00_01
+  - serializableElementName: Infrastructure_Harbour_EnchTideCalendar
   StartingPopulation:
-    RawValue: 3000
+    RawValue: 2000
   StartingIndustry:
     RawValue: 140000
-  Level: 0
+  Level: 1
 --- !u!114 &6065717329187211061
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -177,11 +179,12 @@ MonoBehaviour:
   - serializableElementName: Infrastructure_Industry_Family00_01
   - serializableElementName: Infrastructure_Food_Family00_01
   - serializableElementName: Infrastructure_Money_Family00_01
+  - serializableElementName: Infrastructure_Harbour_EnchTideCalendar
   StartingPopulation:
     RawValue: 4000
   StartingIndustry:
     RawValue: 280000
-  Level: 2
+  Level: 3
 --- !u!114 &6601785853617609089
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -296,4 +299,4 @@ MonoBehaviour:
     RawValue: 6000
   StartingIndustry:
     RawValue: 350000
-  Level: 3
+  Level: 4

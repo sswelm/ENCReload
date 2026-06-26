@@ -1,5 +1,21 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-4416987740864773701
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -374328362, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitSpecialty_SettlerPackage03
+  m_EditorClassIdentifier: 
+  AbilityReferences:
+  - serializableElementName: UnitAbility_Settler
+  InstantResolveBattleStrengthBonus:
+    RawValue: 0
 --- !u!114 &-3159517834755465904
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -48,6 +64,22 @@ MonoBehaviour:
   m_Script: {fileID: -354112042, guid: b310e23bee821cb478da05296ba685d0, type: 3}
   m_Name: UnitSpecialty
   m_EditorClassIdentifier: 
+--- !u!114 &1665558789162980376
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -374328362, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitSpecialty_SettlerPackage00
+  m_EditorClassIdentifier: 
+  AbilityReferences:
+  - serializableElementName: UnitAbility_Settler
+  InstantResolveBattleStrengthBonus:
+    RawValue: 0
 --- !u!114 &2505689139194296840
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -62,6 +94,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AbilityReferences:
   - serializableElementName: UnitAbility_NoMovementPenaltiesFromZonesOfControl
+  InstantResolveBattleStrengthBonus:
+    RawValue: 0
+--- !u!114 &2516434354992384490
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -374328362, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitSpecialty_SettlerPackage02
+  m_EditorClassIdentifier: 
+  AbilityReferences:
+  - serializableElementName: UnitAbility_Settler
   InstantResolveBattleStrengthBonus:
     RawValue: 0
 --- !u!114 &3712725212025644665
@@ -98,6 +146,22 @@ MonoBehaviour:
   AbilityReferences:
   - serializableElementName: UnitAbility_SpeedFromHarbor_Level1
   - serializableElementName: UnitAbility_NavalSpeedFromBattle_Level1
+  InstantResolveBattleStrengthBonus:
+    RawValue: 0
+--- !u!114 &6981064344915655382
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -374328362, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitSpecialty_SettlerPackage01
+  m_EditorClassIdentifier: 
+  AbilityReferences:
+  - serializableElementName: UnitAbility_Settler
   InstantResolveBattleStrengthBonus:
     RawValue: 0
 --- !u!114 &7071246854533383017

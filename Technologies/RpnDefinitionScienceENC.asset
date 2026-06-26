@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RpnOperationStack: 
   ConstantStack:
-  - RawValue: 60000
+  - RawValue: 40000
   Note: 
   PropertyLocalNameStack: []
   VariableNameStack: []
@@ -33,11 +33,10 @@ MonoBehaviour:
   m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
   m_Name: Technology_Era4_Tier1_Cost
   m_EditorClassIdentifier: 
-  RpnOperationStack: 0a0000000a00000002000000
+  RpnOperationStack: 
   ConstantStack:
-  - RawValue: 3673000
-  - RawValue: 1200
-  Note: 3673 * 1.05
+  - RawValue: 3477000
+  Note: 4.408 = 3673 * 1.2 = 3673 * (1 + 0.004 * 50)
   PropertyLocalNameStack: []
   VariableNameStack: []
   DefinedVariables: []
@@ -55,11 +54,10 @@ MonoBehaviour:
   m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
   m_Name: Technology_Era2_Tier1_Cost
   m_EditorClassIdentifier: 
-  RpnOperationStack: 0a0000000a00000002000000
+  RpnOperationStack: 
   ConstantStack:
-  - RawValue: 320000
-  - RawValue: 1300
-  Note: 
+  - RawValue: 390000
+  Note: 416 = 320 * 1.3 = 320 * (1 + 0.02 * 15)
   PropertyLocalNameStack: []
   VariableNameStack: []
   DefinedVariables: []
@@ -77,11 +75,10 @@ MonoBehaviour:
   m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
   m_Name: Technology_Era5_Tier3_CostExtra
   m_EditorClassIdentifier: 
-  RpnOperationStack: 0a0000000a00000002000000
+  RpnOperationStack: 
   ConstantStack:
-  - RawValue: 23602000
-  - RawValue: 1700
-  Note: 23602 * 1.7
+  - RawValue: 37204000
+  Note: 47204 = 26973 * 1.75 = 26973 *  (1 + 0.025 * 70)
   PropertyLocalNameStack: []
   VariableNameStack: []
   DefinedVariables: []
@@ -99,11 +96,10 @@ MonoBehaviour:
   m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
   m_Name: Technology_Era5_Tier4_CostExtra
   m_EditorClassIdentifier: 
-  RpnOperationStack: 0a0000000a00000002000000
+  RpnOperationStack: 
   ConstantStack:
-  - RawValue: 31213000
-  - RawValue: 1800
-  Note: 31213 * 1.8
+  - RawValue: 53574000
+  Note: 68668 = 39238 * 1.75 = 39238 *  (1 + 0.025 * 70)
   PropertyLocalNameStack: []
   VariableNameStack: []
   DefinedVariables: []
@@ -121,11 +117,10 @@ MonoBehaviour:
   m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
   m_Name: Technology_Era4_Tier2_CostExtra
   m_EditorClassIdentifier: 
-  RpnOperationStack: 0a0000000a00000002000000
+  RpnOperationStack: 
   ConstantStack:
-  - RawValue: 5733000
-  - RawValue: 1250
-  Note: 5733 * 1.2
+  - RawValue: 6008000
+  Note: 6880 = 5733 * 1.2 = 5733 * (1 + 0.004 * 50)
   PropertyLocalNameStack: []
   VariableNameStack: []
   DefinedVariables: []
@@ -143,11 +138,10 @@ MonoBehaviour:
   m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
   m_Name: Technology_Era2_Tier2_Cost
   m_EditorClassIdentifier: 
-  RpnOperationStack: 0a0000000a00000002000000
+  RpnOperationStack: 
   ConstantStack:
-  - RawValue: 590000
-  - RawValue: 1300
-  Note: 
+  - RawValue: 561000
+  Note: 767 = 590 * 1.3 = 590 * (1 + 0.02 * 15)
   PropertyLocalNameStack: []
   VariableNameStack: []
   DefinedVariables: []
@@ -165,11 +159,10 @@ MonoBehaviour:
   m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
   m_Name: Technology_Era3_Tier2_Cost
   m_EditorClassIdentifier: 
-  RpnOperationStack: 0a0000000a00000002000000
+  RpnOperationStack: 
   ConstantStack:
-  - RawValue: 2030000
-  - RawValue: 1100
-  Note: 
+  - RawValue: 1676000
+  Note: 2436 = 2030 * 1.2 = 2030 * (1 + 0.006 * 33)
   PropertyLocalNameStack: []
   VariableNameStack: []
   DefinedVariables: []
@@ -189,7 +182,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RpnOperationStack: 
   ConstantStack:
-  - RawValue: 90000
+  - RawValue: 80000
   Note: 
   PropertyLocalNameStack: []
   VariableNameStack: []
@@ -208,11 +201,10 @@ MonoBehaviour:
   m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
   m_Name: Technology_Era6_Tier4_CostExtra
   m_EditorClassIdentifier: 
-  RpnOperationStack: 0a0000000a00000002000000
+  RpnOperationStack: 
   ConstantStack:
-  - RawValue: 126274000
-  - RawValue: 2350
-  Note: 126274 * 2.35
+  - RawValue: 331719008
+  Note: 404077 = 175685 * 2.3 = 175685 * (1  +  0.02  * 115)
   PropertyLocalNameStack: []
   VariableNameStack: []
   DefinedVariables: []
@@ -230,11 +222,10 @@ MonoBehaviour:
   m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
   m_Name: Technology_Era5_Tier2_CostExtra
   m_EditorClassIdentifier: 
-  RpnOperationStack: 0a0000000a00000002000000
+  RpnOperationStack: 
   ConstantStack:
-  - RawValue: 17846000
-  - RawValue: 1500
-  Note: 17846 * 1.6 * 0.95
+  - RawValue: 25836000
+  Note: 32122 = 18355 * 1.75 = 18355 *  (1 + 0.025 * 70)
   PropertyLocalNameStack: []
   VariableNameStack: []
   DefinedVariables: []
@@ -252,10 +243,9 @@ MonoBehaviour:
   m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
   m_Name: Technology_Era1_Tier2_CostExtra
   m_EditorClassIdentifier: 
-  RpnOperationStack: 0a0000000a00000002000000
+  RpnOperationStack: 
   ConstantStack:
-  - RawValue: 150000
-  - RawValue: 1100
+  - RawValue: 165000
   Note: 
   PropertyLocalNameStack: []
   VariableNameStack: []
@@ -274,11 +264,10 @@ MonoBehaviour:
   m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
   m_Name: Technology_Era4_Tier2_Cost
   m_EditorClassIdentifier: 
-  RpnOperationStack: 0a0000000a00000002000000
+  RpnOperationStack: 
   ConstantStack:
-  - RawValue: 4943000
-  - RawValue: 1200
-  Note: 4943 * 1.15
+  - RawValue: 5007000
+  Note: 5.932 = 4943 * 1.2 = 4943 * (1 + 0.004 * 50)
   PropertyLocalNameStack: []
   VariableNameStack: []
   DefinedVariables: []
@@ -296,10 +285,9 @@ MonoBehaviour:
   m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
   m_Name: Technology_Era1_Tier3_Cost
   m_EditorClassIdentifier: 
-  RpnOperationStack: 0a0000000a00000002000000
+  RpnOperationStack: 
   ConstantStack:
-  - RawValue: 180000
-  - RawValue: 1200
+  - RawValue: 216000
   Note: 
   PropertyLocalNameStack: []
   VariableNameStack: []
@@ -318,11 +306,10 @@ MonoBehaviour:
   m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
   m_Name: Technology_Era6_Tier1_CostExtra
   m_EditorClassIdentifier: 
-  RpnOperationStack: 0a0000000a00000002000000
+  RpnOperationStack: 
   ConstantStack:
-  - RawValue: 54592000
-  - RawValue: 2000
-  Note: 54592 * 2
+  - RawValue: 111092000
+  Note: 141939 = 61712 * 2.3 =  61712 * (1  +  0.02  * 115)
   PropertyLocalNameStack: []
   VariableNameStack: []
   DefinedVariables: []
@@ -340,11 +327,10 @@ MonoBehaviour:
   m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
   m_Name: Technology_Era6_Tier2_Cost
   m_EditorClassIdentifier: 
-  RpnOperationStack: 0a0000000a00000002000000
+  RpnOperationStack: 
   ConstantStack:
-  - RawValue: 62780000
-  - RawValue: 2100
-  Note: 62780 * 2.1
+  - RawValue: 133310000
+  Note: 169506 = 73698 * 2.3 =  73698 * (1  +  0.02  * 115)
   PropertyLocalNameStack: []
   VariableNameStack: []
   DefinedVariables: []
@@ -362,11 +348,10 @@ MonoBehaviour:
   m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
   m_Name: Technology_Era5_Tier1_Cost
   m_EditorClassIdentifier: 
-  RpnOperationStack: 0a0000000a00000002000000
+  RpnOperationStack: 
   ConstantStack:
-  - RawValue: 11734000
-  - RawValue: 1300
-  Note: 11734 * 1.45 * 0.85
+  - RawValue: 14951000
+  Note: 17601 = 10057 * 1.75 = 10057 *  (1 + 0.025 * 70)
   PropertyLocalNameStack: []
   VariableNameStack: []
   DefinedVariables: []
@@ -384,10 +369,9 @@ MonoBehaviour:
   m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
   m_Name: Technology_Era1_Tier3_CostExtra
   m_EditorClassIdentifier: 
-  RpnOperationStack: 0a0000000a00000002000000
+  RpnOperationStack: 
   ConstantStack:
-  - RawValue: 250000
-  - RawValue: 1300
+  - RawValue: 325000
   Note: 
   PropertyLocalNameStack: []
   VariableNameStack: []
@@ -406,11 +390,10 @@ MonoBehaviour:
   m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
   m_Name: Technology_Era3_Tier2_CostExtra
   m_EditorClassIdentifier: 
-  RpnOperationStack: 0a0000000a00000002000000
+  RpnOperationStack: 
   ConstantStack:
-  - RawValue: 2380000
-  - RawValue: 1100
-  Note: 
+  - RawValue: 2012000
+  Note: 2856 = 2380 * 1.2 = 2380 * (1 + 0.006 * 33)
   PropertyLocalNameStack: []
   VariableNameStack: []
   DefinedVariables: []
@@ -428,11 +411,10 @@ MonoBehaviour:
   m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
   m_Name: Technology_Era6_Tier5_Cost
   m_EditorClassIdentifier: 
-  RpnOperationStack: 0a0000000a00000002000000
+  RpnOperationStack: 
   ConstantStack:
-  - RawValue: 179940000
-  - RawValue: 2500
-  Note: 179940 * 2.5
+  - RawValue: 398062016
+  Note: 593802 = 258174 * 2.3 = 258174 * (1  +  0.02  * 115)
   PropertyLocalNameStack: []
   VariableNameStack: []
   DefinedVariables: []
@@ -450,11 +432,10 @@ MonoBehaviour:
   m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
   m_Name: Technology_Era6_Tier0_Cost
   m_EditorClassIdentifier: 
-  RpnOperationStack: 0a0000000a00000002000000
+  RpnOperationStack: 
   ConstantStack:
-  - RawValue: 35895000
-  - RawValue: 1850
-  Note: 35895 * 1.85
+  - RawValue: 64289000
+  Note: 82558 = 35894 * 2.3 =  35894 * (1  +  0.02  * 115)
   PropertyLocalNameStack: []
   VariableNameStack: []
   DefinedVariables: []
@@ -472,11 +453,10 @@ MonoBehaviour:
   m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
   m_Name: Technology_Era3_Tier1_Cost
   m_EditorClassIdentifier: 
-  RpnOperationStack: 0a0000000a00000002000000
+  RpnOperationStack: 
   ConstantStack:
-  - RawValue: 1430000
-  - RawValue: 1200
-  Note: 
+  - RawValue: 1164000
+  Note: 1.716 = 1430 * 1.2 = 1430 * (1 + 0.006 * 33)
   PropertyLocalNameStack: []
   VariableNameStack: []
   DefinedVariables: []
@@ -494,11 +474,10 @@ MonoBehaviour:
   m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
   m_Name: Technology_Era6_Tier4_Cost
   m_EditorClassIdentifier: 
-  RpnOperationStack: 0a0000000a00000002000000
+  RpnOperationStack: 
   ConstantStack:
-  - RawValue: 109804000
-  - RawValue: 2300
-  Note: 109804 * 2.3
+  - RawValue: 276432000
+  Note: 340392 = 147996 * 2.3 = 147996 * (1  +  0.02  * 115)
   PropertyLocalNameStack: []
   VariableNameStack: []
   DefinedVariables: []
@@ -516,11 +495,10 @@ MonoBehaviour:
   m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
   m_Name: Technology_Era5_Tier2_Cost
   m_EditorClassIdentifier: 
-  RpnOperationStack: 0a0000000a00000002000000
+  RpnOperationStack: 
   ConstantStack:
-  - RawValue: 15518000
-  - RawValue: 1400
-  Note: 15518 * 1.55 * 0.9
+  - RawValue: 21530000
+  Note: 26380 = 15074 * 1.75  = 15074 *  (1 + 0.025 * 70)
   PropertyLocalNameStack: []
   VariableNameStack: []
   DefinedVariables: []
@@ -538,11 +516,10 @@ MonoBehaviour:
   m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
   m_Name: Technology_Era6_Tier3_CostExtra
   m_EditorClassIdentifier: 
-  RpnOperationStack: 0a0000000a00000002000000
+  RpnOperationStack: 
   ConstantStack:
-  - RawValue: 95481000
-  - RawValue: 2250
-  Note: 95481 * 2.25
+  - RawValue: 230360000
+  Note: 286443 = 124540 * 2.3 =  124540 * (1  +  0.02  * 115)
   PropertyLocalNameStack: []
   VariableNameStack: []
   DefinedVariables: []
@@ -560,11 +537,10 @@ MonoBehaviour:
   m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
   m_Name: Technology_Era4_Tier3_CostExtra
   m_EditorClassIdentifier: 
-  RpnOperationStack: 0a0000000a00000002000000
+  RpnOperationStack: 
   ConstantStack:
-  - RawValue: 7715000
-  - RawValue: 1300
-  Note: 7715 * 1.3
+  - RawValue: 8652000
+  Note: 9258 = 7715 * 1.2 = 7715 * (1 + 0.004 * 50)
   PropertyLocalNameStack: []
   VariableNameStack: []
   DefinedVariables: []
@@ -582,11 +558,10 @@ MonoBehaviour:
   m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
   m_Name: Technology_Era5_Tier1_CostExtra
   m_EditorClassIdentifier: 
-  RpnOperationStack: 0a0000000a00000002000000
+  RpnOperationStack: 
   ConstantStack:
-  - RawValue: 13494000
-  - RawValue: 1300
-  Note: 13494 * 1.5 * 0.85
+  - RawValue: 17941000
+  Note: 21590 = 12337  *  1.75 = 12337 *  (1 + 0.025 * 70)
   PropertyLocalNameStack: []
   VariableNameStack: []
   DefinedVariables: []
@@ -616,11 +591,10 @@ MonoBehaviour:
   m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
   m_Name: Technology_Era4_Tier1_CostExtra
   m_EditorClassIdentifier: 
-  RpnOperationStack: 0a0000000a00000002000000
+  RpnOperationStack: 
   ConstantStack:
-  - RawValue: 4261000
-  - RawValue: 1200
-  Note: 4261 * 1.1
+  - RawValue: 4172000
+  Note: 5.113 = 4261 * 1.2 = 3673 * (1 + 0.004 * 50)
   PropertyLocalNameStack: []
   VariableNameStack: []
   DefinedVariables: []
@@ -638,11 +612,10 @@ MonoBehaviour:
   m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
   m_Name: Technology_Era2_Tier3_Cost
   m_EditorClassIdentifier: 
-  RpnOperationStack: 0a0000000a00000002000000
+  RpnOperationStack: 
   ConstantStack:
-  - RawValue: 960000
-  - RawValue: 1300
-  Note: 
+  - RawValue: 808000
+  Note: 1248 = 960 * 1.3 = 960 * (1 + 0.02 * 15)
   PropertyLocalNameStack: []
   VariableNameStack: []
   DefinedVariables: []
@@ -660,11 +633,10 @@ MonoBehaviour:
   m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
   m_Name: Technology_Era2_Tier3_CostExtra
   m_EditorClassIdentifier: 
-  RpnOperationStack: 0a0000000a00000002000000
+  RpnOperationStack: 
   ConstantStack:
-  - RawValue: 1195000
-  - RawValue: 1300
-  Note: 
+  - RawValue: 970000
+  Note: 1.554 = 1195 * 1.3 = 1195 * (1 + 0.02 * 15)
   PropertyLocalNameStack: []
   VariableNameStack: []
   DefinedVariables: []
@@ -682,11 +654,10 @@ MonoBehaviour:
   m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
   m_Name: Technology_Era3_Tier3_Cost
   m_EditorClassIdentifier: 
-  RpnOperationStack: 0a0000000a00000002000000
+  RpnOperationStack: 
   ConstantStack:
-  - RawValue: 2730000
-  - RawValue: 1100
-  Note: 
+  - RawValue: 2414000
+  Note: 3276 = 2730 * 1.2 = 2730 * (1 + 0.006 * 33)
   PropertyLocalNameStack: []
   VariableNameStack: []
   DefinedVariables: []
@@ -704,11 +675,10 @@ MonoBehaviour:
   m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
   m_Name: Technology_Era5_Tier0_CostExtra
   m_EditorClassIdentifier: 
-  RpnOperationStack: 0a0000000a00000002000000
+  RpnOperationStack: 
   ConstantStack:
-  - RawValue: 10203000
-  - RawValue: 1300
-  Note: 10203 * 1.4 * 0.9
+  - RawValue: 12459000
+  Note: 14284 = 8162  * 1.75 = 8162 *  (1 + 0.025 * 70)
   PropertyLocalNameStack: []
   VariableNameStack: []
   DefinedVariables: []
@@ -726,11 +696,31 @@ MonoBehaviour:
   m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
   m_Name: Technology_Era3_Tier1_CostExtra
   m_EditorClassIdentifier: 
-  RpnOperationStack: 0a0000000a00000002000000
+  RpnOperationStack: 
   ConstantStack:
-  - RawValue: 1730000
-  - RawValue: 1150
-  Note: 
+  - RawValue: 1397000
+  Note: 2076 = 1730 * 1.2 = 1730 * (1 + 0.006 * 33)
+  PropertyLocalNameStack: []
+  VariableNameStack: []
+  DefinedVariables: []
+  targetTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
+  sourceTypeName: 
+--- !u!114 &2211643485951308435
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
+  m_Name: Technology_Era6_Tier5_CostExtra
+  m_EditorClassIdentifier: 
+  RpnOperationStack: 
+  ConstantStack:
+  - RawValue: 477673984
+  Note: 593802 = 258174 * 2.3 = 258174 * (1  +  0.02  * 115)
   PropertyLocalNameStack: []
   VariableNameStack: []
   DefinedVariables: []
@@ -748,11 +738,10 @@ MonoBehaviour:
   m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
   m_Name: Technology_Era5_Tier0_Cost
   m_EditorClassIdentifier: 
-  RpnOperationStack: 0a0000000a00000002000000
+  RpnOperationStack: 
   ConstantStack:
-  - RawValue: 8872000
-  - RawValue: 1300
-  Note: 8872 * 1.35
+  - RawValue: 10383000
+  Note: 11533 = 6590  * 1.75 = 6590 * (1 + 0.025 * 70)
   PropertyLocalNameStack: []
   VariableNameStack: []
   DefinedVariables: []
@@ -791,11 +780,10 @@ MonoBehaviour:
   m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
   m_Name: Technology_Era3_Tier3_CostExtra
   m_EditorClassIdentifier: 
-  RpnOperationStack: 0a0000000a00000002000000
+  RpnOperationStack: 
   ConstantStack:
-  - RawValue: 3166000
-  - RawValue: 1150
-  Note: 
+  - RawValue: 2897000
+  Note: 3800 = 3166 * 1.2 = 3166 * (1 + 0.006 * 33)
   PropertyLocalNameStack: []
   VariableNameStack: []
   DefinedVariables: []
@@ -813,11 +801,10 @@ MonoBehaviour:
   m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
   m_Name: Technology_Era4_Tier3_Cost
   m_EditorClassIdentifier: 
-  RpnOperationStack: 0a0000000a00000002000000
+  RpnOperationStack: 
   ConstantStack:
-  - RawValue: 6651000
-  - RawValue: 1250
-  Note: 6651 * 1.25
+  - RawValue: 7210000
+  Note: 7981 = 6651 * 1.2 = 6651 * (1 + 0.004 * 50)
   PropertyLocalNameStack: []
   VariableNameStack: []
   DefinedVariables: []
@@ -835,11 +822,10 @@ MonoBehaviour:
   m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
   m_Name: Technology_Era6_Tier2_CostExtra
   m_EditorClassIdentifier: 
-  RpnOperationStack: 0a0000000a00000002000000
+  RpnOperationStack: 
   ConstantStack:
-  - RawValue: 72198000
-  - RawValue: 2150
-  Note: 72198 * 2.15
+  - RawValue: 159972000
+  Note: 202154 = 87893 * 2.3 =  87893 * (1  +  0.02  * 115)
   PropertyLocalNameStack: []
   VariableNameStack: []
   DefinedVariables: []
@@ -857,11 +843,10 @@ MonoBehaviour:
   m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
   m_Name: Technology_Era5_Tier3_Cost
   m_EditorClassIdentifier: 
-  RpnOperationStack: 0a0000000a00000002000000
+  RpnOperationStack: 
   ConstantStack:
-  - RawValue: 20523000
-  - RawValue: 1600
-  Note: 20523 * 1.65
+  - RawValue: 31003000
+  Note: 38994 = 22282 * 1.75 = 22282 *  (1 + 0.025 * 70)
   PropertyLocalNameStack: []
   VariableNameStack: []
   DefinedVariables: []
@@ -879,11 +864,10 @@ MonoBehaviour:
   m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
   m_Name: Technology_Era6_Tier0_CostExtra
   m_EditorClassIdentifier: 
-  RpnOperationStack: 0a0000000a00000002000000
+  RpnOperationStack: 
   ConstantStack:
-  - RawValue: 41279000
-  - RawValue: 1900
-  Note: 41279 * 1.9
+  - RawValue: 77147000
+  Note: 99069 = 43073 * 2.3 =  43073 * (1  +  0.02  * 115)
   PropertyLocalNameStack: []
   VariableNameStack: []
   DefinedVariables: []
@@ -901,11 +885,10 @@ MonoBehaviour:
   m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
   m_Name: Technology_Era2_Tier2_CostExtra
   m_EditorClassIdentifier: 
-  RpnOperationStack: 0a0000000a00000002000000
+  RpnOperationStack: 
   ConstantStack:
-  - RawValue: 775000
-  - RawValue: 1300
-  Note: 
+  - RawValue: 673000
+  Note: 1008 = 775 * 1.3 = 775 * (1 + 0.02 * 15)
   PropertyLocalNameStack: []
   VariableNameStack: []
   DefinedVariables: []
@@ -923,11 +906,10 @@ MonoBehaviour:
   m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
   m_Name: Technology_Era6_Tier3_Cost
   m_EditorClassIdentifier: 
-  RpnOperationStack: 0a0000000a00000002000000
+  RpnOperationStack: 
   ConstantStack:
-  - RawValue: 83027000
-  - RawValue: 2200
-  Note: 83027 * 2.2
+  - RawValue: 191967008
+  Note: 240778 = 104686 * 2.3 =  104686 * (1  +  0.02  * 115)
   PropertyLocalNameStack: []
   VariableNameStack: []
   DefinedVariables: []
@@ -945,11 +927,10 @@ MonoBehaviour:
   m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
   m_Name: Technology_Era5_Tier4_Cost
   m_EditorClassIdentifier: 
-  RpnOperationStack: 0a0000000a00000002000000
+  RpnOperationStack: 
   ConstantStack:
-  - RawValue: 27142000
-  - RawValue: 1750
-  Note: 27142 * 1.75
+  - RawValue: 44645000
+  Note: 56998 = 32570 *  1.75 = 32570 *  (1 + 0.025 * 70)
   PropertyLocalNameStack: []
   VariableNameStack: []
   DefinedVariables: []
@@ -967,11 +948,10 @@ MonoBehaviour:
   m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
   m_Name: Technology_Era6_Tier1_Cost
   m_EditorClassIdentifier: 
-  RpnOperationStack: 0a0000000a00000002000000
+  RpnOperationStack: 
   ConstantStack:
-  - RawValue: 47471000
-  - RawValue: 1950
-  Note: 47471 * 1.95
+  - RawValue: 92576000
+  Note: 118677 = 51598 * 2.3 =  51598 * (1  +  0.02  * 115)
   PropertyLocalNameStack: []
   VariableNameStack: []
   DefinedVariables: []
@@ -989,11 +969,10 @@ MonoBehaviour:
   m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
   m_Name: Technology_Era2_Tier1_CostExtra
   m_EditorClassIdentifier: 
-  RpnOperationStack: 0a0000000a00000002000000
+  RpnOperationStack: 
   ConstantStack:
-  - RawValue: 450000
-  - RawValue: 1300
-  Note: 
+  - RawValue: 468000
+  Note: 585 = 450 * 1.3 = 450 * (1 + 0.02 * 15)
   PropertyLocalNameStack: []
   VariableNameStack: []
   DefinedVariables: []

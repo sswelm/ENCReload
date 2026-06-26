@@ -1,0 +1,218 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-6736155206659290664
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 771724855, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Tag_Extension_EnchBlocus
+  m_EditorClassIdentifier: 
+  IsHidden: 0
+  Localization: Blocus
+  LocalizationInverted: 
+  LocalizationTarget: Blocus
+  LocalizationTargetInverted: 
+--- !u!114 &-6692459936817268171
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 771724855, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Tag_Extension_EnchNoOceanFood
+  m_EditorClassIdentifier: 
+  IsHidden: 0
+  Localization: Food District on Ocean
+  LocalizationInverted: 
+  LocalizationTarget: Food District on Ocean
+  LocalizationTargetInverted: 
+--- !u!114 &-5938988205468925951
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 771724855, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Tag_Extension_EnchNoPublicOrder
+  m_EditorClassIdentifier: 
+  IsHidden: 0
+  Localization: non economic District
+  LocalizationInverted: 
+  LocalizationTarget: non economic District
+  LocalizationTargetInverted: 
+--- !u!114 &-4359642139466614220
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 771724855, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Tag_Extension_EnchSubmarineHold
+  m_EditorClassIdentifier: 
+  IsHidden: 0
+  Localization: Submarine Hold
+  LocalizationInverted: 
+  LocalizationTarget: Submarine Hold
+  LocalizationTargetInverted: 
+--- !u!114 &-3603780927705740000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 771724855, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Tag_Extension_EnchCoralHunting
+  m_EditorClassIdentifier: 
+  IsHidden: 0
+  Localization: Coral Hunting
+  LocalizationInverted: 
+  LocalizationTarget: Coral Hunting
+  LocalizationTargetInverted: 
+--- !u!114 &-3208328416490402292
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 771724855, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: PublicOrderCurrent
+  m_EditorClassIdentifier: 
+  IsHidden: 0
+  Localization: 50% of Current Stability
+  LocalizationInverted: 
+  LocalizationTarget: 50% of Current Stability
+  LocalizationTargetInverted: 
+--- !u!114 &-647374704360343830
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 771724855, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Effect_Extension_Base_NaturalReserve
+  m_EditorClassIdentifier: 
+  IsHidden: 0
+  Localization: Natural Reserve
+  LocalizationInverted: Not a Natural Reserve
+  LocalizationTarget: Natural Reserve
+  LocalizationTargetInverted: Not a Natural Reserve
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -286750100, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: ValidationMapperCollectionDeepSea
+  m_EditorClassIdentifier: 
+--- !u!114 &2106138881102494908
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 771724855, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Effect_Exploitation_No_FIMS
+  m_EditorClassIdentifier: 
+  IsHidden: 0
+  Localization: No FIMS exploitation
+  LocalizationInverted: 
+  LocalizationTarget: No FIMS exploitation
+  LocalizationTargetInverted: 
+--- !u!114 &4155284169807636417
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 771724855, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Effect_Exploitation_Ocean_Food
+  m_EditorClassIdentifier: 
+  IsHidden: 0
+  Localization: Ocean Food
+  LocalizationInverted: No Ocean Food
+  LocalizationTarget: Ocean Food
+  LocalizationTargetInverted: No Ocean Food
+--- !u!114 &4504678425426226815
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 771724855, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Tag_Extension_EnchNaturalReserve
+  m_EditorClassIdentifier: 
+  IsHidden: 0
+  Localization: Natural Reserve
+  LocalizationInverted: 
+  LocalizationTarget: Natural Reserve
+  LocalizationTargetInverted: 
+--- !u!114 &5134782815585157527
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 771724855, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Effect_NaturalWonder
+  m_EditorClassIdentifier: 
+  IsHidden: 0
+  Localization: Natural Wonder
+  LocalizationInverted: 
+  LocalizationTarget: Natural Wonder
+  LocalizationTargetInverted: 
+--- !u!114 &6101500772548194998
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 771724855, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Effect_Exploitation_Ocean
+  m_EditorClassIdentifier: 
+  IsHidden: 0
+  Localization: Ocean
+  LocalizationInverted: Not an Ocean
+  LocalizationTarget: Ocean
+  LocalizationTargetInverted: Not an Ocean

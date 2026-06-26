@@ -54,6 +54,23 @@ MonoBehaviour:
   Images: []
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
+--- !u!114 &-8060632905395018933
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 981126955, guid: f8c4d2d2a3a246a0909e3c6973d4a4e3, type: 3}
+  m_Name: UnitSpecialty_SettlerPackage01
+  m_EditorClassIdentifier: 
+  Title: '%UnitSpecialty_SettlerPackage01Title'
+  Description: '%UnitSpecialty_SettlerPackage01Description'
+  Images: []
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  Symbol: 
 --- !u!114 &-8037019515089703562
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -67,8 +84,7 @@ MonoBehaviour:
   m_Name: UnitSpecialty_SpeedFromHarbor_Level1
   m_EditorClassIdentifier: 
   Title: '%UnitSpecialty_SpeedFromHarborTitle'
-  Description: Increased Movement speed at start of battle and when starting its
-    [Turn] turn in an allied Territory.
+  Description: Gains increased Movement at the start of battle and in allied Territory
   Images: []
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
@@ -90,6 +106,23 @@ MonoBehaviour:
   Images: []
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
+--- !u!114 &-6932128937937086873
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 981126955, guid: f8c4d2d2a3a246a0909e3c6973d4a4e3, type: 3}
+  m_Name: UnitSpecialty_StrengthFromSiege_Half
+  m_EditorClassIdentifier: 
+  Title: Siege  Proficiency
+  Description: '%UnitSpecialty_StrengthFromSiegeDescription'
+  Images: []
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  Symbol: 
 --- !u!114 &-6863084092729305028
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -102,8 +135,8 @@ MonoBehaviour:
   m_Script: {fileID: 981126955, guid: f8c4d2d2a3a246a0909e3c6973d4a4e3, type: 3}
   m_Name: UnitSpecialty_Armored
   m_EditorClassIdentifier: 
-  Title: Heavy Armored
-  Description: Ignore hostile Zone of Control.
+  Title: Breakthrough
+  Description: Ignores hostile Zone of Control
   Images: []
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
@@ -159,6 +192,23 @@ MonoBehaviour:
   Images: []
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
+--- !u!114 &-6391855129299975194
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 981126955, guid: f8c4d2d2a3a246a0909e3c6973d4a4e3, type: 3}
+  m_Name: UnitSpecialty_SettlerPackage03
+  m_EditorClassIdentifier: 
+  Title: '%UnitSpecialty_SettlerPackage02Title'
+  Description: '%UnitSpecialty_SettlerPackage02Description'
+  Images: []
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  Symbol: 
 --- !u!114 &-6326958279932323491
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -191,6 +241,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Title: Limited Anti Aircraft
   Description: Provides anti-air power equal to half the Unit's Combat Strength
+  Images: []
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  Symbol: 
+--- !u!114 &-6127487263001980925
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 981126955, guid: f8c4d2d2a3a246a0909e3c6973d4a4e3, type: 3}
+  m_Name: UnitSpecialty_ReducedMovementInOcean
+  m_EditorClassIdentifier: 
+  Title: Coastal Vessel
+  Description: -25% Movement in Deep Water and reduced Combat Strength when attacking
+    from it
   Images: []
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
@@ -241,7 +309,7 @@ MonoBehaviour:
   m_Name: UnitSpecialty_StrengthFromCloseRange_Level1
   m_EditorClassIdentifier: 
   Title: Ramming
-  Description: Gains (+2 [MovementSpeed]) Movement Speed in battle and has (+4 [CombatStrength])
+  Description: Gains (+2 [MovementSpeed]) Movement Speed in battle and (+4 [CombatStrength])
     Combat Strength against adjacent targets
   Images: []
   Color: {r: 0, g: 0, b: 0, a: 0}
@@ -258,7 +326,7 @@ MonoBehaviour:
   m_Script: {fileID: 981126955, guid: f8c4d2d2a3a246a0909e3c6973d4a4e3, type: 3}
   m_Name: UnitSpecialty_AntiAircraft_75
   m_EditorClassIdentifier: 
-  Title: Partial Anti Defence
+  Title: Partial Anti Air Defence
   Description: Provides anti-air power equal to 75% the Unit's Combat Strength
   Images: []
   Color: {r: 0, g: 0, b: 0, a: 0}
@@ -280,6 +348,24 @@ MonoBehaviour:
   Images: []
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
+--- !u!114 &-4766373767153028543
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 981126955, guid: f8c4d2d2a3a246a0909e3c6973d4a4e3, type: 3}
+  m_Name: UnitSpecialty_Reconnaissance_Level3
+  m_EditorClassIdentifier: 
+  Title: Surveillance Systems
+  Description: Advanced sensors and electronic methods can detect highly concealed
+    Units in the same Region
+  Images: []
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  Symbol: 
 --- !u!114 &-3459103667194074496
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -294,6 +380,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Title: '%UnitSpecialty_SubmarineAttackTitle'
   Description: '%UnitSpecialty_SubmarineAttackDescription'
+  Images: []
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  Symbol: 
+--- !u!114 &-2865588373719040181
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 981126955, guid: f8c4d2d2a3a246a0909e3c6973d4a4e3, type: 3}
+  m_Name: UnitSpecialty_Privateer
+  m_EditorClassIdentifier: 
+  Title: '%UnitSpecialty_PrivateerTitle'
+  Description: Operates under false colors and remains concealed until exposed by
+    enemy reconnaissance.
   Images: []
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
@@ -328,6 +432,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Title: Instant Disembark
   Description: Can disembark instantly and immediatly attack after disembarking.
+  Images: []
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  Symbol: 
+--- !u!114 &-2199667561283687942
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 981126955, guid: f8c4d2d2a3a246a0909e3c6973d4a4e3, type: 3}
+  m_Name: UnitSpecialty_PlungingFire
+  m_EditorClassIdentifier: 
+  Title: Plunging Fire
+  Description: This Unit can fire over intervening Units while occupying higher ground.
   Images: []
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
@@ -380,6 +501,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Title: '%UnitSpecialty_TorpedoAttackTitle'
   Description: '%UnitSpecialty_TorpedoAttackDescription'
+  Images: []
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  Symbol: 
+--- !u!114 &-1430569733614257627
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 981126955, guid: f8c4d2d2a3a246a0909e3c6973d4a4e3, type: 3}
+  m_Name: UnitSpecialty_Reconnaissance_Level1
+  m_EditorClassIdentifier: 
+  Title: Reconnaissance
+  Description: Trained observers can detect concealed Units in the same Region.
   Images: []
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
@@ -476,8 +614,26 @@ MonoBehaviour:
   m_Script: {fileID: 981126955, guid: f8c4d2d2a3a246a0909e3c6973d4a4e3, type: 3}
   m_Name: UnitSpecialty_AntiAircraft_50
   m_EditorClassIdentifier: 
-  Title: Limited Anti Defence
+  Title: Limited Anti Air Defence
   Description: Provides anti-air power equal to 50% the Unit's Combat Strength
+  Images: []
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  Symbol: 
+--- !u!114 &518439702713818935
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 981126955, guid: f8c4d2d2a3a246a0909e3c6973d4a4e3, type: 3}
+  m_Name: UnitSpecialty_SettlerPackage02
+  m_EditorClassIdentifier: 
+  Title: '%UnitSpecialty_SettlerPackage01Title'
+  Description: Create a City with some Industry and 4 Population, as wel as a set
+    of Infrastuctures from Early Modern Era and earlier
   Images: []
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
@@ -512,6 +668,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Title: '%UnitSpecialty_LostAtSeaDamageTitle'
   Description: '%UnitSpecialty_LostAtSeaDamageDescription'
+  Images: []
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  Symbol: 
+--- !u!114 &1318481791317356818
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 981126955, guid: f8c4d2d2a3a246a0909e3c6973d4a4e3, type: 3}
+  m_Name: UnitSpecialty_OpeningVolleySuppression
+  m_EditorClassIdentifier: 
+  Title: Opening Volley
+  Description: The first attack this Unit makes in battle applies Suppression.
   Images: []
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
@@ -578,7 +751,7 @@ MonoBehaviour:
   m_Script: {fileID: 981126955, guid: f8c4d2d2a3a246a0909e3c6973d4a4e3, type: 3}
   m_Name: UnitSpecialty_ArmouredVessel
   m_EditorClassIdentifier: 
-  Title: '%UnitClass_ArmouredVesselTitle'
+  Title: Armored
   Description: '%UnitClass_ArmouredVehicleDescription'
   Images:
   - Value:
@@ -641,6 +814,24 @@ MonoBehaviour:
   Images: []
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
+--- !u!114 &4168908255262972704
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 981126955, guid: f8c4d2d2a3a246a0909e3c6973d4a4e3, type: 3}
+  m_Name: UnitSpecialty_SettlerPackage00
+  m_EditorClassIdentifier: 
+  Title: '%UnitSpecialty_SettlerPackage01Title'
+  Description: Create a City with some Industry and 2 Population, as wel as a set
+    of Infrastuctures from Ancient Era and earlier
+  Images: []
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  Symbol: 
 --- !u!114 &4310935906821051425
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -672,6 +863,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Title: '%UnitSpecialty_NoMovementPenaltiesFromForestsOrRocksTitle'
   Description: '%UnitSpecialty_NoMovementPenaltiesFromForestsOrRocksDescription'
+  Images: []
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  Symbol: 
+--- !u!114 &4682375710926308884
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 981126955, guid: f8c4d2d2a3a246a0909e3c6973d4a4e3, type: 3}
+  m_Name: UnitSpecialty_OverheadFire
+  m_EditorClassIdentifier: 
+  Title: Overhead Fire
+  Description: This Unit can fire over intervening Units.
   Images: []
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
@@ -723,6 +931,41 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Title: Marine
   Description: Receives combat bonus while embarked
+  Images: []
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  Symbol: 
+--- !u!114 &7405958045285846605
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 981126955, guid: f8c4d2d2a3a246a0909e3c6973d4a4e3, type: 3}
+  m_Name: UnitSpecialty_EmbarkFree
+  m_EditorClassIdentifier: 
+  Title: Amphibious
+  Description: embarks / disembarks instantly and attacks after landing
+  Images: []
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  Symbol: 
+--- !u!114 &7413743842403796918
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 981126955, guid: f8c4d2d2a3a246a0909e3c6973d4a4e3, type: 3}
+  m_Name: UnitSpecialty_Reconnaissance_Level2
+  m_EditorClassIdentifier: 
+  Title: Field Intelligence
+  Description: Experienced scouts and agents can detect better-concealed Units in
+    the same Region.
   Images: []
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 

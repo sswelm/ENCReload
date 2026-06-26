@@ -130,6 +130,70 @@ MonoBehaviour:
     RawValue: 0
   InstantResolveAttackingOrder: 1
   InstantResolveBlockingOrder: 1
+--- !u!114 &-3111468551575763964
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -553307230, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitClass_Mechanized
+  m_EditorClassIdentifier: 
+  Prototype:
+    serializableElementName: UnitClass_Prototype_LandUnit
+  OwnAbilityReferences:
+  - serializableElementName: UnitAbility_Prototype_ArmouredVehicle
+  - serializableElementName: UnitAbility_Mechanized
+  InstantResolveBattleStrengthBonus:
+    RawValue: 2000
+  InstantResolveAttackingOrder: 2
+  InstantResolveBlockingOrder: 2
+--- !u!114 &-2371085436088738088
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -553307230, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitClass_ArmouredVehicle
+  m_EditorClassIdentifier: 
+  Prototype:
+    serializableElementName: UnitClass_Prototype_LandUnit
+  OwnAbilityReferences:
+  - serializableElementName: UnitAbility_Prototype_ArmouredVehicle
+  - serializableElementName: UnitAbility_Armoured
+  InstantResolveBattleStrengthBonus:
+    RawValue: 2000
+  InstantResolveAttackingOrder: 2
+  InstantResolveBlockingOrder: 2
+--- !u!114 &-1917928703127159284
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -553307230, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitClass_VolleyGun
+  m_EditorClassIdentifier: 
+  Prototype:
+    serializableElementName: UnitClass_Prototype_LandUnit
+  OwnAbilityReferences:
+  - serializableElementName: UnitAbility_Prototype_HeavyMachineGun
+  - serializableElementName: UnitAbility_CannotClimbFortification
+  - serializableElementName: UnitAbility_MoveOrAttack
+  InstantResolveBattleStrengthBonus:
+    RawValue: 0
+  InstantResolveAttackingOrder: 1
+  InstantResolveBlockingOrder: 1
 --- !u!114 &-1291927971388479312
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -246,27 +310,6 @@ MonoBehaviour:
     RawValue: 1000
   InstantResolveAttackingOrder: 1
   InstantResolveBlockingOrder: 3
---- !u!114 &4694836739517319077
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -553307230, guid: b310e23bee821cb478da05296ba685d0, type: 3}
-  m_Name: UnitClass_Prototype_Mounted
-  m_EditorClassIdentifier: 
-  Prototype:
-    serializableElementName: UnitClass_Prototype_LandUnit
-  OwnAbilityReferences:
-  - serializableElementName: UnitAbility_Prototype_Mounted
-  - serializableElementName: UnitAbility_CannotClimbFortification
-  InstantResolveBattleStrengthBonus:
-    RawValue: 0
-  InstantResolveAttackingOrder: 1
-  InstantResolveBlockingOrder: 1
 --- !u!114 &6262694060627237953
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -335,6 +378,29 @@ MonoBehaviour:
     RawValue: 2000
   InstantResolveAttackingOrder: 1
   InstantResolveBlockingOrder: 3
+--- !u!114 &8390320358440762977
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -553307230, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitClass_Minner
+  m_EditorClassIdentifier: 
+  Prototype:
+    serializableElementName: UnitClass_Prototype_LandUnit
+  OwnAbilityReferences:
+  - serializableElementName: UnitAbility_Prototype_Minner
+  - serializableElementName: UnitAbility_CannotTargetSeafaring
+  - serializableElementName: UnitAbility_MoveOrAttack
+  - serializableElementName: UnitAbility_ChargeNoRetaliation_Level1
+  InstantResolveBattleStrengthBonus:
+    RawValue: 0
+  InstantResolveAttackingOrder: 3
+  InstantResolveBlockingOrder: 1
 --- !u!114 &8795979988640593234
 MonoBehaviour:
   m_ObjectHideFlags: 0

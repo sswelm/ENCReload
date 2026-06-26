@@ -61,7 +61,7 @@ MonoBehaviour:
   UnitPatterns:
   - UnitReference:
       serializableElementName: LandUnit_Era1_Common_ScoutCavalry
-    Count: 3
+    Count: 2
 --- !u!114 &-8713661874179469347
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -111,7 +111,7 @@ MonoBehaviour:
     Count: 2
   - UnitReference:
       serializableElementName: LandUnit_Era1_Common_Archers
-    Count: 2
+    Count: 1
 --- !u!114 &-8526705214925937737
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -205,7 +205,7 @@ MonoBehaviour:
   UnitPatterns:
   - UnitReference:
       serializableElementName: LandUnit_Era1_Common_Archers
-    Count: 4
+    Count: 3
 --- !u!114 &-8159949328158678180
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -277,6 +277,48 @@ MonoBehaviour:
     LevelMin: 12
     LevelMax: 21
     Count: 4
+--- !u!114 &-7558377423337501473
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1569221641, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitPattern_Crisis_Era0_Attacker_4
+  m_EditorClassIdentifier: 
+  SelectionCondition: 17
+  OrLifeTime: 0
+  MaxLifeTimeInTurn: -1
+  MinLifeTimeInTurn: 0
+  FamilyUnitPatterns:
+  - UnitFamilyReference:
+      serializableElementName: UnitFamily_Militia
+    LevelMin: 6
+    LevelMax: 9
+    Count: 4
+--- !u!114 &-7506373006610700535
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1953220733, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitPattern_FullMelee_Early_Era0
+  m_EditorClassIdentifier: 
+  SelectionCondition: 15
+  OrLifeTime: 1
+  MaxLifeTimeInTurn: 25
+  MinLifeTimeInTurn: 0
+  UnitPatterns:
+  - UnitReference:
+      serializableElementName: LandUnit_Era1_Common_Spearmen_Poor
+    Count: 2
 --- !u!114 &-7410595879493547813
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -515,6 +557,26 @@ MonoBehaviour:
     LevelMin: 12
     LevelMax: 21
     Count: 3
+--- !u!114 &-6541272293835366109
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1953220733, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitPattern_FullRange_Era0
+  m_EditorClassIdentifier: 
+  SelectionCondition: 19
+  OrLifeTime: 0
+  MaxLifeTimeInTurn: -1
+  MinLifeTimeInTurn: 25
+  UnitPatterns:
+  - UnitReference:
+      serializableElementName: LandUnit_Era1_Common_Slingers
+    Count: 2
 --- !u!114 &-6426134453124568571
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -666,7 +728,7 @@ MonoBehaviour:
   UnitPatterns:
   - UnitReference:
       serializableElementName: LandUnit_Era1_Common_Slingers
-    Count: 4
+    Count: 3
 --- !u!114 &-5513517439270278863
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -860,8 +922,8 @@ MonoBehaviour:
       serializableElementName: LandUnit_Era1_Common_Spearmen_Poor
     Count: 2
   - UnitReference:
-      serializableElementName: LandUnit_Era1_Common_SpearThrowers
-    Count: 2
+      serializableElementName: LandUnit_Era1_Common_Archers
+    Count: 1
 --- !u!114 &-3517372053838021644
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -926,7 +988,7 @@ MonoBehaviour:
   - UnitFamilyReference:
       serializableElementName: UnitFamily_StealthInfantry
     LevelMin: 20
-    LevelMax: 26
+    LevelMax: 27
     Count: 4
 --- !u!114 &-2972274153102856644
 MonoBehaviour:
@@ -950,6 +1012,26 @@ MonoBehaviour:
     LevelMin: 20
     LevelMax: 26
     Count: 5
+--- !u!114 &-2761500127258922143
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1953220733, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitPattern_FullMelee_Era0
+  m_EditorClassIdentifier: 
+  SelectionCondition: 19
+  OrLifeTime: 0
+  MaxLifeTimeInTurn: -1
+  MinLifeTimeInTurn: 25
+  UnitPatterns:
+  - UnitReference:
+      serializableElementName: LandUnit_Era1_Common_Spearmen_Poor
+    Count: 2
 --- !u!114 &-2681887465077755558
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -972,6 +1054,26 @@ MonoBehaviour:
     LevelMin: 12
     LevelMax: 21
     Count: 3
+--- !u!114 &-2582617870842033570
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1953220733, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitPattern_FullAntiCavalry_Early_Era0
+  m_EditorClassIdentifier: 
+  SelectionCondition: 15
+  OrLifeTime: 1
+  MaxLifeTimeInTurn: 25
+  MinLifeTimeInTurn: 0
+  UnitPatterns:
+  - UnitReference:
+      serializableElementName: LandUnit_Era1_Common_Spearmen_Poor
+    Count: 2
 --- !u!114 &-2565734703072341625
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -993,7 +1095,7 @@ MonoBehaviour:
       serializableElementName: LandUnit_Era1_Common_Spearmen
     Count: 2
   - UnitReference:
-      serializableElementName: LandUnit_Era1_Common_Archers
+      serializableElementName: LandUnit_Era2_Common_CompositeBowmen
     Count: 2
 --- !u!114 &-1927473178339381401
 MonoBehaviour:
@@ -1013,7 +1115,7 @@ MonoBehaviour:
   MinLifeTimeInTurn: 25
   UnitPatterns:
   - UnitReference:
-      serializableElementName: LandUnit_Era2_Skirmishers
+      serializableElementName: LandUnit_Era2_Common_CompositeBowmen
     Count: 4
 --- !u!114 &-1897769867615262361
 MonoBehaviour:
@@ -1037,9 +1139,6 @@ MonoBehaviour:
     Count: 1
   - UnitReference:
       serializableElementName: LandUnit_Era1_Common_Slingers
-    Count: 1
-  - UnitReference:
-      serializableElementName: LandUnit_Era1_Common_ScoutCavalry
     Count: 1
   - UnitReference:
       serializableElementName: LandUnit_Era1_Common_Spearmen_Poor
@@ -1082,8 +1181,8 @@ MonoBehaviour:
   MinLifeTimeInTurn: 25
   UnitPatterns:
   - UnitReference:
-      serializableElementName: LandUnit_Era3_Common_Bowmen
-    Count: 4
+      serializableElementName: LandUnit_Era3_Common_Crossbowmen
+    Count: 5
 --- !u!114 &-1298748559494270130
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1107,7 +1206,7 @@ MonoBehaviour:
     LevelMax: 33
     Count: 1
   - UnitFamilyReference:
-      serializableElementName: UnitFamily_IndustrialShockInfantry
+      serializableElementName: UnitFamily_MountedInfantry
     LevelMin: 25
     LevelMax: 33
     Count: 3
@@ -1130,7 +1229,7 @@ MonoBehaviour:
   UnitPatterns:
   - UnitReference:
       serializableElementName: LandUnit_Era1_Common_Spearmen
-    Count: 4
+    Count: 3
 --- !u!114 &-1094234704502670040
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1173,7 +1272,7 @@ MonoBehaviour:
   UnitPatterns:
   - UnitReference:
       serializableElementName: LandUnit_Era3_Common_GreatSwordsmen
-    Count: 4
+    Count: 5
 --- !u!114 &-1055729220940410072
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1230,7 +1329,7 @@ MonoBehaviour:
   UnitPatterns:
   - UnitReference:
       serializableElementName: LandUnit_Era4_Common_Halberdiers
-    Count: 4
+    Count: 6
 --- !u!114 &-994598184801408783
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1251,6 +1350,28 @@ MonoBehaviour:
   - UnitReference:
       serializableElementName: LandUnit_Era1_Common_Levies
     Count: 4
+--- !u!114 &-488848328694657132
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1569221641, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitPattern_Crisis_Era0_Attacker_5
+  m_EditorClassIdentifier: 
+  SelectionCondition: 17
+  OrLifeTime: 0
+  MaxLifeTimeInTurn: -1
+  MinLifeTimeInTurn: 0
+  FamilyUnitPatterns:
+  - UnitFamilyReference:
+      serializableElementName: UnitFamily_Melee
+    LevelMin: 6
+    LevelMax: 9
+    Count: 3
 --- !u!114 &-196837885235809494
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1293,7 +1414,7 @@ MonoBehaviour:
     Count: 2
   - UnitReference:
       serializableElementName: LandUnit_Era1_Common_Chariots
-    Count: 2
+    Count: 1
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1328,6 +1449,26 @@ MonoBehaviour:
     Count: 2
   - UnitReference:
       serializableElementName: LandUnit_Era2_Cataphracts
+    Count: 2
+--- !u!114 &246221774922123035
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1953220733, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitPattern_Crisis_Era0_Fallback
+  m_EditorClassIdentifier: 
+  SelectionCondition: 31
+  OrLifeTime: 0
+  MaxLifeTimeInTurn: -1
+  MinLifeTimeInTurn: 0
+  UnitPatterns:
+  - UnitReference:
+      serializableElementName: LandUnit_Era1_Common_Levies
     Count: 2
 --- !u!114 &473211860846592370
 MonoBehaviour:
@@ -1390,7 +1531,7 @@ MonoBehaviour:
   UnitPatterns:
   - UnitReference:
       serializableElementName: LandUnit_Era2_Cataphracts
-    Count: 3
+    Count: 4
 --- !u!114 &751670267554494566
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1431,6 +1572,43 @@ MonoBehaviour:
   - UnitReference:
       serializableElementName: LandUnit_Era1_Common_Chariots
     Count: 3
+--- !u!114 &965821095732258978
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1569221641, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitPattern_Crisis_Era0_Attacker_2
+  m_EditorClassIdentifier: 
+  SelectionCondition: 17
+  OrLifeTime: 0
+  MaxLifeTimeInTurn: -1
+  MinLifeTimeInTurn: 0
+  FamilyUnitPatterns:
+  - UnitFamilyReference:
+      serializableElementName: UnitFamily_Melee
+    LevelMin: 6
+    LevelMax: 9
+    Count: 1
+  - UnitFamilyReference:
+      serializableElementName: UnitFamily_Ranged
+    LevelMin: 6
+    LevelMax: 9
+    Count: 1
+  - UnitFamilyReference:
+      serializableElementName: UnitFamily_Slinger
+    LevelMin: 6
+    LevelMax: 9
+    Count: 1
+  - UnitFamilyReference:
+      serializableElementName: UnitFamily_SpearThrower
+    LevelMin: 6
+    LevelMax: 9
+    Count: 1
 --- !u!114 &1016457995726425312
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1470,7 +1648,7 @@ MonoBehaviour:
   UnitPatterns:
   - UnitReference:
       serializableElementName: LandUnit_Era1_Common_Spearmen
-    Count: 4
+    Count: 3
 --- !u!114 &1517738241666635416
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1532,7 +1710,7 @@ MonoBehaviour:
   UnitPatterns:
   - UnitReference:
       serializableElementName: LandUnit_Era1_Common_Spearmen
-    Count: 5
+    Count: 4
 --- !u!114 &2363093101791618991
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1552,7 +1730,7 @@ MonoBehaviour:
   UnitPatterns:
   - UnitReference:
       serializableElementName: LandUnit_Era4_Common_Reiters
-    Count: 3
+    Count: 5
 --- !u!114 &2422290897905561694
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1695,6 +1873,28 @@ MonoBehaviour:
     LevelMin: 6
     LevelMax: 9
     Count: 1
+--- !u!114 &3788264555520254481
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1569221641, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitPattern_Crisis_Era0_Attacker_1
+  m_EditorClassIdentifier: 
+  SelectionCondition: 13
+  OrLifeTime: 0
+  MaxLifeTimeInTurn: -1
+  MinLifeTimeInTurn: 0
+  FamilyUnitPatterns:
+  - UnitFamilyReference:
+      serializableElementName: UnitFamily_Scout
+    LevelMin: 6
+    LevelMax: 9
+    Count: 2
 --- !u!114 &3921268732053623347
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1815,7 +2015,7 @@ MonoBehaviour:
   UnitPatterns:
   - UnitReference:
       serializableElementName: LandUnit_Era1_Common_Spearmen
-    Count: 3
+    Count: 4
 --- !u!114 &4434292327622774811
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1900,7 +2100,7 @@ MonoBehaviour:
   UnitPatterns:
   - UnitReference:
       serializableElementName: LandUnit_Era4_Common_Halberdiers
-    Count: 3
+    Count: 6
 --- !u!114 &4865420196826436969
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1990,6 +2190,29 @@ MonoBehaviour:
   - UnitReference:
       serializableElementName: LandUnit_Era3_Common_Crossbowmen
     Count: 2
+--- !u!114 &5592949741461464367
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1953220733, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitPattern_SpearsArrows_Early_Era0
+  m_EditorClassIdentifier: 
+  SelectionCondition: 15
+  OrLifeTime: 1
+  MaxLifeTimeInTurn: 25
+  MinLifeTimeInTurn: 0
+  UnitPatterns:
+  - UnitReference:
+      serializableElementName: LandUnit_Era1_Common_Spearmen_Poor
+    Count: 1
+  - UnitReference:
+      serializableElementName: LandUnit_Era1_Common_SpearThrowers
+    Count: 1
 --- !u!114 &5804788431515845098
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2029,7 +2252,27 @@ MonoBehaviour:
   UnitPatterns:
   - UnitReference:
       serializableElementName: LandUnit_Era3_Common_Pikemen
-    Count: 3
+    Count: 5
+--- !u!114 &6198672269933913674
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1953220733, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitPattern_FullRange_Early_Era0
+  m_EditorClassIdentifier: 
+  SelectionCondition: 15
+  OrLifeTime: 1
+  MaxLifeTimeInTurn: 25
+  MinLifeTimeInTurn: 0
+  UnitPatterns:
+  - UnitReference:
+      serializableElementName: LandUnit_Era1_Common_SpearThrowers
+    Count: 2
 --- !u!114 &6213902852693307761
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2081,7 +2324,7 @@ MonoBehaviour:
   UnitPatterns:
   - UnitReference:
       serializableElementName: LandUnit_Era1_Common_Spearmen_Poor
-    Count: 4
+    Count: 3
 --- !u!114 &6495409856787523171
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2169,7 +2412,7 @@ MonoBehaviour:
   UnitPatterns:
   - UnitReference:
       serializableElementName: LandUnit_Era4_Common_Arquebusiers
-    Count: 4
+    Count: 6
 --- !u!114 &6961332548258207183
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2189,7 +2432,7 @@ MonoBehaviour:
   UnitPatterns:
   - UnitReference:
       serializableElementName: LandUnit_Era3_Common_Crossbowmen
-    Count: 4
+    Count: 5
 --- !u!114 &7358117864134625837
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2287,7 +2530,7 @@ MonoBehaviour:
   MinLifeTimeInTurn: 0
   FamilyUnitPatterns:
   - UnitFamilyReference:
-      serializableElementName: UnitFamily_Cavalry
+      serializableElementName: UnitFamily_LightCavalry
     LevelMin: 20
     LevelMax: 26
     Count: 2
@@ -2544,7 +2787,7 @@ MonoBehaviour:
   UnitPatterns:
   - UnitReference:
       serializableElementName: LandUnit_Era4_Common_Musketeers
-    Count: 4
+    Count: 6
 --- !u!114 &8673974418882280873
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2588,7 +2831,30 @@ MonoBehaviour:
       serializableElementName: LandUnit_Era1_Common_Warriors
     Count: 1
   - UnitReference:
-      serializableElementName: LandUnit_Era1_Common_Chariots
+      serializableElementName: LandUnit_Era1_Common_ScoutCavalry
+    Count: 1
+--- !u!114 &8809653176301167735
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1953220733, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitPattern_SpearsArrows_Era0
+  m_EditorClassIdentifier: 
+  SelectionCondition: 19
+  OrLifeTime: 0
+  MaxLifeTimeInTurn: -1
+  MinLifeTimeInTurn: 25
+  UnitPatterns:
+  - UnitReference:
+      serializableElementName: LandUnit_Era1_Common_Spearmen_Poor
+    Count: 1
+  - UnitReference:
+      serializableElementName: LandUnit_Era1_Common_SpearThrowers
     Count: 1
 --- !u!114 &9080747447155759649
 MonoBehaviour:

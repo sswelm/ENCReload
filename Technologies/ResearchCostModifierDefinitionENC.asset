@@ -1,5 +1,30 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-8891089958972502409
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 808446743, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: TechnologyCostModifierAfterUnlockingEra6Tier3
+  m_EditorClassIdentifier: 
+  CostType: 4
+  OperationType: 1
+  ModifierType: 0
+  CostModifierValue:
+    RawValue: 995
+  CostModifierRpn:
+    serializableElementName: 
+  ApplyIfCostZero: 0
+  CanBeCumulated: 1
+  SpecificLocalization: 
+  IsObsolete: 0
+  TargetType: 0
+  SerializableValidNames: []
 --- !u!114 &-8726358741844484568
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -43,16 +68,41 @@ MonoBehaviour:
   OperationType: 1
   ModifierType: 0
   CostModifierValue:
-    RawValue: 700
+    RawValue: 850
   CostModifierRpn:
     serializableElementName: 
   ApplyIfCostZero: 0
-  CanBeCumulated: 0
+  CanBeCumulated: 1
   SpecificLocalization: 
   IsObsolete: 0
   TargetType: 1
   SerializableValidNames:
   - Technology_Era1_08
+--- !u!114 &-8080810369283905141
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 808446743, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: TechnologyCostModifierAfterUnlockingEra6Tier2Extra
+  m_EditorClassIdentifier: 
+  CostType: 4
+  OperationType: 1
+  ModifierType: 0
+  CostModifierValue:
+    RawValue: 995
+  CostModifierRpn:
+    serializableElementName: 
+  ApplyIfCostZero: 0
+  CanBeCumulated: 1
+  SpecificLocalization: 
+  IsObsolete: 0
+  TargetType: 0
+  SerializableValidNames: []
 --- !u!114 &-7322243301250532397
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -102,7 +152,7 @@ MonoBehaviour:
   OperationType: 1
   ModifierType: 0
   CostModifierValue:
-    RawValue: 700
+    RawValue: 600
   CostModifierRpn:
     serializableElementName: 
   ApplyIfCostZero: 0
@@ -112,14 +162,6 @@ MonoBehaviour:
   TargetType: 1
   SerializableValidNames:
   - Technology_Era5_11
-  - Technology_Era5_OilRefinement
-  - Technology_Era5_AntiTorpedoboatWarfare
-  - Technology_Era5_Automobile
-  - Technology_Era5_TankWarfare
-  - Technology_Era5_DreadnoughtDesign
-  - Technology_Era5_AluminiumSmelting
-  - Technology_Era5_IntermodalContainer
-  - Technology_Era5_15
 --- !u!114 &-6719272121985460662
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -136,7 +178,7 @@ MonoBehaviour:
   OperationType: 1
   ModifierType: 0
   CostModifierValue:
-    RawValue: 950
+    RawValue: 970
   CostModifierRpn:
     serializableElementName: 
   ApplyIfCostZero: 0
@@ -161,7 +203,7 @@ MonoBehaviour:
   OperationType: 1
   ModifierType: 0
   CostModifierValue:
-    RawValue: 700
+    RawValue: 800
   CostModifierRpn:
     serializableElementName: 
   ApplyIfCostZero: 0
@@ -190,11 +232,11 @@ MonoBehaviour:
   OperationType: 1
   ModifierType: 0
   CostModifierValue:
-    RawValue: 950
+    RawValue: 994
   CostModifierRpn:
     serializableElementName: 
   ApplyIfCostZero: 0
-  CanBeCumulated: 0
+  CanBeCumulated: 1
   SpecificLocalization: 
   IsObsolete: 0
   TargetType: 0
@@ -215,7 +257,7 @@ MonoBehaviour:
   OperationType: 1
   ModifierType: 0
   CostModifierValue:
-    RawValue: 700
+    RawValue: 800
   CostModifierRpn:
     serializableElementName: 
   ApplyIfCostZero: 0
@@ -227,6 +269,107 @@ MonoBehaviour:
   - Technology_Era5_SubmarineWarfare
   - Technology_Era6_09
   - Technology_Era6_04
+  - Technology_Era6_AntiSubmarineWarfare
+--- !u!114 &-4775864296724022820
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 808446743, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: TechnologyCostModifierAfterUnlockingEra6Technology
+  m_EditorClassIdentifier: 
+  CostType: 4
+  OperationType: 1
+  ModifierType: 0
+  CostModifierValue:
+    RawValue: 995
+  CostModifierRpn:
+    serializableElementName: 
+  ApplyIfCostZero: 0
+  CanBeCumulated: 1
+  SpecificLocalization: 
+  IsObsolete: 0
+  TargetType: 0
+  SerializableValidNames: []
+--- !u!114 &-4692607905158166229
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 808446743, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: TechnologyCostModifierAfterUnlockingEra3Technology
+  m_EditorClassIdentifier: 
+  CostType: 4
+  OperationType: 1
+  ModifierType: 0
+  CostModifierValue:
+    RawValue: 992
+  CostModifierRpn:
+    serializableElementName: 
+  ApplyIfCostZero: 0
+  CanBeCumulated: 1
+  SpecificLocalization: 
+  IsObsolete: 0
+  TargetType: 0
+  SerializableValidNames: []
+--- !u!114 &-4561536328474722515
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 808446743, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: TechnologyCostModifierAfterUnlockingEra5Tier0
+  m_EditorClassIdentifier: 
+  CostType: 4
+  OperationType: 1
+  ModifierType: 0
+  CostModifierValue:
+    RawValue: 994
+  CostModifierRpn:
+    serializableElementName: 
+  ApplyIfCostZero: 0
+  CanBeCumulated: 1
+  SpecificLocalization: 
+  IsObsolete: 0
+  TargetType: 0
+  SerializableValidNames: []
+--- !u!114 &-4359524143746839562
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 808446743, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: TechnologyCostModifierAfterUnlockingEra6Tier2
+  m_EditorClassIdentifier: 
+  CostType: 4
+  OperationType: 1
+  ModifierType: 0
+  CostModifierValue:
+    RawValue: 995
+  CostModifierRpn:
+    serializableElementName: 
+  ApplyIfCostZero: 0
+  CanBeCumulated: 1
+  SpecificLocalization: 
+  IsObsolete: 0
+  TargetType: 0
+  SerializableValidNames: []
 --- !u!114 &-4255437697164648266
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -258,6 +401,268 @@ MonoBehaviour:
   - Technology_Era6_18
   - Technology_Era6_DomesticRefrigerator
   - Technology_Era6_AntiSubmarineWarfare
+--- !u!114 &-4059502011696078266
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 808446743, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: TechnologyCostModifierAfterUnlockingEra5Tier1Extra
+  m_EditorClassIdentifier: 
+  CostType: 4
+  OperationType: 1
+  ModifierType: 0
+  CostModifierValue:
+    RawValue: 994
+  CostModifierRpn:
+    serializableElementName: 
+  ApplyIfCostZero: 0
+  CanBeCumulated: 1
+  SpecificLocalization: 
+  IsObsolete: 0
+  TargetType: 0
+  SerializableValidNames: []
+--- !u!114 &-3726541730810525019
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 808446743, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: TechnologyCostModifier_Era4_Astronomy
+  m_EditorClassIdentifier: 
+  CostType: 4
+  OperationType: 1
+  ModifierType: 0
+  CostModifierValue:
+    RawValue: 970
+  CostModifierRpn:
+    serializableElementName: 
+  ApplyIfCostZero: 0
+  CanBeCumulated: 0
+  SpecificLocalization: 
+  IsObsolete: 0
+  TargetType: 0
+  SerializableValidNames: []
+--- !u!114 &-3707562400346675633
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 808446743, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: TechnologyCostModifierAfterUnlockingEra6Tier4Extra
+  m_EditorClassIdentifier: 
+  CostType: 4
+  OperationType: 1
+  ModifierType: 0
+  CostModifierValue:
+    RawValue: 995
+  CostModifierRpn:
+    serializableElementName: 
+  ApplyIfCostZero: 0
+  CanBeCumulated: 1
+  SpecificLocalization: 
+  IsObsolete: 0
+  TargetType: 0
+  SerializableValidNames: []
+--- !u!114 &-3508050896406812313
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 808446743, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: TechnologyCostModifierForEra5_09
+  m_EditorClassIdentifier: 
+  CostType: 4
+  OperationType: 1
+  ModifierType: 0
+  CostModifierValue:
+    RawValue: 600
+  CostModifierRpn:
+    serializableElementName: 
+  ApplyIfCostZero: 0
+  CanBeCumulated: 0
+  SpecificLocalization: 
+  IsObsolete: 0
+  TargetType: 1
+  SerializableValidNames:
+  - Technology_Era5_09
+--- !u!114 &-3480437497715328973
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 808446743, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: TechnologyCostModifierForEra1_Sailing
+  m_EditorClassIdentifier: 
+  CostType: 4
+  OperationType: 1
+  ModifierType: 0
+  CostModifierValue:
+    RawValue: 800
+  CostModifierRpn:
+    serializableElementName: 
+  ApplyIfCostZero: 0
+  CanBeCumulated: 0
+  SpecificLocalization: 
+  IsObsolete: 0
+  TargetType: 1
+  SerializableValidNames:
+  - Technology_Era1_12
+  - Technology_Era2_03
+  - Technology_Era2_NavalShoreTactics
+  - Technology_Era2_10
+--- !u!114 &-3434800104175559777
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 808446743, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: TechnologyCostModifierForEra5_MilitaryTradition
+  m_EditorClassIdentifier: 
+  CostType: 4
+  OperationType: 1
+  ModifierType: 0
+  CostModifierValue:
+    RawValue: 800
+  CostModifierRpn:
+    serializableElementName: 
+  ApplyIfCostZero: 0
+  CanBeCumulated: 0
+  SpecificLocalization: 
+  IsObsolete: 0
+  TargetType: 1
+  SerializableValidNames:
+  - Technology_Era5_MilitaryTradition
+  - Technology_Era5_07
+  - Technology_Era5_14
+--- !u!114 &-2699445654163793176
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 808446743, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: TechnologyCostModifierAfterUnlockingEra1Technology
+  m_EditorClassIdentifier: 
+  CostType: 4
+  OperationType: 1
+  ModifierType: 0
+  CostModifierValue:
+    RawValue: 990
+  CostModifierRpn:
+    serializableElementName: 
+  ApplyIfCostZero: 0
+  CanBeCumulated: 1
+  SpecificLocalization: 
+  IsObsolete: 0
+  TargetType: 0
+  SerializableValidNames: []
+--- !u!114 &-2581808152641200628
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 808446743, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: TechnologyCostModifierForEra5_Dreadnought
+  m_EditorClassIdentifier: 
+  CostType: 4
+  OperationType: 1
+  ModifierType: 0
+  CostModifierValue:
+    RawValue: 800
+  CostModifierRpn:
+    serializableElementName: 
+  ApplyIfCostZero: 0
+  CanBeCumulated: 0
+  SpecificLocalization: 
+  IsObsolete: 0
+  TargetType: 1
+  SerializableValidNames:
+  - Technology_Era5_DreadnoughtDesign
+  - Technology_Era5_AluminiumSmelting
+  - Technology_Era5_IntermodalContainer
+--- !u!114 &-2536888840088338342
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 808446743, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: TechnologyCostModifierAfterUnlockingEra6Tier3Extra
+  m_EditorClassIdentifier: 
+  CostType: 4
+  OperationType: 1
+  ModifierType: 0
+  CostModifierValue:
+    RawValue: 995
+  CostModifierRpn:
+    serializableElementName: 
+  ApplyIfCostZero: 0
+  CanBeCumulated: 1
+  SpecificLocalization: 
+  IsObsolete: 0
+  TargetType: 0
+  SerializableValidNames: []
+--- !u!114 &-2356434981075464663
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 808446743, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: TechnologyCostModifierForEra5_Ironclad
+  m_EditorClassIdentifier: 
+  CostType: 4
+  OperationType: 1
+  ModifierType: 0
+  CostModifierValue:
+    RawValue: 500
+  CostModifierRpn:
+    serializableElementName: 
+  ApplyIfCostZero: 0
+  CanBeCumulated: 0
+  SpecificLocalization: 
+  IsObsolete: 0
+  TargetType: 1
+  SerializableValidNames:
+  - Technology_Era5_IroncladShipbuilding
 --- !u!114 &-2237681700055849266
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -274,16 +679,66 @@ MonoBehaviour:
   OperationType: 1
   ModifierType: 0
   CostModifierValue:
-    RawValue: 700
+    RawValue: 850
   CostModifierRpn:
     serializableElementName: 
   ApplyIfCostZero: 0
-  CanBeCumulated: 0
+  CanBeCumulated: 1
   SpecificLocalization: 
   IsObsolete: 0
   TargetType: 1
   SerializableValidNames:
   - Technology_Era1_11
+--- !u!114 &-1827380740822770768
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 808446743, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: TechnologyCostModifierAfterUnlockingEra6Tier4
+  m_EditorClassIdentifier: 
+  CostType: 4
+  OperationType: 1
+  ModifierType: 0
+  CostModifierValue:
+    RawValue: 995
+  CostModifierRpn:
+    serializableElementName: 
+  ApplyIfCostZero: 0
+  CanBeCumulated: 1
+  SpecificLocalization: 
+  IsObsolete: 0
+  TargetType: 0
+  SerializableValidNames: []
+--- !u!114 &-1249714562231369973
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 808446743, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: TechnologyCostModifierAfterUnlockingEra6Tier5
+  m_EditorClassIdentifier: 
+  CostType: 4
+  OperationType: 1
+  ModifierType: 0
+  CostModifierValue:
+    RawValue: 995
+  CostModifierRpn:
+    serializableElementName: 
+  ApplyIfCostZero: 0
+  CanBeCumulated: 1
+  SpecificLocalization: 
+  IsObsolete: 0
+  TargetType: 0
+  SerializableValidNames: []
 --- !u!114 &-1219225080610491667
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -300,11 +755,11 @@ MonoBehaviour:
   OperationType: 1
   ModifierType: 0
   CostModifierValue:
-    RawValue: 950
+    RawValue: 995
   CostModifierRpn:
     serializableElementName: 
   ApplyIfCostZero: 0
-  CanBeCumulated: 0
+  CanBeCumulated: 1
   SpecificLocalization: 
   IsObsolete: 0
   TargetType: 0
@@ -389,11 +844,11 @@ MonoBehaviour:
   OperationType: 1
   ModifierType: 0
   CostModifierValue:
-    RawValue: 950
+    RawValue: 994
   CostModifierRpn:
     serializableElementName: 
   ApplyIfCostZero: 0
-  CanBeCumulated: 0
+  CanBeCumulated: 1
   SpecificLocalization: 
   IsObsolete: 0
   TargetType: 0
@@ -426,7 +881,7 @@ MonoBehaviour:
   OperationType: 1
   ModifierType: 0
   CostModifierValue:
-    RawValue: 700
+    RawValue: 800
   CostModifierRpn:
     serializableElementName: 
   ApplyIfCostZero: 0
@@ -440,7 +895,6 @@ MonoBehaviour:
   - Technology_Era5_Rifling
   - Technology_Era5_17
   - Technology_Era5_BunkerConstruction
-  - Technology_Era5_Camouflage
 --- !u!114 &816501906108681420
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -457,11 +911,163 @@ MonoBehaviour:
   OperationType: 1
   ModifierType: 0
   CostModifierValue:
-    RawValue: 950
+    RawValue: 995
+  CostModifierRpn:
+    serializableElementName: 
+  ApplyIfCostZero: 0
+  CanBeCumulated: 1
+  SpecificLocalization: 
+  IsObsolete: 0
+  TargetType: 0
+  SerializableValidNames: []
+--- !u!114 &837923642206253340
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 808446743, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: TechnologyCostModifier_Era5_ScientificMethod
+  m_EditorClassIdentifier: 
+  CostType: 4
+  OperationType: 1
+  ModifierType: 0
+  CostModifierValue:
+    RawValue: 970
   CostModifierRpn:
     serializableElementName: 
   ApplyIfCostZero: 0
   CanBeCumulated: 0
+  SpecificLocalization: 
+  IsObsolete: 0
+  TargetType: 0
+  SerializableValidNames: []
+--- !u!114 &1911516602280554713
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 808446743, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: TechnologyCostModifierForEra5_Nationhood
+  m_EditorClassIdentifier: 
+  CostType: 4
+  OperationType: 1
+  ModifierType: 0
+  CostModifierValue:
+    RawValue: 700
+  CostModifierRpn:
+    serializableElementName: 
+  ApplyIfCostZero: 0
+  CanBeCumulated: 0
+  SpecificLocalization: 
+  IsObsolete: 0
+  TargetType: 1
+  SerializableValidNames:
+  - Technology_Era5_06
+  - Technology_Era5_NatureConservation
+--- !u!114 &1978403537025564943
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 808446743, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: TechnologyCostModifierAfterUnlockingEra2Technology
+  m_EditorClassIdentifier: 
+  CostType: 4
+  OperationType: 1
+  ModifierType: 0
+  CostModifierValue:
+    RawValue: 991
+  CostModifierRpn:
+    serializableElementName: 
+  ApplyIfCostZero: 0
+  CanBeCumulated: 1
+  SpecificLocalization: 
+  IsObsolete: 0
+  TargetType: 0
+  SerializableValidNames: []
+--- !u!114 &3267368454639650725
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 808446743, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: TechnologyCostModifierAfterUnlockingEra5Tier3
+  m_EditorClassIdentifier: 
+  CostType: 4
+  OperationType: 1
+  ModifierType: 0
+  CostModifierValue:
+    RawValue: 994
+  CostModifierRpn:
+    serializableElementName: 
+  ApplyIfCostZero: 0
+  CanBeCumulated: 1
+  SpecificLocalization: 
+  IsObsolete: 0
+  TargetType: 0
+  SerializableValidNames: []
+--- !u!114 &4267192566291803180
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 808446743, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: TechnologyCostModifierAfterUnlockingEra4Technology
+  m_EditorClassIdentifier: 
+  CostType: 4
+  OperationType: 1
+  ModifierType: 0
+  CostModifierValue:
+    RawValue: 993
+  CostModifierRpn:
+    serializableElementName: 
+  ApplyIfCostZero: 0
+  CanBeCumulated: 1
+  SpecificLocalization: 
+  IsObsolete: 0
+  TargetType: 0
+  SerializableValidNames: []
+--- !u!114 &4541898334717720665
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 808446743, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: TechnologyCostModifierAfterUnlockingEra5Tier0Extra
+  m_EditorClassIdentifier: 
+  CostType: 4
+  OperationType: 1
+  ModifierType: 0
+  CostModifierValue:
+    RawValue: 994
+  CostModifierRpn:
+    serializableElementName: 
+  ApplyIfCostZero: 0
+  CanBeCumulated: 1
   SpecificLocalization: 
   IsObsolete: 0
   TargetType: 0
@@ -482,7 +1088,7 @@ MonoBehaviour:
   OperationType: 1
   ModifierType: 0
   CostModifierValue:
-    RawValue: 700
+    RawValue: 850
   CostModifierRpn:
     serializableElementName: 
   ApplyIfCostZero: 0
@@ -492,6 +1098,60 @@ MonoBehaviour:
   TargetType: 1
   SerializableValidNames:
   - Technology_Era2_12
+--- !u!114 &4918915010218657683
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 808446743, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: TechnologyCostModifierForEra4_MovableTypeface
+  m_EditorClassIdentifier: 
+  CostType: 4
+  OperationType: 1
+  ModifierType: 0
+  CostModifierValue:
+    RawValue: 800
+  CostModifierRpn:
+    serializableElementName: 
+  ApplyIfCostZero: 0
+  CanBeCumulated: 0
+  SpecificLocalization: 
+  IsObsolete: 0
+  TargetType: 1
+  SerializableValidNames:
+  - Technology_Era4_05
+  - Technology_Era4_Clockworks
+  - Technology_Era4_Anatomy
+  - Technology_Era5_01
+--- !u!114 &4951192858792245678
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 808446743, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: TechnologyCostModifierAfterUnlockingEra5Tier2
+  m_EditorClassIdentifier: 
+  CostType: 4
+  OperationType: 1
+  ModifierType: 0
+  CostModifierValue:
+    RawValue: 994
+  CostModifierRpn:
+    serializableElementName: 
+  ApplyIfCostZero: 0
+  CanBeCumulated: 1
+  SpecificLocalization: 
+  IsObsolete: 0
+  TargetType: 0
+  SerializableValidNames: []
 --- !u!114 &5522753385269417111
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -517,7 +1177,33 @@ MonoBehaviour:
   IsObsolete: 0
   TargetType: 1
   SerializableValidNames:
-  - Technology_Era4_GunpowderArtillery
+  - Technology_Era3_04
+  - Technology_Era4_09
+--- !u!114 &5950284250700118622
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 808446743, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: TechnologyCostModifierAfterUnlockingEra5Tier2Extra
+  m_EditorClassIdentifier: 
+  CostType: 4
+  OperationType: 1
+  ModifierType: 0
+  CostModifierValue:
+    RawValue: 994
+  CostModifierRpn:
+    serializableElementName: 
+  ApplyIfCostZero: 0
+  CanBeCumulated: 1
+  SpecificLocalization: 
+  IsObsolete: 0
+  TargetType: 0
+  SerializableValidNames: []
 --- !u!114 &5952523739314912227
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -560,15 +1246,66 @@ MonoBehaviour:
   OperationType: 1
   ModifierType: 0
   CostModifierValue:
-    RawValue: 950
+    RawValue: 995
+  CostModifierRpn:
+    serializableElementName: 
+  ApplyIfCostZero: 0
+  CanBeCumulated: 1
+  SpecificLocalization: 
+  IsObsolete: 0
+  TargetType: 0
+  SerializableValidNames: []
+--- !u!114 &6241398708291727732
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 808446743, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: TechnologyCostModifierAfterUnlockingEra6Tier5Extra
+  m_EditorClassIdentifier: 
+  CostType: 4
+  OperationType: 1
+  ModifierType: 0
+  CostModifierValue:
+    RawValue: 995
+  CostModifierRpn:
+    serializableElementName: 
+  ApplyIfCostZero: 0
+  CanBeCumulated: 1
+  SpecificLocalization: 
+  IsObsolete: 0
+  TargetType: 0
+  SerializableValidNames: []
+--- !u!114 &6941036451235871782
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 808446743, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: TechnologyCostModifierForEra5_AntiTorpedoboatWarfare
+  m_EditorClassIdentifier: 
+  CostType: 4
+  OperationType: 1
+  ModifierType: 0
+  CostModifierValue:
+    RawValue: 600
   CostModifierRpn:
     serializableElementName: 
   ApplyIfCostZero: 0
   CanBeCumulated: 0
   SpecificLocalization: 
   IsObsolete: 0
-  TargetType: 0
-  SerializableValidNames: []
+  TargetType: 1
+  SerializableValidNames:
+  - Technology_Era5_AntiTorpedoboatWarfare
 --- !u!114 &6970379622590182644
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -585,7 +1322,7 @@ MonoBehaviour:
   OperationType: 1
   ModifierType: 0
   CostModifierValue:
-    RawValue: 500
+    RawValue: 600
   CostModifierRpn:
     serializableElementName: 
   ApplyIfCostZero: 0
@@ -611,7 +1348,7 @@ MonoBehaviour:
   OperationType: 1
   ModifierType: 0
   CostModifierValue:
-    RawValue: 500
+    RawValue: 600
   CostModifierRpn:
     serializableElementName: 
   ApplyIfCostZero: 0
@@ -621,6 +1358,31 @@ MonoBehaviour:
   TargetType: 1
   SerializableValidNames:
   - Technology_Era4_04
+--- !u!114 &7025316278411728889
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 808446743, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: TechnologyCostModifierAfterUnlockingEra5Tier1
+  m_EditorClassIdentifier: 
+  CostType: 4
+  OperationType: 1
+  ModifierType: 0
+  CostModifierValue:
+    RawValue: 994
+  CostModifierRpn:
+    serializableElementName: 
+  ApplyIfCostZero: 0
+  CanBeCumulated: 1
+  SpecificLocalization: 
+  IsObsolete: 0
+  TargetType: 0
+  SerializableValidNames: []
 --- !u!114 &7140516512968483412
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -647,6 +1409,35 @@ MonoBehaviour:
   TargetType: 1
   SerializableValidNames:
   - Technology_Era4_GunpowderArtillery
+--- !u!114 &7401248414521183576
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 808446743, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: TechnologyCostModifierForEra5_SteamEngine
+  m_EditorClassIdentifier: 
+  CostType: 4
+  OperationType: 1
+  ModifierType: 0
+  CostModifierValue:
+    RawValue: 800
+  CostModifierRpn:
+    serializableElementName: 
+  ApplyIfCostZero: 0
+  CanBeCumulated: 0
+  SpecificLocalization: 
+  IsObsolete: 0
+  TargetType: 1
+  SerializableValidNames:
+  - Technology_Era5_03
+  - Technology_Era5_RailRoad
+  - Technology_Era5_MarineSteamEngine
+  - Technology_Era5_08
 --- !u!114 &7702354240138816566
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -673,6 +1464,58 @@ MonoBehaviour:
   TargetType: 1
   SerializableValidNames:
   - Technology_Era2_02
+--- !u!114 &7777262820309940121
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 808446743, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: TechnologyCostModifierForEra5_Aeronautics
+  m_EditorClassIdentifier: 
+  CostType: 4
+  OperationType: 1
+  ModifierType: 0
+  CostModifierValue:
+    RawValue: 700
+  CostModifierRpn:
+    serializableElementName: 
+  ApplyIfCostZero: 0
+  CanBeCumulated: 0
+  SpecificLocalization: 
+  IsObsolete: 0
+  TargetType: 1
+  SerializableValidNames:
+  - Technology_Era5_15
+  - Technology_Era5_AerialTorpedo
+--- !u!114 &7784984975331052452
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 808446743, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: TechnologyCostModifierAfterUnlockingEra6Tier1Extra
+  m_EditorClassIdentifier: 
+  CostType: 4
+  OperationType: 1
+  ModifierType: 0
+  CostModifierValue:
+    RawValue: 995
+  CostModifierRpn:
+    serializableElementName: 
+  ApplyIfCostZero: 0
+  CanBeCumulated: 1
+  SpecificLocalization: 
+  IsObsolete: 0
+  TargetType: 0
+  SerializableValidNames: []
 --- !u!114 &7970569730825142801
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -689,11 +1532,11 @@ MonoBehaviour:
   OperationType: 1
   ModifierType: 0
   CostModifierValue:
-    RawValue: 950
+    RawValue: 994
   CostModifierRpn:
     serializableElementName: 
   ApplyIfCostZero: 0
-  CanBeCumulated: 0
+  CanBeCumulated: 1
   SpecificLocalization: 
   IsObsolete: 0
   TargetType: 0
@@ -714,7 +1557,7 @@ MonoBehaviour:
   OperationType: 1
   ModifierType: 0
   CostModifierValue:
-    RawValue: 700
+    RawValue: 800
   CostModifierRpn:
     serializableElementName: 
   ApplyIfCostZero: 0
@@ -727,3 +1570,54 @@ MonoBehaviour:
   - Technology_Era6_02
   - Technology_Era6_03
   - Technology_Era6_DomesticRefrigerator
+--- !u!114 &8284710247812515973
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 808446743, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: TechnologyCostModifierAfterUnlockingEra5Technology
+  m_EditorClassIdentifier: 
+  CostType: 4
+  OperationType: 1
+  ModifierType: 0
+  CostModifierValue:
+    RawValue: 994
+  CostModifierRpn:
+    serializableElementName: 
+  ApplyIfCostZero: 0
+  CanBeCumulated: 1
+  SpecificLocalization: 
+  IsObsolete: 0
+  TargetType: 0
+  SerializableValidNames: []
+--- !u!114 &9148054282912272646
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 808446743, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: TechnologyCostModifierForEra1_12
+  m_EditorClassIdentifier: 
+  CostType: 4
+  OperationType: 1
+  ModifierType: 0
+  CostModifierValue:
+    RawValue: 850
+  CostModifierRpn:
+    serializableElementName: 
+  ApplyIfCostZero: 0
+  CanBeCumulated: 1
+  SpecificLocalization: 
+  IsObsolete: 0
+  TargetType: 1
+  SerializableValidNames:
+  - Technology_Era1_12

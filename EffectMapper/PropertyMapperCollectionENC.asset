@@ -1,5 +1,37 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-8859880942538420389
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 2128171881, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: RawResource09AccessCount
+  m_EditorClassIdentifier: 
+  Localization: Stone
+  DisplayAsPercent: 0
+  DisplayAsSigned: 1
+  GainType: 0
+--- !u!114 &-7021508487963575887
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 2128171881, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Resource09AccessCount
+  m_EditorClassIdentifier: 
+  Localization: Stone
+  DisplayAsPercent: 0
+  DisplayAsSigned: 1
+  GainType: 0
 --- !u!114 &-5382339485704592139
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -60,6 +92,22 @@ MonoBehaviour:
   m_Script: {fileID: 399512207, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
   m_Name: PropertyMapperCollectionENC
   m_EditorClassIdentifier: 
+--- !u!114 &3703694801926918115
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 2128171881, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: HealthRegenAfterBattle
+  m_EditorClassIdentifier: 
+  Localization: '% Health regeneration after Battle'
+  DisplayAsPercent: 0
+  DisplayAsSigned: 1
+  GainType: 0
 --- !u!114 &7483278581911884518
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -72,7 +120,7 @@ MonoBehaviour:
   m_Script: {fileID: 2128171881, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
   m_Name: OsmosisPerTurnMultiplier
   m_EditorClassIdentifier: 
-  Localization: Osmosis Per Turn
+  Localization: Osmosis
   DisplayAsPercent: 1
   DisplayAsSigned: 1
   GainType: 0

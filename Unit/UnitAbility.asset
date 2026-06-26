@@ -60,6 +60,25 @@ MonoBehaviour:
   - serializableElementName: BattleAbility_AdvancedTerrain
   - serializableElementName: BattleAbility_WeakAgainstShips
   pathfindingFlags: 0
+--- !u!114 &-7107429977161375428
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 573507786, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitAbility_StrengthFromSiege_Half
+  m_EditorClassIdentifier: 
+  TagAsAbility: 0
+  MovementAbility: 0
+  DescriptorReferences:
+  - serializableElementName: Effect_Unit_SpecialtyLevel1
+  BattleAbilityReference:
+  - serializableElementName: BattleAbility_StrengthFromSiege
+  pathfindingFlags: 0
 --- !u!114 &-6984252569152834257
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -119,11 +138,48 @@ MonoBehaviour:
   - serializableElementName: Effect_UnitPrototype_MountedRanged
   - serializableElementName: Effect_Unit_HasRangedAttack
   - serializableElementName: Effect_Unit_RansackStrength1
+  - serializableElementName: Effect_Unit_Scouting
   BattleAbilityReference:
   - serializableElementName: BattleAbility_WeakAgainstMeleeHalf
   - serializableElementName: BattleAbility_MoneyFromAnimals
   - serializableElementName: BattleAbility_AdvancedTerrain
   - serializableElementName: BattleAbility_WeakAgainstShips
+  pathfindingFlags: 0
+--- !u!114 &-6135061875275037329
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 573507786, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitAbility_OverheadFire
+  m_EditorClassIdentifier: 
+  TagAsAbility: 0
+  MovementAbility: 0
+  DescriptorReferences:
+  - serializableElementName: Effect_Unit_OverheadFire
+  BattleAbilityReference: []
+  pathfindingFlags: 0
+--- !u!114 &-6097609610952358281
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 573507786, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitAbility_Reconnaissance_Level3
+  m_EditorClassIdentifier: 
+  TagAsAbility: 0
+  MovementAbility: 0
+  DescriptorReferences:
+  - serializableElementName: Effect_Unit_Reconnaissance_Level3
+  BattleAbilityReference: []
   pathfindingFlags: 0
 --- !u!114 &-6025204654056195608
 MonoBehaviour:
@@ -142,6 +198,46 @@ MonoBehaviour:
   DescriptorReferences:
   - serializableElementName: Effect_UnitAbility_LostAtSeaDamage_Level1
   BattleAbilityReference: []
+  pathfindingFlags: 0
+--- !u!114 &-5848860411107332560
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 573507786, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitAbility_Mechanized
+  m_EditorClassIdentifier: 
+  TagAsAbility: 0
+  MovementAbility: 0
+  DescriptorReferences:
+  - serializableElementName: Effect_Unit_Mechanized
+  BattleAbilityReference: []
+  pathfindingFlags: 0
+--- !u!114 &-4336446394478686742
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 573507786, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitAbility_Prototype_Minner
+  m_EditorClassIdentifier: 
+  TagAsAbility: 0
+  MovementAbility: 0
+  DescriptorReferences:
+  - serializableElementName: Effect_UnitPrototype_Melee
+  - serializableElementName: Effect_Unit_RansackStrength2
+  BattleAbilityReference:
+  - serializableElementName: BattleAbility_MoneyFromAnimals
+  - serializableElementName: BattleAbility_AdvancedTerrain
+  - serializableElementName: BattleAbility_WeakAgainstMelee
   pathfindingFlags: 0
 --- !u!114 &-2801685277260487815
 MonoBehaviour:
@@ -201,6 +297,43 @@ MonoBehaviour:
   DescriptorReferences: []
   BattleAbilityReference: []
   pathfindingFlags: 33554432
+--- !u!114 &-2594745805531982504
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 573507786, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitAbility_StrengthFromSiege_Level1
+  m_EditorClassIdentifier: 
+  TagAsAbility: 0
+  MovementAbility: 0
+  DescriptorReferences:
+  - serializableElementName: Effect_Unit_SpecialtyLevel2
+  BattleAbilityReference:
+  - serializableElementName: BattleAbility_StrengthFromSiege
+  pathfindingFlags: 0
+--- !u!114 &-2296079009750502089
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 573507786, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitAbility_PlungingFire
+  m_EditorClassIdentifier: 
+  TagAsAbility: 0
+  MovementAbility: 0
+  DescriptorReferences:
+  - serializableElementName: Effect_Unit_PlungingFire
+  BattleAbilityReference: []
+  pathfindingFlags: 0
 --- !u!114 &-1626577165682520420
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -258,6 +391,41 @@ MonoBehaviour:
   BattleAbilityReference:
   - serializableElementName: BattleAbility_StrengthFromTargetClassGunship
   pathfindingFlags: 0
+--- !u!114 &-921453586939852642
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 573507786, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitAbility_ReducedOceanMover
+  m_EditorClassIdentifier: 
+  TagAsAbility: 14
+  MovementAbility: 4
+  DescriptorReferences: []
+  BattleAbilityReference: []
+  pathfindingFlags: 33554432
+--- !u!114 &-796204210240331824
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 573507786, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitAbility_Reconnaissance_Level1
+  m_EditorClassIdentifier: 
+  TagAsAbility: 0
+  MovementAbility: 0
+  DescriptorReferences:
+  - serializableElementName: Effect_Unit_Reconnaissance_Level1
+  BattleAbilityReference: []
+  pathfindingFlags: 0
 --- !u!114 &-719428414060779047
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -275,6 +443,7 @@ MonoBehaviour:
   DescriptorReferences:
   - serializableElementName: Effect_UnitPrototype_Cavalry
   - serializableElementName: Effect_Unit_RansackStrength2
+  - serializableElementName: Effect_Unit_Scouting
   BattleAbilityReference:
   - serializableElementName: BattleAbility_MoneyFromAnimals
   - serializableElementName: BattleAbility_AdvancedTerrain
@@ -296,6 +465,26 @@ MonoBehaviour:
   DescriptorReferences: []
   BattleAbilityReference:
   - serializableElementName: BattleAbility_WeaknessFromOcean
+  pathfindingFlags: 0
+--- !u!114 &-34620966542852411
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 573507786, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitAbility_StrengthFromTargetClassArmoured_Level1
+  m_EditorClassIdentifier: 
+  TagAsAbility: 0
+  MovementAbility: 0
+  DescriptorReferences:
+  - serializableElementName: Effect_Unit_SpecialtyLevel1
+  BattleAbilityReference:
+  - serializableElementName: BattleAbility_StrengthFromTargetClassArmoured
+  - serializableElementName: BattleAbility_StrengthFromTargetClassMechanized
   pathfindingFlags: 0
 --- !u!114 &11400000
 MonoBehaviour:
@@ -346,6 +535,27 @@ MonoBehaviour:
   - serializableElementName: Effect_UnitAbility_ZoneOfControlIncreasedSize
   BattleAbilityReference: []
   pathfindingFlags: 0
+--- !u!114 &1076986385622466242
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 573507786, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitAbility_Prototype_Melee
+  m_EditorClassIdentifier: 
+  TagAsAbility: 0
+  MovementAbility: 0
+  DescriptorReferences:
+  - serializableElementName: Effect_UnitPrototype_Melee
+  - serializableElementName: Effect_Unit_RansackStrength2
+  BattleAbilityReference:
+  - serializableElementName: BattleAbility_MoneyFromAnimals
+  - serializableElementName: BattleAbility_AdvancedTerrain
+  pathfindingFlags: 0
 --- !u!114 &1419973911243902762
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -383,6 +593,24 @@ MonoBehaviour:
   - serializableElementName: Effect_Unit_CanAirstrike
   BattleAbilityReference: []
   pathfindingFlags: 0
+--- !u!114 &1720877795068410019
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 573507786, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitAbility_Prototype_Missile
+  m_EditorClassIdentifier: 
+  TagAsAbility: 18
+  MovementAbility: 0
+  DescriptorReferences:
+  - serializableElementName: Effect_UnitPrototype_Missile
+  BattleAbilityReference: []
+  pathfindingFlags: 0
 --- !u!114 &1859262908718441126
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -401,6 +629,7 @@ MonoBehaviour:
   - serializableElementName: Effect_Unit_SpecialtyLevel3
   BattleAbilityReference:
   - serializableElementName: BattleAbility_StrengthFromTargetClassArmoured
+  - serializableElementName: BattleAbility_StrengthFromTargetClassMechanized
   pathfindingFlags: 0
 --- !u!114 &1884725085073123890
 MonoBehaviour:
@@ -697,6 +926,24 @@ MonoBehaviour:
   BattleAbilityReference:
   - serializableElementName: BattleAbility_StrengthFromAlliesAdjacentToUserNaval
   pathfindingFlags: 0
+--- !u!114 &5587821487426117339
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 573507786, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitAbility_Privateer
+  m_EditorClassIdentifier: 
+  TagAsAbility: 0
+  MovementAbility: 0
+  DescriptorReferences:
+  - serializableElementName: Effect_Unit_Era2_StealthRegen
+  BattleAbilityReference: []
+  pathfindingFlags: 0
 --- !u!114 &5686901617482070963
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -716,6 +963,24 @@ MonoBehaviour:
   BattleAbilityReference:
   - serializableElementName: BattleAbility_MoneyFromAnimals
   - serializableElementName: BattleAbility_AdvancedTerrain
+  pathfindingFlags: 0
+--- !u!114 &5691735139985665514
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 573507786, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitAbility_Reconnaissance_Level2
+  m_EditorClassIdentifier: 
+  TagAsAbility: 0
+  MovementAbility: 0
+  DescriptorReferences:
+  - serializableElementName: Effect_Unit_Reconnaissance_Level2
+  BattleAbilityReference: []
   pathfindingFlags: 0
 --- !u!114 &5882739500102452692
 MonoBehaviour:
@@ -737,6 +1002,24 @@ MonoBehaviour:
   BattleAbilityReference:
   - serializableElementName: BattleAbility_MoneyFromAnimals
   - serializableElementName: BattleAbility_AdvancedTerrain
+  pathfindingFlags: 0
+--- !u!114 &6233862709537989197
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 573507786, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitAbility_Armoured
+  m_EditorClassIdentifier: 
+  TagAsAbility: 0
+  MovementAbility: 0
+  DescriptorReferences:
+  - serializableElementName: Effect_Unit_Armoured
+  BattleAbilityReference: []
   pathfindingFlags: 0
 --- !u!114 &6388087695595240984
 MonoBehaviour:
@@ -792,6 +1075,7 @@ MonoBehaviour:
   - serializableElementName: Effect_Unit_SpecialtyLevel2
   BattleAbilityReference:
   - serializableElementName: BattleAbility_StrengthFromTargetClassArmoured
+  - serializableElementName: BattleAbility_StrengthFromTargetClassMechanized
   pathfindingFlags: 0
 --- !u!114 &8106134339734694177
 MonoBehaviour:
@@ -811,6 +1095,7 @@ MonoBehaviour:
   - serializableElementName: Effect_UnitPrototype_MountedGunner
   - serializableElementName: Effect_Unit_HasRangedAttack
   - serializableElementName: Effect_Unit_RansackStrength1
+  - serializableElementName: Effect_Unit_Scouting
   BattleAbilityReference:
   - serializableElementName: BattleAbility_MoneyFromAnimals
   - serializableElementName: BattleAbility_AdvancedTerrain

@@ -1,0 +1,404 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-4595704345012766943
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 140474721, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Civilization_Era1_Sahaptin
+  m_EditorClassIdentifier: 
+  Title: Sahaptin
+  Description: The varied tribes of the Columbia Plateau settled and gathered in
+    huge numbers at Celilo Falls every fall to harvest the salmon runs.
+  Images:
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Small
+  - Value:
+      guid:
+        a: 2106903303
+        b: 1295358910
+        c: -287656791
+        d: 1065140210
+    serializableKey: Medium
+  - Value:
+      guid:
+        a: 2106903303
+        b: 1295358910
+        c: -287656791
+        d: 1065140210
+    serializableKey: Large
+  - Value:
+      guid:
+        a: -132138733
+        b: 1197279133
+        c: -1556727367
+        d: 1691919184
+    serializableKey: Picto
+  - Value:
+      guid:
+        a: 2106903303
+        b: 1295358910
+        c: -287656791
+        d: 1065140210
+    serializableKey: Tooltip
+  - Value:
+      guid:
+        a: 2106903303
+        b: 1295358910
+        c: -287656791
+        d: 1065140210
+    serializableKey: FactionCard
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  Symbol: '[Civilization_Era4_IroquoisConfederacy]'
+  LeaderTitle: 
+  LeaderDescription: 
+  Quote: The rivers swell with salmon and we return to the Falls.
+  Adjective: Sahaptin
+  UIConstructibleCulture: Culture_Era1_Mesopotamian
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 763423559, guid: f8c4d2d2a3a246a0909e3c6973d4a4e3, type: 3}
+  m_Name: CivilizationUIMappers
+  m_EditorClassIdentifier: 
+--- !u!114 &5312939875329616776
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 140474721, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Civilization_Era1_Hallstatt
+  m_EditorClassIdentifier: 
+  Title: Hallstatt
+  Description: Among the first central European cultures to engage in trade, the
+    Hallstatt are expert metal artisans and have a rich funerary tradition.
+  Images:
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Small
+  - Value:
+      guid:
+        a: 1688819056
+        b: 1340634308
+        c: 230230686
+        d: 488500676
+    serializableKey: Medium
+  - Value:
+      guid:
+        a: 1688819056
+        b: 1340634308
+        c: 230230686
+        d: 488500676
+    serializableKey: Large
+  - Value:
+      guid:
+        a: -65877118
+        b: 1093501580
+        c: -1186761290
+        d: 89932271
+    serializableKey: Picto
+  - Value:
+      guid:
+        a: 1688819056
+        b: 1340634308
+        c: 230230686
+        d: 488500676
+    serializableKey: Tooltip
+  - Value:
+      guid:
+        a: 1688819056
+        b: 1340634308
+        c: 230230686
+        d: 488500676
+    serializableKey: FactionCard
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  Symbol: '[Civilization_Era1_HarappanCivilization]'
+  LeaderTitle: 
+  LeaderDescription: 
+  Quote: The gate to the next life is built from the ends of this one.
+  Adjective: Hallstatt
+  UIConstructibleCulture: Culture_Era1_Mesopotamian
+--- !u!114 &5324069193206608547
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 140474721, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Civilization_Era1_Akkadians
+  m_EditorClassIdentifier: 
+  Title: Akkadians
+  Description: Founders of history's first true empire, the Akkadians were expert
+    nationbuilders.
+  Images:
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Small
+  - Value:
+      guid:
+        a: 1996598075
+        b: 1268806279
+        c: 1667794066
+        d: -234397428
+    serializableKey: Medium
+  - Value:
+      guid:
+        a: 1996598075
+        b: 1268806279
+        c: 1667794066
+        d: -234397428
+    serializableKey: Large
+  - Value:
+      guid:
+        a: -1691077116
+        b: 1185251815
+        c: 2001452421
+        d: 2103196595
+    serializableKey: Picto
+  - Value:
+      guid:
+        a: 1996598075
+        b: 1268806279
+        c: 1667794066
+        d: -234397428
+    serializableKey: Tooltip
+  - Value:
+      guid:
+        a: 1996598075
+        b: 1268806279
+        c: 1667794066
+        d: -234397428
+    serializableKey: FactionCard
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  Symbol: '[Civilization_Era1_Assyria]'
+  LeaderTitle: 
+  LeaderDescription: 
+  Quote: To us all lands are given from the Upper to the Lower Sea.
+  Adjective: Akkadian
+  UIConstructibleCulture: Culture_Era1_Mesopotamian
+--- !u!114 &6213824685076987415
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 140474721, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Civilization_Era4_Florence
+  m_EditorClassIdentifier: 
+  Title: Florentines
+  Description: A center of the renaissance, artistic and scientific discoveries abound
+    in the workshops of Florence.
+  Images:
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Small
+  - Value:
+      guid:
+        a: 693927027
+        b: 1171808970
+        c: 55150482
+        d: 869691662
+    serializableKey: Medium
+  - Value:
+      guid:
+        a: 693927027
+        b: 1171808970
+        c: 55150482
+        d: 869691662
+    serializableKey: Large
+  - Value:
+      guid:
+        a: -830808242
+        b: 1161621837
+        c: 1963904659
+        d: -233504744
+    serializableKey: Picto
+  - Value:
+      guid:
+        a: 693927027
+        b: 1171808970
+        c: 55150482
+        d: 869691662
+    serializableKey: Tooltip
+  - Value:
+      guid:
+        a: 693927027
+        b: 1171808970
+        c: 55150482
+        d: 869691662
+    serializableKey: FactionCard
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  Symbol: '[Civilization_Era3_HolyRomanEmpire]'
+  LeaderTitle: 
+  LeaderDescription: 
+  Quote: The noblest pleasure is the joy of understanding.
+  Adjective: Florentine
+  UIConstructibleCulture: Culture_Era3_Romanesque
+--- !u!114 &7375325588347003237
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 140474721, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Civilization_Era2_Hopewell
+  m_EditorClassIdentifier: 
+  Title: Adena
+  Description: A cultural powerhouse for an entire continental watershed, the communities
+    of the Hopewell are the center of regional spiritual and political life.
+  Images:
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Small
+  - Value:
+      guid:
+        a: -782075415
+        b: 1242637540
+        c: 1110023051
+        d: -1872420225
+    serializableKey: Medium
+  - Value:
+      guid:
+        a: -782075415
+        b: 1242637540
+        c: 1110023051
+        d: -1872420225
+    serializableKey: Large
+  - Value:
+      guid:
+        a: -1691077116
+        b: 1185251815
+        c: 2001452421
+        d: 2103196595
+    serializableKey: Picto
+  - Value:
+      guid:
+        a: -782075415
+        b: 1242637540
+        c: 1110023051
+        d: -1872420225
+    serializableKey: Tooltip
+  - Value:
+      guid:
+        a: -782075415
+        b: 1242637540
+        c: 1110023051
+        d: -1872420225
+    serializableKey: FactionCard
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  Symbol: '[Civilization_Era1_Assyria]'
+  LeaderTitle: 
+  LeaderDescription: 
+  Quote: Peace is not attained, it is sustained.
+  Adjective: Adena
+  UIConstructibleCulture: Culture_Era1_Mesopotamian
+--- !u!114 &8570102523705653330
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 140474721, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Civilization_Era2_Numidians
+  m_EditorClassIdentifier: 
+  Title: Numidians
+  Description: Unrivalled horsemen, the Numidians rely on shrewd diplomacy and their
+    employment as mercenaries to maintain their independence from powerful neighbors.
+  Images:
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Small
+  - Value:
+      guid:
+        a: -627630140
+        b: 1221356780
+        c: 2094420924
+        d: -2107386913
+    serializableKey: Medium
+  - Value:
+      guid:
+        a: -627630140
+        b: 1221356780
+        c: 2094420924
+        d: -2107386913
+    serializableKey: Large
+  - Value:
+      guid:
+        a: -1130996896
+        b: 1267689198
+        c: 1727141297
+        d: 2026802482
+    serializableKey: Picto
+  - Value:
+      guid:
+        a: -627630140
+        b: 1221356780
+        c: 2094420924
+        d: -2107386913
+    serializableKey: Tooltip
+  - Value:
+      guid:
+        a: -627630140
+        b: 1221356780
+        c: 2094420924
+        d: -2107386913
+    serializableKey: FactionCard
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  Symbol: '[Civilization_Era3_MongolEmpire]'
+  LeaderTitle: 
+  LeaderDescription: 
+  Quote: Never tie a mule up in a horse's place.
+  Adjective: Numidian
+  UIConstructibleCulture: Culture_Era3_Romanesque

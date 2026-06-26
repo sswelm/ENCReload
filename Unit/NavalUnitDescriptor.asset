@@ -1,1133 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-9155921763341756558
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
-  m_Name: Effect_NavalUnit_Era3_Common_Galliot
-  m_EditorClassIdentifier: 
-  Effects:
-  - ApplyEffectOnSource: 0
-    Path:
-      PropertyToFollow: []
-      Validations: []
-      specificTargetType: 
-    PropertyEffects:
-    - Note: 
-      TargetProperty: LeaderPriority
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 4760000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: BaseStrength
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 42000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: StealthMax
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 4000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: StealthRegen
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 2000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: AttackRange
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 1000
-      PropertyLocalName: []
-  serializableCategory: 
-  startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
---- !u!114 &-8660880059782939770
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
-  m_Name: Effect_NavalUnit_Era6_Common_MissileSubmarines
-  m_EditorClassIdentifier: 
-  Effects:
-  - ApplyEffectOnSource: 0
-    Path:
-      PropertyToFollow: []
-      Validations: []
-      specificTargetType: 
-    PropertyEffects:
-    - Note: 
-      TargetProperty: LeaderPriority
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 7980000
-      PropertyLocalName: []
-    - Note: +4 Compaired to Nuclear Submarine
-      TargetProperty: BaseStrength
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 75000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: StealthMax
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 28000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: StealthRegen
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 7000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: StealthDetection
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 5000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: AttackRange
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 2000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: NavalSpeed
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 4000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: SpecialtyLevel
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 1000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: VisionRange
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 4000
-      PropertyLocalName: []
-  serializableCategory: 
-  startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
---- !u!114 &-8319911665825637879
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
-  m_Name: Effect_NavalUnit_Era5_Common_FleetSubmarines
-  m_EditorClassIdentifier: 
-  Effects:
-  - ApplyEffectOnSource: 0
-    Path:
-      PropertyToFollow: []
-      Validations: []
-      specificTargetType: 
-    PropertyEffects:
-    - Note: 
-      TargetProperty: LeaderPriority
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 7951000
-      PropertyLocalName: []
-    - Note: -2 Strength compaired to Uboat
-      TargetProperty: BaseStrength
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 58000
-      PropertyLocalName: []
-    - Note: similar to Uboat
-      TargetProperty: StealthMax
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 16000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: StealthRegen
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 4000
-      PropertyLocalName: []
-    - Note: +1 SteathDetection
-      TargetProperty: StealthDetection
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 2000
-      PropertyLocalName: []
-    - Note: -2 NavalSpeed
-      TargetProperty: NavalSpeed
-      ToTargetOperation: 1
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 2000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: SpecialtyLevel
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 1000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: VisionRange
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 2000
-      PropertyLocalName: []
-  serializableCategory: 
-  startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
---- !u!114 &-8298887252925639202
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
-  m_Name: Effect_NavalUnit_Era5_Common_MotorTorpedoBoats
-  m_EditorClassIdentifier: 
-  Effects:
-  - ApplyEffectOnSource: 0
-    Path:
-      PropertyToFollow: []
-      Validations: []
-      specificTargetType: 
-    PropertyEffects:
-    - Note: 
-      TargetProperty: LeaderPriority
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 6940000
-      PropertyLocalName: []
-    - Note: +7 strength compaired to Steam Torpedo Boat
-      TargetProperty: BaseStrength
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 61000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: StealthDetection
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 1000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: NavalSpeed
-      ToTargetOperation: 1
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 1000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: VisionRange
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 1000
-      PropertyLocalName: []
-  serializableCategory: 
-  startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
---- !u!114 &-8056609957924991451
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
-  m_Name: Effect_NavalUnit_Era6_Common_StealthCorvettes
-  m_EditorClassIdentifier: 
-  Effects:
-  - ApplyEffectOnSource: 0
-    Path:
-      PropertyToFollow: []
-      Validations: []
-      specificTargetType: 
-    PropertyEffects:
-    - Note: 
-      TargetProperty: LeaderPriority
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 7901000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: BaseStrength
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 72000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: StealthMax
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 16000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: StealthRegen
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 4000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: StealthDetection
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 1000
-      PropertyLocalName: []
-    - Note: +1 Range Compaired to Missile Boat
-      TargetProperty: AttackRange
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 4000
-      PropertyLocalName: []
-    - Note: + 1 Speed Compaired to Missile Boat
-      TargetProperty: NavalSpeed
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 3000
-      PropertyLocalName: []
-    - Note: +1 Range Compaired to Missile Boat
-      TargetProperty: VisionRange
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 3000
-      PropertyLocalName: []
-  serializableCategory: 
-  startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
---- !u!114 &-7997704796584131807
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
-  m_Name: Effect_NavalUnit_Era4_Common_Galleasses
-  m_EditorClassIdentifier: 
-  Effects:
-  - ApplyEffectOnSource: 0
-    Path:
-      PropertyToFollow: []
-      Validations: []
-      specificTargetType: 
-    PropertyEffects:
-    - Note: 
-      TargetProperty: LeaderPriority
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 6141000
-      PropertyLocalName: []
-    - Note: -5 strength compaired Galleon
-      TargetProperty: BaseStrength
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 44000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: AttackRange
-      ToTargetOperation: 1
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 1000
-      PropertyLocalName: []
-    - Note: -1 Compaired to Galleon
-      TargetProperty: NavalSpeed
-      ToTargetOperation: 1
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 1000
-      PropertyLocalName: []
-  serializableCategory: 
-  startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
---- !u!114 &-7995507667567014805
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
-  m_Name: Effect_NavalUnit_Era5_Common_Ironclads
-  m_EditorClassIdentifier: 
-  Effects:
-  - ApplyEffectOnSource: 0
-    Path:
-      PropertyToFollow: []
-      Validations: []
-      specificTargetType: 
-    PropertyEffects:
-    - Note: 
-      TargetProperty: LeaderPriority
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 7220000
-      PropertyLocalName: []
-    - Note: +1 compaired to Vanilla
-      TargetProperty: BaseStrength
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 60000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: VisionRange
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 2000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: AttackRange
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 2000
-      PropertyLocalName: []
-  serializableCategory: 
-  startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
---- !u!114 &-7704902121885111262
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
-  m_Name: Effect_NavalUnit_Era5_Common_ProtectedCruisers
-  m_EditorClassIdentifier: 
-  Effects:
-  - ApplyEffectOnSource: 0
-    Path:
-      PropertyToFollow: []
-      Validations: []
-      specificTargetType: 
-    PropertyEffects:
-    - Note: 
-      TargetProperty: LeaderPriority
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 6860000
-      PropertyLocalName: []
-    - Note: -2 Compaired to Ironclad
-      TargetProperty: BaseStrength
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 58000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: AttackRange
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 2000
-      PropertyLocalName: []
-  serializableCategory: 
-  startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
---- !u!114 &-7604622737579437191
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
-  m_Name: Effect_NavalUnit_Era5_Common_Dreadnoughts
-  m_EditorClassIdentifier: 
-  Effects:
-  - ApplyEffectOnSource: 0
-    Path:
-      PropertyToFollow: []
-      Validations: []
-      specificTargetType: 
-    PropertyEffects:
-    - Note: 
-      TargetProperty: LeaderPriority
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 8160000
-      PropertyLocalName: []
-    - Note: +5 compaired Ironclad
-      TargetProperty: BaseStrength
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 65000
-      PropertyLocalName: []
-    - Note: +1 compared to Ironclad
-      TargetProperty: AttackRange
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 3000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: StealthDetection
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 1000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: NavalSpeed
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 1000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: VisionRange
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 2000
-      PropertyLocalName: []
-  serializableCategory: 
-  startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
---- !u!114 &-7511493265282494602
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
-  m_Name: Effect_NavalUnit_Era6_Common_NuclearSubmarines
-  m_EditorClassIdentifier: 
-  Effects:
-  - ApplyEffectOnSource: 0
-    Path:
-      PropertyToFollow: []
-      Validations: []
-      specificTargetType: 
-    PropertyEffects:
-    - Note: 
-      TargetProperty: LeaderPriority
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 7980000
-      PropertyLocalName: []
-    - Note: Same as Naval Update
-      TargetProperty: BaseStrength
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 71000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: StealthMax
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 24000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: StealthRegen
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 6000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: StealthDetection
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 4000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: AttackRange
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 1000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: NavalSpeed
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 1000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: SpecialtyLevel
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 1000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: VisionRange
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 5000
-      PropertyLocalName: []
-  serializableCategory: 
-  startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
---- !u!114 &-7062447915025171905
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
-  m_Name: Effect_NavalUnit_Era6_Common_MissileCruisers
-  m_EditorClassIdentifier: 
-  Effects:
-  - ApplyEffectOnSource: 0
-    Path:
-      PropertyToFollow: []
-      Validations: []
-      specificTargetType: 
-    PropertyEffects:
-    - Note: 
-      TargetProperty: LeaderPriority
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 8380000
-      PropertyLocalName: []
-    - Note: +8 compaired to Battleship
-      TargetProperty: BaseStrength
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 77000
-      PropertyLocalName: []
-    - Note: +1 Compared to Battleship
-      TargetProperty: NavalSpeed
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 3000
-      PropertyLocalName: []
-    - Note: +4 Compared to Battleship
-      TargetProperty: AttackRange
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 7000
-      PropertyLocalName: []
-    - Note: +1 Compared to Battleship
-      TargetProperty: VisionRange
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 3000
-      PropertyLocalName: []
-    - Note: +1 Compared to Battleship
-      TargetProperty: StealthDetection
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 2000
-      PropertyLocalName: []
-  serializableCategory: 
-  startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
---- !u!114 &-6875729434033881975
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
-  m_Name: Effect_NavalUnit_Era1_Common_Biremes
-  m_EditorClassIdentifier: 
-  Effects:
-  - ApplyEffectOnSource: 0
-    Path:
-      PropertyToFollow: []
-      Validations: []
-      specificTargetType: 
-    PropertyEffects:
-    - Note: 
-      TargetProperty: LeaderPriority
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 2900000
-      PropertyLocalName: []
-    - Note: +6 strength
-      TargetProperty: BaseStrength
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 28000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: NavalSpeed
-      ToTargetOperation: 1
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 2000
-      PropertyLocalName: []
-  serializableCategory: 
-  startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
---- !u!114 &-6840489470494669729
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
-  m_Name: Effect_NavalUnit_Era6_Common_Battleships
-  m_EditorClassIdentifier: 
-  Effects:
-  - ApplyEffectOnSource: 0
-    Path:
-      PropertyToFollow: []
-      Validations: []
-      specificTargetType: 
-    PropertyEffects:
-    - Note: 
-      TargetProperty: LeaderPriority
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 8460000
-      PropertyLocalName: []
-    - Note: +1 Compaired to Naval Update
-      TargetProperty: BaseStrength
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 70000
-      PropertyLocalName: []
-    - Note: +1 compared to Dreadnought
-      TargetProperty: NavalSpeed
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 2000
-      PropertyLocalName: []
-    - Note: +1 compared to Dreadnought
-      TargetProperty: AttackRange
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 4000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: StealthDetection
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 1000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: VisionRange
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 2000
-      PropertyLocalName: []
-  serializableCategory: 
-  startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
---- !u!114 &-6021981988059902692
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
-  m_Name: Effect_NavalUnit_Era4_Common_Galleons
-  m_EditorClassIdentifier: 
-  Effects:
-  - ApplyEffectOnSource: 0
-    Path:
-      PropertyToFollow: []
-      Validations: []
-      specificTargetType: 
-    PropertyEffects:
-    - Note: 
-      TargetProperty: LeaderPriority
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 6200000
-      PropertyLocalName: []
-    - Note: -5 compaired to Man o War
-      TargetProperty: BaseStrength
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 50000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: NavalSpeed
-      ToTargetOperation: 1
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 1000
-      PropertyLocalName: []
-  serializableCategory: 
-  startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
---- !u!114 &-5913754736700712755
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
-  m_Name: Effect_NavalUnit_Era6_Common_StealthCruisers
-  m_EditorClassIdentifier: 
-  Effects:
-  - ApplyEffectOnSource: 0
-    Path:
-      PropertyToFollow: []
-      Validations: []
-      specificTargetType: 
-    PropertyEffects:
-    - Note: 
-      TargetProperty: LeaderPriority
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 9000000
-      PropertyLocalName: []
-    - Note: +3 compaired to Missile Cruiser
-      TargetProperty: BaseStrength
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 80000
-      PropertyLocalName: []
-    - Note: +1 Compared to Missile Destroyer
-      TargetProperty: NavalSpeed
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 5000
-      PropertyLocalName: []
-    - Note: similar to Missile Cruiser
-      TargetProperty: AttackRange
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 6000
-      PropertyLocalName: []
-    - Note: +1 compaired to Missile Cruiser
-      TargetProperty: VisionRange
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 4000
-      PropertyLocalName: []
-    - Note: +1 compaired to Missile Destroyer
-      TargetProperty: StealthDetection
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 4000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: StealthMax
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 16000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: StealthRegen
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 4000
-      PropertyLocalName: []
-  serializableCategory: 
-  startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
---- !u!114 &-5857150241932408832
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
-  m_Name: Effect_NavalUnit_Era6_Common_Frigate
-  m_EditorClassIdentifier: 
-  Effects:
-  - ApplyEffectOnSource: 0
-    Path:
-      PropertyToFollow: []
-      Validations: []
-      specificTargetType: 
-    PropertyEffects:
-    - Note: 
-      TargetProperty: LeaderPriority
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 8280000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: BaseStrength
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 74000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: NavalSpeed
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 4000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: StealthDetection
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 3000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: AttackRange
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 5000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: VisionRange
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 2000
-      PropertyLocalName: []
-  serializableCategory: 
-  startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
---- !u!114 &-5693326736506785313
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
-  m_Name: Effect_NavalUnit_Era6_Common_DieselSubmarine
-  m_EditorClassIdentifier: 
-  Effects:
-  - ApplyEffectOnSource: 0
-    Path:
-      PropertyToFollow: []
-      Validations: []
-      specificTargetType: 
-    PropertyEffects:
-    - Note: 
-      TargetProperty: LeaderPriority
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 8100000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: BaseStrength
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 64000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: StealthMax
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 20000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: StealthRegen
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 5000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: StealthDetection
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 3000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: SpecialtyLevel
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 1000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: AttackRange
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 1000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: VisionRange
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 4000
-      PropertyLocalName: []
-  serializableCategory: 
-  startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
---- !u!114 &-5571024399669413854
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
-  m_Name: Effect_NavalUnit_Era5_Common_CruiserSubmarines
-  m_EditorClassIdentifier: 
-  Effects:
-  - ApplyEffectOnSource: 0
-    Path:
-      PropertyToFollow: []
-      Validations: []
-      specificTargetType: 
-    PropertyEffects:
-    - Note: 
-      TargetProperty: LeaderPriority
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 6951000
-      PropertyLocalName: []
-    - Note: -1 Compaired to Fleet Submaine
-      TargetProperty: BaseStrength
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 57000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: StealthMax
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 12000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: StealthRegen
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 3000
-      PropertyLocalName: []
-    - Note: +1 SteathDetection
-      TargetProperty: StealthDetection
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 2000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: AttackRange
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 1000
-      PropertyLocalName: []
-  serializableCategory: 
-  startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
---- !u!114 &-5537014293246408527
+--- !u!114 &-8629019169564503445
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1161,20 +34,6 @@ MonoBehaviour:
       - RawValue: 47000
       PropertyLocalName: []
     - Note: 
-      TargetProperty: StealthMax
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 4000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: StealthRegen
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 2000
-      PropertyLocalName: []
-    - Note: 
       TargetProperty: AttackRange
       ToTargetOperation: 1
       RpnOperationStack: 
@@ -1183,7 +42,7 @@ MonoBehaviour:
       PropertyLocalName: []
   serializableCategory: 
   startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
---- !u!114 &-5212313919509976088
+--- !u!114 &-7480865608585691389
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1193,7 +52,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
-  m_Name: Effect_NavalUnit_Era6_Common_StealthFrigates
+  m_Name: Effect_NavalUnit_Era5_Common_Ironclads
   m_EditorClassIdentifier: 
   Effects:
   - ApplyEffectOnSource: 0
@@ -1207,277 +66,32 @@ MonoBehaviour:
       ToTargetOperation: 0
       RpnOperationStack: 
       ConstantStack:
-      - RawValue: 8680000
+      - RawValue: 7220000
       PropertyLocalName: []
-    - Note: +3 compaired to Missile Frigate
+    - Note: +1 compaired to Vanilla
       TargetProperty: BaseStrength
       ToTargetOperation: 0
       RpnOperationStack: 
       ConstantStack:
-      - RawValue: 76000
-      PropertyLocalName: []
-    - Note: +1 compaired to Missile Frigate
-      TargetProperty: NavalSpeed
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 5000
-      PropertyLocalName: []
-    - Note: +1 compared to Missile Frigate
-      TargetProperty: StealthDetection
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 3000
-      PropertyLocalName: []
-    - Note: +1 compared to Missile Frigate
-      TargetProperty: AttackRange
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 5000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: StealthMax
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 12000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: StealthRegen
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 3000
-      PropertyLocalName: []
-  serializableCategory: 
-  startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
---- !u!114 &-4911893323019611989
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
-  m_Name: Effect_NavalUnit_Era4_JoseonKorea_TurtleShips
-  m_EditorClassIdentifier: 
-  Effects:
-  - ApplyEffectOnSource: 0
-    Path:
-      PropertyToFollow: []
-      Validations: []
-      specificTargetType: 
-    PropertyEffects:
-    - Note: 
-      TargetProperty: LeaderPriority
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 6141000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: BaseStrength
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 46000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: NavalSpeed
-      ToTargetOperation: 1
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 1000
-      PropertyLocalName: []
-  serializableCategory: 
-  startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
---- !u!114 &-3777341267098938066
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
-  m_Name: Effect_NavalUnit_Era2_Common_Quadriremes
-  m_EditorClassIdentifier: 
-  Effects:
-  - ApplyEffectOnSource: 0
-    Path:
-      PropertyToFollow: []
-      Validations: []
-      specificTargetType: 
-    PropertyEffects:
-    - Note: 
-      TargetProperty: LeaderPriority
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 3960000
-      PropertyLocalName: []
-    - Note: +4 +4
-      TargetProperty: BaseStrength
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 36000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: NavalSpeed
-      ToTargetOperation: 1
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 1000
-      PropertyLocalName: []
-  serializableCategory: 
-  startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
---- !u!114 &-3760830111970430705
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
-  m_Name: Effect_NavalUnit_Era4_Common_Hellburners
-  m_EditorClassIdentifier: 
-  Effects:
-  - ApplyEffectOnSource: 0
-    Path:
-      PropertyToFollow: []
-      Validations: []
-      specificTargetType: 
-    PropertyEffects:
-    - Note: 
-      TargetProperty: LeaderPriority
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 5560000
-      PropertyLocalName: []
-    - Note: -5 compaired to Hand Cranked Submarine
-      TargetProperty: BaseStrength
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 43000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: AttackRange
-      ToTargetOperation: 1
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 2000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: NavalSpeed
-      ToTargetOperation: 1
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 4000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: StealthMax
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 4000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: StealthRegen
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 1000
+      - RawValue: 61000
       PropertyLocalName: []
     - Note: 
       TargetProperty: VisionRange
-      ToTargetOperation: 1
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 1000
-      PropertyLocalName: []
-  serializableCategory: 
-  startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
---- !u!114 &-3575241588991331262
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
-  m_Name: Effect_NavalUnit_Era5_Common_HandCrankedSubmarines
-  m_EditorClassIdentifier: 
-  Effects:
-  - ApplyEffectOnSource: 0
-    Path:
-      PropertyToFollow: []
-      Validations: []
-      specificTargetType: 
-    PropertyEffects:
-    - Note: 
-      TargetProperty: LeaderPriority
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 6551000
-      PropertyLocalName: []
-    - Note: -5 Strength compaired to Steam Submarine
-      TargetProperty: BaseStrength
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 48000
-      PropertyLocalName: []
-    - Note: -4 compaired to Uboat
-      TargetProperty: StealthMax
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 8000
-      PropertyLocalName: []
-    - Note: -1 compaired to Uboat
-      TargetProperty: StealthRegen
       ToTargetOperation: 0
       RpnOperationStack: 
       ConstantStack:
       - RawValue: 2000
       PropertyLocalName: []
-    - Note: -1 compaired to Steam Submarine
-      TargetProperty: NavalSpeed
-      ToTargetOperation: 1
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 4000
-      PropertyLocalName: []
-    - Note: -1 Compaired to Steam Submarine
+    - Note: 
       TargetProperty: AttackRange
-      ToTargetOperation: 1
+      ToTargetOperation: 0
       RpnOperationStack: 
       ConstantStack:
       - RawValue: 2000
       PropertyLocalName: []
-    - Note: 
-      TargetProperty: VisionRange
-      ToTargetOperation: 1
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 1000
-      PropertyLocalName: []
   serializableCategory: 
   startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
---- !u!114 &-3375160064035757271
+--- !u!114 &-7044995463266271505
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1547,7 +161,77 @@ MonoBehaviour:
       PropertyLocalName: []
   serializableCategory: 
   startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
---- !u!114 &-3353194843801696912
+--- !u!114 &-6650211784716495538
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
+  m_Name: Effect_NavalUnit_Era4_Common_Hellburners
+  m_EditorClassIdentifier: 
+  Effects:
+  - ApplyEffectOnSource: 0
+    Path:
+      PropertyToFollow: []
+      Validations: []
+      specificTargetType: 
+    PropertyEffects:
+    - Note: 
+      TargetProperty: LeaderPriority
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 5560000
+      PropertyLocalName: []
+    - Note: -5 compaired to Hand Cranked Submarine
+      TargetProperty: BaseStrength
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 43000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: AttackRange
+      ToTargetOperation: 1
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 2000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: NavalSpeed
+      ToTargetOperation: 1
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 4000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: StealthMax
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 4000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: StealthRegen
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 1000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: VisionRange
+      ToTargetOperation: 1
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 1000
+      PropertyLocalName: []
+  serializableCategory: 
+  startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
+--- !u!114 &-6608933378388814061
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1596,7 +280,7 @@ MonoBehaviour:
       PropertyLocalName: []
   serializableCategory: 
   startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
---- !u!114 &-2620651017453723850
+--- !u!114 &-6508877632819768299
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1606,7 +290,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
-  m_Name: Effect_NavalUnit_Era6_Common_LightCruisers
+  m_Name: Effect_NavalUnit_Era6_Common_Battleships
   m_EditorClassIdentifier: 
   Effects:
   - ApplyEffectOnSource: 0
@@ -1620,72 +304,79 @@ MonoBehaviour:
       ToTargetOperation: 0
       RpnOperationStack: 
       ConstantStack:
-      - RawValue: 7460000
+      - RawValue: 8460000
       PropertyLocalName: []
-    - Note: -2 Compaired to Dreadnought
+    - Note: +1 Compaired to Naval Update
       TargetProperty: BaseStrength
       ToTargetOperation: 0
       RpnOperationStack: 
       ConstantStack:
-      - RawValue: 63000
+      - RawValue: 71000
       PropertyLocalName: []
-    - Note: 
-      TargetProperty: AttackRange
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 3000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: NavalSpeed
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 1000
-      PropertyLocalName: []
-  serializableCategory: 
-  startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
---- !u!114 &-1375451714557511213
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
-  m_Name: Effect_NavalUnit_Era6_Common_MissileBoat
-  m_EditorClassIdentifier: 
-  Effects:
-  - ApplyEffectOnSource: 0
-    Path:
-      PropertyToFollow: []
-      Validations: []
-      specificTargetType: 
-    PropertyEffects:
-    - Note: 
-      TargetProperty: LeaderPriority
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 7901000
-      PropertyLocalName: []
-    - Note: +7 compaired to Motor Torpedo Boat
-      TargetProperty: BaseStrength
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 68000
-      PropertyLocalName: []
-    - Note: +1 Speed compaired to Motor torpedo Boat
+    - Note: +1 compared to Dreadnought
       TargetProperty: NavalSpeed
       ToTargetOperation: 0
       RpnOperationStack: 
       ConstantStack:
       - RawValue: 2000
       PropertyLocalName: []
-    - Note: +3 Range compaired to Motor Torpedo Boat
+    - Note: +1 compared to Dreadnought
+      TargetProperty: AttackRange
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 4000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: StealthDetection
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 1000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: VisionRange
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 2000
+      PropertyLocalName: []
+  serializableCategory: 
+  startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
+--- !u!114 &-6154844956106365048
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
+  m_Name: Effect_NavalUnit_Era5_Common_Dreadnoughts
+  m_EditorClassIdentifier: 
+  Effects:
+  - ApplyEffectOnSource: 0
+    Path:
+      PropertyToFollow: []
+      Validations: []
+      specificTargetType: 
+    PropertyEffects:
+    - Note: 
+      TargetProperty: LeaderPriority
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 8160000
+      PropertyLocalName: []
+    - Note: +5 compaired Ironclad
+      TargetProperty: BaseStrength
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 66000
+      PropertyLocalName: []
+    - Note: +1 compared to Ironclad
       TargetProperty: AttackRange
       ToTargetOperation: 0
       RpnOperationStack: 
@@ -1700,15 +391,22 @@ MonoBehaviour:
       - RawValue: 1000
       PropertyLocalName: []
     - Note: 
-      TargetProperty: VisionRange
+      TargetProperty: NavalSpeed
       ToTargetOperation: 0
       RpnOperationStack: 
       ConstantStack:
       - RawValue: 1000
       PropertyLocalName: []
+    - Note: 
+      TargetProperty: VisionRange
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 2000
+      PropertyLocalName: []
   serializableCategory: 
   startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
---- !u!114 &-650861400644457762
+--- !u!114 &-5987943397669390710
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1718,7 +416,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
-  m_Name: Effect_NavalUnit_Era4_Common_SailFrigates
+  m_Name: Effect_NavalUnit_Era5_Common_SteamSubmarines
   m_EditorClassIdentifier: 
   Effects:
   - ApplyEffectOnSource: 0
@@ -1732,9 +430,198 @@ MonoBehaviour:
       ToTargetOperation: 0
       RpnOperationStack: 
       ConstantStack:
-      - RawValue: 6100000
+      - RawValue: 6551000
+      PropertyLocalName: []
+    - Note: -5 Strength compaired to Fleet Submarine
+      TargetProperty: BaseStrength
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 54000
+      PropertyLocalName: []
+    - Note: -4 compaired to Uboat
+      TargetProperty: StealthMax
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 12000
+      PropertyLocalName: []
+    - Note: -1 compaired to Uboat
+      TargetProperty: StealthRegen
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 3000
+      PropertyLocalName: []
+    - Note: -1 compaired to Uboat
+      TargetProperty: StealthDetection
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 1000
+      PropertyLocalName: []
+    - Note: -1 compaired to Uboat
+      TargetProperty: NavalSpeed
+      ToTargetOperation: 1
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 3000
       PropertyLocalName: []
     - Note: 
+      TargetProperty: AttackRange
+      ToTargetOperation: 1
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 1000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: VisionRange
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 1000
+      PropertyLocalName: []
+  serializableCategory: 
+  startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
+--- !u!114 &-5958361817079071178
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
+  m_Name: Effect_NavalUnit_Era2_Common_Harpax
+  m_EditorClassIdentifier: 
+  Effects:
+  - ApplyEffectOnSource: 0
+    Path:
+      PropertyToFollow: []
+      Validations: []
+      specificTargetType: 
+    PropertyEffects:
+    - Note: 
+      TargetProperty: LeaderPriority
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 3040000
+      PropertyLocalName: []
+    - Note: +1
+      TargetProperty: BaseStrength
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 34000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: AttackRange
+      ToTargetOperation: 1
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 1000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: NavalSpeed
+      ToTargetOperation: 1
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 1000
+      PropertyLocalName: []
+  serializableCategory: 
+  startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
+--- !u!114 &-5848767139209283566
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
+  m_Name: Effect_NavalUnit_Era5_Common_TorpedoBoatDestroyers
+  m_EditorClassIdentifier: 
+  Effects:
+  - ApplyEffectOnSource: 0
+    Path:
+      PropertyToFollow: []
+      Validations: []
+      specificTargetType: 
+    PropertyEffects:
+    - Note: 
+      TargetProperty: LeaderPriority
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 7940000
+      PropertyLocalName: []
+    - Note: -5 compaired to Destroyer
+      TargetProperty: BaseStrength
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 61000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: NavalSpeed
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 3000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: StealthDetection
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 2000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: VisionRange
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 1000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: AttackRange
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 1000
+      PropertyLocalName: []
+  serializableCategory: 
+  startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
+--- !u!114 &-5211040845114123122
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
+  m_Name: Effect_NavalUnit_Era4_Common_Galleons
+  m_EditorClassIdentifier: 
+  Effects:
+  - ApplyEffectOnSource: 0
+    Path:
+      PropertyToFollow: []
+      Validations: []
+      specificTargetType: 
+    PropertyEffects:
+    - Note: 
+      TargetProperty: LeaderPriority
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 6200000
+      PropertyLocalName: []
+    - Note: -5 compaired to Man o War
       TargetProperty: BaseStrength
       ToTargetOperation: 0
       RpnOperationStack: 
@@ -1743,257 +630,14 @@ MonoBehaviour:
       PropertyLocalName: []
     - Note: 
       TargetProperty: NavalSpeed
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 1000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: StealthDetection
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 1000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: VisionRange
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 1000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: VisionHeight
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 1000
-      PropertyLocalName: []
-  serializableCategory: 
-  startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
---- !u!114 &11400000
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1010444951, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
-  m_Name: NavalUnitDescriptor
-  m_EditorClassIdentifier: 
---- !u!114 &39460986828158083
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
-  m_Name: Effect_NavalUnit_Era6_Common_StealthAircraftCarriers
-  m_EditorClassIdentifier: 
-  Effects:
-  - ApplyEffectOnSource: 0
-    Path:
-      PropertyToFollow: []
-      Validations: []
-      specificTargetType: 
-    PropertyEffects:
-    - Note: 
-      TargetProperty: LeaderPriority
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 9900000
-      PropertyLocalName: []
-    - Note: +5 Compaired to Aircraft Carrier
-      TargetProperty: BaseStrength
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 78000
-      PropertyLocalName: []
-    - Note: +1 Same to Nuclear Aircraft Carrier
-      TargetProperty: NavalSpeed
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 6000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: VisionRange
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 4000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: VisionHeight
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 4000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: StealthDetection
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 3000
-      PropertyLocalName: []
-    - Note: +1  Compaired to Nuclear Aircraft Carrier
-      TargetProperty: AttackRange
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 6000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: StealthMax
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 8000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: StealthRegen
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 2000
-      PropertyLocalName: []
-  serializableCategory: 
-  startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
---- !u!114 &41124072257344383
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
-  m_Name: Effect_NavalUnit_Era2_Common_Lembos
-  m_EditorClassIdentifier: 
-  Effects:
-  - ApplyEffectOnSource: 0
-    Path:
-      PropertyToFollow: []
-      Validations: []
-      specificTargetType: 
-    PropertyEffects:
-    - Note: 
-      TargetProperty: LeaderPriority
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 3000000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: BaseStrength
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 32000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: NavalSpeed
       ToTargetOperation: 1
       RpnOperationStack: 
       ConstantStack:
-      - RawValue: 4000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: AttackRange
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
       - RawValue: 1000
       PropertyLocalName: []
   serializableCategory: 
   startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
---- !u!114 &44123257017955564
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
-  m_Name: Effect_NavalUnit_Era5_Germany_UBoats
-  m_EditorClassIdentifier: 
-  Effects:
-  - ApplyEffectOnSource: 0
-    Path:
-      PropertyToFollow: []
-      Validations: []
-      specificTargetType: 
-    PropertyEffects:
-    - Note: 
-      TargetProperty: LeaderPriority
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 7951000
-      PropertyLocalName: []
-    - Note: -6 Strength compaired to Diesel Submarine
-      TargetProperty: BaseStrength
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 60000
-      PropertyLocalName: []
-    - Note: +2 StealthMax
-      TargetProperty: StealthMax
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 16000
-      PropertyLocalName: []
-    - Note: +1 SteathRegen
-      TargetProperty: StealthRegen
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 4000
-      PropertyLocalName: []
-    - Note: +1 SteathDetection compaired to Vanilla
-      TargetProperty: StealthDetection
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 2000
-      PropertyLocalName: []
-    - Note: -2 NavalSpeed compaired to Vanilla
-      TargetProperty: NavalSpeed
-      ToTargetOperation: 1
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 2000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: SpecialtyLevel
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 1000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: VisionRange
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 2000
-      PropertyLocalName: []
-  serializableCategory: 
-  startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
---- !u!114 &184689648376985471
+--- !u!114 &-5166421408248341810
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2070,7 +714,7 @@ MonoBehaviour:
       PropertyLocalName: []
   serializableCategory: 
   startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
---- !u!114 &305928492758983573
+--- !u!114 &-5079379427628384314
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2080,224 +724,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
-  m_Name: Effect_NavalUnit_Era5_Common_TorpedoBoats
-  m_EditorClassIdentifier: 
-  Effects:
-  - ApplyEffectOnSource: 0
-    Path:
-      PropertyToFollow: []
-      Validations: []
-      specificTargetType: 
-    PropertyEffects:
-    - Note: 
-      TargetProperty: LeaderPriority
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 7840000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: BaseStrength
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 54000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: AttackRange
-      ToTargetOperation: 1
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 1000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: NavalSpeed
-      ToTargetOperation: 1
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 2000
-      PropertyLocalName: []
-  serializableCategory: 
-  startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
---- !u!114 &588164081433163639
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
-  m_Name: Effect_NavalUnit_Era6_Common_AircraftCarriers
-  m_EditorClassIdentifier: 
-  Effects:
-  - ApplyEffectOnSource: 0
-    Path:
-      PropertyToFollow: []
-      Validations: []
-      specificTargetType: 
-    PropertyEffects:
-    - Note: 
-      TargetProperty: LeaderPriority
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 7660000
-      PropertyLocalName: []
-    - Note: -2 Compaired to Naval Update
-      TargetProperty: BaseStrength
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 67000
-      PropertyLocalName: []
-    - Note: Same as Fast Battleship
-      TargetProperty: NavalSpeed
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 4000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: VisionRange
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 2000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: VisionHeight
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 2000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: StealthDetection
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 1000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: AttackRange
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 2000
-      PropertyLocalName: []
-  serializableCategory: 
-  startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
---- !u!114 &862118067476417203
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
-  m_Name: Effect_NavalUnit_Era4_Common_BombKetch
-  m_EditorClassIdentifier: 
-  Effects:
-  - ApplyEffectOnSource: 0
-    Path:
-      PropertyToFollow: []
-      Validations: []
-      specificTargetType: 
-    PropertyEffects:
-    - Note: 
-      TargetProperty: LeaderPriority
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 5660000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: BaseStrength
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 44000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: AttackRange
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 2000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: VisionRange
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 1000
-      PropertyLocalName: []
-  serializableCategory: 
-  startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
---- !u!114 &1824309379939324122
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
-  m_Name: Effect_NavalUnit_Era2_Common_Harpax
-  m_EditorClassIdentifier: 
-  Effects:
-  - ApplyEffectOnSource: 0
-    Path:
-      PropertyToFollow: []
-      Validations: []
-      specificTargetType: 
-    PropertyEffects:
-    - Note: 
-      TargetProperty: LeaderPriority
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 3040000
-      PropertyLocalName: []
-    - Note: +1
-      TargetProperty: BaseStrength
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 34000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: AttackRange
-      ToTargetOperation: 1
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 1000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: NavalSpeed
-      ToTargetOperation: 1
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 1000
-      PropertyLocalName: []
-  serializableCategory: 
-  startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
---- !u!114 &2266928136756467700
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
-  m_Name: Effect_NavalUnit_Era6_Common_Destroyer
+  m_Name: Effect_NavalUnit_Era6_Common_Frigate
   m_EditorClassIdentifier: 
   Effects:
   - ApplyEffectOnSource: 0
@@ -2318,7 +745,7 @@ MonoBehaviour:
       ToTargetOperation: 0
       RpnOperationStack: 
       ConstantStack:
-      - RawValue: 66000
+      - RawValue: 74000
       PropertyLocalName: []
     - Note: 
       TargetProperty: NavalSpeed
@@ -2339,123 +766,18 @@ MonoBehaviour:
       ToTargetOperation: 0
       RpnOperationStack: 
       ConstantStack:
-      - RawValue: 1000
+      - RawValue: 5000
       PropertyLocalName: []
     - Note: 
       TargetProperty: VisionRange
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 1000
-      PropertyLocalName: []
-  serializableCategory: 
-  startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
---- !u!114 &2368277689012301840
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
-  m_Name: Effect_NavalUnit_Era4_Common_MenOfWar
-  m_EditorClassIdentifier: 
-  Effects:
-  - ApplyEffectOnSource: 0
-    Path:
-      PropertyToFollow: []
-      Validations: []
-      specificTargetType: 
-    PropertyEffects:
-    - Note: 
-      TargetProperty: LeaderPriority
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 6980000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: BaseStrength
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 55000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: NavalSpeed
-      ToTargetOperation: 1
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 1000
-      PropertyLocalName: []
-  serializableCategory: 
-  startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
---- !u!114 &2885639249706228943
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
-  m_Name: Effect_NavalUnit_Era5_Common_SteamFrigates
-  m_EditorClassIdentifier: 
-  Effects:
-  - ApplyEffectOnSource: 0
-    Path:
-      PropertyToFollow: []
-      Validations: []
-      specificTargetType: 
-    PropertyEffects:
-    - Note: 
-      TargetProperty: LeaderPriority
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 7120000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: BaseStrength
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 55000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: AttackRange
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 1000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: StealthDetection
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 1000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: NavalSpeed
       ToTargetOperation: 0
       RpnOperationStack: 
       ConstantStack:
       - RawValue: 2000
       PropertyLocalName: []
-    - Note: 
-      TargetProperty: VisionHeight
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 1000
-      PropertyLocalName: []
   serializableCategory: 
   startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
---- !u!114 &3138842143837854536
+--- !u!114 &-4445555642886195955
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2465,7 +787,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
-  m_Name: Effect_NavalUnit_Era5_Common_SteamSubmarines
+  m_Name: Effect_NavalUnit_Era6_Common_StealthCruisers
   m_EditorClassIdentifier: 
   Effects:
   - ApplyEffectOnSource: 0
@@ -2479,60 +801,60 @@ MonoBehaviour:
       ToTargetOperation: 0
       RpnOperationStack: 
       ConstantStack:
-      - RawValue: 6551000
+      - RawValue: 9000000
       PropertyLocalName: []
-    - Note: -5 Strength compaired to Fleet Submarine
+    - Note: +3 compaired to Missile Cruiser
       TargetProperty: BaseStrength
       ToTargetOperation: 0
       RpnOperationStack: 
       ConstantStack:
-      - RawValue: 53000
+      - RawValue: 80000
       PropertyLocalName: []
-    - Note: -4 compaired to Uboat
-      TargetProperty: StealthMax
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 12000
-      PropertyLocalName: []
-    - Note: -1 compaired to Uboat
-      TargetProperty: StealthRegen
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 3000
-      PropertyLocalName: []
-    - Note: -1 compaired to Uboat
-      TargetProperty: StealthDetection
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 1000
-      PropertyLocalName: []
-    - Note: -1 compaired to Uboat
+    - Note: +1 Compared to Missile Destroyer
       TargetProperty: NavalSpeed
-      ToTargetOperation: 1
+      ToTargetOperation: 0
       RpnOperationStack: 
       ConstantStack:
-      - RawValue: 3000
+      - RawValue: 5000
       PropertyLocalName: []
-    - Note: 
+    - Note: similar to Missile Cruiser
       TargetProperty: AttackRange
-      ToTargetOperation: 1
+      ToTargetOperation: 0
       RpnOperationStack: 
       ConstantStack:
-      - RawValue: 1000
+      - RawValue: 6000
       PropertyLocalName: []
-    - Note: 
+    - Note: +1 compaired to Missile Cruiser
       TargetProperty: VisionRange
       ToTargetOperation: 0
       RpnOperationStack: 
       ConstantStack:
-      - RawValue: 1000
+      - RawValue: 4000
+      PropertyLocalName: []
+    - Note: +1 compaired to Missile Destroyer
+      TargetProperty: StealthDetection
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 4000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: StealthMax
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 16000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: StealthRegen
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 4000
       PropertyLocalName: []
   serializableCategory: 
   startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
---- !u!114 &3300030891496303149
+--- !u!114 &-3957187260187560281
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2574,7 +896,7 @@ MonoBehaviour:
       PropertyLocalName: []
   serializableCategory: 
   startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
---- !u!114 &3490412034971680823
+--- !u!114 &-3836169362706506029
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2584,7 +906,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
-  m_Name: Effect_NavalUnit_Era5_Common_SteamGunboat
+  m_Name: Effect_NavalUnit_Era2_Common_Quadriremes
   m_EditorClassIdentifier: 
   Effects:
   - ApplyEffectOnSource: 0
@@ -2598,14 +920,56 @@ MonoBehaviour:
       ToTargetOperation: 0
       RpnOperationStack: 
       ConstantStack:
-      - RawValue: 6660000
+      - RawValue: 3960000
       PropertyLocalName: []
-    - Note: '- 10 Compaied to Protected Cruiser'
+    - Note: +4 +4
       TargetProperty: BaseStrength
       ToTargetOperation: 0
       RpnOperationStack: 
       ConstantStack:
-      - RawValue: 48000
+      - RawValue: 36000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: NavalSpeed
+      ToTargetOperation: 1
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 1000
+      PropertyLocalName: []
+  serializableCategory: 
+  startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
+--- !u!114 &-3488548130580399208
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
+  m_Name: Effect_NavalUnit_Era5_Common_ProtectedCruisers
+  m_EditorClassIdentifier: 
+  Effects:
+  - ApplyEffectOnSource: 0
+    Path:
+      PropertyToFollow: []
+      Validations: []
+      specificTargetType: 
+    PropertyEffects:
+    - Note: 
+      TargetProperty: LeaderPriority
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 6860000
+      PropertyLocalName: []
+    - Note: -2 Compaired to Ironclad
+      TargetProperty: BaseStrength
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 59000
       PropertyLocalName: []
     - Note: 
       TargetProperty: AttackRange
@@ -2614,8 +978,64 @@ MonoBehaviour:
       ConstantStack:
       - RawValue: 2000
       PropertyLocalName: []
+  serializableCategory: 
+  startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
+--- !u!114 &-2723765121595849985
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
+  m_Name: Effect_NavalUnit_Era5_Common_HandCrankedSubmarines
+  m_EditorClassIdentifier: 
+  Effects:
+  - ApplyEffectOnSource: 0
+    Path:
+      PropertyToFollow: []
+      Validations: []
+      specificTargetType: 
+    PropertyEffects:
     - Note: 
+      TargetProperty: LeaderPriority
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 6551000
+      PropertyLocalName: []
+    - Note: -5 Strength compaired to Steam Submarine
+      TargetProperty: BaseStrength
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 49000
+      PropertyLocalName: []
+    - Note: -4 compaired to Uboat
+      TargetProperty: StealthMax
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 8000
+      PropertyLocalName: []
+    - Note: -1 compaired to Uboat
+      TargetProperty: StealthRegen
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 2000
+      PropertyLocalName: []
+    - Note: -1 compaired to Steam Submarine
       TargetProperty: NavalSpeed
+      ToTargetOperation: 1
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 4000
+      PropertyLocalName: []
+    - Note: -1 Compaired to Steam Submarine
+      TargetProperty: AttackRange
       ToTargetOperation: 1
       RpnOperationStack: 
       ConstantStack:
@@ -2623,14 +1043,14 @@ MonoBehaviour:
       PropertyLocalName: []
     - Note: 
       TargetProperty: VisionRange
-      ToTargetOperation: 0
+      ToTargetOperation: 1
       RpnOperationStack: 
       ConstantStack:
       - RawValue: 1000
       PropertyLocalName: []
   serializableCategory: 
   startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
---- !u!114 &4176506910776285798
+--- !u!114 &-2626194540703750935
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2714,7 +1134,1902 @@ MonoBehaviour:
       PropertyLocalName: []
   serializableCategory: 
   startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
---- !u!114 &4913965935258096005
+--- !u!114 &-1751209044240489841
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
+  m_Name: Effect_NavalUnit_Era6_Common_MissileSubmarines
+  m_EditorClassIdentifier: 
+  Effects:
+  - ApplyEffectOnSource: 0
+    Path:
+      PropertyToFollow: []
+      Validations: []
+      specificTargetType: 
+    PropertyEffects:
+    - Note: 
+      TargetProperty: LeaderPriority
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 7980000
+      PropertyLocalName: []
+    - Note: +4 Compaired to Nuclear Submarine
+      TargetProperty: BaseStrength
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 75000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: StealthMax
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 28000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: StealthRegen
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 7000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: StealthDetection
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 5000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: AttackRange
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 2000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: NavalSpeed
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 4000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: SpecialtyLevel
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 1000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: VisionRange
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 4000
+      PropertyLocalName: []
+  serializableCategory: 
+  startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
+--- !u!114 &-1684412325771105830
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
+  m_Name: Effect_NavalUnit_Era5_Common_SteamGunboat
+  m_EditorClassIdentifier: 
+  Effects:
+  - ApplyEffectOnSource: 0
+    Path:
+      PropertyToFollow: []
+      Validations: []
+      specificTargetType: 
+    PropertyEffects:
+    - Note: 
+      TargetProperty: LeaderPriority
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 6660000
+      PropertyLocalName: []
+    - Note: '- 10 Compaied to Protected Cruiser'
+      TargetProperty: BaseStrength
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 48000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: AttackRange
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 2000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: NavalSpeed
+      ToTargetOperation: 1
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 2000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: VisionRange
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 1000
+      PropertyLocalName: []
+  serializableCategory: 
+  startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
+--- !u!114 &-1315819382304670987
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
+  m_Name: Effect_NavalUnit_Era6_Common_MissileCruisers
+  m_EditorClassIdentifier: 
+  Effects:
+  - ApplyEffectOnSource: 0
+    Path:
+      PropertyToFollow: []
+      Validations: []
+      specificTargetType: 
+    PropertyEffects:
+    - Note: 
+      TargetProperty: LeaderPriority
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 8380000
+      PropertyLocalName: []
+    - Note: +8 compaired to Battleship
+      TargetProperty: BaseStrength
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 77000
+      PropertyLocalName: []
+    - Note: +1 Compared to Battleship
+      TargetProperty: NavalSpeed
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 3000
+      PropertyLocalName: []
+    - Note: +4 Compared to Battleship
+      TargetProperty: AttackRange
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 7000
+      PropertyLocalName: []
+    - Note: +1 Compared to Battleship
+      TargetProperty: VisionRange
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 3000
+      PropertyLocalName: []
+    - Note: +1 Compared to Battleship
+      TargetProperty: StealthDetection
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 2000
+      PropertyLocalName: []
+  serializableCategory: 
+  startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
+--- !u!114 &-1186772224078220998
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
+  m_Name: Effect_NavalUnit_Era2_Common_Lembos
+  m_EditorClassIdentifier: 
+  Effects:
+  - ApplyEffectOnSource: 0
+    Path:
+      PropertyToFollow: []
+      Validations: []
+      specificTargetType: 
+    PropertyEffects:
+    - Note: 
+      TargetProperty: LeaderPriority
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 3000000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: BaseStrength
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 32000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: NavalSpeed
+      ToTargetOperation: 1
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 4000
+      PropertyLocalName: []
+  serializableCategory: 
+  startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
+--- !u!114 &-239243588053101681
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
+  m_Name: Effect_NavalUnit_Era4_JoseonKorea_TurtleShips
+  m_EditorClassIdentifier: 
+  Effects:
+  - ApplyEffectOnSource: 0
+    Path:
+      PropertyToFollow: []
+      Validations: []
+      specificTargetType: 
+    PropertyEffects:
+    - Note: 
+      TargetProperty: LeaderPriority
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 6141000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: BaseStrength
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 46000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: NavalSpeed
+      ToTargetOperation: 1
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 1000
+      PropertyLocalName: []
+  serializableCategory: 
+  startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
+--- !u!114 &-236715646960783193
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
+  m_Name: Effect_NavalUnit_Era5_Common_SloopOfWar
+  m_EditorClassIdentifier: 
+  Effects:
+  - ApplyEffectOnSource: 0
+    Path:
+      PropertyToFollow: []
+      Validations: []
+      specificTargetType: 
+    PropertyEffects:
+    - Note: 
+      TargetProperty: LeaderPriority
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 5960000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: BaseStrength
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 43000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: VisionRange
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 1000
+      PropertyLocalName: []
+  serializableCategory: 
+  startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1010444951, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
+  m_Name: NavalUnitDescriptor
+  m_EditorClassIdentifier: 
+--- !u!114 &169212577438206264
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
+  m_Name: Effect_NavalUnit_Era6_Common_StealthFrigates
+  m_EditorClassIdentifier: 
+  Effects:
+  - ApplyEffectOnSource: 0
+    Path:
+      PropertyToFollow: []
+      Validations: []
+      specificTargetType: 
+    PropertyEffects:
+    - Note: 
+      TargetProperty: LeaderPriority
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 8680000
+      PropertyLocalName: []
+    - Note: +3 compaired to Missile Frigate
+      TargetProperty: BaseStrength
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 76000
+      PropertyLocalName: []
+    - Note: +1 compaired to Missile Frigate
+      TargetProperty: NavalSpeed
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 5000
+      PropertyLocalName: []
+    - Note: +1 compared to Missile Frigate
+      TargetProperty: StealthDetection
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 3000
+      PropertyLocalName: []
+    - Note: +1 compared to Missile Frigate
+      TargetProperty: AttackRange
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 5000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: StealthMax
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 12000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: StealthRegen
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 3000
+      PropertyLocalName: []
+  serializableCategory: 
+  startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
+--- !u!114 &321607065293413015
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
+  m_Name: Effect_NavalUnit_Era4_Common_BombKetch
+  m_EditorClassIdentifier: 
+  Effects:
+  - ApplyEffectOnSource: 0
+    Path:
+      PropertyToFollow: []
+      Validations: []
+      specificTargetType: 
+    PropertyEffects:
+    - Note: 
+      TargetProperty: LeaderPriority
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 5660000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: BaseStrength
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 44000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: AttackRange
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 1000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: VisionRange
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 1000
+      PropertyLocalName: []
+  serializableCategory: 
+  startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
+--- !u!114 &453532272391502533
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
+  m_Name: Effect_NavalUnit_Era3_CaribbeanPirates_Galliot
+  m_EditorClassIdentifier: 
+  Effects:
+  - ApplyEffectOnSource: 0
+    Path:
+      PropertyToFollow: []
+      Validations: []
+      specificTargetType: 
+    PropertyEffects:
+    - Note: 
+      TargetProperty: LeaderPriority
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 4760000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: BaseStrength
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 44000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: StealthMax
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 4000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: StealthRegen
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 2000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: AttackRange
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 1000
+      PropertyLocalName: []
+  serializableCategory: 
+  startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
+--- !u!114 &471620999749916632
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
+  m_Name: Effect_NavalUnit_Era4_Common_Carracks
+  m_EditorClassIdentifier: 
+  Effects:
+  - ApplyEffectOnSource: 0
+    Path:
+      PropertyToFollow: []
+      Validations: []
+      specificTargetType: 
+    PropertyEffects:
+    - Note: 
+      TargetProperty: LeaderPriority
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 5040000
+      PropertyLocalName: []
+    - Note: +5
+      TargetProperty: BaseStrength
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 42000
+      PropertyLocalName: []
+  serializableCategory: 
+  startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
+--- !u!114 &479796300798748866
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
+  m_Name: Effect_NavalUnit_Era5_Common_SteamFrigates
+  m_EditorClassIdentifier: 
+  Effects:
+  - ApplyEffectOnSource: 0
+    Path:
+      PropertyToFollow: []
+      Validations: []
+      specificTargetType: 
+    PropertyEffects:
+    - Note: 
+      TargetProperty: LeaderPriority
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 7120000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: BaseStrength
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 55000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: AttackRange
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 1000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: StealthDetection
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 1000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: NavalSpeed
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 2000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: VisionHeight
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 1000
+      PropertyLocalName: []
+  serializableCategory: 
+  startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
+--- !u!114 &1234539241533068493
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
+  m_Name: Effect_NavalUnit_Era1_Common_Biremes
+  m_EditorClassIdentifier: 
+  Effects:
+  - ApplyEffectOnSource: 0
+    Path:
+      PropertyToFollow: []
+      Validations: []
+      specificTargetType: 
+    PropertyEffects:
+    - Note: 
+      TargetProperty: LeaderPriority
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 2900000
+      PropertyLocalName: []
+    - Note: +6 strength
+      TargetProperty: BaseStrength
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 28000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: NavalSpeed
+      ToTargetOperation: 1
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 2000
+      PropertyLocalName: []
+  serializableCategory: 
+  startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
+--- !u!114 &1262781204659999318
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
+  m_Name: Effect_NavalUnit_Era4_Common_SailFrigates
+  m_EditorClassIdentifier: 
+  Effects:
+  - ApplyEffectOnSource: 0
+    Path:
+      PropertyToFollow: []
+      Validations: []
+      specificTargetType: 
+    PropertyEffects:
+    - Note: 
+      TargetProperty: LeaderPriority
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 6100000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: BaseStrength
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 50000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: NavalSpeed
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 1000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: StealthDetection
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 1000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: VisionRange
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 1000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: VisionHeight
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 1000
+      PropertyLocalName: []
+  serializableCategory: 
+  startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
+--- !u!114 &1798981530379155530
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
+  m_Name: Effect_NavalUnit_Era3_Common_Fusta
+  m_EditorClassIdentifier: 
+  Effects:
+  - ApplyEffectOnSource: 0
+    Path:
+      PropertyToFollow: []
+      Validations: []
+      specificTargetType: 
+    PropertyEffects:
+    - Note: 
+      TargetProperty: LeaderPriority
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 4760000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: BaseStrength
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 37000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: NavalSpeed
+      ToTargetOperation: 1
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 4000
+      PropertyLocalName: []
+  serializableCategory: 
+  startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
+--- !u!114 &1992101838978058807
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
+  m_Name: Effect_NavalUnit_Era6_Common_NuclearSubmarines
+  m_EditorClassIdentifier: 
+  Effects:
+  - ApplyEffectOnSource: 0
+    Path:
+      PropertyToFollow: []
+      Validations: []
+      specificTargetType: 
+    PropertyEffects:
+    - Note: 
+      TargetProperty: LeaderPriority
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 7980000
+      PropertyLocalName: []
+    - Note: Same as Naval Update
+      TargetProperty: BaseStrength
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 71000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: StealthMax
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 24000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: StealthRegen
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 6000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: StealthDetection
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 4000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: AttackRange
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 1000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: NavalSpeed
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 1000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: SpecialtyLevel
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 1000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: VisionRange
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 5000
+      PropertyLocalName: []
+  serializableCategory: 
+  startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
+--- !u!114 &2821093544281963769
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
+  m_Name: Effect_NavalUnit_Era5_Common_FleetSubmarines
+  m_EditorClassIdentifier: 
+  Effects:
+  - ApplyEffectOnSource: 0
+    Path:
+      PropertyToFollow: []
+      Validations: []
+      specificTargetType: 
+    PropertyEffects:
+    - Note: 
+      TargetProperty: LeaderPriority
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 7951000
+      PropertyLocalName: []
+    - Note: -2 Strength compaired to Uboat
+      TargetProperty: BaseStrength
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 59000
+      PropertyLocalName: []
+    - Note: similar to Uboat
+      TargetProperty: StealthMax
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 16000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: StealthRegen
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 4000
+      PropertyLocalName: []
+    - Note: +1 SteathDetection
+      TargetProperty: StealthDetection
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 2000
+      PropertyLocalName: []
+    - Note: -2 NavalSpeed
+      TargetProperty: NavalSpeed
+      ToTargetOperation: 1
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 2000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: SpecialtyLevel
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 1000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: VisionRange
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 2000
+      PropertyLocalName: []
+  serializableCategory: 
+  startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
+--- !u!114 &3309761406710084294
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
+  m_Name: Effect_NavalUnit_Era4_VenetianRepublic_Galleasses
+  m_EditorClassIdentifier: 
+  Effects:
+  - ApplyEffectOnSource: 0
+    Path:
+      PropertyToFollow: []
+      Validations: []
+      specificTargetType: 
+    PropertyEffects:
+    - Note: 
+      TargetProperty: LeaderPriority
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 6141000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: BaseStrength
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 47000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: NavalSpeed
+      ToTargetOperation: 1
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 1000
+      PropertyLocalName: []
+  serializableCategory: 
+  startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
+--- !u!114 &3351099952811466922
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
+  m_Name: Effect_NavalUnit_Era3_Common_GreatGalley
+  m_EditorClassIdentifier: 
+  Effects:
+  - ApplyEffectOnSource: 0
+    Path:
+      PropertyToFollow: []
+      Validations: []
+      specificTargetType: 
+    PropertyEffects:
+    - Note: 
+      TargetProperty: LeaderPriority
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 4960000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: BaseStrength
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 40000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: NavalSpeed
+      ToTargetOperation: 1
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 1000
+      PropertyLocalName: []
+  serializableCategory: 
+  startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
+--- !u!114 &3556946077328809301
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
+  m_Name: Effect_NavalUnit_Era4_Common_CarrackCannon
+  m_EditorClassIdentifier: 
+  Effects:
+  - ApplyEffectOnSource: 0
+    Path:
+      PropertyToFollow: []
+      Validations: []
+      specificTargetType: 
+    PropertyEffects:
+    - Note: 
+      TargetProperty: LeaderPriority
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 5040000
+      PropertyLocalName: []
+    - Note: +5
+      TargetProperty: BaseStrength
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 46000
+      PropertyLocalName: []
+  serializableCategory: 
+  startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
+--- !u!114 &3621655539265240975
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
+  m_Name: Effect_NavalUnit_Era6_Common_MissileBoat
+  m_EditorClassIdentifier: 
+  Effects:
+  - ApplyEffectOnSource: 0
+    Path:
+      PropertyToFollow: []
+      Validations: []
+      specificTargetType: 
+    PropertyEffects:
+    - Note: 
+      TargetProperty: LeaderPriority
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 7901000
+      PropertyLocalName: []
+    - Note: +7 compaired to Motor Torpedo Boat
+      TargetProperty: BaseStrength
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 68000
+      PropertyLocalName: []
+    - Note: +1 Speed compaired to Motor torpedo Boat
+      TargetProperty: NavalSpeed
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 2000
+      PropertyLocalName: []
+    - Note: +3 Range compaired to Motor Torpedo Boat
+      TargetProperty: AttackRange
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 3000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: StealthDetection
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 1000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: VisionRange
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 1000
+      PropertyLocalName: []
+  serializableCategory: 
+  startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
+--- !u!114 &3971910440489929727
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
+  m_Name: Effect_NavalUnit_Era4_Common_MenOfWar
+  m_EditorClassIdentifier: 
+  Effects:
+  - ApplyEffectOnSource: 0
+    Path:
+      PropertyToFollow: []
+      Validations: []
+      specificTargetType: 
+    PropertyEffects:
+    - Note: 
+      TargetProperty: LeaderPriority
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 6980000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: BaseStrength
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 55000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: NavalSpeed
+      ToTargetOperation: 1
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 1000
+      PropertyLocalName: []
+  serializableCategory: 
+  startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
+--- !u!114 &4111928042461419044
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
+  m_Name: Effect_NavalUnit_Era6_Common_LightCruisers
+  m_EditorClassIdentifier: 
+  Effects:
+  - ApplyEffectOnSource: 0
+    Path:
+      PropertyToFollow: []
+      Validations: []
+      specificTargetType: 
+    PropertyEffects:
+    - Note: 
+      TargetProperty: LeaderPriority
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 7460000
+      PropertyLocalName: []
+    - Note: -2 Compaired to Dreadnought
+      TargetProperty: BaseStrength
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 64000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: AttackRange
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 3000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: NavalSpeed
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 1000
+      PropertyLocalName: []
+  serializableCategory: 
+  startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
+--- !u!114 &4819481282996549040
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
+  m_Name: Effect_NavalUnit_Era5_Common_TorpedoBoats
+  m_EditorClassIdentifier: 
+  Effects:
+  - ApplyEffectOnSource: 0
+    Path:
+      PropertyToFollow: []
+      Validations: []
+      specificTargetType: 
+    PropertyEffects:
+    - Note: 
+      TargetProperty: LeaderPriority
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 7840000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: BaseStrength
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 54000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: AttackRange
+      ToTargetOperation: 1
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 1000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: NavalSpeed
+      ToTargetOperation: 1
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 2000
+      PropertyLocalName: []
+  serializableCategory: 
+  startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
+--- !u!114 &5467818559197051724
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
+  m_Name: Effect_NavalUnit_Era6_Common_StealthCorvettes
+  m_EditorClassIdentifier: 
+  Effects:
+  - ApplyEffectOnSource: 0
+    Path:
+      PropertyToFollow: []
+      Validations: []
+      specificTargetType: 
+    PropertyEffects:
+    - Note: 
+      TargetProperty: LeaderPriority
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 7901000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: BaseStrength
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 72000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: StealthMax
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 16000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: StealthRegen
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 4000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: StealthDetection
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 1000
+      PropertyLocalName: []
+    - Note: +1 Range Compaired to Missile Boat
+      TargetProperty: AttackRange
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 4000
+      PropertyLocalName: []
+    - Note: + 1 Speed Compaired to Missile Boat
+      TargetProperty: NavalSpeed
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 3000
+      PropertyLocalName: []
+    - Note: +1 Range Compaired to Missile Boat
+      TargetProperty: VisionRange
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 3000
+      PropertyLocalName: []
+  serializableCategory: 
+  startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
+--- !u!114 &5815561380293065610
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
+  m_Name: Effect_NavalUnit_Era6_Common_DieselSubmarine
+  m_EditorClassIdentifier: 
+  Effects:
+  - ApplyEffectOnSource: 0
+    Path:
+      PropertyToFollow: []
+      Validations: []
+      specificTargetType: 
+    PropertyEffects:
+    - Note: 
+      TargetProperty: LeaderPriority
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 8100000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: BaseStrength
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 64000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: StealthMax
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 20000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: StealthRegen
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 5000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: StealthDetection
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 3000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: SpecialtyLevel
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 1000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: AttackRange
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 1000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: VisionRange
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 4000
+      PropertyLocalName: []
+  serializableCategory: 
+  startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
+--- !u!114 &6337953711205968159
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
+  m_Name: Effect_NavalUnit_Era5_Common_CruiserSubmarines
+  m_EditorClassIdentifier: 
+  Effects:
+  - ApplyEffectOnSource: 0
+    Path:
+      PropertyToFollow: []
+      Validations: []
+      specificTargetType: 
+    PropertyEffects:
+    - Note: 
+      TargetProperty: LeaderPriority
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 6951000
+      PropertyLocalName: []
+    - Note: Similar  to Fleet Submaine
+      TargetProperty: BaseStrength
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 59000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: StealthMax
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 12000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: StealthRegen
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 3000
+      PropertyLocalName: []
+    - Note: +1 SteathDetection
+      TargetProperty: StealthDetection
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 2000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: AttackRange
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 1000
+      PropertyLocalName: []
+  serializableCategory: 
+  startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
+--- !u!114 &6389745085865480245
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
+  m_Name: Effect_NavalUnit_Era5_Germany_UBoats
+  m_EditorClassIdentifier: 
+  Effects:
+  - ApplyEffectOnSource: 0
+    Path:
+      PropertyToFollow: []
+      Validations: []
+      specificTargetType: 
+    PropertyEffects:
+    - Note: 
+      TargetProperty: LeaderPriority
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 7951000
+      PropertyLocalName: []
+    - Note: -5 Strength compaired to Diesel Submarine
+      TargetProperty: BaseStrength
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 61000
+      PropertyLocalName: []
+    - Note: +2 StealthMax
+      TargetProperty: StealthMax
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 16000
+      PropertyLocalName: []
+    - Note: +1 SteathRegen
+      TargetProperty: StealthRegen
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 4000
+      PropertyLocalName: []
+    - Note: +1 SteathDetection compaired to Vanilla
+      TargetProperty: StealthDetection
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 2000
+      PropertyLocalName: []
+    - Note: -2 NavalSpeed compaired to Vanilla
+      TargetProperty: NavalSpeed
+      ToTargetOperation: 1
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 2000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: SpecialtyLevel
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 1000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: VisionRange
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 2000
+      PropertyLocalName: []
+  serializableCategory: 
+  startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
+--- !u!114 &6842690427282465081
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
+  m_Name: Effect_NavalUnit_Era6_Common_StealthAircraftCarriers
+  m_EditorClassIdentifier: 
+  Effects:
+  - ApplyEffectOnSource: 0
+    Path:
+      PropertyToFollow: []
+      Validations: []
+      specificTargetType: 
+    PropertyEffects:
+    - Note: 
+      TargetProperty: LeaderPriority
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 9900000
+      PropertyLocalName: []
+    - Note: +5 Compaired to Aircraft Carrier
+      TargetProperty: BaseStrength
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 78000
+      PropertyLocalName: []
+    - Note: +1 Same to Nuclear Aircraft Carrier
+      TargetProperty: NavalSpeed
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 6000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: VisionRange
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 4000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: VisionHeight
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 4000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: StealthDetection
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 3000
+      PropertyLocalName: []
+    - Note: +1  Compaired to Nuclear Aircraft Carrier
+      TargetProperty: AttackRange
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 6000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: StealthMax
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 8000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: StealthRegen
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 2000
+      PropertyLocalName: []
+  serializableCategory: 
+  startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
+--- !u!114 &7200742213174626961
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
+  m_Name: Effect_NavalUnit_Era3_Common_Galliot
+  m_EditorClassIdentifier: 
+  Effects:
+  - ApplyEffectOnSource: 0
+    Path:
+      PropertyToFollow: []
+      Validations: []
+      specificTargetType: 
+    PropertyEffects:
+    - Note: 
+      TargetProperty: LeaderPriority
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 4760000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: BaseStrength
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 42000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: AttackRange
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 1000
+      PropertyLocalName: []
+  serializableCategory: 
+  startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
+--- !u!114 &7277060374075391323
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
+  m_Name: Effect_NavalUnit_Era4_Common_Galleasses
+  m_EditorClassIdentifier: 
+  Effects:
+  - ApplyEffectOnSource: 0
+    Path:
+      PropertyToFollow: []
+      Validations: []
+      specificTargetType: 
+    PropertyEffects:
+    - Note: 
+      TargetProperty: LeaderPriority
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 6141000
+      PropertyLocalName: []
+    - Note: -5 strength compaired Galleon
+      TargetProperty: BaseStrength
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 44000
+      PropertyLocalName: []
+    - Note: -1 Compaired to Galleon
+      TargetProperty: NavalSpeed
+      ToTargetOperation: 1
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 1000
+      PropertyLocalName: []
+  serializableCategory: 
+  startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
+--- !u!114 &7369859583444142355
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
+  m_Name: Effect_NavalUnit_Era6_Common_AircraftCarriers
+  m_EditorClassIdentifier: 
+  Effects:
+  - ApplyEffectOnSource: 0
+    Path:
+      PropertyToFollow: []
+      Validations: []
+      specificTargetType: 
+    PropertyEffects:
+    - Note: 
+      TargetProperty: LeaderPriority
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 7660000
+      PropertyLocalName: []
+    - Note: -2 Compaired to Naval Update
+      TargetProperty: BaseStrength
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 67000
+      PropertyLocalName: []
+    - Note: Same as Fast Battleship
+      TargetProperty: NavalSpeed
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 4000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: VisionRange
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 2000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: VisionHeight
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 2000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: StealthDetection
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 1000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: AttackRange
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 2000
+      PropertyLocalName: []
+  serializableCategory: 
+  startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
+--- !u!114 &8230327323229172078
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
+  m_Name: Effect_NavalUnit_Era6_Common_Destroyer
+  m_EditorClassIdentifier: 
+  Effects:
+  - ApplyEffectOnSource: 0
+    Path:
+      PropertyToFollow: []
+      Validations: []
+      specificTargetType: 
+    PropertyEffects:
+    - Note: 
+      TargetProperty: LeaderPriority
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 8280000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: BaseStrength
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 66000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: NavalSpeed
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 4000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: StealthDetection
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 3000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: AttackRange
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 2000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: VisionRange
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 2000
+      PropertyLocalName: []
+  serializableCategory: 
+  startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
+--- !u!114 &8435532709665171514
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
+  m_Name: Effect_NavalUnit_Era5_Common_MotorTorpedoBoats
+  m_EditorClassIdentifier: 
+  Effects:
+  - ApplyEffectOnSource: 0
+    Path:
+      PropertyToFollow: []
+      Validations: []
+      specificTargetType: 
+    PropertyEffects:
+    - Note: 
+      TargetProperty: LeaderPriority
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 6940000
+      PropertyLocalName: []
+    - Note: +7 strength compaired to Steam Torpedo Boat
+      TargetProperty: BaseStrength
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 61000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: StealthDetection
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 1000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: NavalSpeed
+      ToTargetOperation: 1
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 1000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: VisionRange
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 1000
+      PropertyLocalName: []
+  serializableCategory: 
+  startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
+--- !u!114 &9110361162182664712
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2764,195 +3079,6 @@ MonoBehaviour:
     - Note: 
       TargetProperty: VisionRange
       ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 1000
-      PropertyLocalName: []
-  serializableCategory: 
-  startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
---- !u!114 &5256219071785185222
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
-  m_Name: Effect_NavalUnit_Era5_Common_TorpedoBoatDestroyers
-  m_EditorClassIdentifier: 
-  Effects:
-  - ApplyEffectOnSource: 0
-    Path:
-      PropertyToFollow: []
-      Validations: []
-      specificTargetType: 
-    PropertyEffects:
-    - Note: 
-      TargetProperty: LeaderPriority
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 7940000
-      PropertyLocalName: []
-    - Note: -8 compaired to Destroyer
-      TargetProperty: BaseStrength
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 58000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: NavalSpeed
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 3000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: StealthDetection
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 2000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: VisionRange
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 1000
-      PropertyLocalName: []
-  serializableCategory: 
-  startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
---- !u!114 &5590975199219953017
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
-  m_Name: Effect_NavalUnit_Era5_Common_SloopOfWar
-  m_EditorClassIdentifier: 
-  Effects:
-  - ApplyEffectOnSource: 0
-    Path:
-      PropertyToFollow: []
-      Validations: []
-      specificTargetType: 
-    PropertyEffects:
-    - Note: 
-      TargetProperty: LeaderPriority
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 5960000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: BaseStrength
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 43000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: VisionRange
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 1000
-      PropertyLocalName: []
-  serializableCategory: 
-  startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
---- !u!114 &5830033120742040672
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
-  m_Name: Effect_NavalUnit_Era4_VenetianRepublic_Galleasses
-  m_EditorClassIdentifier: 
-  Effects:
-  - ApplyEffectOnSource: 0
-    Path:
-      PropertyToFollow: []
-      Validations: []
-      specificTargetType: 
-    PropertyEffects:
-    - Note: 
-      TargetProperty: LeaderPriority
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 6141000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: BaseStrength
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 47000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: NavalSpeed
-      ToTargetOperation: 1
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 1000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: AttackRange
-      ToTargetOperation: 1
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 1000
-      PropertyLocalName: []
-  serializableCategory: 
-  startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
---- !u!114 &6666032735855545500
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
-  m_Name: Effect_NavalUnit_Era4_Common_Carracks
-  m_EditorClassIdentifier: 
-  Effects:
-  - ApplyEffectOnSource: 0
-    Path:
-      PropertyToFollow: []
-      Validations: []
-      specificTargetType: 
-    PropertyEffects:
-    - Note: 
-      TargetProperty: LeaderPriority
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 5040000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: BaseStrength
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 44000
-      PropertyLocalName: []
-    - Note: +5
-      TargetProperty: AttackRange
-      ToTargetOperation: 1
       RpnOperationStack: 
       ConstantStack:
       - RawValue: 1000

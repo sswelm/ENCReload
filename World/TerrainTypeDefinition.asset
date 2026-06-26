@@ -122,6 +122,20 @@ MonoBehaviour:
   m_Name: TerrainType_Ocean
   m_EditorClassIdentifier: 
   PathfindingRules:
+  - RelatedMovementAbilities: 2
+    MovementCost:
+      RawValue: 500
+    CanGoThrough: 1
+    IsStoppable: 1
+    Operation: 0
+    flagsNeededToApplyRule: 33554432
+  - RelatedMovementAbilities: 0
+    MovementCost:
+      RawValue: 2000
+    CanGoThrough: 1
+    IsStoppable: 1
+    Operation: 0
+    flagsNeededToApplyRule: 33554432
   - RelatedMovementAbilities: 4
     MovementCost:
       RawValue: 1000
@@ -131,18 +145,11 @@ MonoBehaviour:
     flagsNeededToApplyRule: 32
   - RelatedMovementAbilities: 4
     MovementCost:
-      RawValue: 500
+      RawValue: 750
     CanGoThrough: 1
     IsStoppable: 1
     Operation: 0
     flagsNeededToApplyRule: 524288
-  - RelatedMovementAbilities: 4
-    MovementCost:
-      RawValue: 2000
-    CanGoThrough: 1
-    IsStoppable: 1
-    Operation: 0
-    flagsNeededToApplyRule: 33554432
   - RelatedMovementAbilities: 4
     MovementCost:
       RawValue: 1000

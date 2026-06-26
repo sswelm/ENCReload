@@ -62,6 +62,22 @@ MonoBehaviour:
   AbilityReferences: []
   InstantResolveBattleStrengthBonus:
     RawValue: 0
+--- !u!114 &-6626827384977901320
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -374328362, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitSpecialty_PlungingFire
+  m_EditorClassIdentifier: 
+  AbilityReferences:
+  - serializableElementName: UnitAbility_PlungingFire
+  InstantResolveBattleStrengthBonus:
+    RawValue: 0
 --- !u!114 &-5680344219713370038
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -92,6 +108,39 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AbilityReferences:
   - serializableElementName: UnitAbility_WeaknessFromOcean_Level1
+  InstantResolveBattleStrengthBonus:
+    RawValue: 0
+--- !u!114 &-4894845465615426928
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -374328362, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitSpecialty_OverheadFire
+  m_EditorClassIdentifier: 
+  AbilityReferences:
+  - serializableElementName: UnitAbility_OverheadFire
+  InstantResolveBattleStrengthBonus:
+    RawValue: 0
+--- !u!114 &-4779090446067111784
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -374328362, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitSpecialty_Privateer
+  m_EditorClassIdentifier: 
+  AbilityReferences:
+  - serializableElementName: UnitAbility_Stealth
+  - serializableElementName: UnitAbility_Privateer
   InstantResolveBattleStrengthBonus:
     RawValue: 0
 --- !u!114 &-4422741107341047016
@@ -142,6 +191,22 @@ MonoBehaviour:
   - serializableElementName: UnitAbility_AntiAircraft_Level1Half
   InstantResolveBattleStrengthBonus:
     RawValue: 0
+--- !u!114 &-3930912491257151293
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -374328362, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitSpecialty_StrengthFromSiege_Half
+  m_EditorClassIdentifier: 
+  AbilityReferences:
+  - serializableElementName: UnitAbility_StrengthFromSiege_Half
+  InstantResolveBattleStrengthBonus:
+    RawValue: 0
 --- !u!114 &-3844379903781037632
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -171,6 +236,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AbilityReferences:
   - serializableElementName: UnitAbility_AntiAircraft_50
+  InstantResolveBattleStrengthBonus:
+    RawValue: 0
+--- !u!114 &-3432624794098517434
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -374328362, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitSpecialty_EmbarkFree
+  m_EditorClassIdentifier: 
+  AbilityReferences:
+  - serializableElementName: UnitAbility_EmbarkFree
   InstantResolveBattleStrengthBonus:
     RawValue: 0
 --- !u!114 &-2924617549732235681
@@ -253,6 +334,39 @@ MonoBehaviour:
   - serializableElementName: UnitAbility_IncreasedVision_Level1
   InstantResolveBattleStrengthBonus:
     RawValue: 0
+--- !u!114 &-1227290751305305686
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -374328362, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitSpecialty_Reconnaissance_Level1
+  m_EditorClassIdentifier: 
+  AbilityReferences:
+  - serializableElementName: UnitAbility_Reconnaissance_Level1
+  InstantResolveBattleStrengthBonus:
+    RawValue: 0
+--- !u!114 &-361494190214215257
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -374328362, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitSpecialty_ReducedMovementInOcean
+  m_EditorClassIdentifier: 
+  AbilityReferences:
+  - serializableElementName: UnitAbility_ReducedOceanMover
+  - serializableElementName: UnitAbility_WeaknessFromOcean_Level1
+  InstantResolveBattleStrengthBonus:
+    RawValue: 0
 --- !u!114 &-297164910772370956
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -316,6 +430,22 @@ MonoBehaviour:
   - serializableElementName: UnitAbility_DebuffTargetCannotRetaliate
   InstantResolveBattleStrengthBonus:
     RawValue: 0
+--- !u!114 &617077183899668884
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -374328362, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitSpecialty_Reconnaissance_Level3
+  m_EditorClassIdentifier: 
+  AbilityReferences:
+  - serializableElementName: UnitAbility_Reconnaissance_Level3
+  InstantResolveBattleStrengthBonus:
+    RawValue: 0
 --- !u!114 &684865486215626864
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -347,6 +477,23 @@ MonoBehaviour:
   AbilityReferences:
   - serializableElementName: UnitAbility_SlowOceanMover
   - serializableElementName: UnitAbility_WeaknessFromOcean_Level1
+  InstantResolveBattleStrengthBonus:
+    RawValue: 0
+--- !u!114 &2508100479792208348
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -374328362, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitSpecialty_OpeningVolleySuppression
+  m_EditorClassIdentifier: 
+  AbilityReferences:
+  - serializableElementName: UnitAbility_FirstAttackSuppression
+  - serializableElementName: UnitAbility_AfterAttackingAllowMove
   InstantResolveBattleStrengthBonus:
     RawValue: 0
 --- !u!114 &2527652621170667613
@@ -382,6 +529,22 @@ MonoBehaviour:
   - serializableElementName: UnitAbility_NoMovementPenaltiesFromRocks
   InstantResolveBattleStrengthBonus:
     RawValue: 0
+--- !u!114 &2919588774270060194
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -374328362, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitSpecialty_Reconnaissance_Level2
+  m_EditorClassIdentifier: 
+  AbilityReferences:
+  - serializableElementName: UnitAbility_Reconnaissance_Level2
+  InstantResolveBattleStrengthBonus:
+    RawValue: 0
 --- !u!114 &3119134504715184040
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -396,6 +559,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AbilityReferences:
   - serializableElementName: UnitAbility_StrengthFromTargetClassArmoured_Level3
+  InstantResolveBattleStrengthBonus:
+    RawValue: 0
+--- !u!114 &3604314817929472240
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -374328362, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitSpecialty_StrengthFromCloseRange_Level1
+  m_EditorClassIdentifier: 
+  AbilityReferences:
+  - serializableElementName: UnitAbility_StrengthFromCloseRange_Level1
+  - serializableElementName: UnitAbility_NavalSpeedFromBattle_Level1
   InstantResolveBattleStrengthBonus:
     RawValue: 0
 --- !u!114 &4170112318592766667

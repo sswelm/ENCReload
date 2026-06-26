@@ -38,24 +38,24 @@ MonoBehaviour:
     serializableKey: Level1
   - Value:
       guid:
+        a: 52803089
+        b: 1319841565
+        c: 2145082533
+        d: -1915569997
+    serializableKey: Level2
+  - Value:
+      guid:
         a: -980450754
         b: 1198186607
         c: 1982674828
         d: 1330154229
-    serializableKey: Level2
-  - Value:
-      guid:
-        a: 1539476479
-        b: 1299865437
-        c: -1459039341
-        d: 1742006249
     serializableKey: Level3
   - Value:
       guid:
-        a: 1539476479
-        b: 1299865437
-        c: -1459039341
-        d: 1742006249
+        a: -980450754
+        b: 1198186607
+        c: 1982674828
+        d: 1330154229
     serializableKey: Level4
   - Value:
       guid:
@@ -64,6 +64,13 @@ MonoBehaviour:
         c: -1459039341
         d: 1742006249
     serializableKey: Level5
+  - Value:
+      guid:
+        a: 1539476479
+        b: 1299865437
+        c: -1459039341
+        d: 1742006249
+    serializableKey: Level6
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: '[EraStarScientistScore]'
 --- !u!114 &-4136619375748026989
@@ -111,10 +118,10 @@ MonoBehaviour:
     serializableKey: Level2
   - Value:
       guid:
-        a: 1539476479
-        b: 1299865437
-        c: -1459039341
-        d: 1742006249
+        a: -980450754
+        b: 1198186607
+        c: 1982674828
+        d: 1330154229
     serializableKey: Level3
   - Value:
       guid:
@@ -123,6 +130,13 @@ MonoBehaviour:
         c: -1459039341
         d: 1742006249
     serializableKey: Level4
+  - Value:
+      guid:
+        a: 1539476479
+        b: 1299865437
+        c: -1459039341
+        d: 1742006249
+    serializableKey: Level5
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: '[EraStarScientistScore]'
 --- !u!114 &11400000
@@ -182,17 +196,17 @@ MonoBehaviour:
     serializableKey: Level2
   - Value:
       guid:
-        a: -980450754
-        b: 1198186607
-        c: 1982674828
-        d: 1330154229
+        a: 52803089
+        b: 1319841565
+        c: 2145082533
+        d: -1915569997
     serializableKey: Level3
   - Value:
       guid:
-        a: -980450754
-        b: 1198186607
-        c: 1982674828
-        d: 1330154229
+        a: 52803089
+        b: 1319841565
+        c: 2145082533
+        d: -1915569997
     serializableKey: Level4
   - Value:
       guid:
@@ -203,11 +217,53 @@ MonoBehaviour:
     serializableKey: Level5
   - Value:
       guid:
+        a: -980450754
+        b: 1198186607
+        c: 1982674828
+        d: 1330154229
+    serializableKey: Level6
+  - Value:
+      guid:
+        a: -980450754
+        b: 1198186607
+        c: 1982674828
+        d: 1330154229
+    serializableKey: Level7
+  - Value:
+      guid:
+        a: -980450754
+        b: 1198186607
+        c: 1982674828
+        d: 1330154229
+    serializableKey: Level8
+  - Value:
+      guid:
         a: 1539476479
         b: 1299865437
         c: -1459039341
         d: 1742006249
-    serializableKey: Level6
+    serializableKey: Level9
+  - Value:
+      guid:
+        a: 1539476479
+        b: 1299865437
+        c: -1459039341
+        d: 1742006249
+    serializableKey: Level10
+  - Value:
+      guid:
+        a: 1539476479
+        b: 1299865437
+        c: -1459039341
+        d: 1742006249
+    serializableKey: Level11
+  - Value:
+      guid:
+        a: 1539476479
+        b: 1299865437
+        c: -1459039341
+        d: 1742006249
+    serializableKey: Level12
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: '[EraStarScientistScore]'
 --- !u!114 &486138719571851136
@@ -425,10 +481,10 @@ MonoBehaviour:
     serializableKey: Level3
   - Value:
       guid:
-        a: -980450754
-        b: 1198186607
-        c: 1982674828
-        d: 1330154229
+        a: 52803089
+        b: 1319841565
+        c: 2145082533
+        d: -1915569997
     serializableKey: Level4
   - Value:
       guid:
@@ -453,10 +509,10 @@ MonoBehaviour:
     serializableKey: Level7
   - Value:
       guid:
-        a: 1539476479
-        b: 1299865437
-        c: -1459039341
-        d: 1742006249
+        a: -980450754
+        b: 1198186607
+        c: 1982674828
+        d: 1330154229
     serializableKey: Level8
   - Value:
       guid:
@@ -465,5 +521,26 @@ MonoBehaviour:
         c: -1459039341
         d: 1742006249
     serializableKey: Level9
+  - Value:
+      guid:
+        a: 1539476479
+        b: 1299865437
+        c: -1459039341
+        d: 1742006249
+    serializableKey: Level10
+  - Value:
+      guid:
+        a: 1539476479
+        b: 1299865437
+        c: -1459039341
+        d: 1742006249
+    serializableKey: Level11
+  - Value:
+      guid:
+        a: 1539476479
+        b: 1299865437
+        c: -1459039341
+        d: 1742006249
+    serializableKey: Level12
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: '[EraStarScientistScore]'

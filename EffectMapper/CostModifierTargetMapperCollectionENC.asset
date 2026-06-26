@@ -26,6 +26,19 @@ MonoBehaviour:
   m_Name: Technology_Era6_15
   m_EditorClassIdentifier: 
   Localization: '%Technology_Era6_15Title'
+--- !u!114 &-9051517994668585290
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era6_Supercruise
+  m_EditorClassIdentifier: 
+  Localization: Supercruise
 --- !u!114 &-8941756055219281317
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -52,6 +65,71 @@ MonoBehaviour:
   m_Name: Technology_Era6_FluidDynamics
   m_EditorClassIdentifier: 
   Localization: Fluid Dynamics
+--- !u!114 &-8913435457409565522
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era5_NatureConservation
+  m_EditorClassIdentifier: 
+  Localization: Nature conservation
+--- !u!114 &-8872720193638601628
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era6_Superconductor
+  m_EditorClassIdentifier: 
+  Localization: Superconductor
+--- !u!114 &-8870016401340088071
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era2_NavalShoreTactics
+  m_EditorClassIdentifier: 
+  Localization: Naval Shore Tactics
+--- !u!114 &-8818592204442661020
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era5_AntiTankGun
+  m_EditorClassIdentifier: 
+  Localization: Anti-tank Gun
+--- !u!114 &-8693230266691780063
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era5_Chemistry
+  m_EditorClassIdentifier: 
+  Localization: Chemistry
 --- !u!114 &-8592840566171548355
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -104,6 +182,19 @@ MonoBehaviour:
   m_Name: Technology_Era6_AntitankWarfare
   m_EditorClassIdentifier: 
   Localization: Anti Tank Warfare
+--- !u!114 &-8253556144703076681
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era3_Algebra
+  m_EditorClassIdentifier: 
+  Localization: Algebra
 --- !u!114 &-8212236517934624315
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -194,7 +285,7 @@ MonoBehaviour:
   m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
   m_Name: Technology_Era2_ProfessionalArmy
   m_EditorClassIdentifier: 
-  Localization: '%Technology_Era1_ProfessionalArmy'
+  Localization: Professional Army
 --- !u!114 &-7152737234938070357
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -208,6 +299,19 @@ MonoBehaviour:
   m_Name: Technology_Era5_06
   m_EditorClassIdentifier: 
   Localization: '%Technology_Era5_06Title'
+--- !u!114 &-7096069891490658265
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era6_ActiveCamouflage
+  m_EditorClassIdentifier: 
+  Localization: Active Camouflage
 --- !u!114 &-7006503137888246056
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -221,6 +325,19 @@ MonoBehaviour:
   m_Name: Technology_Era6_05
   m_EditorClassIdentifier: 
   Localization: '%Technology_Era6_05Title'
+--- !u!114 &-6896961465016893150
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era6_DartAmmunition
+  m_EditorClassIdentifier: 
+  Localization: Dart Ammunition
 --- !u!114 &-6887860936482407153
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -299,6 +416,19 @@ MonoBehaviour:
   m_Name: Technology_Era2_02
   m_EditorClassIdentifier: 
   Localization: '%Technology_Era2_02Title'
+--- !u!114 &-5837467028569053122
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era6_NanoTechnology
+  m_EditorClassIdentifier: 
+  Localization: Nanotechnology
 --- !u!114 &-5681784289775900618
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -364,6 +494,45 @@ MonoBehaviour:
   m_Name: Technology_Era5_SubmarineWarfare
   m_EditorClassIdentifier: 
   Localization: Submarine Warfare
+--- !u!114 &-4376218370993651830
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era6_ArtificialInteligence
+  m_EditorClassIdentifier: 
+  Localization: Artificial Inteligence
+--- !u!114 &-4349075600619166741
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era6_FuzzyLogic
+  m_EditorClassIdentifier: 
+  Localization: Fuzzy Logic
+--- !u!114 &-4293597758509212849
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era6_VideoGameConsole
+  m_EditorClassIdentifier: 
+  Localization: Video Game Console
 --- !u!114 &-4234493993065136498
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -429,6 +598,19 @@ MonoBehaviour:
   m_Name: Technology_Era3_02
   m_EditorClassIdentifier: 
   Localization: '%Technology_Era3_02Title'
+--- !u!114 &-3710696600227268974
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era6_MultimediaComputer
+  m_EditorClassIdentifier: 
+  Localization: Multimedia Computer
 --- !u!114 &-3637038110966497505
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -455,6 +637,32 @@ MonoBehaviour:
   m_Name: Technology_Era4_07
   m_EditorClassIdentifier: 
   Localization: '%Technology_Era4_07Title'
+--- !u!114 &-3548764043480570383
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era5_MilitaryTradition
+  m_EditorClassIdentifier: 
+  Localization: Military tradition
+--- !u!114 &-3476677170848129894
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era6_FaxMachine
+  m_EditorClassIdentifier: 
+  Localization: Fax Machine
 --- !u!114 &-3439188971631468460
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -494,6 +702,19 @@ MonoBehaviour:
   m_Name: Technology_Era4_05
   m_EditorClassIdentifier: 
   Localization: '%Technology_Era4_05Title'
+--- !u!114 &-2598159282237129079
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era6_FuelCells
+  m_EditorClassIdentifier: 
+  Localization: Fuel Cells
 --- !u!114 &-2295374146292301174
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -520,6 +741,19 @@ MonoBehaviour:
   m_Name: Technology_Era6_23
   m_EditorClassIdentifier: 
   Localization: '%Technology_Era6_23Title'
+--- !u!114 &-2236692239476351301
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era4_Anatomy
+  m_EditorClassIdentifier: 
+  Localization: Anatomy
 --- !u!114 &-2177686830391010277
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -584,7 +818,7 @@ MonoBehaviour:
   m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
   m_Name: Technology_Era2_HeavyCavalry
   m_EditorClassIdentifier: 
-  Localization: '%Technology_Era1_HeavyCavalry'
+  Localization: Heavy cavalry
 --- !u!114 &-1775953996708746313
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -637,6 +871,19 @@ MonoBehaviour:
   m_Name: Technology_Era6_AirTransportation
   m_EditorClassIdentifier: 
   Localization: Air Transportation
+--- !u!114 &-1053011984687384725
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era5_RailRoad
+  m_EditorClassIdentifier: 
+  Localization: Railroad
 --- !u!114 &-997414639404481172
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -805,6 +1052,19 @@ MonoBehaviour:
   m_Name: Technology_Era6_SewageTreatment
   m_EditorClassIdentifier: 
   Localization: Sewage Treatment
+--- !u!114 &486375493878197041
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era6_MoltenSaltReactor
+  m_EditorClassIdentifier: 
+  Localization: Molten Salt Reactors
 --- !u!114 &541806924220876800
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -870,6 +1130,32 @@ MonoBehaviour:
   m_Name: Technology_Era4_06
   m_EditorClassIdentifier: 
   Localization: '%Technology_Era4_06Title'
+--- !u!114 &629105778856600214
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era6_InterplanetarySpacecrafts
+  m_EditorClassIdentifier: 
+  Localization: Interplanetary Spacecrafts
+--- !u!114 &690001962541391273
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era6_NuclearFuelReprocessing
+  m_EditorClassIdentifier: 
+  Localization: Nuclear Fuel Reprocessing
 --- !u!114 &694276351603357046
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -883,6 +1169,19 @@ MonoBehaviour:
   m_Name: Technology_Era6_07
   m_EditorClassIdentifier: 
   Localization: '%Technology_Era6_07Title'
+--- !u!114 &752196769268846662
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era6_FutureTechnology
+  m_EditorClassIdentifier: 
+  Localization: Future Technology
 --- !u!114 &791375526926411102
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -896,6 +1195,19 @@ MonoBehaviour:
   m_Name: Technology_Era4_FullRiggedShip
   m_EditorClassIdentifier: 
   Localization: Full Rigged Ship
+--- !u!114 &902553040366575205
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era5_MarineSteamEngine
+  m_EditorClassIdentifier: 
+  Localization: Marine steam engine
 --- !u!114 &1259505046815759276
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -935,6 +1247,32 @@ MonoBehaviour:
   m_Name: Technology_Era2_08
   m_EditorClassIdentifier: 
   Localization: '%Technology_Era2_08Title'
+--- !u!114 &1537429587989200317
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era5_IroncladShipbuilding
+  m_EditorClassIdentifier: 
+  Localization: Ironclad Shipbuilding
+--- !u!114 &1564695710983356771
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era6_ComputerModem
+  m_EditorClassIdentifier: 
+  Localization: Modem
 --- !u!114 &1839695250533916901
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -948,6 +1286,58 @@ MonoBehaviour:
   m_Name: Technology_Era2_05
   m_EditorClassIdentifier: 
   Localization: '%Technology_Era2_05Title'
+--- !u!114 &2128124379122197276
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era6_HydraulicFracturing
+  m_EditorClassIdentifier: 
+  Localization: Hydraulic Fracturing
+--- !u!114 &2128280374224346144
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era6_ColorTelevision
+  m_EditorClassIdentifier: 
+  Localization: Color Television
+--- !u!114 &2259861201943532245
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era5_Plastics
+  m_EditorClassIdentifier: 
+  Localization: Plastics
+--- !u!114 &2437261762173361002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era6_NuclearReactor
+  m_EditorClassIdentifier: 
+  Localization: Compact Nuclear Reactors
 --- !u!114 &2533643085181955211
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1065,6 +1455,19 @@ MonoBehaviour:
   m_Name: Technology_Era1_10
   m_EditorClassIdentifier: 
   Localization: '%Technology_Era1_10Title'
+--- !u!114 &3042173814006292794
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era6_VirtualReality
+  m_EditorClassIdentifier: 
+  Localization: Virtual Reality
 --- !u!114 &3283962228806241857
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1078,6 +1481,45 @@ MonoBehaviour:
   m_Name: Technology_Era6_04
   m_EditorClassIdentifier: 
   Localization: '%Technology_Era6_04Title'
+--- !u!114 &3328746000795124849
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era6_Smartphone
+  m_EditorClassIdentifier: 
+  Localization: Smartphone
+--- !u!114 &3502303399340083364
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era6_StealthShip
+  m_EditorClassIdentifier: 
+  Localization: Stealth Ship
+--- !u!114 &3649802755872159310
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era6_MechanizedInfantryDoctrine
+  m_EditorClassIdentifier: 
+  Localization: Mechanized Infantry Doctrine
 --- !u!114 &3731022940084918596
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1117,6 +1559,32 @@ MonoBehaviour:
   m_Name: Technology_Era5_15
   m_EditorClassIdentifier: 
   Localization: '%Technology_Era5_15Title'
+--- !u!114 &3905195173495025892
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era6_SlopedArmor
+  m_EditorClassIdentifier: 
+  Localization: Reactive Armor
+--- !u!114 &4060209627065877330
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era6_PrecisionGuidedMunition
+  m_EditorClassIdentifier: 
+  Localization: Precision Guided Munition
 --- !u!114 &4089909493961602553
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1130,6 +1598,32 @@ MonoBehaviour:
   m_Name: Technology_Era5_AluminiumSmelting
   m_EditorClassIdentifier: 
   Localization: Aluminium Smelting
+--- !u!114 &4169761114500192965
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era6_StealthTechnology
+  m_EditorClassIdentifier: 
+  Localization: Stealth Technology
+--- !u!114 &4235070326129427069
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era6_DroneTechnology
+  m_EditorClassIdentifier: 
+  Localization: Drone Technology
 --- !u!114 &4429652321238228989
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1143,6 +1637,19 @@ MonoBehaviour:
   m_Name: Technology_Era1_08
   m_EditorClassIdentifier: 
   Localization: '%Technology_Era1_08Title'
+--- !u!114 &4431351607152723548
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era6_GuidedMissiles
+  m_EditorClassIdentifier: 
+  Localization: Guided Missiles
 --- !u!114 &4438980612278324901
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1181,7 +1688,7 @@ MonoBehaviour:
   m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
   m_Name: Technology_Era5_ModernHighway
   m_EditorClassIdentifier: 
-  Localization: Highways
+  Localization: Modern Highway
 --- !u!114 &4579347250761558470
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1195,6 +1702,32 @@ MonoBehaviour:
   m_Name: Technology_Era6_AntiSubmarineWarfare
   m_EditorClassIdentifier: 
   Localization: Anti Submarine Warfare
+--- !u!114 &4639980835803144478
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era6_CellularNetwork
+  m_EditorClassIdentifier: 
+  Localization: Cellular network
+--- !u!114 &4831472662587569953
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era6_QuantumComputing
+  m_EditorClassIdentifier: 
+  Localization: Quantum Computing
 --- !u!114 &4972987477703866825
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1221,6 +1754,19 @@ MonoBehaviour:
   m_Name: Technology_Era5_TankWarfare
   m_EditorClassIdentifier: 
   Localization: Tank Warfare
+--- !u!114 &5084580576866513698
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era6_ActiveProtectionSystems
+  m_EditorClassIdentifier: 
+  Localization: Active Protection Systems
 --- !u!114 &5192213466388402791
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1273,6 +1819,19 @@ MonoBehaviour:
   m_Name: Technology_Era6_03
   m_EditorClassIdentifier: 
   Localization: '%Technology_Era6_03Title'
+--- !u!114 &5710639594282026026
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era6_HelmetMountedDisplay
+  m_EditorClassIdentifier: 
+  Localization: Helmet Mounted Display
 --- !u!114 &5745984876227746054
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1299,6 +1858,19 @@ MonoBehaviour:
   m_Name: Technology_Era6_21
   m_EditorClassIdentifier: 
   Localization: '%Technology_Era6_21Title'
+--- !u!114 &5948643884866069555
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era6_HypersonicWeapons
+  m_EditorClassIdentifier: 
+  Localization: Hypersonic Weapons
 --- !u!114 &6107387582382633399
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1520,6 +2092,32 @@ MonoBehaviour:
   m_Name: Technology_Era4_11
   m_EditorClassIdentifier: 
   Localization: '%Technology_Era4_11Title'
+--- !u!114 &7565954684502672056
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era4_Clockworks
+  m_EditorClassIdentifier: 
+  Localization: Clockworks
+--- !u!114 &7818091501832831436
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era6_Ethernet
+  m_EditorClassIdentifier: 
+  Localization: Ethernet
 --- !u!114 &7877226526255874210
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1572,6 +2170,19 @@ MonoBehaviour:
   m_Name: Technology_Era6_SelfPropelledArtillery
   m_EditorClassIdentifier: 
   Localization: Self Propelled Artllery
+--- !u!114 &8156089303323370509
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era6_BreederReactor
+  m_EditorClassIdentifier: 
+  Localization: Breeder Reactor
 --- !u!114 &8239602400408306660
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1598,6 +2209,32 @@ MonoBehaviour:
   m_Name: Technology_Era3_05
   m_EditorClassIdentifier: 
   Localization: '%Technology_Era3_05Title'
+--- !u!114 &8344036004444404256
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era5_Telephone
+  m_EditorClassIdentifier: 
+  Localization: Telephone
+--- !u!114 &8544623482394346826
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era5_Sanitation
+  m_EditorClassIdentifier: 
+  Localization: Sanitation
 --- !u!114 &8583558240370888131
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1611,6 +2248,19 @@ MonoBehaviour:
   m_Name: Technology_Era2_03
   m_EditorClassIdentifier: 
   Localization: '%Technology_Era2_03Title'
+--- !u!114 &8991778536317594879
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1611000433, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Technology_Era5_AerialTorpedo
+  m_EditorClassIdentifier: 
+  Localization: Aerial Torpedo
 --- !u!114 &9080689032317665797
 MonoBehaviour:
   m_ObjectHideFlags: 0

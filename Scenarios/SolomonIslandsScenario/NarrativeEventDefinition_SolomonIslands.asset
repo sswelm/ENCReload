@@ -1,0 +1,7285 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-7964374089100464063
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -931882767, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: NarrativeEvent_SolomonIslands_009_US
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: Trigger
+      Entry: 7
+      Data: 0|Amplitude.Mercury.Data.Simulation.NarrativeEventTrigger, Amplitude.Mercury.Data
+    - Name: ConsumeEventUponTrigger
+      Entry: 5
+      Data: false
+    - Name: PreventEventRemoval
+      Entry: 5
+      Data: false
+    - Name: SimulationEventTrigger
+      Entry: 7
+      Data: 1|Amplitude.Mercury.Data.Simulation.SimulationEventTrigger, Amplitude.Mercury.Data
+    - Name: IsNarrativeConsequence
+      Entry: 5
+      Data: false
+    - Name: SimulationEvent
+      Entry: 1
+      Data: Amplitude.Mercury.Simulation.SimulationEvent_TurnBegin, Amplitude.Mercury.Firstpass
+    - Name: Signature
+      Entry: 7
+      Data: 2|System.Collections.Generic.List`1[[Amplitude.Mercury.Data.Simulation.NarrativeEventConsequenceVariableDeclaration,
+        Amplitude.Mercury.Data]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Prerequisites
+      Entry: 7
+      Data: 3|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 2
+    - Name: 
+      Entry: 7
+      Data: 4|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite_Empire_FactionDefinition,
+        Amplitude.Mercury.Data
+    - Name: FailureFlags
+      Entry: 3
+      Data: 0
+    - Name: LocalizationOverride
+      Entry: 6
+      Data: 
+    - Name: EntityID
+      Entry: 1
+      Data: Empire
+    - Name: TargetFaction
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: Civilization_Era6_USA
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 5|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite_TurnCount,
+        Amplitude.Mercury.Data
+    - Name: FailureFlags
+      Entry: 3
+      Data: 0
+    - Name: LocalizationOverride
+      Entry: 6
+      Data: 
+    - Name: MinTurn
+      Entry: 3
+      Data: 10
+    - Name: MaxTurn
+      Entry: 3
+      Data: 15
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Variables
+      Entry: 7
+      Data: 6|Amplitude.Mercury.Data.Simulation.SimulationEventVariable[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 13
+    - Name: 
+      Entry: 7
+      Data: 7|Amplitude.Mercury.Data.Simulation.NarrativeEventVariable_WorldPosition,
+        Amplitude.Mercury.Data
+    - Name: Name
+      Entry: 1
+      Data: Pin
+    - Name: Usage
+      Entry: 3
+      Data: 1
+    - Name: TileIndex
+      Entry: 3
+      Data: 735
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 8|Amplitude.Mercury.Data.Simulation.NarrativeEventVariable_WorldPosition,
+        Amplitude.Mercury.Data
+    - Name: Name
+      Entry: 1
+      Data: Spawn1
+    - Name: Usage
+      Entry: 3
+      Data: 65536
+    - Name: TileIndex
+      Entry: 3
+      Data: 921
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 9|Amplitude.Mercury.Data.Simulation.NarrativeEventVariable_WorldPosition,
+        Amplitude.Mercury.Data
+    - Name: Name
+      Entry: 1
+      Data: Spawn2
+    - Name: Usage
+      Entry: 3
+      Data: 65536
+    - Name: TileIndex
+      Entry: 3
+      Data: 923
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 10|Amplitude.Mercury.Data.Simulation.NarrativeEventVariable_WorldPosition,
+        Amplitude.Mercury.Data
+    - Name: Name
+      Entry: 1
+      Data: Spawn3
+    - Name: Usage
+      Entry: 3
+      Data: 65536
+    - Name: TileIndex
+      Entry: 3
+      Data: 1104
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 11|Amplitude.Mercury.Data.Simulation.NarrativeEventVariable_WorldPosition,
+        Amplitude.Mercury.Data
+    - Name: Name
+      Entry: 1
+      Data: Spawn4
+    - Name: Usage
+      Entry: 3
+      Data: 65536
+    - Name: TileIndex
+      Entry: 3
+      Data: 1293
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 12|Amplitude.Mercury.Data.Simulation.NarrativeEventVariable_WorldPosition,
+        Amplitude.Mercury.Data
+    - Name: Name
+      Entry: 1
+      Data: Spawn5
+    - Name: Usage
+      Entry: 3
+      Data: 65536
+    - Name: TileIndex
+      Entry: 3
+      Data: 546
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 13|Amplitude.Mercury.Data.Simulation.NarrativeEventVariable_WorldPosition,
+        Amplitude.Mercury.Data
+    - Name: Name
+      Entry: 1
+      Data: Spawn6
+    - Name: Usage
+      Entry: 3
+      Data: 65536
+    - Name: TileIndex
+      Entry: 3
+      Data: 548
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 14|Amplitude.Mercury.Data.Simulation.NarrativeEventVariable_WorldPosition,
+        Amplitude.Mercury.Data
+    - Name: Name
+      Entry: 1
+      Data: Spawn7
+    - Name: Usage
+      Entry: 3
+      Data: 65536
+    - Name: TileIndex
+      Entry: 3
+      Data: 550
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 15|Amplitude.Mercury.Data.Simulation.NarrativeEventVariable_WorldPosition,
+        Amplitude.Mercury.Data
+    - Name: Name
+      Entry: 1
+      Data: Spawn8
+    - Name: Usage
+      Entry: 3
+      Data: 65536
+    - Name: TileIndex
+      Entry: 3
+      Data: 551
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 16|Amplitude.Mercury.Data.Simulation.NarrativeEventVariable_WorldPosition,
+        Amplitude.Mercury.Data
+    - Name: Name
+      Entry: 1
+      Data: Spawn9
+    - Name: Usage
+      Entry: 3
+      Data: 65536
+    - Name: TileIndex
+      Entry: 3
+      Data: 552
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 17|Amplitude.Mercury.Data.Simulation.NarrativeEventVariable_WorldPosition,
+        Amplitude.Mercury.Data
+    - Name: Name
+      Entry: 1
+      Data: Spawn10
+    - Name: Usage
+      Entry: 3
+      Data: 65536
+    - Name: TileIndex
+      Entry: 3
+      Data: 364
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 18|Amplitude.Mercury.Data.Simulation.NarrativeEventVariable_WorldPosition,
+        Amplitude.Mercury.Data
+    - Name: Name
+      Entry: 1
+      Data: Spawn11
+    - Name: Usage
+      Entry: 3
+      Data: 65536
+    - Name: TileIndex
+      Entry: 3
+      Data: 365
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 19|Amplitude.Mercury.Data.Simulation.NarrativeEventVariable_WorldPosition,
+        Amplitude.Mercury.Data
+    - Name: Name
+      Entry: 1
+      Data: Spawn12
+    - Name: Usage
+      Entry: 3
+      Data: 65536
+    - Name: TileIndex
+      Entry: 3
+      Data: 366
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: LocalizationParameters
+      Entry: 7
+      Data: 20|Amplitude.Mercury.Data.Simulation.NarrativeEventLocalizationParameter[],
+        Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Choices
+      Entry: 7
+      Data: 21|Amplitude.Mercury.Data.Simulation.NarrativeEventChoice[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 22|Amplitude.Mercury.Data.Simulation.NarrativeEventChoice, Amplitude.Mercury.Data
+    - Name: Image
+      Entry: 7
+      Data: Amplitude.UI.UITexture, Amplitude.UI
+    - Name: guid
+      Entry: 7
+      Data: Amplitude.Framework.Guid, Amplitude.Framework
+    - Name: a
+      Entry: 3
+      Data: 0
+    - Name: b
+      Entry: 3
+      Data: 0
+    - Name: c
+      Entry: 3
+      Data: 0
+    - Name: d
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Title
+      Entry: 1
+      Data: '%NarrativeEvent_SolomonIslands_RogerOutTitle'
+    - Name: Description
+      Entry: 1
+      Data: '%NarrativeEvent_SolomonIslands_009_USChoice01Description'
+    - Name: Instant
+      Entry: 5
+      Data: false
+    - Name: Duration
+      Entry: 3
+      Data: 1
+    - Name: Prerequisites
+      Entry: 7
+      Data: 23|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: NarrativeEventEffects
+      Entry: 7
+      Data: 24|Amplitude.Mercury.Data.Simulation.NarrativeEventEffect[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 15
+    - Name: 
+      Entry: 7
+      Data: 25|Amplitude.Mercury.Data.Simulation.NarrativeEventEffect, Amplitude.Mercury.Data
+    - Name: Reversible
+      Entry: 5
+      Data: true
+    - Name: SimulationEventEffect
+      Entry: 7
+      Data: 26|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_SpawnArmy,
+        Amplitude.Mercury.Data
+    - Name: SimulationEffectDescriptionOverride
+      Entry: 1
+      Data: 
+    - Name: UIMapperOverride
+      Entry: 6
+      Data: 
+    - Name: Hidden
+      Entry: 5
+      Data: true
+    - Name: DlcPrerequisite
+      Entry: 7
+      Data: Amplitude.Mercury.Data.Simulation.Prerequisites.DownloadableContentPrerequisite,
+        Amplitude.Mercury.Data
+    - Name: DownloadableContent
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: GainValues
+      Entry: 6
+      Data: 
+    - Name: UnitDefinitions
+      Entry: 7
+      Data: 27|Amplitude.Framework.DatatableElementReference[], Amplitude.Framework
+    - Name: 
+      Entry: 12
+      Data: 8
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: NavalUnit_Era6_Common_AircraftCarriers
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: NavalUnit_Era6_Common_Battleships
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: NavalUnit_Era6_Common_Battleships
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: NavalUnit_Era6_Common_Destroyer
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: NavalUnit_Era6_Common_Destroyer
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: NavalUnit_Era6_Common_Destroyer
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: NavalUnit_Era6_Common_DieselSubmarine
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: NavalUnit_Era6_Common_DieselSubmarine
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: ArmyName
+      Entry: 1
+      Data: '%Scenario_WW2Pacific_Fleet_US4'
+    - Name: TargetID
+      Entry: 1
+      Data: Spawn1
+    - Name: OwnerID
+      Entry: 1
+      Data: Empire
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 28|Amplitude.Mercury.Data.Simulation.NarrativeEventEffect, Amplitude.Mercury.Data
+    - Name: Reversible
+      Entry: 5
+      Data: true
+    - Name: SimulationEventEffect
+      Entry: 7
+      Data: 29|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_SpawnArmy,
+        Amplitude.Mercury.Data
+    - Name: SimulationEffectDescriptionOverride
+      Entry: 1
+      Data: 
+    - Name: UIMapperOverride
+      Entry: 6
+      Data: 
+    - Name: Hidden
+      Entry: 5
+      Data: true
+    - Name: DlcPrerequisite
+      Entry: 7
+      Data: Amplitude.Mercury.Data.Simulation.Prerequisites.DownloadableContentPrerequisite,
+        Amplitude.Mercury.Data
+    - Name: DownloadableContent
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: GainValues
+      Entry: 6
+      Data: 
+    - Name: UnitDefinitions
+      Entry: 7
+      Data: 30|Amplitude.Framework.DatatableElementReference[], Amplitude.Framework
+    - Name: 
+      Entry: 12
+      Data: 8
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: AirUnit_Era6_Common_StrategicBombers
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: AirUnit_Era6_Common_StrategicBombers
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: AirUnit_Era6_Common_StrategicBombers
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: AirUnit_Era6_Common_StrategicBombers
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: AirUnit_Era6_Common_MonoplaneFighters
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: AirUnit_Era6_Common_MonoplaneFighters
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: AirUnit_Era6_Common_MonoplaneFighters
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: AirUnit_Era6_Common_MonoplaneFighters
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: ArmyName
+      Entry: 1
+      Data: '%Scenario_WW2Pacific_Squadron_US1'
+    - Name: TargetID
+      Entry: 1
+      Data: Spawn1
+    - Name: OwnerID
+      Entry: 1
+      Data: Empire
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 31|Amplitude.Mercury.Data.Simulation.NarrativeEventEffect, Amplitude.Mercury.Data
+    - Name: Reversible
+      Entry: 5
+      Data: true
+    - Name: SimulationEventEffect
+      Entry: 7
+      Data: 32|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_SpawnArmy,
+        Amplitude.Mercury.Data
+    - Name: SimulationEffectDescriptionOverride
+      Entry: 1
+      Data: 
+    - Name: UIMapperOverride
+      Entry: 6
+      Data: 
+    - Name: Hidden
+      Entry: 5
+      Data: true
+    - Name: DlcPrerequisite
+      Entry: 7
+      Data: Amplitude.Mercury.Data.Simulation.Prerequisites.DownloadableContentPrerequisite,
+        Amplitude.Mercury.Data
+    - Name: DownloadableContent
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: GainValues
+      Entry: 6
+      Data: 
+    - Name: UnitDefinitions
+      Entry: 7
+      Data: 33|Amplitude.Framework.DatatableElementReference[], Amplitude.Framework
+    - Name: 
+      Entry: 12
+      Data: 8
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: NavalUnit_Era6_Common_AircraftCarriers
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: NavalUnit_Era6_Common_Battleships
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: NavalUnit_Era6_Common_Battleships
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: NavalUnit_Era6_Common_Destroyer
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: NavalUnit_Era6_Common_Destroyer
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: NavalUnit_Era6_Common_Destroyer
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: NavalUnit_Era6_Common_DieselSubmarine
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: NavalUnit_Era6_Common_DieselSubmarine
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: ArmyName
+      Entry: 1
+      Data: '%Scenario_WW2Pacific_Fleet_US4'
+    - Name: TargetID
+      Entry: 1
+      Data: Spawn2
+    - Name: OwnerID
+      Entry: 1
+      Data: Empire
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 34|Amplitude.Mercury.Data.Simulation.NarrativeEventEffect, Amplitude.Mercury.Data
+    - Name: Reversible
+      Entry: 5
+      Data: true
+    - Name: SimulationEventEffect
+      Entry: 7
+      Data: 35|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_SpawnArmy,
+        Amplitude.Mercury.Data
+    - Name: SimulationEffectDescriptionOverride
+      Entry: 1
+      Data: 
+    - Name: UIMapperOverride
+      Entry: 6
+      Data: 
+    - Name: Hidden
+      Entry: 5
+      Data: true
+    - Name: DlcPrerequisite
+      Entry: 7
+      Data: Amplitude.Mercury.Data.Simulation.Prerequisites.DownloadableContentPrerequisite,
+        Amplitude.Mercury.Data
+    - Name: DownloadableContent
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: GainValues
+      Entry: 6
+      Data: 
+    - Name: UnitDefinitions
+      Entry: 7
+      Data: 36|Amplitude.Framework.DatatableElementReference[], Amplitude.Framework
+    - Name: 
+      Entry: 12
+      Data: 8
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: AirUnit_Era6_Common_StrategicBombers
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: AirUnit_Era6_Common_StrategicBombers
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: AirUnit_Era6_Common_StrategicBombers
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: AirUnit_Era6_Common_StrategicBombers
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: AirUnit_Era6_Common_MonoplaneFighters
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: AirUnit_Era6_Common_MonoplaneFighters
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: AirUnit_Era6_Common_MonoplaneFighters
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: AirUnit_Era6_Common_MonoplaneFighters
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: ArmyName
+      Entry: 1
+      Data: '%Scenario_WW2Pacific_Squadron_US1'
+    - Name: TargetID
+      Entry: 1
+      Data: Spawn2
+    - Name: OwnerID
+      Entry: 1
+      Data: Empire
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 37|Amplitude.Mercury.Data.Simulation.NarrativeEventEffect, Amplitude.Mercury.Data
+    - Name: Reversible
+      Entry: 5
+      Data: true
+    - Name: SimulationEventEffect
+      Entry: 7
+      Data: 38|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_SpawnArmy,
+        Amplitude.Mercury.Data
+    - Name: SimulationEffectDescriptionOverride
+      Entry: 1
+      Data: 
+    - Name: UIMapperOverride
+      Entry: 6
+      Data: 
+    - Name: Hidden
+      Entry: 5
+      Data: true
+    - Name: DlcPrerequisite
+      Entry: 7
+      Data: Amplitude.Mercury.Data.Simulation.Prerequisites.DownloadableContentPrerequisite,
+        Amplitude.Mercury.Data
+    - Name: DownloadableContent
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: GainValues
+      Entry: 6
+      Data: 
+    - Name: UnitDefinitions
+      Entry: 7
+      Data: 39|Amplitude.Framework.DatatableElementReference[], Amplitude.Framework
+    - Name: 
+      Entry: 12
+      Data: 8
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: NavalUnit_Era6_Common_AircraftCarriers
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: NavalUnit_Era6_Common_Battleships
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: NavalUnit_Era6_Common_Battleships
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: NavalUnit_Era6_Common_Destroyer
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: NavalUnit_Era6_Common_Destroyer
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: NavalUnit_Era6_Common_Destroyer
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: NavalUnit_Era6_Common_DieselSubmarine
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: NavalUnit_Era6_Common_DieselSubmarine
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: ArmyName
+      Entry: 1
+      Data: '%Scenario_WW2Pacific_Fleet_US4'
+    - Name: TargetID
+      Entry: 1
+      Data: Spawn6
+    - Name: OwnerID
+      Entry: 1
+      Data: Empire
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 40|Amplitude.Mercury.Data.Simulation.NarrativeEventEffect, Amplitude.Mercury.Data
+    - Name: Reversible
+      Entry: 5
+      Data: true
+    - Name: SimulationEventEffect
+      Entry: 7
+      Data: 41|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_SpawnArmy,
+        Amplitude.Mercury.Data
+    - Name: SimulationEffectDescriptionOverride
+      Entry: 1
+      Data: 
+    - Name: UIMapperOverride
+      Entry: 6
+      Data: 
+    - Name: Hidden
+      Entry: 5
+      Data: true
+    - Name: DlcPrerequisite
+      Entry: 7
+      Data: Amplitude.Mercury.Data.Simulation.Prerequisites.DownloadableContentPrerequisite,
+        Amplitude.Mercury.Data
+    - Name: DownloadableContent
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: GainValues
+      Entry: 6
+      Data: 
+    - Name: UnitDefinitions
+      Entry: 7
+      Data: 42|Amplitude.Framework.DatatableElementReference[], Amplitude.Framework
+    - Name: 
+      Entry: 12
+      Data: 8
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: AirUnit_Era6_Common_StrategicBombers
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: AirUnit_Era6_Common_StrategicBombers
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: AirUnit_Era6_Common_StrategicBombers
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: AirUnit_Era6_Common_StrategicBombers
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: AirUnit_Era6_Common_MonoplaneFighters
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: AirUnit_Era6_Common_MonoplaneFighters
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: AirUnit_Era6_Common_MonoplaneFighters
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: AirUnit_Era6_Common_MonoplaneFighters
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: ArmyName
+      Entry: 1
+      Data: '%Scenario_WW2Pacific_Squadron_US1'
+    - Name: TargetID
+      Entry: 1
+      Data: Spawn6
+    - Name: OwnerID
+      Entry: 1
+      Data: Empire
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 43|Amplitude.Mercury.Data.Simulation.NarrativeEventEffect, Amplitude.Mercury.Data
+    - Name: Reversible
+      Entry: 5
+      Data: true
+    - Name: SimulationEventEffect
+      Entry: 7
+      Data: 44|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_SpawnArmy,
+        Amplitude.Mercury.Data
+    - Name: SimulationEffectDescriptionOverride
+      Entry: 1
+      Data: 
+    - Name: UIMapperOverride
+      Entry: 6
+      Data: 
+    - Name: Hidden
+      Entry: 5
+      Data: true
+    - Name: DlcPrerequisite
+      Entry: 7
+      Data: Amplitude.Mercury.Data.Simulation.Prerequisites.DownloadableContentPrerequisite,
+        Amplitude.Mercury.Data
+    - Name: DownloadableContent
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: GainValues
+      Entry: 6
+      Data: 
+    - Name: UnitDefinitions
+      Entry: 7
+      Data: 45|Amplitude.Framework.DatatableElementReference[], Amplitude.Framework
+    - Name: 
+      Entry: 12
+      Data: 4
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: NavalUnit_Era6_Common_Destroyer
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: NavalUnit_Era6_Common_Destroyer
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: NavalUnit_Era6_Common_Destroyer
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: NavalUnit_Era6_Common_Destroyer
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: ArmyName
+      Entry: 1
+      Data: '%Scenario_WW2Pacific_Fleet_US4'
+    - Name: TargetID
+      Entry: 1
+      Data: Spawn5
+    - Name: OwnerID
+      Entry: 1
+      Data: Empire
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 46|Amplitude.Mercury.Data.Simulation.NarrativeEventEffect, Amplitude.Mercury.Data
+    - Name: Reversible
+      Entry: 5
+      Data: true
+    - Name: SimulationEventEffect
+      Entry: 7
+      Data: 47|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_SpawnArmy,
+        Amplitude.Mercury.Data
+    - Name: SimulationEffectDescriptionOverride
+      Entry: 1
+      Data: 
+    - Name: UIMapperOverride
+      Entry: 6
+      Data: 
+    - Name: Hidden
+      Entry: 5
+      Data: true
+    - Name: DlcPrerequisite
+      Entry: 7
+      Data: Amplitude.Mercury.Data.Simulation.Prerequisites.DownloadableContentPrerequisite,
+        Amplitude.Mercury.Data
+    - Name: DownloadableContent
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: GainValues
+      Entry: 6
+      Data: 
+    - Name: UnitDefinitions
+      Entry: 7
+      Data: 48|Amplitude.Framework.DatatableElementReference[], Amplitude.Framework
+    - Name: 
+      Entry: 12
+      Data: 4
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: NavalUnit_Era6_Common_Destroyer
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: NavalUnit_Era6_Common_Destroyer
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: NavalUnit_Era6_Common_Destroyer
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: NavalUnit_Era6_Common_Destroyer
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: ArmyName
+      Entry: 1
+      Data: '%Scenario_WW2Pacific_Fleet_US4'
+    - Name: TargetID
+      Entry: 1
+      Data: Spawn4
+    - Name: OwnerID
+      Entry: 1
+      Data: Empire
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 49|Amplitude.Mercury.Data.Simulation.NarrativeEventEffect, Amplitude.Mercury.Data
+    - Name: Reversible
+      Entry: 5
+      Data: true
+    - Name: SimulationEventEffect
+      Entry: 7
+      Data: 50|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_SpawnArmy,
+        Amplitude.Mercury.Data
+    - Name: SimulationEffectDescriptionOverride
+      Entry: 1
+      Data: 
+    - Name: UIMapperOverride
+      Entry: 6
+      Data: 
+    - Name: Hidden
+      Entry: 5
+      Data: true
+    - Name: DlcPrerequisite
+      Entry: 7
+      Data: Amplitude.Mercury.Data.Simulation.Prerequisites.DownloadableContentPrerequisite,
+        Amplitude.Mercury.Data
+    - Name: DownloadableContent
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: GainValues
+      Entry: 6
+      Data: 
+    - Name: UnitDefinitions
+      Entry: 7
+      Data: 51|Amplitude.Framework.DatatableElementReference[], Amplitude.Framework
+    - Name: 
+      Entry: 12
+      Data: 8
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: NavalUnit_Era6_Common_DieselSubmarine
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: NavalUnit_Era6_Common_DieselSubmarine
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: NavalUnit_Era6_Common_DieselSubmarine
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: NavalUnit_Era6_Common_DieselSubmarine
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: NavalUnit_Era6_Common_DieselSubmarine
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: NavalUnit_Era6_Common_DieselSubmarine
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: NavalUnit_Era6_Common_DieselSubmarine
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: NavalUnit_Era6_Common_DieselSubmarine
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: ArmyName
+      Entry: 1
+      Data: '%Scenario_WW2Pacific_Fleet_US4'
+    - Name: TargetID
+      Entry: 1
+      Data: Spawn3
+    - Name: OwnerID
+      Entry: 1
+      Data: Empire
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 52|Amplitude.Mercury.Data.Simulation.NarrativeEventEffect, Amplitude.Mercury.Data
+    - Name: Reversible
+      Entry: 5
+      Data: true
+    - Name: SimulationEventEffect
+      Entry: 7
+      Data: 53|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_SpawnArmy,
+        Amplitude.Mercury.Data
+    - Name: SimulationEffectDescriptionOverride
+      Entry: 1
+      Data: 
+    - Name: UIMapperOverride
+      Entry: 6
+      Data: 
+    - Name: Hidden
+      Entry: 5
+      Data: true
+    - Name: DlcPrerequisite
+      Entry: 7
+      Data: Amplitude.Mercury.Data.Simulation.Prerequisites.DownloadableContentPrerequisite,
+        Amplitude.Mercury.Data
+    - Name: DownloadableContent
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: GainValues
+      Entry: 6
+      Data: 
+    - Name: UnitDefinitions
+      Entry: 7
+      Data: 54|Amplitude.Framework.DatatableElementReference[], Amplitude.Framework
+    - Name: 
+      Entry: 12
+      Data: 8
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: LandUnit_Era6_Common_Riflemen
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: LandUnit_Era6_Common_Riflemen
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: LandUnit_Era6_Common_Riflemen
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: LandUnit_Era6_Common_MediumTanks
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: LandUnit_Era6_Common_MediumTanks
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: LandUnit_Era6_Common_MediumTanks
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: LandUnit_Era6_Common_AntiTankGuns
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: LandUnit_Era5_Common_SiegeHowitzers
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: ArmyName
+      Entry: 1
+      Data: '%Scenario_WW2Pacific_Army_US1'
+    - Name: TargetID
+      Entry: 1
+      Data: Spawn7
+    - Name: OwnerID
+      Entry: 1
+      Data: Empire
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 55|Amplitude.Mercury.Data.Simulation.NarrativeEventEffect, Amplitude.Mercury.Data
+    - Name: Reversible
+      Entry: 5
+      Data: true
+    - Name: SimulationEventEffect
+      Entry: 7
+      Data: 56|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_SpawnArmy,
+        Amplitude.Mercury.Data
+    - Name: SimulationEffectDescriptionOverride
+      Entry: 1
+      Data: 
+    - Name: UIMapperOverride
+      Entry: 6
+      Data: 
+    - Name: Hidden
+      Entry: 5
+      Data: true
+    - Name: DlcPrerequisite
+      Entry: 7
+      Data: Amplitude.Mercury.Data.Simulation.Prerequisites.DownloadableContentPrerequisite,
+        Amplitude.Mercury.Data
+    - Name: DownloadableContent
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: GainValues
+      Entry: 6
+      Data: 
+    - Name: UnitDefinitions
+      Entry: 7
+      Data: 57|Amplitude.Framework.DatatableElementReference[], Amplitude.Framework
+    - Name: 
+      Entry: 12
+      Data: 8
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: LandUnit_Era6_Common_Riflemen
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: LandUnit_Era6_Common_Riflemen
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: LandUnit_Era6_Common_Riflemen
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: LandUnit_Era6_Common_MediumTanks
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: LandUnit_Era6_Common_MediumTanks
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: LandUnit_Era6_Common_MediumTanks
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: LandUnit_Era6_Common_AntiTankGuns
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: LandUnit_Era5_Common_SiegeHowitzers
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: ArmyName
+      Entry: 1
+      Data: '%Scenario_WW2Pacific_Army_US1'
+    - Name: TargetID
+      Entry: 1
+      Data: Spawn8
+    - Name: OwnerID
+      Entry: 1
+      Data: Empire
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 58|Amplitude.Mercury.Data.Simulation.NarrativeEventEffect, Amplitude.Mercury.Data
+    - Name: Reversible
+      Entry: 5
+      Data: true
+    - Name: SimulationEventEffect
+      Entry: 7
+      Data: 59|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_SpawnArmy,
+        Amplitude.Mercury.Data
+    - Name: SimulationEffectDescriptionOverride
+      Entry: 1
+      Data: 
+    - Name: UIMapperOverride
+      Entry: 6
+      Data: 
+    - Name: Hidden
+      Entry: 5
+      Data: true
+    - Name: DlcPrerequisite
+      Entry: 7
+      Data: Amplitude.Mercury.Data.Simulation.Prerequisites.DownloadableContentPrerequisite,
+        Amplitude.Mercury.Data
+    - Name: DownloadableContent
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: GainValues
+      Entry: 6
+      Data: 
+    - Name: UnitDefinitions
+      Entry: 7
+      Data: 60|Amplitude.Framework.DatatableElementReference[], Amplitude.Framework
+    - Name: 
+      Entry: 12
+      Data: 8
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: LandUnit_Era6_Common_Riflemen
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: LandUnit_Era6_Common_Riflemen
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: LandUnit_Era6_Common_Riflemen
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: LandUnit_Era6_Common_MediumTanks
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: LandUnit_Era6_Common_MediumTanks
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: LandUnit_Era6_Common_MediumTanks
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: LandUnit_Era6_Common_AntiTankGuns
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: LandUnit_Era5_Common_SiegeHowitzers
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: ArmyName
+      Entry: 1
+      Data: '%Scenario_WW2Pacific_Army_US1'
+    - Name: TargetID
+      Entry: 1
+      Data: Spawn9
+    - Name: OwnerID
+      Entry: 1
+      Data: Empire
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 61|Amplitude.Mercury.Data.Simulation.NarrativeEventEffect, Amplitude.Mercury.Data
+    - Name: Reversible
+      Entry: 5
+      Data: true
+    - Name: SimulationEventEffect
+      Entry: 7
+      Data: 62|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_SpawnArmy,
+        Amplitude.Mercury.Data
+    - Name: SimulationEffectDescriptionOverride
+      Entry: 1
+      Data: 
+    - Name: UIMapperOverride
+      Entry: 6
+      Data: 
+    - Name: Hidden
+      Entry: 5
+      Data: true
+    - Name: DlcPrerequisite
+      Entry: 7
+      Data: Amplitude.Mercury.Data.Simulation.Prerequisites.DownloadableContentPrerequisite,
+        Amplitude.Mercury.Data
+    - Name: DownloadableContent
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: GainValues
+      Entry: 6
+      Data: 
+    - Name: UnitDefinitions
+      Entry: 7
+      Data: 63|Amplitude.Framework.DatatableElementReference[], Amplitude.Framework
+    - Name: 
+      Entry: 12
+      Data: 4
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: LandUnit_Era5_Common_SiegeHowitzers
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: LandUnit_Era5_Common_SiegeHowitzers
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: LandUnit_Era5_Common_SiegeHowitzers
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: LandUnit_Era5_Common_SiegeHowitzers
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: ArmyName
+      Entry: 1
+      Data: '%Scenario_WW2Pacific_Army_US1'
+    - Name: TargetID
+      Entry: 1
+      Data: Spawn10
+    - Name: OwnerID
+      Entry: 1
+      Data: Empire
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 64|Amplitude.Mercury.Data.Simulation.NarrativeEventEffect, Amplitude.Mercury.Data
+    - Name: Reversible
+      Entry: 5
+      Data: true
+    - Name: SimulationEventEffect
+      Entry: 7
+      Data: 65|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_SpawnArmy,
+        Amplitude.Mercury.Data
+    - Name: SimulationEffectDescriptionOverride
+      Entry: 1
+      Data: 
+    - Name: UIMapperOverride
+      Entry: 6
+      Data: 
+    - Name: Hidden
+      Entry: 5
+      Data: true
+    - Name: DlcPrerequisite
+      Entry: 7
+      Data: Amplitude.Mercury.Data.Simulation.Prerequisites.DownloadableContentPrerequisite,
+        Amplitude.Mercury.Data
+    - Name: DownloadableContent
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: GainValues
+      Entry: 6
+      Data: 
+    - Name: UnitDefinitions
+      Entry: 7
+      Data: 66|Amplitude.Framework.DatatableElementReference[], Amplitude.Framework
+    - Name: 
+      Entry: 12
+      Data: 4
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: LandUnit_Era5_Common_SiegeHowitzers
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: LandUnit_Era5_Common_SiegeHowitzers
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: LandUnit_Era5_Common_SiegeHowitzers
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: LandUnit_Era5_Common_SiegeHowitzers
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: ArmyName
+      Entry: 1
+      Data: '%Scenario_WW2Pacific_Army_US1'
+    - Name: TargetID
+      Entry: 1
+      Data: Spawn11
+    - Name: OwnerID
+      Entry: 1
+      Data: Empire
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 67|Amplitude.Mercury.Data.Simulation.NarrativeEventEffect, Amplitude.Mercury.Data
+    - Name: Reversible
+      Entry: 5
+      Data: true
+    - Name: SimulationEventEffect
+      Entry: 7
+      Data: 68|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_SpawnArmy,
+        Amplitude.Mercury.Data
+    - Name: SimulationEffectDescriptionOverride
+      Entry: 1
+      Data: 
+    - Name: UIMapperOverride
+      Entry: 6
+      Data: 
+    - Name: Hidden
+      Entry: 5
+      Data: true
+    - Name: DlcPrerequisite
+      Entry: 7
+      Data: Amplitude.Mercury.Data.Simulation.Prerequisites.DownloadableContentPrerequisite,
+        Amplitude.Mercury.Data
+    - Name: DownloadableContent
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: GainValues
+      Entry: 6
+      Data: 
+    - Name: UnitDefinitions
+      Entry: 7
+      Data: 69|Amplitude.Framework.DatatableElementReference[], Amplitude.Framework
+    - Name: 
+      Entry: 12
+      Data: 4
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: LandUnit_Era5_Common_SiegeHowitzers
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: LandUnit_Era5_Common_SiegeHowitzers
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: LandUnit_Era5_Common_SiegeHowitzers
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: LandUnit_Era5_Common_SiegeHowitzers
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: ArmyName
+      Entry: 1
+      Data: '%Scenario_WW2Pacific_Army_US1'
+    - Name: TargetID
+      Entry: 1
+      Data: Spawn12
+    - Name: OwnerID
+      Entry: 1
+      Data: Empire
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Notes
+      Entry: 6
+      Data: 
+    - Name: Archetypes
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+  IsObsolete: 0
+  DlcPrerequisite:
+    DownloadableContent: 0
+  OnlyActiveInScenario:
+    serializableElementName: Scenario_SolomonIslandsCampaign
+  IsWorkInProgress: 0
+  Category:
+    serializableElementName: NarrativeEventCategory_SolomonIslands
+  EraDefinitions:
+  - serializableElementName: Era6
+  Image:
+    guid:
+      a: 1959759668
+      b: 1194628292
+      c: 2066008993
+      d: 415995786
+  Title: '%NarrativeEvent_SolomonIslands_009_USTitle'
+  Description: '%NarrativeEvent_SolomonIslands_009_USDescription'
+  GeoLocalizationID: Pin
+  Notes: 
+--- !u!114 &-3444771601759695819
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -931882767, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: NarrativeEvent_SolomonIslands_006_ScenarioStart_IJAF
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: Trigger
+      Entry: 7
+      Data: 0|Amplitude.Mercury.Data.Simulation.NarrativeEventTrigger, Amplitude.Mercury.Data
+    - Name: ConsumeEventUponTrigger
+      Entry: 5
+      Data: false
+    - Name: PreventEventRemoval
+      Entry: 5
+      Data: false
+    - Name: SimulationEventTrigger
+      Entry: 7
+      Data: 1|Amplitude.Mercury.Data.Simulation.SimulationEventTrigger, Amplitude.Mercury.Data
+    - Name: IsNarrativeConsequence
+      Entry: 5
+      Data: false
+    - Name: SimulationEvent
+      Entry: 1
+      Data: Amplitude.Mercury.Simulation.SimulationEvent_TurnBegin, Amplitude.Mercury.Firstpass
+    - Name: Signature
+      Entry: 7
+      Data: 2|System.Collections.Generic.List`1[[Amplitude.Mercury.Data.Simulation.NarrativeEventConsequenceVariableDeclaration,
+        Amplitude.Mercury.Data]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Prerequisites
+      Entry: 7
+      Data: 3|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 4|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite_Empire_FactionDefinition,
+        Amplitude.Mercury.Data
+    - Name: FailureFlags
+      Entry: 3
+      Data: 0
+    - Name: LocalizationOverride
+      Entry: 6
+      Data: 
+    - Name: EntityID
+      Entry: 1
+      Data: Empire
+    - Name: TargetFaction
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: Civilization_Era6_Japan
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Variables
+      Entry: 7
+      Data: 5|Amplitude.Mercury.Data.Simulation.SimulationEventVariable[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 6|Amplitude.Mercury.Data.Simulation.NarrativeEventVariable_Empire_Cities,
+        Amplitude.Mercury.Data
+    - Name: Name
+      Entry: 1
+      Data: Kavieng
+    - Name: Usage
+      Entry: 3
+      Data: 1
+    - Name: CollectionSelector
+      Entry: 3
+      Data: 0
+    - Name: HasCountCondition
+      Entry: 5
+      Data: false
+    - Name: CountConditionOperator
+      Entry: 3
+      Data: 1
+    - Name: CountConditionValue
+      Entry: 3
+      Data: 0
+    - Name: ElementPrerequisites
+      Entry: 7
+      Data: 7|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 8|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite_Entity_Property,
+        Amplitude.Mercury.Data
+    - Name: FailureFlags
+      Entry: 3
+      Data: 0
+    - Name: LocalizationOverride
+      Entry: 6
+      Data: 
+    - Name: EntityID
+      Entry: 1
+      Data: Iterator
+    - Name: PropertyName
+      Entry: 1
+      Data: Population
+    - Name: ComparisonOperator
+      Entry: 3
+      Data: 0
+    - Name: Value
+      Entry: 7
+      Data: Amplitude.FixedPoint, Amplitude.Framework
+    - Name: RawValue
+      Entry: 3
+      Data: 26000
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: SortPropertyName
+      Entry: 6
+      Data: 
+    - Name: SortOrder
+      Entry: 3
+      Data: 0
+    - Name: EmpireID
+      Entry: 1
+      Data: Empire
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: LocalizationParameters
+      Entry: 7
+      Data: 9|Amplitude.Mercury.Data.Simulation.NarrativeEventLocalizationParameter[],
+        Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Choices
+      Entry: 7
+      Data: 10|Amplitude.Mercury.Data.Simulation.NarrativeEventChoice[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 11|Amplitude.Mercury.Data.Simulation.NarrativeEventChoice, Amplitude.Mercury.Data
+    - Name: Image
+      Entry: 7
+      Data: Amplitude.UI.UITexture, Amplitude.UI
+    - Name: guid
+      Entry: 7
+      Data: Amplitude.Framework.Guid, Amplitude.Framework
+    - Name: a
+      Entry: 3
+      Data: 0
+    - Name: b
+      Entry: 3
+      Data: 0
+    - Name: c
+      Entry: 3
+      Data: 0
+    - Name: d
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Title
+      Entry: 1
+      Data: '%NarrativeEvent_SolomonIslands_RogerOutTitle'
+    - Name: Description
+      Entry: 1
+      Data: '%NarrativeEvent_SolomonIslands_006_ScenarioStart_IJAFChoice01Description'
+    - Name: Instant
+      Entry: 5
+      Data: false
+    - Name: Duration
+      Entry: 3
+      Data: 1
+    - Name: Prerequisites
+      Entry: 7
+      Data: 12|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: NarrativeEventEffects
+      Entry: 7
+      Data: 13|Amplitude.Mercury.Data.Simulation.NarrativeEventEffect[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Notes
+      Entry: 6
+      Data: 
+    - Name: Archetypes
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+  IsObsolete: 0
+  DlcPrerequisite:
+    DownloadableContent: 0
+  OnlyActiveInScenario:
+    serializableElementName: Scenario_SolomonIslandsCampaign
+  IsWorkInProgress: 0
+  Category:
+    serializableElementName: NarrativeEventCategory_SolomonIslands
+  EraDefinitions:
+  - serializableElementName: Era6
+  Image:
+    guid:
+      a: 740847092
+      b: 1249753589
+      c: -1339170679
+      d: -652295943
+  Title: '%NarrativeEvent_SolomonIslands_006_ScenarioStart_IJAFTitle'
+  Description: '%NarrativeEvent_SolomonIslands_006_ScenarioStart_IJAFDescription'
+  GeoLocalizationID: Kavieng
+  Notes: 
+--- !u!114 &-2575894521010105900
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -931882767, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: NarrativeEvent_SolomonIslands_001_ScenarioStart_US
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: Trigger
+      Entry: 7
+      Data: 0|Amplitude.Mercury.Data.Simulation.NarrativeEventTrigger, Amplitude.Mercury.Data
+    - Name: ConsumeEventUponTrigger
+      Entry: 5
+      Data: false
+    - Name: PreventEventRemoval
+      Entry: 5
+      Data: false
+    - Name: SimulationEventTrigger
+      Entry: 7
+      Data: 1|Amplitude.Mercury.Data.Simulation.SimulationEventTrigger, Amplitude.Mercury.Data
+    - Name: IsNarrativeConsequence
+      Entry: 5
+      Data: false
+    - Name: SimulationEvent
+      Entry: 1
+      Data: Amplitude.Mercury.Simulation.SimulationEvent_TurnBegin, Amplitude.Mercury.Firstpass
+    - Name: Signature
+      Entry: 7
+      Data: 2|System.Collections.Generic.List`1[[Amplitude.Mercury.Data.Simulation.NarrativeEventConsequenceVariableDeclaration,
+        Amplitude.Mercury.Data]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Prerequisites
+      Entry: 7
+      Data: 3|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 4|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite_Empire_FactionDefinition,
+        Amplitude.Mercury.Data
+    - Name: FailureFlags
+      Entry: 3
+      Data: 0
+    - Name: LocalizationOverride
+      Entry: 6
+      Data: 
+    - Name: EntityID
+      Entry: 1
+      Data: Empire
+    - Name: TargetFaction
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: Civilization_Era6_USA
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Variables
+      Entry: 7
+      Data: 5|Amplitude.Mercury.Data.Simulation.SimulationEventVariable[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 6|Amplitude.Mercury.Data.Simulation.NarrativeEventVariable_MajorEmpire_Capital,
+        Amplitude.Mercury.Data
+    - Name: Name
+      Entry: 1
+      Data: MyCapital
+    - Name: Usage
+      Entry: 3
+      Data: 1
+    - Name: CollectionSelector
+      Entry: 3
+      Data: 0
+    - Name: HasCountCondition
+      Entry: 5
+      Data: false
+    - Name: CountConditionOperator
+      Entry: 3
+      Data: 1
+    - Name: CountConditionValue
+      Entry: 3
+      Data: 0
+    - Name: ElementPrerequisites
+      Entry: 7
+      Data: 7|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: SortPropertyName
+      Entry: 6
+      Data: 
+    - Name: SortOrder
+      Entry: 3
+      Data: 0
+    - Name: MajorEmpireID
+      Entry: 1
+      Data: Empire
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: LocalizationParameters
+      Entry: 7
+      Data: 8|Amplitude.Mercury.Data.Simulation.NarrativeEventLocalizationParameter[],
+        Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Choices
+      Entry: 7
+      Data: 9|Amplitude.Mercury.Data.Simulation.NarrativeEventChoice[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 10|Amplitude.Mercury.Data.Simulation.NarrativeEventChoice, Amplitude.Mercury.Data
+    - Name: Image
+      Entry: 7
+      Data: Amplitude.UI.UITexture, Amplitude.UI
+    - Name: guid
+      Entry: 7
+      Data: Amplitude.Framework.Guid, Amplitude.Framework
+    - Name: a
+      Entry: 3
+      Data: 0
+    - Name: b
+      Entry: 3
+      Data: 0
+    - Name: c
+      Entry: 3
+      Data: 0
+    - Name: d
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Title
+      Entry: 1
+      Data: '%NarrativeEvent_SolomonIslands_001_ScenarioStart_USChoice01Title'
+    - Name: Description
+      Entry: 1
+      Data: '%NarrativeEvent_SolomonIslands_001_ScenarioStart_USChoice01Description'
+    - Name: Instant
+      Entry: 5
+      Data: false
+    - Name: Duration
+      Entry: 3
+      Data: 1
+    - Name: Prerequisites
+      Entry: 7
+      Data: 11|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: NarrativeEventEffects
+      Entry: 7
+      Data: 12|Amplitude.Mercury.Data.Simulation.NarrativeEventEffect[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 4
+    - Name: 
+      Entry: 7
+      Data: 13|Amplitude.Mercury.Data.Simulation.NarrativeEventEffect, Amplitude.Mercury.Data
+    - Name: Reversible
+      Entry: 5
+      Data: true
+    - Name: SimulationEventEffect
+      Entry: 7
+      Data: 14|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_UnlockTechnology,
+        Amplitude.Mercury.Data
+    - Name: SimulationEffectDescriptionOverride
+      Entry: 6
+      Data: 
+    - Name: UIMapperOverride
+      Entry: 6
+      Data: 
+    - Name: Hidden
+      Entry: 5
+      Data: true
+    - Name: DlcPrerequisite
+      Entry: 7
+      Data: Amplitude.Mercury.Data.Simulation.Prerequisites.DownloadableContentPrerequisite,
+        Amplitude.Mercury.Data
+    - Name: DownloadableContent
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: GainValues
+      Entry: 6
+      Data: 
+    - Name: TargetID
+      Entry: 1
+      Data: Empire
+    - Name: TechnologyReference
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: Technology_Era5_Rifling
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 15|Amplitude.Mercury.Data.Simulation.NarrativeEventEffect, Amplitude.Mercury.Data
+    - Name: Reversible
+      Entry: 5
+      Data: true
+    - Name: SimulationEventEffect
+      Entry: 7
+      Data: 16|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_UnlockTechnology,
+        Amplitude.Mercury.Data
+    - Name: SimulationEffectDescriptionOverride
+      Entry: 6
+      Data: 
+    - Name: UIMapperOverride
+      Entry: 6
+      Data: 
+    - Name: Hidden
+      Entry: 5
+      Data: true
+    - Name: DlcPrerequisite
+      Entry: 7
+      Data: Amplitude.Mercury.Data.Simulation.Prerequisites.DownloadableContentPrerequisite,
+        Amplitude.Mercury.Data
+    - Name: DownloadableContent
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: GainValues
+      Entry: 6
+      Data: 
+    - Name: TargetID
+      Entry: 1
+      Data: Empire
+    - Name: TechnologyReference
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: Technology_Era5_AntiTankGun
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 17|Amplitude.Mercury.Data.Simulation.NarrativeEventEffect, Amplitude.Mercury.Data
+    - Name: Reversible
+      Entry: 5
+      Data: true
+    - Name: SimulationEventEffect
+      Entry: 7
+      Data: 18|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_UnlockTechnology,
+        Amplitude.Mercury.Data
+    - Name: SimulationEffectDescriptionOverride
+      Entry: 6
+      Data: 
+    - Name: UIMapperOverride
+      Entry: 6
+      Data: 
+    - Name: Hidden
+      Entry: 5
+      Data: true
+    - Name: DlcPrerequisite
+      Entry: 7
+      Data: Amplitude.Mercury.Data.Simulation.Prerequisites.DownloadableContentPrerequisite,
+        Amplitude.Mercury.Data
+    - Name: DownloadableContent
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: GainValues
+      Entry: 6
+      Data: 
+    - Name: TargetID
+      Entry: 1
+      Data: Empire
+    - Name: TechnologyReference
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: Technology_Era5_AerialTorpedo
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 19|Amplitude.Mercury.Data.Simulation.NarrativeEventEffect, Amplitude.Mercury.Data
+    - Name: Reversible
+      Entry: 5
+      Data: true
+    - Name: SimulationEventEffect
+      Entry: 7
+      Data: 20|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_UnlockTechnology,
+        Amplitude.Mercury.Data
+    - Name: SimulationEffectDescriptionOverride
+      Entry: 6
+      Data: 
+    - Name: UIMapperOverride
+      Entry: 6
+      Data: 
+    - Name: Hidden
+      Entry: 5
+      Data: true
+    - Name: DlcPrerequisite
+      Entry: 7
+      Data: Amplitude.Mercury.Data.Simulation.Prerequisites.DownloadableContentPrerequisite,
+        Amplitude.Mercury.Data
+    - Name: DownloadableContent
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: GainValues
+      Entry: 6
+      Data: 
+    - Name: TargetID
+      Entry: 1
+      Data: Empire
+    - Name: TechnologyReference
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: Technology_Era6_FireControlSystems
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Notes
+      Entry: 6
+      Data: 
+    - Name: Archetypes
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+  IsObsolete: 0
+  DlcPrerequisite:
+    DownloadableContent: 0
+  OnlyActiveInScenario:
+    serializableElementName: Scenario_SolomonIslandsCampaign
+  IsWorkInProgress: 0
+  Category:
+    serializableElementName: NarrativeEventCategory_SolomonIslands
+  EraDefinitions:
+  - serializableElementName: Era6
+  Image:
+    guid:
+      a: 1260086335
+      b: 1084628517
+      c: 843107220
+      d: 1461020838
+  Title: '%NarrativeEvent_SolomonIslands_001_ScenarioStart_USTitle'
+  Description: '%NarrativeEvent_SolomonIslands_001_ScenarioStart_USDescription'
+  GeoLocalizationID: MyCapital
+  Notes: 
+--- !u!114 &-600894428697681640
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -931882767, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: NarrativeEvent_SolomonIslands_003_ScenarioStart_US
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: Trigger
+      Entry: 7
+      Data: 0|Amplitude.Mercury.Data.Simulation.NarrativeEventTrigger, Amplitude.Mercury.Data
+    - Name: ConsumeEventUponTrigger
+      Entry: 5
+      Data: false
+    - Name: PreventEventRemoval
+      Entry: 5
+      Data: false
+    - Name: SimulationEventTrigger
+      Entry: 7
+      Data: 1|Amplitude.Mercury.Data.Simulation.SimulationEventTrigger, Amplitude.Mercury.Data
+    - Name: IsNarrativeConsequence
+      Entry: 5
+      Data: false
+    - Name: SimulationEvent
+      Entry: 1
+      Data: Amplitude.Mercury.Simulation.SimulationEvent_TurnBegin, Amplitude.Mercury.Firstpass
+    - Name: Signature
+      Entry: 7
+      Data: 2|System.Collections.Generic.List`1[[Amplitude.Mercury.Data.Simulation.NarrativeEventConsequenceVariableDeclaration,
+        Amplitude.Mercury.Data]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Prerequisites
+      Entry: 7
+      Data: 3|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 4|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite_Empire_FactionDefinition,
+        Amplitude.Mercury.Data
+    - Name: FailureFlags
+      Entry: 3
+      Data: 0
+    - Name: LocalizationOverride
+      Entry: 6
+      Data: 
+    - Name: EntityID
+      Entry: 1
+      Data: Empire
+    - Name: TargetFaction
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: Civilization_Era6_USA
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Variables
+      Entry: 7
+      Data: 5|Amplitude.Mercury.Data.Simulation.SimulationEventVariable[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 6|Amplitude.Mercury.Data.Simulation.NarrativeEventVariable_Empire_Cities,
+        Amplitude.Mercury.Data
+    - Name: Name
+      Entry: 1
+      Data: Auki
+    - Name: Usage
+      Entry: 3
+      Data: 1
+    - Name: CollectionSelector
+      Entry: 3
+      Data: 0
+    - Name: HasCountCondition
+      Entry: 5
+      Data: false
+    - Name: CountConditionOperator
+      Entry: 3
+      Data: 1
+    - Name: CountConditionValue
+      Entry: 3
+      Data: 0
+    - Name: ElementPrerequisites
+      Entry: 7
+      Data: 7|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 8|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite_Entity_Property,
+        Amplitude.Mercury.Data
+    - Name: FailureFlags
+      Entry: 3
+      Data: 0
+    - Name: LocalizationOverride
+      Entry: 6
+      Data: 
+    - Name: EntityID
+      Entry: 1
+      Data: Iterator
+    - Name: PropertyName
+      Entry: 1
+      Data: Population
+    - Name: ComparisonOperator
+      Entry: 3
+      Data: 0
+    - Name: Value
+      Entry: 7
+      Data: Amplitude.FixedPoint, Amplitude.Framework
+    - Name: RawValue
+      Entry: 3
+      Data: 20000
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: SortPropertyName
+      Entry: 6
+      Data: 
+    - Name: SortOrder
+      Entry: 3
+      Data: 0
+    - Name: EmpireID
+      Entry: 1
+      Data: Empire
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: LocalizationParameters
+      Entry: 7
+      Data: 9|Amplitude.Mercury.Data.Simulation.NarrativeEventLocalizationParameter[],
+        Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Choices
+      Entry: 7
+      Data: 10|Amplitude.Mercury.Data.Simulation.NarrativeEventChoice[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 11|Amplitude.Mercury.Data.Simulation.NarrativeEventChoice, Amplitude.Mercury.Data
+    - Name: Image
+      Entry: 7
+      Data: Amplitude.UI.UITexture, Amplitude.UI
+    - Name: guid
+      Entry: 7
+      Data: Amplitude.Framework.Guid, Amplitude.Framework
+    - Name: a
+      Entry: 3
+      Data: 0
+    - Name: b
+      Entry: 3
+      Data: 0
+    - Name: c
+      Entry: 3
+      Data: 0
+    - Name: d
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Title
+      Entry: 1
+      Data: '%NarrativeEvent_SolomonIslands_RogerOutTitle'
+    - Name: Description
+      Entry: 1
+      Data: '%NarrativeEvent_SolomonIslands_003_ScenarioStart_USChoice01Description'
+    - Name: Instant
+      Entry: 5
+      Data: false
+    - Name: Duration
+      Entry: 3
+      Data: 1
+    - Name: Prerequisites
+      Entry: 7
+      Data: 12|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: NarrativeEventEffects
+      Entry: 7
+      Data: 13|Amplitude.Mercury.Data.Simulation.NarrativeEventEffect[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Notes
+      Entry: 6
+      Data: 
+    - Name: Archetypes
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+  IsObsolete: 0
+  DlcPrerequisite:
+    DownloadableContent: 0
+  OnlyActiveInScenario:
+    serializableElementName: Scenario_SolomonIslandsCampaign
+  IsWorkInProgress: 0
+  Category:
+    serializableElementName: NarrativeEventCategory_SolomonIslands
+  EraDefinitions:
+  - serializableElementName: Era6
+  Image:
+    guid:
+      a: 740847092
+      b: 1249753589
+      c: -1339170679
+      d: -652295943
+  Title: '%NarrativeEvent_SolomonIslands_003_ScenarioStart_USTitle'
+  Description: '%NarrativeEvent_SolomonIslands_003_ScenarioStart_USDescription'
+  GeoLocalizationID: Auki
+  Notes: 
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -2044257964, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: NarrativeEventDefinition_SolomonIslands
+  m_EditorClassIdentifier: 
+--- !u!114 &1821145596849433828
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -931882767, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: NarrativeEvent_SolomonIslands_007_IJAF
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: Trigger
+      Entry: 7
+      Data: 0|Amplitude.Mercury.Data.Simulation.NarrativeEventTrigger, Amplitude.Mercury.Data
+    - Name: ConsumeEventUponTrigger
+      Entry: 5
+      Data: false
+    - Name: PreventEventRemoval
+      Entry: 5
+      Data: false
+    - Name: SimulationEventTrigger
+      Entry: 7
+      Data: 1|Amplitude.Mercury.Data.Simulation.SimulationEventTrigger, Amplitude.Mercury.Data
+    - Name: IsNarrativeConsequence
+      Entry: 5
+      Data: false
+    - Name: SimulationEvent
+      Entry: 1
+      Data: Amplitude.Mercury.Simulation.SimulationEvent_TurnBegin, Amplitude.Mercury.Firstpass
+    - Name: Signature
+      Entry: 7
+      Data: 2|System.Collections.Generic.List`1[[Amplitude.Mercury.Data.Simulation.NarrativeEventConsequenceVariableDeclaration,
+        Amplitude.Mercury.Data]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Prerequisites
+      Entry: 7
+      Data: 3|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 2
+    - Name: 
+      Entry: 7
+      Data: 4|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite_Empire_FactionDefinition,
+        Amplitude.Mercury.Data
+    - Name: FailureFlags
+      Entry: 3
+      Data: 0
+    - Name: LocalizationOverride
+      Entry: 6
+      Data: 
+    - Name: EntityID
+      Entry: 1
+      Data: Empire
+    - Name: TargetFaction
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: Civilization_Era6_Japan
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 5|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite_Entity_PathCount,
+        Amplitude.Mercury.Data
+    - Name: FailureFlags
+      Entry: 3
+      Data: 0
+    - Name: LocalizationOverride
+      Entry: 6
+      Data: 
+    - Name: EntityID
+      Entry: 1
+      Data: Empire
+    - Name: StartingType
+      Entry: 1
+      Data: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
+    - Name: Path
+      Entry: 7
+      Data: Amplitude.Framework.Simulation.Description.Path, Amplitude.Framework
+    - Name: PropertyToFollow
+      Entry: 7
+      Data: 6|System.String[], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 1
+      Data: Cities
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Validations
+      Entry: 7
+      Data: 7|Amplitude.Framework.Simulation.Description.Validation[], Amplitude.Framework
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: specificTargetType
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: TargetPathIndexToCount
+      Entry: 3
+      Data: 0
+    - Name: ComparisonOperator
+      Entry: 3
+      Data: 3
+    - Name: TargetValue
+      Entry: 3
+      Data: 6
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Variables
+      Entry: 7
+      Data: 8|Amplitude.Mercury.Data.Simulation.SimulationEventVariable[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 9
+    - Name: 
+      Entry: 7
+      Data: 9|Amplitude.Mercury.Data.Simulation.NarrativeEventVariable_WorldPosition,
+        Amplitude.Mercury.Data
+    - Name: Name
+      Entry: 1
+      Data: Pin
+    - Name: Usage
+      Entry: 3
+      Data: 1
+    - Name: TileIndex
+      Entry: 3
+      Data: 19221
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 10|Amplitude.Mercury.Data.Simulation.NarrativeEventVariable_WorldPosition,
+        Amplitude.Mercury.Data
+    - Name: Name
+      Entry: 1
+      Data: Spawn1
+    - Name: Usage
+      Entry: 3
+      Data: 65536
+    - Name: TileIndex
+      Entry: 3
+      Data: 19590
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 11|Amplitude.Mercury.Data.Simulation.NarrativeEventVariable_WorldPosition,
+        Amplitude.Mercury.Data
+    - Name: Name
+      Entry: 1
+      Data: Spawn2
+    - Name: Usage
+      Entry: 3
+      Data: 65536
+    - Name: TileIndex
+      Entry: 3
+      Data: 19592
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 12|Amplitude.Mercury.Data.Simulation.NarrativeEventVariable_WorldPosition,
+        Amplitude.Mercury.Data
+    - Name: Name
+      Entry: 1
+      Data: Spawn3
+    - Name: Usage
+      Entry: 3
+      Data: 65536
+    - Name: TileIndex
+      Entry: 3
+      Data: 19594
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 13|Amplitude.Mercury.Data.Simulation.NarrativeEventVariable_WorldPosition,
+        Amplitude.Mercury.Data
+    - Name: Name
+      Entry: 1
+      Data: Spawn4
+    - Name: Usage
+      Entry: 3
+      Data: 65536
+    - Name: TileIndex
+      Entry: 3
+      Data: 19596
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 14|Amplitude.Mercury.Data.Simulation.NarrativeEventVariable_WorldPosition,
+        Amplitude.Mercury.Data
+    - Name: Name
+      Entry: 1
+      Data: Spawn5
+    - Name: Usage
+      Entry: 3
+      Data: 65536
+    - Name: TileIndex
+      Entry: 3
+      Data: 19031
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 15|Amplitude.Mercury.Data.Simulation.NarrativeEventVariable_WorldPosition,
+        Amplitude.Mercury.Data
+    - Name: Name
+      Entry: 1
+      Data: Spawn6
+    - Name: Usage
+      Entry: 3
+      Data: 65536
+    - Name: TileIndex
+      Entry: 3
+      Data: 18849
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 16|Amplitude.Mercury.Data.Simulation.NarrativeEventVariable_WorldPosition,
+        Amplitude.Mercury.Data
+    - Name: Name
+      Entry: 1
+      Data: Spawn7
+    - Name: Usage
+      Entry: 3
+      Data: 65536
+    - Name: TileIndex
+      Entry: 3
+      Data: 19040
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 17|Amplitude.Mercury.Data.Simulation.NarrativeEventVariable_WorldPosition,
+        Amplitude.Mercury.Data
+    - Name: Name
+      Entry: 1
+      Data: Spawn8
+    - Name: Usage
+      Entry: 3
+      Data: 65536
+    - Name: TileIndex
+      Entry: 3
+      Data: 18480
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: LocalizationParameters
+      Entry: 7
+      Data: 18|Amplitude.Mercury.Data.Simulation.NarrativeEventLocalizationParameter[],
+        Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Choices
+      Entry: 7
+      Data: 19|Amplitude.Mercury.Data.Simulation.NarrativeEventChoice[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 20|Amplitude.Mercury.Data.Simulation.NarrativeEventChoice, Amplitude.Mercury.Data
+    - Name: Image
+      Entry: 7
+      Data: Amplitude.UI.UITexture, Amplitude.UI
+    - Name: guid
+      Entry: 7
+      Data: Amplitude.Framework.Guid, Amplitude.Framework
+    - Name: a
+      Entry: 3
+      Data: 0
+    - Name: b
+      Entry: 3
+      Data: 0
+    - Name: c
+      Entry: 3
+      Data: 0
+    - Name: d
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Title
+      Entry: 1
+      Data: '%NarrativeEvent_SolomonIslands_007_IJAFChoice01Title'
+    - Name: Description
+      Entry: 1
+      Data: '%NarrativeEvent_SolomonIslands_007_IJAFChoice01Description'
+    - Name: Instant
+      Entry: 5
+      Data: false
+    - Name: Duration
+      Entry: 3
+      Data: 1
+    - Name: Prerequisites
+      Entry: 7
+      Data: 21|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: NarrativeEventEffects
+      Entry: 7
+      Data: 22|Amplitude.Mercury.Data.Simulation.NarrativeEventEffect[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 12
+    - Name: 
+      Entry: 7
+      Data: 23|Amplitude.Mercury.Data.Simulation.NarrativeEventEffect, Amplitude.Mercury.Data
+    - Name: Reversible
+      Entry: 5
+      Data: true
+    - Name: SimulationEventEffect
+      Entry: 7
+      Data: 24|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_SpawnArmy,
+        Amplitude.Mercury.Data
+    - Name: SimulationEffectDescriptionOverride
+      Entry: 6
+      Data: 
+    - Name: UIMapperOverride
+      Entry: 6
+      Data: 
+    - Name: Hidden
+      Entry: 5
+      Data: true
+    - Name: DlcPrerequisite
+      Entry: 7
+      Data: Amplitude.Mercury.Data.Simulation.Prerequisites.DownloadableContentPrerequisite,
+        Amplitude.Mercury.Data
+    - Name: DownloadableContent
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: GainValues
+      Entry: 6
+      Data: 
+    - Name: UnitDefinitions
+      Entry: 7
+      Data: 25|Amplitude.Framework.DatatableElementReference[], Amplitude.Framework
+    - Name: 
+      Entry: 12
+      Data: 8
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: NavalUnit_Era6_Common_AircraftCarriers
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: NavalUnit_Era6_Common_Battleships
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: NavalUnit_Era6_Common_Battleships
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: NavalUnit_Era6_Common_Destroyer
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: NavalUnit_Era6_Common_Destroyer
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: NavalUnit_Era6_Common_Destroyer
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: NavalUnit_Era6_Common_DieselSubmarine
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: NavalUnit_Era6_Common_DieselSubmarine
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: ArmyName
+      Entry: 1
+      Data: '%Scenario_WW2Pacific_Fleet_IJA2'
+    - Name: TargetID
+      Entry: 1
+      Data: Spawn1
+    - Name: OwnerID
+      Entry: 1
+      Data: Empire
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 26|Amplitude.Mercury.Data.Simulation.NarrativeEventEffect, Amplitude.Mercury.Data
+    - Name: Reversible
+      Entry: 5
+      Data: true
+    - Name: SimulationEventEffect
+      Entry: 7
+      Data: 27|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_SpawnArmy,
+        Amplitude.Mercury.Data
+    - Name: SimulationEffectDescriptionOverride
+      Entry: 6
+      Data: 
+    - Name: UIMapperOverride
+      Entry: 6
+      Data: 
+    - Name: Hidden
+      Entry: 5
+      Data: true
+    - Name: DlcPrerequisite
+      Entry: 7
+      Data: Amplitude.Mercury.Data.Simulation.Prerequisites.DownloadableContentPrerequisite,
+        Amplitude.Mercury.Data
+    - Name: DownloadableContent
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: GainValues
+      Entry: 6
+      Data: 
+    - Name: UnitDefinitions
+      Entry: 7
+      Data: 28|Amplitude.Framework.DatatableElementReference[], Amplitude.Framework
+    - Name: 
+      Entry: 12
+      Data: 8
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: AirUnit_Era6_Common_StrategicBombers
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: AirUnit_Era6_Common_StrategicBombers
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: AirUnit_Era6_Common_StrategicBombers
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: AirUnit_Era6_Common_StrategicBombers
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: AirUnit_Era6_Japan_Reisens
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: AirUnit_Era6_Japan_Reisens
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: AirUnit_Era6_Japan_Reisens
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: AirUnit_Era6_Japan_Reisens
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: ArmyName
+      Entry: 1
+      Data: '%Scenario_WW2Pacific_Fleet_IJA2'
+    - Name: TargetID
+      Entry: 1
+      Data: Spawn1
+    - Name: OwnerID
+      Entry: 1
+      Data: Empire
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 29|Amplitude.Mercury.Data.Simulation.NarrativeEventEffect, Amplitude.Mercury.Data
+    - Name: Reversible
+      Entry: 5
+      Data: true
+    - Name: SimulationEventEffect
+      Entry: 7
+      Data: 30|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_SpawnArmy,
+        Amplitude.Mercury.Data
+    - Name: SimulationEffectDescriptionOverride
+      Entry: 6
+      Data: 
+    - Name: UIMapperOverride
+      Entry: 6
+      Data: 
+    - Name: Hidden
+      Entry: 5
+      Data: true
+    - Name: DlcPrerequisite
+      Entry: 7
+      Data: Amplitude.Mercury.Data.Simulation.Prerequisites.DownloadableContentPrerequisite,
+        Amplitude.Mercury.Data
+    - Name: DownloadableContent
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: GainValues
+      Entry: 6
+      Data: 
+    - Name: UnitDefinitions
+      Entry: 7
+      Data: 31|Amplitude.Framework.DatatableElementReference[], Amplitude.Framework
+    - Name: 
+      Entry: 12
+      Data: 8
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: NavalUnit_Era6_Common_AircraftCarriers
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: NavalUnit_Era6_Common_Battleships
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: NavalUnit_Era6_Common_Battleships
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: NavalUnit_Era6_Common_Destroyer
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: NavalUnit_Era6_Common_Destroyer
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: NavalUnit_Era6_Common_Destroyer
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: NavalUnit_Era6_Common_DieselSubmarine
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: NavalUnit_Era6_Common_DieselSubmarine
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: ArmyName
+      Entry: 1
+      Data: '%Scenario_WW2Pacific_Fleet_IJA2'
+    - Name: TargetID
+      Entry: 1
+      Data: Spawn2
+    - Name: OwnerID
+      Entry: 1
+      Data: Empire
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 32|Amplitude.Mercury.Data.Simulation.NarrativeEventEffect, Amplitude.Mercury.Data
+    - Name: Reversible
+      Entry: 5
+      Data: true
+    - Name: SimulationEventEffect
+      Entry: 7
+      Data: 33|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_SpawnArmy,
+        Amplitude.Mercury.Data
+    - Name: SimulationEffectDescriptionOverride
+      Entry: 6
+      Data: 
+    - Name: UIMapperOverride
+      Entry: 6
+      Data: 
+    - Name: Hidden
+      Entry: 5
+      Data: true
+    - Name: DlcPrerequisite
+      Entry: 7
+      Data: Amplitude.Mercury.Data.Simulation.Prerequisites.DownloadableContentPrerequisite,
+        Amplitude.Mercury.Data
+    - Name: DownloadableContent
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: GainValues
+      Entry: 6
+      Data: 
+    - Name: UnitDefinitions
+      Entry: 7
+      Data: 34|Amplitude.Framework.DatatableElementReference[], Amplitude.Framework
+    - Name: 
+      Entry: 12
+      Data: 8
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: AirUnit_Era6_Common_StrategicBombers
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: AirUnit_Era6_Common_StrategicBombers
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: AirUnit_Era6_Common_StrategicBombers
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: AirUnit_Era6_Common_StrategicBombers
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: AirUnit_Era6_Japan_Reisens
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: AirUnit_Era6_Japan_Reisens
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: AirUnit_Era6_Japan_Reisens
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: AirUnit_Era6_Japan_Reisens
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: ArmyName
+      Entry: 1
+      Data: '%Scenario_WW2Pacific_Fleet_IJA2'
+    - Name: TargetID
+      Entry: 1
+      Data: Spawn2
+    - Name: OwnerID
+      Entry: 1
+      Data: Empire
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 35|Amplitude.Mercury.Data.Simulation.NarrativeEventEffect, Amplitude.Mercury.Data
+    - Name: Reversible
+      Entry: 5
+      Data: true
+    - Name: SimulationEventEffect
+      Entry: 7
+      Data: 36|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_SpawnArmy,
+        Amplitude.Mercury.Data
+    - Name: SimulationEffectDescriptionOverride
+      Entry: 6
+      Data: 
+    - Name: UIMapperOverride
+      Entry: 6
+      Data: 
+    - Name: Hidden
+      Entry: 5
+      Data: true
+    - Name: DlcPrerequisite
+      Entry: 7
+      Data: Amplitude.Mercury.Data.Simulation.Prerequisites.DownloadableContentPrerequisite,
+        Amplitude.Mercury.Data
+    - Name: DownloadableContent
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: GainValues
+      Entry: 6
+      Data: 
+    - Name: UnitDefinitions
+      Entry: 7
+      Data: 37|Amplitude.Framework.DatatableElementReference[], Amplitude.Framework
+    - Name: 
+      Entry: 12
+      Data: 8
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: NavalUnit_Era6_Common_AircraftCarriers
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: NavalUnit_Era6_Common_Battleships
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: NavalUnit_Era6_Common_Battleships
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: NavalUnit_Era6_Common_Destroyer
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: NavalUnit_Era6_Common_Destroyer
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: NavalUnit_Era6_Common_Destroyer
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: NavalUnit_Era6_Common_DieselSubmarine
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: NavalUnit_Era6_Common_DieselSubmarine
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: ArmyName
+      Entry: 1
+      Data: '%Scenario_WW2Pacific_Fleet_IJA2'
+    - Name: TargetID
+      Entry: 1
+      Data: Spawn3
+    - Name: OwnerID
+      Entry: 1
+      Data: Empire
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 38|Amplitude.Mercury.Data.Simulation.NarrativeEventEffect, Amplitude.Mercury.Data
+    - Name: Reversible
+      Entry: 5
+      Data: true
+    - Name: SimulationEventEffect
+      Entry: 7
+      Data: 39|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_SpawnArmy,
+        Amplitude.Mercury.Data
+    - Name: SimulationEffectDescriptionOverride
+      Entry: 6
+      Data: 
+    - Name: UIMapperOverride
+      Entry: 6
+      Data: 
+    - Name: Hidden
+      Entry: 5
+      Data: true
+    - Name: DlcPrerequisite
+      Entry: 7
+      Data: Amplitude.Mercury.Data.Simulation.Prerequisites.DownloadableContentPrerequisite,
+        Amplitude.Mercury.Data
+    - Name: DownloadableContent
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: GainValues
+      Entry: 6
+      Data: 
+    - Name: UnitDefinitions
+      Entry: 7
+      Data: 40|Amplitude.Framework.DatatableElementReference[], Amplitude.Framework
+    - Name: 
+      Entry: 12
+      Data: 8
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: AirUnit_Era6_Common_StrategicBombers
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: AirUnit_Era6_Common_StrategicBombers
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: AirUnit_Era6_Common_StrategicBombers
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: AirUnit_Era6_Common_StrategicBombers
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: AirUnit_Era6_Japan_Reisens
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: AirUnit_Era6_Japan_Reisens
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: AirUnit_Era6_Japan_Reisens
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: AirUnit_Era6_Japan_Reisens
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: ArmyName
+      Entry: 1
+      Data: '%Scenario_WW2Pacific_Fleet_IJA2'
+    - Name: TargetID
+      Entry: 1
+      Data: Spawn3
+    - Name: OwnerID
+      Entry: 1
+      Data: Empire
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 41|Amplitude.Mercury.Data.Simulation.NarrativeEventEffect, Amplitude.Mercury.Data
+    - Name: Reversible
+      Entry: 5
+      Data: true
+    - Name: SimulationEventEffect
+      Entry: 7
+      Data: 42|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_SpawnArmy,
+        Amplitude.Mercury.Data
+    - Name: SimulationEffectDescriptionOverride
+      Entry: 6
+      Data: 
+    - Name: UIMapperOverride
+      Entry: 6
+      Data: 
+    - Name: Hidden
+      Entry: 5
+      Data: true
+    - Name: DlcPrerequisite
+      Entry: 7
+      Data: Amplitude.Mercury.Data.Simulation.Prerequisites.DownloadableContentPrerequisite,
+        Amplitude.Mercury.Data
+    - Name: DownloadableContent
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: GainValues
+      Entry: 6
+      Data: 
+    - Name: UnitDefinitions
+      Entry: 7
+      Data: 43|Amplitude.Framework.DatatableElementReference[], Amplitude.Framework
+    - Name: 
+      Entry: 12
+      Data: 8
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: NavalUnit_Era6_Common_AircraftCarriers
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: NavalUnit_Era6_Common_Battleships
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: NavalUnit_Era6_Common_Battleships
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: NavalUnit_Era6_Common_Destroyer
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: NavalUnit_Era6_Common_Destroyer
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: NavalUnit_Era6_Common_Destroyer
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: NavalUnit_Era6_Common_DieselSubmarine
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: NavalUnit_Era6_Common_DieselSubmarine
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: ArmyName
+      Entry: 1
+      Data: '%Scenario_WW2Pacific_Fleet_IJA2'
+    - Name: TargetID
+      Entry: 1
+      Data: Spawn4
+    - Name: OwnerID
+      Entry: 1
+      Data: Empire
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 44|Amplitude.Mercury.Data.Simulation.NarrativeEventEffect, Amplitude.Mercury.Data
+    - Name: Reversible
+      Entry: 5
+      Data: true
+    - Name: SimulationEventEffect
+      Entry: 7
+      Data: 45|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_SpawnArmy,
+        Amplitude.Mercury.Data
+    - Name: SimulationEffectDescriptionOverride
+      Entry: 6
+      Data: 
+    - Name: UIMapperOverride
+      Entry: 6
+      Data: 
+    - Name: Hidden
+      Entry: 5
+      Data: true
+    - Name: DlcPrerequisite
+      Entry: 7
+      Data: Amplitude.Mercury.Data.Simulation.Prerequisites.DownloadableContentPrerequisite,
+        Amplitude.Mercury.Data
+    - Name: DownloadableContent
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: GainValues
+      Entry: 6
+      Data: 
+    - Name: UnitDefinitions
+      Entry: 7
+      Data: 46|Amplitude.Framework.DatatableElementReference[], Amplitude.Framework
+    - Name: 
+      Entry: 12
+      Data: 8
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: AirUnit_Era6_Common_StrategicBombers
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: AirUnit_Era6_Common_StrategicBombers
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: AirUnit_Era6_Common_StrategicBombers
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: AirUnit_Era6_Common_StrategicBombers
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: AirUnit_Era6_Japan_Reisens
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: AirUnit_Era6_Japan_Reisens
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: AirUnit_Era6_Japan_Reisens
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: AirUnit_Era6_Japan_Reisens
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: ArmyName
+      Entry: 1
+      Data: '%Scenario_WW2Pacific_Fleet_IJA2'
+    - Name: TargetID
+      Entry: 1
+      Data: Spawn4
+    - Name: OwnerID
+      Entry: 1
+      Data: Empire
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 47|Amplitude.Mercury.Data.Simulation.NarrativeEventEffect, Amplitude.Mercury.Data
+    - Name: Reversible
+      Entry: 5
+      Data: true
+    - Name: SimulationEventEffect
+      Entry: 7
+      Data: 48|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_SpawnArmy,
+        Amplitude.Mercury.Data
+    - Name: SimulationEffectDescriptionOverride
+      Entry: 6
+      Data: 
+    - Name: UIMapperOverride
+      Entry: 6
+      Data: 
+    - Name: Hidden
+      Entry: 5
+      Data: true
+    - Name: DlcPrerequisite
+      Entry: 7
+      Data: Amplitude.Mercury.Data.Simulation.Prerequisites.DownloadableContentPrerequisite,
+        Amplitude.Mercury.Data
+    - Name: DownloadableContent
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: GainValues
+      Entry: 6
+      Data: 
+    - Name: UnitDefinitions
+      Entry: 7
+      Data: 49|Amplitude.Framework.DatatableElementReference[], Amplitude.Framework
+    - Name: 
+      Entry: 12
+      Data: 4
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: NavalUnit_Era6_Common_Destroyer
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: NavalUnit_Era6_Common_Destroyer
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: NavalUnit_Era6_Common_Destroyer
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: NavalUnit_Era6_Common_Destroyer
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: ArmyName
+      Entry: 1
+      Data: '%Scenario_WW2Pacific_Fleet_IJA2'
+    - Name: TargetID
+      Entry: 1
+      Data: Spawn5
+    - Name: OwnerID
+      Entry: 1
+      Data: Empire
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 50|Amplitude.Mercury.Data.Simulation.NarrativeEventEffect, Amplitude.Mercury.Data
+    - Name: Reversible
+      Entry: 5
+      Data: true
+    - Name: SimulationEventEffect
+      Entry: 7
+      Data: 51|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_SpawnArmy,
+        Amplitude.Mercury.Data
+    - Name: SimulationEffectDescriptionOverride
+      Entry: 6
+      Data: 
+    - Name: UIMapperOverride
+      Entry: 6
+      Data: 
+    - Name: Hidden
+      Entry: 5
+      Data: true
+    - Name: DlcPrerequisite
+      Entry: 7
+      Data: Amplitude.Mercury.Data.Simulation.Prerequisites.DownloadableContentPrerequisite,
+        Amplitude.Mercury.Data
+    - Name: DownloadableContent
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: GainValues
+      Entry: 6
+      Data: 
+    - Name: UnitDefinitions
+      Entry: 7
+      Data: 52|Amplitude.Framework.DatatableElementReference[], Amplitude.Framework
+    - Name: 
+      Entry: 12
+      Data: 4
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: NavalUnit_Era6_Common_Destroyer
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: NavalUnit_Era6_Common_Destroyer
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: NavalUnit_Era6_Common_Destroyer
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: NavalUnit_Era6_Common_Destroyer
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: ArmyName
+      Entry: 1
+      Data: '%Scenario_WW2Pacific_Fleet_IJA2'
+    - Name: TargetID
+      Entry: 1
+      Data: Spawn6
+    - Name: OwnerID
+      Entry: 1
+      Data: Empire
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 53|Amplitude.Mercury.Data.Simulation.NarrativeEventEffect, Amplitude.Mercury.Data
+    - Name: Reversible
+      Entry: 5
+      Data: true
+    - Name: SimulationEventEffect
+      Entry: 7
+      Data: 54|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_SpawnArmy,
+        Amplitude.Mercury.Data
+    - Name: SimulationEffectDescriptionOverride
+      Entry: 6
+      Data: 
+    - Name: UIMapperOverride
+      Entry: 6
+      Data: 
+    - Name: Hidden
+      Entry: 5
+      Data: true
+    - Name: DlcPrerequisite
+      Entry: 7
+      Data: Amplitude.Mercury.Data.Simulation.Prerequisites.DownloadableContentPrerequisite,
+        Amplitude.Mercury.Data
+    - Name: DownloadableContent
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: GainValues
+      Entry: 6
+      Data: 
+    - Name: UnitDefinitions
+      Entry: 7
+      Data: 55|Amplitude.Framework.DatatableElementReference[], Amplitude.Framework
+    - Name: 
+      Entry: 12
+      Data: 4
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: NavalUnit_Era6_Common_Destroyer
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: NavalUnit_Era6_Common_Destroyer
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: NavalUnit_Era6_Common_Destroyer
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: NavalUnit_Era6_Common_Destroyer
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: ArmyName
+      Entry: 1
+      Data: '%Scenario_WW2Pacific_Fleet_IJA2'
+    - Name: TargetID
+      Entry: 1
+      Data: Spawn7
+    - Name: OwnerID
+      Entry: 1
+      Data: Empire
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 56|Amplitude.Mercury.Data.Simulation.NarrativeEventEffect, Amplitude.Mercury.Data
+    - Name: Reversible
+      Entry: 5
+      Data: true
+    - Name: SimulationEventEffect
+      Entry: 7
+      Data: 57|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_SpawnArmy,
+        Amplitude.Mercury.Data
+    - Name: SimulationEffectDescriptionOverride
+      Entry: 6
+      Data: 
+    - Name: UIMapperOverride
+      Entry: 6
+      Data: 
+    - Name: Hidden
+      Entry: 5
+      Data: true
+    - Name: DlcPrerequisite
+      Entry: 7
+      Data: Amplitude.Mercury.Data.Simulation.Prerequisites.DownloadableContentPrerequisite,
+        Amplitude.Mercury.Data
+    - Name: DownloadableContent
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: GainValues
+      Entry: 6
+      Data: 
+    - Name: UnitDefinitions
+      Entry: 7
+      Data: 58|Amplitude.Framework.DatatableElementReference[], Amplitude.Framework
+    - Name: 
+      Entry: 12
+      Data: 9
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: NavalUnit_Era6_Common_DieselSubmarine
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: NavalUnit_Era6_Common_DieselSubmarine
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: NavalUnit_Era6_Common_DieselSubmarine
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: NavalUnit_Era6_Common_DieselSubmarine
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: NavalUnit_Era6_Common_DieselSubmarine
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: NavalUnit_Era6_Common_DieselSubmarine
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: NavalUnit_Era6_Common_DieselSubmarine
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: NavalUnit_Era6_Common_DieselSubmarine
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: NavalUnit_Era6_Common_DieselSubmarine
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: ArmyName
+      Entry: 1
+      Data: '%Scenario_WW2Pacific_Fleet_IJA2'
+    - Name: TargetID
+      Entry: 1
+      Data: Spawn8
+    - Name: OwnerID
+      Entry: 1
+      Data: Empire
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Notes
+      Entry: 6
+      Data: 
+    - Name: Archetypes
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+  IsObsolete: 0
+  DlcPrerequisite:
+    DownloadableContent: 0
+  OnlyActiveInScenario:
+    serializableElementName: Scenario_SolomonIslandsCampaign
+  IsWorkInProgress: 0
+  Category:
+    serializableElementName: NarrativeEventCategory_SolomonIslands
+  EraDefinitions:
+  - serializableElementName: Era6
+  Image:
+    guid:
+      a: -1466984896
+      b: 1074434987
+      c: -1664177489
+      d: 1761534433
+  Title: '%NarrativeEvent_SolomonIslands_007_IJAFTitle'
+  Description: '%NarrativeEvent_SolomonIslands_007_IJAFDescription'
+  GeoLocalizationID: Pin
+  Notes: 
+--- !u!114 &2383426555935295093
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -931882767, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: NarrativeEvent_SolomonIslands_002_ScenarioStart_US
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: Trigger
+      Entry: 7
+      Data: 0|Amplitude.Mercury.Data.Simulation.NarrativeEventTrigger, Amplitude.Mercury.Data
+    - Name: ConsumeEventUponTrigger
+      Entry: 5
+      Data: false
+    - Name: PreventEventRemoval
+      Entry: 5
+      Data: false
+    - Name: SimulationEventTrigger
+      Entry: 7
+      Data: 1|Amplitude.Mercury.Data.Simulation.SimulationEventTrigger, Amplitude.Mercury.Data
+    - Name: IsNarrativeConsequence
+      Entry: 5
+      Data: false
+    - Name: SimulationEvent
+      Entry: 1
+      Data: Amplitude.Mercury.Simulation.SimulationEvent_TurnBegin, Amplitude.Mercury.Firstpass
+    - Name: Signature
+      Entry: 7
+      Data: 2|System.Collections.Generic.List`1[[Amplitude.Mercury.Data.Simulation.NarrativeEventConsequenceVariableDeclaration,
+        Amplitude.Mercury.Data]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Prerequisites
+      Entry: 7
+      Data: 3|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 4|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite_Empire_FactionDefinition,
+        Amplitude.Mercury.Data
+    - Name: FailureFlags
+      Entry: 3
+      Data: 0
+    - Name: LocalizationOverride
+      Entry: 6
+      Data: 
+    - Name: EntityID
+      Entry: 1
+      Data: Empire
+    - Name: TargetFaction
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: Civilization_Era6_USA
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Variables
+      Entry: 7
+      Data: 5|Amplitude.Mercury.Data.Simulation.SimulationEventVariable[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 6|Amplitude.Mercury.Data.Simulation.NarrativeEventVariable_Empire_Cities,
+        Amplitude.Mercury.Data
+    - Name: Name
+      Entry: 1
+      Data: Alotau
+    - Name: Usage
+      Entry: 3
+      Data: 1
+    - Name: CollectionSelector
+      Entry: 3
+      Data: 0
+    - Name: HasCountCondition
+      Entry: 5
+      Data: false
+    - Name: CountConditionOperator
+      Entry: 3
+      Data: 1
+    - Name: CountConditionValue
+      Entry: 3
+      Data: 0
+    - Name: ElementPrerequisites
+      Entry: 7
+      Data: 7|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 8|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite_Entity_Property,
+        Amplitude.Mercury.Data
+    - Name: FailureFlags
+      Entry: 3
+      Data: 0
+    - Name: LocalizationOverride
+      Entry: 6
+      Data: 
+    - Name: EntityID
+      Entry: 1
+      Data: Iterator
+    - Name: PropertyName
+      Entry: 1
+      Data: Population
+    - Name: ComparisonOperator
+      Entry: 3
+      Data: 0
+    - Name: Value
+      Entry: 7
+      Data: Amplitude.FixedPoint, Amplitude.Framework
+    - Name: RawValue
+      Entry: 3
+      Data: 30000
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: SortPropertyName
+      Entry: 6
+      Data: 
+    - Name: SortOrder
+      Entry: 3
+      Data: 0
+    - Name: EmpireID
+      Entry: 1
+      Data: Empire
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: LocalizationParameters
+      Entry: 7
+      Data: 9|Amplitude.Mercury.Data.Simulation.NarrativeEventLocalizationParameter[],
+        Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Choices
+      Entry: 7
+      Data: 10|Amplitude.Mercury.Data.Simulation.NarrativeEventChoice[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 11|Amplitude.Mercury.Data.Simulation.NarrativeEventChoice, Amplitude.Mercury.Data
+    - Name: Image
+      Entry: 7
+      Data: Amplitude.UI.UITexture, Amplitude.UI
+    - Name: guid
+      Entry: 7
+      Data: Amplitude.Framework.Guid, Amplitude.Framework
+    - Name: a
+      Entry: 3
+      Data: 0
+    - Name: b
+      Entry: 3
+      Data: 0
+    - Name: c
+      Entry: 3
+      Data: 0
+    - Name: d
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Title
+      Entry: 1
+      Data: '%NarrativeEvent_SolomonIslands_RogerOutTitle'
+    - Name: Description
+      Entry: 1
+      Data: '%NarrativeEvent_SolomonIslands_002_ScenarioStart_USChoice01Description'
+    - Name: Instant
+      Entry: 5
+      Data: false
+    - Name: Duration
+      Entry: 3
+      Data: 1
+    - Name: Prerequisites
+      Entry: 7
+      Data: 12|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: NarrativeEventEffects
+      Entry: 7
+      Data: 13|Amplitude.Mercury.Data.Simulation.NarrativeEventEffect[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Notes
+      Entry: 6
+      Data: 
+    - Name: Archetypes
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+  IsObsolete: 0
+  DlcPrerequisite:
+    DownloadableContent: 0
+  OnlyActiveInScenario:
+    serializableElementName: Scenario_SolomonIslandsCampaign
+  IsWorkInProgress: 0
+  Category:
+    serializableElementName: NarrativeEventCategory_SolomonIslands
+  EraDefinitions:
+  - serializableElementName: Era6
+  Image:
+    guid:
+      a: 740847092
+      b: 1249753589
+      c: -1339170679
+      d: -652295943
+  Title: '%NarrativeEvent_SolomonIslands_002_ScenarioStart_USTitle'
+  Description: '%NarrativeEvent_SolomonIslands_002_ScenarioStart_USDescription'
+  GeoLocalizationID: Alotau
+  Notes: 
+--- !u!114 &4039511271747182040
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -931882767, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: NarrativeEvent_SolomonIslands_005_ScenarioStart_IJAF
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: Trigger
+      Entry: 7
+      Data: 0|Amplitude.Mercury.Data.Simulation.NarrativeEventTrigger, Amplitude.Mercury.Data
+    - Name: ConsumeEventUponTrigger
+      Entry: 5
+      Data: false
+    - Name: PreventEventRemoval
+      Entry: 5
+      Data: false
+    - Name: SimulationEventTrigger
+      Entry: 7
+      Data: 1|Amplitude.Mercury.Data.Simulation.SimulationEventTrigger, Amplitude.Mercury.Data
+    - Name: IsNarrativeConsequence
+      Entry: 5
+      Data: false
+    - Name: SimulationEvent
+      Entry: 1
+      Data: Amplitude.Mercury.Simulation.SimulationEvent_TurnBegin, Amplitude.Mercury.Firstpass
+    - Name: Signature
+      Entry: 7
+      Data: 2|System.Collections.Generic.List`1[[Amplitude.Mercury.Data.Simulation.NarrativeEventConsequenceVariableDeclaration,
+        Amplitude.Mercury.Data]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Prerequisites
+      Entry: 7
+      Data: 3|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 4|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite_Empire_FactionDefinition,
+        Amplitude.Mercury.Data
+    - Name: FailureFlags
+      Entry: 3
+      Data: 0
+    - Name: LocalizationOverride
+      Entry: 6
+      Data: 
+    - Name: EntityID
+      Entry: 1
+      Data: Empire
+    - Name: TargetFaction
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: Civilization_Era6_Japan
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Variables
+      Entry: 7
+      Data: 5|Amplitude.Mercury.Data.Simulation.SimulationEventVariable[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 6|Amplitude.Mercury.Data.Simulation.NarrativeEventVariable_Empire_Cities,
+        Amplitude.Mercury.Data
+    - Name: Name
+      Entry: 1
+      Data: Taro
+    - Name: Usage
+      Entry: 3
+      Data: 1
+    - Name: CollectionSelector
+      Entry: 3
+      Data: 0
+    - Name: HasCountCondition
+      Entry: 5
+      Data: false
+    - Name: CountConditionOperator
+      Entry: 3
+      Data: 1
+    - Name: CountConditionValue
+      Entry: 3
+      Data: 0
+    - Name: ElementPrerequisites
+      Entry: 7
+      Data: 7|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 8|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite_Entity_Property,
+        Amplitude.Mercury.Data
+    - Name: FailureFlags
+      Entry: 3
+      Data: 0
+    - Name: LocalizationOverride
+      Entry: 6
+      Data: 
+    - Name: EntityID
+      Entry: 1
+      Data: Iterator
+    - Name: PropertyName
+      Entry: 1
+      Data: Population
+    - Name: ComparisonOperator
+      Entry: 3
+      Data: 0
+    - Name: Value
+      Entry: 7
+      Data: Amplitude.FixedPoint, Amplitude.Framework
+    - Name: RawValue
+      Entry: 3
+      Data: 16000
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: SortPropertyName
+      Entry: 6
+      Data: 
+    - Name: SortOrder
+      Entry: 3
+      Data: 0
+    - Name: EmpireID
+      Entry: 1
+      Data: Empire
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: LocalizationParameters
+      Entry: 7
+      Data: 9|Amplitude.Mercury.Data.Simulation.NarrativeEventLocalizationParameter[],
+        Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Choices
+      Entry: 7
+      Data: 10|Amplitude.Mercury.Data.Simulation.NarrativeEventChoice[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 11|Amplitude.Mercury.Data.Simulation.NarrativeEventChoice, Amplitude.Mercury.Data
+    - Name: Image
+      Entry: 7
+      Data: Amplitude.UI.UITexture, Amplitude.UI
+    - Name: guid
+      Entry: 7
+      Data: Amplitude.Framework.Guid, Amplitude.Framework
+    - Name: a
+      Entry: 3
+      Data: 0
+    - Name: b
+      Entry: 3
+      Data: 0
+    - Name: c
+      Entry: 3
+      Data: 0
+    - Name: d
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Title
+      Entry: 1
+      Data: '%NarrativeEvent_SolomonIslands_RogerOutTitle'
+    - Name: Description
+      Entry: 1
+      Data: '%NarrativeEvent_SolomonIslands_005_ScenarioStart_IJAFChoice01Description'
+    - Name: Instant
+      Entry: 5
+      Data: false
+    - Name: Duration
+      Entry: 3
+      Data: 1
+    - Name: Prerequisites
+      Entry: 7
+      Data: 12|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: NarrativeEventEffects
+      Entry: 7
+      Data: 13|Amplitude.Mercury.Data.Simulation.NarrativeEventEffect[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Notes
+      Entry: 6
+      Data: 
+    - Name: Archetypes
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+  IsObsolete: 0
+  DlcPrerequisite:
+    DownloadableContent: 0
+  OnlyActiveInScenario:
+    serializableElementName: Scenario_SolomonIslandsCampaign
+  IsWorkInProgress: 0
+  Category:
+    serializableElementName: NarrativeEventCategory_SolomonIslands
+  EraDefinitions:
+  - serializableElementName: Era6
+  Image:
+    guid:
+      a: 740847092
+      b: 1249753589
+      c: -1339170679
+      d: -652295943
+  Title: '%NarrativeEvent_SolomonIslands_005_ScenarioStart_IJAFTitle'
+  Description: '%NarrativeEvent_SolomonIslands_005_ScenarioStart_IJAFDescription'
+  GeoLocalizationID: Taro
+  Notes: 
+--- !u!114 &5521345703905619184
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -931882767, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: NarrativeEvent_SolomonIslands_004_ScenarioStart_IJAF
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: Trigger
+      Entry: 7
+      Data: 0|Amplitude.Mercury.Data.Simulation.NarrativeEventTrigger, Amplitude.Mercury.Data
+    - Name: ConsumeEventUponTrigger
+      Entry: 5
+      Data: false
+    - Name: PreventEventRemoval
+      Entry: 5
+      Data: false
+    - Name: SimulationEventTrigger
+      Entry: 7
+      Data: 1|Amplitude.Mercury.Data.Simulation.SimulationEventTrigger, Amplitude.Mercury.Data
+    - Name: IsNarrativeConsequence
+      Entry: 5
+      Data: false
+    - Name: SimulationEvent
+      Entry: 1
+      Data: Amplitude.Mercury.Simulation.SimulationEvent_TurnBegin, Amplitude.Mercury.Firstpass
+    - Name: Signature
+      Entry: 7
+      Data: 2|System.Collections.Generic.List`1[[Amplitude.Mercury.Data.Simulation.NarrativeEventConsequenceVariableDeclaration,
+        Amplitude.Mercury.Data]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Prerequisites
+      Entry: 7
+      Data: 3|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 4|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite_Empire_FactionDefinition,
+        Amplitude.Mercury.Data
+    - Name: FailureFlags
+      Entry: 3
+      Data: 0
+    - Name: LocalizationOverride
+      Entry: 6
+      Data: 
+    - Name: EntityID
+      Entry: 1
+      Data: Empire
+    - Name: TargetFaction
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: Civilization_Era6_Japan
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Variables
+      Entry: 7
+      Data: 5|Amplitude.Mercury.Data.Simulation.SimulationEventVariable[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 6|Amplitude.Mercury.Data.Simulation.NarrativeEventVariable_MajorEmpire_Capital,
+        Amplitude.Mercury.Data
+    - Name: Name
+      Entry: 1
+      Data: MyCapital
+    - Name: Usage
+      Entry: 3
+      Data: 1
+    - Name: CollectionSelector
+      Entry: 3
+      Data: 0
+    - Name: HasCountCondition
+      Entry: 5
+      Data: false
+    - Name: CountConditionOperator
+      Entry: 3
+      Data: 1
+    - Name: CountConditionValue
+      Entry: 3
+      Data: 0
+    - Name: ElementPrerequisites
+      Entry: 7
+      Data: 7|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: SortPropertyName
+      Entry: 6
+      Data: 
+    - Name: SortOrder
+      Entry: 3
+      Data: 0
+    - Name: MajorEmpireID
+      Entry: 1
+      Data: Empire
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: LocalizationParameters
+      Entry: 7
+      Data: 8|Amplitude.Mercury.Data.Simulation.NarrativeEventLocalizationParameter[],
+        Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Choices
+      Entry: 7
+      Data: 9|Amplitude.Mercury.Data.Simulation.NarrativeEventChoice[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 10|Amplitude.Mercury.Data.Simulation.NarrativeEventChoice, Amplitude.Mercury.Data
+    - Name: Image
+      Entry: 7
+      Data: Amplitude.UI.UITexture, Amplitude.UI
+    - Name: guid
+      Entry: 7
+      Data: Amplitude.Framework.Guid, Amplitude.Framework
+    - Name: a
+      Entry: 3
+      Data: 0
+    - Name: b
+      Entry: 3
+      Data: 0
+    - Name: c
+      Entry: 3
+      Data: 0
+    - Name: d
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Title
+      Entry: 1
+      Data: '%NarrativeEvent_SolomonIslands_004_ScenarioStart_IJAFChoice01Title'
+    - Name: Description
+      Entry: 1
+      Data: '%NarrativeEvent_SolomonIslands_004_ScenarioStart_IJAFChoice01Description'
+    - Name: Instant
+      Entry: 5
+      Data: false
+    - Name: Duration
+      Entry: 3
+      Data: 1
+    - Name: Prerequisites
+      Entry: 7
+      Data: 11|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: NarrativeEventEffects
+      Entry: 7
+      Data: 12|Amplitude.Mercury.Data.Simulation.NarrativeEventEffect[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Notes
+      Entry: 6
+      Data: 
+    - Name: Archetypes
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+  IsObsolete: 0
+  DlcPrerequisite:
+    DownloadableContent: 0
+  OnlyActiveInScenario:
+    serializableElementName: Scenario_SolomonIslandsCampaign
+  IsWorkInProgress: 0
+  Category:
+    serializableElementName: NarrativeEventCategory_SolomonIslands
+  EraDefinitions:
+  - serializableElementName: Era6
+  Image:
+    guid:
+      a: -897026787
+      b: 1155718732
+      c: -819635784
+      d: 1967369840
+  Title: '%NarrativeEvent_SolomonIslands_004_ScenarioStart_IJAFTitle'
+  Description: '%NarrativeEvent_SolomonIslands_004_ScenarioStart_IJAFDescription'
+  GeoLocalizationID: MyCapital
+  Notes: 
+--- !u!114 &6875962267131260144
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -931882767, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: NarrativeEvent_SolomonIslands_008_IJAF
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: Trigger
+      Entry: 7
+      Data: 0|Amplitude.Mercury.Data.Simulation.NarrativeEventTrigger, Amplitude.Mercury.Data
+    - Name: ConsumeEventUponTrigger
+      Entry: 5
+      Data: false
+    - Name: PreventEventRemoval
+      Entry: 5
+      Data: false
+    - Name: SimulationEventTrigger
+      Entry: 7
+      Data: 1|Amplitude.Mercury.Data.Simulation.SimulationEventTrigger, Amplitude.Mercury.Data
+    - Name: IsNarrativeConsequence
+      Entry: 5
+      Data: false
+    - Name: SimulationEvent
+      Entry: 1
+      Data: Amplitude.Mercury.Simulation.SimulationEvent_TurnBegin, Amplitude.Mercury.Firstpass
+    - Name: Signature
+      Entry: 7
+      Data: 2|System.Collections.Generic.List`1[[Amplitude.Mercury.Data.Simulation.NarrativeEventConsequenceVariableDeclaration,
+        Amplitude.Mercury.Data]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Prerequisites
+      Entry: 7
+      Data: 3|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 2
+    - Name: 
+      Entry: 7
+      Data: 4|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite_Empire_FactionDefinition,
+        Amplitude.Mercury.Data
+    - Name: FailureFlags
+      Entry: 3
+      Data: 0
+    - Name: LocalizationOverride
+      Entry: 6
+      Data: 
+    - Name: EntityID
+      Entry: 1
+      Data: Empire
+    - Name: TargetFaction
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: Civilization_Era6_Japan
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 5|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite_Entity_PathCount,
+        Amplitude.Mercury.Data
+    - Name: FailureFlags
+      Entry: 3
+      Data: 0
+    - Name: LocalizationOverride
+      Entry: 6
+      Data: 
+    - Name: EntityID
+      Entry: 1
+      Data: Empire
+    - Name: StartingType
+      Entry: 1
+      Data: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
+    - Name: Path
+      Entry: 7
+      Data: Amplitude.Framework.Simulation.Description.Path, Amplitude.Framework
+    - Name: PropertyToFollow
+      Entry: 7
+      Data: 6|System.String[], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 1
+      Data: Cities
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Validations
+      Entry: 7
+      Data: 7|Amplitude.Framework.Simulation.Description.Validation[], Amplitude.Framework
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: specificTargetType
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: TargetPathIndexToCount
+      Entry: 3
+      Data: 0
+    - Name: ComparisonOperator
+      Entry: 3
+      Data: 4
+    - Name: TargetValue
+      Entry: 3
+      Data: 3
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Variables
+      Entry: 7
+      Data: 8|Amplitude.Mercury.Data.Simulation.SimulationEventVariable[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 7
+    - Name: 
+      Entry: 7
+      Data: 9|Amplitude.Mercury.Data.Simulation.NarrativeEventVariable_WorldPosition,
+        Amplitude.Mercury.Data
+    - Name: Name
+      Entry: 1
+      Data: Pin
+    - Name: Usage
+      Entry: 3
+      Data: 1
+    - Name: TileIndex
+      Entry: 3
+      Data: 11162
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 10|Amplitude.Mercury.Data.Simulation.NarrativeEventVariable_WorldPosition,
+        Amplitude.Mercury.Data
+    - Name: Name
+      Entry: 1
+      Data: Spawn1
+    - Name: Usage
+      Entry: 3
+      Data: 65536
+    - Name: TileIndex
+      Entry: 3
+      Data: 11719
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 11|Amplitude.Mercury.Data.Simulation.NarrativeEventVariable_WorldPosition,
+        Amplitude.Mercury.Data
+    - Name: Name
+      Entry: 1
+      Data: Spawn2
+    - Name: Usage
+      Entry: 3
+      Data: 65536
+    - Name: TileIndex
+      Entry: 3
+      Data: 11533
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 12|Amplitude.Mercury.Data.Simulation.NarrativeEventVariable_WorldPosition,
+        Amplitude.Mercury.Data
+    - Name: Name
+      Entry: 1
+      Data: Spawn3
+    - Name: Usage
+      Entry: 3
+      Data: 65536
+    - Name: TileIndex
+      Entry: 3
+      Data: 11161
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 13|Amplitude.Mercury.Data.Simulation.NarrativeEventVariable_WorldPosition,
+        Amplitude.Mercury.Data
+    - Name: Name
+      Entry: 1
+      Data: Spawn4
+    - Name: Usage
+      Entry: 3
+      Data: 65536
+    - Name: TileIndex
+      Entry: 3
+      Data: 10789
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 14|Amplitude.Mercury.Data.Simulation.NarrativeEventVariable_WorldPosition,
+        Amplitude.Mercury.Data
+    - Name: Name
+      Entry: 1
+      Data: Spawn5
+    - Name: Usage
+      Entry: 3
+      Data: 65536
+    - Name: TileIndex
+      Entry: 3
+      Data: 10603
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 15|Amplitude.Mercury.Data.Simulation.NarrativeEventVariable_WorldPosition,
+        Amplitude.Mercury.Data
+    - Name: Name
+      Entry: 1
+      Data: Spawn6
+    - Name: Usage
+      Entry: 3
+      Data: 65536
+    - Name: TileIndex
+      Entry: 3
+      Data: 10417
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: LocalizationParameters
+      Entry: 7
+      Data: 16|Amplitude.Mercury.Data.Simulation.NarrativeEventLocalizationParameter[],
+        Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Choices
+      Entry: 7
+      Data: 17|Amplitude.Mercury.Data.Simulation.NarrativeEventChoice[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 18|Amplitude.Mercury.Data.Simulation.NarrativeEventChoice, Amplitude.Mercury.Data
+    - Name: Image
+      Entry: 7
+      Data: Amplitude.UI.UITexture, Amplitude.UI
+    - Name: guid
+      Entry: 7
+      Data: Amplitude.Framework.Guid, Amplitude.Framework
+    - Name: a
+      Entry: 3
+      Data: 0
+    - Name: b
+      Entry: 3
+      Data: 0
+    - Name: c
+      Entry: 3
+      Data: 0
+    - Name: d
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Title
+      Entry: 1
+      Data: '%NarrativeEvent_SolomonIslands_008_IJAFChoice01Title'
+    - Name: Description
+      Entry: 1
+      Data: '%NarrativeEvent_SolomonIslands_008_IJAFChoice01Description'
+    - Name: Instant
+      Entry: 5
+      Data: false
+    - Name: Duration
+      Entry: 3
+      Data: 1
+    - Name: Prerequisites
+      Entry: 7
+      Data: 19|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: NarrativeEventEffects
+      Entry: 7
+      Data: 20|Amplitude.Mercury.Data.Simulation.NarrativeEventEffect[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 6
+    - Name: 
+      Entry: 7
+      Data: 21|Amplitude.Mercury.Data.Simulation.NarrativeEventEffect, Amplitude.Mercury.Data
+    - Name: Reversible
+      Entry: 5
+      Data: true
+    - Name: SimulationEventEffect
+      Entry: 7
+      Data: 22|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_SpawnArmy,
+        Amplitude.Mercury.Data
+    - Name: SimulationEffectDescriptionOverride
+      Entry: 6
+      Data: 
+    - Name: UIMapperOverride
+      Entry: 6
+      Data: 
+    - Name: Hidden
+      Entry: 5
+      Data: true
+    - Name: DlcPrerequisite
+      Entry: 7
+      Data: Amplitude.Mercury.Data.Simulation.Prerequisites.DownloadableContentPrerequisite,
+        Amplitude.Mercury.Data
+    - Name: DownloadableContent
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: GainValues
+      Entry: 6
+      Data: 
+    - Name: UnitDefinitions
+      Entry: 7
+      Data: 23|Amplitude.Framework.DatatableElementReference[], Amplitude.Framework
+    - Name: 
+      Entry: 12
+      Data: 8
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: LandUnit_Era6_Common_Riflemen
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: LandUnit_Era6_Common_Riflemen
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: LandUnit_Era6_Common_Riflemen
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: LandUnit_Era6_Common_MediumTanks
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: LandUnit_Era6_Common_MediumTanks
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: LandUnit_Era6_Common_MediumTanks
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: LandUnit_Era6_Common_AntiTankGuns
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: LandUnit_Era5_Common_SiegeHowitzers
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: ArmyName
+      Entry: 1
+      Data: '%Scenario_WW2Pacific_Army_IJA1'
+    - Name: TargetID
+      Entry: 1
+      Data: Spawn1
+    - Name: OwnerID
+      Entry: 1
+      Data: Empire
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 24|Amplitude.Mercury.Data.Simulation.NarrativeEventEffect, Amplitude.Mercury.Data
+    - Name: Reversible
+      Entry: 5
+      Data: true
+    - Name: SimulationEventEffect
+      Entry: 7
+      Data: 25|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_SpawnArmy,
+        Amplitude.Mercury.Data
+    - Name: SimulationEffectDescriptionOverride
+      Entry: 6
+      Data: 
+    - Name: UIMapperOverride
+      Entry: 6
+      Data: 
+    - Name: Hidden
+      Entry: 5
+      Data: true
+    - Name: DlcPrerequisite
+      Entry: 7
+      Data: Amplitude.Mercury.Data.Simulation.Prerequisites.DownloadableContentPrerequisite,
+        Amplitude.Mercury.Data
+    - Name: DownloadableContent
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: GainValues
+      Entry: 6
+      Data: 
+    - Name: UnitDefinitions
+      Entry: 7
+      Data: 26|Amplitude.Framework.DatatableElementReference[], Amplitude.Framework
+    - Name: 
+      Entry: 12
+      Data: 8
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: LandUnit_Era6_Common_Riflemen
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: LandUnit_Era6_Common_Riflemen
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: LandUnit_Era6_Common_Riflemen
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: LandUnit_Era6_Common_MediumTanks
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: LandUnit_Era6_Common_MediumTanks
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: LandUnit_Era6_Common_MediumTanks
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: LandUnit_Era6_Common_AntiTankGuns
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: LandUnit_Era5_Common_SiegeHowitzers
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: ArmyName
+      Entry: 1
+      Data: '%Scenario_WW2Pacific_Army_IJA1'
+    - Name: TargetID
+      Entry: 1
+      Data: Spawn2
+    - Name: OwnerID
+      Entry: 1
+      Data: Empire
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 27|Amplitude.Mercury.Data.Simulation.NarrativeEventEffect, Amplitude.Mercury.Data
+    - Name: Reversible
+      Entry: 5
+      Data: true
+    - Name: SimulationEventEffect
+      Entry: 7
+      Data: 28|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_SpawnArmy,
+        Amplitude.Mercury.Data
+    - Name: SimulationEffectDescriptionOverride
+      Entry: 6
+      Data: 
+    - Name: UIMapperOverride
+      Entry: 6
+      Data: 
+    - Name: Hidden
+      Entry: 5
+      Data: true
+    - Name: DlcPrerequisite
+      Entry: 7
+      Data: Amplitude.Mercury.Data.Simulation.Prerequisites.DownloadableContentPrerequisite,
+        Amplitude.Mercury.Data
+    - Name: DownloadableContent
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: GainValues
+      Entry: 6
+      Data: 
+    - Name: UnitDefinitions
+      Entry: 7
+      Data: 29|Amplitude.Framework.DatatableElementReference[], Amplitude.Framework
+    - Name: 
+      Entry: 12
+      Data: 8
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: LandUnit_Era6_Common_Riflemen
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: LandUnit_Era6_Common_Riflemen
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: LandUnit_Era6_Common_Riflemen
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: LandUnit_Era6_Common_MediumTanks
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: LandUnit_Era6_Common_MediumTanks
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: LandUnit_Era6_Common_MediumTanks
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: LandUnit_Era6_Common_AntiTankGuns
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: LandUnit_Era5_Common_SiegeHowitzers
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: ArmyName
+      Entry: 1
+      Data: '%Scenario_WW2Pacific_Army_IJA1'
+    - Name: TargetID
+      Entry: 1
+      Data: Spawn3
+    - Name: OwnerID
+      Entry: 1
+      Data: Empire
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 30|Amplitude.Mercury.Data.Simulation.NarrativeEventEffect, Amplitude.Mercury.Data
+    - Name: Reversible
+      Entry: 5
+      Data: true
+    - Name: SimulationEventEffect
+      Entry: 7
+      Data: 31|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_SpawnArmy,
+        Amplitude.Mercury.Data
+    - Name: SimulationEffectDescriptionOverride
+      Entry: 6
+      Data: 
+    - Name: UIMapperOverride
+      Entry: 6
+      Data: 
+    - Name: Hidden
+      Entry: 5
+      Data: true
+    - Name: DlcPrerequisite
+      Entry: 7
+      Data: Amplitude.Mercury.Data.Simulation.Prerequisites.DownloadableContentPrerequisite,
+        Amplitude.Mercury.Data
+    - Name: DownloadableContent
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: GainValues
+      Entry: 6
+      Data: 
+    - Name: UnitDefinitions
+      Entry: 7
+      Data: 32|Amplitude.Framework.DatatableElementReference[], Amplitude.Framework
+    - Name: 
+      Entry: 12
+      Data: 8
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: LandUnit_Era6_Common_Riflemen
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: LandUnit_Era6_Common_Riflemen
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: LandUnit_Era6_Common_Riflemen
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: LandUnit_Era6_Common_MediumTanks
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: LandUnit_Era6_Common_MediumTanks
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: LandUnit_Era6_Common_MediumTanks
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: LandUnit_Era6_Common_AntiTankGuns
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: LandUnit_Era5_Common_SiegeHowitzers
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: ArmyName
+      Entry: 1
+      Data: '%Scenario_WW2Pacific_Army_IJA1'
+    - Name: TargetID
+      Entry: 1
+      Data: Spawn4
+    - Name: OwnerID
+      Entry: 1
+      Data: Empire
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 33|Amplitude.Mercury.Data.Simulation.NarrativeEventEffect, Amplitude.Mercury.Data
+    - Name: Reversible
+      Entry: 5
+      Data: true
+    - Name: SimulationEventEffect
+      Entry: 7
+      Data: 34|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_SpawnArmy,
+        Amplitude.Mercury.Data
+    - Name: SimulationEffectDescriptionOverride
+      Entry: 6
+      Data: 
+    - Name: UIMapperOverride
+      Entry: 6
+      Data: 
+    - Name: Hidden
+      Entry: 5
+      Data: true
+    - Name: DlcPrerequisite
+      Entry: 7
+      Data: Amplitude.Mercury.Data.Simulation.Prerequisites.DownloadableContentPrerequisite,
+        Amplitude.Mercury.Data
+    - Name: DownloadableContent
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: GainValues
+      Entry: 6
+      Data: 
+    - Name: UnitDefinitions
+      Entry: 7
+      Data: 35|Amplitude.Framework.DatatableElementReference[], Amplitude.Framework
+    - Name: 
+      Entry: 12
+      Data: 8
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: LandUnit_Era6_Common_Riflemen
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: LandUnit_Era6_Common_Riflemen
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: LandUnit_Era6_Common_Riflemen
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: LandUnit_Era6_Common_MediumTanks
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: LandUnit_Era6_Common_MediumTanks
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: LandUnit_Era6_Common_MediumTanks
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: LandUnit_Era6_Common_AntiTankGuns
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: LandUnit_Era5_Common_SiegeHowitzers
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: ArmyName
+      Entry: 1
+      Data: '%Scenario_WW2Pacific_Army_IJA1'
+    - Name: TargetID
+      Entry: 1
+      Data: Spawn5
+    - Name: OwnerID
+      Entry: 1
+      Data: Empire
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 36|Amplitude.Mercury.Data.Simulation.NarrativeEventEffect, Amplitude.Mercury.Data
+    - Name: Reversible
+      Entry: 5
+      Data: true
+    - Name: SimulationEventEffect
+      Entry: 7
+      Data: 37|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_SpawnArmy,
+        Amplitude.Mercury.Data
+    - Name: SimulationEffectDescriptionOverride
+      Entry: 6
+      Data: 
+    - Name: UIMapperOverride
+      Entry: 6
+      Data: 
+    - Name: Hidden
+      Entry: 5
+      Data: true
+    - Name: DlcPrerequisite
+      Entry: 7
+      Data: Amplitude.Mercury.Data.Simulation.Prerequisites.DownloadableContentPrerequisite,
+        Amplitude.Mercury.Data
+    - Name: DownloadableContent
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: GainValues
+      Entry: 6
+      Data: 
+    - Name: UnitDefinitions
+      Entry: 7
+      Data: 38|Amplitude.Framework.DatatableElementReference[], Amplitude.Framework
+    - Name: 
+      Entry: 12
+      Data: 8
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: LandUnit_Era6_Common_Riflemen
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: LandUnit_Era6_Common_Riflemen
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: LandUnit_Era6_Common_Riflemen
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: LandUnit_Era6_Common_MediumTanks
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: LandUnit_Era6_Common_MediumTanks
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: LandUnit_Era6_Common_MediumTanks
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: LandUnit_Era6_Common_AntiTankGuns
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: LandUnit_Era5_Common_SiegeHowitzers
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: ArmyName
+      Entry: 1
+      Data: '%Scenario_WW2Pacific_Army_IJA1'
+    - Name: TargetID
+      Entry: 1
+      Data: Spawn6
+    - Name: OwnerID
+      Entry: 1
+      Data: Empire
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Notes
+      Entry: 6
+      Data: 
+    - Name: Archetypes
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+  IsObsolete: 0
+  DlcPrerequisite:
+    DownloadableContent: 0
+  OnlyActiveInScenario:
+    serializableElementName: Scenario_SolomonIslandsCampaign
+  IsWorkInProgress: 0
+  Category:
+    serializableElementName: NarrativeEventCategory_SolomonIslands
+  EraDefinitions:
+  - serializableElementName: Era6
+  Image:
+    guid:
+      a: 1215932212
+      b: 1178997397
+      c: -40677760
+      d: -1288470146
+  Title: '%NarrativeEvent_SolomonIslands_008_IJAFTitle'
+  Description: '%NarrativeEvent_SolomonIslands_008_IJAFDescription'
+  GeoLocalizationID: Pin
+  Notes: 

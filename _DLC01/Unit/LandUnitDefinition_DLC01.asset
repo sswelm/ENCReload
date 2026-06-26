@@ -30,7 +30,7 @@ MonoBehaviour:
   DLCPrerequisite:
     DownloadableContent: 5
   Category: 6
-  SerializableFamily: UnitFamily_MechanizedInfantry
+  SerializableFamily: UnitFamily_AllTerrainPMV
   Level: 41
   Unicity: 0
   UnicityAdditionalConstructible: []
@@ -44,7 +44,7 @@ MonoBehaviour:
     Type: 1
     Constant: -1
     RpnDefinitionReference:
-      serializableElementName: ProductionCost_Unit_Era6_Medium
+      serializableElementName: ProductionCost_Unit_Era6_Tier2_Iron_Oil
   MoneyInstantCostDefinition:
     Constant: 0
     RpnDefinitionReference:
@@ -65,10 +65,10 @@ MonoBehaviour:
   ResourceAccessPrerequisites:
   - Resource: 2
     ConstantType: 0
-    ConstantValue: 4
+    ConstantValue: 1
   - Resource: 5
     ConstantType: 0
-    ConstantValue: 4
+    ConstantValue: 1
   MinimalPopulationPrerequisite: 0
   ResourceSupremacyPrerequisite: 
   EraPrerequisite:
@@ -82,6 +82,7 @@ MonoBehaviour:
   SettlementStatusPrerequisite:
     CampConstraint: 0
     CityConstraint: 1
+    OccupiedCityConstraint: 0
   ReligionAffinityPrerequisite:
     serializableElementName: 
   SettlementPropertyPrerequisites: []
@@ -165,7 +166,7 @@ MonoBehaviour:
     Type: 1
     Constant: -1
     RpnDefinitionReference:
-      serializableElementName: ProductionCost_Unit_Era5_Medium
+      serializableElementName: ProductionCost_Unit_Era5_Medium_Horse_Salpeter_Scout
   MoneyInstantCostDefinition:
     Constant: -1
     RpnDefinitionReference:
@@ -186,10 +187,10 @@ MonoBehaviour:
   ResourceAccessPrerequisites:
   - Resource: 0
     ConstantType: 0
-    ConstantValue: 8
+    ConstantValue: 1
   - Resource: 4
     ConstantType: 0
-    ConstantValue: 4
+    ConstantValue: 0
   MinimalPopulationPrerequisite: 0
   ResourceSupremacyPrerequisite: 
   EraPrerequisite:
@@ -203,6 +204,7 @@ MonoBehaviour:
   SettlementStatusPrerequisite:
     CampConstraint: 0
     CityConstraint: 1
+    OccupiedCityConstraint: 0
   ReligionAffinityPrerequisite:
     serializableElementName: 
   SettlementPropertyPrerequisites: []
@@ -297,7 +299,7 @@ MonoBehaviour:
     Type: 1
     Constant: -1
     RpnDefinitionReference:
-      serializableElementName: ProductionCost_Unit_Era2_Low
+      serializableElementName: ProductionCost_Unit_Era2_Low_Horse
   MoneyInstantCostDefinition:
     Constant: 0
     RpnDefinitionReference:
@@ -318,7 +320,7 @@ MonoBehaviour:
   ResourceAccessPrerequisites:
   - Resource: 0
     ConstantType: 0
-    ConstantValue: 8
+    ConstantValue: 1
   MinimalPopulationPrerequisite: 0
   ResourceSupremacyPrerequisite: 
   EraPrerequisite:
@@ -332,6 +334,7 @@ MonoBehaviour:
   SettlementStatusPrerequisite:
     CampConstraint: 0
     CityConstraint: 1
+    OccupiedCityConstraint: 0
   ReligionAffinityPrerequisite:
     serializableElementName: 
   SettlementPropertyPrerequisites: []

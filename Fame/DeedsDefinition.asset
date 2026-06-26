@@ -296,6 +296,122 @@ MonoBehaviour:
       Entry: 8
       Data: 
   AIStrategies: 0
+--- !u!114 &-3007756837890991636
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -814442523, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Deed_EraStar_Merchant
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: Trigger
+      Entry: 7
+      Data: Amplitude.Mercury.Data.Simulation.DeedTrigger, Amplitude.Mercury.Data
+    - Name: Variables
+      Entry: 7
+      Data: 0|Amplitude.Mercury.Data.Simulation.DeedTriggerVariable[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Mercury.Data.Simulation.DeedTriggerVariable, Amplitude.Mercury.Data
+    - Name: SimulationEvent
+      Entry: 1
+      Data: Amplitude.Mercury.Simulation.SimulationEvent_NewTurnBegin, Amplitude.Mercury.Firstpass
+    - Name: EmpireVariable
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Focus
+      Entry: 3
+      Data: 0
+    - Name: FocusMode
+      Entry: 3
+      Data: 0
+    - Name: FocusVariable
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Evaluator
+      Entry: 7
+      Data: 1|Amplitude.Mercury.Data.Simulation.DeedEvaluator_PropertyEvaluator,
+        Amplitude.Mercury.Data
+    - Name: StartingType
+      Entry: 1
+      Data: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
+    - Name: Path
+      Entry: 7
+      Data: Amplitude.Framework.Simulation.Description.Path, Amplitude.Framework
+    - Name: PropertyToFollow
+      Entry: 7
+      Data: 2|System.String[], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Validations
+      Entry: 7
+      Data: 3|Amplitude.Framework.Simulation.Description.Validation[], Amplitude.Framework
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: specificTargetType
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: TargetPropertyPathIndex
+      Entry: 3
+      Data: -1
+    - Name: TargetProperty
+      Entry: 1
+      Data: MoneyNet
+    - Name: TargetPropertyEvaluationMethod
+      Entry: 3
+      Data: 0
+    - Name: DeedScoringMethod
+      Entry: 3
+      Data: 4
+    - Name: 
+      Entry: 8
+      Data: 
+  AIStrategies: 0
 --- !u!114 &-2911333988355288841
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -415,3 +531,379 @@ MonoBehaviour:
   m_Script: {fileID: 531975719, guid: b310e23bee821cb478da05296ba685d0, type: 3}
   m_Name: DeedsDefinition
   m_EditorClassIdentifier: 
+--- !u!114 &34663168795531232
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -814442523, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Deed_EraStar_Builder
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: Trigger
+      Entry: 7
+      Data: Amplitude.Mercury.Data.Simulation.DeedTrigger, Amplitude.Mercury.Data
+    - Name: Variables
+      Entry: 7
+      Data: 0|Amplitude.Mercury.Data.Simulation.DeedTriggerVariable[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Mercury.Data.Simulation.DeedTriggerVariable, Amplitude.Mercury.Data
+    - Name: SimulationEvent
+      Entry: 1
+      Data: Amplitude.Mercury.Simulation.SimulationEvent_ExtensionDistrictBuilt,
+        Amplitude.Mercury.Firstpass
+    - Name: EmpireVariable
+      Entry: 1
+      Data: ExtensionDistrictBuilt.Empire
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Focus
+      Entry: 3
+      Data: 0
+    - Name: FocusMode
+      Entry: 3
+      Data: 0
+    - Name: FocusVariable
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Evaluator
+      Entry: 7
+      Data: 1|Amplitude.Mercury.Data.Simulation.DeedEvaluator_SimpleAccumulator,
+        Amplitude.Mercury.Data
+    - Name: Increment
+      Entry: 7
+      Data: Amplitude.FixedPoint, Amplitude.Framework
+    - Name: RawValue
+      Entry: 3
+      Data: 1000
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+  AIStrategies: 0
+--- !u!114 &4648339481930034449
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -814442523, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Deed_EraStar_Cultural
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: Trigger
+      Entry: 7
+      Data: Amplitude.Mercury.Data.Simulation.DeedTrigger, Amplitude.Mercury.Data
+    - Name: Variables
+      Entry: 7
+      Data: 0|Amplitude.Mercury.Data.Simulation.DeedTriggerVariable[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Mercury.Data.Simulation.DeedTriggerVariable, Amplitude.Mercury.Data
+    - Name: SimulationEvent
+      Entry: 1
+      Data: Amplitude.Mercury.Simulation.SimulationEvent_NewTurnBegin, Amplitude.Mercury.Firstpass
+    - Name: EmpireVariable
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Focus
+      Entry: 3
+      Data: 0
+    - Name: FocusMode
+      Entry: 3
+      Data: 0
+    - Name: FocusVariable
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Evaluator
+      Entry: 7
+      Data: 1|Amplitude.Mercury.Data.Simulation.DeedEvaluator_PropertyEvaluator,
+        Amplitude.Mercury.Data
+    - Name: StartingType
+      Entry: 1
+      Data: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
+    - Name: Path
+      Entry: 7
+      Data: Amplitude.Framework.Simulation.Description.Path, Amplitude.Framework
+    - Name: PropertyToFollow
+      Entry: 7
+      Data: 2|System.String[], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 3
+    - Name: 
+      Entry: 1
+      Data: Settlements
+    - Name: 
+      Entry: 1
+      Data: Region
+    - Name: 
+      Entry: 1
+      Data: Territories
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Validations
+      Entry: 7
+      Data: 3|Amplitude.Framework.Simulation.Description.Validation[], Amplitude.Framework
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: specificTargetType
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: TargetPropertyPathIndex
+      Entry: 3
+      Data: -1
+    - Name: TargetProperty
+      Entry: 1
+      Data: InfluenceNet
+    - Name: TargetPropertyEvaluationMethod
+      Entry: 3
+      Data: 0
+    - Name: DeedScoringMethod
+      Entry: 3
+      Data: 4
+    - Name: 
+      Entry: 8
+      Data: 
+  AIStrategies: 0
+--- !u!114 &7275085864272376236
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -814442523, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Deed_EraStar_Expansionist
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: Trigger
+      Entry: 7
+      Data: Amplitude.Mercury.Data.Simulation.DeedTrigger, Amplitude.Mercury.Data
+    - Name: Variables
+      Entry: 7
+      Data: 0|Amplitude.Mercury.Data.Simulation.DeedTriggerVariable[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 4
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Mercury.Data.Simulation.DeedTriggerVariable, Amplitude.Mercury.Data
+    - Name: SimulationEvent
+      Entry: 1
+      Data: Amplitude.Mercury.Simulation.SimulationEvent_TerritoryOwnerChanged, Amplitude.Mercury.Firstpass
+    - Name: EmpireVariable
+      Entry: 1
+      Data: ExtensionDistrictBuilt.NewOwnerEmpire
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Mercury.Data.Simulation.DeedTriggerVariable, Amplitude.Mercury.Data
+    - Name: SimulationEvent
+      Entry: 1
+      Data: Amplitude.Mercury.Simulation.SimulationEvent_CityFounded, Amplitude.Mercury.Firstpass
+    - Name: EmpireVariable
+      Entry: 1
+      Data: CityFounded.Empire
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Mercury.Data.Simulation.DeedTriggerVariable, Amplitude.Mercury.Data
+    - Name: SimulationEvent
+      Entry: 1
+      Data: Amplitude.Mercury.Simulation.SimulationEvent_TerritorySettlementChanged,
+        Amplitude.Mercury.Firstpass
+    - Name: EmpireVariable
+      Entry: 1
+      Data: TerritorySettlementChanged.NewEmpire
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Mercury.Data.Simulation.DeedTriggerVariable, Amplitude.Mercury.Data
+    - Name: SimulationEvent
+      Entry: 1
+      Data: Amplitude.Mercury.Simulation.SimulationEvent_CityCaptureConfirmed, Amplitude.Mercury.Firstpass
+    - Name: EmpireVariable
+      Entry: 1
+      Data: CityCaptureConfirmed.ByEmpire
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Focus
+      Entry: 3
+      Data: 0
+    - Name: FocusMode
+      Entry: 3
+      Data: 0
+    - Name: FocusVariable
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Evaluator
+      Entry: 7
+      Data: 1|Amplitude.Mercury.Data.Simulation.DeedEvaluator_EntitiesCounter, Amplitude.Mercury.Data
+    - Name: StartingType
+      Entry: 1
+      Data: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
+    - Name: Path
+      Entry: 7
+      Data: Amplitude.Framework.Simulation.Description.Path, Amplitude.Framework
+    - Name: PropertyToFollow
+      Entry: 7
+      Data: 2|System.String[], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 3
+    - Name: 
+      Entry: 1
+      Data: Cities
+    - Name: 
+      Entry: 1
+      Data: Region
+    - Name: 
+      Entry: 1
+      Data: Territories
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Validations
+      Entry: 7
+      Data: 3|Amplitude.Framework.Simulation.Description.Validation[], Amplitude.Framework
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.Simulation.Description.Validation, Amplitude.Framework
+    - Name: PathIndex
+      Entry: 3
+      Data: 0
+    - Name: ValidableElementCollection
+      Entry: 6
+      Data: 
+    - Name: Inverted
+      Entry: 5
+      Data: true
+    - Name: serializableElementName
+      Entry: 1
+      Data: GameEffect_CityFlags_Captured
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: specificTargetType
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: TargetEntityCountPathIndex
+      Entry: 3
+      Data: 2
+    - Name: DeedScoringMethod
+      Entry: 3
+      Data: 2
+    - Name: 
+      Entry: 8
+      Data: 
+  AIStrategies: 0

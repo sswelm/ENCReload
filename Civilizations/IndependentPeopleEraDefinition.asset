@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: IndependentPeople_Era3
   m_EditorClassIdentifier: 
   EraIndex: 3
-  MinorFactionDensity: 0.2
+  MinorFactionDensity: 0.25
   MinorFactionStartingTurn: 5
   MaxNumberOfMinorFactionSpawnInPercent: 0.15
   PatronageBaseEraCost: 100
@@ -53,14 +53,14 @@ MonoBehaviour:
   m_Name: IndependentPeople_Era2
   m_EditorClassIdentifier: 
   EraIndex: 2
-  MinorFactionDensity: 0.2
+  MinorFactionDensity: 0.25
   MinorFactionStartingTurn: 5
-  MaxNumberOfMinorFactionSpawnInPercent: 0.1
+  MaxNumberOfMinorFactionSpawnInPercent: 0.125
   PatronageBaseEraCost: 50
   PeacefulAnimalSpawnerDefinitionReference:
     serializableElementName: 
   ViolentAnimalSpawnerDefinitionReference:
-    serializableElementName: 
+    serializableElementName: IndependentPeopleSpawner_Era2_ViolentAnimal
   PeacefulHumanSpawnerDefinitionReference:
     serializableElementName: IndependentPeopleSpawner_Era2_PeacefulHuman
   ViolentHumanSpawnerDefinitionReference:
@@ -70,6 +70,46 @@ MonoBehaviour:
   PeacefulLiberateSpawnerDefinitionReference:
     serializableElementName: IndependentPeopleSpawner_Era2_PeacefulHuman
   CanSpawnOnNewContinents: 0
+  CanSpawnOnIslands: 1
+  FactionSpawnTerrainPrerequisite:
+    Constraint: 2
+    HideInUI: 0
+    LocalizationOverride: 
+    CanBuildOnWasteland: 0
+    serializableTerrainTypeNames:
+    - TerrainType_Ocean
+    - TerrainType_CoastalWater
+    - TerrainType_Lake
+--- !u!114 &-949622541675392492
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1659029620, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: IndependentPeople_Era4
+  m_EditorClassIdentifier: 
+  EraIndex: 4
+  MinorFactionDensity: 0.25
+  MinorFactionStartingTurn: 5
+  MaxNumberOfMinorFactionSpawnInPercent: 0.2
+  PatronageBaseEraCost: 200
+  PeacefulAnimalSpawnerDefinitionReference:
+    serializableElementName: 
+  ViolentAnimalSpawnerDefinitionReference:
+    serializableElementName: IndependentPeopleSpawner_Era4_ViolentAnimal
+  PeacefulHumanSpawnerDefinitionReference:
+    serializableElementName: IndependentPeopleSpawner_Era4_PeacefulHuman
+  ViolentHumanSpawnerDefinitionReference:
+    serializableElementName: IndependentPeopleSpawner_Era4_ViolentHuman
+  ViolentCrisisSpawnerDefinitionReference:
+    serializableElementName: IndependentPeopleSpawner_Era4_ViolentCrisis
+  PeacefulLiberateSpawnerDefinitionReference:
+    serializableElementName: IndependentPeopleSpawner_Era4_PeacefulHuman
+  CanSpawnOnNewContinents: 1
   CanSpawnOnIslands: 1
   FactionSpawnTerrainPrerequisite:
     Constraint: 2
@@ -102,13 +142,13 @@ MonoBehaviour:
   ViolentAnimalSpawnerDefinitionReference:
     serializableElementName: IndependentPeopleSpawner_Era0_ViolentAnimal
   PeacefulHumanSpawnerDefinitionReference:
-    serializableElementName: 
+    serializableElementName: IndependentPeopleSpawner_Era0_PeacefulHuman
   ViolentHumanSpawnerDefinitionReference:
-    serializableElementName: 
+    serializableElementName: IndependentPeopleSpawner_Era0_ViolentHuman
   ViolentCrisisSpawnerDefinitionReference:
-    serializableElementName: IndependentPeopleSpawner_Era1_ViolentCrisis
+    serializableElementName: IndependentPeopleSpawner_Era0_ViolentCrisis
   PeacefulLiberateSpawnerDefinitionReference:
-    serializableElementName: IndependentPeopleSpawner_Era1_PeacefulHuman
+    serializableElementName: IndependentPeopleSpawner_Era0_PeacefulHuman
   CanSpawnOnNewContinents: 0
   CanSpawnOnIslands: 0
   FactionSpawnTerrainPrerequisite:
@@ -145,10 +185,10 @@ MonoBehaviour:
   m_Name: IndependentPeople_Era1
   m_EditorClassIdentifier: 
   EraIndex: 1
-  MinorFactionDensity: 0.2
+  MinorFactionDensity: 0.25
   MinorFactionStartingTurn: 5
-  MaxNumberOfMinorFactionSpawnInPercent: 0.075
-  PatronageBaseEraCost: 20
+  MaxNumberOfMinorFactionSpawnInPercent: 0.1
+  PatronageBaseEraCost: 25
   PeacefulAnimalSpawnerDefinitionReference:
     serializableElementName: IndependentPeopleSpawner_Era1_PeacefulAnimal
   ViolentAnimalSpawnerDefinitionReference:

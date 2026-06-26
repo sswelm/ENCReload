@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-797567224328748607
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1504611350, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: POI_ResourceDeposit09
+  m_EditorClassIdentifier: 
+  PathfindingRules: []
+  MeshId: 0
+  ExploitationDescriptorReferences:
+  - serializableElementName: Effect_Extractor_ResourceDeposit09
+  - serializableElementName: Tag_Exploitation_Strategic
+  BlockVision: 0
+  BattleTileTypeFlag: 0
+  MinimumAccessProvided: 1
+  MaximumAccessProvided: 1
+  ResourceDefinitionReference:
+    serializableElementName: Strategic09
+  DescriptorReferences: []
+  SpawnCapabilities: 1
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1717263165, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: PointofInterestResourceDepositDefintion
+  m_EditorClassIdentifier: 

@@ -1,0 +1,1066 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-3110230817684529140
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -692026615, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Villages_Fortification
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: GainValues
+      Entry: 7
+      Data: 0|Amplitude.Mercury.Data.AI.Gain[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 5
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Mercury.Data.AI.Gain, Amplitude.Mercury.Data
+    - Name: Type
+      Entry: 3
+      Data: 16
+    - Name: Importance
+      Entry: 3
+      Data: 3
+    - Name: Gates
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Mercury.Data.AI.Gain, Amplitude.Mercury.Data
+    - Name: Type
+      Entry: 3
+      Data: 1
+    - Name: Importance
+      Entry: 3
+      Data: 3
+    - Name: Gates
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Mercury.Data.AI.Gain, Amplitude.Mercury.Data
+    - Name: Type
+      Entry: 3
+      Data: 32
+    - Name: Importance
+      Entry: 3
+      Data: 3
+    - Name: Gates
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Mercury.Data.AI.Gain, Amplitude.Mercury.Data
+    - Name: Type
+      Entry: 3
+      Data: 16777216
+    - Name: Importance
+      Entry: 3
+      Data: 2
+    - Name: Gates
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Mercury.Data.AI.Gain, Amplitude.Mercury.Data
+    - Name: Type
+      Entry: 3
+      Data: 4
+    - Name: Importance
+      Entry: 3
+      Data: 1
+    - Name: Gates
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+  Key: 0
+  Hidden: 0
+  IsObsolete: 0
+  DLCPrerequisite:
+    DownloadableContent: 0
+  Category: 6
+  SerializableFamily: 
+  Level: 0
+  Unicity: 4
+  UnicityAdditionalConstructible: []
+  ConstructibleVisualAffinity:
+    serializableElementName: DistrictVisualAffinity_Base_Military
+  CanBeBoughtOut: 1
+  CanBeCanceled: 1
+  StartWhenQueued: 0
+  CanBeBoughtOutWithPopulation: 1
+  ProductionCostDefinition:
+    Type: 1
+    Constant: -1
+    RpnDefinitionReference:
+      serializableElementName: ProductionCost_Infrastructure_Era2_Tier1
+  MoneyInstantCostDefinition:
+    Constant: 0
+    RpnDefinitionReference:
+      serializableElementName: 
+  InfluenceInstantCostDefinition:
+    Constant: -1
+    RpnDefinitionReference:
+      serializableElementName: ProductionCost_Extension_ENC_Low
+  PopulationInstantCostDefinition:
+    Constant: 3
+  ProvidedByOtherEmpireCostDefinition:
+    ProductionCostModifierRpn:
+      serializableElementName: 
+    ReceiverMoneyCostRpn:
+      serializableElementName: 
+    ProviderMoneyGainRpn:
+      serializableElementName: 
+  ResourceAccessPrerequisites:
+  - Resource: 8
+    ConstantType: 0
+    ConstantValue: 10
+  MinimalPopulationPrerequisite: 0
+  ResourceSupremacyPrerequisite: 
+  EraPrerequisite:
+    Operator: 0
+    EraReference:
+      serializableElementName: 
+  FactionPrerequisite:
+    Operator: 2
+    serializableFactionNames: []
+  SettlementStatusPrerequisite:
+    CampConstraint: 3
+    CityConstraint: 1
+  ReligionAffinityPrerequisite:
+    serializableElementName: 
+  SettlementPropertyPrerequisites: []
+  SettlementStabilityPrerequisite:
+    Operator: 1
+    PublicOrderEffects:
+    - serializableElementName: PublicOrderEffect_Unhappy
+  DistrictCountPrerequisites: []
+  ActionTypePrerequisite:
+    Operator: 0
+    ActionType: 0
+  ArtificialWonderBuiltPrerequisite:
+    Operator: 0
+    ArtificialWonderDefinition:
+      serializableElementName: 
+  BaseSynergyDistrict: 0
+  Prototype: Extension_Prototype_BaseMilitary
+  OwnDescriptorReferences:
+  - serializableElementName: Villages_Farming_Yield
+  - serializableElementName: Villages_Farming_LandSynergy
+  - serializableElementName: Villages_Farming_LandSynergy2
+  - serializableElementName: Villages_Logging_RiverSynergy
+  - serializableElementName: Effect_Extension_Base_Military
+  - serializableElementName: Effect_Extension_Base_Military_Yield
+  - serializableElementName: Tag_Extension_UrbanSubEnch
+  IsReplaceableOrDestroyable: 1
+  CanBeDowngradedToRuin: 1
+  AdditionalVisualLevels: []
+  IsImmuneToBombardment: 0
+  AllowBoroughExtension: 0
+  AllowConnectionWithOtherBorough: 0
+  FieldOfViewFlag: 0
+  OverADistrictPrerequisite:
+    TagOperator: 0
+    ValidIfNoDistrict: 1
+    HideInUI: 1
+    serializableTags:
+    - Tag_Extension_Base
+  PointOfInterestPrerequisite:
+    Constraint: 3
+    HideInUI: 1
+    serializablePointOfInterestNames: []
+  RiverPrerequisite:
+    Constraint: 2
+    HideInUI: 0
+  TerrainPrerequisite:
+    Constraint: 2
+    HideInUI: 1
+    LocalizationOverride: 
+    CanBuildOnWasteland: 0
+    serializableTerrainTypeNames:
+    - TerrainType_Ocean
+    - TerrainType_CoastalWater
+    - TerrainType_Lake
+    - TerrainType_CityTerrain
+  TerritoryTypePrerequisite:
+    IsOceanic: 0
+  BiomePrerequisite:
+    Constraint: 0
+    serializableBiomeNames: []
+  CliffPrerequisite:
+    Constraint: 0
+    HideInUI: 1
+  MountainPrerequisite:
+    Constraint: 0
+    HideInUI: 0
+  TileVisibilityPrerequisite:
+    Constraint: 1
+    Visibility: 0
+  NeighbourTilesPrerequisite:
+    NeighbourOperator: 2
+    TerritoryConstraint: 2
+    IgnoreCliff: 1
+    IgnoreNaturalWonder: 1
+    TerrainPrerequisite:
+      Constraint: 1
+      HideInUI: 1
+      LocalizationOverride: 
+      CanBuildOnWasteland: 0
+      serializableTerrainTypeNames:
+      - TerrainType_DryGrass
+      - TerrainType_Prairie
+    RiverPrerequisite:
+      Constraint: 1
+      HideInUI: 0
+    DistrictPrerequisite:
+      TagOperator: 2
+      ValidIfNoDistrict: 0
+      HideInUI: 1
+      serializableTags: []
+  BoroughPrerequisite:
+    ExtensionRules: 1
+    HideInUI: 0
+  ProtectsNeighboursFromRansack: 0
+  ZoneOfControlDistance:
+    RawValue: 0
+  FriendlyUnitOnTopStatus:
+    serializableElementName: 
+  ProtectAgainstStealthDetection: 1
+  DistrictType: 10
+  HasPublicOrderCost: 0
+  CanReplaceDistrict: 0
+  CanBeReplacedByDistrict: 0
+  PlacementPolicies: 0
+  ExploitationRuleReference:
+    serializableElementName: ExploitationRule_Neighbours_Fortification
+  ExtractResource: 0
+  WondrousResourceType: 64
+  UnitSpawnType: 0
+  AllowShipping: 0
+  ProvidesSecondaryRoad: 1
+  ProvidesRail: 0
+  ForceRiverOnTerrain: 0
+  serializableReplaceTerrainWith: 
+--- !u!114 &-895041311266594059
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -692026615, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Villages_Farming_Village
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: GainValues
+      Entry: 7
+      Data: 0|Amplitude.Mercury.Data.AI.Gain[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 3
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Mercury.Data.AI.Gain, Amplitude.Mercury.Data
+    - Name: Type
+      Entry: 3
+      Data: 16
+    - Name: Importance
+      Entry: 3
+      Data: 3
+    - Name: Gates
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Mercury.Data.AI.Gain, Amplitude.Mercury.Data
+    - Name: Type
+      Entry: 3
+      Data: 1
+    - Name: Importance
+      Entry: 3
+      Data: 3
+    - Name: Gates
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Mercury.Data.AI.Gain, Amplitude.Mercury.Data
+    - Name: Type
+      Entry: 3
+      Data: 512
+    - Name: Importance
+      Entry: 3
+      Data: 2
+    - Name: Gates
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+  Key: 0
+  Hidden: 0
+  IsObsolete: 0
+  DLCPrerequisite:
+    DownloadableContent: 0
+  Category: 1
+  SerializableFamily: 
+  Level: 0
+  Unicity: 4
+  UnicityAdditionalConstructible: []
+  ConstructibleVisualAffinity:
+    serializableElementName: DistrictVisualAffinity_Exploitation
+  CanBeBoughtOut: 1
+  CanBeCanceled: 1
+  StartWhenQueued: 0
+  CanBeBoughtOutWithPopulation: 1
+  ProductionCostDefinition:
+    Type: 1
+    Constant: -1
+    RpnDefinitionReference:
+      serializableElementName: ProductionCost_Infrastructure_Era3_Tier1
+  MoneyInstantCostDefinition:
+    Constant: 0
+    RpnDefinitionReference:
+      serializableElementName: 
+  InfluenceInstantCostDefinition:
+    Constant: -1
+    RpnDefinitionReference:
+      serializableElementName: ProductionCost_Extension_ENC_Food
+  PopulationInstantCostDefinition:
+    Constant: 2
+  ProvidedByOtherEmpireCostDefinition:
+    ProductionCostModifierRpn:
+      serializableElementName: 
+    ReceiverMoneyCostRpn:
+      serializableElementName: 
+    ProviderMoneyGainRpn:
+      serializableElementName: 
+  ResourceAccessPrerequisites: []
+  MinimalPopulationPrerequisite: 0
+  ResourceSupremacyPrerequisite: 
+  EraPrerequisite:
+    Operator: 0
+    EraReference:
+      serializableElementName: 
+  FactionPrerequisite:
+    Operator: 0
+    serializableFactionNames: []
+  SettlementStatusPrerequisite:
+    CampConstraint: 0
+    CityConstraint: 1
+  ReligionAffinityPrerequisite:
+    serializableElementName: 
+  SettlementPropertyPrerequisites: []
+  SettlementStabilityPrerequisite:
+    Operator: 1
+    PublicOrderEffects:
+    - serializableElementName: PublicOrderEffect_Unhappy
+  DistrictCountPrerequisites: []
+  ActionTypePrerequisite:
+    Operator: 0
+    ActionType: 0
+  ArtificialWonderBuiltPrerequisite:
+    Operator: 0
+    ArtificialWonderDefinition:
+      serializableElementName: 
+  BaseSynergyDistrict: 0
+  Prototype: Extension_Prototype_BaseEconomy
+  OwnDescriptorReferences:
+  - serializableElementName: Villages_Farming_Yield
+  - serializableElementName: Villages_Farming_WorkerSynergy
+  - serializableElementName: Villages_Farming_RiverSynergy
+  - serializableElementName: Villages_Farming_LandSynergy
+  - serializableElementName: Villages_Farming_LandSynergy2
+  - serializableElementName: Tag_Extension_UrbanSubEnch
+  IsReplaceableOrDestroyable: 1
+  CanBeDowngradedToRuin: 1
+  AdditionalVisualLevels: []
+  IsImmuneToBombardment: 0
+  AllowBoroughExtension: 0
+  AllowConnectionWithOtherBorough: 0
+  FieldOfViewFlag: 0
+  OverADistrictPrerequisite:
+    TagOperator: 0
+    ValidIfNoDistrict: 1
+    HideInUI: 1
+    serializableTags:
+    - Tag_Extension_Base
+  PointOfInterestPrerequisite:
+    Constraint: 3
+    HideInUI: 0
+    serializablePointOfInterestNames: []
+  RiverPrerequisite:
+    Constraint: 2
+    HideInUI: 0
+  TerrainPrerequisite:
+    Constraint: 2
+    HideInUI: 1
+    LocalizationOverride: 
+    CanBuildOnWasteland: 0
+    serializableTerrainTypeNames:
+    - TerrainType_Ocean
+    - TerrainType_CoastalWater
+    - TerrainType_Lake
+    - TerrainType_CityTerrain
+  TerritoryTypePrerequisite:
+    IsOceanic: 0
+  BiomePrerequisite:
+    Constraint: 0
+    serializableBiomeNames: []
+  CliffPrerequisite:
+    Constraint: 0
+    HideInUI: 1
+  MountainPrerequisite:
+    Constraint: 0
+    HideInUI: 0
+  TileVisibilityPrerequisite:
+    Constraint: 1
+    Visibility: 0
+  NeighbourTilesPrerequisite:
+    NeighbourOperator: 0
+    TerritoryConstraint: 2
+    IgnoreCliff: 1
+    IgnoreNaturalWonder: 1
+    TerrainPrerequisite:
+      Constraint: 1
+      HideInUI: 0
+      LocalizationOverride: 
+      CanBuildOnWasteland: 0
+      serializableTerrainTypeNames:
+      - TerrainType_DryGrass
+      - TerrainType_Prairie
+    RiverPrerequisite:
+      Constraint: 2
+      HideInUI: 0
+    DistrictPrerequisite:
+      TagOperator: 2
+      ValidIfNoDistrict: 0
+      HideInUI: 1
+      serializableTags: []
+  BoroughPrerequisite:
+    ExtensionRules: 1
+    HideInUI: 0
+  ProtectsNeighboursFromRansack: 0
+  ZoneOfControlDistance:
+    RawValue: 0
+  FriendlyUnitOnTopStatus:
+    serializableElementName: 
+  ProtectAgainstStealthDetection: 0
+  DistrictType: 6
+  HasPublicOrderCost: 0
+  CanReplaceDistrict: 0
+  CanBeReplacedByDistrict: 0
+  PlacementPolicies: 0
+  ExploitationRuleReference:
+    serializableElementName: ExploitationRule_Neighbours_FarmingVillage
+  ExtractResource: 0
+  WondrousResourceType: 64
+  UnitSpawnType: -1
+  AllowShipping: 0
+  ProvidesSecondaryRoad: 0
+  ProvidesRail: 0
+  ForceRiverOnTerrain: 0
+  serializableReplaceTerrainWith: 
+--- !u!114 &-369969488769275980
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -692026615, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Villages_Logging_Encampment
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: GainValues
+      Entry: 7
+      Data: 0|Amplitude.Mercury.Data.AI.Gain[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 4
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Mercury.Data.AI.Gain, Amplitude.Mercury.Data
+    - Name: Type
+      Entry: 3
+      Data: 16
+    - Name: Importance
+      Entry: 3
+      Data: 3
+    - Name: Gates
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Mercury.Data.AI.Gain, Amplitude.Mercury.Data
+    - Name: Type
+      Entry: 3
+      Data: 2
+    - Name: Importance
+      Entry: 3
+      Data: 3
+    - Name: Gates
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Mercury.Data.AI.Gain, Amplitude.Mercury.Data
+    - Name: Type
+      Entry: 3
+      Data: 512
+    - Name: Importance
+      Entry: 3
+      Data: 2
+    - Name: Gates
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Mercury.Data.AI.Gain, Amplitude.Mercury.Data
+    - Name: Type
+      Entry: 3
+      Data: 32
+    - Name: Importance
+      Entry: 3
+      Data: 2
+    - Name: Gates
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+  Key: 0
+  Hidden: 0
+  IsObsolete: 0
+  DLCPrerequisite:
+    DownloadableContent: 0
+  Category: 2
+  SerializableFamily: 
+  Level: 0
+  Unicity: 4
+  UnicityAdditionalConstructible: []
+  ConstructibleVisualAffinity:
+    serializableElementName: DistrictVisualAffinity_Exploitation
+  CanBeBoughtOut: 1
+  CanBeCanceled: 1
+  StartWhenQueued: 0
+  CanBeBoughtOutWithPopulation: 1
+  ProductionCostDefinition:
+    Type: 1
+    Constant: -1
+    RpnDefinitionReference:
+      serializableElementName: ProductionCost_Infrastructure_Era2_Tier1
+  MoneyInstantCostDefinition:
+    Constant: 0
+    RpnDefinitionReference:
+      serializableElementName: 
+  InfluenceInstantCostDefinition:
+    Constant: -1
+    RpnDefinitionReference:
+      serializableElementName: ProductionCost_Extension_ENC_Industry
+  PopulationInstantCostDefinition:
+    Constant: 1
+  ProvidedByOtherEmpireCostDefinition:
+    ProductionCostModifierRpn:
+      serializableElementName: 
+    ReceiverMoneyCostRpn:
+      serializableElementName: 
+    ProviderMoneyGainRpn:
+      serializableElementName: 
+  ResourceAccessPrerequisites:
+  - Resource: 2
+    ConstantType: 0
+    ConstantValue: 3
+  MinimalPopulationPrerequisite: 0
+  ResourceSupremacyPrerequisite: 
+  EraPrerequisite:
+    Operator: 0
+    EraReference:
+      serializableElementName: 
+  FactionPrerequisite:
+    Operator: 0
+    serializableFactionNames: []
+  SettlementStatusPrerequisite:
+    CampConstraint: 0
+    CityConstraint: 1
+  ReligionAffinityPrerequisite:
+    serializableElementName: 
+  SettlementPropertyPrerequisites: []
+  SettlementStabilityPrerequisite:
+    Operator: 1
+    PublicOrderEffects:
+    - serializableElementName: PublicOrderEffect_Unhappy
+  DistrictCountPrerequisites: []
+  ActionTypePrerequisite:
+    Operator: 0
+    ActionType: 0
+  ArtificialWonderBuiltPrerequisite:
+    Operator: 0
+    ArtificialWonderDefinition:
+      serializableElementName: 
+  BaseSynergyDistrict: 0
+  Prototype: Extension_Prototype_BaseEconomy
+  OwnDescriptorReferences:
+  - serializableElementName: Villages_Logging_Yield
+  - serializableElementName: Villages_Logging_LandSynergy
+  - serializableElementName: Villages_Logging_LandSynergy2
+  - serializableElementName: Villages_Logging_WorkerSynergy
+  - serializableElementName: Villages_Logging_Adjacency
+  - serializableElementName: Villages_Logging_RiverSynergy
+  - serializableElementName: Tag_Extension_UrbanSubEnch
+  IsReplaceableOrDestroyable: 1
+  CanBeDowngradedToRuin: 1
+  AdditionalVisualLevels: []
+  IsImmuneToBombardment: 0
+  AllowBoroughExtension: 0
+  AllowConnectionWithOtherBorough: 0
+  FieldOfViewFlag: 0
+  OverADistrictPrerequisite:
+    TagOperator: 0
+    ValidIfNoDistrict: 1
+    HideInUI: 1
+    serializableTags:
+    - Tag_Extension_Base
+  PointOfInterestPrerequisite:
+    Constraint: 3
+    HideInUI: 0
+    serializablePointOfInterestNames: []
+  RiverPrerequisite:
+    Constraint: 0
+    HideInUI: 1
+  TerrainPrerequisite:
+    Constraint: 2
+    HideInUI: 1
+    LocalizationOverride: 
+    CanBuildOnWasteland: 0
+    serializableTerrainTypeNames:
+    - TerrainType_Ocean
+    - TerrainType_CoastalWater
+    - TerrainType_Lake
+    - TerrainType_CityTerrain
+  TerritoryTypePrerequisite:
+    IsOceanic: 0
+  BiomePrerequisite:
+    Constraint: 0
+    serializableBiomeNames: []
+  CliffPrerequisite:
+    Constraint: 0
+    HideInUI: 1
+  MountainPrerequisite:
+    Constraint: 0
+    HideInUI: 0
+  TileVisibilityPrerequisite:
+    Constraint: 1
+    Visibility: 0
+  NeighbourTilesPrerequisite:
+    NeighbourOperator: 2
+    TerritoryConstraint: 2
+    IgnoreCliff: 1
+    IgnoreNaturalWonder: 1
+    TerrainPrerequisite:
+      Constraint: 1
+      HideInUI: 1
+      LocalizationOverride: 
+      CanBuildOnWasteland: 0
+      serializableTerrainTypeNames:
+      - TerrainType_Forest
+      - TerrainType_RockyForest
+    RiverPrerequisite:
+      Constraint: 0
+      HideInUI: 1
+    DistrictPrerequisite:
+      TagOperator: 2
+      ValidIfNoDistrict: 0
+      HideInUI: 1
+      serializableTags: []
+  BoroughPrerequisite:
+    ExtensionRules: 1
+    HideInUI: 0
+  ProtectsNeighboursFromRansack: 0
+  ZoneOfControlDistance:
+    RawValue: 0
+  FriendlyUnitOnTopStatus:
+    serializableElementName: 
+  ProtectAgainstStealthDetection: 0
+  DistrictType: 6
+  HasPublicOrderCost: 0
+  CanReplaceDistrict: 0
+  CanBeReplacedByDistrict: 0
+  PlacementPolicies: 0
+  ExploitationRuleReference:
+    serializableElementName: ExploitationRule_Neighbours_LoggingCamp
+  ExtractResource: 0
+  WondrousResourceType: 64
+  UnitSpawnType: -1
+  AllowShipping: 0
+  ProvidesSecondaryRoad: 0
+  ProvidesRail: 0
+  ForceRiverOnTerrain: 0
+  serializableReplaceTerrainWith: 
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 8581125, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: ConstructibleCommonExtensionDefinitionVillages
+  m_EditorClassIdentifier: 
+--- !u!114 &2456626156503097488
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -692026615, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Villages_River_Farm
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: GainValues
+      Entry: 7
+      Data: 0|Amplitude.Mercury.Data.AI.Gain[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 5
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Mercury.Data.AI.Gain, Amplitude.Mercury.Data
+    - Name: Type
+      Entry: 3
+      Data: 16
+    - Name: Importance
+      Entry: 3
+      Data: 3
+    - Name: Gates
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Mercury.Data.AI.Gain, Amplitude.Mercury.Data
+    - Name: Type
+      Entry: 3
+      Data: 1
+    - Name: Importance
+      Entry: 3
+      Data: 4
+    - Name: Gates
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Mercury.Data.AI.Gain, Amplitude.Mercury.Data
+    - Name: Type
+      Entry: 3
+      Data: 512
+    - Name: Importance
+      Entry: 3
+      Data: 3
+    - Name: Gates
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Mercury.Data.AI.Gain, Amplitude.Mercury.Data
+    - Name: Type
+      Entry: 3
+      Data: 32
+    - Name: Importance
+      Entry: 3
+      Data: 2
+    - Name: Gates
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Mercury.Data.AI.Gain, Amplitude.Mercury.Data
+    - Name: Type
+      Entry: 3
+      Data: 8
+    - Name: Importance
+      Entry: 3
+      Data: 1
+    - Name: Gates
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+  Key: 0
+  Hidden: 0
+  IsObsolete: 0
+  DLCPrerequisite:
+    DownloadableContent: 0
+  Category: 1
+  SerializableFamily: 
+  Level: 0
+  Unicity: 4
+  UnicityAdditionalConstructible: []
+  ConstructibleVisualAffinity:
+    serializableElementName: DistrictVisualAffinity_Base_Food
+  CanBeBoughtOut: 1
+  CanBeCanceled: 1
+  StartWhenQueued: 0
+  CanBeBoughtOutWithPopulation: 1
+  ProductionCostDefinition:
+    Type: 1
+    Constant: -1
+    RpnDefinitionReference:
+      serializableElementName: ProductionCost_Infrastructure_Era1_Tier2
+  MoneyInstantCostDefinition:
+    Constant: 0
+    RpnDefinitionReference:
+      serializableElementName: 
+  InfluenceInstantCostDefinition:
+    Constant: -1
+    RpnDefinitionReference:
+      serializableElementName: ProductionCost_Extension_ENC_Food
+  PopulationInstantCostDefinition:
+    Constant: 1
+  ProvidedByOtherEmpireCostDefinition:
+    ProductionCostModifierRpn:
+      serializableElementName: 
+    ReceiverMoneyCostRpn:
+      serializableElementName: 
+    ProviderMoneyGainRpn:
+      serializableElementName: 
+  ResourceAccessPrerequisites: []
+  MinimalPopulationPrerequisite: 0
+  ResourceSupremacyPrerequisite: 
+  EraPrerequisite:
+    Operator: 0
+    EraReference:
+      serializableElementName: 
+  FactionPrerequisite:
+    Operator: 0
+    serializableFactionNames: []
+  SettlementStatusPrerequisite:
+    CampConstraint: 0
+    CityConstraint: 1
+  ReligionAffinityPrerequisite:
+    serializableElementName: 
+  SettlementPropertyPrerequisites: []
+  SettlementStabilityPrerequisite:
+    Operator: 1
+    PublicOrderEffects:
+    - serializableElementName: PublicOrderEffect_Unhappy
+  DistrictCountPrerequisites: []
+  ActionTypePrerequisite:
+    Operator: 0
+    ActionType: 0
+  ArtificialWonderBuiltPrerequisite:
+    Operator: 0
+    ArtificialWonderDefinition:
+      serializableElementName: 
+  BaseSynergyDistrict: 0
+  Prototype: Extension_Prototype_BaseEconomy
+  OwnDescriptorReferences:
+  - serializableElementName: Villages_Farming_Yield
+  - serializableElementName: Villages_Farming_WorkerSynergy
+  - serializableElementName: Villages_Farming_RiverSynergy
+  - serializableElementName: Villages_Farming_LandSynergy2
+  - serializableElementName: Effect_Extension_Base_Food
+  - serializableElementName: Tag_Extension_UrbanSubEnch
+  IsReplaceableOrDestroyable: 1
+  CanBeDowngradedToRuin: 1
+  AdditionalVisualLevels:
+  - OutputThresholdPerEra: 6f0000006f0000006f0000006f0000006f0000006f0000006f000000
+  IsImmuneToBombardment: 0
+  AllowBoroughExtension: 0
+  AllowConnectionWithOtherBorough: 0
+  FieldOfViewFlag: 0
+  OverADistrictPrerequisite:
+    TagOperator: 0
+    ValidIfNoDistrict: 1
+    HideInUI: 1
+    serializableTags:
+    - Tag_Extension_Base
+  PointOfInterestPrerequisite:
+    Constraint: 3
+    HideInUI: 0
+    serializablePointOfInterestNames: []
+  RiverPrerequisite:
+    Constraint: 1
+    HideInUI: 0
+  TerrainPrerequisite:
+    Constraint: 2
+    HideInUI: 1
+    LocalizationOverride: 
+    CanBuildOnWasteland: 0
+    serializableTerrainTypeNames:
+    - TerrainType_Ocean
+    - TerrainType_CoastalWater
+    - TerrainType_Lake
+    - TerrainType_CityTerrain
+  TerritoryTypePrerequisite:
+    IsOceanic: 0
+  BiomePrerequisite:
+    Constraint: 0
+    serializableBiomeNames: []
+  CliffPrerequisite:
+    Constraint: 0
+    HideInUI: 1
+  MountainPrerequisite:
+    Constraint: 0
+    HideInUI: 0
+  TileVisibilityPrerequisite:
+    Constraint: 1
+    Visibility: 0
+  NeighbourTilesPrerequisite:
+    NeighbourOperator: 2
+    TerritoryConstraint: 2
+    IgnoreCliff: 1
+    IgnoreNaturalWonder: 1
+    TerrainPrerequisite:
+      Constraint: 1
+      HideInUI: 0
+      LocalizationOverride: 
+      CanBuildOnWasteland: 0
+      serializableTerrainTypeNames:
+      - TerrainType_DryGrass
+      - TerrainType_Prairie
+    RiverPrerequisite:
+      Constraint: 1
+      HideInUI: 1
+    DistrictPrerequisite:
+      TagOperator: 2
+      ValidIfNoDistrict: 0
+      HideInUI: 1
+      serializableTags: []
+  BoroughPrerequisite:
+    ExtensionRules: 1
+    HideInUI: 0
+  ProtectsNeighboursFromRansack: 0
+  ZoneOfControlDistance:
+    RawValue: 0
+  FriendlyUnitOnTopStatus:
+    serializableElementName: 
+  ProtectAgainstStealthDetection: 0
+  DistrictType: 6
+  HasPublicOrderCost: 0
+  CanReplaceDistrict: 0
+  CanBeReplacedByDistrict: 0
+  PlacementPolicies: 0
+  ExploitationRuleReference:
+    serializableElementName: ExploitationRule_Neighbours_FarmingVillage
+  ExtractResource: 0
+  WondrousResourceType: 64
+  UnitSpawnType: -1
+  AllowShipping: 0
+  ProvidesSecondaryRoad: 0
+  ProvidesRail: 0
+  ForceRiverOnTerrain: 0
+  serializableReplaceTerrainWith: 

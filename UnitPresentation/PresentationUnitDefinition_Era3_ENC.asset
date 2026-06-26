@@ -1,5 +1,99 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-7945249796927658272
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 759592875, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: PresentationLandUnit_Era3_Common_Bandits_Default
+  m_EditorClassIdentifier: 
+  IsWorkInProgress: 0
+  UnitDefinitionReference:
+    serializableElementName: LandUnit_Era3_Common_Bandits
+  PresentationFormationDefinition:
+    serializableElementName: Formation_Wedge_3
+  FormationBehaviourDefinition:
+    serializableElementName: 
+  ChoreographyOverride: 0
+  NoAttackRotation: 0
+  FacingAngleOffset: 0
+  MinDistanceBetweenFormationDummies: 0
+  RestrictionPerSlot: []
+  UnitSpecification: 0
+  CoordinationMasterValue: 0.01
+  CoordinationValues:
+    DummyOffsetPosition: {x: 0.198, y: 0.3465}
+    DummyOffsetAngle: {x: 19.8, y: 29.7}
+    AnimationDelay: {x: 0, y: 0.99}
+    MinDistanceReformationMultiplier: 1
+    CoordinateAttackMovement: 0
+    SameRowAttack: 1
+    AveragePathLength: 0
+    UseDisciplinedVariation: 0
+  StealthRevealAudioEvent:
+    guid:
+      a: -1326129278
+      b: 1160368417
+      c: 1151361188
+      d: -1076931018
+  unitVoiceProviderReference:
+    guid:
+      a: -956707267
+      b: 1127163104
+      c: -6804313
+      d: -1489757415
+--- !u!114 &-7581711058216160328
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 759592875, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: PresentationNavalUnit_Era3_Common_Fusta_Default
+  m_EditorClassIdentifier: 
+  IsWorkInProgress: 0
+  UnitDefinitionReference:
+    serializableElementName: NavalUnit_Era3_Common_Fusta
+  PresentationFormationDefinition:
+    serializableElementName: Formation_1
+  FormationBehaviourDefinition:
+    serializableElementName: 
+  ChoreographyOverride: 0
+  NoAttackRotation: 0
+  FacingAngleOffset: 90
+  MinDistanceBetweenFormationDummies: 0
+  RestrictionPerSlot: []
+  UnitSpecification: 0
+  CoordinationMasterValue: 0.5
+  CoordinationValues:
+    DummyOffsetPosition: {x: 0.1, y: 0.175}
+    DummyOffsetAngle: {x: 10, y: 15}
+    AnimationDelay: {x: 0, y: 0.5}
+    MinDistanceReformationMultiplier: 1
+    CoordinateAttackMovement: 0
+    SameRowAttack: 1
+    AveragePathLength: 0
+    UseDisciplinedVariation: 0
+  StealthRevealAudioEvent:
+    guid:
+      a: -1326129278
+      b: 1160368417
+      c: 1151361188
+      d: -1076931018
+  unitVoiceProviderReference:
+    guid:
+      a: -2048684915
+      b: 1291519931
+      c: -298038903
+      d: -465984803
 --- !u!114 &-6914396180157766003
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -247,7 +341,7 @@ MonoBehaviour:
   m_Script: {fileID: -570373346, guid: b310e23bee821cb478da05296ba685d0, type: 3}
   m_Name: PresentationUnitDefinition_Era3_ENC
   m_EditorClassIdentifier: 
---- !u!114 &2703406137660802512
+--- !u!114 &1843819604731050520
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -257,13 +351,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 759592875, guid: b310e23bee821cb478da05296ba685d0, type: 3}
-  m_Name: PresentationLandUnit_Era3_Yeomens_Default
+  m_Name: PresentationLandUnit_Era3_Outlaws_Default
   m_EditorClassIdentifier: 
   IsWorkInProgress: 0
   UnitDefinitionReference:
-    serializableElementName: LandUnit_Era3_Yeomens
+    serializableElementName: LandUnit_Era3_Outlaws
   PresentationFormationDefinition:
-    serializableElementName: Formation_Line_Spaced_9
+    serializableElementName: Formation_Scatter_Spaced_5
   FormationBehaviourDefinition:
     serializableElementName: 
   ChoreographyOverride: 0
@@ -294,6 +388,100 @@ MonoBehaviour:
       b: 1127163104
       c: -6804313
       d: -1489757415
+--- !u!114 &2703406137660802512
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 759592875, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: PresentationLandUnit_Era3_Yeomens_Default
+  m_EditorClassIdentifier: 
+  IsWorkInProgress: 0
+  UnitDefinitionReference:
+    serializableElementName: LandUnit_Era3_Yeomens
+  PresentationFormationDefinition:
+    serializableElementName: Formation_Scatter_Spaced_5
+  FormationBehaviourDefinition:
+    serializableElementName: 
+  ChoreographyOverride: 0
+  NoAttackRotation: 0
+  FacingAngleOffset: 0
+  MinDistanceBetweenFormationDummies: 0
+  RestrictionPerSlot: []
+  UnitSpecification: 0
+  CoordinationMasterValue: 0.99
+  CoordinationValues:
+    DummyOffsetPosition: {x: 0.0019999982, y: 0.0034999966}
+    DummyOffsetAngle: {x: 0.19999981, y: 0.2999997}
+    AnimationDelay: {x: 0, y: 0.00999999}
+    MinDistanceReformationMultiplier: 0.505
+    CoordinateAttackMovement: 1
+    SameRowAttack: 1
+    AveragePathLength: 1
+    UseDisciplinedVariation: 1
+  StealthRevealAudioEvent:
+    guid:
+      a: -1326129278
+      b: 1160368417
+      c: 1151361188
+      d: -1076931018
+  unitVoiceProviderReference:
+    guid:
+      a: -956707267
+      b: 1127163104
+      c: -6804313
+      d: -1489757415
+--- !u!114 &2930356995938768780
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 759592875, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: PresentationNavalUnit_Era3_CaribbeanPirates_Galliot_Default
+  m_EditorClassIdentifier: 
+  IsWorkInProgress: 0
+  UnitDefinitionReference:
+    serializableElementName: NavalUnit_Era3_CaribbeanPirates_Galliot
+  PresentationFormationDefinition:
+    serializableElementName: Formation_1
+  FormationBehaviourDefinition:
+    serializableElementName: 
+  ChoreographyOverride: 0
+  NoAttackRotation: 0
+  FacingAngleOffset: 90
+  MinDistanceBetweenFormationDummies: 0
+  RestrictionPerSlot: []
+  UnitSpecification: 0
+  CoordinationMasterValue: 0.5
+  CoordinationValues:
+    DummyOffsetPosition: {x: 0.1, y: 0.175}
+    DummyOffsetAngle: {x: 10, y: 15}
+    AnimationDelay: {x: 0, y: 0.5}
+    MinDistanceReformationMultiplier: 1
+    CoordinateAttackMovement: 0
+    SameRowAttack: 1
+    AveragePathLength: 0
+    UseDisciplinedVariation: 0
+  StealthRevealAudioEvent:
+    guid:
+      a: -1326129278
+      b: 1160368417
+      c: 1151361188
+      d: -1076931018
+  unitVoiceProviderReference:
+    guid:
+      a: -2048684915
+      b: 1291519931
+      c: -298038903
+      d: -465984803
 --- !u!114 &3862841865783461011
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -341,6 +529,100 @@ MonoBehaviour:
       b: 1291519931
       c: -298038903
       d: -465984803
+--- !u!114 &4446589592887942808
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 759592875, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: PresentationLandUnit_Era3_Common_Settlers_Default
+  m_EditorClassIdentifier: 
+  IsWorkInProgress: 0
+  UnitDefinitionReference:
+    serializableElementName: LandUnit_Era3_Common_Settlers
+  PresentationFormationDefinition:
+    serializableElementName: Formation_Close_5
+  FormationBehaviourDefinition:
+    serializableElementName: 
+  ChoreographyOverride: 0
+  NoAttackRotation: 0
+  FacingAngleOffset: 0
+  MinDistanceBetweenFormationDummies: 0
+  RestrictionPerSlot: []
+  UnitSpecification: 0
+  CoordinationMasterValue: 0.01
+  CoordinationValues:
+    DummyOffsetPosition: {x: 0.198, y: 0.3465}
+    DummyOffsetAngle: {x: 19.8, y: 29.7}
+    AnimationDelay: {x: 0, y: 0.99}
+    MinDistanceReformationMultiplier: 1
+    CoordinateAttackMovement: 0
+    SameRowAttack: 0
+    AveragePathLength: 0
+    UseDisciplinedVariation: 0
+  StealthRevealAudioEvent:
+    guid:
+      a: -1326129278
+      b: 1160368417
+      c: 1151361188
+      d: -1076931018
+  unitVoiceProviderReference:
+    guid:
+      a: -956707267
+      b: 1127163104
+      c: -6804313
+      d: -1489757415
+--- !u!114 &5050411471369053864
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 759592875, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: PresentationNavalUnit_Era3_Common_GreatGalley_Default
+  m_EditorClassIdentifier: 
+  IsWorkInProgress: 0
+  UnitDefinitionReference:
+    serializableElementName: NavalUnit_Era3_Common_GreatGalley
+  PresentationFormationDefinition:
+    serializableElementName: Formation_1
+  FormationBehaviourDefinition:
+    serializableElementName: 
+  ChoreographyOverride: 0
+  NoAttackRotation: 0
+  FacingAngleOffset: 90
+  MinDistanceBetweenFormationDummies: 0
+  RestrictionPerSlot: []
+  UnitSpecification: 0
+  CoordinationMasterValue: 0.5
+  CoordinationValues:
+    DummyOffsetPosition: {x: 0.1, y: 0.175}
+    DummyOffsetAngle: {x: 10, y: 15}
+    AnimationDelay: {x: 0, y: 0.5}
+    MinDistanceReformationMultiplier: 1
+    CoordinateAttackMovement: 0
+    SameRowAttack: 1
+    AveragePathLength: 0
+    UseDisciplinedVariation: 0
+  StealthRevealAudioEvent:
+    guid:
+      a: -1326129278
+      b: 1160368417
+      c: 1151361188
+      d: -1076931018
+  unitVoiceProviderReference:
+    guid:
+      a: 2111542706
+      b: 1261554029
+      c: -1363695428
+      d: 454133168
 --- !u!114 &5960201135982246889
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -404,7 +686,7 @@ MonoBehaviour:
   UnitDefinitionReference:
     serializableElementName: LandUnit_Era3_Sappers
   PresentationFormationDefinition:
-    serializableElementName: Formation_Scatter_Spaced_9
+    serializableElementName: Formation_Close_5
   FormationBehaviourDefinition:
     serializableElementName: All_Clash
   ChoreographyOverride: 0

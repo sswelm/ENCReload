@@ -32,6 +32,38 @@ MonoBehaviour:
   EraReference:
     serializableElementName: Era5
   TradeBaseLicenceCost: 540
+--- !u!114 &-4024293718162917348
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1708454363, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Strategic02
+  m_EditorClassIdentifier: 
+  ResourceType: 1
+  EraReference:
+    serializableElementName: Era0
+  TradeBaseLicenceCost: 20
+--- !u!114 &-3892450477510496959
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1708454363, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Strategic01
+  m_EditorClassIdentifier: 
+  ResourceType: 0
+  EraReference:
+    serializableElementName: Era0
+  TradeBaseLicenceCost: 10
 --- !u!114 &-2327043734573646571
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -60,6 +92,22 @@ MonoBehaviour:
   m_Script: {fileID: -882805803, guid: b310e23bee821cb478da05296ba685d0, type: 3}
   m_Name: ResourceDefinition
   m_EditorClassIdentifier: 
+--- !u!114 &371904200221033687
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1708454363, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Strategic09
+  m_EditorClassIdentifier: 
+  ResourceType: 8
+  EraReference:
+    serializableElementName: Era0
+  TradeBaseLicenceCost: 20
 --- !u!114 &1006351001193337513
 MonoBehaviour:
   m_ObjectHideFlags: 0

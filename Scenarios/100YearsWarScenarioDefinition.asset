@@ -1,0 +1,192 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1821263129, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: 100YearsWarScenarioDefinition
+  m_EditorClassIdentifier: 
+--- !u!114 &2604215026794583187
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 61609388, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Scenario_100YearsWarV3
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  IsVisibileInScenarioMainMenu: 1
+  DateAsTick: 638091220431752625
+  CalendarDefinition: {fileID: 0}
+  EndGameCameraSequenceDefinition: {fileID: 0}
+  NarrativeEventsShownFirst: 0
+  MajorEmpires:
+  - UniqueIdentifier: French
+    FactionDefinition:
+      serializableElementName: Civilization_Era3_FrankishKingdom
+    AllowEliminationCountdown: 1
+    ForceEliminationIfNoSettlement: 0
+    ForceEliminationIfNoArmy: 0
+    AllowPlayerSwap: 0
+    AdditionalStartingDescriptors: []
+    ForcedPersona: 
+    ForcedAvatarCustomAffinity:
+      serializableElementName: 
+    CustomEmpireNaming: {fileID: 0}
+    ForcedEmpireSymbolDefinition: 
+    OverrideAIEstimatedUpkeepCostBool: 0
+    OverrideAIEstimatedUpkeepCost: 0
+    AIArmyForceNeedInfos: []
+    DoNotCheckForPreviousUnitConstructiblesIfUnavailable: 0
+  - UniqueIdentifier: English
+    FactionDefinition:
+      serializableElementName: Civilization_Era3_MedievalEngland
+    AllowEliminationCountdown: 1
+    ForceEliminationIfNoSettlement: 0
+    ForceEliminationIfNoArmy: 0
+    AllowPlayerSwap: 0
+    AdditionalStartingDescriptors: []
+    ForcedPersona: PersonaPreset_DefaultSlot_03
+    ForcedAvatarCustomAffinity:
+      serializableElementName: 
+    CustomEmpireNaming: {fileID: 0}
+    ForcedEmpireSymbolDefinition: 
+    OverrideAIEstimatedUpkeepCostBool: 0
+    OverrideAIEstimatedUpkeepCost: 0
+    AIArmyForceNeedInfos: []
+    DoNotCheckForPreviousUnitConstructiblesIfUnavailable: 0
+  TerrainGuid:
+    a: -1395360514
+    b: 1260898971
+    c: 117286310
+    d: -855963439
+  GameSize: Huge
+  GameSpeed:
+    serializableElementName: GameSpeed_Blitz
+  StartingTurn: 1
+  IntroVideoRestriction: 1
+  OverrideIntroVideoWith: 
+  EraSettings:
+    EnableEraTransition: 0
+    EndingEraReference:
+      serializableElementName: Era3
+  FactionSettings:
+    FactionListMode: 1
+    SerializedFactionNames: []
+    EnableFactionUpgrade: 1
+    EnableAffinities: 1
+  GameDifficultySettings:
+    OverrideDifficulty: 0
+    DefaultDifficultyDefinition:
+      serializableElementName: 
+    SpecificEmpireDifficulties: []
+  ActionSettings:
+    ListMode: 1
+    ActionTypes: 
+  ConstructibleSettings:
+    EnableArtificialWonders: 1
+    ListMode: 1
+    SerializedConstructibleNames: []
+  BattleSettings:
+    RetreatAvailabilityFlags: 15
+    SurrenderSiegeAvailabilityFlags: 15
+    InstantResolveAvailabilityFlags: 15
+  DiplomacySettings:
+    EnableDiplomaticGrievances: 1
+    EnableDiplomacyActions: 1
+    DiplomaticActionListMode: 1
+    DiplomaticActions: 0a00000015000000140000001300000012000000
+    DiplomaticAbilityListMode: 1
+    DiplomaticAbilities: 0
+  TechnologySettings:
+    EnableTechnology: 1
+    ListMode: 1
+    SerializedTechnologiesNames: []
+  CivicsSettings:
+    EnableCivics: 1
+    CategoryListMode: 1
+    SerializedCategoryNames: []
+    CivicsListMode: 1
+    SerializedCivicsNames: []
+  NarrativeEventSettings:
+    EnableNarrativeEvents: 1
+    CategoryListMode: 1
+    SerializedCategoryNames: []
+    NarrativeEventListMode: 1
+    SerializedNarrativeEventNames: []
+  IdeologySettings:
+    EnableIdeologicalAxes: 1
+  CultureSettings:
+    EnableCulturePropagation: 1
+  ReligionSettings:
+    EnableReligionPropagation: 0
+    EnableReligionCreation: 0
+    EnableReformation: 1
+  MinorFactionSettings:
+    EnablePeacefulAnimalSpawn: 1
+    EnableViolentAnimalSpawn: 1
+    EnablePeacefulHumanSpawn: 1
+    EnableViolentHumanSpawn: 1
+    EnableCrisisSpawn: 1
+    NumberOfMinorLimit: 5
+  CuriositySettings:
+    EnableCuriositySpawn: 1
+    ListMode: 1
+    SerializedCuriosityNames: []
+  EraStarSettings:
+    EnableEraStars: 1
+    EraStarsListMode: 0
+    SerializedEraStarNames:
+    - Fame_EraStar_Cultural
+    - Fame_EraStar_Expansionist
+    - Fame_EraStar_Warmonger
+    - Fame_EraStar_Farmer
+    OverrideMaxLevel: 1
+    MaxLevel: 10
+    OverrideFameGain: 0
+    FameGain:
+      RawValue: 300000
+    EraStarOverrides: []
+    EnableEraStarCatchup: 1
+    GainFamePerCSKilled: 0
+    FamePerCSKilled:
+      RawValue: 0
+  WorldDeedSettings:
+    EnableWorldDeeds: 1
+    WorldDeedsListMode: 1
+    SerializedWorldDeedNames: []
+  NaturalWonderSettings:
+    EnableExplorationNotification: 1
+  TutorialSettings:
+    EnableTutorial: 1
+    TutorialListMode: 0
+    SerializedTutorialNames: []
+  PreventToContinuePlaying: 1
+  OverwriteDefaultEndGameCondition: 1
+  EndGameDefinition:
+    serializableElementName: Scenario_100YearsWar
+  EditionOrdersGuid:
+    a: -351741761
+    b: 1199687034
+    c: -1326971976
+    d: -1993138421
+  SaveName: ' 100 years war v3'
+  ActivateNarrator: 1

@@ -311,11 +311,9 @@ MonoBehaviour:
     serializableElementName: 
   IsWorkInProgress: 0
   Category:
-    serializableElementName: NarrativeEventCategory_UnlockingWithoutUi
+    serializableElementName: NarrativeEventCategory_UnlockingWithoutUiObsolete
   EraDefinitions:
-  - serializableElementName: Era4
   - serializableElementName: Era5
-  - serializableElementName: Era6
   Image:
     guid:
       a: 908867098
@@ -383,7 +381,7 @@ MonoBehaviour:
       Data: 3|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite[], Amplitude.Mercury.Data
     - Name: 
       Entry: 12
-      Data: 5
+      Data: 6
     - Name: 
       Entry: 7
       Data: 4|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite_Empire_Self,
@@ -477,7 +475,7 @@ MonoBehaviour:
       Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
     - Name: serializableElementName
       Entry: 1
-      Data: Technology_Era5_Sanitation
+      Data: Technology_Era5_Plastics
     - Name: 
       Entry: 8
       Data: 
@@ -490,6 +488,34 @@ MonoBehaviour:
     - Name: 
       Entry: 7
       Data: 8|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite_Empire_Technology,
+        Amplitude.Mercury.Data
+    - Name: FailureFlags
+      Entry: 3
+      Data: 0
+    - Name: LocalizationOverride
+      Entry: 6
+      Data: 
+    - Name: EntityID
+      Entry: 1
+      Data: Empire
+    - Name: Technology
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: Technology_Era5_Sanitation
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Inverted
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 9|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite_Empire_Technology,
         Amplitude.Mercury.Data
     - Name: FailureFlags
       Entry: 3
@@ -523,7 +549,7 @@ MonoBehaviour:
       Data: 
     - Name: Variables
       Entry: 7
-      Data: 9|Amplitude.Mercury.Data.Simulation.SimulationEventVariable[], Amplitude.Mercury.Data
+      Data: 10|Amplitude.Mercury.Data.Simulation.SimulationEventVariable[], Amplitude.Mercury.Data
     - Name: 
       Entry: 12
       Data: 0
@@ -541,7 +567,7 @@ MonoBehaviour:
       Data: 
     - Name: LocalizationParameters
       Entry: 7
-      Data: 10|Amplitude.Mercury.Data.Simulation.NarrativeEventLocalizationParameter[],
+      Data: 11|Amplitude.Mercury.Data.Simulation.NarrativeEventLocalizationParameter[],
         Amplitude.Mercury.Data
     - Name: 
       Entry: 12
@@ -554,13 +580,13 @@ MonoBehaviour:
       Data: 
     - Name: Choices
       Entry: 7
-      Data: 11|Amplitude.Mercury.Data.Simulation.NarrativeEventChoice[], Amplitude.Mercury.Data
+      Data: 12|Amplitude.Mercury.Data.Simulation.NarrativeEventChoice[], Amplitude.Mercury.Data
     - Name: 
       Entry: 12
       Data: 1
     - Name: 
       Entry: 7
-      Data: 12|Amplitude.Mercury.Data.Simulation.NarrativeEventChoice, Amplitude.Mercury.Data
+      Data: 13|Amplitude.Mercury.Data.Simulation.NarrativeEventChoice, Amplitude.Mercury.Data
     - Name: Image
       Entry: 7
       Data: Amplitude.UI.UITexture, Amplitude.UI
@@ -599,7 +625,7 @@ MonoBehaviour:
       Data: 10
     - Name: Prerequisites
       Entry: 7
-      Data: 13|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite[], Amplitude.Mercury.Data
+      Data: 14|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite[], Amplitude.Mercury.Data
     - Name: 
       Entry: 12
       Data: 0
@@ -611,19 +637,19 @@ MonoBehaviour:
       Data: 
     - Name: NarrativeEventEffects
       Entry: 7
-      Data: 14|Amplitude.Mercury.Data.Simulation.NarrativeEventEffect[], Amplitude.Mercury.Data
+      Data: 15|Amplitude.Mercury.Data.Simulation.NarrativeEventEffect[], Amplitude.Mercury.Data
     - Name: 
       Entry: 12
       Data: 1
     - Name: 
       Entry: 7
-      Data: 15|Amplitude.Mercury.Data.Simulation.NarrativeEventEffect, Amplitude.Mercury.Data
+      Data: 16|Amplitude.Mercury.Data.Simulation.NarrativeEventEffect, Amplitude.Mercury.Data
     - Name: Reversible
       Entry: 5
       Data: true
     - Name: SimulationEventEffect
       Entry: 7
-      Data: 16|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_ApplyCostModifier,
+      Data: 17|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_ApplyCostModifier,
         Amplitude.Mercury.Data
     - Name: SimulationEffectDescriptionOverride
       Entry: 6
@@ -693,10 +719,9 @@ MonoBehaviour:
     serializableElementName: 
   IsWorkInProgress: 0
   Category:
-    serializableElementName: NarrativeEventCategory_UnlockingWithoutUi
+    serializableElementName: NarrativeEventCategory_UnlockingWithoutUiObsolete
   EraDefinitions:
   - serializableElementName: Era5
-  - serializableElementName: Era6
   Image:
     guid:
       a: 908867098
@@ -1018,11 +1043,9 @@ MonoBehaviour:
     serializableElementName: 
   IsWorkInProgress: 0
   Category:
-    serializableElementName: NarrativeEventCategory_UnlockingWithoutUi
+    serializableElementName: NarrativeEventCategory_UnlockingWithoutUiObsolete
   EraDefinitions:
-  - serializableElementName: Era4
   - serializableElementName: Era5
-  - serializableElementName: Era6
   Image:
     guid:
       a: 908867098
@@ -1031,6 +1054,330 @@ MonoBehaviour:
       d: 1899166633
   Title: Gattling Gun
   Description: Gattling Gun
+  GeoLocalizationID: 
+  Notes: 
+--- !u!114 &-8334579644926386769
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -931882767, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: NarrativeEvent_ReduceResearchCostBeforeUnlockingEra5_09
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: Trigger
+      Entry: 7
+      Data: 0|Amplitude.Mercury.Data.Simulation.NarrativeEventTrigger, Amplitude.Mercury.Data
+    - Name: ConsumeEventUponTrigger
+      Entry: 5
+      Data: true
+    - Name: PreventEventRemoval
+      Entry: 5
+      Data: false
+    - Name: SimulationEventTrigger
+      Entry: 7
+      Data: 1|Amplitude.Mercury.Data.Simulation.SimulationEventTrigger, Amplitude.Mercury.Data
+    - Name: IsNarrativeConsequence
+      Entry: 5
+      Data: false
+    - Name: SimulationEvent
+      Entry: 1
+      Data: Amplitude.Mercury.Simulation.SimulationEvent_TurnBegin, Amplitude.Mercury.Firstpass
+    - Name: Signature
+      Entry: 7
+      Data: 2|System.Collections.Generic.List`1[[Amplitude.Mercury.Data.Simulation.NarrativeEventConsequenceVariableDeclaration,
+        Amplitude.Mercury.Data]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Prerequisites
+      Entry: 7
+      Data: 3|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 3
+    - Name: 
+      Entry: 7
+      Data: 4|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite_Empire_Self,
+        Amplitude.Mercury.Data
+    - Name: FailureFlags
+      Entry: 3
+      Data: 0
+    - Name: LocalizationOverride
+      Entry: 6
+      Data: 
+    - Name: EntityID
+      Entry: 1
+      Data: Empire
+    - Name: Inverted
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 5|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite_Empire_Technology,
+        Amplitude.Mercury.Data
+    - Name: FailureFlags
+      Entry: 3
+      Data: 0
+    - Name: LocalizationOverride
+      Entry: 6
+      Data: 
+    - Name: EntityID
+      Entry: 1
+      Data: Empire
+    - Name: Technology
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: Technology_Era5_RailRoad
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Inverted
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 6|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite_Empire_Technology,
+        Amplitude.Mercury.Data
+    - Name: FailureFlags
+      Entry: 3
+      Data: 0
+    - Name: LocalizationOverride
+      Entry: 6
+      Data: 
+    - Name: EntityID
+      Entry: 1
+      Data: Empire
+    - Name: Technology
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: Technology_Era5_Chemistry
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Inverted
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Variables
+      Entry: 7
+      Data: 7|Amplitude.Mercury.Data.Simulation.SimulationEventVariable[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: LocalizationParameters
+      Entry: 7
+      Data: 8|Amplitude.Mercury.Data.Simulation.NarrativeEventLocalizationParameter[],
+        Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Choices
+      Entry: 7
+      Data: 9|Amplitude.Mercury.Data.Simulation.NarrativeEventChoice[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 10|Amplitude.Mercury.Data.Simulation.NarrativeEventChoice, Amplitude.Mercury.Data
+    - Name: Image
+      Entry: 7
+      Data: Amplitude.UI.UITexture, Amplitude.UI
+    - Name: guid
+      Entry: 7
+      Data: Amplitude.Framework.Guid, Amplitude.Framework
+    - Name: a
+      Entry: 3
+      Data: 0
+    - Name: b
+      Entry: 3
+      Data: 0
+    - Name: c
+      Entry: 3
+      Data: 0
+    - Name: d
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Title
+      Entry: 6
+      Data: 
+    - Name: Description
+      Entry: 6
+      Data: 
+    - Name: Instant
+      Entry: 5
+      Data: true
+    - Name: Duration
+      Entry: 3
+      Data: 10
+    - Name: Prerequisites
+      Entry: 7
+      Data: 11|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: NarrativeEventEffects
+      Entry: 7
+      Data: 12|Amplitude.Mercury.Data.Simulation.NarrativeEventEffect[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 13|Amplitude.Mercury.Data.Simulation.NarrativeEventEffect, Amplitude.Mercury.Data
+    - Name: Reversible
+      Entry: 5
+      Data: true
+    - Name: SimulationEventEffect
+      Entry: 7
+      Data: 14|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_ApplyCostModifier,
+        Amplitude.Mercury.Data
+    - Name: SimulationEffectDescriptionOverride
+      Entry: 6
+      Data: 
+    - Name: UIMapperOverride
+      Entry: 6
+      Data: 
+    - Name: Hidden
+      Entry: 5
+      Data: false
+    - Name: DlcPrerequisite
+      Entry: 7
+      Data: Amplitude.Mercury.Data.Simulation.Prerequisites.DownloadableContentPrerequisite,
+        Amplitude.Mercury.Data
+    - Name: DownloadableContent
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: GainValues
+      Entry: 6
+      Data: 
+    - Name: TargetID
+      Entry: 1
+      Data: Empire
+    - Name: CostModifierReference
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: TechnologyCostModifierForEra5_09
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Notes
+      Entry: 6
+      Data: 
+    - Name: Archetypes
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+  IsObsolete: 0
+  DlcPrerequisite:
+    DownloadableContent: 0
+  OnlyActiveInScenario:
+    serializableElementName: 
+  IsWorkInProgress: 0
+  Category:
+    serializableElementName: NarrativeEventCategory_UnlockingWithoutUiObsolete
+  EraDefinitions:
+  - serializableElementName: Era5
+  Image:
+    guid:
+      a: 908867098
+      b: 1258104385
+      c: -2089119310
+      d: 1899166633
+  Title: Unlock Mechanisation faster
+  Description: Unlock Mechanisation faster when both Railroad and Chemistry are unlocked
   GeoLocalizationID: 
   Notes: 
 --- !u!114 &-8185496150307311346
@@ -1156,7 +1503,7 @@ MonoBehaviour:
       Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
     - Name: serializableElementName
       Entry: 1
-      Data: Technology_Era5_10
+      Data: Technology_Era5_SmokelessPowder
     - Name: 
       Entry: 8
       Data: 
@@ -1344,19 +1691,342 @@ MonoBehaviour:
     serializableElementName: 
   IsWorkInProgress: 0
   Category:
-    serializableElementName: NarrativeEventCategory_UnlockingWithoutUi
+    serializableElementName: NarrativeEventCategory_UnlockingWithoutUiObsolete
   EraDefinitions:
-  - serializableElementName: Era4
   - serializableElementName: Era5
-  - serializableElementName: Era6
   Image:
     guid:
       a: 908867098
       b: 1258104385
       c: -2089119310
       d: 1899166633
-  Title: '%Technology_Era5_11Title'
-  Description: '%Technology_Era5_11Description'
+  Title: 'Speedup development Steam Turbine '
+  Description: Speedup development Steam Turbine by unlocking Ironclad and Gatling
+    Gun
+  GeoLocalizationID: 
+  Notes: 
+--- !u!114 &-7067566910049835285
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -931882767, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: NarrativeEvent_ReduceResearchCostBeforeUnlockingEra5_SteamEngine
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: Trigger
+      Entry: 7
+      Data: 0|Amplitude.Mercury.Data.Simulation.NarrativeEventTrigger, Amplitude.Mercury.Data
+    - Name: ConsumeEventUponTrigger
+      Entry: 5
+      Data: true
+    - Name: PreventEventRemoval
+      Entry: 5
+      Data: false
+    - Name: SimulationEventTrigger
+      Entry: 7
+      Data: 1|Amplitude.Mercury.Data.Simulation.SimulationEventTrigger, Amplitude.Mercury.Data
+    - Name: IsNarrativeConsequence
+      Entry: 5
+      Data: false
+    - Name: SimulationEvent
+      Entry: 1
+      Data: Amplitude.Mercury.Simulation.SimulationEvent_TurnBegin, Amplitude.Mercury.Firstpass
+    - Name: Signature
+      Entry: 7
+      Data: 2|System.Collections.Generic.List`1[[Amplitude.Mercury.Data.Simulation.NarrativeEventConsequenceVariableDeclaration,
+        Amplitude.Mercury.Data]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Prerequisites
+      Entry: 7
+      Data: 3|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 3
+    - Name: 
+      Entry: 7
+      Data: 4|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite_Empire_Self,
+        Amplitude.Mercury.Data
+    - Name: FailureFlags
+      Entry: 3
+      Data: 0
+    - Name: LocalizationOverride
+      Entry: 6
+      Data: 
+    - Name: EntityID
+      Entry: 1
+      Data: Empire
+    - Name: Inverted
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 5|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite_Empire_Technology,
+        Amplitude.Mercury.Data
+    - Name: FailureFlags
+      Entry: 3
+      Data: 0
+    - Name: LocalizationOverride
+      Entry: 6
+      Data: 
+    - Name: EntityID
+      Entry: 1
+      Data: Empire
+    - Name: Technology
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: Technology_Era4_10
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Inverted
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 6|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite_Empire_Technology,
+        Amplitude.Mercury.Data
+    - Name: FailureFlags
+      Entry: 3
+      Data: 0
+    - Name: LocalizationOverride
+      Entry: 6
+      Data: 
+    - Name: EntityID
+      Entry: 1
+      Data: Empire
+    - Name: Technology
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: Technology_Era4_ShipOfTheLine
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Inverted
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Variables
+      Entry: 7
+      Data: 7|Amplitude.Mercury.Data.Simulation.SimulationEventVariable[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: LocalizationParameters
+      Entry: 7
+      Data: 8|Amplitude.Mercury.Data.Simulation.NarrativeEventLocalizationParameter[],
+        Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Choices
+      Entry: 7
+      Data: 9|Amplitude.Mercury.Data.Simulation.NarrativeEventChoice[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 10|Amplitude.Mercury.Data.Simulation.NarrativeEventChoice, Amplitude.Mercury.Data
+    - Name: Image
+      Entry: 7
+      Data: Amplitude.UI.UITexture, Amplitude.UI
+    - Name: guid
+      Entry: 7
+      Data: Amplitude.Framework.Guid, Amplitude.Framework
+    - Name: a
+      Entry: 3
+      Data: 0
+    - Name: b
+      Entry: 3
+      Data: 0
+    - Name: c
+      Entry: 3
+      Data: 0
+    - Name: d
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Title
+      Entry: 6
+      Data: 
+    - Name: Description
+      Entry: 6
+      Data: 
+    - Name: Instant
+      Entry: 5
+      Data: true
+    - Name: Duration
+      Entry: 3
+      Data: 10
+    - Name: Prerequisites
+      Entry: 7
+      Data: 11|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: NarrativeEventEffects
+      Entry: 7
+      Data: 12|Amplitude.Mercury.Data.Simulation.NarrativeEventEffect[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 13|Amplitude.Mercury.Data.Simulation.NarrativeEventEffect, Amplitude.Mercury.Data
+    - Name: Reversible
+      Entry: 5
+      Data: true
+    - Name: SimulationEventEffect
+      Entry: 7
+      Data: 14|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_ApplyCostModifier,
+        Amplitude.Mercury.Data
+    - Name: SimulationEffectDescriptionOverride
+      Entry: 6
+      Data: 
+    - Name: UIMapperOverride
+      Entry: 6
+      Data: 
+    - Name: Hidden
+      Entry: 5
+      Data: false
+    - Name: DlcPrerequisite
+      Entry: 7
+      Data: Amplitude.Mercury.Data.Simulation.Prerequisites.DownloadableContentPrerequisite,
+        Amplitude.Mercury.Data
+    - Name: DownloadableContent
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: GainValues
+      Entry: 6
+      Data: 
+    - Name: TargetID
+      Entry: 1
+      Data: Empire
+    - Name: CostModifierReference
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: TechnologyCostModifierForEra5_SteamEngine
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Notes
+      Entry: 6
+      Data: 
+    - Name: Archetypes
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+  IsObsolete: 0
+  DlcPrerequisite:
+    DownloadableContent: 0
+  OnlyActiveInScenario:
+    serializableElementName: 
+  IsWorkInProgress: 0
+  Category:
+    serializableElementName: NarrativeEventCategory_UnlockingWithoutUiObsolete
+  EraDefinitions:
+  - serializableElementName: Era5
+  Image:
+    guid:
+      a: 908867098
+      b: 1258104385
+      c: -2089119310
+      d: 1899166633
+  Title: Dreadnought design
+  Description: Dreadnought design is unlocked faster with Mechanisation and Propeller
   GeoLocalizationID: 
   Notes: 
 --- !u!114 &-6310752930083431809
@@ -1670,11 +2340,9 @@ MonoBehaviour:
     serializableElementName: 
   IsWorkInProgress: 0
   Category:
-    serializableElementName: NarrativeEventCategory_UnlockingWithoutUi
+    serializableElementName: NarrativeEventCategory_UnlockingWithoutUiObsolete
   EraDefinitions:
-  - serializableElementName: Era1
   - serializableElementName: Era2
-  - serializableElementName: Era3
   Image:
     guid:
       a: 908867098
@@ -1683,6 +2351,330 @@ MonoBehaviour:
       d: 1899166633
   Title: '%Technology_Era2_02Title'
   Description: '%Technology_Era2_02Description'
+  GeoLocalizationID: 
+  Notes: 
+--- !u!114 &-5871855771688728398
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -931882767, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: NarrativeEvent_ReduceResearchCostBeforeUnlockingEra5_Dreadnought
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: Trigger
+      Entry: 7
+      Data: 0|Amplitude.Mercury.Data.Simulation.NarrativeEventTrigger, Amplitude.Mercury.Data
+    - Name: ConsumeEventUponTrigger
+      Entry: 5
+      Data: true
+    - Name: PreventEventRemoval
+      Entry: 5
+      Data: false
+    - Name: SimulationEventTrigger
+      Entry: 7
+      Data: 1|Amplitude.Mercury.Data.Simulation.SimulationEventTrigger, Amplitude.Mercury.Data
+    - Name: IsNarrativeConsequence
+      Entry: 5
+      Data: false
+    - Name: SimulationEvent
+      Entry: 1
+      Data: Amplitude.Mercury.Simulation.SimulationEvent_TurnBegin, Amplitude.Mercury.Firstpass
+    - Name: Signature
+      Entry: 7
+      Data: 2|System.Collections.Generic.List`1[[Amplitude.Mercury.Data.Simulation.NarrativeEventConsequenceVariableDeclaration,
+        Amplitude.Mercury.Data]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Prerequisites
+      Entry: 7
+      Data: 3|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 3
+    - Name: 
+      Entry: 7
+      Data: 4|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite_Empire_Self,
+        Amplitude.Mercury.Data
+    - Name: FailureFlags
+      Entry: 3
+      Data: 0
+    - Name: LocalizationOverride
+      Entry: 6
+      Data: 
+    - Name: EntityID
+      Entry: 1
+      Data: Empire
+    - Name: Inverted
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 5|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite_Empire_Technology,
+        Amplitude.Mercury.Data
+    - Name: FailureFlags
+      Entry: 3
+      Data: 0
+    - Name: LocalizationOverride
+      Entry: 6
+      Data: 
+    - Name: EntityID
+      Entry: 1
+      Data: Empire
+    - Name: Technology
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: Technology_Era5_AntiTorpedoboatWarfare
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Inverted
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 6|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite_Empire_Technology,
+        Amplitude.Mercury.Data
+    - Name: FailureFlags
+      Entry: 3
+      Data: 0
+    - Name: LocalizationOverride
+      Entry: 6
+      Data: 
+    - Name: EntityID
+      Entry: 1
+      Data: Empire
+    - Name: Technology
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: Technology_Era5_Rifling
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Inverted
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Variables
+      Entry: 7
+      Data: 7|Amplitude.Mercury.Data.Simulation.SimulationEventVariable[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: LocalizationParameters
+      Entry: 7
+      Data: 8|Amplitude.Mercury.Data.Simulation.NarrativeEventLocalizationParameter[],
+        Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Choices
+      Entry: 7
+      Data: 9|Amplitude.Mercury.Data.Simulation.NarrativeEventChoice[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 10|Amplitude.Mercury.Data.Simulation.NarrativeEventChoice, Amplitude.Mercury.Data
+    - Name: Image
+      Entry: 7
+      Data: Amplitude.UI.UITexture, Amplitude.UI
+    - Name: guid
+      Entry: 7
+      Data: Amplitude.Framework.Guid, Amplitude.Framework
+    - Name: a
+      Entry: 3
+      Data: 0
+    - Name: b
+      Entry: 3
+      Data: 0
+    - Name: c
+      Entry: 3
+      Data: 0
+    - Name: d
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Title
+      Entry: 6
+      Data: 
+    - Name: Description
+      Entry: 6
+      Data: 
+    - Name: Instant
+      Entry: 5
+      Data: true
+    - Name: Duration
+      Entry: 3
+      Data: 10
+    - Name: Prerequisites
+      Entry: 7
+      Data: 11|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: NarrativeEventEffects
+      Entry: 7
+      Data: 12|Amplitude.Mercury.Data.Simulation.NarrativeEventEffect[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 13|Amplitude.Mercury.Data.Simulation.NarrativeEventEffect, Amplitude.Mercury.Data
+    - Name: Reversible
+      Entry: 5
+      Data: true
+    - Name: SimulationEventEffect
+      Entry: 7
+      Data: 14|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_ApplyCostModifier,
+        Amplitude.Mercury.Data
+    - Name: SimulationEffectDescriptionOverride
+      Entry: 6
+      Data: 
+    - Name: UIMapperOverride
+      Entry: 6
+      Data: 
+    - Name: Hidden
+      Entry: 5
+      Data: false
+    - Name: DlcPrerequisite
+      Entry: 7
+      Data: Amplitude.Mercury.Data.Simulation.Prerequisites.DownloadableContentPrerequisite,
+        Amplitude.Mercury.Data
+    - Name: DownloadableContent
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: GainValues
+      Entry: 6
+      Data: 
+    - Name: TargetID
+      Entry: 1
+      Data: Empire
+    - Name: CostModifierReference
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: TechnologyCostModifierForEra5_Dreadnought
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Notes
+      Entry: 6
+      Data: 
+    - Name: Archetypes
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+  IsObsolete: 0
+  DlcPrerequisite:
+    DownloadableContent: 0
+  OnlyActiveInScenario:
+    serializableElementName: 
+  IsWorkInProgress: 0
+  Category:
+    serializableElementName: NarrativeEventCategory_UnlockingWithoutUiObsolete
+  EraDefinitions:
+  - serializableElementName: Era5
+  Image:
+    guid:
+      a: 908867098
+      b: 1258104385
+      c: -2089119310
+      d: 1899166633
+  Title: Dreadnought design
+  Description: Dreadnought design is unlocked faster with Mechanisation and Propeller
   GeoLocalizationID: 
   Notes: 
 --- !u!114 &-4937128207751065257
@@ -1996,10 +2988,9 @@ MonoBehaviour:
     serializableElementName: 
   IsWorkInProgress: 0
   Category:
-    serializableElementName: NarrativeEventCategory_UnlockingWithoutUi
+    serializableElementName: NarrativeEventCategory_UnlockingWithoutUiObsolete
   EraDefinitions:
   - serializableElementName: Era1
-  - serializableElementName: Era2
   Image:
     guid:
       a: 908867098
@@ -2321,11 +3312,9 @@ MonoBehaviour:
     serializableElementName: 
   IsWorkInProgress: 0
   Category:
-    serializableElementName: NarrativeEventCategory_UnlockingWithoutUi
+    serializableElementName: NarrativeEventCategory_UnlockingWithoutUiObsolete
   EraDefinitions:
-  - serializableElementName: Era3
   - serializableElementName: Era4
-  - serializableElementName: Era5
   Image:
     guid:
       a: 908867098
@@ -2647,11 +3636,9 @@ MonoBehaviour:
     serializableElementName: 
   IsWorkInProgress: 0
   Category:
-    serializableElementName: NarrativeEventCategory_UnlockingWithoutUi
+    serializableElementName: NarrativeEventCategory_UnlockingWithoutUiObsolete
   EraDefinitions:
-  - serializableElementName: Era4
   - serializableElementName: Era5
-  - serializableElementName: Era6
   Image:
     guid:
       a: 908867098
@@ -3113,9 +4100,8 @@ MonoBehaviour:
     serializableElementName: 
   IsWorkInProgress: 0
   Category:
-    serializableElementName: NarrativeEventCategory_UnlockingWithoutUi
+    serializableElementName: NarrativeEventCategory_UnlockingWithoutUiObsolete
   EraDefinitions:
-  - serializableElementName: Era5
   - serializableElementName: Era6
   Image:
     guid:
@@ -3438,11 +4424,9 @@ MonoBehaviour:
     serializableElementName: 
   IsWorkInProgress: 0
   Category:
-    serializableElementName: NarrativeEventCategory_UnlockingWithoutUi
+    serializableElementName: NarrativeEventCategory_UnlockingWithoutUiObsolete
   EraDefinitions:
-  - serializableElementName: Era3
   - serializableElementName: Era4
-  - serializableElementName: Era5
   Image:
     guid:
       a: 908867098
@@ -3510,7 +4494,7 @@ MonoBehaviour:
       Data: 3|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite[], Amplitude.Mercury.Data
     - Name: 
       Entry: 12
-      Data: 7
+      Data: 8
     - Name: 
       Entry: 7
       Data: 4|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite_Empire_Self,
@@ -3576,7 +4560,7 @@ MonoBehaviour:
       Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
     - Name: serializableElementName
       Entry: 1
-      Data: Technology_Era6_BallisticMissiles
+      Data: Technology_Era6_AirTransportation
     - Name: 
       Entry: 8
       Data: 
@@ -3604,7 +4588,7 @@ MonoBehaviour:
       Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
     - Name: serializableElementName
       Entry: 1
-      Data: Technology_Era6_08
+      Data: Technology_Era6_BallisticMissiles
     - Name: 
       Entry: 8
       Data: 
@@ -3632,7 +4616,7 @@ MonoBehaviour:
       Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
     - Name: serializableElementName
       Entry: 1
-      Data: Technology_Era6_02
+      Data: Technology_Era6_08
     - Name: 
       Entry: 8
       Data: 
@@ -3660,7 +4644,7 @@ MonoBehaviour:
       Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
     - Name: serializableElementName
       Entry: 1
-      Data: Technology_Era6_13
+      Data: Technology_Era6_02
     - Name: 
       Entry: 8
       Data: 
@@ -3673,6 +4657,34 @@ MonoBehaviour:
     - Name: 
       Entry: 7
       Data: 10|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite_Empire_Technology,
+        Amplitude.Mercury.Data
+    - Name: FailureFlags
+      Entry: 3
+      Data: 0
+    - Name: LocalizationOverride
+      Entry: 6
+      Data: 
+    - Name: EntityID
+      Entry: 1
+      Data: Empire
+    - Name: Technology
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: Technology_Era6_13
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Inverted
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 11|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite_Empire_Technology,
         Amplitude.Mercury.Data
     - Name: FailureFlags
       Entry: 3
@@ -3706,7 +4718,7 @@ MonoBehaviour:
       Data: 
     - Name: Variables
       Entry: 7
-      Data: 11|Amplitude.Mercury.Data.Simulation.SimulationEventVariable[], Amplitude.Mercury.Data
+      Data: 12|Amplitude.Mercury.Data.Simulation.SimulationEventVariable[], Amplitude.Mercury.Data
     - Name: 
       Entry: 12
       Data: 0
@@ -3724,7 +4736,7 @@ MonoBehaviour:
       Data: 
     - Name: LocalizationParameters
       Entry: 7
-      Data: 12|Amplitude.Mercury.Data.Simulation.NarrativeEventLocalizationParameter[],
+      Data: 13|Amplitude.Mercury.Data.Simulation.NarrativeEventLocalizationParameter[],
         Amplitude.Mercury.Data
     - Name: 
       Entry: 12
@@ -3737,13 +4749,13 @@ MonoBehaviour:
       Data: 
     - Name: Choices
       Entry: 7
-      Data: 13|Amplitude.Mercury.Data.Simulation.NarrativeEventChoice[], Amplitude.Mercury.Data
+      Data: 14|Amplitude.Mercury.Data.Simulation.NarrativeEventChoice[], Amplitude.Mercury.Data
     - Name: 
       Entry: 12
       Data: 1
     - Name: 
       Entry: 7
-      Data: 14|Amplitude.Mercury.Data.Simulation.NarrativeEventChoice, Amplitude.Mercury.Data
+      Data: 15|Amplitude.Mercury.Data.Simulation.NarrativeEventChoice, Amplitude.Mercury.Data
     - Name: Image
       Entry: 7
       Data: Amplitude.UI.UITexture, Amplitude.UI
@@ -3782,7 +4794,7 @@ MonoBehaviour:
       Data: 10
     - Name: Prerequisites
       Entry: 7
-      Data: 15|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite[], Amplitude.Mercury.Data
+      Data: 16|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite[], Amplitude.Mercury.Data
     - Name: 
       Entry: 12
       Data: 0
@@ -3794,19 +4806,19 @@ MonoBehaviour:
       Data: 
     - Name: NarrativeEventEffects
       Entry: 7
-      Data: 16|Amplitude.Mercury.Data.Simulation.NarrativeEventEffect[], Amplitude.Mercury.Data
+      Data: 17|Amplitude.Mercury.Data.Simulation.NarrativeEventEffect[], Amplitude.Mercury.Data
     - Name: 
       Entry: 12
       Data: 1
     - Name: 
       Entry: 7
-      Data: 17|Amplitude.Mercury.Data.Simulation.NarrativeEventEffect, Amplitude.Mercury.Data
+      Data: 18|Amplitude.Mercury.Data.Simulation.NarrativeEventEffect, Amplitude.Mercury.Data
     - Name: Reversible
       Entry: 5
       Data: true
     - Name: SimulationEventEffect
       Entry: 7
-      Data: 18|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_ApplyCostModifier,
+      Data: 19|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_ApplyCostModifier,
         Amplitude.Mercury.Data
     - Name: SimulationEffectDescriptionOverride
       Entry: 6
@@ -3876,9 +4888,936 @@ MonoBehaviour:
     serializableElementName: 
   IsWorkInProgress: 0
   Category:
-    serializableElementName: NarrativeEventCategory_UnlockingWithoutUi
+    serializableElementName: NarrativeEventCategory_UnlockingWithoutUiObsolete
   EraDefinitions:
-  - serializableElementName: Era5
+  - serializableElementName: Era6
+  Image:
+    guid:
+      a: 908867098
+      b: 1258104385
+      c: -2089119310
+      d: 1899166633
+  Title: Decreased research cost
+  Description: unlocking technologies makes unlocking future technologies easier
+  GeoLocalizationID: 
+  Notes: 
+--- !u!114 &-2028648739787855195
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -931882767, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: NarrativeEvent_ReduceResearchCostAfterUnlockingEra6Tier2
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: Trigger
+      Entry: 7
+      Data: 0|Amplitude.Mercury.Data.Simulation.NarrativeEventTrigger, Amplitude.Mercury.Data
+    - Name: ConsumeEventUponTrigger
+      Entry: 5
+      Data: true
+    - Name: PreventEventRemoval
+      Entry: 5
+      Data: false
+    - Name: SimulationEventTrigger
+      Entry: 7
+      Data: 1|Amplitude.Mercury.Data.Simulation.SimulationEventTrigger, Amplitude.Mercury.Data
+    - Name: IsNarrativeConsequence
+      Entry: 5
+      Data: false
+    - Name: SimulationEvent
+      Entry: 1
+      Data: Amplitude.Mercury.Simulation.SimulationEvent_TurnBegin, Amplitude.Mercury.Firstpass
+    - Name: Signature
+      Entry: 7
+      Data: 2|System.Collections.Generic.List`1[[Amplitude.Mercury.Data.Simulation.NarrativeEventConsequenceVariableDeclaration,
+        Amplitude.Mercury.Data]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Prerequisites
+      Entry: 7
+      Data: 3|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 8
+    - Name: 
+      Entry: 7
+      Data: 4|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite_Empire_Self,
+        Amplitude.Mercury.Data
+    - Name: FailureFlags
+      Entry: 3
+      Data: 0
+    - Name: LocalizationOverride
+      Entry: 6
+      Data: 
+    - Name: EntityID
+      Entry: 1
+      Data: Empire
+    - Name: Inverted
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 5|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite_Empire_Technology,
+        Amplitude.Mercury.Data
+    - Name: FailureFlags
+      Entry: 3
+      Data: 0
+    - Name: LocalizationOverride
+      Entry: 6
+      Data: 
+    - Name: EntityID
+      Entry: 1
+      Data: Empire
+    - Name: Technology
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: Technology_Era6_MechanizedInfantryDoctrine
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Inverted
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 6|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite_Empire_Technology,
+        Amplitude.Mercury.Data
+    - Name: FailureFlags
+      Entry: 3
+      Data: 0
+    - Name: LocalizationOverride
+      Entry: 6
+      Data: 
+    - Name: EntityID
+      Entry: 1
+      Data: Empire
+    - Name: Technology
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: Technology_Era6_Helicopter
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Inverted
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite_Empire_Technology,
+        Amplitude.Mercury.Data
+    - Name: FailureFlags
+      Entry: 3
+      Data: 0
+    - Name: LocalizationOverride
+      Entry: 6
+      Data: 
+    - Name: EntityID
+      Entry: 1
+      Data: Empire
+    - Name: Technology
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: Technology_Era6_12
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Inverted
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 8|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite_Empire_Technology,
+        Amplitude.Mercury.Data
+    - Name: FailureFlags
+      Entry: 3
+      Data: 0
+    - Name: LocalizationOverride
+      Entry: 6
+      Data: 
+    - Name: EntityID
+      Entry: 1
+      Data: Empire
+    - Name: Technology
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: Technology_Era6_16
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Inverted
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 9|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite_Empire_Technology,
+        Amplitude.Mercury.Data
+    - Name: FailureFlags
+      Entry: 3
+      Data: 0
+    - Name: LocalizationOverride
+      Entry: 6
+      Data: 
+    - Name: EntityID
+      Entry: 1
+      Data: Empire
+    - Name: Technology
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: Technology_Era6_ComputerModem
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Inverted
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 10|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite_Empire_Technology,
+        Amplitude.Mercury.Data
+    - Name: FailureFlags
+      Entry: 3
+      Data: 0
+    - Name: LocalizationOverride
+      Entry: 6
+      Data: 
+    - Name: EntityID
+      Entry: 1
+      Data: Empire
+    - Name: Technology
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: Technology_Era6_ColorTelevision
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Inverted
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 11|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite_Empire_Technology,
+        Amplitude.Mercury.Data
+    - Name: FailureFlags
+      Entry: 3
+      Data: 0
+    - Name: LocalizationOverride
+      Entry: 6
+      Data: 
+    - Name: EntityID
+      Entry: 1
+      Data: Empire
+    - Name: Technology
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: Technology_Era6_15
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Inverted
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Variables
+      Entry: 7
+      Data: 12|Amplitude.Mercury.Data.Simulation.SimulationEventVariable[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: LocalizationParameters
+      Entry: 7
+      Data: 13|Amplitude.Mercury.Data.Simulation.NarrativeEventLocalizationParameter[],
+        Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Choices
+      Entry: 7
+      Data: 14|Amplitude.Mercury.Data.Simulation.NarrativeEventChoice[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 15|Amplitude.Mercury.Data.Simulation.NarrativeEventChoice, Amplitude.Mercury.Data
+    - Name: Image
+      Entry: 7
+      Data: Amplitude.UI.UITexture, Amplitude.UI
+    - Name: guid
+      Entry: 7
+      Data: Amplitude.Framework.Guid, Amplitude.Framework
+    - Name: a
+      Entry: 3
+      Data: 0
+    - Name: b
+      Entry: 3
+      Data: 0
+    - Name: c
+      Entry: 3
+      Data: 0
+    - Name: d
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Title
+      Entry: 6
+      Data: 
+    - Name: Description
+      Entry: 6
+      Data: 
+    - Name: Instant
+      Entry: 5
+      Data: true
+    - Name: Duration
+      Entry: 3
+      Data: 10
+    - Name: Prerequisites
+      Entry: 7
+      Data: 16|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: NarrativeEventEffects
+      Entry: 7
+      Data: 17|Amplitude.Mercury.Data.Simulation.NarrativeEventEffect[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 18|Amplitude.Mercury.Data.Simulation.NarrativeEventEffect, Amplitude.Mercury.Data
+    - Name: Reversible
+      Entry: 5
+      Data: true
+    - Name: SimulationEventEffect
+      Entry: 7
+      Data: 19|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_ApplyCostModifier,
+        Amplitude.Mercury.Data
+    - Name: SimulationEffectDescriptionOverride
+      Entry: 6
+      Data: 
+    - Name: UIMapperOverride
+      Entry: 6
+      Data: 
+    - Name: Hidden
+      Entry: 5
+      Data: false
+    - Name: DlcPrerequisite
+      Entry: 7
+      Data: Amplitude.Mercury.Data.Simulation.Prerequisites.DownloadableContentPrerequisite,
+        Amplitude.Mercury.Data
+    - Name: DownloadableContent
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: GainValues
+      Entry: 6
+      Data: 
+    - Name: TargetID
+      Entry: 1
+      Data: Empire
+    - Name: CostModifierReference
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: TechnologyCostModifierAfterUnlockingEra6Tier2
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Notes
+      Entry: 6
+      Data: 
+    - Name: Archetypes
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+  IsObsolete: 0
+  DlcPrerequisite:
+    DownloadableContent: 0
+  OnlyActiveInScenario:
+    serializableElementName: 
+  IsWorkInProgress: 0
+  Category:
+    serializableElementName: NarrativeEventCategory_UnlockingWithoutUiObsolete
+  EraDefinitions:
+  - serializableElementName: Era6
+  Image:
+    guid:
+      a: 908867098
+      b: 1258104385
+      c: -2089119310
+      d: 1899166633
+  Title: Decreased research cost
+  Description: unlocking technologies makes unlocking future technologies easier
+  GeoLocalizationID: 
+  Notes: 
+--- !u!114 &-1264593885919576997
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -931882767, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: NarrativeEvent_ReduceResearchCostAfterUnlockingEra6Tier2Extra
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: Trigger
+      Entry: 7
+      Data: 0|Amplitude.Mercury.Data.Simulation.NarrativeEventTrigger, Amplitude.Mercury.Data
+    - Name: ConsumeEventUponTrigger
+      Entry: 5
+      Data: true
+    - Name: PreventEventRemoval
+      Entry: 5
+      Data: false
+    - Name: SimulationEventTrigger
+      Entry: 7
+      Data: 1|Amplitude.Mercury.Data.Simulation.SimulationEventTrigger, Amplitude.Mercury.Data
+    - Name: IsNarrativeConsequence
+      Entry: 5
+      Data: false
+    - Name: SimulationEvent
+      Entry: 1
+      Data: Amplitude.Mercury.Simulation.SimulationEvent_TurnBegin, Amplitude.Mercury.Firstpass
+    - Name: Signature
+      Entry: 7
+      Data: 2|System.Collections.Generic.List`1[[Amplitude.Mercury.Data.Simulation.NarrativeEventConsequenceVariableDeclaration,
+        Amplitude.Mercury.Data]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Prerequisites
+      Entry: 7
+      Data: 3|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 8
+    - Name: 
+      Entry: 7
+      Data: 4|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite_Empire_Self,
+        Amplitude.Mercury.Data
+    - Name: FailureFlags
+      Entry: 3
+      Data: 0
+    - Name: LocalizationOverride
+      Entry: 6
+      Data: 
+    - Name: EntityID
+      Entry: 1
+      Data: Empire
+    - Name: Inverted
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 5|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite_Empire_Technology,
+        Amplitude.Mercury.Data
+    - Name: FailureFlags
+      Entry: 3
+      Data: 0
+    - Name: LocalizationOverride
+      Entry: 6
+      Data: 
+    - Name: EntityID
+      Entry: 1
+      Data: Empire
+    - Name: Technology
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: Technology_Era6_23
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Inverted
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 6|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite_Empire_Technology,
+        Amplitude.Mercury.Data
+    - Name: FailureFlags
+      Entry: 3
+      Data: 0
+    - Name: LocalizationOverride
+      Entry: 6
+      Data: 
+    - Name: EntityID
+      Entry: 1
+      Data: Empire
+    - Name: Technology
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: Technology_Era6_19
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Inverted
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite_Empire_Technology,
+        Amplitude.Mercury.Data
+    - Name: FailureFlags
+      Entry: 3
+      Data: 0
+    - Name: LocalizationOverride
+      Entry: 6
+      Data: 
+    - Name: EntityID
+      Entry: 1
+      Data: Empire
+    - Name: Technology
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: Technology_Era6_GuidedMissiles
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Inverted
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 8|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite_Empire_Technology,
+        Amplitude.Mercury.Data
+    - Name: FailureFlags
+      Entry: 3
+      Data: 0
+    - Name: LocalizationOverride
+      Entry: 6
+      Data: 
+    - Name: EntityID
+      Entry: 1
+      Data: Empire
+    - Name: Technology
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: Technology_Era6_21
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Inverted
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 9|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite_Empire_Technology,
+        Amplitude.Mercury.Data
+    - Name: FailureFlags
+      Entry: 3
+      Data: 0
+    - Name: LocalizationOverride
+      Entry: 6
+      Data: 
+    - Name: EntityID
+      Entry: 1
+      Data: Empire
+    - Name: Technology
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: Technology_Era6_CellularNetwork
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Inverted
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 10|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite_Empire_Technology,
+        Amplitude.Mercury.Data
+    - Name: FailureFlags
+      Entry: 3
+      Data: 0
+    - Name: LocalizationOverride
+      Entry: 6
+      Data: 
+    - Name: EntityID
+      Entry: 1
+      Data: Empire
+    - Name: Technology
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: Technology_Era6_VideoGameConsole
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Inverted
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 11|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite_Empire_Technology,
+        Amplitude.Mercury.Data
+    - Name: FailureFlags
+      Entry: 3
+      Data: 0
+    - Name: LocalizationOverride
+      Entry: 6
+      Data: 
+    - Name: EntityID
+      Entry: 1
+      Data: Empire
+    - Name: Technology
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: Technology_Era6_NuclearReactor
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Inverted
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Variables
+      Entry: 7
+      Data: 12|Amplitude.Mercury.Data.Simulation.SimulationEventVariable[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: LocalizationParameters
+      Entry: 7
+      Data: 13|Amplitude.Mercury.Data.Simulation.NarrativeEventLocalizationParameter[],
+        Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Choices
+      Entry: 7
+      Data: 14|Amplitude.Mercury.Data.Simulation.NarrativeEventChoice[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 15|Amplitude.Mercury.Data.Simulation.NarrativeEventChoice, Amplitude.Mercury.Data
+    - Name: Image
+      Entry: 7
+      Data: Amplitude.UI.UITexture, Amplitude.UI
+    - Name: guid
+      Entry: 7
+      Data: Amplitude.Framework.Guid, Amplitude.Framework
+    - Name: a
+      Entry: 3
+      Data: 0
+    - Name: b
+      Entry: 3
+      Data: 0
+    - Name: c
+      Entry: 3
+      Data: 0
+    - Name: d
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Title
+      Entry: 6
+      Data: 
+    - Name: Description
+      Entry: 6
+      Data: 
+    - Name: Instant
+      Entry: 5
+      Data: true
+    - Name: Duration
+      Entry: 3
+      Data: 10
+    - Name: Prerequisites
+      Entry: 7
+      Data: 16|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: NarrativeEventEffects
+      Entry: 7
+      Data: 17|Amplitude.Mercury.Data.Simulation.NarrativeEventEffect[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 18|Amplitude.Mercury.Data.Simulation.NarrativeEventEffect, Amplitude.Mercury.Data
+    - Name: Reversible
+      Entry: 5
+      Data: true
+    - Name: SimulationEventEffect
+      Entry: 7
+      Data: 19|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_ApplyCostModifier,
+        Amplitude.Mercury.Data
+    - Name: SimulationEffectDescriptionOverride
+      Entry: 6
+      Data: 
+    - Name: UIMapperOverride
+      Entry: 6
+      Data: 
+    - Name: Hidden
+      Entry: 5
+      Data: false
+    - Name: DlcPrerequisite
+      Entry: 7
+      Data: Amplitude.Mercury.Data.Simulation.Prerequisites.DownloadableContentPrerequisite,
+        Amplitude.Mercury.Data
+    - Name: DownloadableContent
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: GainValues
+      Entry: 6
+      Data: 
+    - Name: TargetID
+      Entry: 1
+      Data: Empire
+    - Name: CostModifierReference
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: TechnologyCostModifierAfterUnlockingEra6Tier2Extra
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Notes
+      Entry: 6
+      Data: 
+    - Name: Archetypes
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+  IsObsolete: 0
+  DlcPrerequisite:
+    DownloadableContent: 0
+  OnlyActiveInScenario:
+    serializableElementName: 
+  IsWorkInProgress: 0
+  Category:
+    serializableElementName: NarrativeEventCategory_UnlockingWithoutUiObsolete
+  EraDefinitions:
   - serializableElementName: Era6
   Image:
     guid:
@@ -4201,7 +6140,7 @@ MonoBehaviour:
     serializableElementName: 
   IsWorkInProgress: 0
   Category:
-    serializableElementName: NarrativeEventCategory_UnlockingWithoutUi
+    serializableElementName: NarrativeEventCategory_UnlockingWithoutUiObsolete
   EraDefinitions:
   - serializableElementName: Era1
   - serializableElementName: Era2
@@ -4526,9 +6465,8 @@ MonoBehaviour:
     serializableElementName: 
   IsWorkInProgress: 0
   Category:
-    serializableElementName: NarrativeEventCategory_UnlockingWithoutUi
+    serializableElementName: NarrativeEventCategory_UnlockingWithoutUiObsolete
   EraDefinitions:
-  - serializableElementName: Era5
   - serializableElementName: Era6
   Image:
     guid:
@@ -4863,9 +6801,8 @@ MonoBehaviour:
     serializableElementName: 
   IsWorkInProgress: 0
   Category:
-    serializableElementName: NarrativeEventCategory_UnlockingWithoutUi
+    serializableElementName: NarrativeEventCategory_UnlockingWithoutUiObsolete
   EraDefinitions:
-  - serializableElementName: Era5
   - serializableElementName: Era6
   Image:
     guid:
@@ -5300,10 +7237,9 @@ MonoBehaviour:
     serializableElementName: 
   IsWorkInProgress: 0
   Category:
-    serializableElementName: NarrativeEventCategory_UnlockingWithoutUi
+    serializableElementName: NarrativeEventCategory_UnlockingWithoutUiObsolete
   EraDefinitions:
   - serializableElementName: Era5
-  - serializableElementName: Era6
   Image:
     guid:
       a: 908867098
@@ -5312,6 +7248,330 @@ MonoBehaviour:
       d: 1899166633
   Title: Decreased research cost
   Description: unlocking technologies makes unlocking future technologies easier
+  GeoLocalizationID: 
+  Notes: 
+--- !u!114 &1629718224180251393
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -931882767, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: NarrativeEvent_ReduceResearchCostBeforeUnlockingEra1_Sailing
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: Trigger
+      Entry: 7
+      Data: 0|Amplitude.Mercury.Data.Simulation.NarrativeEventTrigger, Amplitude.Mercury.Data
+    - Name: ConsumeEventUponTrigger
+      Entry: 5
+      Data: true
+    - Name: PreventEventRemoval
+      Entry: 5
+      Data: false
+    - Name: SimulationEventTrigger
+      Entry: 7
+      Data: 1|Amplitude.Mercury.Data.Simulation.SimulationEventTrigger, Amplitude.Mercury.Data
+    - Name: IsNarrativeConsequence
+      Entry: 5
+      Data: false
+    - Name: SimulationEvent
+      Entry: 1
+      Data: Amplitude.Mercury.Simulation.SimulationEvent_TurnBegin, Amplitude.Mercury.Firstpass
+    - Name: Signature
+      Entry: 7
+      Data: 2|System.Collections.Generic.List`1[[Amplitude.Mercury.Data.Simulation.NarrativeEventConsequenceVariableDeclaration,
+        Amplitude.Mercury.Data]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Prerequisites
+      Entry: 7
+      Data: 3|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 3
+    - Name: 
+      Entry: 7
+      Data: 4|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite_Empire_Self,
+        Amplitude.Mercury.Data
+    - Name: FailureFlags
+      Entry: 3
+      Data: 0
+    - Name: LocalizationOverride
+      Entry: 6
+      Data: 
+    - Name: EntityID
+      Entry: 1
+      Data: Empire
+    - Name: Inverted
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 5|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite_Empire_Technology,
+        Amplitude.Mercury.Data
+    - Name: FailureFlags
+      Entry: 3
+      Data: 0
+    - Name: LocalizationOverride
+      Entry: 6
+      Data: 
+    - Name: EntityID
+      Entry: 1
+      Data: Empire
+    - Name: Technology
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: Technology_Era1_07
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Inverted
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 6|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite_Empire_Technology,
+        Amplitude.Mercury.Data
+    - Name: FailureFlags
+      Entry: 3
+      Data: 0
+    - Name: LocalizationOverride
+      Entry: 6
+      Data: 
+    - Name: EntityID
+      Entry: 1
+      Data: Empire
+    - Name: Technology
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: Technology_Era1_Archery
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Inverted
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Variables
+      Entry: 7
+      Data: 7|Amplitude.Mercury.Data.Simulation.SimulationEventVariable[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: LocalizationParameters
+      Entry: 7
+      Data: 8|Amplitude.Mercury.Data.Simulation.NarrativeEventLocalizationParameter[],
+        Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Choices
+      Entry: 7
+      Data: 9|Amplitude.Mercury.Data.Simulation.NarrativeEventChoice[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 10|Amplitude.Mercury.Data.Simulation.NarrativeEventChoice, Amplitude.Mercury.Data
+    - Name: Image
+      Entry: 7
+      Data: Amplitude.UI.UITexture, Amplitude.UI
+    - Name: guid
+      Entry: 7
+      Data: Amplitude.Framework.Guid, Amplitude.Framework
+    - Name: a
+      Entry: 3
+      Data: 0
+    - Name: b
+      Entry: 3
+      Data: 0
+    - Name: c
+      Entry: 3
+      Data: 0
+    - Name: d
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Title
+      Entry: 6
+      Data: 
+    - Name: Description
+      Entry: 6
+      Data: 
+    - Name: Instant
+      Entry: 5
+      Data: true
+    - Name: Duration
+      Entry: 3
+      Data: 10
+    - Name: Prerequisites
+      Entry: 7
+      Data: 11|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: NarrativeEventEffects
+      Entry: 7
+      Data: 12|Amplitude.Mercury.Data.Simulation.NarrativeEventEffect[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 13|Amplitude.Mercury.Data.Simulation.NarrativeEventEffect, Amplitude.Mercury.Data
+    - Name: Reversible
+      Entry: 5
+      Data: true
+    - Name: SimulationEventEffect
+      Entry: 7
+      Data: 14|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_ApplyCostModifier,
+        Amplitude.Mercury.Data
+    - Name: SimulationEffectDescriptionOverride
+      Entry: 6
+      Data: 
+    - Name: UIMapperOverride
+      Entry: 6
+      Data: 
+    - Name: Hidden
+      Entry: 5
+      Data: false
+    - Name: DlcPrerequisite
+      Entry: 7
+      Data: Amplitude.Mercury.Data.Simulation.Prerequisites.DownloadableContentPrerequisite,
+        Amplitude.Mercury.Data
+    - Name: DownloadableContent
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: GainValues
+      Entry: 6
+      Data: 
+    - Name: TargetID
+      Entry: 1
+      Data: Empire
+    - Name: CostModifierReference
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: TechnologyCostModifierForEra1_Sailing
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Notes
+      Entry: 6
+      Data: 
+    - Name: Archetypes
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+  IsObsolete: 0
+  DlcPrerequisite:
+    DownloadableContent: 0
+  OnlyActiveInScenario:
+    serializableElementName: 
+  IsWorkInProgress: 0
+  Category:
+    serializableElementName: NarrativeEventCategory_UnlockingWithoutUiObsolete
+  EraDefinitions:
+  - serializableElementName: Era1
+  Image:
+    guid:
+      a: 908867098
+      b: 1258104385
+      c: -2089119310
+      d: 1899166633
+  Title: Unlock Sailing Technology faster
+  Description: Unlock Sailing Technology faster after unlocking Archery and Fishing
   GeoLocalizationID: 
   Notes: 
 --- !u!114 &3652668228756138423
@@ -5625,11 +7885,9 @@ MonoBehaviour:
     serializableElementName: 
   IsWorkInProgress: 0
   Category:
-    serializableElementName: NarrativeEventCategory_UnlockingWithoutUi
+    serializableElementName: NarrativeEventCategory_UnlockingWithoutUiObsolete
   EraDefinitions:
-  - serializableElementName: Era3
   - serializableElementName: Era4
-  - serializableElementName: Era5
   Image:
     guid:
       a: 908867098
@@ -6063,9 +8321,2809 @@ MonoBehaviour:
     serializableElementName: 
   IsWorkInProgress: 0
   Category:
-    serializableElementName: NarrativeEventCategory_UnlockingWithoutUi
+    serializableElementName: NarrativeEventCategory_UnlockingWithoutUiObsolete
   EraDefinitions:
   - serializableElementName: Era5
+  Image:
+    guid:
+      a: 908867098
+      b: 1258104385
+      c: -2089119310
+      d: 1899166633
+  Title: Decreased research cost
+  Description: unlocking technologies makes unlocking future technologies easier
+  GeoLocalizationID: 
+  Notes: 
+--- !u!114 &5018938645995592971
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -931882767, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: NarrativeEvent_ReduceResearchCostAfterUnlockingEra6Tier1Extra
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: Trigger
+      Entry: 7
+      Data: 0|Amplitude.Mercury.Data.Simulation.NarrativeEventTrigger, Amplitude.Mercury.Data
+    - Name: ConsumeEventUponTrigger
+      Entry: 5
+      Data: true
+    - Name: PreventEventRemoval
+      Entry: 5
+      Data: false
+    - Name: SimulationEventTrigger
+      Entry: 7
+      Data: 1|Amplitude.Mercury.Data.Simulation.SimulationEventTrigger, Amplitude.Mercury.Data
+    - Name: IsNarrativeConsequence
+      Entry: 5
+      Data: false
+    - Name: SimulationEvent
+      Entry: 1
+      Data: Amplitude.Mercury.Simulation.SimulationEvent_TurnBegin, Amplitude.Mercury.Firstpass
+    - Name: Signature
+      Entry: 7
+      Data: 2|System.Collections.Generic.List`1[[Amplitude.Mercury.Data.Simulation.NarrativeEventConsequenceVariableDeclaration,
+        Amplitude.Mercury.Data]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Prerequisites
+      Entry: 7
+      Data: 3|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 9
+    - Name: 
+      Entry: 7
+      Data: 4|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite_Empire_Self,
+        Amplitude.Mercury.Data
+    - Name: FailureFlags
+      Entry: 3
+      Data: 0
+    - Name: LocalizationOverride
+      Entry: 6
+      Data: 
+    - Name: EntityID
+      Entry: 1
+      Data: Empire
+    - Name: Inverted
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 5|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite_Empire_Technology,
+        Amplitude.Mercury.Data
+    - Name: FailureFlags
+      Entry: 3
+      Data: 0
+    - Name: LocalizationOverride
+      Entry: 6
+      Data: 
+    - Name: EntityID
+      Entry: 1
+      Data: Empire
+    - Name: Technology
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: Technology_Era6_SelfPropelledArtillery
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Inverted
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 6|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite_Empire_Technology,
+        Amplitude.Mercury.Data
+    - Name: FailureFlags
+      Entry: 3
+      Data: 0
+    - Name: LocalizationOverride
+      Entry: 6
+      Data: 
+    - Name: EntityID
+      Entry: 1
+      Data: Empire
+    - Name: Technology
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: Technology_Era6_JetEngine
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Inverted
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite_Empire_Technology,
+        Amplitude.Mercury.Data
+    - Name: FailureFlags
+      Entry: 3
+      Data: 0
+    - Name: LocalizationOverride
+      Entry: 6
+      Data: 
+    - Name: EntityID
+      Entry: 1
+      Data: Empire
+    - Name: Technology
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: Technology_Era6_WireGuidedMissile
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Inverted
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 8|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite_Empire_Technology,
+        Amplitude.Mercury.Data
+    - Name: FailureFlags
+      Entry: 3
+      Data: 0
+    - Name: LocalizationOverride
+      Entry: 6
+      Data: 
+    - Name: EntityID
+      Entry: 1
+      Data: Empire
+    - Name: Technology
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: Technology_Era6_Pharmaceuticals
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Inverted
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 9|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite_Empire_Technology,
+        Amplitude.Mercury.Data
+    - Name: FailureFlags
+      Entry: 3
+      Data: 0
+    - Name: LocalizationOverride
+      Entry: 6
+      Data: 
+    - Name: EntityID
+      Entry: 1
+      Data: Empire
+    - Name: Technology
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: Technology_Era6_14
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Inverted
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 10|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite_Empire_Technology,
+        Amplitude.Mercury.Data
+    - Name: FailureFlags
+      Entry: 3
+      Data: 0
+    - Name: LocalizationOverride
+      Entry: 6
+      Data: 
+    - Name: EntityID
+      Entry: 1
+      Data: Empire
+    - Name: Technology
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: Technology_Era6_FaxMachine
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Inverted
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 11|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite_Empire_Technology,
+        Amplitude.Mercury.Data
+    - Name: FailureFlags
+      Entry: 3
+      Data: 0
+    - Name: LocalizationOverride
+      Entry: 6
+      Data: 
+    - Name: EntityID
+      Entry: 1
+      Data: Empire
+    - Name: Technology
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: Technology_Era6_17
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Inverted
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 12|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite_Empire_Technology,
+        Amplitude.Mercury.Data
+    - Name: FailureFlags
+      Entry: 3
+      Data: 0
+    - Name: LocalizationOverride
+      Entry: 6
+      Data: 
+    - Name: EntityID
+      Entry: 1
+      Data: Empire
+    - Name: Technology
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: Technology_Era6_10
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Inverted
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Variables
+      Entry: 7
+      Data: 13|Amplitude.Mercury.Data.Simulation.SimulationEventVariable[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: LocalizationParameters
+      Entry: 7
+      Data: 14|Amplitude.Mercury.Data.Simulation.NarrativeEventLocalizationParameter[],
+        Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Choices
+      Entry: 7
+      Data: 15|Amplitude.Mercury.Data.Simulation.NarrativeEventChoice[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 16|Amplitude.Mercury.Data.Simulation.NarrativeEventChoice, Amplitude.Mercury.Data
+    - Name: Image
+      Entry: 7
+      Data: Amplitude.UI.UITexture, Amplitude.UI
+    - Name: guid
+      Entry: 7
+      Data: Amplitude.Framework.Guid, Amplitude.Framework
+    - Name: a
+      Entry: 3
+      Data: 0
+    - Name: b
+      Entry: 3
+      Data: 0
+    - Name: c
+      Entry: 3
+      Data: 0
+    - Name: d
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Title
+      Entry: 6
+      Data: 
+    - Name: Description
+      Entry: 6
+      Data: 
+    - Name: Instant
+      Entry: 5
+      Data: true
+    - Name: Duration
+      Entry: 3
+      Data: 10
+    - Name: Prerequisites
+      Entry: 7
+      Data: 17|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: NarrativeEventEffects
+      Entry: 7
+      Data: 18|Amplitude.Mercury.Data.Simulation.NarrativeEventEffect[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 19|Amplitude.Mercury.Data.Simulation.NarrativeEventEffect, Amplitude.Mercury.Data
+    - Name: Reversible
+      Entry: 5
+      Data: true
+    - Name: SimulationEventEffect
+      Entry: 7
+      Data: 20|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_ApplyCostModifier,
+        Amplitude.Mercury.Data
+    - Name: SimulationEffectDescriptionOverride
+      Entry: 6
+      Data: 
+    - Name: UIMapperOverride
+      Entry: 6
+      Data: 
+    - Name: Hidden
+      Entry: 5
+      Data: false
+    - Name: DlcPrerequisite
+      Entry: 7
+      Data: Amplitude.Mercury.Data.Simulation.Prerequisites.DownloadableContentPrerequisite,
+        Amplitude.Mercury.Data
+    - Name: DownloadableContent
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: GainValues
+      Entry: 6
+      Data: 
+    - Name: TargetID
+      Entry: 1
+      Data: Empire
+    - Name: CostModifierReference
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: TechnologyCostModifierAfterUnlockingEra6Tier1Extra
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Notes
+      Entry: 6
+      Data: 
+    - Name: Archetypes
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+  IsObsolete: 0
+  DlcPrerequisite:
+    DownloadableContent: 0
+  OnlyActiveInScenario:
+    serializableElementName: 
+  IsWorkInProgress: 0
+  Category:
+    serializableElementName: NarrativeEventCategory_UnlockingWithoutUiObsolete
+  EraDefinitions:
+  - serializableElementName: Era6
+  Image:
+    guid:
+      a: 908867098
+      b: 1258104385
+      c: -2089119310
+      d: 1899166633
+  Title: Decreased research cost
+  Description: unlocking technologies makes unlocking future technologies easier
+  GeoLocalizationID: 
+  Notes: 
+--- !u!114 &5058460295974365775
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -931882767, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: NarrativeEvent_ReduceResearchCostAfterUnlockingEra5Tier3
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: Trigger
+      Entry: 7
+      Data: 0|Amplitude.Mercury.Data.Simulation.NarrativeEventTrigger, Amplitude.Mercury.Data
+    - Name: ConsumeEventUponTrigger
+      Entry: 5
+      Data: true
+    - Name: PreventEventRemoval
+      Entry: 5
+      Data: false
+    - Name: SimulationEventTrigger
+      Entry: 7
+      Data: 1|Amplitude.Mercury.Data.Simulation.SimulationEventTrigger, Amplitude.Mercury.Data
+    - Name: IsNarrativeConsequence
+      Entry: 5
+      Data: false
+    - Name: SimulationEvent
+      Entry: 1
+      Data: Amplitude.Mercury.Simulation.SimulationEvent_TurnBegin, Amplitude.Mercury.Firstpass
+    - Name: Signature
+      Entry: 7
+      Data: 2|System.Collections.Generic.List`1[[Amplitude.Mercury.Data.Simulation.NarrativeEventConsequenceVariableDeclaration,
+        Amplitude.Mercury.Data]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Prerequisites
+      Entry: 7
+      Data: 3|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 6
+    - Name: 
+      Entry: 7
+      Data: 4|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite_Empire_Self,
+        Amplitude.Mercury.Data
+    - Name: FailureFlags
+      Entry: 3
+      Data: 0
+    - Name: LocalizationOverride
+      Entry: 6
+      Data: 
+    - Name: EntityID
+      Entry: 1
+      Data: Empire
+    - Name: Inverted
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 5|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite_Empire_Technology,
+        Amplitude.Mercury.Data
+    - Name: FailureFlags
+      Entry: 3
+      Data: 0
+    - Name: LocalizationOverride
+      Entry: 6
+      Data: 
+    - Name: EntityID
+      Entry: 1
+      Data: Empire
+    - Name: Technology
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: Technology_Era5_OilRefinement
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Inverted
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 6|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite_Empire_Technology,
+        Amplitude.Mercury.Data
+    - Name: FailureFlags
+      Entry: 3
+      Data: 0
+    - Name: LocalizationOverride
+      Entry: 6
+      Data: 
+    - Name: EntityID
+      Entry: 1
+      Data: Empire
+    - Name: Technology
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: Technology_Era5_AntiTorpedoboatWarfare
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Inverted
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite_Empire_Technology,
+        Amplitude.Mercury.Data
+    - Name: FailureFlags
+      Entry: 3
+      Data: 0
+    - Name: LocalizationOverride
+      Entry: 6
+      Data: 
+    - Name: EntityID
+      Entry: 1
+      Data: Empire
+    - Name: Technology
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: Technology_Era5_16
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Inverted
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 8|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite_Empire_Technology,
+        Amplitude.Mercury.Data
+    - Name: FailureFlags
+      Entry: 3
+      Data: 0
+    - Name: LocalizationOverride
+      Entry: 6
+      Data: 
+    - Name: EntityID
+      Entry: 1
+      Data: Empire
+    - Name: Technology
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: Technology_Era5_13
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Inverted
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 9|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite_Empire_Technology,
+        Amplitude.Mercury.Data
+    - Name: FailureFlags
+      Entry: 3
+      Data: 0
+    - Name: LocalizationOverride
+      Entry: 6
+      Data: 
+    - Name: EntityID
+      Entry: 1
+      Data: Empire
+    - Name: Technology
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: Technology_Era5_Rifling
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Inverted
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Variables
+      Entry: 7
+      Data: 10|Amplitude.Mercury.Data.Simulation.SimulationEventVariable[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: LocalizationParameters
+      Entry: 7
+      Data: 11|Amplitude.Mercury.Data.Simulation.NarrativeEventLocalizationParameter[],
+        Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Choices
+      Entry: 7
+      Data: 12|Amplitude.Mercury.Data.Simulation.NarrativeEventChoice[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 13|Amplitude.Mercury.Data.Simulation.NarrativeEventChoice, Amplitude.Mercury.Data
+    - Name: Image
+      Entry: 7
+      Data: Amplitude.UI.UITexture, Amplitude.UI
+    - Name: guid
+      Entry: 7
+      Data: Amplitude.Framework.Guid, Amplitude.Framework
+    - Name: a
+      Entry: 3
+      Data: 0
+    - Name: b
+      Entry: 3
+      Data: 0
+    - Name: c
+      Entry: 3
+      Data: 0
+    - Name: d
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Title
+      Entry: 6
+      Data: 
+    - Name: Description
+      Entry: 6
+      Data: 
+    - Name: Instant
+      Entry: 5
+      Data: true
+    - Name: Duration
+      Entry: 3
+      Data: 10
+    - Name: Prerequisites
+      Entry: 7
+      Data: 14|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: NarrativeEventEffects
+      Entry: 7
+      Data: 15|Amplitude.Mercury.Data.Simulation.NarrativeEventEffect[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 16|Amplitude.Mercury.Data.Simulation.NarrativeEventEffect, Amplitude.Mercury.Data
+    - Name: Reversible
+      Entry: 5
+      Data: true
+    - Name: SimulationEventEffect
+      Entry: 7
+      Data: 17|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_ApplyCostModifier,
+        Amplitude.Mercury.Data
+    - Name: SimulationEffectDescriptionOverride
+      Entry: 6
+      Data: 
+    - Name: UIMapperOverride
+      Entry: 6
+      Data: 
+    - Name: Hidden
+      Entry: 5
+      Data: false
+    - Name: DlcPrerequisite
+      Entry: 7
+      Data: Amplitude.Mercury.Data.Simulation.Prerequisites.DownloadableContentPrerequisite,
+        Amplitude.Mercury.Data
+    - Name: DownloadableContent
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: GainValues
+      Entry: 6
+      Data: 
+    - Name: TargetID
+      Entry: 1
+      Data: Empire
+    - Name: CostModifierReference
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: TechnologyCostModifierAfterUnlockingEra5Tier3
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Notes
+      Entry: 6
+      Data: 
+    - Name: Archetypes
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+  IsObsolete: 0
+  DlcPrerequisite:
+    DownloadableContent: 0
+  OnlyActiveInScenario:
+    serializableElementName: 
+  IsWorkInProgress: 0
+  Category:
+    serializableElementName: NarrativeEventCategory_UnlockingWithoutUiObsolete
+  EraDefinitions:
+  - serializableElementName: Era5
+  Image:
+    guid:
+      a: 908867098
+      b: 1258104385
+      c: -2089119310
+      d: 1899166633
+  Title: Decreased research cost
+  Description: unlocking technologies makes unlocking future technologies easier
+  GeoLocalizationID: 
+  Notes: 
+--- !u!114 &5074444126590631355
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -931882767, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: NarrativeEvent_ReduceResearchCostBeforeUnlockingEra5_Aeronautics
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: Trigger
+      Entry: 7
+      Data: 0|Amplitude.Mercury.Data.Simulation.NarrativeEventTrigger, Amplitude.Mercury.Data
+    - Name: ConsumeEventUponTrigger
+      Entry: 5
+      Data: true
+    - Name: PreventEventRemoval
+      Entry: 5
+      Data: false
+    - Name: SimulationEventTrigger
+      Entry: 7
+      Data: 1|Amplitude.Mercury.Data.Simulation.SimulationEventTrigger, Amplitude.Mercury.Data
+    - Name: IsNarrativeConsequence
+      Entry: 5
+      Data: false
+    - Name: SimulationEvent
+      Entry: 1
+      Data: Amplitude.Mercury.Simulation.SimulationEvent_TurnBegin, Amplitude.Mercury.Firstpass
+    - Name: Signature
+      Entry: 7
+      Data: 2|System.Collections.Generic.List`1[[Amplitude.Mercury.Data.Simulation.NarrativeEventConsequenceVariableDeclaration,
+        Amplitude.Mercury.Data]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Prerequisites
+      Entry: 7
+      Data: 3|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 3
+    - Name: 
+      Entry: 7
+      Data: 4|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite_Empire_Self,
+        Amplitude.Mercury.Data
+    - Name: FailureFlags
+      Entry: 3
+      Data: 0
+    - Name: LocalizationOverride
+      Entry: 6
+      Data: 
+    - Name: EntityID
+      Entry: 1
+      Data: Empire
+    - Name: Inverted
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 5|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite_Empire_Technology,
+        Amplitude.Mercury.Data
+    - Name: FailureFlags
+      Entry: 3
+      Data: 0
+    - Name: LocalizationOverride
+      Entry: 6
+      Data: 
+    - Name: EntityID
+      Entry: 1
+      Data: Empire
+    - Name: Technology
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: Technology_Era5_Automobile
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Inverted
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 6|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite_Empire_Technology,
+        Amplitude.Mercury.Data
+    - Name: FailureFlags
+      Entry: 3
+      Data: 0
+    - Name: LocalizationOverride
+      Entry: 6
+      Data: 
+    - Name: EntityID
+      Entry: 1
+      Data: Empire
+    - Name: Technology
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: Technology_Era5_17
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Inverted
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Variables
+      Entry: 7
+      Data: 7|Amplitude.Mercury.Data.Simulation.SimulationEventVariable[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: LocalizationParameters
+      Entry: 7
+      Data: 8|Amplitude.Mercury.Data.Simulation.NarrativeEventLocalizationParameter[],
+        Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Choices
+      Entry: 7
+      Data: 9|Amplitude.Mercury.Data.Simulation.NarrativeEventChoice[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 10|Amplitude.Mercury.Data.Simulation.NarrativeEventChoice, Amplitude.Mercury.Data
+    - Name: Image
+      Entry: 7
+      Data: Amplitude.UI.UITexture, Amplitude.UI
+    - Name: guid
+      Entry: 7
+      Data: Amplitude.Framework.Guid, Amplitude.Framework
+    - Name: a
+      Entry: 3
+      Data: 0
+    - Name: b
+      Entry: 3
+      Data: 0
+    - Name: c
+      Entry: 3
+      Data: 0
+    - Name: d
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Title
+      Entry: 6
+      Data: 
+    - Name: Description
+      Entry: 6
+      Data: 
+    - Name: Instant
+      Entry: 5
+      Data: true
+    - Name: Duration
+      Entry: 3
+      Data: 10
+    - Name: Prerequisites
+      Entry: 7
+      Data: 11|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: NarrativeEventEffects
+      Entry: 7
+      Data: 12|Amplitude.Mercury.Data.Simulation.NarrativeEventEffect[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 13|Amplitude.Mercury.Data.Simulation.NarrativeEventEffect, Amplitude.Mercury.Data
+    - Name: Reversible
+      Entry: 5
+      Data: true
+    - Name: SimulationEventEffect
+      Entry: 7
+      Data: 14|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_ApplyCostModifier,
+        Amplitude.Mercury.Data
+    - Name: SimulationEffectDescriptionOverride
+      Entry: 6
+      Data: 
+    - Name: UIMapperOverride
+      Entry: 6
+      Data: 
+    - Name: Hidden
+      Entry: 5
+      Data: false
+    - Name: DlcPrerequisite
+      Entry: 7
+      Data: Amplitude.Mercury.Data.Simulation.Prerequisites.DownloadableContentPrerequisite,
+        Amplitude.Mercury.Data
+    - Name: DownloadableContent
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: GainValues
+      Entry: 6
+      Data: 
+    - Name: TargetID
+      Entry: 1
+      Data: Empire
+    - Name: CostModifierReference
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: TechnologyCostModifierForEra5_Aeronautics
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Notes
+      Entry: 6
+      Data: 
+    - Name: Archetypes
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+  IsObsolete: 0
+  DlcPrerequisite:
+    DownloadableContent: 0
+  OnlyActiveInScenario:
+    serializableElementName: 
+  IsWorkInProgress: 0
+  Category:
+    serializableElementName: NarrativeEventCategory_UnlockingWithoutUiObsolete
+  EraDefinitions:
+  - serializableElementName: Era5
+  Image:
+    guid:
+      a: 908867098
+      b: 1258104385
+      c: -2089119310
+      d: 1899166633
+  Title: Speedup development Aeronautics
+  Description: Speedup development Aeronautics by unlocking Trench Warfare and Combustion
+    Engine
+  GeoLocalizationID: 
+  Notes: 
+--- !u!114 &5115016714203708730
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -931882767, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: NarrativeEvent_ReduceResearchCostBeforeUnlockingEra5_Nationhood
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: Trigger
+      Entry: 7
+      Data: 0|Amplitude.Mercury.Data.Simulation.NarrativeEventTrigger, Amplitude.Mercury.Data
+    - Name: ConsumeEventUponTrigger
+      Entry: 5
+      Data: true
+    - Name: PreventEventRemoval
+      Entry: 5
+      Data: false
+    - Name: SimulationEventTrigger
+      Entry: 7
+      Data: 1|Amplitude.Mercury.Data.Simulation.SimulationEventTrigger, Amplitude.Mercury.Data
+    - Name: IsNarrativeConsequence
+      Entry: 5
+      Data: false
+    - Name: SimulationEvent
+      Entry: 1
+      Data: Amplitude.Mercury.Simulation.SimulationEvent_TurnBegin, Amplitude.Mercury.Firstpass
+    - Name: Signature
+      Entry: 7
+      Data: 2|System.Collections.Generic.List`1[[Amplitude.Mercury.Data.Simulation.NarrativeEventConsequenceVariableDeclaration,
+        Amplitude.Mercury.Data]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Prerequisites
+      Entry: 7
+      Data: 3|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 3
+    - Name: 
+      Entry: 7
+      Data: 4|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite_Empire_Self,
+        Amplitude.Mercury.Data
+    - Name: FailureFlags
+      Entry: 3
+      Data: 0
+    - Name: LocalizationOverride
+      Entry: 6
+      Data: 
+    - Name: EntityID
+      Entry: 1
+      Data: Empire
+    - Name: Inverted
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 5|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite_Empire_Technology,
+        Amplitude.Mercury.Data
+    - Name: FailureFlags
+      Entry: 3
+      Data: 0
+    - Name: LocalizationOverride
+      Entry: 6
+      Data: 
+    - Name: EntityID
+      Entry: 1
+      Data: Empire
+    - Name: Technology
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: Technology_Era4_10
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Inverted
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 6|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite_Empire_Technology,
+        Amplitude.Mercury.Data
+    - Name: FailureFlags
+      Entry: 3
+      Data: 0
+    - Name: LocalizationOverride
+      Entry: 6
+      Data: 
+    - Name: EntityID
+      Entry: 1
+      Data: Empire
+    - Name: Technology
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: Technology_Era4_08
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Inverted
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Variables
+      Entry: 7
+      Data: 7|Amplitude.Mercury.Data.Simulation.SimulationEventVariable[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: LocalizationParameters
+      Entry: 7
+      Data: 8|Amplitude.Mercury.Data.Simulation.NarrativeEventLocalizationParameter[],
+        Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Choices
+      Entry: 7
+      Data: 9|Amplitude.Mercury.Data.Simulation.NarrativeEventChoice[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 10|Amplitude.Mercury.Data.Simulation.NarrativeEventChoice, Amplitude.Mercury.Data
+    - Name: Image
+      Entry: 7
+      Data: Amplitude.UI.UITexture, Amplitude.UI
+    - Name: guid
+      Entry: 7
+      Data: Amplitude.Framework.Guid, Amplitude.Framework
+    - Name: a
+      Entry: 3
+      Data: 0
+    - Name: b
+      Entry: 3
+      Data: 0
+    - Name: c
+      Entry: 3
+      Data: 0
+    - Name: d
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Title
+      Entry: 6
+      Data: 
+    - Name: Description
+      Entry: 6
+      Data: 
+    - Name: Instant
+      Entry: 5
+      Data: true
+    - Name: Duration
+      Entry: 3
+      Data: 10
+    - Name: Prerequisites
+      Entry: 7
+      Data: 11|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: NarrativeEventEffects
+      Entry: 7
+      Data: 12|Amplitude.Mercury.Data.Simulation.NarrativeEventEffect[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 13|Amplitude.Mercury.Data.Simulation.NarrativeEventEffect, Amplitude.Mercury.Data
+    - Name: Reversible
+      Entry: 5
+      Data: true
+    - Name: SimulationEventEffect
+      Entry: 7
+      Data: 14|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_ApplyCostModifier,
+        Amplitude.Mercury.Data
+    - Name: SimulationEffectDescriptionOverride
+      Entry: 6
+      Data: 
+    - Name: UIMapperOverride
+      Entry: 6
+      Data: 
+    - Name: Hidden
+      Entry: 5
+      Data: false
+    - Name: DlcPrerequisite
+      Entry: 7
+      Data: Amplitude.Mercury.Data.Simulation.Prerequisites.DownloadableContentPrerequisite,
+        Amplitude.Mercury.Data
+    - Name: DownloadableContent
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: GainValues
+      Entry: 6
+      Data: 
+    - Name: TargetID
+      Entry: 1
+      Data: Empire
+    - Name: CostModifierReference
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: TechnologyCostModifierForEra5_Nationhood
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Notes
+      Entry: 6
+      Data: 
+    - Name: Archetypes
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+  IsObsolete: 0
+  DlcPrerequisite:
+    DownloadableContent: 0
+  OnlyActiveInScenario:
+    serializableElementName: 
+  IsWorkInProgress: 0
+  Category:
+    serializableElementName: NarrativeEventCategory_UnlockingWithoutUiObsolete
+  EraDefinitions:
+  - serializableElementName: Era5
+  Image:
+    guid:
+      a: 908867098
+      b: 1258104385
+      c: -2089119310
+      d: 1899166633
+  Title: Dreadnought design
+  Description: Dreadnought design is unlocked faster with Mechanisation and Propeller
+  GeoLocalizationID: 
+  Notes: 
+--- !u!114 &5554486971839278881
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -931882767, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: NarrativeEvent_ReduceResearchCostBeforeUnlockingEra4_MovableTypeface
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: Trigger
+      Entry: 7
+      Data: 0|Amplitude.Mercury.Data.Simulation.NarrativeEventTrigger, Amplitude.Mercury.Data
+    - Name: ConsumeEventUponTrigger
+      Entry: 5
+      Data: true
+    - Name: PreventEventRemoval
+      Entry: 5
+      Data: false
+    - Name: SimulationEventTrigger
+      Entry: 7
+      Data: 1|Amplitude.Mercury.Data.Simulation.SimulationEventTrigger, Amplitude.Mercury.Data
+    - Name: IsNarrativeConsequence
+      Entry: 5
+      Data: false
+    - Name: SimulationEvent
+      Entry: 1
+      Data: Amplitude.Mercury.Simulation.SimulationEvent_TurnBegin, Amplitude.Mercury.Firstpass
+    - Name: Signature
+      Entry: 7
+      Data: 2|System.Collections.Generic.List`1[[Amplitude.Mercury.Data.Simulation.NarrativeEventConsequenceVariableDeclaration,
+        Amplitude.Mercury.Data]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Prerequisites
+      Entry: 7
+      Data: 3|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 3
+    - Name: 
+      Entry: 7
+      Data: 4|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite_Empire_Self,
+        Amplitude.Mercury.Data
+    - Name: FailureFlags
+      Entry: 3
+      Data: 0
+    - Name: LocalizationOverride
+      Entry: 6
+      Data: 
+    - Name: EntityID
+      Entry: 1
+      Data: Empire
+    - Name: Inverted
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 5|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite_Empire_Technology,
+        Amplitude.Mercury.Data
+    - Name: FailureFlags
+      Entry: 3
+      Data: 0
+    - Name: LocalizationOverride
+      Entry: 6
+      Data: 
+    - Name: EntityID
+      Entry: 1
+      Data: Empire
+    - Name: Technology
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: Technology_Era3_Algebra
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Inverted
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 6|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite_Empire_Technology,
+        Amplitude.Mercury.Data
+    - Name: FailureFlags
+      Entry: 3
+      Data: 0
+    - Name: LocalizationOverride
+      Entry: 6
+      Data: 
+    - Name: EntityID
+      Entry: 1
+      Data: Empire
+    - Name: Technology
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: Technology_Era4_01
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Inverted
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Variables
+      Entry: 7
+      Data: 7|Amplitude.Mercury.Data.Simulation.SimulationEventVariable[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: LocalizationParameters
+      Entry: 7
+      Data: 8|Amplitude.Mercury.Data.Simulation.NarrativeEventLocalizationParameter[],
+        Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Choices
+      Entry: 7
+      Data: 9|Amplitude.Mercury.Data.Simulation.NarrativeEventChoice[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 10|Amplitude.Mercury.Data.Simulation.NarrativeEventChoice, Amplitude.Mercury.Data
+    - Name: Image
+      Entry: 7
+      Data: Amplitude.UI.UITexture, Amplitude.UI
+    - Name: guid
+      Entry: 7
+      Data: Amplitude.Framework.Guid, Amplitude.Framework
+    - Name: a
+      Entry: 3
+      Data: 0
+    - Name: b
+      Entry: 3
+      Data: 0
+    - Name: c
+      Entry: 3
+      Data: 0
+    - Name: d
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Title
+      Entry: 6
+      Data: 
+    - Name: Description
+      Entry: 6
+      Data: 
+    - Name: Instant
+      Entry: 5
+      Data: true
+    - Name: Duration
+      Entry: 3
+      Data: 10
+    - Name: Prerequisites
+      Entry: 7
+      Data: 11|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: NarrativeEventEffects
+      Entry: 7
+      Data: 12|Amplitude.Mercury.Data.Simulation.NarrativeEventEffect[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 13|Amplitude.Mercury.Data.Simulation.NarrativeEventEffect, Amplitude.Mercury.Data
+    - Name: Reversible
+      Entry: 5
+      Data: true
+    - Name: SimulationEventEffect
+      Entry: 7
+      Data: 14|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_ApplyCostModifier,
+        Amplitude.Mercury.Data
+    - Name: SimulationEffectDescriptionOverride
+      Entry: 6
+      Data: 
+    - Name: UIMapperOverride
+      Entry: 6
+      Data: 
+    - Name: Hidden
+      Entry: 5
+      Data: false
+    - Name: DlcPrerequisite
+      Entry: 7
+      Data: Amplitude.Mercury.Data.Simulation.Prerequisites.DownloadableContentPrerequisite,
+        Amplitude.Mercury.Data
+    - Name: DownloadableContent
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: GainValues
+      Entry: 6
+      Data: 
+    - Name: TargetID
+      Entry: 1
+      Data: Empire
+    - Name: CostModifierReference
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: TechnologyCostModifierForEra4_04
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Notes
+      Entry: 6
+      Data: 
+    - Name: Archetypes
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+  IsObsolete: 0
+  DlcPrerequisite:
+    DownloadableContent: 0
+  OnlyActiveInScenario:
+    serializableElementName: 
+  IsWorkInProgress: 0
+  Category:
+    serializableElementName: NarrativeEventCategory_UnlockingWithoutUiObsolete
+  EraDefinitions:
+  - serializableElementName: Era4
+  Image:
+    guid:
+      a: 908867098
+      b: 1258104385
+      c: -2089119310
+      d: 1899166633
+  Title: '%Technology_Era4_4Title'
+  Description: '%Technology_Era4_4Description'
+  GeoLocalizationID: 
+  Notes: 
+--- !u!114 &6374188139184802508
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -931882767, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: NarrativeEvent_ReduceResearchCostAfterUnlockingEra6Tier3
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: Trigger
+      Entry: 7
+      Data: 0|Amplitude.Mercury.Data.Simulation.NarrativeEventTrigger, Amplitude.Mercury.Data
+    - Name: ConsumeEventUponTrigger
+      Entry: 5
+      Data: true
+    - Name: PreventEventRemoval
+      Entry: 5
+      Data: false
+    - Name: SimulationEventTrigger
+      Entry: 7
+      Data: 1|Amplitude.Mercury.Data.Simulation.SimulationEventTrigger, Amplitude.Mercury.Data
+    - Name: IsNarrativeConsequence
+      Entry: 5
+      Data: false
+    - Name: SimulationEvent
+      Entry: 1
+      Data: Amplitude.Mercury.Simulation.SimulationEvent_TurnBegin, Amplitude.Mercury.Firstpass
+    - Name: Signature
+      Entry: 7
+      Data: 2|System.Collections.Generic.List`1[[Amplitude.Mercury.Data.Simulation.NarrativeEventConsequenceVariableDeclaration,
+        Amplitude.Mercury.Data]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Prerequisites
+      Entry: 7
+      Data: 3|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 8
+    - Name: 
+      Entry: 7
+      Data: 4|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite_Empire_Self,
+        Amplitude.Mercury.Data
+    - Name: FailureFlags
+      Entry: 3
+      Data: 0
+    - Name: LocalizationOverride
+      Entry: 6
+      Data: 
+    - Name: EntityID
+      Entry: 1
+      Data: Empire
+    - Name: Inverted
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 5|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite_Empire_Technology,
+        Amplitude.Mercury.Data
+    - Name: FailureFlags
+      Entry: 3
+      Data: 0
+    - Name: LocalizationOverride
+      Entry: 6
+      Data: 
+    - Name: EntityID
+      Entry: 1
+      Data: Empire
+    - Name: Technology
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: Technology_Era6_DartAmmunition
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Inverted
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 6|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite_Empire_Technology,
+        Amplitude.Mercury.Data
+    - Name: FailureFlags
+      Entry: 3
+      Data: 0
+    - Name: LocalizationOverride
+      Entry: 6
+      Data: 
+    - Name: EntityID
+      Entry: 1
+      Data: Empire
+    - Name: Technology
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: Technology_Era6_PrecisionGuidedMunition
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Inverted
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite_Empire_Technology,
+        Amplitude.Mercury.Data
+    - Name: FailureFlags
+      Entry: 3
+      Data: 0
+    - Name: LocalizationOverride
+      Entry: 6
+      Data: 
+    - Name: EntityID
+      Entry: 1
+      Data: Empire
+    - Name: Technology
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: Technology_Era6_11
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Inverted
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 8|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite_Empire_Technology,
+        Amplitude.Mercury.Data
+    - Name: FailureFlags
+      Entry: 3
+      Data: 0
+    - Name: LocalizationOverride
+      Entry: 6
+      Data: 
+    - Name: EntityID
+      Entry: 1
+      Data: Empire
+    - Name: Technology
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: Technology_Era6_HydraulicFracturing
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Inverted
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 9|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite_Empire_Technology,
+        Amplitude.Mercury.Data
+    - Name: FailureFlags
+      Entry: 3
+      Data: 0
+    - Name: LocalizationOverride
+      Entry: 6
+      Data: 
+    - Name: EntityID
+      Entry: 1
+      Data: Empire
+    - Name: Technology
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: Technology_Era6_Ethernet
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Inverted
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 10|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite_Empire_Technology,
+        Amplitude.Mercury.Data
+    - Name: FailureFlags
+      Entry: 3
+      Data: 0
+    - Name: LocalizationOverride
+      Entry: 6
+      Data: 
+    - Name: EntityID
+      Entry: 1
+      Data: Empire
+    - Name: Technology
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: Technology_Era6_MultimediaComputer
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Inverted
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 11|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite_Empire_Technology,
+        Amplitude.Mercury.Data
+    - Name: FailureFlags
+      Entry: 3
+      Data: 0
+    - Name: LocalizationOverride
+      Entry: 6
+      Data: 
+    - Name: EntityID
+      Entry: 1
+      Data: Empire
+    - Name: Technology
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: Technology_Era6_NuclearFuelReprocessing
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Inverted
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Variables
+      Entry: 7
+      Data: 12|Amplitude.Mercury.Data.Simulation.SimulationEventVariable[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: LocalizationParameters
+      Entry: 7
+      Data: 13|Amplitude.Mercury.Data.Simulation.NarrativeEventLocalizationParameter[],
+        Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Choices
+      Entry: 7
+      Data: 14|Amplitude.Mercury.Data.Simulation.NarrativeEventChoice[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 15|Amplitude.Mercury.Data.Simulation.NarrativeEventChoice, Amplitude.Mercury.Data
+    - Name: Image
+      Entry: 7
+      Data: Amplitude.UI.UITexture, Amplitude.UI
+    - Name: guid
+      Entry: 7
+      Data: Amplitude.Framework.Guid, Amplitude.Framework
+    - Name: a
+      Entry: 3
+      Data: 0
+    - Name: b
+      Entry: 3
+      Data: 0
+    - Name: c
+      Entry: 3
+      Data: 0
+    - Name: d
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Title
+      Entry: 6
+      Data: 
+    - Name: Description
+      Entry: 6
+      Data: 
+    - Name: Instant
+      Entry: 5
+      Data: true
+    - Name: Duration
+      Entry: 3
+      Data: 10
+    - Name: Prerequisites
+      Entry: 7
+      Data: 16|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: NarrativeEventEffects
+      Entry: 7
+      Data: 17|Amplitude.Mercury.Data.Simulation.NarrativeEventEffect[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 18|Amplitude.Mercury.Data.Simulation.NarrativeEventEffect, Amplitude.Mercury.Data
+    - Name: Reversible
+      Entry: 5
+      Data: true
+    - Name: SimulationEventEffect
+      Entry: 7
+      Data: 19|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_ApplyCostModifier,
+        Amplitude.Mercury.Data
+    - Name: SimulationEffectDescriptionOverride
+      Entry: 6
+      Data: 
+    - Name: UIMapperOverride
+      Entry: 6
+      Data: 
+    - Name: Hidden
+      Entry: 5
+      Data: false
+    - Name: DlcPrerequisite
+      Entry: 7
+      Data: Amplitude.Mercury.Data.Simulation.Prerequisites.DownloadableContentPrerequisite,
+        Amplitude.Mercury.Data
+    - Name: DownloadableContent
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: GainValues
+      Entry: 6
+      Data: 
+    - Name: TargetID
+      Entry: 1
+      Data: Empire
+    - Name: CostModifierReference
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: TechnologyCostModifierAfterUnlockingEra6Tier3
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Notes
+      Entry: 6
+      Data: 
+    - Name: Archetypes
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+  IsObsolete: 0
+  DlcPrerequisite:
+    DownloadableContent: 0
+  OnlyActiveInScenario:
+    serializableElementName: 
+  IsWorkInProgress: 0
+  Category:
+    serializableElementName: NarrativeEventCategory_UnlockingWithoutUiObsolete
+  EraDefinitions:
+  - serializableElementName: Era6
+  Image:
+    guid:
+      a: 908867098
+      b: 1258104385
+      c: -2089119310
+      d: 1899166633
+  Title: Decreased research cost
+  Description: unlocking technologies makes unlocking future technologies easier
+  GeoLocalizationID: 
+  Notes: 
+--- !u!114 &6455651114458836021
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -931882767, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: NarrativeEvent_ReduceResearchCostAfterUnlockingEra6Tier3Extra
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: Trigger
+      Entry: 7
+      Data: 0|Amplitude.Mercury.Data.Simulation.NarrativeEventTrigger, Amplitude.Mercury.Data
+    - Name: ConsumeEventUponTrigger
+      Entry: 5
+      Data: true
+    - Name: PreventEventRemoval
+      Entry: 5
+      Data: false
+    - Name: SimulationEventTrigger
+      Entry: 7
+      Data: 1|Amplitude.Mercury.Data.Simulation.SimulationEventTrigger, Amplitude.Mercury.Data
+    - Name: IsNarrativeConsequence
+      Entry: 5
+      Data: false
+    - Name: SimulationEvent
+      Entry: 1
+      Data: Amplitude.Mercury.Simulation.SimulationEvent_TurnBegin, Amplitude.Mercury.Firstpass
+    - Name: Signature
+      Entry: 7
+      Data: 2|System.Collections.Generic.List`1[[Amplitude.Mercury.Data.Simulation.NarrativeEventConsequenceVariableDeclaration,
+        Amplitude.Mercury.Data]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Prerequisites
+      Entry: 7
+      Data: 3|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 8
+    - Name: 
+      Entry: 7
+      Data: 4|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite_Empire_Self,
+        Amplitude.Mercury.Data
+    - Name: FailureFlags
+      Entry: 3
+      Data: 0
+    - Name: LocalizationOverride
+      Entry: 6
+      Data: 
+    - Name: EntityID
+      Entry: 1
+      Data: Empire
+    - Name: Inverted
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 5|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite_Empire_Technology,
+        Amplitude.Mercury.Data
+    - Name: FailureFlags
+      Entry: 3
+      Data: 0
+    - Name: LocalizationOverride
+      Entry: 6
+      Data: 
+    - Name: EntityID
+      Entry: 1
+      Data: Empire
+    - Name: Technology
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: Technology_Era6_SlopedArmor
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Inverted
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 6|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite_Empire_Technology,
+        Amplitude.Mercury.Data
+    - Name: FailureFlags
+      Entry: 3
+      Data: 0
+    - Name: LocalizationOverride
+      Entry: 6
+      Data: 
+    - Name: EntityID
+      Entry: 1
+      Data: Empire
+    - Name: Technology
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: Technology_Era6_HelmetMountedDisplay
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Inverted
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite_Empire_Technology,
+        Amplitude.Mercury.Data
+    - Name: FailureFlags
+      Entry: 3
+      Data: 0
+    - Name: LocalizationOverride
+      Entry: 6
+      Data: 
+    - Name: EntityID
+      Entry: 1
+      Data: Empire
+    - Name: Technology
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: Technology_Era6_20
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Inverted
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 8|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite_Empire_Technology,
+        Amplitude.Mercury.Data
+    - Name: FailureFlags
+      Entry: 3
+      Data: 0
+    - Name: LocalizationOverride
+      Entry: 6
+      Data: 
+    - Name: EntityID
+      Entry: 1
+      Data: Empire
+    - Name: Technology
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: Technology_Era6_FuzzyLogic
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Inverted
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 9|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite_Empire_Technology,
+        Amplitude.Mercury.Data
+    - Name: FailureFlags
+      Entry: 3
+      Data: 0
+    - Name: LocalizationOverride
+      Entry: 6
+      Data: 
+    - Name: EntityID
+      Entry: 1
+      Data: Empire
+    - Name: Technology
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: Technology_Era6_22
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Inverted
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 10|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite_Empire_Technology,
+        Amplitude.Mercury.Data
+    - Name: FailureFlags
+      Entry: 3
+      Data: 0
+    - Name: LocalizationOverride
+      Entry: 6
+      Data: 
+    - Name: EntityID
+      Entry: 1
+      Data: Empire
+    - Name: Technology
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: Technology_Era6_25
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Inverted
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 11|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite_Empire_Technology,
+        Amplitude.Mercury.Data
+    - Name: FailureFlags
+      Entry: 3
+      Data: 0
+    - Name: LocalizationOverride
+      Entry: 6
+      Data: 
+    - Name: EntityID
+      Entry: 1
+      Data: Empire
+    - Name: Technology
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: Technology_Era6_BreederReactor
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Inverted
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Variables
+      Entry: 7
+      Data: 12|Amplitude.Mercury.Data.Simulation.SimulationEventVariable[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: LocalizationParameters
+      Entry: 7
+      Data: 13|Amplitude.Mercury.Data.Simulation.NarrativeEventLocalizationParameter[],
+        Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Choices
+      Entry: 7
+      Data: 14|Amplitude.Mercury.Data.Simulation.NarrativeEventChoice[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 15|Amplitude.Mercury.Data.Simulation.NarrativeEventChoice, Amplitude.Mercury.Data
+    - Name: Image
+      Entry: 7
+      Data: Amplitude.UI.UITexture, Amplitude.UI
+    - Name: guid
+      Entry: 7
+      Data: Amplitude.Framework.Guid, Amplitude.Framework
+    - Name: a
+      Entry: 3
+      Data: 0
+    - Name: b
+      Entry: 3
+      Data: 0
+    - Name: c
+      Entry: 3
+      Data: 0
+    - Name: d
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Title
+      Entry: 6
+      Data: 
+    - Name: Description
+      Entry: 6
+      Data: 
+    - Name: Instant
+      Entry: 5
+      Data: true
+    - Name: Duration
+      Entry: 3
+      Data: 10
+    - Name: Prerequisites
+      Entry: 7
+      Data: 16|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: NarrativeEventEffects
+      Entry: 7
+      Data: 17|Amplitude.Mercury.Data.Simulation.NarrativeEventEffect[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 18|Amplitude.Mercury.Data.Simulation.NarrativeEventEffect, Amplitude.Mercury.Data
+    - Name: Reversible
+      Entry: 5
+      Data: true
+    - Name: SimulationEventEffect
+      Entry: 7
+      Data: 19|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_ApplyCostModifier,
+        Amplitude.Mercury.Data
+    - Name: SimulationEffectDescriptionOverride
+      Entry: 6
+      Data: 
+    - Name: UIMapperOverride
+      Entry: 6
+      Data: 
+    - Name: Hidden
+      Entry: 5
+      Data: false
+    - Name: DlcPrerequisite
+      Entry: 7
+      Data: Amplitude.Mercury.Data.Simulation.Prerequisites.DownloadableContentPrerequisite,
+        Amplitude.Mercury.Data
+    - Name: DownloadableContent
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: GainValues
+      Entry: 6
+      Data: 
+    - Name: TargetID
+      Entry: 1
+      Data: Empire
+    - Name: CostModifierReference
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: TechnologyCostModifierAfterUnlockingEra6Tier3Extra
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Notes
+      Entry: 6
+      Data: 
+    - Name: Archetypes
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+  IsObsolete: 0
+  DlcPrerequisite:
+    DownloadableContent: 0
+  OnlyActiveInScenario:
+    serializableElementName: 
+  IsWorkInProgress: 0
+  Category:
+    serializableElementName: NarrativeEventCategory_UnlockingWithoutUiObsolete
+  EraDefinitions:
   - serializableElementName: Era6
   Image:
     guid:
@@ -6472,11 +11530,9 @@ MonoBehaviour:
     serializableElementName: 
   IsWorkInProgress: 0
   Category:
-    serializableElementName: NarrativeEventCategory_UnlockingWithoutUi
+    serializableElementName: NarrativeEventCategory_UnlockingWithoutUiObsolete
   EraDefinitions:
-  - serializableElementName: Era4
   - serializableElementName: Era5
-  - serializableElementName: Era6
   Image:
     guid:
       a: 908867098
@@ -6485,6 +11541,331 @@ MonoBehaviour:
       d: 1899166633
   Title: Decreased research cost
   Description: unlocking technologies makes unlocking future technologies easier
+  GeoLocalizationID: 
+  Notes: 
+--- !u!114 &8152330823624987561
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -931882767, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: NarrativeEvent_ReduceResearchCostBeforeUnlockingEra5_MilitaryTradition
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: Trigger
+      Entry: 7
+      Data: 0|Amplitude.Mercury.Data.Simulation.NarrativeEventTrigger, Amplitude.Mercury.Data
+    - Name: ConsumeEventUponTrigger
+      Entry: 5
+      Data: true
+    - Name: PreventEventRemoval
+      Entry: 5
+      Data: false
+    - Name: SimulationEventTrigger
+      Entry: 7
+      Data: 1|Amplitude.Mercury.Data.Simulation.SimulationEventTrigger, Amplitude.Mercury.Data
+    - Name: IsNarrativeConsequence
+      Entry: 5
+      Data: false
+    - Name: SimulationEvent
+      Entry: 1
+      Data: Amplitude.Mercury.Simulation.SimulationEvent_TurnBegin, Amplitude.Mercury.Firstpass
+    - Name: Signature
+      Entry: 7
+      Data: 2|System.Collections.Generic.List`1[[Amplitude.Mercury.Data.Simulation.NarrativeEventConsequenceVariableDeclaration,
+        Amplitude.Mercury.Data]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Prerequisites
+      Entry: 7
+      Data: 3|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 3
+    - Name: 
+      Entry: 7
+      Data: 4|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite_Empire_Self,
+        Amplitude.Mercury.Data
+    - Name: FailureFlags
+      Entry: 3
+      Data: 0
+    - Name: LocalizationOverride
+      Entry: 6
+      Data: 
+    - Name: EntityID
+      Entry: 1
+      Data: Empire
+    - Name: Inverted
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 5|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite_Empire_Technology,
+        Amplitude.Mercury.Data
+    - Name: FailureFlags
+      Entry: 3
+      Data: 0
+    - Name: LocalizationOverride
+      Entry: 6
+      Data: 
+    - Name: EntityID
+      Entry: 1
+      Data: Empire
+    - Name: Technology
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: Technology_Era5_02
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Inverted
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 6|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite_Empire_Technology,
+        Amplitude.Mercury.Data
+    - Name: FailureFlags
+      Entry: 3
+      Data: 0
+    - Name: LocalizationOverride
+      Entry: 6
+      Data: 
+    - Name: EntityID
+      Entry: 1
+      Data: Empire
+    - Name: Technology
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: Technology_Era5_04
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Inverted
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Variables
+      Entry: 7
+      Data: 7|Amplitude.Mercury.Data.Simulation.SimulationEventVariable[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: LocalizationParameters
+      Entry: 7
+      Data: 8|Amplitude.Mercury.Data.Simulation.NarrativeEventLocalizationParameter[],
+        Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Choices
+      Entry: 7
+      Data: 9|Amplitude.Mercury.Data.Simulation.NarrativeEventChoice[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 10|Amplitude.Mercury.Data.Simulation.NarrativeEventChoice, Amplitude.Mercury.Data
+    - Name: Image
+      Entry: 7
+      Data: Amplitude.UI.UITexture, Amplitude.UI
+    - Name: guid
+      Entry: 7
+      Data: Amplitude.Framework.Guid, Amplitude.Framework
+    - Name: a
+      Entry: 3
+      Data: 0
+    - Name: b
+      Entry: 3
+      Data: 0
+    - Name: c
+      Entry: 3
+      Data: 0
+    - Name: d
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Title
+      Entry: 6
+      Data: 
+    - Name: Description
+      Entry: 6
+      Data: 
+    - Name: Instant
+      Entry: 5
+      Data: true
+    - Name: Duration
+      Entry: 3
+      Data: 10
+    - Name: Prerequisites
+      Entry: 7
+      Data: 11|Amplitude.Mercury.Data.Simulation.SimulationEventPrerequisite[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: NarrativeEventEffects
+      Entry: 7
+      Data: 12|Amplitude.Mercury.Data.Simulation.NarrativeEventEffect[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 13|Amplitude.Mercury.Data.Simulation.NarrativeEventEffect, Amplitude.Mercury.Data
+    - Name: Reversible
+      Entry: 5
+      Data: true
+    - Name: SimulationEventEffect
+      Entry: 7
+      Data: 14|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_ApplyCostModifier,
+        Amplitude.Mercury.Data
+    - Name: SimulationEffectDescriptionOverride
+      Entry: 6
+      Data: 
+    - Name: UIMapperOverride
+      Entry: 6
+      Data: 
+    - Name: Hidden
+      Entry: 5
+      Data: false
+    - Name: DlcPrerequisite
+      Entry: 7
+      Data: Amplitude.Mercury.Data.Simulation.Prerequisites.DownloadableContentPrerequisite,
+        Amplitude.Mercury.Data
+    - Name: DownloadableContent
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: GainValues
+      Entry: 6
+      Data: 
+    - Name: TargetID
+      Entry: 1
+      Data: Empire
+    - Name: CostModifierReference
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: TechnologyCostModifierForEra5_MilitaryTradition
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Notes
+      Entry: 6
+      Data: 
+    - Name: Archetypes
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+  IsObsolete: 0
+  DlcPrerequisite:
+    DownloadableContent: 0
+  OnlyActiveInScenario:
+    serializableElementName: 
+  IsWorkInProgress: 0
+  Category:
+    serializableElementName: NarrativeEventCategory_UnlockingWithoutUiObsolete
+  EraDefinitions:
+  - serializableElementName: Era5
+  Image:
+    guid:
+      a: 908867098
+      b: 1258104385
+      c: -2089119310
+      d: 1899166633
+  Title: Military Tradition
+  Description: Military Tradition is unlocked faster with both Carabin and Military
+    Coordination unlocked
   GeoLocalizationID: 
   Notes: 
 --- !u!114 &8399028204670574036
@@ -6798,11 +12179,9 @@ MonoBehaviour:
     serializableElementName: 
   IsWorkInProgress: 0
   Category:
-    serializableElementName: NarrativeEventCategory_UnlockingWithoutUi
+    serializableElementName: NarrativeEventCategory_UnlockingWithoutUiObsolete
   EraDefinitions:
-  - serializableElementName: Era1
   - serializableElementName: Era2
-  - serializableElementName: Era3
   Image:
     guid:
       a: 908867098
@@ -7124,11 +12503,9 @@ MonoBehaviour:
     serializableElementName: 
   IsWorkInProgress: 0
   Category:
-    serializableElementName: NarrativeEventCategory_UnlockingWithoutUi
+    serializableElementName: NarrativeEventCategory_UnlockingWithoutUiObsolete
   EraDefinitions:
-  - serializableElementName: Era1
   - serializableElementName: Era2
-  - serializableElementName: Era3
   Image:
     guid:
       a: 908867098

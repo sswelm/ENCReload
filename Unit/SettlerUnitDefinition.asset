@@ -33,6 +33,7 @@ MonoBehaviour:
   SerializableFamily: UnitFamily_Settlers
   Level: 36
   Unicity: 0
+  UnicityAdditionalConstructible: []
   ConstructibleVisualAffinity:
     serializableElementName: 
   CanBeBoughtOut: 1
@@ -43,7 +44,7 @@ MonoBehaviour:
     Type: 1
     Constant: -1
     RpnDefinitionReference:
-      serializableElementName: ProductionCost_Unit_Era6_Low
+      serializableElementName: ProductionCost_Unit_Era4_High
   MoneyInstantCostDefinition:
     Constant: 0
     RpnDefinitionReference:
@@ -51,7 +52,7 @@ MonoBehaviour:
   InfluenceInstantCostDefinition:
     Constant: -1
     RpnDefinitionReference:
-      serializableElementName: SettlementAction_SettlerCostInfluence
+      serializableElementName: ProductionCost_Unit_Era4_High
   PopulationInstantCostDefinition:
     Constant: 4
   ProvidedByOtherEmpireCostDefinition:
@@ -72,8 +73,9 @@ MonoBehaviour:
     Operator: 0
     serializableFactionNames: []
   SettlementStatusPrerequisite:
-    CampConstraint: 0
+    CampConstraint: 3
     CityConstraint: 1
+    OccupiedCityConstraint: 0
   ReligionAffinityPrerequisite:
     serializableElementName: 
   SettlementPropertyPrerequisites: []
@@ -92,12 +94,12 @@ MonoBehaviour:
   UnitClass:
     serializableElementName: UnitClass_Melee
   UnitSpecialties:
-  - serializableElementName: UnitSpecialty_SettlerPackage02
+  - serializableElementName: UnitSpecialty_SettlerPackage03
   - serializableElementName: UnitSpecialty_HealArmy
   OwnDescriptorReferences:
   - serializableElementName: Effect_LandUnit_Era6_Common_Settlers
-  - serializableElementName: Effect_Unit_Era6
-  - serializableElementName: Effect_Unit_Era6_Tier3
+  - serializableElementName: Effect_Unit_Era5
+  - serializableElementName: Effect_Unit_Era5_Tier1
   BaseMovementSpeed: 1.8
   MovementSpeedMultiplierPerType:
   - 1.5
@@ -112,6 +114,120 @@ MonoBehaviour:
     serializableElementName: 
   SettlerStartingPack:
     serializableElementName: Package03
+--- !u!114 &-202263693954456922
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1701844777, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: LandUnit_Era3_Common_Settlers
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: GainValues
+      Entry: 6
+      Data: 
+  Key: 0
+  Hidden: 0
+  IsObsolete: 0
+  DLCPrerequisite:
+    DownloadableContent: 0
+  Category: 6
+  SerializableFamily: UnitFamily_Settlers
+  Level: 18
+  Unicity: 0
+  UnicityAdditionalConstructible: []
+  ConstructibleVisualAffinity:
+    serializableElementName: 
+  CanBeBoughtOut: 1
+  CanBeCanceled: 1
+  StartWhenQueued: 0
+  CanBeBoughtOutWithPopulation: 0
+  ProductionCostDefinition:
+    Type: 1
+    Constant: -1
+    RpnDefinitionReference:
+      serializableElementName: ProductionCost_Unit_Era1_High
+  MoneyInstantCostDefinition:
+    Constant: 0
+    RpnDefinitionReference:
+      serializableElementName: 
+  InfluenceInstantCostDefinition:
+    Constant: -1
+    RpnDefinitionReference:
+      serializableElementName: ProductionCost_Unit_Era1_High
+  PopulationInstantCostDefinition:
+    Constant: 1
+  ProvidedByOtherEmpireCostDefinition:
+    ProductionCostModifierRpn:
+      serializableElementName: 
+    ReceiverMoneyCostRpn:
+      serializableElementName: 
+    ProviderMoneyGainRpn:
+      serializableElementName: 
+  ResourceAccessPrerequisites: []
+  MinimalPopulationPrerequisite: 0
+  ResourceSupremacyPrerequisite: 
+  EraPrerequisite:
+    Operator: 0
+    EraReference:
+      serializableElementName: 
+  FactionPrerequisite:
+    Operator: 0
+    serializableFactionNames: []
+  SettlementStatusPrerequisite:
+    CampConstraint: 3
+    CityConstraint: 1
+    OccupiedCityConstraint: 0
+  ReligionAffinityPrerequisite:
+    serializableElementName: 
+  SettlementPropertyPrerequisites: []
+  SettlementStabilityPrerequisite:
+    Operator: 0
+    PublicOrderEffects: []
+  DistrictCountPrerequisites: []
+  ActionTypePrerequisite:
+    Operator: 0
+    ActionType: 0
+  ArtificialWonderBuiltPrerequisite:
+    Operator: 0
+    ArtificialWonderDefinition:
+      serializableElementName: 
+  BaseSynergyDistrict: 0
+  UnitClass:
+    serializableElementName: UnitClass_Melee
+  UnitSpecialties:
+  - serializableElementName: UnitSpecialty_SettlerPackage00
+  - serializableElementName: UnitSpecialty_HealArmy
+  OwnDescriptorReferences:
+  - serializableElementName: Effect_LandUnit_Era3_Common_Settlers
+  - serializableElementName: Effect_Unit_Era2
+  - serializableElementName: Effect_Unit_Era2_Tier1
+  BaseMovementSpeed: 1.8
+  MovementSpeedMultiplierPerType:
+  - 1.5
+  - 2.5
+  - 4
+  - 1.03
+  UnitTags: 524841
+  AlwaysUseCurrentEraVisualAffinity: 0
+  visualAffinityEraReference:
+    serializableElementName: Era3
+  unitSpecialty:
+    serializableElementName: 
+  SettlerStartingPack:
+    serializableElementName: Package00
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -157,6 +273,7 @@ MonoBehaviour:
   SerializableFamily: UnitFamily_Settlers
   Level: 24
   Unicity: 0
+  UnicityAdditionalConstructible: []
   ConstructibleVisualAffinity:
     serializableElementName: 
   CanBeBoughtOut: 1
@@ -167,7 +284,7 @@ MonoBehaviour:
     Type: 1
     Constant: -1
     RpnDefinitionReference:
-      serializableElementName: ProductionCost_Unit_Era4_Low
+      serializableElementName: ProductionCost_Unit_Era2_High
   MoneyInstantCostDefinition:
     Constant: 0
     RpnDefinitionReference:
@@ -175,9 +292,9 @@ MonoBehaviour:
   InfluenceInstantCostDefinition:
     Constant: -1
     RpnDefinitionReference:
-      serializableElementName: SettlementAction_SettlerCostInfluence
+      serializableElementName: ProductionCost_Unit_Era2_High
   PopulationInstantCostDefinition:
-    Constant: 3
+    Constant: 2
   ProvidedByOtherEmpireCostDefinition:
     ProductionCostModifierRpn:
       serializableElementName: 
@@ -196,8 +313,9 @@ MonoBehaviour:
     Operator: 0
     serializableFactionNames: []
   SettlementStatusPrerequisite:
-    CampConstraint: 0
+    CampConstraint: 3
     CityConstraint: 1
+    OccupiedCityConstraint: 0
   ReligionAffinityPrerequisite:
     serializableElementName: 
   SettlementPropertyPrerequisites: []
@@ -220,8 +338,8 @@ MonoBehaviour:
   - serializableElementName: UnitSpecialty_HealArmy
   OwnDescriptorReferences:
   - serializableElementName: Effect_LandUnit_Era4_Common_Settlers
-  - serializableElementName: Effect_Unit_Era4
-  - serializableElementName: Effect_Unit_Era4_Tier3
+  - serializableElementName: Effect_Unit_Era3
+  - serializableElementName: Effect_Unit_Era3_Tier1
   BaseMovementSpeed: 1.8
   MovementSpeedMultiplierPerType:
   - 1.5
@@ -236,3 +354,117 @@ MonoBehaviour:
     serializableElementName: 
   SettlerStartingPack:
     serializableElementName: Package01
+--- !u!114 &8494106283494781144
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1701844777, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: LandUnit_Era5_Common_Settlers
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: GainValues
+      Entry: 6
+      Data: 
+  Key: 0
+  Hidden: 0
+  IsObsolete: 0
+  DLCPrerequisite:
+    DownloadableContent: 0
+  Category: 6
+  SerializableFamily: UnitFamily_Settlers
+  Level: 30
+  Unicity: 0
+  UnicityAdditionalConstructible: []
+  ConstructibleVisualAffinity:
+    serializableElementName: 
+  CanBeBoughtOut: 1
+  CanBeCanceled: 1
+  StartWhenQueued: 0
+  CanBeBoughtOutWithPopulation: 0
+  ProductionCostDefinition:
+    Type: 1
+    Constant: -1
+    RpnDefinitionReference:
+      serializableElementName: ProductionCost_Unit_Era3_High
+  MoneyInstantCostDefinition:
+    Constant: 0
+    RpnDefinitionReference:
+      serializableElementName: 
+  InfluenceInstantCostDefinition:
+    Constant: -1
+    RpnDefinitionReference:
+      serializableElementName: ProductionCost_Unit_Era3_High
+  PopulationInstantCostDefinition:
+    Constant: 3
+  ProvidedByOtherEmpireCostDefinition:
+    ProductionCostModifierRpn:
+      serializableElementName: 
+    ReceiverMoneyCostRpn:
+      serializableElementName: 
+    ProviderMoneyGainRpn:
+      serializableElementName: 
+  ResourceAccessPrerequisites: []
+  MinimalPopulationPrerequisite: 0
+  ResourceSupremacyPrerequisite: 
+  EraPrerequisite:
+    Operator: 0
+    EraReference:
+      serializableElementName: 
+  FactionPrerequisite:
+    Operator: 0
+    serializableFactionNames: []
+  SettlementStatusPrerequisite:
+    CampConstraint: 3
+    CityConstraint: 1
+    OccupiedCityConstraint: 0
+  ReligionAffinityPrerequisite:
+    serializableElementName: 
+  SettlementPropertyPrerequisites: []
+  SettlementStabilityPrerequisite:
+    Operator: 0
+    PublicOrderEffects: []
+  DistrictCountPrerequisites: []
+  ActionTypePrerequisite:
+    Operator: 0
+    ActionType: 0
+  ArtificialWonderBuiltPrerequisite:
+    Operator: 0
+    ArtificialWonderDefinition:
+      serializableElementName: 
+  BaseSynergyDistrict: 0
+  UnitClass:
+    serializableElementName: UnitClass_Melee
+  UnitSpecialties:
+  - serializableElementName: UnitSpecialty_SettlerPackage02
+  - serializableElementName: UnitSpecialty_HealArmy
+  OwnDescriptorReferences:
+  - serializableElementName: Effect_LandUnit_Era5_Common_Settlers
+  - serializableElementName: Effect_Unit_Era4
+  - serializableElementName: Effect_Unit_Era4_Tier1
+  BaseMovementSpeed: 1.8
+  MovementSpeedMultiplierPerType:
+  - 1.5
+  - 2.5
+  - 4
+  - 1.03
+  UnitTags: 524841
+  AlwaysUseCurrentEraVisualAffinity: 0
+  visualAffinityEraReference:
+    serializableElementName: Era5
+  unitSpecialty:
+    serializableElementName: 
+  SettlerStartingPack:
+    serializableElementName: Package02

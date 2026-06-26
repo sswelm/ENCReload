@@ -56,6 +56,93 @@ MonoBehaviour:
   - GameSpeed
   targetTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
   sourceTypeName: 
+--- !u!114 &-8302890444601685048
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
+  m_Name: Fame_EraStar_Scientist_Era5_Level10
+  m_EditorClassIdentifier: 
+  RpnOperationStack: 0800000008000000000000000a00000003000000
+  ConstantStack:
+  - RawValue: 22000
+  Note: '0: Nb Era
+
+    1: Starting Era'
+  PropertyLocalNameStack:
+  - NumberOfLockedByTechnologyTechnologies
+  - NumberOfAvailableTechnologies
+  VariableNameStack: []
+  DefinedVariables:
+  - NbEra
+  - StartingEra
+  - GameSpeed
+  targetTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
+  sourceTypeName: 
+--- !u!114 &-8300816355337852618
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
+  m_Name: Fame_EraStar_Scientist_Era6_Level10
+  m_EditorClassIdentifier: 
+  RpnOperationStack: 0800000008000000000000000a00000003000000
+  ConstantStack:
+  - RawValue: 12000
+  Note: '0: Nb Era
+
+    1: Starting Era'
+  PropertyLocalNameStack:
+  - NumberOfLockedByTechnologyTechnologies
+  - NumberOfAvailableTechnologies
+  VariableNameStack: []
+  DefinedVariables:
+  - NbEra
+  - StartingEra
+  - GameSpeed
+  targetTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
+  sourceTypeName: 
+--- !u!114 &-8134395266901925247
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
+  m_Name: Fame_EraStar_Cultural_Base
+  m_EditorClassIdentifier: 
+  RpnOperationStack: 0a0000000b0000000a000000000000000a00000005000000020000000a000000000000000a000000020000000b00000002000000
+  ConstantStack:
+  - RawValue: 1000000
+  - RawValue: 1000
+  - RawValue: 2700
+  - RawValue: 600000
+  - RawValue: 2000
+  Note: '0: Nb Era
+
+    1: Game Speed'
+  PropertyLocalNameStack: []
+  VariableNameStack:
+  - NbEra
+  - GameSpeed
+  DefinedVariables:
+  - NbEra
+  - GameSpeed
+  targetTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
+  sourceTypeName: 
 --- !u!114 &-7888368532684732997
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -98,7 +185,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RpnOperationStack: 080000000800000008000000000000000a0000000300000000000000
   ConstantStack:
-  - RawValue: 9000
+  - RawValue: 12000
   Note: '0: Nb Era
 
     1: Starting Era'
@@ -155,7 +242,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RpnOperationStack: 0800000008000000000000000a00000003000000
   ConstantStack:
-  - RawValue: 5666
+  - RawValue: 7000
   Note: '0: Nb Era
 
     1: Starting Era'
@@ -167,6 +254,79 @@ MonoBehaviour:
   - NbEra
   - StartingEra
   - GameSpeed
+  targetTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
+  sourceTypeName: 
+--- !u!114 &-7331768546772667479
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
+  m_Name: Fame_EraStar_Warmonger_Base
+  m_EditorClassIdentifier: 
+  RpnOperationStack: 0b0000000a000000000000000a000000050000000a000000020000000b00000002000000
+  ConstantStack:
+  - RawValue: 1000
+  - RawValue: 1800
+  - RawValue: 10000
+  Note: 
+  PropertyLocalNameStack: []
+  VariableNameStack:
+  - NbEra
+  - GameSpeed
+  DefinedVariables:
+  - NbEra
+  - GameSpeed
+  targetTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
+  sourceTypeName: 
+--- !u!114 &-6964300072475861516
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
+  m_Name: Fame_EraStar_Expansionist_Base
+  m_EditorClassIdentifier: 
+  RpnOperationStack: 0a0000000b0000000a000000000000000a000000020000000a0000000b0000000a000000050000000a000000020000000b000000020000000a000000030000000b000000030000000a0000000300000007000000020000000b0000000a000000000000000a00000003000000020000000a0000000200000000000000
+  ConstantStack:
+  - RawValue: 6000
+  - RawValue: 1000
+  - RawValue: 8000
+  - RawValue: 1000
+  - RawValue: 2000
+  - RawValue: 1700
+  - RawValue: 41000
+  - RawValue: 50000
+  - RawValue: 1000
+  - RawValue: 5000
+  - RawValue: 1500
+  Note: 'the following fomula approximately correspond to the number of land territories
+    on the map :
+
+    (Variable.WorldSize ^ 2 * 1.7 * Variable.LandPercentage) /
+    40'
+  PropertyLocalNameStack: []
+  VariableNameStack:
+  - NbEra
+  - WorldSize
+  - LandPercentage
+  - NumberOfMajorEmpire
+  - NbEra
+  DefinedVariables:
+  - NbEra
+  - GameSpeed
+  - WorldSize
+  - LandPercentage
+  - IslandOdds
+  - NumberOfMajorEmpire
   targetTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
   sourceTypeName: 
 --- !u!114 &-6829811064665318357
@@ -181,13 +341,66 @@ MonoBehaviour:
   m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
   m_Name: Fame_EraStar_Prehistoric_Growth_Base
   m_EditorClassIdentifier: 
-  RpnOperationStack: 0a0000000a0000000a0000000b000000020000000600000000000000
+  RpnOperationStack: 0a0000000a0000000b0000000200000000000000
   ConstantStack:
+  - RawValue: 8000
   - RawValue: 2000
-  - RawValue: 2000
-  - RawValue: 5000
   Note: 
   PropertyLocalNameStack: []
+  VariableNameStack:
+  - GameSpeed
+  DefinedVariables:
+  - NbEra
+  - GameSpeed
+  targetTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
+  sourceTypeName: 
+--- !u!114 &-6803508502944793429
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
+  m_Name: Fame_EraStar_Builder_Level3
+  m_EditorClassIdentifier: 
+  RpnOperationStack: 0b0000000a000000020000000a00000000000000
+  ConstantStack:
+  - RawValue: 4000
+  - RawValue: 16000
+  Note: '0: Nb Era'
+  PropertyLocalNameStack: []
+  VariableNameStack:
+  - NbEra
+  DefinedVariables:
+  - NbEra
+  - GameSpeed
+  targetTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
+  sourceTypeName: 
+--- !u!114 &-6555418343166608878
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
+  m_Name: Fame_EraStar_Warmonger_Level1
+  m_EditorClassIdentifier: 
+  RpnOperationStack: 080000000a000000000000000a000000020000000a000000000000000b00000002000000
+  ConstantStack:
+  - RawValue: 1000
+  - RawValue: 8000
+  - RawValue: 10000
+  Note: '0: Nb Era
+
+    1: GameSpeed'
+  PropertyLocalNameStack:
+  - EraLevel
   VariableNameStack:
   - GameSpeed
   DefinedVariables:
@@ -209,7 +422,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RpnOperationStack: 0a0000000b0000000a000000000000000a00000005000000020000000b00000002000000
   ConstantStack:
-  - RawValue: 600000
+  - RawValue: 1000000
   - RawValue: 1000
   - RawValue: 2750
   Note: '0: Nb Era
@@ -236,13 +449,14 @@ MonoBehaviour:
   m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
   m_Name: Fame_EraStar_Scientist_Era1_Level1
   m_EditorClassIdentifier: 
-  RpnOperationStack: 0800000008000000000000000a00000003000000
+  RpnOperationStack: 080000000800000008000000000000000a0000000300000000000000
   ConstantStack:
-  - RawValue: 2333
+  - RawValue: 3000
   Note: '0: Nb Era
 
     1: Starting Era'
   PropertyLocalNameStack:
+  - NumberOfUnlockedTechnologies
   - NumberOfLockedByTechnologyTechnologies
   - NumberOfAvailableTechnologies
   VariableNameStack: []
@@ -266,7 +480,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RpnOperationStack: 0800000008000000000000000a00000003000000
   ConstantStack:
-  - RawValue: 3500
+  - RawValue: 5000
   Note: '0: Nb Era
 
     1: Starting Era'
@@ -294,7 +508,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RpnOperationStack: 0800000008000000000000000a00000003000000
   ConstantStack:
-  - RawValue: 3500
+  - RawValue: 4000
   Note: '0: Nb Era
 
     1: Starting Era'
@@ -322,7 +536,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RpnOperationStack: 080000000800000008000000000000000a0000000300000000000000
   ConstantStack:
-  - RawValue: 2800
+  - RawValue: 4000
   Note: '0: Nb Era
 
     1: Starting Era'
@@ -351,7 +565,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RpnOperationStack: 0800000008000000000000000a00000003000000
   ConstantStack:
-  - RawValue: 3500
+  - RawValue: 6000
   Note: '0: Nb Era
 
     1: Starting Era'
@@ -379,7 +593,35 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RpnOperationStack: 0800000008000000000000000a00000003000000
   ConstantStack:
-  - RawValue: 9000
+  - RawValue: 12000
+  Note: '0: Nb Era
+
+    1: Starting Era'
+  PropertyLocalNameStack:
+  - NumberOfLockedByTechnologyTechnologies
+  - NumberOfAvailableTechnologies
+  VariableNameStack: []
+  DefinedVariables:
+  - NbEra
+  - StartingEra
+  - GameSpeed
+  targetTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
+  sourceTypeName: 
+--- !u!114 &-5539765953624908450
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
+  m_Name: Fame_EraStar_Scientist_Era3_Level5
+  m_EditorClassIdentifier: 
+  RpnOperationStack: 0800000008000000000000000a00000003000000
+  ConstantStack:
+  - RawValue: 8000
   Note: '0: Nb Era
 
     1: Starting Era'
@@ -433,10 +675,11 @@ MonoBehaviour:
   m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
   m_Name: Fame_EraStar_Prehistoric_Knowledge_Base
   m_EditorClassIdentifier: 
-  RpnOperationStack: 0a0000000a000000080000000b000000020000000600000000000000
+  RpnOperationStack: 0a0000000a000000080000000b000000020000000a000000020000000600000000000000
   ConstantStack:
-  - RawValue: 2000
+  - RawValue: 3000
   - RawValue: 1000
+  - RawValue: 1500
   Note: 
   PropertyLocalNameStack:
   - KnowledgeThreshold
@@ -461,10 +704,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RpnOperationStack: 0a0000000b0000000a000000000000000a00000005000000020000000a000000000000000b00000002000000
   ConstantStack:
-  - RawValue: 500000
+  - RawValue: 600000
   - RawValue: 1000
   - RawValue: 3100
-  - RawValue: 100000
+  - RawValue: 600000
   Note: '0: Nb Era
 
     1: GameSpeed'
@@ -474,6 +717,61 @@ MonoBehaviour:
   - GameSpeed
   DefinedVariables:
   - NbEra
+  - GameSpeed
+  targetTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
+  sourceTypeName: 
+--- !u!114 &-4880978350436689610
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
+  m_Name: Fame_EraStar_Scientist_Era5_Level7
+  m_EditorClassIdentifier: 
+  RpnOperationStack: 0800000008000000000000000a00000003000000
+  ConstantStack:
+  - RawValue: 16000
+  Note: '0: Nb Era
+
+    1: Starting Era'
+  PropertyLocalNameStack:
+  - NumberOfLockedByTechnologyTechnologies
+  - NumberOfAvailableTechnologies
+  VariableNameStack: []
+  DefinedVariables:
+  - NbEra
+  - StartingEra
+  - GameSpeed
+  targetTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
+  sourceTypeName: 
+--- !u!114 &-4806453504482916687
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
+  m_Name: Fame_EraStar_Farmer_Base
+  m_EditorClassIdentifier: 
+  RpnOperationStack: 0b0000000a000000000000000a000000050000000a00000002000000
+  ConstantStack:
+  - RawValue: 1000
+  - RawValue: 2000
+  - RawValue: 14000
+  Note: '0: Nb Era'
+  PropertyLocalNameStack: []
+  VariableNameStack:
+  - NbEra
+  DefinedVariables:
+  - NbEra
+  - WorldSize
   - GameSpeed
   targetTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
   sourceTypeName: 
@@ -491,7 +789,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RpnOperationStack: 0800000008000000000000000a00000003000000
   ConstantStack:
-  - RawValue: 9000
+  - RawValue: 12000
   Note: '0: Nb Era
 
     1: Starting Era'
@@ -519,7 +817,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RpnOperationStack: 0800000008000000000000000a00000003000000
   ConstantStack:
-  - RawValue: 9000
+  - RawValue: 12000
   Note: '0: Nb Era
 
     1: Starting Era'
@@ -531,6 +829,49 @@ MonoBehaviour:
   - NbEra
   - StartingEra
   - GameSpeed
+  targetTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
+  sourceTypeName: 
+--- !u!114 &-4124467693314200234
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
+  m_Name: Fame_EraStar_Expansionist_Level3
+  m_EditorClassIdentifier: 
+  RpnOperationStack: 0a0000000a0000000a0000000b0000000a000000050000000a000000020000000b000000020000000a000000030000000b000000030000000a0000000300000007000000020000000b0000000a000000030000000a000000050000000200000006000000
+  ConstantStack:
+  - RawValue: 2000
+  - RawValue: 8000
+  - RawValue: 1000
+  - RawValue: 2000
+  - RawValue: 1700
+  - RawValue: 41000
+  - RawValue: 50000
+  - RawValue: 5000
+  - RawValue: 900
+  Note: 'the following fomula approximately correspond to the number of land territories
+    on the map :
+
+    (Variable.WorldSize ^ 2 * 1.7 * Variable.LandPercentage) /
+    40'
+  PropertyLocalNameStack: []
+  VariableNameStack:
+  - WorldSize
+  - LandPercentage
+  - NumberOfMajorEmpire
+  - NbEra
+  DefinedVariables:
+  - NbEra
+  - GameSpeed
+  - WorldSize
+  - LandPercentage
+  - IslandOdds
+  - NumberOfMajorEmpire
   targetTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
   sourceTypeName: 
 --- !u!114 &-3764735322584434082
@@ -547,10 +888,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RpnOperationStack: 0a0000000b0000000a000000000000000a00000005000000020000000a000000000000000b00000002000000
   ConstantStack:
-  - RawValue: 500000
+  - RawValue: 600000
   - RawValue: 1000
   - RawValue: 3100
-  - RawValue: 100000
+  - RawValue: 600000
   Note: '0: Nb Era
 
     1: GameSpeed'
@@ -560,6 +901,88 @@ MonoBehaviour:
   - GameSpeed
   DefinedVariables:
   - NbEra
+  - GameSpeed
+  targetTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
+  sourceTypeName: 
+--- !u!114 &-3642828531867949013
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
+  m_Name: Fame_EraStar_Farmer_Level2
+  m_EditorClassIdentifier: 
+  RpnOperationStack: 0b0000000a000000000000000a000000020000000a00000000000000
+  ConstantStack:
+  - RawValue: 1000
+  - RawValue: 8000
+  - RawValue: 12000
+  Note: '0: Nb Era'
+  PropertyLocalNameStack: []
+  VariableNameStack:
+  - NbEra
+  DefinedVariables:
+  - NbEra
+  - WorldSize
+  - GameSpeed
+  targetTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
+  sourceTypeName: 
+--- !u!114 &-3552529259004982638
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
+  m_Name: Fame_EraStar_Farmer_Level3
+  m_EditorClassIdentifier: 
+  RpnOperationStack: 0b0000000a000000000000000a000000020000000a00000000000000
+  ConstantStack:
+  - RawValue: 1000
+  - RawValue: 8000
+  - RawValue: 12000
+  Note: '0: Nb Era'
+  PropertyLocalNameStack: []
+  VariableNameStack:
+  - NbEra
+  DefinedVariables:
+  - NbEra
+  - WorldSize
+  - GameSpeed
+  targetTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
+  sourceTypeName: 
+--- !u!114 &-3086324970571420629
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
+  m_Name: Fame_EraStar_Scientist_Era6_Level12
+  m_EditorClassIdentifier: 
+  RpnOperationStack: 0800000008000000000000000a00000003000000
+  ConstantStack:
+  - RawValue: 12000
+  Note: '0: Nb Era
+
+    1: Starting Era'
+  PropertyLocalNameStack:
+  - NumberOfLockedByTechnologyTechnologies
+  - NumberOfAvailableTechnologies
+  VariableNameStack: []
+  DefinedVariables:
+  - NbEra
+  - StartingEra
   - GameSpeed
   targetTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
   sourceTypeName: 
@@ -577,7 +1000,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RpnOperationStack: 0800000008000000000000000a00000003000000
   ConstantStack:
-  - RawValue: 5714
+  - RawValue: 8000
   Note: '0: Nb Era
 
     1: Starting Era'
@@ -603,10 +1026,11 @@ MonoBehaviour:
   m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
   m_Name: Fame_EraStar_Prehistoric_Knowledge_Level1
   m_EditorClassIdentifier: 
-  RpnOperationStack: 0a0000000a000000080000000b000000020000000600000000000000
+  RpnOperationStack: 0a0000000a000000080000000b000000020000000a000000020000000600000000000000
   ConstantStack:
-  - RawValue: 2000
+  - RawValue: 3000
   - RawValue: 1000
+  - RawValue: 1500
   Note: 
   PropertyLocalNameStack:
   - KnowledgeThreshold
@@ -614,6 +1038,34 @@ MonoBehaviour:
   - GameSpeed
   DefinedVariables:
   - NbEra
+  - GameSpeed
+  targetTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
+  sourceTypeName: 
+--- !u!114 &-2756967429768271031
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
+  m_Name: Fame_EraStar_Scientist_Era3_Level6
+  m_EditorClassIdentifier: 
+  RpnOperationStack: 0800000008000000000000000a00000003000000
+  ConstantStack:
+  - RawValue: 9000
+  Note: '0: Nb Era
+
+    1: Starting Era'
+  PropertyLocalNameStack:
+  - NumberOfLockedByTechnologyTechnologies
+  - NumberOfAvailableTechnologies
+  VariableNameStack: []
+  DefinedVariables:
+  - NbEra
+  - StartingEra
   - GameSpeed
   targetTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
   sourceTypeName: 
@@ -629,11 +1081,10 @@ MonoBehaviour:
   m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
   m_Name: Fame_EraStar_Prehistoric_Growth_Level1
   m_EditorClassIdentifier: 
-  RpnOperationStack: 0a0000000a0000000a0000000b000000020000000600000000000000
+  RpnOperationStack: 0a0000000a0000000b0000000200000000000000
   ConstantStack:
+  - RawValue: 8000
   - RawValue: 2000
-  - RawValue: 2000
-  - RawValue: 5000
   Note: 
   PropertyLocalNameStack: []
   VariableNameStack:
@@ -657,7 +1108,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RpnOperationStack: 0800000008000000000000000a00000003000000
   ConstantStack:
-  - RawValue: 9000
+  - RawValue: 12000
   Note: '0: Nb Era
 
     1: Starting Era'
@@ -668,6 +1119,31 @@ MonoBehaviour:
   DefinedVariables:
   - NbEra
   - StartingEra
+  - GameSpeed
+  targetTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
+  sourceTypeName: 
+--- !u!114 &-2352512202654774579
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
+  m_Name: Fame_EraStar_Builder_Level2
+  m_EditorClassIdentifier: 
+  RpnOperationStack: 0b0000000a000000020000000a00000000000000
+  ConstantStack:
+  - RawValue: 4000
+  - RawValue: 16000
+  Note: '0: Nb Era'
+  PropertyLocalNameStack: []
+  VariableNameStack:
+  - NbEra
+  DefinedVariables:
+  - NbEra
   - GameSpeed
   targetTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
   sourceTypeName: 
@@ -685,7 +1161,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RpnOperationStack: 0800000008000000000000000a00000003000000
   ConstantStack:
-  - RawValue: 5666
+  - RawValue: 6000
   Note: '0: Nb Era
 
     1: Starting Era'
@@ -696,6 +1172,31 @@ MonoBehaviour:
   DefinedVariables:
   - NbEra
   - StartingEra
+  - GameSpeed
+  targetTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
+  sourceTypeName: 
+--- !u!114 &-2156329673249268027
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
+  m_Name: Fame_EraStar_Builder_Level1
+  m_EditorClassIdentifier: 
+  RpnOperationStack: 0b0000000a000000020000000a00000000000000
+  ConstantStack:
+  - RawValue: 4000
+  - RawValue: 16000
+  Note: '0: Nb Era'
+  PropertyLocalNameStack: []
+  VariableNameStack:
+  - NbEra
+  DefinedVariables:
+  - NbEra
   - GameSpeed
   targetTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
   sourceTypeName: 
@@ -711,8 +1212,9 @@ MonoBehaviour:
   m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
   m_Name: Fame_EraStar_Prehistoric_Military_Level1
   m_EditorClassIdentifier: 
-  RpnOperationStack: 0a0000000a0000000b0000000200000006000000
+  RpnOperationStack: 0a0000000a0000000a0000000b000000020000000600000000000000
   ConstantStack:
+  - RawValue: 1000
   - RawValue: 1000
   - RawValue: 6000
   Note: 
@@ -721,6 +1223,34 @@ MonoBehaviour:
   - GameSpeed
   DefinedVariables:
   - NbEra
+  - GameSpeed
+  targetTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
+  sourceTypeName: 
+--- !u!114 &-1604773741425896773
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
+  m_Name: Fame_EraStar_Scientist_Era5_Level12
+  m_EditorClassIdentifier: 
+  RpnOperationStack: 0800000008000000000000000a00000003000000
+  ConstantStack:
+  - RawValue: 26000
+  Note: '0: Nb Era
+
+    1: Starting Era'
+  PropertyLocalNameStack:
+  - NumberOfLockedByTechnologyTechnologies
+  - NumberOfAvailableTechnologies
+  VariableNameStack: []
+  DefinedVariables:
+  - NbEra
+  - StartingEra
   - GameSpeed
   targetTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
   sourceTypeName: 
@@ -738,7 +1268,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RpnOperationStack: 0800000008000000000000000a00000003000000
   ConstantStack:
-  - RawValue: 8000
+  - RawValue: 10000
   Note: '0: Nb Era
 
     1: Starting Era'
@@ -764,8 +1294,9 @@ MonoBehaviour:
   m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
   m_Name: Fame_EraStar_Prehistoric_Military_Base
   m_EditorClassIdentifier: 
-  RpnOperationStack: 0a0000000a0000000b0000000200000006000000
+  RpnOperationStack: 0a0000000a0000000a0000000b000000020000000600000000000000
   ConstantStack:
+  - RawValue: 1000
   - RawValue: 1000
   - RawValue: 6000
   Note: 
@@ -775,6 +1306,78 @@ MonoBehaviour:
   DefinedVariables:
   - NbEra
   - GameSpeed
+  targetTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
+  sourceTypeName: 
+--- !u!114 &-1148654011915815109
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
+  m_Name: Fame_EraStar_Builder_Base
+  m_EditorClassIdentifier: 
+  RpnOperationStack: 0b0000000a000000000000000a000000050000000a00000002000000
+  ConstantStack:
+  - RawValue: 1000
+  - RawValue: 1850
+  - RawValue: 8000
+  Note: '0: Nb Era'
+  PropertyLocalNameStack: []
+  VariableNameStack:
+  - NbEra
+  DefinedVariables:
+  - NbEra
+  - GameSpeed
+  targetTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
+  sourceTypeName: 
+--- !u!114 &-516916071923373252
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
+  m_Name: Fame_EraStar_Expansionist_Level1
+  m_EditorClassIdentifier: 
+  RpnOperationStack: 0a0000000a0000000b00000001000000060000000a0000000a0000000a0000000b0000000a000000050000000a000000020000000b000000020000000a000000030000000b000000030000000a0000000300000007000000020000000b0000000a000000030000000a00000005000000020000000600000000000000
+  ConstantStack:
+  - RawValue: 2000
+  - RawValue: 1000
+  - RawValue: 1000
+  - RawValue: 8000
+  - RawValue: 1000
+  - RawValue: 2000
+  - RawValue: 1700
+  - RawValue: 41000
+  - RawValue: 50000
+  - RawValue: 5000
+  - RawValue: 900
+  Note: 'the following fomula approximately correspond to the number of land territories
+    on the map :
+
+    (Variable.WorldSize ^ 2 * 1.7 * Variable.LandPercentage) /
+    40'
+  PropertyLocalNameStack: []
+  VariableNameStack:
+  - NbEra
+  - WorldSize
+  - LandPercentage
+  - NumberOfMajorEmpire
+  - NbEra
+  DefinedVariables:
+  - NbEra
+  - GameSpeed
+  - WorldSize
+  - LandPercentage
+  - IslandOdds
+  - NumberOfMajorEmpire
   targetTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
   sourceTypeName: 
 --- !u!114 &-471163219027202421
@@ -791,7 +1394,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RpnOperationStack: 080000000800000008000000000000000a0000000300000000000000
   ConstantStack:
-  - RawValue: 2800
+  - RawValue: 3000
   Note: '0: Nb Era
 
     1: Starting Era'
@@ -832,6 +1435,34 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RpnOperationStack: 0800000008000000000000000a00000003000000
   ConstantStack:
+  - RawValue: 7000
+  Note: '0: Nb Era
+
+    1: Starting Era'
+  PropertyLocalNameStack:
+  - NumberOfLockedByTechnologyTechnologies
+  - NumberOfAvailableTechnologies
+  VariableNameStack: []
+  DefinedVariables:
+  - NbEra
+  - StartingEra
+  - GameSpeed
+  targetTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
+  sourceTypeName: 
+--- !u!114 &762764029290877634
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
+  m_Name: Fame_EraStar_Scientist_Era1_Level4
+  m_EditorClassIdentifier: 
+  RpnOperationStack: 0800000008000000000000000a00000003000000
+  ConstantStack:
   - RawValue: 5000
   Note: '0: Nb Era
 
@@ -860,7 +1491,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RpnOperationStack: 080000000800000008000000000000000a0000000300000000000000
   ConstantStack:
-  - RawValue: 3400
+  - RawValue: 4000
   Note: '0: Nb Era
 
     1: Starting Era'
@@ -889,7 +1520,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RpnOperationStack: 0a0000000b0000000a000000000000000a00000005000000020000000b00000002000000
   ConstantStack:
-  - RawValue: 600000
+  - RawValue: 1000000
   - RawValue: 1000
   - RawValue: 2750
   Note: '0: Nb Era
@@ -918,7 +1549,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RpnOperationStack: 080000000800000008000000000000000a0000000300000000000000
   ConstantStack:
-  - RawValue: 4444
+  - RawValue: 6000
   Note: '0: Nb Era
 
     1: Starting Era'
@@ -952,6 +1583,34 @@ MonoBehaviour:
 
     1: Starting Era'
   PropertyLocalNameStack: []
+  VariableNameStack: []
+  DefinedVariables:
+  - NbEra
+  - StartingEra
+  - GameSpeed
+  targetTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
+  sourceTypeName: 
+--- !u!114 &2281336238963799107
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
+  m_Name: Fame_EraStar_Scientist_Era5_Level11
+  m_EditorClassIdentifier: 
+  RpnOperationStack: 0800000008000000000000000a00000003000000
+  ConstantStack:
+  - RawValue: 24000
+  Note: '0: Nb Era
+
+    1: Starting Era'
+  PropertyLocalNameStack:
+  - NumberOfLockedByTechnologyTechnologies
+  - NumberOfAvailableTechnologies
   VariableNameStack: []
   DefinedVariables:
   - NbEra
@@ -1001,7 +1660,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RpnOperationStack: 0800000008000000000000000a00000003000000
   ConstantStack:
-  - RawValue: 4666
+  - RawValue: 5000
   Note: '0: Nb Era
 
     1: Starting Era'
@@ -1029,7 +1688,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RpnOperationStack: 0800000008000000000000000a00000003000000
   ConstantStack:
-  - RawValue: 8500
+  - RawValue: 8000
   Note: '0: Nb Era
 
     1: Starting Era'
@@ -1057,7 +1716,63 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RpnOperationStack: 0800000008000000000000000a00000003000000
   ConstantStack:
-  - RawValue: 6666
+  - RawValue: 9000
+  Note: '0: Nb Era
+
+    1: Starting Era'
+  PropertyLocalNameStack:
+  - NumberOfLockedByTechnologyTechnologies
+  - NumberOfAvailableTechnologies
+  VariableNameStack: []
+  DefinedVariables:
+  - NbEra
+  - StartingEra
+  - GameSpeed
+  targetTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
+  sourceTypeName: 
+--- !u!114 &3086134260660443274
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
+  m_Name: Fame_EraStar_Scientist_Era4_Level6
+  m_EditorClassIdentifier: 
+  RpnOperationStack: 0800000008000000000000000a00000003000000
+  ConstantStack:
+  - RawValue: 9000
+  Note: '0: Nb Era
+
+    1: Starting Era'
+  PropertyLocalNameStack:
+  - NumberOfLockedByTechnologyTechnologies
+  - NumberOfAvailableTechnologies
+  VariableNameStack: []
+  DefinedVariables:
+  - NbEra
+  - StartingEra
+  - GameSpeed
+  targetTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
+  sourceTypeName: 
+--- !u!114 &3400348049467408326
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
+  m_Name: Fame_EraStar_Scientist_Era6_Level11
+  m_EditorClassIdentifier: 
+  RpnOperationStack: 0800000008000000000000000a00000003000000
+  ConstantStack:
+  - RawValue: 12000
   Note: '0: Nb Era
 
     1: Starting Era'
@@ -1113,10 +1828,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RpnOperationStack: 0a0000000b0000000a000000000000000a00000005000000020000000a000000000000000b00000002000000
   ConstantStack:
-  - RawValue: 500000
+  - RawValue: 600000
   - RawValue: 1000
   - RawValue: 3100
-  - RawValue: 100000
+  - RawValue: 600000
   Note: '0: Nb Era
 
     1: GameSpeed'
@@ -1143,7 +1858,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RpnOperationStack: 0800000008000000000000000a00000003000000
   ConstantStack:
-  - RawValue: 4666
+  - RawValue: 7000
   Note: '0: Nb Era
 
     1: Starting Era'
@@ -1171,7 +1886,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RpnOperationStack: 0800000008000000000000000a00000003000000
   ConstantStack:
-  - RawValue: 4250
+  - RawValue: 5000
   Note: '0: Nb Era
 
     1: Starting Era'
@@ -1199,7 +1914,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RpnOperationStack: 0800000008000000000000000a00000003000000
   ConstantStack:
-  - RawValue: 10000
+  - RawValue: 14000
   Note: '0: Nb Era
 
     1: Starting Era'
@@ -1210,6 +1925,66 @@ MonoBehaviour:
   DefinedVariables:
   - NbEra
   - StartingEra
+  - GameSpeed
+  targetTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
+  sourceTypeName: 
+--- !u!114 &5194993025558675633
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
+  m_Name: Fame_EraStar_Scientist_Era5_Level8
+  m_EditorClassIdentifier: 
+  RpnOperationStack: 0800000008000000000000000a00000003000000
+  ConstantStack:
+  - RawValue: 18000
+  Note: '0: Nb Era
+
+    1: Starting Era'
+  PropertyLocalNameStack:
+  - NumberOfLockedByTechnologyTechnologies
+  - NumberOfAvailableTechnologies
+  VariableNameStack: []
+  DefinedVariables:
+  - NbEra
+  - StartingEra
+  - GameSpeed
+  targetTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
+  sourceTypeName: 
+--- !u!114 &5201543547936641320
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
+  m_Name: Fame_EraStar_Merchant_Base
+  m_EditorClassIdentifier: 
+  RpnOperationStack: 0b0000000a000000000000000a000000050000000a000000020000000b0000000a00000000000000020000000a000000000000000b00000002000000
+  ConstantStack:
+  - RawValue: 1000
+  - RawValue: 3600
+  - RawValue: 350000
+  - RawValue: 1000
+  - RawValue: 600000
+  Note: '0: Nb Era
+
+    1: GameSpeed'
+  PropertyLocalNameStack: []
+  VariableNameStack:
+  - NbEra
+  - NbEra
+  - GameSpeed
+  DefinedVariables:
+  - NbEra
   - GameSpeed
   targetTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
   sourceTypeName: 
@@ -1227,7 +2002,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RpnOperationStack: 0a0000000b0000000a000000000000000a00000005000000020000000b00000002000000
   ConstantStack:
-  - RawValue: 600000
+  - RawValue: 1000000
   - RawValue: 1000
   - RawValue: 2750
   Note: '0: Nb Era
@@ -1239,6 +2014,63 @@ MonoBehaviour:
   - GameSpeed
   DefinedVariables:
   - NbEra
+  - GameSpeed
+  targetTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
+  sourceTypeName: 
+--- !u!114 &6106374662532654995
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
+  m_Name: Fame_EraStar_Warmonger_Level3
+  m_EditorClassIdentifier: 
+  RpnOperationStack: 080000000a000000000000000a000000020000000a000000000000000b00000002000000
+  ConstantStack:
+  - RawValue: 1000
+  - RawValue: 8000
+  - RawValue: 10000
+  Note: '0: Nb Era
+
+    1: GameSpeed'
+  PropertyLocalNameStack:
+  - EraLevel
+  VariableNameStack:
+  - GameSpeed
+  DefinedVariables:
+  - NbEra
+  - GameSpeed
+  targetTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
+  sourceTypeName: 
+--- !u!114 &6120601948323027701
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
+  m_Name: Fame_EraStar_Scientist_Era5_Level9
+  m_EditorClassIdentifier: 
+  RpnOperationStack: 0800000008000000000000000a00000003000000
+  ConstantStack:
+  - RawValue: 20000
+  Note: '0: Nb Era
+
+    1: Starting Era'
+  PropertyLocalNameStack:
+  - NumberOfLockedByTechnologyTechnologies
+  - NumberOfAvailableTechnologies
+  VariableNameStack: []
+  DefinedVariables:
+  - NbEra
+  - StartingEra
   - GameSpeed
   targetTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
   sourceTypeName: 
@@ -1256,7 +2088,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RpnOperationStack: 0800000008000000000000000a00000003000000
   ConstantStack:
-  - RawValue: 9000
+  - RawValue: 12000
   Note: '0: Nb Era
 
     1: Starting Era'
@@ -1268,6 +2100,105 @@ MonoBehaviour:
   - NbEra
   - StartingEra
   - GameSpeed
+  targetTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
+  sourceTypeName: 
+--- !u!114 &6304707235372351479
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
+  m_Name: Fame_EraStar_Warmonger_Level2
+  m_EditorClassIdentifier: 
+  RpnOperationStack: 080000000a000000000000000a000000020000000a000000000000000b00000002000000
+  ConstantStack:
+  - RawValue: 1000
+  - RawValue: 8000
+  - RawValue: 10000
+  Note: '0: Nb Era
+
+    1: GameSpeed'
+  PropertyLocalNameStack:
+  - EraLevel
+  VariableNameStack:
+  - GameSpeed
+  DefinedVariables:
+  - NbEra
+  - GameSpeed
+  targetTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
+  sourceTypeName: 
+--- !u!114 &6401282788315883215
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
+  m_Name: Fame_EraStar_Farmer_Level1
+  m_EditorClassIdentifier: 
+  RpnOperationStack: 0b0000000a000000000000000a000000020000000a00000000000000
+  ConstantStack:
+  - RawValue: 1000
+  - RawValue: 8000
+  - RawValue: 12000
+  Note: '0: Nb Era'
+  PropertyLocalNameStack: []
+  VariableNameStack:
+  - NbEra
+  DefinedVariables:
+  - NbEra
+  - WorldSize
+  - GameSpeed
+  targetTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
+  sourceTypeName: 
+--- !u!114 &6771379039518497404
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
+  m_Name: Fame_EraStar_Expansionist_Level2
+  m_EditorClassIdentifier: 
+  RpnOperationStack: 0a0000000a0000000a0000000b0000000a000000050000000a000000020000000b000000020000000a000000030000000b000000030000000a0000000300000007000000020000000b0000000a000000030000000a000000050000000200000006000000
+  ConstantStack:
+  - RawValue: 2000
+  - RawValue: 8000
+  - RawValue: 1000
+  - RawValue: 2000
+  - RawValue: 1700
+  - RawValue: 41000
+  - RawValue: 50000
+  - RawValue: 5000
+  - RawValue: 900
+  Note: 'the following fomula approximately correspond to the number of land territories
+    on the map :
+
+    (Variable.WorldSize ^ 2 * 1.7 * Variable.LandPercentage) /
+    40'
+  PropertyLocalNameStack: []
+  VariableNameStack:
+  - WorldSize
+  - LandPercentage
+  - NumberOfMajorEmpire
+  - NbEra
+  DefinedVariables:
+  - NbEra
+  - GameSpeed
+  - WorldSize
+  - LandPercentage
+  - IslandOdds
+  - NumberOfMajorEmpire
   targetTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
   sourceTypeName: 
 --- !u!114 &7201312576028721575
@@ -1284,7 +2215,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RpnOperationStack: 0800000008000000000000000a00000003000000
   ConstantStack:
-  - RawValue: 9000
+  - RawValue: 12000
   Note: '0: Nb Era
 
     1: Starting Era'
@@ -1340,7 +2271,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RpnOperationStack: 0800000008000000000000000a00000003000000
   ConstantStack:
-  - RawValue: 9000
+  - RawValue: 12000
   Note: '0: Nb Era
 
     1: Starting Era'
@@ -1368,7 +2299,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RpnOperationStack: 0800000008000000000000000a00000003000000
   ConstantStack:
-  - RawValue: 2800
+  - RawValue: 4000
   Note: '0: Nb Era
 
     1: Starting Era'
@@ -1396,7 +2327,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RpnOperationStack: 0800000008000000000000000a00000003000000
   ConstantStack:
-  - RawValue: 3500
+  - RawValue: 5000
   Note: '0: Nb Era
 
     1: Starting Era'
@@ -1424,7 +2355,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RpnOperationStack: 0800000008000000000000000a00000003000000
   ConstantStack:
-  - RawValue: 9000
+  - RawValue: 12000
   Note: '0: Nb Era
 
     1: Starting Era'
@@ -1452,7 +2383,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RpnOperationStack: 0800000008000000000000000a00000003000000
   ConstantStack:
-  - RawValue: 4666
+  - RawValue: 5000
   Note: '0: Nb Era
 
     1: Starting Era'

@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 399512207, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: PropertyMapperCollectionDeepSea
+  m_EditorClassIdentifier: 
+--- !u!114 &361858547100506913
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 2128171881, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: PublicOrderCurrent
+  m_EditorClassIdentifier: 
+  Localization: Public Order Current
+  DisplayAsPercent: 0
+  GainType: 0

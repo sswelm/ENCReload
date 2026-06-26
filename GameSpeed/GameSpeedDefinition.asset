@@ -12,6 +12,56 @@ MonoBehaviour:
   m_Script: {fileID: -1063642558, guid: b310e23bee821cb478da05296ba685d0, type: 3}
   m_Name: GameSpeedDefinition
   m_EditorClassIdentifier: 
+--- !u!114 &4103618939077652752
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 216484329, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: GameSpeed_Fast
+  m_EditorClassIdentifier: 
+  DefaultGameSpeedMultiplier:
+    RawValue: 500
+  ProductionCostMultiplier:
+    RawValue: 600
+  MoneyInstantCostMultiplier:
+    RawValue: 550
+  InfluenceInstantCostMultiplier:
+    RawValue: 550
+  PopulationInstantCostMultiplier:
+    RawValue: 500
+  TechnologyCostMultiplier:
+    RawValue: 500
+  EscaladingThreshold: 5
+  TreatyThreshold: 1
+  BadgeTimeoutDuration: 10
+  EraStarCatchupMultiplier:
+    RawValue: 500
+  EraStarRewardProgressMultiplier:
+    RawValue: 0
+  NarrativeEventDurationMultiplier:
+    RawValue: 500
+  StatusDurationMultiplier:
+    RawValue: 500
+  ArmyActionCutForestDurationFactor:
+    RawValue: 500
+  EliminationCountdownDuration: 5
+  GrowthGainMultiplier:
+    RawValue: 2000
+  MinorLifeTimeMultiplierForPattern:
+    RawValue: 750
+  MinorArmySpawnMultiplierForPattern:
+    RawValue: 750
+  EndGameTurnLimitMultiplier: 0.5
+  CalendarSpeedFactor: 0.5
+  RevolutionReference:
+    serializableElementName: Revolution_Fast
+  PollutionDefinition:
+    serializableElementName: PollutionDefinition_Fast
 --- !u!114 &5034715108031725646
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27,36 +77,36 @@ MonoBehaviour:
   DefaultGameSpeedMultiplier:
     RawValue: 250
   ProductionCostMultiplier:
-    RawValue: 250
+    RawValue: 400
   MoneyInstantCostMultiplier:
-    RawValue: 250
+    RawValue: 350
   InfluenceInstantCostMultiplier:
-    RawValue: 250
+    RawValue: 350
   PopulationInstantCostMultiplier:
-    RawValue: 250
+    RawValue: 300
   TechnologyCostMultiplier:
     RawValue: 250
   EscaladingThreshold: 3
   TreatyThreshold: 1
   BadgeTimeoutDuration: 5
   EraStarCatchupMultiplier:
-    RawValue: 250
+    RawValue: 300
   EraStarRewardProgressMultiplier:
     RawValue: 0
   NarrativeEventDurationMultiplier:
-    RawValue: 333
+    RawValue: 500
   StatusDurationMultiplier:
-    RawValue: 333
+    RawValue: 500
   ArmyActionCutForestDurationFactor:
     RawValue: 250
-  EliminationCountdownDuration: 3
+  EliminationCountdownDuration: 4
   GrowthGainMultiplier:
     RawValue: 4000
   MinorLifeTimeMultiplierForPattern:
     RawValue: 500
   MinorArmySpawnMultiplierForPattern:
     RawValue: 500
-  EndGameTurnLimitMultiplier: 0.33333334
+  EndGameTurnLimitMultiplier: 0.3
   CalendarSpeedFactor: 0.25
   RevolutionReference:
     serializableElementName: Revolution_Blitz

@@ -83,7 +83,7 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 205
+  TechTreeX: 208
   TechTreeY: 1
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &-9181101153343323021
@@ -165,7 +165,7 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 207
+  TechTreeX: 209
   TechTreeY: 30
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &-9070270759082021807
@@ -210,7 +210,7 @@ MonoBehaviour:
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
   TechTreeX: 78
-  TechTreeY: 29
+  TechTreeY: 30
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &-8999923761067686484
 MonoBehaviour:
@@ -250,8 +250,8 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 334
-  TechTreeY: 13
+  TechTreeX: 316
+  TechTreeY: 21
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &-8995197498547822167
 MonoBehaviour:
@@ -291,8 +291,8 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 322
-  TechTreeY: 20
+  TechTreeX: 328
+  TechTreeY: 9
   OptionalUnlockTechnologyMovie: TechnologyDiscovery_Era6_22.webm
 --- !u!114 &-8874697817893470744
 MonoBehaviour:
@@ -334,8 +334,8 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 187
-  TechTreeY: 30
+  TechTreeX: 190
+  TechTreeY: 31
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &-8817092006239752064
 MonoBehaviour:
@@ -376,7 +376,7 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 358
+  TechTreeX: 356
   TechTreeY: 28
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &-8409084226012331230
@@ -460,7 +460,7 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 316
+  TechTreeX: 304
   TechTreeY: 0
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &-8307152456986429337
@@ -503,7 +503,7 @@ MonoBehaviour:
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
   TechTreeX: 115
-  TechTreeY: 31
+  TechTreeY: 32
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &-7823863758528891771
 MonoBehaviour:
@@ -584,7 +584,7 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 262
+  TechTreeX: 263
   TechTreeY: 18
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &-7777824164410646847
@@ -604,10 +604,10 @@ MonoBehaviour:
   Images:
   - Value:
       guid:
-        a: -781500073
-        b: 1238431329
-        c: 1217175947
-        d: 752583299
+        a: -588283129
+        b: 1242688617
+        c: -1211923830
+        d: 693895432
     serializableKey: TechnologyPopupBackground
   - Value:
       guid:
@@ -618,15 +618,15 @@ MonoBehaviour:
     serializableKey: Picto
   - Value:
       guid:
-        a: -781500073
-        b: 1238431329
-        c: 1217175947
-        d: 752583299
+        a: -588283129
+        b: 1242688617
+        c: -1211923830
+        d: 693895432
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 102
-  TechTreeY: 25
+  TechTreeX: 109
+  TechTreeY: 28
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &-7620831144024794942
 MonoBehaviour:
@@ -708,7 +708,7 @@ MonoBehaviour:
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
   TechTreeX: 226
-  TechTreeY: 23
+  TechTreeY: 22
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &-7545134510778596873
 MonoBehaviour:
@@ -749,7 +749,7 @@ MonoBehaviour:
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
   TechTreeX: 286
-  TechTreeY: 11
+  TechTreeY: 12
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &-7516067232769183699
 MonoBehaviour:
@@ -789,7 +789,7 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 44
+  TechTreeX: 45
   TechTreeY: 2
   OptionalUnlockTechnologyMovie: TechnologyDiscovery_Era2_01.webm
 --- !u!114 &-7352595036835120912
@@ -850,13 +850,10 @@ MonoBehaviour:
   m_Script: {fileID: 301062344, guid: b310e23bee821cb478da05296ba685d0, type: 3}
   m_Name: Technology_Era6_05
   m_EditorClassIdentifier: 
-  Title: Blitzkrieg warfare
-  Description: Blitzkrieg is a surprise attack using a rapid, overwhelming force
-    concentration that may consist of armored and motorized or mechanized infantry
-    formations, together with artillery, air assault and close air support, with
-    intent to break through the opponent's lines of defense, dislocate the defenders,
-    unbalance the enemies by making it difficult to respond to the continuously changing
-    front, and defeat them in a decisive battle of annihilation.
+  Title: Armored warfare
+  Description: Armored warfare combines mobility, protection, and firepower into
+    a single fighting force. Supported by mechanized infantry and mobile artillery,
+    armored formations can rapidly exploit breakthroughs and overwhelm enemy defenses.
   Images:
   - Value:
       guid:
@@ -939,10 +936,10 @@ MonoBehaviour:
   m_Script: {fileID: 301062344, guid: b310e23bee821cb478da05296ba685d0, type: 3}
   m_Name: Technology_Era6_AntiSubmarineWarfare
   m_EditorClassIdentifier: 
-  Title: Anti Submarine Warfare
-  Description: Anti-submarine warfare  is a branch of underwater warfare that uses
-    surface warships, aircraft, submarines, or other platforms, to find, track, and
-    deter, damage, and/or destroy enemy submarines.
+  Title: Sonar
+  Description: Sonar is a technique that uses sound propagation to navigate, measure
+    distances, communicate with or detect objects on or under the surface of the
+    water, such as other vessels.
   Images:
   - Value:
       guid:
@@ -967,8 +964,8 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 250
-  TechTreeY: 32
+  TechTreeX: 246
+  TechTreeY: 31
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &-6917218422149730768
 MonoBehaviour:
@@ -1009,7 +1006,7 @@ MonoBehaviour:
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
   TechTreeX: 127
-  TechTreeY: 31
+  TechTreeY: 32
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &-6838726824550680016
 MonoBehaviour:
@@ -1023,20 +1020,18 @@ MonoBehaviour:
   m_Script: {fileID: 301062344, guid: b310e23bee821cb478da05296ba685d0, type: 3}
   m_Name: Technology_Era6_WireGuidedMissile
   m_EditorClassIdentifier: 
-  Title: Electronics
-  Description: 'Electronics is the science of understanding and Engineering the controlled
-    flow of electrons in electronic currents. Historical breakthroughs that have
-    occurred in Electronics include the electronic tube, semiconductor, transistor,
-    and integrated circuits. These made possible Computers, advanced weapons, improved
-    radars, and communication receivers, as well as more efficient techniques in
-    power generation and transmission. '
+  Title: Transistor
+  Description: Replacing bulky and fragile vacuum tubes with compact semiconductor
+    devices, the transistor revolutionized electronics. Smaller, faster, and more
+    reliable than its predecessors, it paved the way for modern computers, advanced
+    guidance systems, and the digital age.
   Images:
   - Value:
       guid:
-        a: -159442268
-        b: 1094882107
-        c: 1390908340
-        d: -1978860719
+        a: 1457893005
+        b: 1145230155
+        c: -1608431183
+        d: -901882676
     serializableKey: TechnologyPopupBackground
   - Value:
       guid:
@@ -1047,15 +1042,15 @@ MonoBehaviour:
     serializableKey: Picto
   - Value:
       guid:
-        a: -159442268
-        b: 1094882107
-        c: 1390908340
-        d: -1978860719
+        a: 1457893005
+        b: 1145230155
+        c: -1608431183
+        d: -901882676
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
   TechTreeX: 280
-  TechTreeY: 8
+  TechTreeY: 9
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &-6717587308185765231
 MonoBehaviour:
@@ -1077,10 +1072,10 @@ MonoBehaviour:
   Images:
   - Value:
       guid:
-        a: 1943440875
-        b: 1077393062
-        c: -1288218958
-        d: 1873791684
+        a: -879608592
+        b: 1182686438
+        c: -1191801690
+        d: 1757428696
     serializableKey: TechnologyPopupBackground
   - Value:
       guid:
@@ -1091,14 +1086,14 @@ MonoBehaviour:
     serializableKey: Picto
   - Value:
       guid:
-        a: 1943440875
-        b: 1077393062
-        c: -1288218958
-        d: 1873791684
+        a: -879608592
+        b: 1182686438
+        c: -1191801690
+        d: 1757428696
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 280
+  TechTreeX: 274
   TechTreeY: 0
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &-6645175129053541550
@@ -1144,7 +1139,7 @@ MonoBehaviour:
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
   TechTreeX: 352
-  TechTreeY: 21
+  TechTreeY: 20
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &-6611914070697638086
 MonoBehaviour:
@@ -1316,6 +1311,50 @@ MonoBehaviour:
   TechTreeX: 123
   TechTreeY: 22
   OptionalUnlockTechnologyMovie: 
+--- !u!114 &-6257732746541889248
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 301062344, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Technology_Era5_Plastics
+  m_EditorClassIdentifier: 
+  Title: Plastics
+  Description: One of the spinoffs of research in the Refining of oil was the discovery
+    of Plastics, organic compounds that can be molded under heat and pressure. Plastics
+    appeared to be wonders of the Industrial Age and were found to be cheap and sturdy
+    substitutes for more traditional materials in all manner of uses.
+  Images:
+  - Value:
+      guid:
+        a: -1687813793
+        b: 1096029058
+        c: 1444528037
+        d: -455161566
+    serializableKey: TechnologyPopupBackground
+  - Value:
+      guid:
+        a: 209776758
+        b: 1286721164
+        c: -1264855650
+        d: 577032575
+    serializableKey: Picto
+  - Value:
+      guid:
+        a: -1687813793
+        b: 1096029058
+        c: 1444528037
+        d: -455161566
+    serializableKey: TechnologyScreenItemBackground
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  Symbol: 
+  TechTreeX: 205
+  TechTreeY: 19
+  OptionalUnlockTechnologyMovie: 
 --- !u!114 &-6254912544822750320
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1354,7 +1393,7 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 280
+  TechTreeX: 269
   TechTreeY: 32
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &-6244870756857721052
@@ -1395,7 +1434,7 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 238
+  TechTreeX: 234
   TechTreeY: 32
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &-6186989890155670788
@@ -1436,7 +1475,7 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 119
+  TechTreeX: 120
   TechTreeY: 10
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &-6076899768317737889
@@ -1477,7 +1516,7 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 128
+  TechTreeX: 130
   TechTreeY: 17
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &-6055805659247643773
@@ -1606,7 +1645,7 @@ MonoBehaviour:
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
   TechTreeX: 298
-  TechTreeY: 4
+  TechTreeY: 5
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &-5755706377995383196
 MonoBehaviour:
@@ -1737,7 +1776,7 @@ MonoBehaviour:
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
   TechTreeX: 226
-  TechTreeY: 5
+  TechTreeY: 3
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &-5593529383446111184
 MonoBehaviour:
@@ -1781,8 +1820,8 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 256
-  TechTreeY: 29
+  TechTreeX: 252
+  TechTreeY: 28
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &-5556327179115559250
 MonoBehaviour:
@@ -1952,7 +1991,7 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 274
+  TechTreeX: 275
   TechTreeY: 29
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &-5388167262834886995
@@ -1993,8 +2032,8 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 29
-  TechTreeY: 20
+  TechTreeX: 24
+  TechTreeY: 19
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &-5281639951266785709
 MonoBehaviour:
@@ -2038,7 +2077,7 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 292
+  TechTreeX: 280
   TechTreeY: 0
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &-5121712215253218086
@@ -2054,12 +2093,11 @@ MonoBehaviour:
   m_Name: Technology_Era5_ModernHighway
   m_EditorClassIdentifier: 
   Title: Modern Highway
-  Description: Modern highways that connect cities in populous developed and developing
-    countries usually incorporate features intended to enhance the road's capacity,
-    efficiency, and safety to various degrees. Such features include a reduction
-    in the number of locations for user access, the use of dual carriageways with
-    two or more lanes on each carriageway, and grade-separated junctions with other
-    roads and modes of transport.
+  Description: Modern highways connect cities, industries, and military bases through
+    high-capacity road networks. By enabling the rapid movement of people, goods,
+    troops, and supplies across vast distances, they revolutionized logistics and
+    became a cornerstone of modern mechanized warfare, allowing armored formations
+    to deploy and operate with unprecedented speed.
   Images:
   - Value:
       guid:
@@ -2133,8 +2171,8 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 201
-  TechTreeY: 26
+  TechTreeX: 203
+  TechTreeY: 27
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &-5055956558802844508
 MonoBehaviour:
@@ -2178,8 +2216,8 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 165
-  TechTreeY: 2
+  TechTreeX: 164
+  TechTreeY: 1
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &-4980880723610862897
 MonoBehaviour:
@@ -2219,7 +2257,7 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 145
+  TechTreeX: 143
   TechTreeY: 1
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &-4694279597667943497
@@ -2260,7 +2298,7 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 195
+  TechTreeX: 191
   TechTreeY: 22
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &-4622075513123491632
@@ -2343,8 +2381,8 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 352
-  TechTreeY: 0
+  TechTreeX: 353
+  TechTreeY: 1
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &-4498689165444141801
 MonoBehaviour:
@@ -2425,7 +2463,7 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 262
+  TechTreeX: 263
   TechTreeY: 26
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &-4241070521746060127
@@ -2553,7 +2591,7 @@ MonoBehaviour:
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
   TechTreeX: 274
-  TechTreeY: 5
+  TechTreeY: 6
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &-4025824014959120980
 MonoBehaviour:
@@ -2593,7 +2631,7 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 102
+  TechTreeX: 99
   TechTreeY: 6
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &-3860383093618287806
@@ -2636,7 +2674,7 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 120
+  TechTreeX: 121
   TechTreeY: 19
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &-3739317850848436674
@@ -2683,7 +2721,7 @@ MonoBehaviour:
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
   TechTreeX: 334
-  TechTreeY: 22
+  TechTreeY: 12
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &-3720302296757935263
 MonoBehaviour:
@@ -2724,7 +2762,7 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 346
+  TechTreeX: 347
   TechTreeY: 4
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &-3694075497199807724
@@ -2765,7 +2803,7 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 153
+  TechTreeX: 150
   TechTreeY: 24
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &-3642886547021477157
@@ -2808,7 +2846,7 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 96
+  TechTreeX: 92
   TechTreeY: 2
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &-3617566697574003641
@@ -2852,8 +2890,8 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 14
-  TechTreeY: 16
+  TechTreeX: 16
+  TechTreeY: 15
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &-3572644481233336284
 MonoBehaviour:
@@ -2893,8 +2931,8 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 358
-  TechTreeY: 12
+  TechTreeX: 364
+  TechTreeY: 1
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &-3444328435550359880
 MonoBehaviour:
@@ -2936,7 +2974,7 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 262
+  TechTreeX: 268
   TechTreeY: 3
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &-3367759849534632833
@@ -3018,7 +3056,7 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 113
+  TechTreeX: 114
   TechTreeY: 5
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &-3087832701948432346
@@ -3033,15 +3071,18 @@ MonoBehaviour:
   m_Script: {fileID: 301062344, guid: b310e23bee821cb478da05296ba685d0, type: 3}
   m_Name: Technology_Era6_12
   m_EditorClassIdentifier: 
-  Title: '%Technology_Era6_12Title'
-  Description: '%Technology_Era6_12Description'
+  Title: Microchip
+  Description: The integration of countless transistors onto a single silicon chip
+    ushered in a new technological age. Once requiring entire rooms of machinery,
+    computing power could now fit in the palm of a hand, transforming industry, communication,
+    and warfare alike
   Images:
   - Value:
       guid:
-        a: 1457893005
-        b: 1145230155
-        c: -1608431183
-        d: -901882676
+        a: -959678620
+        b: 1243771290
+        c: 1824092295
+        d: 1863695715
     serializableKey: TechnologyPopupBackground
   - Value:
       guid:
@@ -3052,10 +3093,10 @@ MonoBehaviour:
     serializableKey: Picto
   - Value:
       guid:
-        a: 1457893005
-        b: 1145230155
-        c: -1608431183
-        d: -901882676
+        a: -959678620
+        b: 1243771290
+        c: 1824092295
+        d: 1863695715
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
@@ -3241,8 +3282,8 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 181
-  TechTreeY: 0
+  TechTreeX: 179
+  TechTreeY: 2
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &-2861644212358124835
 MonoBehaviour:
@@ -3286,7 +3327,7 @@ MonoBehaviour:
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
   TechTreeX: 358
-  TechTreeY: 4
+  TechTreeY: 5
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &-2768145802122089279
 MonoBehaviour:
@@ -3307,10 +3348,10 @@ MonoBehaviour:
   Images:
   - Value:
       guid:
-        a: -401248084
-        b: 1092024649
-        c: -1584848203
-        d: 1130070114
+        a: -1592247635
+        b: 1138988949
+        c: -464503399
+        d: 356704993
     serializableKey: TechnologyPopupBackground
   - Value:
       guid:
@@ -3321,15 +3362,15 @@ MonoBehaviour:
     serializableKey: Picto
   - Value:
       guid:
-        a: -401248084
-        b: 1092024649
-        c: -1584848203
-        d: 1130070114
+        a: -1592247635
+        b: 1138988949
+        c: -464503399
+        d: 356704993
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 114
-  TechTreeY: 23
+  TechTreeX: 121
+  TechTreeY: 27
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &-2733586806483789853
 MonoBehaviour:
@@ -3374,8 +3415,52 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 316
+  TechTreeX: 304
   TechTreeY: 32
+  OptionalUnlockTechnologyMovie: 
+--- !u!114 &-2693323054096993476
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 301062344, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Technology_Era4_MilitaryReforms
+  m_EditorClassIdentifier: 
+  Title: Military Reforms
+  Description: The decline of feudal warfare gave rise to more organized and professional
+    armies. Through improved training, discipline, and doctrine, military reforms
+    transformed cavalry into a versatile force capable of shock assaults, reconnaissance,
+    and rapid maneuver across the battlefield.
+  Images:
+  - Value:
+      guid:
+        a: 576958486
+        b: 1200129268
+        c: 33758884
+        d: 7554206
+    serializableKey: TechnologyPopupBackground
+  - Value:
+      guid:
+        a: 209776758
+        b: 1286721164
+        c: -1264855650
+        d: 577032575
+    serializableKey: Picto
+  - Value:
+      guid:
+        a: 576958486
+        b: 1200129268
+        c: 33758884
+        d: 7554206
+    serializableKey: TechnologyScreenItemBackground
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  Symbol: 
+  TechTreeX: 109
+  TechTreeY: 20
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &-2687875175040123486
 MonoBehaviour:
@@ -3436,12 +3521,11 @@ MonoBehaviour:
   m_Script: {fileID: 301062344, guid: b310e23bee821cb478da05296ba685d0, type: 3}
   m_Name: Technology_Era6_BallisticMissiles
   m_EditorClassIdentifier: 
-  Title: Ballistic Missiles
-  Description: "A ballistic missile is a type of missile that uses projectile motion
-    to deliver warheads on a target. These weapons are guided only during relatively
-    brief periods\u2014most of the flight is unpowered. Short-range ballistic missiles
-    stay within the Earth's atmosphere, while intercontinental ballistic missiles
-    (ICBMs) are launched on a sub-orbital flight. "
+  Title: Rocketry
+  Description: Advances in propulsion, guidance, and liquid-fuel engines have transformed
+    rockets from experimental devices into practical machines. Originally developed
+    for military applications, these technologies lay the foundation for modern missiles,
+    satellite launches, and future exploration beyond Earth's atmosphere.
   Images:
   - Value:
       guid:
@@ -3466,7 +3550,7 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 262
+  TechTreeX: 268
   TechTreeY: 10
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &-2621255140941623728
@@ -3509,7 +3593,7 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 106
+  TechTreeX: 105
   TechTreeY: 12
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &-2594300400321537060
@@ -3524,7 +3608,7 @@ MonoBehaviour:
   m_Script: {fileID: 301062344, guid: b310e23bee821cb478da05296ba685d0, type: 3}
   m_Name: Technology_Era6_ComputerModem
   m_EditorClassIdentifier: 
-  Title: Modem
+  Title: Computer Modem
   Description: A modem is a computer hardware device that converts data from a digital
     format into a format suitable for an analog transmission medium such as telephone
     or radio. A modem transmits data by modulating one or more carrier wave signals
@@ -3554,8 +3638,51 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 286
+  TechTreeX: 288
   TechTreeY: 19
+  OptionalUnlockTechnologyMovie: 
+--- !u!114 &-2576626354351047487
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 301062344, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Technology_Era5_MunicipalGovernment
+  m_EditorClassIdentifier: 
+  Title: Municipal Government
+  Description: As cities grew in size and complexity, local governments emerged to
+    manage public services, maintain order, and oversee civic development. Municipal
+    institutions laid the foundation for modern urban administration and infrastructure.
+  Images:
+  - Value:
+      guid:
+        a: 2145340588
+        b: 1134730179
+        c: 1322356668
+        d: -635092604
+    serializableKey: TechnologyPopupBackground
+  - Value:
+      guid:
+        a: 209776758
+        b: 1286721164
+        c: -1264855650
+        d: 577032575
+    serializableKey: Picto
+  - Value:
+      guid:
+        a: 2145340588
+        b: 1134730179
+        c: 1322356668
+        d: -635092604
+    serializableKey: TechnologyScreenItemBackground
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  Symbol: 
+  TechTreeX: 159
+  TechTreeY: 20
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &-2553888880209015882
 MonoBehaviour:
@@ -3596,7 +3723,7 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 316
+  TechTreeX: 322
   TechTreeY: 23
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &-2450809743339251249
@@ -3679,7 +3806,7 @@ MonoBehaviour:
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
   TechTreeX: 23
-  TechTreeY: 2
+  TechTreeY: 1
   OptionalUnlockTechnologyMovie: TechnologyDiscovery_Era1_10.webm
 --- !u!114 &-2239922659068322002
 MonoBehaviour:
@@ -3764,7 +3891,7 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 268
+  TechTreeX: 262
   TechTreeY: 0
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &-1989951313456591412
@@ -3809,8 +3936,8 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 216
-  TechTreeY: 29
+  TechTreeX: 218
+  TechTreeY: 30
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &-1986337443623667475
 MonoBehaviour:
@@ -3855,8 +3982,8 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 193
-  TechTreeY: 30
+  TechTreeX: 197
+  TechTreeY: 31
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &-1957753573483001661
 MonoBehaviour:
@@ -3898,7 +4025,7 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 127
+  TechTreeX: 131
   TechTreeY: 1
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &-1710835988274897816
@@ -3939,8 +4066,8 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 108
-  TechTreeY: 20
+  TechTreeX: 103
+  TechTreeY: 21
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &-1680948443661534677
 MonoBehaviour:
@@ -3995,8 +4122,11 @@ MonoBehaviour:
   m_Script: {fileID: 301062344, guid: b310e23bee821cb478da05296ba685d0, type: 3}
   m_Name: Technology_Era4_Frontier
   m_EditorClassIdentifier: 
-  Title: Frontier Tactics
-  Description: '%Technology_Era4_11Description'
+  Title: Unconventional Warfare
+  Description: While conventional armies relied on discipline and standardization,
+    others sought victory through innovation. Specialized troops, experimental weapons,
+    and unconventional tactics enabled commanders to strike where their enemies were
+    least prepared.
   Images:
   - Value:
       guid:
@@ -4021,7 +4151,7 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 139
+  TechTreeX: 140
   TechTreeY: 29
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &-1280454414424104181
@@ -4062,7 +4192,7 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 138
+  TechTreeX: 136
   TechTreeY: 21
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &-1238340701345068088
@@ -4188,8 +4318,8 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 159
-  TechTreeY: 13
+  TechTreeX: 157
+  TechTreeY: 12
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &-455474661239564212
 MonoBehaviour:
@@ -4276,7 +4406,7 @@ MonoBehaviour:
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
   TechTreeX: 226
-  TechTreeY: 14
+  TechTreeY: 13
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &-336389472274358674
 MonoBehaviour:
@@ -4400,7 +4530,7 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 153
+  TechTreeX: 151
   TechTreeY: 16
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &-232721266619552589
@@ -4482,7 +4612,7 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 120
+  TechTreeX: 107
   TechTreeY: 1
   OptionalUnlockTechnologyMovie: TechnologyDiscovery_Era4_05.webm
 --- !u!114 &-208407236975354192
@@ -4527,7 +4657,7 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 340
+  TechTreeX: 328
   TechTreeY: 1
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &-70735386568805011
@@ -4615,7 +4745,7 @@ MonoBehaviour:
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
   TechTreeX: 226
-  TechTreeY: 32
+  TechTreeY: 33
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &11400000
 MonoBehaviour:
@@ -4672,7 +4802,7 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 211
+  TechTreeX: 214
   TechTreeY: 17
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &420190294531465627
@@ -4715,7 +4845,7 @@ MonoBehaviour:
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
   TechTreeX: 195
-  TechTreeY: 7
+  TechTreeY: 6
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &531172754249505350
 MonoBehaviour:
@@ -4759,8 +4889,52 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 217
+  TechTreeX: 220
   TechTreeY: 10
+  OptionalUnlockTechnologyMovie: 
+--- !u!114 &531263568557537257
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 301062344, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Technology_Era6_DirectedEnergyWeapons
+  m_EditorClassIdentifier: 
+  Title: Directed Energy Weapons
+  Description: Advances in power generation, beam focusing, and targeting systems
+    have transformed energy itself into a weapon. Once confined to laboratories,
+    directed energy weapons can now engage threats at the speed of light, heralding
+    a new era of warfare.
+  Images:
+  - Value:
+      guid:
+        a: 1864567946
+        b: 1332153140
+        c: 454947253
+        d: -932362931
+    serializableKey: TechnologyPopupBackground
+  - Value:
+      guid:
+        a: 209776758
+        b: 1286721164
+        c: -1264855650
+        d: 577032575
+    serializableKey: Picto
+  - Value:
+      guid:
+        a: 1864567946
+        b: 1332153140
+        c: 454947253
+        d: -932362931
+    serializableKey: TechnologyScreenItemBackground
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  Symbol: 
+  TechTreeX: 341
+  TechTreeY: 1
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &581525900928911380
 MonoBehaviour:
@@ -4843,8 +5017,8 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 346
-  TechTreeY: 12
+  TechTreeX: 341
+  TechTreeY: 9
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &965097399123927374
 MonoBehaviour:
@@ -4933,7 +5107,7 @@ MonoBehaviour:
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
   TechTreeX: 274
-  TechTreeY: 13
+  TechTreeY: 14
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &1124552297737041863
 MonoBehaviour:
@@ -4976,7 +5150,7 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 217
+  TechTreeX: 220
   TechTreeY: 0
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &1229400694841465787
@@ -5018,7 +5192,7 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 364
+  TechTreeX: 346
   TechTreeY: 16
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &1259562029876054984
@@ -5061,8 +5235,50 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 100
+  TechTreeX: 98
   TechTreeY: 15
+  OptionalUnlockTechnologyMovie: 
+--- !u!114 &1299257033179674066
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 301062344, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Technology_Era5_SmokelessPowder
+  m_EditorClassIdentifier: 
+  Title: Smokeless powder
+  Description: Smokeless powder is a type of propellant used in firearms and artillery
+    that produces less smoke and less fouling when fired compared to black powder.
+  Images:
+  - Value:
+      guid:
+        a: -1611912338
+        b: 1155068328
+        c: -1576505470
+        d: 2142485015
+    serializableKey: TechnologyPopupBackground
+  - Value:
+      guid:
+        a: 209776758
+        b: 1286721164
+        c: -1264855650
+        d: 577032575
+    serializableKey: Picto
+  - Value:
+      guid:
+        a: -1611912338
+        b: 1155068328
+        c: -1576505470
+        d: 2142485015
+    serializableKey: TechnologyScreenItemBackground
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  Symbol: 
+  TechTreeX: 183
+  TechTreeY: 25
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &1390412190814305448
 MonoBehaviour:
@@ -5144,7 +5360,7 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 268
+  TechTreeX: 258
   TechTreeY: 32
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &1628852853216322492
@@ -5190,7 +5406,7 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 60
+  TechTreeX: 59
   TechTreeY: 2
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &1661169123007040871
@@ -5231,7 +5447,7 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 77
+  TechTreeX: 74
   TechTreeY: 1
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &1701598321489015625
@@ -5277,7 +5493,50 @@ MonoBehaviour:
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
   TechTreeX: 304
-  TechTreeY: 21
+  TechTreeY: 20
+  OptionalUnlockTechnologyMovie: 
+--- !u!114 &1733926551125360561
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 301062344, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Technology_Era3_NavalExpeditions
+  m_EditorClassIdentifier: 
+  Title: Naval Expeditions
+  Description: Naval expeditions refer to military campaigns or exploratory voyages
+    conducted by ships at sea. These expeditions can involve warfare, exploration,
+    trade missions, or diplomatic endeavors carried out on water.
+  Images:
+  - Value:
+      guid:
+        a: 926138998
+        b: 1198863271
+        c: 379165333
+        d: -888626653
+    serializableKey: TechnologyPopupBackground
+  - Value:
+      guid:
+        a: 209776758
+        b: 1286721164
+        c: -1264855650
+        d: 577032575
+    serializableKey: Picto
+  - Value:
+      guid:
+        a: 926138998
+        b: 1198863271
+        c: 379165333
+        d: -888626653
+    serializableKey: TechnologyScreenItemBackground
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  Symbol: 
+  TechTreeX: 86
+  TechTreeY: 6
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &1783573221593674608
 MonoBehaviour:
@@ -5317,8 +5576,8 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 75
-  TechTreeY: 10
+  TechTreeX: 73
+  TechTreeY: 12
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &1836356758394974298
 MonoBehaviour:
@@ -5446,8 +5705,8 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 181
-  TechTreeY: 28
+  TechTreeX: 177
+  TechTreeY: 29
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &2224276768747665958
 MonoBehaviour:
@@ -5492,7 +5751,7 @@ MonoBehaviour:
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
   TechTreeX: 328
-  TechTreeY: 16
+  TechTreeY: 18
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &2400624921276427593
 MonoBehaviour:
@@ -5573,7 +5832,7 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 304
+  TechTreeX: 292
   TechTreeY: 1
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &2505048204961895074
@@ -5616,8 +5875,8 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 288
-  TechTreeY: 26
+  TechTreeX: 287
+  TechTreeY: 27
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &2708679530474617703
 MonoBehaviour:
@@ -5657,7 +5916,7 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 171
+  TechTreeX: 168
   TechTreeY: 30
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &2709795947952639963
@@ -5698,7 +5957,7 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 171
+  TechTreeX: 167
   TechTreeY: 17
   OptionalUnlockTechnologyMovie: TechnologyDiscovery_Era5_10.webm
 --- !u!114 &2957332784969793895
@@ -5739,8 +5998,8 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 86
-  TechTreeY: 15
+  TechTreeX: 80
+  TechTreeY: 19
   OptionalUnlockTechnologyMovie: TechnologyDiscovery_Era3_05.webm
 --- !u!114 &3080238201476674870
 MonoBehaviour:
@@ -5780,8 +6039,8 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 125
-  TechTreeY: 9
+  TechTreeX: 127
+  TechTreeY: 10
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &3196524640478530602
 MonoBehaviour:
@@ -5821,8 +6080,8 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 186
-  TechTreeY: 12
+  TechTreeX: 187
+  TechTreeY: 10
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &3373410371897188097
 MonoBehaviour:
@@ -5865,7 +6124,7 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 244
+  TechTreeX: 241
   TechTreeY: 26
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &3521709886185839981
@@ -5908,7 +6167,7 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 165
+  TechTreeX: 163
   TechTreeY: 10
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &3538981883482280898
@@ -6076,8 +6335,8 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 153
-  TechTreeY: 32
+  TechTreeX: 156
+  TechTreeY: 29
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &4207859589590501671
 MonoBehaviour:
@@ -6120,7 +6379,7 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 322
+  TechTreeX: 320
   TechTreeY: 32
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &4255471006974369116
@@ -6203,7 +6462,7 @@ MonoBehaviour:
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
   TechTreeX: 238
-  TechTreeY: 5
+  TechTreeY: 6
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &4431670830769611646
 MonoBehaviour:
@@ -6243,7 +6502,7 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 175
+  TechTreeX: 172
   TechTreeY: 7
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &4499531676910752227
@@ -6288,8 +6547,8 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 139
-  TechTreeY: 5
+  TechTreeX: 138
+  TechTreeY: 9
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &4541778066756736280
 MonoBehaviour:
@@ -6373,8 +6632,52 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 304
+  TechTreeX: 293
   TechTreeY: 32
+  OptionalUnlockTechnologyMovie: 
+--- !u!114 &4647340311233208974
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 301062344, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Technology_Era4_Astronomy
+  m_EditorClassIdentifier: 
+  Title: Astronomy
+  Description: Advances in observation and mathematics transformed astronomy from
+    philosophy into science. Improved understanding of the heavens enhanced navigation,
+    refined timekeeping, and challenged traditional views of the universe, paving
+    the way for an age of discovery and innovation.
+  Images:
+  - Value:
+      guid:
+        a: -52491811
+        b: 1090906188
+        c: -1359036487
+        d: -1888504649
+    serializableKey: TechnologyPopupBackground
+  - Value:
+      guid:
+        a: 209776758
+        b: 1286721164
+        c: -1264855650
+        d: 577032575
+    serializableKey: Picto
+  - Value:
+      guid:
+        a: -52491811
+        b: 1090906188
+        c: -1359036487
+        d: -1888504649
+    serializableKey: TechnologyScreenItemBackground
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  Symbol: 
+  TechTreeX: 124
+  TechTreeY: 1
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &4787732254577878217
 MonoBehaviour:
@@ -6418,8 +6721,8 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 80
-  TechTreeY: 17
+  TechTreeX: 86
+  TechTreeY: 16
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &4847461751200918370
 MonoBehaviour:
@@ -6461,8 +6764,8 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 165
-  TechTreeY: 20
+  TechTreeX: 176
+  TechTreeY: 21
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &4992100736166215713
 MonoBehaviour:
@@ -6548,7 +6851,7 @@ MonoBehaviour:
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
   TechTreeX: 38
-  TechTreeY: 8
+  TechTreeY: 7
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &5045057942423448952
 MonoBehaviour:
@@ -6573,10 +6876,10 @@ MonoBehaviour:
   Images:
   - Value:
       guid:
-        a: 434386155
-        b: 1249393486
-        c: -1402702719
-        d: 1428130135
+        a: 295160941
+        b: 1151651369
+        c: 481698200
+        d: 688135998
     serializableKey: TechnologyPopupBackground
   - Value:
       guid:
@@ -6587,15 +6890,15 @@ MonoBehaviour:
     serializableKey: Picto
   - Value:
       guid:
-        a: 434386155
-        b: 1249393486
-        c: -1402702719
-        d: 1428130135
+        a: 295160941
+        b: 1151651369
+        c: 481698200
+        d: 688135998
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 153
-  TechTreeY: 4
+  TechTreeX: 151
+  TechTreeY: 7
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &5251378524688325323
 MonoBehaviour:
@@ -6636,8 +6939,8 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 364
-  TechTreeY: 0
+  TechTreeX: 352
+  TechTreeY: 11
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &5277162746192132492
 MonoBehaviour:
@@ -6682,8 +6985,8 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 159
-  TechTreeY: 4
+  TechTreeX: 158
+  TechTreeY: 3
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &5426518896355565635
 MonoBehaviour:
@@ -6723,8 +7026,8 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 268
-  TechTreeY: 13
+  TechTreeX: 244
+  TechTreeY: 10
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &5429602670684011732
 MonoBehaviour:
@@ -6764,7 +7067,7 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 292
+  TechTreeX: 281
   TechTreeY: 32
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &5502275994994956517
@@ -6828,10 +7131,10 @@ MonoBehaviour:
   Images:
   - Value:
       guid:
-        a: 926138998
-        b: 1198863271
-        c: 379165333
-        d: -888626653
+        a: -846700193
+        b: 1145049800
+        c: -349181779
+        d: 516742810
     serializableKey: TechnologyPopupBackground
   - Value:
       guid:
@@ -6842,15 +7145,15 @@ MonoBehaviour:
     serializableKey: Picto
   - Value:
       guid:
-        a: 926138998
-        b: 1198863271
-        c: 379165333
-        d: -888626653
+        a: -846700193
+        b: 1145049800
+        c: -349181779
+        d: 516742810
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 83
-  TechTreeY: 6
+  TechTreeX: 79
+  TechTreeY: 10
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &5793125621476818053
 MonoBehaviour:
@@ -6890,7 +7193,7 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 67
+  TechTreeX: 65
   TechTreeY: 6
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &5802789617008370765
@@ -6931,8 +7234,8 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 121
-  TechTreeY: 27
+  TechTreeX: 115
+  TechTreeY: 23
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &5920447020722211321
 MonoBehaviour:
@@ -7016,7 +7319,7 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 90
+  TechTreeX: 80
   TechTreeY: 2
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &5965777479541178073
@@ -7057,7 +7360,7 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 211
+  TechTreeX: 214
   TechTreeY: 6
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &5980117124522307542
@@ -7102,7 +7405,7 @@ MonoBehaviour:
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
   TechTreeX: 189
-  TechTreeY: 4
+  TechTreeY: 1
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &6384221493094705469
 MonoBehaviour:
@@ -7142,8 +7445,8 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 280
-  TechTreeY: 16
+  TechTreeX: 281
+  TechTreeY: 23
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &6423841547409049846
 MonoBehaviour:
@@ -7241,21 +7544,17 @@ MonoBehaviour:
   m_Script: {fileID: 301062344, guid: b310e23bee821cb478da05296ba685d0, type: 3}
   m_Name: Technology_Era5_MilitaryTradition
   m_EditorClassIdentifier: 
-  Title: Military tradition
-  Description: 'With the fall of the feudal system in Europe and the creation of
-    standing armies, a new military tradition was born. Organizing soldiers based
-    on their skill, experience, and understanding of tactics rather than their position
-    of birth, the armies of post feudal Europe were markedly different from their
-    predecessors. This change in the position of warfare also necessitated a change
-    in the definition of the soldier, and with this transformation also came a strict
-    code of conduct based on the old ideals of chivalry. '
+  Title: Ballistics
+  Description: The study of projectile motion, trajectories, and gunpowder weapons
+    transforms artillery from an art into a science, greatly improving the accuracy
+    and effectiveness of indirect fire.
   Images:
   - Value:
       guid:
-        a: -815278173
-        b: 1278989780
-        c: 522778291
-        d: -1269309796
+        a: 1596994098
+        b: 1130907649
+        c: 666652823
+        d: -521011617
     serializableKey: TechnologyPopupBackground
   - Value:
       guid:
@@ -7266,15 +7565,15 @@ MonoBehaviour:
     serializableKey: Picto
   - Value:
       guid:
-        a: -815278173
-        b: 1278989780
-        c: 522778291
-        d: -1269309796
+        a: 1596994098
+        b: 1130907649
+        c: 666652823
+        d: -521011617
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 159
-  TechTreeY: 29
+  TechTreeX: 150
+  TechTreeY: 32
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &7133364459574961318
 MonoBehaviour:
@@ -7319,8 +7618,8 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 274
-  TechTreeY: 21
+  TechTreeX: 262
+  TechTreeY: 8
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &7175647487520825860
 MonoBehaviour:
@@ -7361,7 +7660,7 @@ MonoBehaviour:
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
   TechTreeX: 84
-  TechTreeY: 24
+  TechTreeY: 26
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &7239364695115602127
 MonoBehaviour:
@@ -7405,8 +7704,8 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 244
-  TechTreeY: 9
+  TechTreeX: 238
+  TechTreeY: 14
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &7309524622228018667
 MonoBehaviour:
@@ -7447,7 +7746,7 @@ MonoBehaviour:
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
   TechTreeX: 92
-  TechTreeY: 20
+  TechTreeY: 21
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &7586108755796981473
 MonoBehaviour:
@@ -7489,8 +7788,51 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 201
+  TechTreeX: 204
   TechTreeY: 10
+  OptionalUnlockTechnologyMovie: 
+--- !u!114 &7700949562353307347
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 301062344, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Technology_Era3_BlackPowder
+  m_EditorClassIdentifier: 
+  Title: Black Powder
+  Description: The discovery of black powder transforms warfare and engineering alike.
+    From explosive charges to primitive rockets and siege weapons, this volatile
+    mixture ushers in a new age where fire and smoke become instruments of power
+  Images:
+  - Value:
+      guid:
+        a: -781500073
+        b: 1238431329
+        c: 1217175947
+        d: 752583299
+    serializableKey: TechnologyPopupBackground
+  - Value:
+      guid:
+        a: 209776758
+        b: 1286721164
+        c: -1264855650
+        d: 577032575
+    serializableKey: Picto
+  - Value:
+      guid:
+        a: -781500073
+        b: 1238431329
+        c: 1217175947
+        d: 752583299
+    serializableKey: TechnologyScreenItemBackground
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  Symbol: 
+  TechTreeX: 102
+  TechTreeY: 30
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &7788442687130276736
 MonoBehaviour:
@@ -7571,7 +7913,7 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 171
+  TechTreeX: 170
   TechTreeY: 0
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &7848036858965645221
@@ -7618,7 +7960,7 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 197
+  TechTreeX: 200
   TechTreeY: 0
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &7901176061699815024
@@ -7659,7 +8001,7 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 165
+  TechTreeX: 162
   TechTreeY: 30
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &7969196438937641997
@@ -7703,8 +8045,8 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 131
-  TechTreeY: 8
+  TechTreeX: 133
+  TechTreeY: 9
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &8639157573410591345
 MonoBehaviour:
@@ -7792,7 +8134,7 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 133
+  TechTreeX: 137
   TechTreeY: 1
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &8726809190397938915
@@ -7834,7 +8176,7 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 328
+  TechTreeX: 316
   TechTreeY: 0
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &8749411523546183780
@@ -7880,7 +8222,7 @@ MonoBehaviour:
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
   TechTreeX: 179
-  TechTreeY: 17
+  TechTreeY: 13
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &8785157718705494893
 MonoBehaviour:
@@ -8002,8 +8344,8 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 136
-  TechTreeY: 14
+  TechTreeX: 144
+  TechTreeY: 15
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &8979217565746882839
 MonoBehaviour:
@@ -8044,7 +8386,7 @@ MonoBehaviour:
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
   TechTreeX: 23
-  TechTreeY: 13
+  TechTreeY: 10
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &8994468559314119868
 MonoBehaviour:
@@ -8084,8 +8426,51 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 364
-  TechTreeY: 8
+  TechTreeX: 363
+  TechTreeY: 14
+  OptionalUnlockTechnologyMovie: 
+--- !u!114 &9027856011879535683
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 301062344, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Technology_Era1_NavalRam
+  m_EditorClassIdentifier: 
+  Title: Naval Battering Ram
+  Description: 'A naval battering ram is a weapon comprised an underwater prolongation
+    of the bow of the ship to form an armoured beak. This would be driven into the
+    hull of an enemy ship to puncture, sink or disable it. '
+  Images:
+  - Value:
+      guid:
+        a: 60593832
+        b: 1338210490
+        c: 274585987
+        d: -721848192
+    serializableKey: TechnologyPopupBackground
+  - Value:
+      guid:
+        a: 209776758
+        b: 1286721164
+        c: -1264855650
+        d: 577032575
+    serializableKey: Picto
+  - Value:
+      guid:
+        a: 60593832
+        b: 1338210490
+        c: 274585987
+        d: -721848192
+    serializableKey: TechnologyScreenItemBackground
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  Symbol: 
+  TechTreeX: 30
+  TechTreeY: 20
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &9082234200170564316
 MonoBehaviour:
@@ -8128,6 +8513,50 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 250
+  TechTreeX: 247
+  TechTreeY: 23
+  OptionalUnlockTechnologyMovie: 
+--- !u!114 &9106183682646741632
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 301062344, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Technology_Era6_Counterinsurgency
+  m_EditorClassIdentifier: 
+  Title: Counterinsurgency
+  Description: Counterinsurgency combines intelligence gathering, surveillance, and
+    civic administration to counter insurgent movements. By monitoring threats, protecting
+    key infrastructure, and maintaining public order, governments seek to prevent
+    unrest from escalating into open conflict.
+  Images:
+  - Value:
+      guid:
+        a: -517484525
+        b: 1289037796
+        c: 1779851915
+        d: -1169237622
+    serializableKey: TechnologyPopupBackground
+  - Value:
+      guid:
+        a: 209776758
+        b: 1286721164
+        c: -1264855650
+        d: 577032575
+    serializableKey: Picto
+  - Value:
+      guid:
+        a: -517484525
+        b: 1289037796
+        c: 1779851915
+        d: -1169237622
+    serializableKey: TechnologyScreenItemBackground
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  Symbol: 
+  TechTreeX: 270
   TechTreeY: 23
   OptionalUnlockTechnologyMovie: 

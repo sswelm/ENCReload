@@ -1,0 +1,214 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-3420155877345714157
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -717291864, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Infrastructure_Harbour_EnchOceanicDomination
+  m_EditorClassIdentifier: 
+  Title: Oceanic Domination
+  Description: The control of the territory extends to the deep and distant waters
+    of our borders.
+  Images:
+  - Value:
+      guid:
+        a: 1100178413
+        b: 1328841674
+        c: 148226982
+        d: -167030467
+    serializableKey: Small
+  - Value:
+      guid:
+        a: -787720102
+        b: 1312222809
+        c: 1685578143
+        d: 33499492
+    serializableKey: Tooltip
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  Symbol: 
+  SortPriority: 5021
+  ConstructibleTraits: 
+--- !u!114 &-2607404189413618680
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -717291864, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Infrastructure_Harbour_EnchBridgeAndFerry
+  m_EditorClassIdentifier: 
+  Title: Bridge and Ferry
+  Description: Civilian bridges and shipping lines on schedule.
+  Images:
+  - Value:
+      guid:
+        a: 642565410
+        b: 1312133008
+        c: 1842659249
+        d: -854929643
+    serializableKey: Small
+  - Value:
+      guid:
+        a: 891168064
+        b: 1096722275
+        c: 1211474878
+        d: -1286125999
+    serializableKey: Tooltip
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  Symbol: 
+  SortPriority: 5021
+  ConstructibleTraits: 
+--- !u!114 &-789824351059923711
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -717291864, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Infrastructure_Harbour_EnchSalting
+  m_EditorClassIdentifier: 
+  Title: Salting
+  Description: A good conservation method allows you to fish more, and further.
+  Images:
+  - Value:
+      guid:
+        a: -511366386
+        b: 1285650901
+        c: -18063194
+        d: -1114394732
+    serializableKey: Small
+  - Value:
+      guid:
+        a: 1213449310
+        b: 1201408759
+        c: -170673986
+        d: -964564937
+    serializableKey: Tooltip
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  Symbol: 
+  SortPriority: 5005
+  ConstructibleTraits: 
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 763423559, guid: 722acb04e362a9243a944ac3117daa73, type: 3}
+  m_Name: ConstructibleInfrastructureUIMappersDeepSea
+  m_EditorClassIdentifier: 
+--- !u!114 &503207911836288528
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -717291864, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Infrastructure_Harbour_EnchShipyard
+  m_EditorClassIdentifier: 
+  Title: Shipyard
+  Description: Modern shipyard.
+  Images:
+  - Value:
+      guid:
+        a: 399666359
+        b: 1195341954
+        c: 63992250
+        d: -377096216
+    serializableKey: Small
+  - Value:
+      guid:
+        a: -829322549
+        b: 1146166352
+        c: -732942682
+        d: -430971146
+    serializableKey: Tooltip
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  Symbol: 
+  SortPriority: 5021
+  ConstructibleTraits: 
+--- !u!114 &599980104397638960
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -717291864, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Infrastructure_Harbour_EnchSeaRiches
+  m_EditorClassIdentifier: 
+  Title: Sea Riches
+  Description: Knowledge of marine life turns water into gold.
+  Images:
+  - Value:
+      guid:
+        a: -1945074887
+        b: 1159559859
+        c: -297274240
+        d: 258361113
+    serializableKey: Small
+  - Value:
+      guid:
+        a: -1197579981
+        b: 1310256324
+        c: -75098473
+        d: -1511043777
+    serializableKey: Tooltip
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  Symbol: 
+  SortPriority: 5006
+  ConstructibleTraits: 
+--- !u!114 &4671522703179656792
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -717291864, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Infrastructure_Harbour_EnchTideCalendar
+  m_EditorClassIdentifier: 
+  Title: Tide Calendar
+  Description: Approximate estimation of the tides according to lunar movements and
+    water cycle study.
+  Images:
+  - Value:
+      guid:
+        a: -20861156
+        b: 1101270488
+        c: -1920473446
+        d: 395113982
+    serializableKey: Small
+  - Value:
+      guid:
+        a: 873301130
+        b: 1085833565
+        c: -2115297659
+        d: 1916720338
+    serializableKey: Tooltip
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  Symbol: 
+  SortPriority: 5005
+  ConstructibleTraits: 

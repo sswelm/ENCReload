@@ -27,7 +27,7 @@ MonoBehaviour:
   m_Name: UnitFamily_Marine
   m_EditorClassIdentifier: 
   IsObsolete: 0
-  SerializableNextFamilyName: UnitFamily_MechanizedInfantry
+  SerializableNextFamilyName: UnitFamily_IndustrialMarine
 --- !u!114 &-8949858111551819007
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -139,7 +139,7 @@ MonoBehaviour:
   m_Name: UnitFamily_HypersonicBomber
   m_EditorClassIdentifier: 
   IsObsolete: 0
-  SerializableNextFamilyName: UnitFamily_StealthBomber
+  SerializableNextFamilyName: 
 --- !u!114 &-7209924411859273438
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -237,7 +237,7 @@ MonoBehaviour:
   m_Name: UnitFamily_MechanizedInfantry
   m_EditorClassIdentifier: 
   IsObsolete: 0
-  SerializableNextFamilyName: 
+  SerializableNextFamilyName: UnitFamily_AllTerrainPMV
 --- !u!114 &-6677861291011852797
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -321,7 +321,7 @@ MonoBehaviour:
   m_Name: UnitFamily_Hybrid
   m_EditorClassIdentifier: 
   IsObsolete: 0
-  SerializableNextFamilyName: UnitFamily_StealthInfantry
+  SerializableNextFamilyName: UnitFamily_Buccaneer
 --- !u!114 &-5657292561023260135
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -489,7 +489,7 @@ MonoBehaviour:
   m_Name: UnitFamily_Prowler
   m_EditorClassIdentifier: 
   IsObsolete: 0
-  SerializableNextFamilyName: UnitFamily_StealthInfantry
+  SerializableNextFamilyName: UnitFamily_RangedPirate
 --- !u!114 &-4472232232617112275
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -531,7 +531,7 @@ MonoBehaviour:
   m_Name: UnitFamily_LightTank
   m_EditorClassIdentifier: 
   IsObsolete: 0
-  SerializableNextFamilyName: UnitFamily_AntiTankIFV
+  SerializableNextFamilyName: UnitFamily_ArmouredPersonnelCarrier
 --- !u!114 &-3820719462790637755
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -588,6 +588,48 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsObsolete: 0
   SerializableNextFamilyName: UnitFamily_Skirmisher
+--- !u!114 &-3013600685760302303
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1527816587, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitFamily_ArmouredPersonnelCarrier
+  m_EditorClassIdentifier: 
+  IsObsolete: 0
+  SerializableNextFamilyName: 
+--- !u!114 &-3011685026691815958
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1527816587, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitFamily_BuccaneerSettlement
+  m_EditorClassIdentifier: 
+  IsObsolete: 0
+  SerializableNextFamilyName: UnitFamily_StealthInfantry
+--- !u!114 &-2815120147660983510
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1527816587, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitFamily_ExpeditionaryInfantry
+  m_EditorClassIdentifier: 
+  IsObsolete: 0
+  SerializableNextFamilyName: 
 --- !u!114 &-2774862889447273997
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -755,7 +797,7 @@ MonoBehaviour:
   m_Name: UnitFamily_ModernInfantry
   m_EditorClassIdentifier: 
   IsObsolete: 0
-  SerializableNextFamilyName: UnitFamily_AllTerrainPMV
+  SerializableNextFamilyName: UnitFamily_ExpeditionaryInfantry
 --- !u!114 &-1517872734391161375
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -882,6 +924,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsObsolete: 0
   SerializableNextFamilyName: UnitFamily_LightTank
+--- !u!114 &-562973293988426762
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1527816587, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitFamily_Buccaneer
+  m_EditorClassIdentifier: 
+  IsObsolete: 0
+  SerializableNextFamilyName: UnitFamily_RangedPirate
 --- !u!114 &-108828247814122785
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1005,7 +1061,7 @@ MonoBehaviour:
   m_Name: UnitFamily_ArmouredRecon
   m_EditorClassIdentifier: 
   IsObsolete: 0
-  SerializableNextFamilyName: UnitFamily_Helicopter
+  SerializableNextFamilyName: UnitFamily_AllTerrainPMV
 --- !u!114 &352121603884446465
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1017,6 +1073,20 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: -1527816587, guid: b310e23bee821cb478da05296ba685d0, type: 3}
   m_Name: UnitFamily_StealthCorvette
+  m_EditorClassIdentifier: 
+  IsObsolete: 0
+  SerializableNextFamilyName: 
+--- !u!114 &467256907889504822
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1527816587, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitFamily_MIRV_Theatre
   m_EditorClassIdentifier: 
   IsObsolete: 0
   SerializableNextFamilyName: 
@@ -1201,7 +1271,21 @@ MonoBehaviour:
   m_Name: UnitFamily_StaffSlinger
   m_EditorClassIdentifier: 
   IsObsolete: 0
-  SerializableNextFamilyName: UnitFamily_Artillery
+  SerializableNextFamilyName: UnitFamily_Cannon
+--- !u!114 &2339581446204770413
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1527816587, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitFamily_AntiCavalry_Neolithic
+  m_EditorClassIdentifier: 
+  IsObsolete: 0
+  SerializableNextFamilyName: UnitFamily_AntiCavalry_Copper
 --- !u!114 &2627935494315184620
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1216,6 +1300,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsObsolete: 0
   SerializableNextFamilyName: UnitFamily_MachineGun
+--- !u!114 &2662004834063565848
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1527816587, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitFamily_RangedPirate
+  m_EditorClassIdentifier: 
+  IsObsolete: 0
+  SerializableNextFamilyName: UnitFamily_StealthInfantry
 --- !u!114 &2689803493071503553
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1244,6 +1342,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsObsolete: 0
   SerializableNextFamilyName: UnitFamily_ArtilleryTowed
+--- !u!114 &2860616187540174691
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1527816587, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitFamily_BallisticNuclearMissile
+  m_EditorClassIdentifier: 
+  IsObsolete: 0
+  SerializableNextFamilyName: 
 --- !u!114 &3021072098903529602
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1286,6 +1398,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsObsolete: 0
   SerializableNextFamilyName: 
+--- !u!114 &3322106010437765500
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1527816587, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitFamily_SpearThrowerNeolithic
+  m_EditorClassIdentifier: 
+  IsObsolete: 0
+  SerializableNextFamilyName: UnitFamily_Skirmisher
 --- !u!114 &3434596427050711727
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1411,7 +1537,7 @@ MonoBehaviour:
   m_Name: UnitFamily_Ballista
   m_EditorClassIdentifier: 
   IsObsolete: 0
-  SerializableNextFamilyName: UnitFamily_Sapper
+  SerializableNextFamilyName: UnitFamily_StaffSlinger
 --- !u!114 &4468088215655693258
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1565,7 +1691,7 @@ MonoBehaviour:
   m_Name: UnitFamily_HeavyMelee
   m_EditorClassIdentifier: 
   IsObsolete: 0
-  SerializableNextFamilyName: UnitFamily_MeleeAntiCavalry
+  SerializableNextFamilyName: UnitFamily_GunpowderInfantry
 --- !u!114 &6224736077260076230
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1636,6 +1762,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsObsolete: 0
   SerializableNextFamilyName: UnitFamily_StealthTank
+--- !u!114 &6574615762324742098
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1527816587, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitFamily_IndustrialMarine
+  m_EditorClassIdentifier: 
+  IsObsolete: 0
+  SerializableNextFamilyName: UnitFamily_AllTerrainPMV
 --- !u!114 &6828905659453699797
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1957,7 +2097,7 @@ MonoBehaviour:
   m_Name: UnitFamily_Sapper
   m_EditorClassIdentifier: 
   IsObsolete: 0
-  SerializableNextFamilyName: UnitFamily_Cannon
+  SerializableNextFamilyName: 
 --- !u!114 &9157678679290750010
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -376,6 +376,53 @@ MonoBehaviour:
       b: 1278372376
       c: 30546838
       d: -1364448626
+--- !u!114 &-4603826210112685602
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 759592875, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: PresentationLandUnit_Era6_Common_Insurgents_Default
+  m_EditorClassIdentifier: 
+  IsWorkInProgress: 0
+  UnitDefinitionReference:
+    serializableElementName: LandUnit_Era6_Common_Insurgents
+  PresentationFormationDefinition:
+    serializableElementName: Formation_Scatter_Spaced_5
+  FormationBehaviourDefinition:
+    serializableElementName: Army Era 6 PR_F / PR_F / PR_P / PR_P / PR_P
+  ChoreographyOverride: 0
+  NoAttackRotation: 0
+  FacingAngleOffset: 0
+  MinDistanceBetweenFormationDummies: 0
+  RestrictionPerSlot: []
+  UnitSpecification: 0
+  CoordinationMasterValue: 0.01
+  CoordinationValues:
+    DummyOffsetPosition: {x: 0.198, y: 0.3465}
+    DummyOffsetAngle: {x: 19.8, y: 29.7}
+    AnimationDelay: {x: 0, y: 0.99}
+    MinDistanceReformationMultiplier: 1
+    CoordinateAttackMovement: 0
+    SameRowAttack: 1
+    AveragePathLength: 0
+    UseDisciplinedVariation: 0
+  StealthRevealAudioEvent:
+    guid:
+      a: -1326129278
+      b: 1160368417
+      c: 1151361188
+      d: -1076931018
+  unitVoiceProviderReference:
+    guid:
+      a: 1878016339
+      b: 1115263322
+      c: 1445056182
+      d: 1580512386
 --- !u!114 &-4414224965435496884
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -470,6 +517,53 @@ MonoBehaviour:
       b: 1113973168
       c: -1583439949
       d: 2048849493
+--- !u!114 &-3832182337020231559
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 759592875, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: PresentationLandUnit_Era6_Common_ExpeditionaryInfantry_Default
+  m_EditorClassIdentifier: 
+  IsWorkInProgress: 0
+  UnitDefinitionReference:
+    serializableElementName: LandUnit_Era6_Common_ExpeditionaryInfantry
+  PresentationFormationDefinition:
+    serializableElementName: Formation_Scatter_Spaced_5
+  FormationBehaviourDefinition:
+    serializableElementName: Army Era 6 PR_F / PR_F / PR_P / PR_P / PR_P
+  ChoreographyOverride: 0
+  NoAttackRotation: 0
+  FacingAngleOffset: 0
+  MinDistanceBetweenFormationDummies: 0
+  RestrictionPerSlot: []
+  UnitSpecification: 0
+  CoordinationMasterValue: 0.713
+  CoordinationValues:
+    DummyOffsetPosition: {x: 0.0574, y: 0.10045}
+    DummyOffsetAngle: {x: 5.74, y: 8.61}
+    AnimationDelay: {x: 0, y: 0.287}
+    MinDistanceReformationMultiplier: 0.6435
+    CoordinateAttackMovement: 0
+    SameRowAttack: 1
+    AveragePathLength: 0
+    UseDisciplinedVariation: 0
+  StealthRevealAudioEvent:
+    guid:
+      a: -1326129278
+      b: 1160368417
+      c: 1151361188
+      d: -1076931018
+  unitVoiceProviderReference:
+    guid:
+      a: 1878016339
+      b: 1115263322
+      c: 1445056182
+      d: 1580512386
 --- !u!114 &-3302173075839907488
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -564,6 +658,53 @@ MonoBehaviour:
       b: 1228249137
       c: -2125260140
       d: -1103741382
+--- !u!114 &-3127662626295058738
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 759592875, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: PresentationLandUnit_Era6_CombatPioneer_Default
+  m_EditorClassIdentifier: 
+  IsWorkInProgress: 0
+  UnitDefinitionReference:
+    serializableElementName: LandUnit_Era6_CombatEngineer
+  PresentationFormationDefinition:
+    serializableElementName: Formation_Close_5
+  FormationBehaviourDefinition:
+    serializableElementName: All_Clash
+  ChoreographyOverride: 0
+  NoAttackRotation: 0
+  FacingAngleOffset: 0
+  MinDistanceBetweenFormationDummies: 0
+  RestrictionPerSlot: []
+  UnitSpecification: 0
+  CoordinationMasterValue: 0.01
+  CoordinationValues:
+    DummyOffsetPosition: {x: 0.198, y: 0.3465}
+    DummyOffsetAngle: {x: 19.8, y: 29.7}
+    AnimationDelay: {x: 0, y: 0.99}
+    MinDistanceReformationMultiplier: 1
+    CoordinateAttackMovement: 0
+    SameRowAttack: 1
+    AveragePathLength: 0
+    UseDisciplinedVariation: 0
+  StealthRevealAudioEvent:
+    guid:
+      a: -1326129278
+      b: 1160368417
+      c: 1151361188
+      d: -1076931018
+  unitVoiceProviderReference:
+    guid:
+      a: -956707267
+      b: 1127163104
+      c: -6804313
+      d: -1489757415
 --- !u!114 &-1557833972911563013
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -893,6 +1034,53 @@ MonoBehaviour:
       b: 1122761624
       c: 1237126529
       d: 1866866941
+--- !u!114 &-97422008242290896
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 759592875, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: PresentationLandUnit_Era6_Common_MechanizedInfantry_Default
+  m_EditorClassIdentifier: 
+  IsWorkInProgress: 0
+  UnitDefinitionReference:
+    serializableElementName: LandUnit_Era6_Common_MechanizedInfantry
+  PresentationFormationDefinition:
+    serializableElementName: Formation_1
+  FormationBehaviourDefinition:
+    serializableElementName: 
+  ChoreographyOverride: 0
+  NoAttackRotation: 0
+  FacingAngleOffset: 0
+  MinDistanceBetweenFormationDummies: 0
+  RestrictionPerSlot: []
+  UnitSpecification: 0
+  CoordinationMasterValue: 0.5
+  CoordinationValues:
+    DummyOffsetPosition: {x: 0.1, y: 0.175}
+    DummyOffsetAngle: {x: 10, y: 15}
+    AnimationDelay: {x: 0, y: 0.5}
+    MinDistanceReformationMultiplier: 1
+    CoordinateAttackMovement: 0
+    SameRowAttack: 1
+    AveragePathLength: 0
+    UseDisciplinedVariation: 0
+  StealthRevealAudioEvent:
+    guid:
+      a: -1326129278
+      b: 1160368417
+      c: 1151361188
+      d: -1076931018
+  unitVoiceProviderReference:
+    guid:
+      a: 1105253785
+      b: 1278372376
+      c: 30546838
+      d: -1364448626
 --- !u!114 &-737370917488586
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -952,6 +1140,53 @@ MonoBehaviour:
   m_Script: {fileID: -570373346, guid: b310e23bee821cb478da05296ba685d0, type: 3}
   m_Name: PresentationUnitDefinition_Era6_ENC
   m_EditorClassIdentifier: 
+--- !u!114 &232888082422945812
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 759592875, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: PresentationLandUnit_Era6_Common_SelfpropelledArtillery_Default
+  m_EditorClassIdentifier: 
+  IsWorkInProgress: 0
+  UnitDefinitionReference:
+    serializableElementName: LandUnit_Era6_Common_SelfpropelledArtillery
+  PresentationFormationDefinition:
+    serializableElementName: Formation_1
+  FormationBehaviourDefinition:
+    serializableElementName: 
+  ChoreographyOverride: 0
+  NoAttackRotation: 0
+  FacingAngleOffset: 0
+  MinDistanceBetweenFormationDummies: 0
+  RestrictionPerSlot: []
+  UnitSpecification: 0
+  CoordinationMasterValue: 0.5
+  CoordinationValues:
+    DummyOffsetPosition: {x: 0.1, y: 0.175}
+    DummyOffsetAngle: {x: 10, y: 15}
+    AnimationDelay: {x: 0, y: 0.5}
+    MinDistanceReformationMultiplier: 1
+    CoordinateAttackMovement: 0
+    SameRowAttack: 1
+    AveragePathLength: 0
+    UseDisciplinedVariation: 0
+  StealthRevealAudioEvent:
+    guid:
+      a: -1326129278
+      b: 1160368417
+      c: 1151361188
+      d: -1076931018
+  unitVoiceProviderReference:
+    guid:
+      a: -516333422
+      b: 1206566514
+      c: -2023489617
+      d: 735677169
 --- !u!114 &312977848550650285
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1061,6 +1296,53 @@ MonoBehaviour:
   IsWorkInProgress: 0
   UnitDefinitionReference:
     serializableElementName: AirUnit_Era6_Common_ICBMs
+  PresentationFormationDefinition:
+    serializableElementName: Formation_1
+  FormationBehaviourDefinition:
+    serializableElementName: 
+  ChoreographyOverride: 0
+  NoAttackRotation: 0
+  FacingAngleOffset: 0
+  MinDistanceBetweenFormationDummies: 0
+  RestrictionPerSlot: []
+  UnitSpecification: 0
+  CoordinationMasterValue: 0.5
+  CoordinationValues:
+    DummyOffsetPosition: {x: 0.1, y: 0.175}
+    DummyOffsetAngle: {x: 10, y: 15}
+    AnimationDelay: {x: 0, y: 0.5}
+    MinDistanceReformationMultiplier: 1
+    CoordinateAttackMovement: 0
+    SameRowAttack: 1
+    AveragePathLength: 0
+    UseDisciplinedVariation: 0
+  StealthRevealAudioEvent:
+    guid:
+      a: -1326129278
+      b: 1160368417
+      c: 1151361188
+      d: -1076931018
+  unitVoiceProviderReference:
+    guid:
+      a: 1675975269
+      b: 1190922812
+      c: -1881026891
+      d: 664216081
+--- !u!114 &1325767586623566795
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 759592875, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: PresentationAirUnit_Era6_Common_MediumRangeNuclearMissile_Default
+  m_EditorClassIdentifier: 
+  IsWorkInProgress: 0
+  UnitDefinitionReference:
+    serializableElementName: AirUnit_Era6_Common_MediumRangeNuclearMissile
   PresentationFormationDefinition:
     serializableElementName: Formation_1
   FormationBehaviourDefinition:
@@ -1469,6 +1751,53 @@ MonoBehaviour:
       b: 1115263322
       c: 1445056182
       d: 1580512386
+--- !u!114 &3937136356201994462
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 759592875, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: PresentationAirUnit_Era6_Common_MIRVs_Theatre
+  m_EditorClassIdentifier: 
+  IsWorkInProgress: 0
+  UnitDefinitionReference:
+    serializableElementName: AirUnit_Era6_Common_MIRVs_Theatre
+  PresentationFormationDefinition:
+    serializableElementName: Formation_1
+  FormationBehaviourDefinition:
+    serializableElementName: 
+  ChoreographyOverride: 0
+  NoAttackRotation: 0
+  FacingAngleOffset: 0
+  MinDistanceBetweenFormationDummies: 0
+  RestrictionPerSlot: []
+  UnitSpecification: 0
+  CoordinationMasterValue: 0.5
+  CoordinationValues:
+    DummyOffsetPosition: {x: 0.1, y: 0.175}
+    DummyOffsetAngle: {x: 10, y: 15}
+    AnimationDelay: {x: 0, y: 0.5}
+    MinDistanceReformationMultiplier: 1
+    CoordinateAttackMovement: 0
+    SameRowAttack: 1
+    AveragePathLength: 0
+    UseDisciplinedVariation: 0
+  StealthRevealAudioEvent:
+    guid:
+      a: -1326129278
+      b: 1160368417
+      c: 1151361188
+      d: -1076931018
+  unitVoiceProviderReference:
+    guid:
+      a: 1675975269
+      b: 1190922812
+      c: -1881026891
+      d: 664216081
 --- !u!114 &4316127784948743295
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1704,6 +2033,53 @@ MonoBehaviour:
       b: 1206566514
       c: -2023489617
       d: 735677169
+--- !u!114 &6066691543626668428
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 759592875, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: PresentationLandUnit_Era6_AssaultEngineer_Default
+  m_EditorClassIdentifier: 
+  IsWorkInProgress: 0
+  UnitDefinitionReference:
+    serializableElementName: LandUnit_Era6_AssaultEngineer
+  PresentationFormationDefinition:
+    serializableElementName: Formation_Close_5
+  FormationBehaviourDefinition:
+    serializableElementName: All_Clash
+  ChoreographyOverride: 0
+  NoAttackRotation: 0
+  FacingAngleOffset: 0
+  MinDistanceBetweenFormationDummies: 0
+  RestrictionPerSlot: []
+  UnitSpecification: 0
+  CoordinationMasterValue: 0.01
+  CoordinationValues:
+    DummyOffsetPosition: {x: 0.198, y: 0.3465}
+    DummyOffsetAngle: {x: 19.8, y: 29.7}
+    AnimationDelay: {x: 0, y: 0.99}
+    MinDistanceReformationMultiplier: 1
+    CoordinateAttackMovement: 0
+    SameRowAttack: 1
+    AveragePathLength: 0
+    UseDisciplinedVariation: 0
+  StealthRevealAudioEvent:
+    guid:
+      a: -1326129278
+      b: 1160368417
+      c: 1151361188
+      d: -1076931018
+  unitVoiceProviderReference:
+    guid:
+      a: -956707267
+      b: 1127163104
+      c: -6804313
+      d: -1489757415
 --- !u!114 &6079622052908038948
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1986,6 +2362,53 @@ MonoBehaviour:
       b: 1122761624
       c: 1237126529
       d: 1866866941
+--- !u!114 &7012219331568111448
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 759592875, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: PresentationLandUnit_Era6_CombatEngineer_Default
+  m_EditorClassIdentifier: 
+  IsWorkInProgress: 0
+  UnitDefinitionReference:
+    serializableElementName: LandUnit_Era6_CombatEngineer
+  PresentationFormationDefinition:
+    serializableElementName: Formation_Close_5
+  FormationBehaviourDefinition:
+    serializableElementName: All_Clash
+  ChoreographyOverride: 0
+  NoAttackRotation: 0
+  FacingAngleOffset: 0
+  MinDistanceBetweenFormationDummies: 0
+  RestrictionPerSlot: []
+  UnitSpecification: 0
+  CoordinationMasterValue: 0.01
+  CoordinationValues:
+    DummyOffsetPosition: {x: 0.198, y: 0.3465}
+    DummyOffsetAngle: {x: 19.8, y: 29.7}
+    AnimationDelay: {x: 0, y: 0.99}
+    MinDistanceReformationMultiplier: 1
+    CoordinateAttackMovement: 0
+    SameRowAttack: 1
+    AveragePathLength: 0
+    UseDisciplinedVariation: 0
+  StealthRevealAudioEvent:
+    guid:
+      a: -1326129278
+      b: 1160368417
+      c: 1151361188
+      d: -1076931018
+  unitVoiceProviderReference:
+    guid:
+      a: -956707267
+      b: 1127163104
+      c: -6804313
+      d: -1489757415
 --- !u!114 &7081663119372279806
 MonoBehaviour:
   m_ObjectHideFlags: 0

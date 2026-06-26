@@ -1,0 +1,176 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-7638701997882640516
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -717291864, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Villages_Logging_Encampment
+  m_EditorClassIdentifier: 
+  Title: Logging Encampment
+  Description: This camp increases industry production by supplying loggers and sawmills
+    to forested areas.
+  Images:
+  - Value:
+      guid:
+        a: 1032804734
+        b: 1176095330
+        c: 59582138
+        d: -1709912871
+    serializableKey: Small
+  - Value:
+      guid:
+        a: 1032804734
+        b: 1176095330
+        c: 59582138
+        d: -1709912871
+    serializableKey: Tooltip
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  Symbol: 
+  SortPriority: 4999
+  ConstructibleTraits: 
+--- !u!114 &-7300495840054023192
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -717291864, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Villages_River_Farm
+  m_EditorClassIdentifier: 
+  Title: River Farm Village
+  Description: A small river farm village with direct acces to the river for irrigation
+  Images:
+  - Value:
+      guid:
+        a: -1006415188
+        b: 1104888861
+        c: -591900270
+        d: 2036385910
+    serializableKey: Small
+  - Value:
+      guid:
+        a: 1848338320
+        b: 1287449854
+        c: -1213715321
+        d: -585624005
+    serializableKey: Tooltip
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  Symbol: 
+  SortPriority: 4999
+  ConstructibleTraits: 
+--- !u!114 &-6409678917947962906
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -717291864, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Villages_StoneQuarry
+  m_EditorClassIdentifier: 
+  Title: Stone Quarry
+  Description: Stone Quarry is an open pit mine in which stone is excavated from
+    the ground
+  Images:
+  - Value:
+      guid:
+        a: -1414470755
+        b: 1255834466
+        c: -923812687
+        d: 370419277
+    serializableKey: Small
+  - Value:
+      guid:
+        a: -1414470755
+        b: 1255834466
+        c: -923812687
+        d: 370419277
+    serializableKey: Tooltip
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  Symbol: 
+  SortPriority: 4999
+  ConstructibleTraits: 
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 763423559, guid: f8c4d2d2a3a246a0909e3c6973d4a4e3, type: 3}
+  m_Name: ConstructibleCommonExtensionUIMappersVillage
+  m_EditorClassIdentifier: 
+--- !u!114 &748010149954362541
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -717291864, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Villages_Fortification
+  m_EditorClassIdentifier: 
+  Title: Fortified Village
+  Description: A Fortified Village is a Millitary Base where the surrounding area
+    is farmed
+  Images:
+  - Value:
+      guid:
+        a: -131609476
+        b: 1288208065
+        c: -80889665
+        d: -1027998215
+    serializableKey: Small
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  Symbol: 
+  SortPriority: 4006
+  ConstructibleTraits: 
+--- !u!114 &8408071208305973839
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -717291864, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Villages_Farming_Village
+  m_EditorClassIdentifier: 
+  Title: Farming Village
+  Description: This village improves the food production of the whole territory by
+    supplying farmers with valuable tools and plenty of extra farmhands.
+  Images:
+  - Value:
+      guid:
+        a: -1477708753
+        b: 1181672732
+        c: -2100609117
+        d: -1449035845
+    serializableKey: Small
+  - Value:
+      guid:
+        a: 1224447260
+        b: 1251570685
+        c: -1074817352
+        d: 1467343096
+    serializableKey: Tooltip
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  Symbol: 
+  SortPriority: 4999
+  ConstructibleTraits: 

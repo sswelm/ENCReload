@@ -12,6 +12,41 @@ MonoBehaviour:
   m_Script: {fileID: 633835022, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
   m_Name: RpnDefinitionCollectionMiscellaneous
   m_EditorClassIdentifier: 
+--- !u!114 &3408356933551724347
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
+  m_Name: SubmissionCost
+  m_EditorClassIdentifier: 
+  RpnOperationStack: 0a0000000a00000008000000020000000a0000000a0000000900000008000000010000000a0000000300000006000000020000000a000000070000000100000000000000
+  ConstantStack:
+  - RawValue: 130000
+  - RawValue: 35000
+  - RawValue: 5000000
+  - RawValue: 0
+  - RawValue: 200000000
+  - RawValue: 120000
+  Note: "The actual values in the fame part are 5 and 200, we multiply everything
+    \nby 1000 to overflow the underlying representation and truncate all numbers
+    \nafter the comma.\n\nThis means that each positive chunk of 200 fame in difference
+    discounts 10 from vassalization\ncosts. Doesn't work the other way though (less
+    famous don't have to pay more)\n\nThis way we can stay with nice multiples of
+    5 and we don't have huge \nnumber swings if an empire changes era right before
+    vassalizing :)"
+  PropertyLocalNameStack:
+  - CityCountingTowardCap
+  - FameScore
+  - FameScore
+  VariableNameStack: []
+  DefinedVariables: []
+  targetTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
+  sourceTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
 --- !u!114 &4141811828854184409
 MonoBehaviour:
   m_ObjectHideFlags: 0

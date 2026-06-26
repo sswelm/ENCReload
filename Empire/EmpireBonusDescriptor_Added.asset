@@ -102,6 +102,75 @@ MonoBehaviour:
       PropertyLocalName: []
   serializableCategory: 
   startingType: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
+--- !u!114 &-8249850765238655723
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
+  m_Name: Effect_EmpireBonus_Forestry
+  m_EditorClassIdentifier: 
+  Effects:
+  - ApplyEffectOnSource: 0
+    Path:
+      PropertyToFollow:
+      - Cities
+      - Districts
+      - Neighbours
+      Validations:
+      - PathIndex: 1
+        ValidableElementCollection: 
+        Inverted: 0
+        serializableElementName: Villages_Logging_LandSynergy2
+      specificTargetType: 
+    PropertyEffects:
+    - Note: 
+      TargetProperty: IndustryFromTerrain
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 2000
+      PropertyLocalName: []
+  serializableCategory: 
+  startingType: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
+--- !u!114 &-8220092489735030252
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
+  m_Name: Effect_EmpireBonus_AncientSpearmen
+  m_EditorClassIdentifier: 
+  Effects:
+  - ApplyEffectOnSource: 0
+    Path:
+      PropertyToFollow:
+      - Armies
+      - Units
+      Validations:
+      - PathIndex: 1
+        ValidableElementCollection: 
+        Inverted: 0
+        serializableElementName: Effect_LandUnit_Era0_Common_Spearmen_Neolithic
+      specificTargetType: 
+    PropertyEffects:
+    - Note: 
+      TargetProperty: BaseStrength
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 3000
+      PropertyLocalName: []
+  serializableCategory: 
+  startingType: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
 --- !u!114 &-8109295469294689983
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -287,6 +356,40 @@ MonoBehaviour:
     PropertyEffects:
     - Note: 
       TargetProperty: PublicOrderProduced
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 1000
+      PropertyLocalName: []
+  serializableCategory: 
+  startingType: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
+--- !u!114 &-6283581817237233371
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
+  m_Name: Effect_EmpireBonus_SiegeTactics
+  m_EditorClassIdentifier: 
+  Effects:
+  - ApplyEffectOnSource: 0
+    Path:
+      PropertyToFollow:
+      - Armies
+      - Units
+      Validations:
+      - PathIndex: 1
+        ValidableElementCollection: 
+        Inverted: 0
+        serializableElementName: Effect_UnitPrototype_Melee
+      specificTargetType: 
+    PropertyEffects:
+    - Note: 
+      TargetProperty: SiegeWorksNet
       ToTargetOperation: 0
       RpnOperationStack: 
       ConstantStack:
@@ -496,6 +599,40 @@ MonoBehaviour:
       PropertyLocalName: []
   serializableCategory: 
   startingType: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
+--- !u!114 &-5676365962335997691
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
+  m_Name: Effect_EmpireBonus_LoiteringMunition
+  m_EditorClassIdentifier: 
+  Effects:
+  - ApplyEffectOnSource: 0
+    Path:
+      PropertyToFollow:
+      - Armies
+      - Units
+      Validations:
+      - PathIndex: 1
+        ValidableElementCollection: 
+        Inverted: 0
+        serializableElementName: Effect_LandUnit_Era6_Common_ManPortableATMSquad
+      specificTargetType: 
+    PropertyEffects:
+    - Note: 
+      TargetProperty: CombatStrength
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 2000
+      PropertyLocalName: []
+  serializableCategory: 
+  startingType: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
 --- !u!114 &-5520152274903625272
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -530,6 +667,13 @@ MonoBehaviour:
       PropertyLocalName: []
     - Note: 
       TargetProperty: VisionRange
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 1000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: StealthDetection
       ToTargetOperation: 0
       RpnOperationStack: 
       ConstantStack:
@@ -590,6 +734,22 @@ MonoBehaviour:
       - Armies
       - Units
       Validations:
+      - PathIndex: 1
+        ValidableElementCollection: 
+        Inverted: 1
+        serializableElementName: Effect_Unit_Era1
+      - PathIndex: 1
+        ValidableElementCollection: 
+        Inverted: 1
+        serializableElementName: Effect_Unit_Era2
+      - PathIndex: 1
+        ValidableElementCollection: 
+        Inverted: 1
+        serializableElementName: Effect_Unit_Era3
+      - PathIndex: 1
+        ValidableElementCollection: 
+        Inverted: 1
+        serializableElementName: Effect_Unit_Era4
       - PathIndex: 1
         ValidableElementCollection: 
         Inverted: 1
@@ -742,6 +902,82 @@ MonoBehaviour:
       - RawValue: 2000
       PropertyLocalName:
       - NavalTradeRoadsCount
+  serializableCategory: 
+  startingType: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
+--- !u!114 &-4359956693635021802
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
+  m_Name: Effect_EmpireBonus_Telescope
+  m_EditorClassIdentifier: 
+  Effects:
+  - ApplyEffectOnSource: 0
+    Path:
+      PropertyToFollow:
+      - Armies
+      - Units
+      Validations:
+      - PathIndex: 1
+        ValidableElementCollection: 
+        Inverted: 0
+        serializableElementName: Effect_UnitPrototype_NavalUnit
+      specificTargetType: 
+    PropertyEffects:
+    - Note: 
+      TargetProperty: VisionRange
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 1000
+      PropertyLocalName: []
+  - ApplyEffectOnSource: 0
+    Path:
+      PropertyToFollow:
+      - Armies
+      - Units
+      Validations:
+      - PathIndex: 1
+        ValidableElementCollection: 
+        Inverted: 0
+        serializableElementName: Effect_UnitPrototype_LandUnit
+      - PathIndex: 1
+        ValidableElementCollection: 
+        Inverted: 0
+        serializableElementName: Tag_Unit_Stealth
+      specificTargetType: 
+    PropertyEffects:
+    - Note: 
+      TargetProperty: VisionRange
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 1000
+      PropertyLocalName: []
+  - ApplyEffectOnSource: 0
+    Path:
+      PropertyToFollow:
+      - Armies
+      - Units
+      Validations:
+      - PathIndex: 1
+        ValidableElementCollection: 
+        Inverted: 0
+        serializableElementName: Effect_Unit_Scouting
+      specificTargetType: 
+    PropertyEffects:
+    - Note: 
+      TargetProperty: VisionRange
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 1000
+      PropertyLocalName: []
   serializableCategory: 
   startingType: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
 --- !u!114 &-4296663979766615645
@@ -1310,6 +1546,47 @@ MonoBehaviour:
   m_Script: {fileID: -1010444951, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
   m_Name: EmpireBonusDescriptor_Added
   m_EditorClassIdentifier: 
+--- !u!114 &602105060598845350
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
+  m_Name: Effect_EmpireBonus_PowderLogistics
+  m_EditorClassIdentifier: 
+  Effects:
+  - ApplyEffectOnSource: 0
+    Path:
+      PropertyToFollow:
+      - Armies
+      - Units
+      Validations:
+      - PathIndex: 1
+        ValidableElementCollection: 
+        Inverted: 0
+        serializableElementName: Effect_LandUnit_Era4_SiegeMinner
+      specificTargetType: 
+    PropertyEffects:
+    - Note: 
+      TargetProperty: CombatStrength
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 5000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: LandSiegeWorksNet
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 1000
+      PropertyLocalName: []
+  serializableCategory: 
+  startingType: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
 --- !u!114 &1037470669892449572
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1399,6 +1676,40 @@ MonoBehaviour:
       PropertyLocalName: []
   serializableCategory: 
   startingType: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
+--- !u!114 &1152589534554032303
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
+  m_Name: Effect_EmpireBonus_Carbine
+  m_EditorClassIdentifier: 
+  Effects:
+  - ApplyEffectOnSource: 0
+    Path:
+      PropertyToFollow:
+      - Armies
+      - Units
+      Validations:
+      - PathIndex: 1
+        ValidableElementCollection: 
+        Inverted: 0
+        serializableElementName: Effect_UnitPrototype_Gunner
+      specificTargetType: 
+    PropertyEffects:
+    - Note: 
+      TargetProperty: BaseStrength
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 1000
+      PropertyLocalName: []
+  serializableCategory: 
+  startingType: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
 --- !u!114 &1466129024601967017
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1420,22 +1731,7 @@ MonoBehaviour:
       specificTargetType: 
     PropertyEffects:
     - Note: 
-      TargetProperty: FoodWorkplaceGainPerPopulation
-      ToTargetOperation: 0
-      RpnOperationStack: 0a0000000900000002000000
-      ConstantStack:
-      - RawValue: 500
-      PropertyLocalName:
-      - Resource06AccessCount
-  - ApplyEffectOnSource: 0
-    Path:
-      PropertyToFollow:
-      - Settlements
-      Validations: []
-      specificTargetType: 
-    PropertyEffects:
-    - Note: 
-      TargetProperty: MoneyWorkplaceGainPerPopulation
+      TargetProperty: ScienceWorkplaceGainPerPopulation
       ToTargetOperation: 0
       RpnOperationStack: 0a0000000900000002000000
       ConstantStack:
@@ -1491,12 +1787,43 @@ MonoBehaviour:
       ConstantStack:
       - RawValue: 1000
       PropertyLocalName: []
+  - ApplyEffectOnSource: 0
+    Path:
+      PropertyToFollow:
+      - Armies
+      - Units
+      Validations:
+      - PathIndex: 1
+        ValidableElementCollection: 
+        Inverted: 0
+        serializableElementName: Effect_LandUnit_Era4_Common_Mortars
+      specificTargetType: 
+    PropertyEffects:
     - Note: 
-      TargetProperty: CombatStrength
+      TargetProperty: AttackRange
       ToTargetOperation: 0
       RpnOperationStack: 
       ConstantStack:
-      - RawValue: 2000
+      - RawValue: 1000
+      PropertyLocalName: []
+  - ApplyEffectOnSource: 0
+    Path:
+      PropertyToFollow:
+      - Armies
+      - Units
+      Validations:
+      - PathIndex: 1
+        ValidableElementCollection: 
+        Inverted: 0
+        serializableElementName: Effect_NavalUnit_Era4_Common_BombKetch
+      specificTargetType: 
+    PropertyEffects:
+    - Note: 
+      TargetProperty: AttackRange
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 1000
       PropertyLocalName: []
   serializableCategory: 
   startingType: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
@@ -1750,6 +2077,22 @@ MonoBehaviour:
       Validations:
       - PathIndex: 1
         ValidableElementCollection: 
+        Inverted: 1
+        serializableElementName: Effect_Unit_Era1
+      - PathIndex: 1
+        ValidableElementCollection: 
+        Inverted: 1
+        serializableElementName: Effect_Unit_Era2
+      - PathIndex: 1
+        ValidableElementCollection: 
+        Inverted: 1
+        serializableElementName: Effect_Unit_Era3
+      - PathIndex: 1
+        ValidableElementCollection: 
+        Inverted: 1
+        serializableElementName: Effect_Unit_Era4
+      - PathIndex: 1
+        ValidableElementCollection: 
         Inverted: 0
         serializableElementName: Effect_UnitPrototype_NavalUnit
       specificTargetType: 
@@ -1930,16 +2273,23 @@ MonoBehaviour:
       Validations:
       - PathIndex: 1
         ValidableElementCollection: 
-        Inverted: 0
-        serializableElementName: Effect_Unit_Era6
+        Inverted: 1
+        serializableElementName: Effect_UnitPrototype_NavalUnit
       - PathIndex: 1
         ValidableElementCollection: 
-        Inverted: 1
-        serializableElementName: Tag_Unit_Stealth
+        Inverted: 0
+        serializableElementName: Effect_UnitAbility_Artillery
       specificTargetType: 
     PropertyEffects:
     - Note: 
       TargetProperty: VisionRange
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 1000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: CombatStrength
       ToTargetOperation: 0
       RpnOperationStack: 
       ConstantStack:
@@ -2009,6 +2359,88 @@ MonoBehaviour:
       RpnOperationStack: 
       ConstantStack:
       - RawValue: 1000
+      PropertyLocalName: []
+  serializableCategory: 
+  startingType: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
+--- !u!114 &3950781936088073727
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
+  m_Name: Effect_EmpireBonus_ShapedCharges
+  m_EditorClassIdentifier: 
+  Effects:
+  - ApplyEffectOnSource: 0
+    Path:
+      PropertyToFollow:
+      - Armies
+      - Units
+      Validations:
+      - PathIndex: 1
+        ValidableElementCollection: 
+        Inverted: 0
+        serializableElementName: Effect_LandUnit_Era6_AssaultEngineer
+      specificTargetType: 
+    PropertyEffects:
+    - Note: 
+      TargetProperty: CombatStrength
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 5000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: LandSiegeWorksNet
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 1000
+      PropertyLocalName: []
+  serializableCategory: 
+  startingType: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
+--- !u!114 &4973633906092670405
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
+  m_Name: Effect_EmpireBonus_TandemCharges
+  m_EditorClassIdentifier: 
+  Effects:
+  - ApplyEffectOnSource: 0
+    Path:
+      PropertyToFollow:
+      - Armies
+      - Units
+      Validations:
+      - PathIndex: 1
+        ValidableElementCollection: 
+        Inverted: 0
+        serializableElementName: Effect_LandUnit_Era6_CombatEngineer
+      specificTargetType: 
+    PropertyEffects:
+    - Note: 
+      TargetProperty: LandSiegeWorksNet
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 1000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: CombatStrength
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 5000
       PropertyLocalName: []
   serializableCategory: 
   startingType: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
@@ -2107,10 +2539,6 @@ MonoBehaviour:
       - Armies
       - Units
       Validations:
-      - PathIndex: 1
-        ValidableElementCollection: 
-        Inverted: 0
-        serializableElementName: Effect_Unit_Era6
       - PathIndex: 1
         ValidableElementCollection: 
         Inverted: 1
@@ -2228,6 +2656,47 @@ MonoBehaviour:
       PropertyLocalName: []
   serializableCategory: 
   startingType: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
+--- !u!114 &6514581839174143208
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
+  m_Name: Effect_EmpireBonus_InformantNetworks
+  m_EditorClassIdentifier: 
+  Effects:
+  - ApplyEffectOnSource: 0
+    Path:
+      PropertyToFollow:
+      - Cities
+      - Districts
+      Validations:
+      - PathIndex: 1
+        ValidableElementCollection: 
+        Inverted: 0
+        serializableElementName: Effect_Extension_Base_CityCenter
+      specificTargetType: 
+    PropertyEffects: []
+  - ApplyEffectOnSource: 0
+    Path:
+      PropertyToFollow:
+      - Cities
+      Validations: []
+      specificTargetType: 
+    PropertyEffects:
+    - Note: 
+      TargetProperty: StabilityPerStationedUnit
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 1000
+      PropertyLocalName: []
+  serializableCategory: 
+  startingType: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
 --- !u!114 &6877896921864572188
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2327,7 +2796,11 @@ MonoBehaviour:
       PropertyToFollow:
       - Armies
       - Units
-      Validations: []
+      Validations:
+      - PathIndex: 1
+        ValidableElementCollection: 
+        Inverted: 1
+        serializableElementName: Tag_Unit_Seafaring
       specificTargetType: 
     PropertyEffects:
     - Note: 
@@ -2371,6 +2844,51 @@ MonoBehaviour:
       ConstantStack:
       - RawValue: 2000
       PropertyLocalName: []
+  serializableCategory: 
+  startingType: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
+--- !u!114 &7939711549254434497
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
+  m_Name: Effect_EmpireBonus_Strategic06_Plastics
+  m_EditorClassIdentifier: 
+  Effects:
+  - ApplyEffectOnSource: 0
+    Path:
+      PropertyToFollow:
+      - Settlements
+      Validations: []
+      specificTargetType: 
+    PropertyEffects:
+    - Note: 
+      TargetProperty: FoodWorkplaceGainPerPopulation
+      ToTargetOperation: 0
+      RpnOperationStack: 0a0000000900000002000000
+      ConstantStack:
+      - RawValue: 500
+      PropertyLocalName:
+      - Resource06AccessCount
+  - ApplyEffectOnSource: 0
+    Path:
+      PropertyToFollow:
+      - Settlements
+      Validations: []
+      specificTargetType: 
+    PropertyEffects:
+    - Note: 
+      TargetProperty: MoneyWorkplaceGainPerPopulation
+      ToTargetOperation: 0
+      RpnOperationStack: 0a0000000900000002000000
+      ConstantStack:
+      - RawValue: 500
+      PropertyLocalName:
+      - Resource06AccessCount
   serializableCategory: 
   startingType: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
 --- !u!114 &8077368241796373077
@@ -2475,6 +2993,40 @@ MonoBehaviour:
     PropertyEffects:
     - Note: 
       TargetProperty: PollutionNet
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 1000
+      PropertyLocalName: []
+  serializableCategory: 
+  startingType: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
+--- !u!114 &8582859559766220759
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
+  m_Name: Effect_EmpireBonus_Cannon
+  m_EditorClassIdentifier: 
+  Effects:
+  - ApplyEffectOnSource: 0
+    Path:
+      PropertyToFollow:
+      - Armies
+      - Units
+      Validations:
+      - PathIndex: 1
+        ValidableElementCollection: 
+        Inverted: 0
+        serializableElementName: Effect_Unit_Era4_ShortRangeCannon
+      specificTargetType: 
+    PropertyEffects:
+    - Note: 
+      TargetProperty: AttackRange
       ToTargetOperation: 0
       RpnOperationStack: 
       ConstantStack:

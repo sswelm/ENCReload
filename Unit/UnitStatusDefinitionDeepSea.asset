@@ -1,0 +1,135 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-2370396406932656700
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 967118104, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Status_Unit_EnchJetty
+  m_EditorClassIdentifier: 
+  OnlyUsedByCode: 0
+  Category:
+    serializableElementName: StatusCategory_Unit_Motivated
+  Descriptor:
+    serializableElementName: Effect_Status_Unit_EnchJetty
+  CostModifier:
+    serializableElementName: 
+  StartingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
+  InhibitedBy: []
+  CancelOnApply: []
+  DefaultDuration: 2147483647
+  IgnoreGameSpeed: 1
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -2110363667, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitStatusDefinitionDeepSea
+  m_EditorClassIdentifier: 
+--- !u!114 &2528341680516691956
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 967118104, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Status_Unit_EnchSubmarineHold
+  m_EditorClassIdentifier: 
+  OnlyUsedByCode: 0
+  Category:
+    serializableElementName: StatusCategory_Unit_Motivated
+  Descriptor:
+    serializableElementName: Effect_Status_Unit_EnchSubmarineHold
+  CostModifier:
+    serializableElementName: 
+  StartingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
+  InhibitedBy: []
+  CancelOnApply: []
+  DefaultDuration: 2147483647
+  IgnoreGameSpeed: 1
+--- !u!114 &3639272014704774444
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 967118104, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Status_Unit_EnchCoralHunting
+  m_EditorClassIdentifier: 
+  OnlyUsedByCode: 0
+  Category:
+    serializableElementName: StatusCategory_Unit_Organized
+  Descriptor:
+    serializableElementName: Effect_Status_Unit_EnchCoralHunting
+  CostModifier:
+    serializableElementName: 
+  StartingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
+  InhibitedBy: []
+  CancelOnApply: []
+  DefaultDuration: 2147483647
+  IgnoreGameSpeed: 1
+--- !u!114 &3680249273648566649
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 967118104, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Status_Unit_EnchBridgeAndFerry
+  m_EditorClassIdentifier: 
+  OnlyUsedByCode: 0
+  Category:
+    serializableElementName: StatusCategory_Unit_Motivated
+  Descriptor:
+    serializableElementName: Effect_Status_Unit_EnchBridgeAndFerry
+  CostModifier:
+    serializableElementName: 
+  StartingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
+  InhibitedBy: []
+  CancelOnApply: []
+  DefaultDuration: 2147483647
+  IgnoreGameSpeed: 1
+--- !u!114 &7342267275284363054
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 967118104, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Status_Unit_EnchBlocus
+  m_EditorClassIdentifier: 
+  OnlyUsedByCode: 0
+  Category:
+    serializableElementName: StatusCategory_Unit_FirstAid
+  Descriptor:
+    serializableElementName: Effect_Status_Unit_EnchBlocus
+  CostModifier:
+    serializableElementName: 
+  StartingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
+  InhibitedBy: []
+  CancelOnApply:
+  - serializableElementName: StatusCategory_Unit_Retreated
+  DefaultDuration: 2147483647
+  IgnoreGameSpeed: 1

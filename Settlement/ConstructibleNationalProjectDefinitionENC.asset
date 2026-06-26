@@ -459,7 +459,31 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes:
     - Name: GainValues
+      Entry: 7
+      Data: 0|Amplitude.Mercury.Data.AI.Gain[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Mercury.Data.AI.Gain, Amplitude.Mercury.Data
+    - Name: Type
+      Entry: 3
+      Data: 32
+    - Name: Importance
+      Entry: 3
+      Data: 3
+    - Name: Gates
       Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
       Data: 
   Key: 0
   Hidden: 0
@@ -551,18 +575,42 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes:
     - Name: GainValues
+      Entry: 7
+      Data: 0|Amplitude.Mercury.Data.AI.Gain[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Mercury.Data.AI.Gain, Amplitude.Mercury.Data
+    - Name: Type
+      Entry: 3
+      Data: 32
+    - Name: Importance
+      Entry: 3
+      Data: 4
+    - Name: Gates
       Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
       Data: 
     - Name: Signature
       Entry: 7
-      Data: 0|Amplitude.Mercury.Data.Simulation.NarrativeEventConsequenceVariableDeclaration[],
+      Data: 1|Amplitude.Mercury.Data.Simulation.NarrativeEventConsequenceVariableDeclaration[],
         Amplitude.Mercury.Data
     - Name: 
       Entry: 12
       Data: 1
     - Name: 
       Entry: 7
-      Data: 1|Amplitude.Mercury.Data.Simulation.NarrativeEventConsequenceVariableDeclaration,
+      Data: 2|Amplitude.Mercury.Data.Simulation.NarrativeEventConsequenceVariableDeclaration,
         Amplitude.Mercury.Data
     - Name: VariableName
       Entry: 1
@@ -581,13 +629,13 @@ MonoBehaviour:
       Data: 
     - Name: Effects
       Entry: 7
-      Data: 2|Amplitude.Mercury.Data.Simulation.SimulationEventEffect[], Amplitude.Mercury.Data
+      Data: 3|Amplitude.Mercury.Data.Simulation.SimulationEventEffect[], Amplitude.Mercury.Data
     - Name: 
       Entry: 12
-      Data: 3
+      Data: 5
     - Name: 
       Entry: 7
-      Data: 3|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_ApplyExperienceModifier,
+      Data: 4|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_ApplyExperienceModifier,
         Amplitude.Mercury.Data
     - Name: SimulationEffectDescriptionOverride
       Entry: 1
@@ -628,7 +676,7 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 4|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_AddFame, Amplitude.Mercury.Data
+      Data: 5|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_AddFame, Amplitude.Mercury.Data
     - Name: SimulationEffectDescriptionOverride
       Entry: 6
       Data: 
@@ -683,7 +731,7 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 5|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_UnlockConstructible,
+      Data: 6|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_UnlockConstructible,
         Amplitude.Mercury.Data
     - Name: SimulationEffectDescriptionOverride
       Entry: 6
@@ -712,7 +760,7 @@ MonoBehaviour:
       Data: Empire
     - Name: ConstructibleReferences
       Entry: 7
-      Data: 6|Amplitude.Framework.DatatableElementReference[], Amplitude.Framework
+      Data: 7|Amplitude.Framework.DatatableElementReference[], Amplitude.Framework
     - Name: 
       Entry: 12
       Data: 1
@@ -731,6 +779,97 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 8|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_UnlockConstructible,
+        Amplitude.Mercury.Data
+    - Name: SimulationEffectDescriptionOverride
+      Entry: 6
+      Data: 
+    - Name: UIMapperOverride
+      Entry: 6
+      Data: 
+    - Name: Hidden
+      Entry: 5
+      Data: false
+    - Name: DlcPrerequisite
+      Entry: 7
+      Data: Amplitude.Mercury.Data.Simulation.Prerequisites.DownloadableContentPrerequisite,
+        Amplitude.Mercury.Data
+    - Name: DownloadableContent
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: GainValues
+      Entry: 6
+      Data: 
+    - Name: TargetID
+      Entry: 1
+      Data: Empire
+    - Name: ConstructibleReferences
+      Entry: 7
+      Data: 9|Amplitude.Framework.DatatableElementReference[], Amplitude.Framework
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: AirUnit_Era6_Common_MIRVs_Theatre
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 10|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_AddPollution,
+        Amplitude.Mercury.Data
+    - Name: SimulationEffectDescriptionOverride
+      Entry: 6
+      Data: 
+    - Name: UIMapperOverride
+      Entry: 6
+      Data: 
+    - Name: Hidden
+      Entry: 5
+      Data: false
+    - Name: DlcPrerequisite
+      Entry: 7
+      Data: Amplitude.Mercury.Data.Simulation.Prerequisites.DownloadableContentPrerequisite,
+        Amplitude.Mercury.Data
+    - Name: DownloadableContent
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: GainValues
+      Entry: 6
+      Data: 
+    - Name: TargetID
+      Entry: 1
+      Data: Empire
+    - Name: Amount
+      Entry: 3
+      Data: 6100
+    - Name: PollutionType
+      Entry: 3
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -781,13 +920,13 @@ MonoBehaviour:
   ResourceAccessPrerequisites:
   - Resource: 5
     ConstantType: 0
-    ConstantValue: 3
+    ConstantValue: 12
   - Resource: 6
     ConstantType: 0
-    ConstantValue: 3
+    ConstantValue: 12
   - Resource: 7
     ConstantType: 0
-    ConstantValue: 8
+    ConstantValue: 16
   MinimalPopulationPrerequisite: 0
   ResourceSupremacyPrerequisite: 
   EraPrerequisite:
@@ -949,7 +1088,7 @@ MonoBehaviour:
       Data: 536870912
     - Name: Importance
       Entry: 3
-      Data: 2
+      Data: 3
     - Name: Gates
       Entry: 6
       Data: 
@@ -1860,7 +1999,7 @@ MonoBehaviour:
       Data: 536870912
     - Name: Importance
       Entry: 3
-      Data: 2
+      Data: 3
     - Name: Gates
       Entry: 6
       Data: 
@@ -2242,7 +2381,31 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes:
     - Name: GainValues
+      Entry: 7
+      Data: 0|Amplitude.Mercury.Data.AI.Gain[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Mercury.Data.AI.Gain, Amplitude.Mercury.Data
+    - Name: Type
+      Entry: 3
+      Data: 32
+    - Name: Importance
+      Entry: 3
+      Data: 3
+    - Name: Gates
       Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
       Data: 
   Key: 0
   Hidden: 0
@@ -2346,7 +2509,31 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes:
     - Name: GainValues
+      Entry: 7
+      Data: 0|Amplitude.Mercury.Data.AI.Gain[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Mercury.Data.AI.Gain, Amplitude.Mercury.Data
+    - Name: Type
+      Entry: 3
+      Data: 32
+    - Name: Importance
+      Entry: 3
+      Data: 3
+    - Name: Gates
       Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
       Data: 
   Key: 0
   Hidden: 0
@@ -2451,7 +2638,7 @@ MonoBehaviour:
       Data: 536870912
     - Name: Importance
       Entry: 3
-      Data: 2
+      Data: 3
     - Name: Gates
       Entry: 6
       Data: 
@@ -3041,18 +3228,42 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes:
     - Name: GainValues
+      Entry: 7
+      Data: 0|Amplitude.Mercury.Data.AI.Gain[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Mercury.Data.AI.Gain, Amplitude.Mercury.Data
+    - Name: Type
+      Entry: 3
+      Data: 32
+    - Name: Importance
+      Entry: 3
+      Data: 4
+    - Name: Gates
       Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
       Data: 
     - Name: Signature
       Entry: 7
-      Data: 0|Amplitude.Mercury.Data.Simulation.NarrativeEventConsequenceVariableDeclaration[],
+      Data: 1|Amplitude.Mercury.Data.Simulation.NarrativeEventConsequenceVariableDeclaration[],
         Amplitude.Mercury.Data
     - Name: 
       Entry: 12
       Data: 1
     - Name: 
       Entry: 7
-      Data: 1|Amplitude.Mercury.Data.Simulation.NarrativeEventConsequenceVariableDeclaration,
+      Data: 2|Amplitude.Mercury.Data.Simulation.NarrativeEventConsequenceVariableDeclaration,
         Amplitude.Mercury.Data
     - Name: VariableName
       Entry: 1
@@ -3071,13 +3282,13 @@ MonoBehaviour:
       Data: 
     - Name: Effects
       Entry: 7
-      Data: 2|Amplitude.Mercury.Data.Simulation.SimulationEventEffect[], Amplitude.Mercury.Data
+      Data: 3|Amplitude.Mercury.Data.Simulation.SimulationEventEffect[], Amplitude.Mercury.Data
     - Name: 
       Entry: 12
-      Data: 2
+      Data: 4
     - Name: 
       Entry: 7
-      Data: 3|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_UnlockConstructible,
+      Data: 4|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_UnlockConstructible,
         Amplitude.Mercury.Data
     - Name: SimulationEffectDescriptionOverride
       Entry: 6
@@ -3106,7 +3317,7 @@ MonoBehaviour:
       Data: Empire
     - Name: ConstructibleReferences
       Entry: 7
-      Data: 4|Amplitude.Framework.DatatableElementReference[], Amplitude.Framework
+      Data: 5|Amplitude.Framework.DatatableElementReference[], Amplitude.Framework
     - Name: 
       Entry: 12
       Data: 1
@@ -3130,7 +3341,60 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 5|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_AddFame, Amplitude.Mercury.Data
+      Data: 6|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_UnlockConstructible,
+        Amplitude.Mercury.Data
+    - Name: SimulationEffectDescriptionOverride
+      Entry: 6
+      Data: 
+    - Name: UIMapperOverride
+      Entry: 6
+      Data: 
+    - Name: Hidden
+      Entry: 5
+      Data: false
+    - Name: DlcPrerequisite
+      Entry: 7
+      Data: Amplitude.Mercury.Data.Simulation.Prerequisites.DownloadableContentPrerequisite,
+        Amplitude.Mercury.Data
+    - Name: DownloadableContent
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: GainValues
+      Entry: 6
+      Data: 
+    - Name: TargetID
+      Entry: 1
+      Data: Empire
+    - Name: ConstructibleReferences
+      Entry: 7
+      Data: 7|Amplitude.Framework.DatatableElementReference[], Amplitude.Framework
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Framework.DatatableElementReference, Amplitude.Framework
+    - Name: serializableElementName
+      Entry: 1
+      Data: AirUnit_Era6_Common_MediumRangeNuclearMissile
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 8|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_AddFame, Amplitude.Mercury.Data
     - Name: SimulationEffectDescriptionOverride
       Entry: 6
       Data: 
@@ -3184,6 +3448,44 @@ MonoBehaviour:
       Entry: 8
       Data: 
     - Name: 
+      Entry: 7
+      Data: 9|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_AddPollution,
+        Amplitude.Mercury.Data
+    - Name: SimulationEffectDescriptionOverride
+      Entry: 6
+      Data: 
+    - Name: UIMapperOverride
+      Entry: 6
+      Data: 
+    - Name: Hidden
+      Entry: 5
+      Data: false
+    - Name: DlcPrerequisite
+      Entry: 7
+      Data: Amplitude.Mercury.Data.Simulation.Prerequisites.DownloadableContentPrerequisite,
+        Amplitude.Mercury.Data
+    - Name: DownloadableContent
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: GainValues
+      Entry: 6
+      Data: 
+    - Name: TargetID
+      Entry: 1
+      Data: Empire
+    - Name: Amount
+      Entry: 3
+      Data: 1900
+    - Name: PollutionType
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
       Entry: 13
       Data: 
     - Name: 
@@ -3230,13 +3532,13 @@ MonoBehaviour:
   ResourceAccessPrerequisites:
   - Resource: 6
     ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 4
   - Resource: 5
     ConstantType: 0
-    ConstantValue: 1
+    ConstantValue: 4
   - Resource: 7
     ConstantType: 0
-    ConstantValue: 4
+    ConstantValue: 8
   MinimalPopulationPrerequisite: 0
   ResourceSupremacyPrerequisite: 
   EraPrerequisite:
@@ -3385,18 +3687,42 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes:
     - Name: GainValues
+      Entry: 7
+      Data: 0|Amplitude.Mercury.Data.AI.Gain[], Amplitude.Mercury.Data
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: Amplitude.Mercury.Data.AI.Gain, Amplitude.Mercury.Data
+    - Name: Type
+      Entry: 3
+      Data: 32
+    - Name: Importance
+      Entry: 3
+      Data: 4
+    - Name: Gates
       Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
       Data: 
     - Name: Signature
       Entry: 7
-      Data: 0|Amplitude.Mercury.Data.Simulation.NarrativeEventConsequenceVariableDeclaration[],
+      Data: 1|Amplitude.Mercury.Data.Simulation.NarrativeEventConsequenceVariableDeclaration[],
         Amplitude.Mercury.Data
     - Name: 
       Entry: 12
       Data: 1
     - Name: 
       Entry: 7
-      Data: 1|Amplitude.Mercury.Data.Simulation.NarrativeEventConsequenceVariableDeclaration,
+      Data: 2|Amplitude.Mercury.Data.Simulation.NarrativeEventConsequenceVariableDeclaration,
         Amplitude.Mercury.Data
     - Name: VariableName
       Entry: 1
@@ -3415,13 +3741,13 @@ MonoBehaviour:
       Data: 
     - Name: Effects
       Entry: 7
-      Data: 2|Amplitude.Mercury.Data.Simulation.SimulationEventEffect[], Amplitude.Mercury.Data
+      Data: 3|Amplitude.Mercury.Data.Simulation.SimulationEventEffect[], Amplitude.Mercury.Data
     - Name: 
       Entry: 12
-      Data: 3
+      Data: 4
     - Name: 
       Entry: 7
-      Data: 3|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_UnlockConstructible,
+      Data: 4|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_UnlockConstructible,
         Amplitude.Mercury.Data
     - Name: SimulationEffectDescriptionOverride
       Entry: 6
@@ -3450,7 +3776,7 @@ MonoBehaviour:
       Data: Empire
     - Name: ConstructibleReferences
       Entry: 7
-      Data: 4|Amplitude.Framework.DatatableElementReference[], Amplitude.Framework
+      Data: 5|Amplitude.Framework.DatatableElementReference[], Amplitude.Framework
     - Name: 
       Entry: 12
       Data: 1
@@ -3474,7 +3800,7 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 5|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_UnlockConstructible,
+      Data: 6|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_UnlockConstructible,
         Amplitude.Mercury.Data
     - Name: SimulationEffectDescriptionOverride
       Entry: 6
@@ -3503,7 +3829,7 @@ MonoBehaviour:
       Data: Empire
     - Name: ConstructibleReferences
       Entry: 7
-      Data: 6|Amplitude.Framework.DatatableElementReference[], Amplitude.Framework
+      Data: 7|Amplitude.Framework.DatatableElementReference[], Amplitude.Framework
     - Name: 
       Entry: 12
       Data: 1
@@ -3527,7 +3853,7 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 7|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_AddFame, Amplitude.Mercury.Data
+      Data: 8|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_AddFame, Amplitude.Mercury.Data
     - Name: SimulationEffectDescriptionOverride
       Entry: 6
       Data: 
@@ -3581,6 +3907,44 @@ MonoBehaviour:
       Entry: 8
       Data: 
     - Name: 
+      Entry: 7
+      Data: 9|Amplitude.Mercury.Data.Simulation.SimulationEventEffect_AddPollution,
+        Amplitude.Mercury.Data
+    - Name: SimulationEffectDescriptionOverride
+      Entry: 6
+      Data: 
+    - Name: UIMapperOverride
+      Entry: 6
+      Data: 
+    - Name: Hidden
+      Entry: 5
+      Data: false
+    - Name: DlcPrerequisite
+      Entry: 7
+      Data: Amplitude.Mercury.Data.Simulation.Prerequisites.DownloadableContentPrerequisite,
+        Amplitude.Mercury.Data
+    - Name: DownloadableContent
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: GainValues
+      Entry: 6
+      Data: 
+    - Name: TargetID
+      Entry: 1
+      Data: Empire
+    - Name: Amount
+      Entry: 3
+      Data: 3700
+    - Name: PollutionType
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
       Entry: 13
       Data: 
     - Name: 
@@ -3627,13 +3991,13 @@ MonoBehaviour:
   ResourceAccessPrerequisites:
   - Resource: 5
     ConstantType: 0
-    ConstantValue: 2
+    ConstantValue: 8
   - Resource: 6
     ConstantType: 0
-    ConstantValue: 2
+    ConstantValue: 8
   - Resource: 7
     ConstantType: 0
-    ConstantValue: 6
+    ConstantValue: 12
   MinimalPopulationPrerequisite: 0
   ResourceSupremacyPrerequisite: 
   EraPrerequisite:

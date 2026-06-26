@@ -1,5 +1,22 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-9165699809936881411
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 771724855, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Effect_LandUnit_Era4_Common_Mortars
+  m_EditorClassIdentifier: 
+  IsHidden: 0
+  Localization: Mortars
+  LocalizationInverted: No Mortars
+  LocalizationTarget: Mortars
+  LocalizationTargetInverted: No Mortars
 --- !u!114 &-9009474575602989369
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17,6 +34,23 @@ MonoBehaviour:
   LocalizationInverted: non Conscripts
   LocalizationTarget: Conscripts
   LocalizationTargetInverted: non Conscripts
+--- !u!114 &-8936768635240413265
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 771724855, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Villages_Logging_LandSynergy2
+  m_EditorClassIdentifier: 
+  IsHidden: 0
+  Localization: Logging
+  LocalizationInverted: non Logging
+  LocalizationTarget: Logging
+  LocalizationTargetInverted: non Logging
 --- !u!114 &-8351014666050512871
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34,6 +68,23 @@ MonoBehaviour:
   LocalizationInverted: non Naval Gunplatforms
   LocalizationTarget: Naval Gunplatform
   LocalizationTargetInverted: non Naval Gunplatform
+--- !u!114 &-7934506060071051752
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 771724855, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Effect_Unit_Mechanized
+  m_EditorClassIdentifier: 
+  IsHidden: 0
+  Localization: Mechanized Units
+  LocalizationInverted: non Mechanized Units
+  LocalizationTarget: Mechanized Units
+  LocalizationTargetInverted: non Mechanized Units
 --- !u!114 &-7882884757167203077
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -119,6 +170,23 @@ MonoBehaviour:
   LocalizationInverted: non airstrike capable plane
   LocalizationTarget: Airstrike capable plane
   LocalizationTargetInverted: non airstrike capable plane
+--- !u!114 &-7274758467981694952
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 771724855, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Effect_LandUnit_Era6_CombatEngineer
+  m_EditorClassIdentifier: 
+  IsHidden: 0
+  Localization: CombatEngineers
+  LocalizationInverted: No CombatEngineers
+  LocalizationTarget: CombatEngineers
+  LocalizationTargetInverted: No CombatEngineers
 --- !u!114 &-7260406378766894652
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -136,6 +204,23 @@ MonoBehaviour:
   LocalizationInverted: non Main battle tank
   LocalizationTarget: Main battle tank
   LocalizationTargetInverted: non Main battle tank
+--- !u!114 &-6939325444628170943
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 771724855, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Effect_UnitPrototype_NavalUnit
+  m_EditorClassIdentifier: 
+  IsHidden: 0
+  Localization: Naval Units
+  LocalizationInverted: Non Naval Units
+  LocalizationTarget: Naval Units
+  LocalizationTargetInverted: Non Naval Units
 --- !u!114 &-6909974139636502302
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -170,6 +255,23 @@ MonoBehaviour:
   LocalizationInverted: All Districts other than Nature Reserve
   LocalizationTarget: Nature Reserve
   LocalizationTargetInverted: All Districts other than Nature Reserve
+--- !u!114 &-6187554973531864378
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 771724855, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Tag_Unit_Seafaring
+  m_EditorClassIdentifier: 
+  IsHidden: 0
+  Localization: Naval Units
+  LocalizationInverted: non Naval  Units
+  LocalizationTarget: Naval Units
+  LocalizationTargetInverted: non Naval  Units
 --- !u!114 &-5894838698672031946
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -204,6 +306,40 @@ MonoBehaviour:
   LocalizationInverted: All Districts other than Harbour
   LocalizationTarget: Harbour
   LocalizationTargetInverted: All Districts other than Harbour
+--- !u!114 &-5240394689591285521
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 771724855, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Effect_UnitAbility_Artillery
+  m_EditorClassIdentifier: 
+  IsHidden: 0
+  Localization: Artillery Units
+  LocalizationInverted: non Artillery Units
+  LocalizationTarget: Artillery Units
+  LocalizationTargetInverted: non Artillery Units
+--- !u!114 &-4118149157632776862
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 771724855, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Effect_LandUnit_Era6_Common_ManPortableATMSquad
+  m_EditorClassIdentifier: 
+  IsHidden: 0
+  Localization: Anti Tank Missile Squad
+  LocalizationInverted: Non Anti Tank Missile Squad
+  LocalizationTarget: Anti Tank Missile Squad
+  LocalizationTargetInverted: Non Anti Tank Missile Squad
 --- !u!114 &-4116538729209615167
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -221,6 +357,23 @@ MonoBehaviour:
   LocalizationInverted: Not a Selfpropelled Howitzer
   LocalizationTarget: Selfpropelled Howitzer
   LocalizationTargetInverted: Not a Selfpropelled Howitzer
+--- !u!114 &-3070818871267723900
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 771724855, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Effect_LandUnit_Era4_SiegeMinner
+  m_EditorClassIdentifier: 
+  IsHidden: 0
+  Localization: Siege Miner
+  LocalizationInverted: No Siege Miner
+  LocalizationTarget: Siege Miner
+  LocalizationTargetInverted: No Siege Miner
 --- !u!114 &-3034214027567289414
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -272,6 +425,40 @@ MonoBehaviour:
   LocalizationInverted: non Line of Battle ships
   LocalizationTarget: Line of Battle
   LocalizationTargetInverted: non Line of Battle ships
+--- !u!114 &-2836451890011390206
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 771724855, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Effect_UnitPrototype_Gunner
+  m_EditorClassIdentifier: 
+  IsHidden: 0
+  Localization: Firearm Units
+  LocalizationInverted: Not Firearm Units
+  LocalizationTarget: Firearm Units
+  LocalizationTargetInverted: Not Firearm Units
+--- !u!114 &-2342545974102537200
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 771724855, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Effect_LandUnit_Era4_Canons
+  m_EditorClassIdentifier: 
+  IsHidden: 0
+  Localization: Cannons
+  LocalizationInverted: No Cannons
+  LocalizationTarget: Cannons
+  LocalizationTargetInverted: No Cannons
 --- !u!114 &-2301447379343241363
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -289,23 +476,6 @@ MonoBehaviour:
   LocalizationInverted: non Classical Era Unit
   LocalizationTarget: Classical Era Unit
   LocalizationTargetInverted: non Classical Era Unit
---- !u!114 &-1722836827707972303
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 771724855, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
-  m_Name: Effect_UnitPrototype_Gunner
-  m_EditorClassIdentifier: 
-  IsHidden: 0
-  Localization: Modern Gunner
-  LocalizationInverted: non Modern Gunner
-  LocalizationTarget: Modern Gunner  Unit
-  LocalizationTargetInverted: non Modern Gunner Unit
 --- !u!114 &-1690068740933497051
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -323,6 +493,23 @@ MonoBehaviour:
   LocalizationInverted: non Ancient Era Unit
   LocalizationTarget: Ancient Era Unit
   LocalizationTargetInverted: non Ancient Era Unit
+--- !u!114 &-1594945150573906178
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 771724855, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Effect_LandUnit_Era6_AssaultEngineer
+  m_EditorClassIdentifier: 
+  IsHidden: 0
+  Localization: Assault Engineers
+  LocalizationInverted: No Assault Engineers
+  LocalizationTarget: Assault Engineers
+  LocalizationTargetInverted: No Assault Engineers
 --- !u!114 &-1420605230047583226
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -374,6 +561,40 @@ MonoBehaviour:
   LocalizationInverted: Not Marine
   LocalizationTarget: Marine
   LocalizationTargetInverted: Not Marine
+--- !u!114 &-593206238510127952
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 771724855, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Effect_NavalUnit_Era4_Common_BombKetch
+  m_EditorClassIdentifier: 
+  IsHidden: 0
+  Localization: Bomb Ketch
+  LocalizationInverted: No Bomb Ketch
+  LocalizationTarget: Bomb Ketch
+  LocalizationTargetInverted: No Bomb Ketch
+--- !u!114 &-322787489310482522
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 771724855, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Effect_UnitPrototype_ArmouredVehicle
+  m_EditorClassIdentifier: 
+  IsHidden: 0
+  Localization: Armoured Vehicals
+  LocalizationInverted: non Armoured Vehicals
+  LocalizationTarget: Armoured Vehicals
+  LocalizationTargetInverted: non Armoured Vehicals
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -386,6 +607,40 @@ MonoBehaviour:
   m_Script: {fileID: -286750100, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
   m_Name: ValidationMapperCollectionENC
   m_EditorClassIdentifier: 
+--- !u!114 &507849679807232943
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 771724855, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Tag_Unit_Stealth
+  m_EditorClassIdentifier: 
+  IsHidden: 0
+  Localization: Stealth Units
+  LocalizationInverted: non Stealth Units
+  LocalizationTarget: Stealth Units
+  LocalizationTargetInverted: non Stealth Units
+--- !u!114 &600825607045103526
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 771724855, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Effect_LandUnit_Era6_Common_TOW-Infantry
+  m_EditorClassIdentifier: 
+  IsHidden: 0
+  Localization: TOW infantry
+  LocalizationInverted: Non TOW infantry
+  LocalizationTarget: TOW infantry
+  LocalizationTargetInverted: Non TOW infantry
 --- !u!114 &863245147777126834
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -484,10 +739,27 @@ MonoBehaviour:
   m_Name: Effect_Unit_Armoured
   m_EditorClassIdentifier: 
   IsHidden: 0
-  Localization: Armored Unit
-  LocalizationInverted: non Armored Unit
-  LocalizationTarget: Armored Unit
-  LocalizationTargetInverted: non Armored Unit
+  Localization: Armored Units
+  LocalizationInverted: non Armored Units
+  LocalizationTarget: Armored Units
+  LocalizationTargetInverted: non Armored Units
+--- !u!114 &3264447170046958730
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 771724855, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Effect_Unit_Era4_ShortRangeCannon
+  m_EditorClassIdentifier: 
+  IsHidden: 0
+  Localization: Early Modern Era Naval Units
+  LocalizationInverted: non Early Modern Era Naval Units
+  LocalizationTarget: Early Modern Era Naval Units
+  LocalizationTargetInverted: non Early Modern Era Naval Units
 --- !u!114 &3953924899635012103
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -505,6 +777,40 @@ MonoBehaviour:
   LocalizationInverted: Has no Fluid Dynamics
   LocalizationTarget: Has Fluid Dynamics
   LocalizationTargetInverted: Has no Fluid Dynamics
+--- !u!114 &4103448988290467518
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 771724855, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Effect_Unit_Scouting
+  m_EditorClassIdentifier: 
+  IsHidden: 0
+  Localization: Scouting Units
+  LocalizationInverted: non Scouting Units
+  LocalizationTarget: Scouting Units
+  LocalizationTargetInverted: non Scouting Units
+--- !u!114 &4823081644271849401
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 771724855, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Effect_UnitPrototype_LandUnit
+  m_EditorClassIdentifier: 
+  IsHidden: 0
+  Localization: Land Units
+  LocalizationInverted: Non Land Units
+  LocalizationTarget: Land Units
+  LocalizationTargetInverted: Non Land Units
 --- !u!114 &4915128784021359895
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -539,3 +845,20 @@ MonoBehaviour:
   LocalizationInverted: non Early Modern Era Unit
   LocalizationTarget: Early Modern Era Unit
   LocalizationTargetInverted: non Early Modern Era Unit
+--- !u!114 &8077211331749381068
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 771724855, guid: b758277dfa0af2343b0f3b4eb4af4924, type: 3}
+  m_Name: Effect_LandUnit_Era0_Common_Spearmen_Neolithic
+  m_EditorClassIdentifier: 
+  IsHidden: 0
+  Localization: Neolithic Spearmen
+  LocalizationInverted: No Neolithic Spearmen
+  LocalizationTarget: Neolithic Spearmen
+  LocalizationTargetInverted: No Neolithic Spearmen

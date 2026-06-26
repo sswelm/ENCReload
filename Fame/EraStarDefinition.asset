@@ -1,5 +1,405 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-8994824244246249584
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 283645815, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Fame_EraStar_Merchant
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  Key: 0
+  Hidden: 0
+  IsObsolete: 0
+  DlcPrerequisite:
+    DownloadableContent: 0
+  EraPrerequisite:
+    Operator: 1
+    EraReference:
+      serializableElementName: Era1
+  DeedDefinitionReference:
+    serializableElementName: Deed_EraStar_Merchant
+  Parameters:
+    Pages:
+    - GameOptionName: GameOption_GameSpeed
+      DefaultValue:
+        RawValue: 1000
+      Entries:
+      - ValueName: Blitz
+        Parameter:
+          RawValue: 250
+      - ValueName: Fast
+        Parameter:
+          RawValue: 500
+      - ValueName: Normal
+        Parameter:
+          RawValue: 1000
+      - ValueName: Slow
+        Parameter:
+          RawValue: 1500
+      - ValueName: Endless
+        Parameter:
+          RawValue: 2000
+  BaseRpnDefinitionReference:
+    serializableElementName: Fame_EraStar_Merchant_Base
+  Levels:
+  - DeltaRpnDefinitionReference:
+      serializableElementName: Fame_EraStar_Merchant_Level1
+    UseCustomDelta: 0
+    CustomDelta:
+      RawValue: 0
+  - DeltaRpnDefinitionReference:
+      serializableElementName: Fame_EraStar_Merchant_Level2
+    UseCustomDelta: 0
+    CustomDelta:
+      RawValue: 0
+  - DeltaRpnDefinitionReference:
+      serializableElementName: Fame_EraStar_Merchant_Level3
+    UseCustomDelta: 0
+    CustomDelta:
+      RawValue: 0
+  MaxFameReward:
+    DefinitionReference:
+      serializableElementName: FameReward_Medium
+    UseCustomGain: 0
+    CustomGain:
+      RawValue: 0
+  EnableGameplayOrientationBonus: 1
+  GameplayOrientation: 6
+  GameplayOrientationFactor: 0.5
+--- !u!114 &-8715364418314037423
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 283645815, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Fame_EraStar_Prehistoric_Knowledge
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  Key: 0
+  Hidden: 0
+  IsObsolete: 0
+  DlcPrerequisite:
+    DownloadableContent: 0
+  EraPrerequisite:
+    Operator: 0
+    EraReference:
+      serializableElementName: Era0
+  DeedDefinitionReference:
+    serializableElementName: Fame_EraStar_Prehistoric_Knowledge
+  Parameters:
+    Pages:
+    - GameOptionName: GameOption_GameSpeed
+      DefaultValue:
+        RawValue: 1000
+      Entries:
+      - ValueName: Blitz
+        Parameter:
+          RawValue: 250
+      - ValueName: Fast
+        Parameter:
+          RawValue: 500
+      - ValueName: Normal
+        Parameter:
+          RawValue: 1000
+      - ValueName: Slow
+        Parameter:
+          RawValue: 1500
+      - ValueName: Endless
+        Parameter:
+          RawValue: 2000
+  BaseRpnDefinitionReference:
+    serializableElementName: Fame_EraStar_Prehistoric_Knowledge_Base
+  Levels:
+  - DeltaRpnDefinitionReference:
+      serializableElementName: Fame_EraStar_Prehistoric_Knowledge_Level1
+    UseCustomDelta: 0
+    CustomDelta:
+      RawValue: 0
+  MaxFameReward:
+    DefinitionReference:
+      serializableElementName: FameReward_Medium
+    UseCustomGain: 0
+    CustomGain:
+      RawValue: 0
+  EnableGameplayOrientationBonus: 0
+  GameplayOrientation: 2
+  GameplayOrientationFactor: 0.5
+--- !u!114 &-8386289397046668818
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 283645815, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Fame_EraStar_Prehistoric_Growth
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  Key: 0
+  Hidden: 0
+  IsObsolete: 0
+  DlcPrerequisite:
+    DownloadableContent: 0
+  EraPrerequisite:
+    Operator: 0
+    EraReference:
+      serializableElementName: Era0
+  DeedDefinitionReference:
+    serializableElementName: Fame_EraStar_Prehistoric_Growth
+  Parameters:
+    Pages:
+    - GameOptionName: GameOption_GameSpeed
+      DefaultValue:
+        RawValue: 1000
+      Entries:
+      - ValueName: Blitz
+        Parameter:
+          RawValue: 250
+      - ValueName: Fast
+        Parameter:
+          RawValue: 600
+      - ValueName: Normal
+        Parameter:
+          RawValue: 1000
+      - ValueName: Slow
+        Parameter:
+          RawValue: 1500
+      - ValueName: Endless
+        Parameter:
+          RawValue: 2000
+  BaseRpnDefinitionReference:
+    serializableElementName: Fame_EraStar_Prehistoric_Growth_Base
+  Levels:
+  - DeltaRpnDefinitionReference:
+      serializableElementName: Fame_EraStar_Prehistoric_Growth_Level1
+    UseCustomDelta: 0
+    CustomDelta:
+      RawValue: 0
+  MaxFameReward:
+    DefinitionReference:
+      serializableElementName: FameReward_Medium
+    UseCustomGain: 0
+    CustomGain:
+      RawValue: 0
+  EnableGameplayOrientationBonus: 0
+  GameplayOrientation: 3
+  GameplayOrientationFactor: 0.5
+--- !u!114 &-8242523110517738965
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 283645815, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Fame_EraStar_Expansionist
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  Key: 0
+  Hidden: 0
+  IsObsolete: 0
+  DlcPrerequisite:
+    DownloadableContent: 0
+  EraPrerequisite:
+    Operator: 1
+    EraReference:
+      serializableElementName: Era1
+  DeedDefinitionReference:
+    serializableElementName: Deed_EraStar_Expansionist
+  Parameters:
+    Pages:
+    - GameOptionName: GameOption_GameSpeed
+      DefaultValue:
+        RawValue: 1000
+      Entries:
+      - ValueName: Blitz
+        Parameter:
+          RawValue: 250
+      - ValueName: Fast
+        Parameter:
+          RawValue: 500
+      - ValueName: Normal
+        Parameter:
+          RawValue: 1000
+      - ValueName: Slow
+        Parameter:
+          RawValue: 1500
+      - ValueName: Endless
+        Parameter:
+          RawValue: 2000
+    - GameOptionName: GameOption_WorldSize
+      DefaultValue:
+        RawValue: 55000
+      Entries:
+      - ValueName: Tiny
+        Parameter:
+          RawValue: 35000
+      - ValueName: Small
+        Parameter:
+          RawValue: 43000
+      - ValueName: Normal
+        Parameter:
+          RawValue: 55000
+      - ValueName: Large
+        Parameter:
+          RawValue: 75000
+      - ValueName: Huge
+        Parameter:
+          RawValue: 88000
+    - GameOptionName: GameOption_PercentageOfLandmassOverWater
+      DefaultValue:
+        RawValue: 500
+      Entries:
+      - ValueName: 10
+        Parameter:
+          RawValue: 300
+      - ValueName: 20
+        Parameter:
+          RawValue: 400
+      - ValueName: 30
+        Parameter:
+          RawValue: 300
+      - ValueName: 40
+        Parameter:
+          RawValue: 400
+      - ValueName: 50
+        Parameter:
+          RawValue: 500
+      - ValueName: 60
+        Parameter:
+          RawValue: 600
+      - ValueName: 70
+        Parameter:
+          RawValue: 700
+      - ValueName: 80
+        Parameter:
+          RawValue: 800
+      - ValueName: 90
+        Parameter:
+          RawValue: 900
+      - ValueName: 100
+        Parameter:
+          RawValue: 1000
+    - GameOptionName: GameOption_IslandsOdds
+      DefaultValue:
+        RawValue: 1000
+      Entries:
+      - ValueName: Few
+        Parameter:
+          RawValue: 1000
+      - ValueName: Some
+        Parameter:
+          RawValue: 2000
+      - ValueName: Standard
+        Parameter:
+          RawValue: 3000
+      - ValueName: Many
+        Parameter:
+          RawValue: 4000
+    - GameOptionName: GameOption_SlotCount
+      DefaultValue:
+        RawValue: 5000
+      Entries:
+      - ValueName: 2
+        Parameter:
+          RawValue: 2000
+      - ValueName: 3
+        Parameter:
+          RawValue: 3000
+      - ValueName: 4
+        Parameter:
+          RawValue: 4000
+      - ValueName: 5
+        Parameter:
+          RawValue: 5000
+      - ValueName: 6
+        Parameter:
+          RawValue: 6000
+      - ValueName: 7
+        Parameter:
+          RawValue: 7000
+      - ValueName: 8
+        Parameter:
+          RawValue: 8000
+      - ValueName: 9
+        Parameter:
+          RawValue: 9000
+      - ValueName: 10
+        Parameter:
+          RawValue: 10000
+  BaseRpnDefinitionReference:
+    serializableElementName: Fame_EraStar_Expansionist_Base
+  Levels:
+  - DeltaRpnDefinitionReference:
+      serializableElementName: Fame_EraStar_Expansionist_Level1
+    UseCustomDelta: 0
+    CustomDelta:
+      RawValue: 0
+  - DeltaRpnDefinitionReference:
+      serializableElementName: Fame_EraStar_Expansionist_Level2
+    UseCustomDelta: 0
+    CustomDelta:
+      RawValue: 0
+  - DeltaRpnDefinitionReference:
+      serializableElementName: Fame_EraStar_Expansionist_Level3
+    UseCustomDelta: 0
+    CustomDelta:
+      RawValue: 0
+  MaxFameReward:
+    DefinitionReference:
+      serializableElementName: FameReward_Medium
+    UseCustomGain: 0
+    CustomGain:
+      RawValue: 0
+  EnableGameplayOrientationBonus: 1
+  GameplayOrientation: 0
+  GameplayOrientationFactor: 0.5
 --- !u!114 &-6388548698836562227
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -103,6 +503,11 @@ MonoBehaviour:
       RawValue: 0
   - DeltaRpnDefinitionReference:
       serializableElementName: Fame_EraStar_Scientist_Era4_Level5
+    UseCustomDelta: 0
+    CustomDelta:
+      RawValue: 0
+  - DeltaRpnDefinitionReference:
+      serializableElementName: Fame_EraStar_Scientist_Era4_Level6
     UseCustomDelta: 0
     CustomDelta:
       RawValue: 0
@@ -224,7 +629,7 @@ MonoBehaviour:
       RawValue: 0
   EnableGameplayOrientationBonus: 1
   GameplayOrientation: 2
-  GameplayOrientationFactor: 0.5
+  GameplayOrientationFactor: 1
 --- !u!114 &-3564678862119631607
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -335,6 +740,265 @@ MonoBehaviour:
   EnableGameplayOrientationBonus: 1
   GameplayOrientation: 2
   GameplayOrientationFactor: 0.5
+--- !u!114 &-1842089053767834752
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 283645815, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Fame_EraStar_Builder
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  Key: 0
+  Hidden: 0
+  IsObsolete: 0
+  DlcPrerequisite:
+    DownloadableContent: 0
+  EraPrerequisite:
+    Operator: 1
+    EraReference:
+      serializableElementName: Era1
+  DeedDefinitionReference:
+    serializableElementName: Deed_EraStar_Builder
+  Parameters:
+    Pages:
+    - GameOptionName: GameOption_GameSpeed
+      DefaultValue:
+        RawValue: 1000
+      Entries:
+      - ValueName: Blitz
+        Parameter:
+          RawValue: 250
+      - ValueName: Fast
+        Parameter:
+          RawValue: 500
+      - ValueName: Normal
+        Parameter:
+          RawValue: 1000
+      - ValueName: Slow
+        Parameter:
+          RawValue: 1500
+      - ValueName: Endless
+        Parameter:
+          RawValue: 2000
+  BaseRpnDefinitionReference:
+    serializableElementName: Fame_EraStar_Builder_Base
+  Levels:
+  - DeltaRpnDefinitionReference:
+      serializableElementName: Fame_EraStar_Builder_Level1
+    UseCustomDelta: 0
+    CustomDelta:
+      RawValue: 0
+  - DeltaRpnDefinitionReference:
+      serializableElementName: Fame_EraStar_Builder_Level2
+    UseCustomDelta: 0
+    CustomDelta:
+      RawValue: 0
+  - DeltaRpnDefinitionReference:
+      serializableElementName: Fame_EraStar_Builder_Level3
+    UseCustomDelta: 0
+    CustomDelta:
+      RawValue: 0
+  MaxFameReward:
+    DefinitionReference:
+      serializableElementName: FameReward_Medium
+    UseCustomGain: 0
+    CustomGain:
+      RawValue: 0
+  EnableGameplayOrientationBonus: 1
+  GameplayOrientation: 4
+  GameplayOrientationFactor: 0.5
+--- !u!114 &-1197138611073356370
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 283645815, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Fame_EraStar_Farmer
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  Key: 0
+  Hidden: 0
+  IsObsolete: 0
+  DlcPrerequisite:
+    DownloadableContent: 0
+  EraPrerequisite:
+    Operator: 1
+    EraReference:
+      serializableElementName: Era1
+  DeedDefinitionReference:
+    serializableElementName: Deed_EraStar_Farmer
+  Parameters:
+    Pages:
+    - GameOptionName: GameOption_WorldSize
+      DefaultValue:
+        RawValue: 0
+      Entries:
+      - ValueName: Tiny
+        Parameter:
+          RawValue: 1000
+      - ValueName: Small
+        Parameter:
+          RawValue: 2000
+      - ValueName: Normal
+        Parameter:
+          RawValue: 3000
+      - ValueName: Large
+        Parameter:
+          RawValue: 4000
+      - ValueName: Huge
+        Parameter:
+          RawValue: 5000
+    - GameOptionName: GameOption_GameSpeed
+      DefaultValue:
+        RawValue: 1000
+      Entries:
+      - ValueName: Fast
+        Parameter:
+          RawValue: 500
+      - ValueName: Normal
+        Parameter:
+          RawValue: 1000
+      - ValueName: Slow
+        Parameter:
+          RawValue: 1500
+      - ValueName: Endless
+        Parameter:
+          RawValue: 2000
+      - ValueName: Blitz
+        Parameter:
+          RawValue: 250
+  BaseRpnDefinitionReference:
+    serializableElementName: Fame_EraStar_Farmer_Base
+  Levels:
+  - DeltaRpnDefinitionReference:
+      serializableElementName: Fame_EraStar_Farmer_Level1
+    UseCustomDelta: 0
+    CustomDelta:
+      RawValue: 0
+  - DeltaRpnDefinitionReference:
+      serializableElementName: Fame_EraStar_Farmer_Level2
+    UseCustomDelta: 0
+    CustomDelta:
+      RawValue: 0
+  - DeltaRpnDefinitionReference:
+      serializableElementName: Fame_EraStar_Farmer_Level3
+    UseCustomDelta: 0
+    CustomDelta:
+      RawValue: 0
+  MaxFameReward:
+    DefinitionReference:
+      serializableElementName: FameReward_Medium
+    UseCustomGain: 0
+    CustomGain:
+      RawValue: 0
+  EnableGameplayOrientationBonus: 1
+  GameplayOrientation: 3
+  GameplayOrientationFactor: 0.5
+--- !u!114 &-911862296129827427
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 283645815, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Fame_EraStar_Cultural
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  Key: 0
+  Hidden: 0
+  IsObsolete: 0
+  DlcPrerequisite:
+    DownloadableContent: 0
+  EraPrerequisite:
+    Operator: 1
+    EraReference:
+      serializableElementName: Era1
+  DeedDefinitionReference:
+    serializableElementName: Deed_EraStar_Cultural
+  Parameters:
+    Pages:
+    - GameOptionName: GameOption_GameSpeed
+      DefaultValue:
+        RawValue: 1000
+      Entries:
+      - ValueName: Blitz
+        Parameter:
+          RawValue: 250
+      - ValueName: Fast
+        Parameter:
+          RawValue: 500
+      - ValueName: Normal
+        Parameter:
+          RawValue: 1000
+      - ValueName: Slow
+        Parameter:
+          RawValue: 1500
+      - ValueName: Endless
+        Parameter:
+          RawValue: 2000
+  BaseRpnDefinitionReference:
+    serializableElementName: Fame_EraStar_Cultural_Base
+  Levels:
+  - DeltaRpnDefinitionReference:
+      serializableElementName: Fame_EraStar_Cultural_Level1
+    UseCustomDelta: 0
+    CustomDelta:
+      RawValue: 0
+  - DeltaRpnDefinitionReference:
+      serializableElementName: Fame_EraStar_Cultural_Level2
+    UseCustomDelta: 0
+    CustomDelta:
+      RawValue: 0
+  - DeltaRpnDefinitionReference:
+      serializableElementName: Fame_EraStar_Cultural_Level3
+    UseCustomDelta: 0
+    CustomDelta:
+      RawValue: 0
+  MaxFameReward:
+    DefinitionReference:
+      serializableElementName: FameReward_Medium
+    UseCustomGain: 0
+    CustomGain:
+      RawValue: 0
+  EnableGameplayOrientationBonus: 1
+  GameplayOrientation: 5
+  GameplayOrientationFactor: 0.5
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -347,6 +1011,76 @@ MonoBehaviour:
   m_Script: {fileID: 1997910158, guid: b310e23bee821cb478da05296ba685d0, type: 3}
   m_Name: EraStarDefinition
   m_EditorClassIdentifier: 
+--- !u!114 &1134595376514894623
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 283645815, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Fame_EraStar_Prehistoric_Military
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  Key: 0
+  Hidden: 0
+  IsObsolete: 0
+  DlcPrerequisite:
+    DownloadableContent: 0
+  EraPrerequisite:
+    Operator: 0
+    EraReference:
+      serializableElementName: Era0
+  DeedDefinitionReference:
+    serializableElementName: Fame_EraStar_Prehistoric_Military
+  Parameters:
+    Pages:
+    - GameOptionName: GameOption_GameSpeed
+      DefaultValue:
+        RawValue: 1000
+      Entries:
+      - ValueName: Blitz
+        Parameter:
+          RawValue: 250
+      - ValueName: Fast
+        Parameter:
+          RawValue: 700
+      - ValueName: Normal
+        Parameter:
+          RawValue: 1000
+      - ValueName: Slow
+        Parameter:
+          RawValue: 1500
+      - ValueName: Endless
+        Parameter:
+          RawValue: 2000
+  BaseRpnDefinitionReference:
+    serializableElementName: Fame_EraStar_Prehistoric_Military_Base
+  Levels:
+  - DeltaRpnDefinitionReference:
+      serializableElementName: Fame_EraStar_Prehistoric_Military_Level1
+    UseCustomDelta: 0
+    CustomDelta:
+      RawValue: 0
+  MaxFameReward:
+    DefinitionReference:
+      serializableElementName: FameReward_Medium
+    UseCustomGain: 0
+    CustomGain:
+      RawValue: 0
+  EnableGameplayOrientationBonus: 0
+  GameplayOrientation: 1
+  GameplayOrientationFactor: 0.5
 --- !u!114 &2657319087920452580
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -445,6 +1179,16 @@ MonoBehaviour:
       RawValue: 0
   - DeltaRpnDefinitionReference:
       serializableElementName: Fame_EraStar_Scientist_Era3_Level4
+    UseCustomDelta: 0
+    CustomDelta:
+      RawValue: 0
+  - DeltaRpnDefinitionReference:
+      serializableElementName: Fame_EraStar_Scientist_Era3_Level5
+    UseCustomDelta: 0
+    CustomDelta:
+      RawValue: 0
+  - DeltaRpnDefinitionReference:
+      serializableElementName: Fame_EraStar_Scientist_Era3_Level6
     UseCustomDelta: 0
     CustomDelta:
       RawValue: 0
@@ -568,6 +1312,36 @@ MonoBehaviour:
     UseCustomDelta: 0
     CustomDelta:
       RawValue: 0
+  - DeltaRpnDefinitionReference:
+      serializableElementName: Fame_EraStar_Scientist_Era5_Level7
+    UseCustomDelta: 0
+    CustomDelta:
+      RawValue: 0
+  - DeltaRpnDefinitionReference:
+      serializableElementName: Fame_EraStar_Scientist_Era5_Level8
+    UseCustomDelta: 0
+    CustomDelta:
+      RawValue: 0
+  - DeltaRpnDefinitionReference:
+      serializableElementName: Fame_EraStar_Scientist_Era5_Level9
+    UseCustomDelta: 0
+    CustomDelta:
+      RawValue: 0
+  - DeltaRpnDefinitionReference:
+      serializableElementName: Fame_EraStar_Scientist_Era5_Level10
+    UseCustomDelta: 0
+    CustomDelta:
+      RawValue: 0
+  - DeltaRpnDefinitionReference:
+      serializableElementName: Fame_EraStar_Scientist_Era5_Level11
+    UseCustomDelta: 0
+    CustomDelta:
+      RawValue: 0
+  - DeltaRpnDefinitionReference:
+      serializableElementName: Fame_EraStar_Scientist_Era5_Level12
+    UseCustomDelta: 0
+    CustomDelta:
+      RawValue: 0
   MaxFameReward:
     DefinitionReference:
       serializableElementName: FameReward_Era5
@@ -576,7 +1350,7 @@ MonoBehaviour:
       RawValue: 0
   EnableGameplayOrientationBonus: 1
   GameplayOrientation: 2
-  GameplayOrientationFactor: 0
+  GameplayOrientationFactor: 0.5
 --- !u!114 &3502114918072366160
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -673,6 +1447,11 @@ MonoBehaviour:
     UseCustomDelta: 0
     CustomDelta:
       RawValue: 0
+  - DeltaRpnDefinitionReference:
+      serializableElementName: Fame_EraStar_Scientist_Era1_Level4
+    UseCustomDelta: 0
+    CustomDelta:
+      RawValue: 0
   MaxFameReward:
     DefinitionReference:
       serializableElementName: FameReward_Medium
@@ -681,6 +1460,86 @@ MonoBehaviour:
       RawValue: 0
   EnableGameplayOrientationBonus: 1
   GameplayOrientation: 2
+  GameplayOrientationFactor: 0.5
+--- !u!114 &3677561599494226208
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 283645815, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Fame_EraStar_Warmonger
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  Key: 0
+  Hidden: 0
+  IsObsolete: 0
+  DlcPrerequisite:
+    DownloadableContent: 0
+  EraPrerequisite:
+    Operator: 1
+    EraReference:
+      serializableElementName: Era1
+  DeedDefinitionReference:
+    serializableElementName: Deed_EraStar_Warmonger
+  Parameters:
+    Pages:
+    - GameOptionName: GameOption_GameSpeed
+      DefaultValue:
+        RawValue: 1000
+      Entries:
+      - ValueName: Fast
+        Parameter:
+          RawValue: 500
+      - ValueName: Normal
+        Parameter:
+          RawValue: 1000
+      - ValueName: Slow
+        Parameter:
+          RawValue: 1500
+      - ValueName: Endless
+        Parameter:
+          RawValue: 2000
+      - ValueName: Blitz
+        Parameter:
+          RawValue: 250
+  BaseRpnDefinitionReference:
+    serializableElementName: Fame_EraStar_Warmonger_Base
+  Levels:
+  - DeltaRpnDefinitionReference:
+      serializableElementName: Fame_EraStar_Warmonger_Level1
+    UseCustomDelta: 0
+    CustomDelta:
+      RawValue: 0
+  - DeltaRpnDefinitionReference:
+      serializableElementName: Fame_EraStar_Warmonger_Level2
+    UseCustomDelta: 0
+    CustomDelta:
+      RawValue: 0
+  - DeltaRpnDefinitionReference:
+      serializableElementName: Fame_EraStar_Warmonger_Level3
+    UseCustomDelta: 0
+    CustomDelta:
+      RawValue: 0
+  MaxFameReward:
+    DefinitionReference:
+      serializableElementName: FameReward_Medium
+    UseCustomGain: 0
+    CustomGain:
+      RawValue: 0
+  EnableGameplayOrientationBonus: 1
+  GameplayOrientation: 1
   GameplayOrientationFactor: 0.5
 --- !u!114 &6522464778603007906
 MonoBehaviour:
@@ -808,6 +1667,21 @@ MonoBehaviour:
     UseCustomDelta: 0
     CustomDelta:
       RawValue: 0
+  - DeltaRpnDefinitionReference:
+      serializableElementName: Fame_EraStar_Scientist_Era6_Level10
+    UseCustomDelta: 0
+    CustomDelta:
+      RawValue: 0
+  - DeltaRpnDefinitionReference:
+      serializableElementName: Fame_EraStar_Scientist_Era6_Level11
+    UseCustomDelta: 0
+    CustomDelta:
+      RawValue: 0
+  - DeltaRpnDefinitionReference:
+      serializableElementName: Fame_EraStar_Scientist_Era6_Level12
+    UseCustomDelta: 0
+    CustomDelta:
+      RawValue: 0
   MaxFameReward:
     DefinitionReference:
       serializableElementName: FameReward_Era6
@@ -816,4 +1690,4 @@ MonoBehaviour:
       RawValue: 0
   EnableGameplayOrientationBonus: 1
   GameplayOrientation: 2
-  GameplayOrientationFactor: 0
+  GameplayOrientationFactor: 0.5

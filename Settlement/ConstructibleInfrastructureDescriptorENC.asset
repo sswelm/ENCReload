@@ -31,6 +31,13 @@ MonoBehaviour:
       ConstantStack:
       - RawValue: 2000
       PropertyLocalName: []
+    - Note: 
+      TargetProperty: PollutionNet
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 500
+      PropertyLocalName: []
   - ApplyEffectOnSource: 0
     Path:
       PropertyToFollow: []
@@ -186,26 +193,27 @@ MonoBehaviour:
       Validations: []
       specificTargetType: 
     PropertyEffects:
-    - Note: only apply fortification bonus up to medival era
+    - Note: only apply fortification bonus up to early modern era
       TargetProperty: Fortification
       ToTargetOperation: 0
-      RpnOperationStack: 0a0000000a000000080000000a000000070000000a000000060000000100000002000000
+      RpnOperationStack: 0a0000000a000000080000000a000000010000000a000000070000000a000000060000000100000002000000
       ConstantStack:
       - RawValue: 15000
       - RawValue: 4000
+      - RawValue: 500
       - RawValue: 4000
       - RawValue: 3000
       PropertyLocalName:
       - EraLevel
-    - Note: only apply fortification bonus up to medival era
+    - Note: only apply fortification bonus up to early modern era
       TargetProperty: FortificationLevel
       ToTargetOperation: 0
       RpnOperationStack: 0a0000000a000000080000000a000000070000000a000000060000000100000002000000
       ConstantStack:
       - RawValue: 1000
+      - RawValue: 5000
+      - RawValue: 5000
       - RawValue: 4000
-      - RawValue: 4000
-      - RawValue: 3000
       PropertyLocalName:
       - EraLevel
     - Note: 
@@ -234,7 +242,47 @@ MonoBehaviour:
     Path:
       PropertyToFollow:
       - Districts
-      Validations: []
+      Validations:
+      - PathIndex: 0
+        ValidableElementCollection: 
+        Inverted: 0
+        serializableElementName: Effect_Exploitation_Woodland
+      specificTargetType: 
+    PropertyEffects:
+    - Note: 
+      TargetProperty: BonusIndustryIfProducingIndustry
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 2000
+      PropertyLocalName: []
+  - ApplyEffectOnSource: 0
+    Path:
+      PropertyToFollow:
+      - Districts
+      Validations:
+      - PathIndex: 0
+        ValidableElementCollection: 
+        Inverted: 0
+        serializableElementName: Effect_Exploitation_Forest
+      specificTargetType: 
+    PropertyEffects:
+    - Note: 
+      TargetProperty: BonusIndustryIfProducingIndustry
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 2000
+      PropertyLocalName: []
+  - ApplyEffectOnSource: 0
+    Path:
+      PropertyToFollow:
+      - Districts
+      Validations:
+      - PathIndex: 0
+        ValidableElementCollection: 
+        Inverted: 0
+        serializableElementName: Effect_Exploitation_RockyForest
       specificTargetType: 
     PropertyEffects:
     - Note: 
@@ -507,6 +555,57 @@ MonoBehaviour:
       PropertyLocalName: []
   serializableCategory: 
   startingType: Amplitude.Mercury.Simulation.Settlement, Amplitude.Mercury.Firstpass
+--- !u!114 &-4019250907055080523
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
+  m_Name: Effect_Infrastructure_Industry_Family02_01
+  m_EditorClassIdentifier: 
+  Effects:
+  - ApplyEffectOnSource: 0
+    Path:
+      PropertyToFollow:
+      - Districts
+      Validations:
+      - PathIndex: 0
+        ValidableElementCollection: 
+        Inverted: 0
+        serializableElementName: Effect_Exploitation_Forest
+      specificTargetType: 
+    PropertyEffects:
+    - Note: 
+      TargetProperty: BonusIndustryIfProducingIndustry
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 1000
+      PropertyLocalName: []
+  - ApplyEffectOnSource: 0
+    Path:
+      PropertyToFollow:
+      - Districts
+      Validations:
+      - PathIndex: 0
+        ValidableElementCollection: 
+        Inverted: 0
+        serializableElementName: Effect_Exploitation_Woodland
+      specificTargetType: 
+    PropertyEffects:
+    - Note: 
+      TargetProperty: BonusIndustryIfProducingIndustry
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 1000
+      PropertyLocalName: []
+  serializableCategory: 
+  startingType: Amplitude.Mercury.Simulation.Settlement, Amplitude.Mercury.Firstpass
 --- !u!114 &-2277446746336190456
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -557,6 +656,57 @@ MonoBehaviour:
       - Resource07AccessCount
   serializableCategory: 
   startingType: Amplitude.Mercury.Simulation.Settlement, Amplitude.Mercury.Firstpass
+--- !u!114 &-782624281323613365
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
+  m_Name: Effect_Infrastructure_Harbour_Family01_02
+  m_EditorClassIdentifier: 
+  Effects:
+  - ApplyEffectOnSource: 0
+    Path:
+      PropertyToFollow:
+      - Districts
+      Validations:
+      - PathIndex: 0
+        ValidableElementCollection: 
+        Inverted: 0
+        serializableElementName: Effect_Exploitation_CoastalWater
+      specificTargetType: 
+    PropertyEffects:
+    - Note: 
+      TargetProperty: BonusFoodIfProducingFood
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 1000
+      PropertyLocalName: []
+  - ApplyEffectOnSource: 0
+    Path:
+      PropertyToFollow:
+      - Districts
+      Validations:
+      - PathIndex: 0
+        ValidableElementCollection: 
+        Inverted: 0
+        serializableElementName: Effect_Exploitation_Lake
+      specificTargetType: 
+    PropertyEffects:
+    - Note: 
+      TargetProperty: BonusFoodIfProducingFood
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 1000
+      PropertyLocalName: []
+  serializableCategory: 
+  startingType: Amplitude.Mercury.Simulation.Settlement, Amplitude.Mercury.Firstpass
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -569,6 +719,71 @@ MonoBehaviour:
   m_Script: {fileID: -1010444951, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
   m_Name: ConstructibleInfrastructureDescriptorENC
   m_EditorClassIdentifier: 
+--- !u!114 &1635687173786056139
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
+  m_Name: Effect_Infrastructure_Industry_Family03_03
+  m_EditorClassIdentifier: 
+  Effects:
+  - ApplyEffectOnSource: 0
+    Path:
+      PropertyToFollow:
+      - Districts
+      Validations: []
+      specificTargetType: 
+    PropertyEffects:
+    - Note: 
+      TargetProperty: BonusIndustryIfProducingIndustry
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 2000
+      PropertyLocalName: []
+  - ApplyEffectOnSource: 0
+    Path:
+      PropertyToFollow:
+      - Districts
+      Validations:
+      - PathIndex: 0
+        ValidableElementCollection: 
+        Inverted: 0
+        serializableElementName: Effect_Extension_Base_Industry
+      specificTargetType: 
+    PropertyEffects:
+    - Note: 
+      TargetProperty: PollutionNet
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 1000
+      PropertyLocalName: []
+  - ApplyEffectOnSource: 0
+    Path:
+      PropertyToFollow:
+      - Districts
+      Validations:
+      - PathIndex: 0
+        ValidableElementCollection: 
+        Inverted: 0
+        serializableElementName: Effect_Extractor_ResourceDeposit07
+      specificTargetType: 
+    PropertyEffects:
+    - Note: 
+      TargetProperty: ResourceAccessProduced
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 2000
+      PropertyLocalName: []
+  serializableCategory: 
+  startingType: Amplitude.Mercury.Simulation.Settlement, Amplitude.Mercury.Firstpass
 --- !u!114 &1657463932315580676
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -641,6 +856,71 @@ MonoBehaviour:
       RpnOperationStack: 
       ConstantStack:
       - RawValue: 100
+      PropertyLocalName: []
+  serializableCategory: 
+  startingType: Amplitude.Mercury.Simulation.Settlement, Amplitude.Mercury.Firstpass
+--- !u!114 &2077003812914926199
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
+  m_Name: Effect_Infrastructure_Harbour_Family01_03
+  m_EditorClassIdentifier: 
+  Effects:
+  - ApplyEffectOnSource: 0
+    Path:
+      PropertyToFollow:
+      - Districts
+      Validations:
+      - PathIndex: 0
+        ValidableElementCollection: 
+        Inverted: 0
+        serializableElementName: Effect_Exploitation_CoastalWater
+      specificTargetType: 
+    PropertyEffects:
+    - Note: 
+      TargetProperty: BonusFoodIfProducingFood
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 2000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: PollutionNet
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 250
+      PropertyLocalName: []
+  - ApplyEffectOnSource: 0
+    Path:
+      PropertyToFollow:
+      - Districts
+      Validations:
+      - PathIndex: 0
+        ValidableElementCollection: 
+        Inverted: 0
+        serializableElementName: Effect_Exploitation_Lake
+      specificTargetType: 
+    PropertyEffects:
+    - Note: 
+      TargetProperty: BonusFoodIfProducingFood
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 2000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: PollutionNet
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 250
       PropertyLocalName: []
   serializableCategory: 
   startingType: Amplitude.Mercury.Simulation.Settlement, Amplitude.Mercury.Firstpass
@@ -1031,26 +1311,27 @@ MonoBehaviour:
       Validations: []
       specificTargetType: 
     PropertyEffects:
-    - Note: only apply fortification bonus up to medial era
+    - Note: only apply fortification bonus up to early modern era
       TargetProperty: Fortification
       ToTargetOperation: 0
-      RpnOperationStack: 0a0000000a000000080000000a000000070000000a000000060000000100000002000000
+      RpnOperationStack: 0a0000000a000000080000000a000000010000000a000000070000000a000000060000000100000002000000
       ConstantStack:
       - RawValue: 20000
       - RawValue: 4000
+      - RawValue: 500
       - RawValue: 4000
       - RawValue: 3000
       PropertyLocalName:
       - EraLevel
-    - Note: only apply fortification bonus up to medial era
+    - Note: only apply fortification bonus up to early modern era
       TargetProperty: FortificationLevel
       ToTargetOperation: 0
       RpnOperationStack: 0a0000000a000000080000000a000000070000000a000000060000000100000002000000
       ConstantStack:
       - RawValue: 1000
+      - RawValue: 5000
+      - RawValue: 5000
       - RawValue: 4000
-      - RawValue: 4000
-      - RawValue: 3000
       PropertyLocalName:
       - EraLevel
     - Note: 
@@ -1140,6 +1421,75 @@ MonoBehaviour:
       RpnOperationStack: 
       ConstantStack:
       - RawValue: -100
+      PropertyLocalName: []
+  serializableCategory: 
+  startingType: Amplitude.Mercury.Simulation.Settlement, Amplitude.Mercury.Firstpass
+--- !u!114 &6242684987918580659
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
+  m_Name: Effect_Infrastructure_Industry_Family03_01
+  m_EditorClassIdentifier: 
+  Effects:
+  - ApplyEffectOnSource: 0
+    Path:
+      PropertyToFollow:
+      - Districts
+      Validations:
+      - PathIndex: 0
+        ValidableElementCollection: 
+        Inverted: 0
+        serializableElementName: Effect_Exploitation_Mountain
+      specificTargetType: 
+    PropertyEffects:
+    - Note: 
+      TargetProperty: BonusIndustryIfProducingIndustry
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 1000
+      PropertyLocalName: []
+  - ApplyEffectOnSource: 0
+    Path:
+      PropertyToFollow:
+      - Districts
+      Validations:
+      - PathIndex: 0
+        ValidableElementCollection: 
+        Inverted: 0
+        serializableElementName: Effect_Exploitation_StoneField
+      specificTargetType: 
+    PropertyEffects:
+    - Note: 
+      TargetProperty: BonusIndustryIfProducingIndustry
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 1000
+      PropertyLocalName: []
+  - ApplyEffectOnSource: 0
+    Path:
+      PropertyToFollow:
+      - Districts
+      Validations:
+      - PathIndex: 0
+        ValidableElementCollection: 
+        Inverted: 0
+        serializableElementName: Effect_Exploitation_RockyField
+      specificTargetType: 
+    PropertyEffects:
+    - Note: 
+      TargetProperty: BonusIndustryIfProducingIndustry
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 1000
       PropertyLocalName: []
   serializableCategory: 
   startingType: Amplitude.Mercury.Simulation.Settlement, Amplitude.Mercury.Firstpass
@@ -1274,6 +1624,59 @@ MonoBehaviour:
       RpnOperationStack: 
       ConstantStack:
       - RawValue: -200
+      PropertyLocalName: []
+  serializableCategory: 
+  startingType: Amplitude.Mercury.Simulation.Settlement, Amplitude.Mercury.Firstpass
+--- !u!114 &8169996164055378137
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
+  m_Name: Effect_Infrastructure_Industry_Family05_03
+  m_EditorClassIdentifier: 
+  Effects:
+  - ApplyEffectOnSource: 0
+    Path:
+      PropertyToFollow: []
+      Validations: []
+      specificTargetType: 
+    PropertyEffects:
+    - Note: 
+      TargetProperty: IndustryWorkplaceGainPerPopulation
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 2000
+      PropertyLocalName: []
+    - Note: 
+      TargetProperty: IndustryWorkplaceNumberOfSlots
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 3000
+      PropertyLocalName: []
+  - ApplyEffectOnSource: 0
+    Path:
+      PropertyToFollow:
+      - Districts
+      Validations:
+      - PathIndex: 0
+        ValidableElementCollection: 
+        Inverted: 0
+        serializableElementName: Effect_Extension_Base_Industry
+      specificTargetType: 
+    PropertyEffects:
+    - Note: 
+      TargetProperty: PollutionNet
+      ToTargetOperation: 0
+      RpnOperationStack: 
+      ConstantStack:
+      - RawValue: 500
       PropertyLocalName: []
   serializableCategory: 
   startingType: Amplitude.Mercury.Simulation.Settlement, Amplitude.Mercury.Firstpass
