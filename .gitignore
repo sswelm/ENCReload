@@ -1,0 +1,17 @@
+# ENCReload — version-control ONLY the mod data in Assets/Databases.
+# Everything else (Unity Library/Temp, game SDK, built AssetBundles, game
+# Resources/Editor framework) is large and/or copyrighted game content and
+# must stay out of git.
+
+# Ignore everything at the project root by default...
+/*
+
+# ...except the gitignore itself and the Assets folder (so git can descend).
+!/.gitignore
+!/Assets
+
+# Inside Assets, ignore every sibling folder...
+/Assets/*
+
+# ...except the mod databases — the only thing we track.
+!/Assets/Databases
