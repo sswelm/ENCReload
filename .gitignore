@@ -1,17 +1,30 @@
-# ENCReload — version-control ONLY the mod data in Assets/Databases.
-# Everything else (Unity Library/Temp, game SDK, built AssetBundles, game
-# Resources/Editor framework) is large and/or copyrighted game content and
-# must stay out of git.
+# ENCReload — PUBLIC repo. Version-control the mod data + OUR OWN code/config only.
+# Hard rule: never commit copyrighted game content — the Amplitude/Humankind SDK
+# (Assets/[Amplitude.*]) and the game's Resources/Editor framework must stay out.
+# Large generated/baked output (Unity Library/Temp, built AssetBundles, Assets/Resources)
+# also stays out (Assets/Resources is backed up separately on D:).
 
 # Ignore everything at the project root by default...
 /*
 
-# ...except the gitignore itself and the Assets folder (so git can descend).
+# ...except our own tracked trees.
 !/.gitignore
 !/Assets
+!/Tools
+!/ProjectSettings
+!/Packages
 
-# Inside Assets, ignore every sibling folder...
+# --- Assets: ignore every sibling, then re-include only OUR data + code ---
 /Assets/*
-
-# ...except the mod databases — the only thing we track.
 !/Assets/Databases
+!/Assets/Scripts
+
+# --- Packages: only the dependency manifests, NOT the downloaded PackageCache ---
+/Packages/*
+!/Packages/manifest.json
+!/Packages/packages-lock.json
+
+# --- Tools: our Blender scripts + glbconv (source + self-contained exe), but not build junk ---
+/Tools/glbconv/bin
+/Tools/glbconv/obj
+/Tools/**/__pycache__

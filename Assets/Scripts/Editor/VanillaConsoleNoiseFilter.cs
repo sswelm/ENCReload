@@ -1,0 +1,102 @@
+// VanillaConsoleNoiseFilter.cs  (LOCAL, editor-only, removable)
+//
+// Quiets a few harmless vanilla Mod-Tools-SDK console errors thrown while mounting/loading vanilla scenario data at
+// startup (a VANILLA SDK bug — a fresh empty project throws the same lines; see NarrativeEventDefinition.
+// EnumerateSimulationEventVariables hitting a null array element from a scenario type the SDK doesn't include).
+//
+// IMPORTANT — it does NOT silently hide anything:
+//   * Matching messages are NOT shown in the console, BUT they are appended to  Logs/SuppressedConsoleNoise.log
+//     (next to the project) and counted, and the filter announces itself ONCE per session.
+//   * So if a *real* problem ever matches a pattern (e.g. a broken reference in YOUR OWN narrative event also goes
+//     through EnumerateSimulationEventVariables), it's still recorded in that file — nothing is lost, just relocated.
+//   * To see everything live again, delete this file. To tune what's matched, edit Patterns[].
+//
+// Editor only (Editor folder, [InitializeOnLoad]) — never ships, never runs in-game.
+
+#if UNITY_EDITOR
+using System;
+using System.IO;
+using System.Linq;
+using UnityEditor;
+using UnityEngine;
+
+[InitializeOnLoad]
+internal static class VanillaConsoleNoiseFilter
+{
+    // Substrings identifying the known-harmless vanilla SDK noise. Matched against message text, exception message,
+    // exception stack trace, and throwing method name. Keep these as specific as possible.
+    private static readonly string[] Patterns =
+    {
+        "EnumerateSimulationEventVariables",             // NarrativeEventDefinition NRE at startup
+        "Datatable element collection guid is missing",  // vanilla collection-mount warning spam
+    };
+
+    private static int _count;
+    private static bool _announced;
+
+    static VanillaConsoleNoiseFilter()
+    {
+        if (Debug.unityLogger.logHandler is FilterHandler) return;   // already installed
+        Debug.unityLogger.logHandler = new FilterHandler(Debug.unityLogger.logHandler);
+    }
+
+    private static bool Matches(string s) =>
+        !string.IsNullOrEmpty(s) && Patterns.Any(p => s.IndexOf(p, StringComparison.Ordinal) >= 0);
+
+    private static string LogFile()
+    {
+        try { return Path.Combine(Directory.GetParent(Application.dataPath).FullName, "Logs", "SuppressedConsoleNoise.log"); }
+        catch { return null; }
+    }
+
+    // Relocate (don't drop): count it, append it to the side-log, and announce ONCE via the inner handler so the
+    // announcement itself isn't filtered.
+    private static void Record(ILogHandler inner, string detail)
+    {
+        _count++;
+        var path = LogFile();
+        if (path != null)
+        {
+            try { Directory.CreateDirectory(Path.GetDirectoryName(path)); File.AppendAllText(path, $"[{DateTime.Now:HH:mm:ss}] {detail}\n\n"); }
+            catch { }
+        }
+        if (!_announced)
+        {
+            _announced = true;
+            inner.LogFormat(LogType.Log, null,
+                "[VanillaNoiseFilter] Active — moving console lines matching {{ {0} }} to {1} (still recorded, not lost). " +
+                "Delete Assets/Scripts/Editor/VanillaConsoleNoiseFilter.cs to see everything live.",
+                string.Join(" | ", Patterns), path ?? "(file unavailable)");
+        }
+    }
+
+    private sealed class FilterHandler : ILogHandler
+    {
+        private readonly ILogHandler _inner;
+        public FilterHandler(ILogHandler inner) { _inner = inner; }
+
+        public void LogException(Exception exception, UnityEngine.Object context)
+        {
+            if (exception != null && (Matches(exception.StackTrace) || Matches(exception.Message)
+                                      || (exception.TargetSite != null && Matches(exception.TargetSite.Name))))
+            {
+                Record(_inner, "EXCEPTION " + exception.GetType().Name + ": " + exception.Message + "\n" + exception.StackTrace);
+                return;
+            }
+            _inner.LogException(exception, context);
+        }
+
+        public void LogFormat(LogType logType, UnityEngine.Object context, string format, params object[] args)
+        {
+            if (Matches(format) || (args != null && args.Any(a => Matches(a as string))))
+            {
+                string msg = format;
+                try { msg = string.Format(format ?? "", args ?? Array.Empty<object>()); } catch { }
+                Record(_inner, "[" + logType + "] " + msg);
+                return;
+            }
+            _inner.LogFormat(logType, context, format, args);
+        }
+    }
+}
+#endif
