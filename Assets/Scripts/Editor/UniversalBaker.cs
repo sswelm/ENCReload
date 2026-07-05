@@ -242,6 +242,14 @@ public static class UniversalBaker
     static BakeResult BuildInner(BakeConfig cfg)
     {
         if (string.IsNullOrEmpty(cfg.resourceName)) return Fail("resourceName is required");
+        // The resource name is used as a folder name, a filename prefix, AND an unquoted-friendly converter argument.
+        // A space (or other path-hostile char) breaks the glbconv arg split — "Attack Helicopter" made glbconv parse
+        // "Helicopter" as the grid int (FormatException). Reject it up front with a clear message instead of failing
+        // cryptically deep in a shell-out. Convention: single token, e.g. "StealthHelicopter" (matches every model).
+        foreach (char c in cfg.resourceName)
+            if (!(char.IsLetterOrDigit(c) || c == '_' || c == '-'))
+                return Fail($"resource name '{cfg.resourceName}' contains an invalid character ('{c}'). " +
+                            "Use letters, digits, '_' or '-' only — no spaces (e.g. 'AttackHelicopter').");
         string name = cfg.resourceName;
         float size = cfg.size > 0f ? cfg.size : 5f;
         float smoothing = cfg.smoothingAngle > 0f ? cfg.smoothingAngle : 20f;
@@ -630,7 +638,11 @@ public static class UniversalBaker
         string png = null;
         if (Directory.Exists(fsDir) && !string.IsNullOrEmpty(texName))
         {
-            var pngs = Directory.GetFiles(fsDir, "*.png")
+            // Match png/jpg/jpeg (all decodable by Texture2D.LoadImage). glbconv emits jpgs for models whose GLB embeds
+            // JPEG (e.g. the AH-1's per-part albedos); a solid-colour swatch is a .tga, which LoadImage can't decode, so
+            // those are deliberately left to the mat.mainTexture fallback below.
+            var pngs = Directory.GetFiles(fsDir)
+                .Where(p => { var e = Path.GetExtension(p).ToLowerInvariant(); return e == ".png" || e == ".jpg" || e == ".jpeg"; })
                 .Where(p => { var f = Path.GetFileNameWithoutExtension(p).ToLowerInvariant(); return !f.Contains("backup") && !f.Contains("orig"); }).ToArray();
             png = pngs.FirstOrDefault(p => Path.GetFileNameWithoutExtension(p).Equals(texName, StringComparison.OrdinalIgnoreCase))
                ?? pngs.FirstOrDefault(p => Path.GetFileNameWithoutExtension(p).IndexOf(texName, StringComparison.OrdinalIgnoreCase) >= 0)
@@ -672,7 +684,8 @@ public static class UniversalBaker
         // prefer the shortest matching name so "<mat>_albedo.png" wins over "<mat>_albedo-backup.png" regardless of
         // directory order — a stray backup used to sort first ('-' < '.') and silently get baked instead.
         string albedo = Directory.Exists(fsDir)
-            ? Directory.GetFiles(fsDir, "*.png")
+            ? Directory.GetFiles(fsDir)
+                .Where(p => { var e = Path.GetExtension(p).ToLowerInvariant(); return e == ".png" || e == ".jpg" || e == ".jpeg"; })
                 .Where(p => { var f = Path.GetFileNameWithoutExtension(p).ToLowerInvariant(); return f.Contains("albedo") && !f.Contains("backup") && !f.Contains("orig"); })
                 .OrderBy(p => Path.GetFileName(p).Length)
                 .FirstOrDefault()
@@ -704,7 +717,7 @@ public static class UniversalBaker
         string tools = Path.Combine(proj, "Tools", "glbconv");
         string exe = Path.Combine(tools, "glbconv.exe");
         string dll = Path.Combine(tools, "glbconv.dll");
-        string args = $"\"{glb}\" \"{outDir}\" {name} {Mathf.Max(0, grid)}";
+        string args = $"\"{glb}\" \"{outDir}\" \"{name}\" {Mathf.Max(0, grid)}";
 
         System.Diagnostics.ProcessStartInfo psi;
         if (File.Exists(exe))

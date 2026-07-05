@@ -193,6 +193,54 @@
             "respawnAfterLoad": false
         },
         {
+            "resourceName": "AttackHelicopter",
+            "pawnDescription": "Era6_Common_AttackHelicopter_01",
+            "modelFile": "D:/Downloads/ah1.glb",
+            "rotation": {
+                "x": 180.0,
+                "y": 0.0,
+                "z": 180.0
+            },
+            "position": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "size": 5.0,
+            "normalsMode": 1,
+            "smoothingAngle": 20.0,
+            "convertGrid": 0,
+            "reuseExtracted": false,
+            "doubleSided": false,
+            "windingFix": false,
+            "heightUV": false,
+            "targetTris": 24000,
+            "stripParts": "AH1WRotA-FACES.001,AH1WRot-FACES.001,AH1WRot2-FACES.001,AH1WHT03-FACES.001,AH1WHT01-FACES.001",
+            "hideMeshes": "",
+            "skel": [
+                -331537095,
+                1140154852,
+                -2054616686,
+                612951554
+            ],
+            "atlas": [
+                1797777309,
+                1187567267,
+                1700934299,
+                -601300775
+            ],
+            "clip": [
+                0,
+                0,
+                0,
+                0
+            ],
+            "animated": false,
+            "animClip": "",
+            "animateBones": "",
+            "respawnAfterLoad": false
+        },
+        {
             "resourceName": "StealthHelicopter",
             "pawnDescription": "Era6_Common_StealthHelicopters_01",
             "modelFile": "D:/Downloads/rah66.glb",
