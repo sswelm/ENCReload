@@ -1,0 +1,244 @@
+{
+    "models": [
+        {
+            "resourceName": "Zeppelin",
+            "pawnDescription": "Era5_Common_Zeppelins_01",
+            "modelFile": "C:/Repo/ENCReload/Assets/Resources/Airship/R00_Baloon.fbx",
+            "rotation": {
+                "x": 0.0,
+                "y": 180.0,
+                "z": 0.0
+            },
+            "position": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "size": 8.0,
+            "normalsMode": 0,
+            "smoothingAngle": 20.0,
+            "convertGrid": 0,
+            "reuseExtracted": false,
+            "doubleSided": false,
+            "windingFix": false,
+            "heightUV": false,
+            "targetTris": 0,
+            "stripParts": "",
+            "hideMeshes": "",
+            "skel": [
+                781638270,
+                1224895347,
+                -2137756227,
+                -1885149832
+            ],
+            "atlas": [
+                -1350209554,
+                1087234341,
+                535526061,
+                -1240440085
+            ],
+            "clip": [
+                0,
+                0,
+                0,
+                0
+            ],
+            "animated": false,
+            "animClip": "",
+            "animateBones": "",
+            "respawnAfterLoad": false
+        },
+        {
+            "resourceName": "Hovercraft",
+            "pawnDescription": "Era6_Common_Hovercrafts_01",
+            "modelFile": "D:/Downloads/lcac_hovercraft_croqui.glb",
+            "rotation": {
+                "x": 0.0,
+                "y": 90.0,
+                "z": 0.0
+            },
+            "position": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.10000000149011612
+            },
+            "size": 3.0,
+            "normalsMode": 1,
+            "smoothingAngle": 20.0,
+            "convertGrid": 0,
+            "reuseExtracted": false,
+            "doubleSided": true,
+            "windingFix": true,
+            "heightUV": true,
+            "targetTris": 24000,
+            "stripParts": "",
+            "hideMeshes": "",
+            "skel": [
+                -1153397905,
+                1134277020,
+                577920438,
+                -573259371
+            ],
+            "atlas": [
+                -925132441,
+                1238979558,
+                -113654359,
+                2008506802
+            ],
+            "clip": [
+                0,
+                0,
+                0,
+                0
+            ],
+            "animated": false,
+            "animClip": "",
+            "animateBones": "",
+            "respawnAfterLoad": false
+        },
+        {
+            "resourceName": "StealthCruiser",
+            "pawnDescription": "Era6_Common_StealthCruisers_01",
+            "modelFile": "D:/Downloads/zumwalt_clean.glb",
+            "rotation": {
+                "x": 180.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "position": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": -0.20000000298023225
+            },
+            "size": 8.0,
+            "normalsMode": 0,
+            "smoothingAngle": 20.0,
+            "convertGrid": 0,
+            "reuseExtracted": false,
+            "doubleSided": false,
+            "windingFix": false,
+            "heightUV": false,
+            "targetTris": 0,
+            "stripParts": "",
+            "hideMeshes": "",
+            "skel": [
+                -958028325,
+                1316059366,
+                -2071331166,
+                -779568690
+            ],
+            "atlas": [
+                456614180,
+                1267693964,
+                -921504093,
+                639359095
+            ],
+            "clip": [
+                0,
+                0,
+                0,
+                0
+            ],
+            "animated": false,
+            "animClip": "",
+            "animateBones": "",
+            "respawnAfterLoad": false
+        },
+        {
+            "resourceName": "ReconDrone",
+            "pawnDescription": "Era6_Common_ReconDrones_01",
+            "modelFile": "D:/Downloads/drone_clean.glb",
+            "rotation": {
+                "x": 90.0,
+                "y": 90.0,
+                "z": 0.0
+            },
+            "position": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 2.0
+            },
+            "size": 2.0,
+            "normalsMode": 1,
+            "smoothingAngle": 20.0,
+            "convertGrid": 0,
+            "reuseExtracted": true,
+            "doubleSided": false,
+            "windingFix": false,
+            "heightUV": false,
+            "targetTris": 5000,
+            "stripParts": "",
+            "hideMeshes": "",
+            "skel": [
+                -34687528,
+                1274838548,
+                -1072885069,
+                -1411659407
+            ],
+            "atlas": [
+                -1581395766,
+                1199223313,
+                1781020585,
+                -375107865
+            ],
+            "clip": [
+                1547596851,
+                1330585087,
+                -1602424179,
+                -1171813139
+            ],
+            "animated": true,
+            "animClip": "hover",
+            "animateBones": "prop",
+            "respawnAfterLoad": false
+        },
+        {
+            "resourceName": "StealthHelicopter",
+            "pawnDescription": "Era6_Common_StealthHelicopters_01",
+            "modelFile": "D:/Downloads/rah66.glb",
+            "rotation": {
+                "x": 141.0,
+                "y": 90.0,
+                "z": -7.0
+            },
+            "position": {
+                "x": 0.0,
+                "y": 1.25,
+                "z": 0.15000000596046449
+            },
+            "size": 5.599999904632568,
+            "normalsMode": 1,
+            "smoothingAngle": 20.0,
+            "convertGrid": 0,
+            "reuseExtracted": false,
+            "doubleSided": false,
+            "windingFix": false,
+            "heightUV": false,
+            "targetTris": 24000,
+            "stripParts": "Cylinder06,Cylinder07",
+            "hideMeshes": "",
+            "skel": [
+                -2089899586,
+                1342005806,
+                1663056793,
+                -1584990090
+            ],
+            "atlas": [
+                -651005781,
+                1258427791,
+                2056586893,
+                -1593028268
+            ],
+            "clip": [
+                0,
+                0,
+                0,
+                0
+            ],
+            "animated": false,
+            "animClip": "",
+            "animateBones": "",
+            "respawnAfterLoad": true
+        }
+    ]
+}
