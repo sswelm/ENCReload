@@ -49,54 +49,6 @@
             "respawnAfterLoad": false
         },
         {
-            "resourceName": "Hovercraft",
-            "pawnDescription": "Era6_Common_Hovercrafts_01",
-            "modelFile": "D:/Downloads/lcac_hovercraft_croqui.glb",
-            "rotation": {
-                "x": 0.0,
-                "y": 90.0,
-                "z": 0.0
-            },
-            "position": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.10000000149011612
-            },
-            "size": 3.0,
-            "normalsMode": 1,
-            "smoothingAngle": 20.0,
-            "convertGrid": 0,
-            "reuseExtracted": false,
-            "doubleSided": true,
-            "windingFix": true,
-            "heightUV": true,
-            "targetTris": 24000,
-            "stripParts": "",
-            "hideMeshes": "",
-            "skel": [
-                -1153397905,
-                1134277020,
-                577920438,
-                -573259371
-            ],
-            "atlas": [
-                -925132441,
-                1238979558,
-                -113654359,
-                2008506802
-            ],
-            "clip": [
-                0,
-                0,
-                0,
-                0
-            ],
-            "animated": false,
-            "animClip": "",
-            "animateBones": "",
-            "respawnAfterLoad": false
-        },
-        {
             "resourceName": "StealthCruiser",
             "pawnDescription": "Era6_Common_StealthCruisers_01",
             "modelFile": "D:/Downloads/zumwalt_clean.glb",
@@ -245,14 +197,14 @@
             "pawnDescription": "Era6_Common_AttackHelicopter_01",
             "modelFile": "D:/Downloads/Cobra.glb",
             "rotation": {
-                "x": 181.0,
+                "x": 184.0,
                 "y": 0.0,
                 "z": 142.0
             },
             "position": {
                 "x": 0.0,
                 "y": 0.8999999761581421,
-                "z": 0.25
+                "z": 0.10000000149011612
             },
             "size": 4.5,
             "normalsMode": 1,
@@ -287,6 +239,54 @@
             "animClip": "",
             "animateBones": "",
             "respawnAfterLoad": true
+        },
+        {
+            "resourceName": "Hovercraft",
+            "pawnDescription": "Era6_Common_Hovercrafts_01",
+            "modelFile": "D:/Downloads/lcac_hovercraft_croqui.glb",
+            "rotation": {
+                "x": 0.0,
+                "y": 90.0,
+                "z": 0.0
+            },
+            "position": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.10000000149011612
+            },
+            "size": 3.0,
+            "normalsMode": 1,
+            "smoothingAngle": 20.0,
+            "convertGrid": 0,
+            "reuseExtracted": false,
+            "doubleSided": true,
+            "windingFix": true,
+            "heightUV": true,
+            "targetTris": 24000,
+            "stripParts": "",
+            "hideMeshes": "",
+            "skel": [
+                -1153397905,
+                1134277020,
+                577920438,
+                -573259371
+            ],
+            "atlas": [
+                -925132441,
+                1238979558,
+                -113654359,
+                2008506802
+            ],
+            "clip": [
+                0,
+                0,
+                0,
+                0
+            ],
+            "animated": false,
+            "animClip": "",
+            "animateBones": "",
+            "respawnAfterLoad": false
         }
     ]
 }
