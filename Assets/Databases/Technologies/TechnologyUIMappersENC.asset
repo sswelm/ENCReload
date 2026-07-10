@@ -857,10 +857,10 @@ MonoBehaviour:
   Images:
   - Value:
       guid:
-        a: -485011444
-        b: 1309173227
-        c: -302309986
-        d: 1733457749
+        a: -618522321
+        b: 1310023344
+        c: 608432565
+        d: 1625474528
     serializableKey: TechnologyPopupBackground
   - Value:
       guid:
@@ -871,10 +871,10 @@ MonoBehaviour:
     serializableKey: Picto
   - Value:
       guid:
-        a: -485011444
-        b: 1309173227
-        c: -302309986
-        d: 1733457749
+        a: -618522321
+        b: 1310023344
+        c: 608432565
+        d: 1625474528
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
@@ -1564,6 +1564,50 @@ MonoBehaviour:
   Symbol: 
   TechTreeX: 346
   TechTreeY: 32
+  OptionalUnlockTechnologyMovie: 
+--- !u!114 &-5940946147375810815
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 301062344, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Technology_Era6_TurboshaftEngine
+  m_EditorClassIdentifier: 
+  Title: Turboshaft Engine
+  Description: Turboshaft engines are gas turbine engines optimized to deliver rotational
+    power rather than jet thrust. Their high power-to-weight ratio made practical
+    helicopters possible while also laying the foundation for modern industrial,
+    marine, and military gas turbine technology.
+  Images:
+  - Value:
+      guid:
+        a: -1017996924
+        b: 1340760889
+        c: -562264674
+        d: 1159805622
+    serializableKey: TechnologyPopupBackground
+  - Value:
+      guid:
+        a: 209776758
+        b: 1286721164
+        c: -1264855650
+        d: 577032575
+    serializableKey: Picto
+  - Value:
+      guid:
+        a: -1017996924
+        b: 1340760889
+        c: -562264674
+        d: 1159805622
+    serializableKey: TechnologyScreenItemBackground
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  Symbol: 
+  TechTreeX: 268
+  TechTreeY: 3
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &-5938144760342019652
 MonoBehaviour:
@@ -2560,7 +2604,7 @@ MonoBehaviour:
   m_Script: {fileID: 301062344, guid: b310e23bee821cb478da05296ba685d0, type: 3}
   m_Name: Technology_Era6_JetEngine
   m_EditorClassIdentifier: 
-  Title: Gas Turbine
+  Title: Jet Engine
   Description: 'Little did the Wright Brothers know that less than four decades after
     their first plane touched down in the North Carolinian sand, aeronautical engineers
     would have already created a completely new way to power flight - the jet engine.
@@ -2974,8 +3018,8 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 268
-  TechTreeY: 3
+  TechTreeX: 256
+  TechTreeY: 6
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &-3367759849534632833
 MonoBehaviour:
@@ -3551,7 +3595,7 @@ MonoBehaviour:
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
   TechTreeX: 268
-  TechTreeY: 10
+  TechTreeY: 11
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &-2621255140941623728
 MonoBehaviour:
@@ -4333,10 +4377,11 @@ MonoBehaviour:
   m_Script: {fileID: 301062344, guid: b310e23bee821cb478da05296ba685d0, type: 3}
   m_Name: Technology_Era6_Helicopter
   m_EditorClassIdentifier: 
-  Title: Helicopter
-  Description: A helicopter is a type of rotorcraft in which lift and thrust are
-    supplied by horizontally spinning rotors. This allows the helicopter to take
-    off and land vertically, to hover, and to fly forward, backward and laterally.
+  Title: Air Cavalry
+  Description: Air Cavalry employs helicopters to transport troops, provide close
+    air support, and conduct reconnaissance across the battlefield. Combining speed,
+    mobility, and firepower, it enables forces to outmaneuver traditional ground
+    formations and rapidly seize key objectives.
   Images:
   - Value:
       guid:
@@ -5107,7 +5152,7 @@ MonoBehaviour:
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
   TechTreeX: 274
-  TechTreeY: 14
+  TechTreeY: 15
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &1124552297737041863
 MonoBehaviour:
@@ -7619,7 +7664,7 @@ MonoBehaviour:
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
   TechTreeX: 262
-  TechTreeY: 8
+  TechTreeY: 9
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &7175647487520825860
 MonoBehaviour:

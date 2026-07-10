@@ -22,6 +22,10 @@
             "doubleSided": false,
             "windingFix": false,
             "heightUV": false,
+            "albedoBrightness": 1.0,
+            "albedoSaturation": 1.0,
+            "keepBlack": false,
+            "atlasMaxDim": 1024,
             "targetTris": 0,
             "stripParts": "",
             "hideMeshes": "",
@@ -70,6 +74,10 @@
             "doubleSided": false,
             "windingFix": false,
             "heightUV": false,
+            "albedoBrightness": 1.0,
+            "albedoSaturation": 1.0,
+            "keepBlack": false,
+            "atlasMaxDim": 1024,
             "targetTris": 0,
             "stripParts": "",
             "hideMeshes": "",
@@ -118,6 +126,10 @@
             "doubleSided": false,
             "windingFix": false,
             "heightUV": false,
+            "albedoBrightness": 1.0,
+            "albedoSaturation": 1.0,
+            "keepBlack": false,
+            "atlasMaxDim": 1024,
             "targetTris": 5000,
             "stripParts": "",
             "hideMeshes": "",
@@ -166,6 +178,10 @@
             "doubleSided": false,
             "windingFix": false,
             "heightUV": false,
+            "albedoBrightness": 1.0,
+            "albedoSaturation": 1.0,
+            "keepBlack": false,
+            "atlasMaxDim": 1024,
             "targetTris": 24000,
             "stripParts": "Cylinder06,Cylinder07",
             "hideMeshes": "",
@@ -214,6 +230,10 @@
             "doubleSided": false,
             "windingFix": false,
             "heightUV": false,
+            "albedoBrightness": 1.0,
+            "albedoSaturation": 1.0,
+            "keepBlack": false,
+            "atlasMaxDim": 1024,
             "targetTris": 20000,
             "stripParts": "",
             "hideMeshes": "",
@@ -262,6 +282,10 @@
             "doubleSided": true,
             "windingFix": true,
             "heightUV": true,
+            "albedoBrightness": 1.0,
+            "albedoSaturation": 1.0,
+            "keepBlack": false,
+            "atlasMaxDim": 1024,
             "targetTris": 20100,
             "stripParts": "",
             "hideMeshes": "",
@@ -276,6 +300,214 @@
                 1238979558,
                 -113654359,
                 2008506802
+            ],
+            "clip": [
+                0,
+                0,
+                0,
+                0
+            ],
+            "animated": false,
+            "animClip": "",
+            "animateBones": "",
+            "respawnAfterLoad": false
+        },
+        {
+            "resourceName": "VolleyGun",
+            "pawnDescription": "Era5_Common_VolleyGun_01",
+            "modelFile": "D:/Downloads/ozhiga_organ_gun_2.glb",
+            "rotation": {
+                "x": 0.0,
+                "y": 90.0,
+                "z": 0.0
+            },
+            "position": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "size": 3.0,
+            "normalsMode": 1,
+            "smoothingAngle": 30.0,
+            "convertGrid": 0,
+            "reuseExtracted": false,
+            "doubleSided": false,
+            "windingFix": false,
+            "heightUV": false,
+            "albedoBrightness": 1.5,
+            "albedoSaturation": 2.0,
+            "keepBlack": false,
+            "atlasMaxDim": 1024,
+            "targetTris": 20000,
+            "stripParts": "",
+            "hideMeshes": "",
+            "skel": [
+                -1638727052,
+                1317030671,
+                388418195,
+                1493697180
+            ],
+            "atlas": [
+                -1470912636,
+                1143649866,
+                2037381559,
+                -649946900
+            ],
+            "clip": [
+                0,
+                0,
+                0,
+                0
+            ],
+            "animated": false,
+            "animClip": "",
+            "animateBones": "",
+            "respawnAfterLoad": false
+        },
+        {
+            "resourceName": "OrganGun",
+            "pawnDescription": "Era4_Common_OrganGun_01",
+            "modelFile": "D:/Downloads/ribauldequin_da_vinci.glb",
+            "rotation": {
+                "x": 180.0,
+                "y": 90.0,
+                "z": 0.0
+            },
+            "position": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "size": 4.0,
+            "normalsMode": 1,
+            "smoothingAngle": 20.0,
+            "convertGrid": 0,
+            "reuseExtracted": false,
+            "doubleSided": false,
+            "windingFix": false,
+            "heightUV": false,
+            "albedoBrightness": 1.0,
+            "albedoSaturation": 2.0,
+            "keepBlack": false,
+            "atlasMaxDim": 1024,
+            "targetTris": 20000,
+            "stripParts": "",
+            "hideMeshes": "",
+            "skel": [
+                874993809,
+                1341296686,
+                1768571541,
+                -797467284
+            ],
+            "atlas": [
+                178328876,
+                1151181682,
+                673040292,
+                -1246427753
+            ],
+            "clip": [
+                0,
+                0,
+                0,
+                0
+            ],
+            "animated": false,
+            "animClip": "",
+            "animateBones": "",
+            "respawnAfterLoad": false
+        },
+        {
+            "resourceName": "ReconHelicopter",
+            "pawnDescription": "Era6_Common_ReconHelicopter_01",
+            "modelFile": "D:/Downloads/Bel-H-13-Cleaned.glb",
+            "rotation": {
+                "x": 181.0,
+                "y": 0.0,
+                "z": 5.0
+            },
+            "position": {
+                "x": 0.0,
+                "y": 1.4500000476837159,
+                "z": 0.4300000071525574
+            },
+            "size": 5.300000190734863,
+            "normalsMode": 1,
+            "smoothingAngle": 20.0,
+            "convertGrid": 0,
+            "reuseExtracted": false,
+            "doubleSided": false,
+            "windingFix": false,
+            "heightUV": false,
+            "albedoBrightness": 1.0,
+            "albedoSaturation": 1.0,
+            "keepBlack": true,
+            "atlasMaxDim": 1024,
+            "targetTris": 20000,
+            "stripParts": "",
+            "hideMeshes": "",
+            "skel": [
+                -280370827,
+                1209463792,
+                2032394935,
+                376600580
+            ],
+            "atlas": [
+                -109300332,
+                1253540647,
+                -1049870461,
+                -580088760
+            ],
+            "clip": [
+                0,
+                0,
+                0,
+                0
+            ],
+            "animated": false,
+            "animClip": "",
+            "animateBones": "",
+            "respawnAfterLoad": true
+        },
+        {
+            "resourceName": "HandCrankedSubmarines",
+            "pawnDescription": "Era5_Common_HandCrankedSubmarines_01",
+            "modelFile": "D:/Downloads/submarine_diver.glb",
+            "rotation": {
+                "x": 0.0,
+                "y": 180.0,
+                "z": 0.0
+            },
+            "position": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "size": 4.0,
+            "normalsMode": 1,
+            "smoothingAngle": 20.0,
+            "convertGrid": 0,
+            "reuseExtracted": false,
+            "doubleSided": false,
+            "windingFix": false,
+            "heightUV": false,
+            "albedoBrightness": 1.0,
+            "albedoSaturation": 1.0,
+            "keepBlack": false,
+            "atlasMaxDim": 512,
+            "targetTris": 24000,
+            "stripParts": "",
+            "hideMeshes": "",
+            "skel": [
+                -2090548850,
+                1242037490,
+                -1396050037,
+                74935345
+            ],
+            "atlas": [
+                1040982876,
+                1177712302,
+                -347913580,
+                -1221717171
             ],
             "clip": [
                 0,
