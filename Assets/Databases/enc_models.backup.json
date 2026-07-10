@@ -1,58 +1,6 @@
 {
     "models": [
         {
-            "resourceName": "StealthCruiser",
-            "pawnDescription": "Era6_Common_StealthCruisers_01",
-            "modelFile": "D:/Downloads/zumwalt_clean.glb",
-            "rotation": {
-                "x": 180.0,
-                "y": 0.0,
-                "z": 0.0
-            },
-            "position": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": -0.20000000298023225
-            },
-            "size": 8.0,
-            "normalsMode": 0,
-            "smoothingAngle": 20.0,
-            "convertGrid": 0,
-            "reuseExtracted": false,
-            "doubleSided": false,
-            "windingFix": false,
-            "heightUV": false,
-            "albedoBrightness": 1.0,
-            "albedoSaturation": 1.0,
-            "keepBlack": false,
-            "atlasMaxDim": 1024,
-            "targetTris": 0,
-            "stripParts": "",
-            "hideMeshes": "",
-            "skel": [
-                -958028325,
-                1316059366,
-                -2071331166,
-                -779568690
-            ],
-            "atlas": [
-                456614180,
-                1267693964,
-                -921504093,
-                639359095
-            ],
-            "clip": [
-                0,
-                0,
-                0,
-                0
-            ],
-            "animated": false,
-            "animClip": "",
-            "animateBones": "",
-            "respawnAfterLoad": false
-        },
-        {
             "resourceName": "ReconDrone",
             "pawnDescription": "Era6_Common_ReconDrones_01",
             "modelFile": "D:/Downloads/drone_clean.glb",
@@ -102,7 +50,8 @@
             "animated": true,
             "animClip": "hover",
             "animateBones": "prop",
-            "respawnAfterLoad": false
+            "respawnAfterLoad": false,
+            "freezeDonorAnim": false
         },
         {
             "resourceName": "StealthHelicopter",
@@ -154,7 +103,8 @@
             "animated": false,
             "animClip": "",
             "animateBones": "",
-            "respawnAfterLoad": true
+            "respawnAfterLoad": true,
+            "freezeDonorAnim": false
         },
         {
             "resourceName": "AttackHelicopter",
@@ -206,7 +156,8 @@
             "animated": false,
             "animClip": "",
             "animateBones": "",
-            "respawnAfterLoad": true
+            "respawnAfterLoad": true,
+            "freezeDonorAnim": false
         },
         {
             "resourceName": "Hovercraft",
@@ -258,7 +209,8 @@
             "animated": false,
             "animClip": "",
             "animateBones": "",
-            "respawnAfterLoad": false
+            "respawnAfterLoad": false,
+            "freezeDonorAnim": false
         },
         {
             "resourceName": "VolleyGun",
@@ -310,7 +262,8 @@
             "animated": false,
             "animClip": "",
             "animateBones": "",
-            "respawnAfterLoad": false
+            "respawnAfterLoad": false,
+            "freezeDonorAnim": false
         },
         {
             "resourceName": "OrganGun",
@@ -362,7 +315,8 @@
             "animated": false,
             "animClip": "",
             "animateBones": "",
-            "respawnAfterLoad": false
+            "respawnAfterLoad": false,
+            "freezeDonorAnim": false
         },
         {
             "resourceName": "ReconHelicopter",
@@ -414,7 +368,8 @@
             "animated": false,
             "animClip": "",
             "animateBones": "",
-            "respawnAfterLoad": true
+            "respawnAfterLoad": true,
+            "freezeDonorAnim": false
         },
         {
             "resourceName": "HandCrankedSubmarines",
@@ -466,7 +421,8 @@
             "animated": false,
             "animClip": "",
             "animateBones": "",
-            "respawnAfterLoad": false
+            "respawnAfterLoad": false,
+            "freezeDonorAnim": false
         },
         {
             "resourceName": "Zeppelin",
@@ -482,7 +438,7 @@
                 "y": 0.0,
                 "z": 0.0
             },
-            "size": 10.0,
+            "size": 12.0,
             "normalsMode": 1,
             "smoothingAngle": 20.0,
             "convertGrid": 0,
@@ -518,7 +474,114 @@
             "animated": false,
             "animClip": "",
             "animateBones": "",
-            "respawnAfterLoad": false
+            "respawnAfterLoad": false,
+            "freezeDonorAnim": true
+        },
+        {
+            "resourceName": "ReconZeppelin",
+            "pawnDescription": "Era6_Common_ReconZeppelin_01",
+            "modelFile": "D:/Downloads/92734a2c283e4d889fecbb010aaf7822(3).glb",
+            "rotation": {
+                "x": 0.0,
+                "y": 180.0,
+                "z": 0.0
+            },
+            "position": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 3.0
+            },
+            "size": 12.0,
+            "normalsMode": 1,
+            "smoothingAngle": 20.0,
+            "convertGrid": 0,
+            "reuseExtracted": false,
+            "doubleSided": false,
+            "windingFix": false,
+            "heightUV": false,
+            "albedoBrightness": 1.0,
+            "albedoSaturation": 1.0,
+            "keepBlack": false,
+            "atlasMaxDim": 1024,
+            "targetTris": 20000,
+            "stripParts": "",
+            "hideMeshes": "",
+            "skel": [
+                -511497480,
+                1223915428,
+                1441047943,
+                241604089
+            ],
+            "atlas": [
+                -1556721359,
+                1238884750,
+                815887502,
+                1880035103
+            ],
+            "clip": [
+                0,
+                0,
+                0,
+                0
+            ],
+            "animated": false,
+            "animClip": "",
+            "animateBones": "",
+            "respawnAfterLoad": false,
+            "freezeDonorAnim": true
+        },
+        {
+            "resourceName": "StealthCruiser",
+            "pawnDescription": "Era6_Common_StealthCruisers_01",
+            "modelFile": "D:/Downloads/zumwalt_clean.glb",
+            "rotation": {
+                "x": 180.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "position": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": -0.20000000298023225
+            },
+            "size": 8.0,
+            "normalsMode": 0,
+            "smoothingAngle": 20.0,
+            "convertGrid": 0,
+            "reuseExtracted": false,
+            "doubleSided": false,
+            "windingFix": false,
+            "heightUV": false,
+            "albedoBrightness": 1.0,
+            "albedoSaturation": 1.0,
+            "keepBlack": false,
+            "atlasMaxDim": 1024,
+            "targetTris": 0,
+            "stripParts": "",
+            "hideMeshes": "",
+            "skel": [
+                -958028325,
+                1316059366,
+                -2071331166,
+                -779568690
+            ],
+            "atlas": [
+                456614180,
+                1267693964,
+                -921504093,
+                639359095
+            ],
+            "clip": [
+                0,
+                0,
+                0,
+                0
+            ],
+            "animated": false,
+            "animClip": "",
+            "animateBones": "",
+            "respawnAfterLoad": false,
+            "freezeDonorAnim": false
         }
     ]
 }
