@@ -1,58 +1,6 @@
 {
     "models": [
         {
-            "resourceName": "Zeppelin",
-            "pawnDescription": "Era5_Common_Zeppelins_01",
-            "modelFile": "C:/Repo/ENCReload/Assets/Resources/Airship/R00_Baloon.fbx",
-            "rotation": {
-                "x": 0.0,
-                "y": 180.0,
-                "z": 0.0
-            },
-            "position": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0
-            },
-            "size": 8.0,
-            "normalsMode": 0,
-            "smoothingAngle": 20.0,
-            "convertGrid": 0,
-            "reuseExtracted": false,
-            "doubleSided": false,
-            "windingFix": false,
-            "heightUV": false,
-            "albedoBrightness": 1.0,
-            "albedoSaturation": 1.0,
-            "keepBlack": false,
-            "atlasMaxDim": 1024,
-            "targetTris": 0,
-            "stripParts": "",
-            "hideMeshes": "",
-            "skel": [
-                781638270,
-                1224895347,
-                -2137756227,
-                -1885149832
-            ],
-            "atlas": [
-                -1350209554,
-                1087234341,
-                535526061,
-                -1240440085
-            ],
-            "clip": [
-                0,
-                0,
-                0,
-                0
-            ],
-            "animated": false,
-            "animClip": "",
-            "animateBones": "",
-            "respawnAfterLoad": false
-        },
-        {
             "resourceName": "StealthCruiser",
             "pawnDescription": "Era6_Common_StealthCruisers_01",
             "modelFile": "D:/Downloads/zumwalt_clean.glb",
@@ -508,6 +456,58 @@
                 1177712302,
                 -347913580,
                 -1221717171
+            ],
+            "clip": [
+                0,
+                0,
+                0,
+                0
+            ],
+            "animated": false,
+            "animClip": "",
+            "animateBones": "",
+            "respawnAfterLoad": false
+        },
+        {
+            "resourceName": "Zeppelin",
+            "pawnDescription": "Era5_Common_Zeppelins_01",
+            "modelFile": "D:/Downloads/92734a2c283e4d889fecbb010aaf7822(3).glb",
+            "rotation": {
+                "x": 0.0,
+                "y": 180.0,
+                "z": 0.0
+            },
+            "position": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "size": 10.0,
+            "normalsMode": 1,
+            "smoothingAngle": 20.0,
+            "convertGrid": 0,
+            "reuseExtracted": false,
+            "doubleSided": false,
+            "windingFix": false,
+            "heightUV": false,
+            "albedoBrightness": 1.5,
+            "albedoSaturation": 1.0,
+            "keepBlack": false,
+            "atlasMaxDim": 1024,
+            "targetTris": 20000,
+            "stripParts": "",
+            "hideMeshes": "",
+            "skel": [
+                781638270,
+                1224895347,
+                -2137756227,
+                -1885149832
+            ],
+            "atlas": [
+                -1350209554,
+                1087234341,
+                535526061,
+                -1240440085
             ],
             "clip": [
                 0,
