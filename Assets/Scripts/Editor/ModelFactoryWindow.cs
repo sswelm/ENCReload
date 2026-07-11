@@ -198,6 +198,15 @@ public class ModelFactoryWindow : EditorWindow
                 }
         }
         using (new EditorGUI.DisabledScope(!cur.animated))
+            cur.animUnitFix = EditorGUILayout.Toggle(new GUIContent("Fix 100× oversize (FBX unit scale)",
+                "Bake-time scale fix for ANIMATED models. Some rigged FBX exports embed a metre→centimetre unit scale that makes " +
+                "the model bake ~100× too big and float high in the sky (fine in the preview, wrong in-game). Tick this and the " +
+                "baker measures the FBX at its true scale then bakes with the unit scale on, so Size means in-game units. " +
+                "PER-MODEL — some exports need it, others break with it: if your model bakes huge/floating, tick it; if ticking it " +
+                "makes the model vanish or shrink to nothing, UNtick it (the drone bakes right OFF; the howitzer needs it ON). Re-bake after changing."),
+                cur.animUnitFix);
+
+        using (new EditorGUI.DisabledScope(!cur.animated))
             cur.fireOnAttack = EditorGUILayout.Toggle(new GUIContent("Fire on attack (play once)",
                 "Play the baked clip ONCE when this unit attacks, instead of looping — the model rests, then plays a single " +
                 "pass on the shot and returns to rest (e.g. a howitzer barrel that elevates only when it bombards). The plugin " +
@@ -761,7 +770,7 @@ public class ModelFactoryWindow : EditorWindow
             albedoBrightness = cur.albedoBrightness, albedoSaturation = cur.albedoSaturation, keepBlack = cur.keepBlack,
             atlasMaxDim = cur.atlasMaxDim <= 0 ? 512 : cur.atlasMaxDim,
             stripParts = cur.stripParts,
-            animated = cur.animated, animClip = cur.animClip, animateBones = cur.animateBones
+            animated = cur.animated, animClip = cur.animClip, animateBones = cur.animateBones, animUnitFix = cur.animUnitFix
         };
         var r = cfg.animated ? UniversalBaker.BuildAnimated(cfg) : UniversalBaker.Build(cfg);
         if (!r.ok) { status = "Bake FAILED: " + r.error; return; }

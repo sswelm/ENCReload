@@ -50,8 +50,10 @@
             "animated": false,
             "animClip": "",
             "animateBones": "",
+            "animUnitFix": false,
             "respawnAfterLoad": true,
-            "freezeDonorAnim": false
+            "freezeDonorAnim": false,
+            "fireOnAttack": false
         },
         {
             "resourceName": "HandCrankedSubmarines",
@@ -103,8 +105,10 @@
             "animated": false,
             "animClip": "",
             "animateBones": "",
+            "animUnitFix": false,
             "respawnAfterLoad": false,
-            "freezeDonorAnim": false
+            "freezeDonorAnim": false,
+            "fireOnAttack": false
         },
         {
             "resourceName": "ReconZeppelin",
@@ -156,61 +160,10 @@
             "animated": false,
             "animClip": "",
             "animateBones": "",
+            "animUnitFix": false,
             "respawnAfterLoad": false,
-            "freezeDonorAnim": true
-        },
-        {
-            "resourceName": "ReconDrone",
-            "pawnDescription": "Era6_Common_ReconDrones_01",
-            "modelFile": "D:/Downloads/drone_clean.glb",
-            "rotation": {
-                "x": 90.0,
-                "y": 90.0,
-                "z": 0.0
-            },
-            "position": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 2.0
-            },
-            "size": 2.0,
-            "normalsMode": 1,
-            "smoothingAngle": 20.0,
-            "convertGrid": 0,
-            "reuseExtracted": true,
-            "doubleSided": false,
-            "windingFix": false,
-            "heightUV": false,
-            "albedoBrightness": 1.0,
-            "albedoSaturation": 1.0,
-            "keepBlack": false,
-            "atlasMaxDim": 512,
-            "targetTris": 5000,
-            "stripParts": "",
-            "hideMeshes": "",
-            "skel": [
-                -34687528,
-                1274838548,
-                -1072885069,
-                -1411659407
-            ],
-            "atlas": [
-                -1581395766,
-                1199223313,
-                1781020585,
-                -375107865
-            ],
-            "clip": [
-                1547596851,
-                1330585087,
-                -1602424179,
-                -1171813139
-            ],
-            "animated": true,
-            "animClip": "hover",
-            "animateBones": "prop",
-            "respawnAfterLoad": false,
-            "freezeDonorAnim": false
+            "freezeDonorAnim": true,
+            "fireOnAttack": false
         },
         {
             "resourceName": "StealthHelicopter",
@@ -262,8 +215,10 @@
             "animated": false,
             "animClip": "",
             "animateBones": "",
+            "animUnitFix": false,
             "respawnAfterLoad": true,
-            "freezeDonorAnim": false
+            "freezeDonorAnim": false,
+            "fireOnAttack": false
         },
         {
             "resourceName": "AttackHelicopter",
@@ -315,8 +270,10 @@
             "animated": false,
             "animClip": "",
             "animateBones": "",
+            "animUnitFix": false,
             "respawnAfterLoad": true,
-            "freezeDonorAnim": false
+            "freezeDonorAnim": false,
+            "fireOnAttack": false
         },
         {
             "resourceName": "VolleyGun",
@@ -368,8 +325,10 @@
             "animated": false,
             "animClip": "",
             "animateBones": "",
+            "animUnitFix": false,
             "respawnAfterLoad": false,
-            "freezeDonorAnim": false
+            "freezeDonorAnim": false,
+            "fireOnAttack": false
         },
         {
             "resourceName": "Hovercraft",
@@ -421,8 +380,10 @@
             "animated": false,
             "animClip": "",
             "animateBones": "",
+            "animUnitFix": false,
             "respawnAfterLoad": false,
-            "freezeDonorAnim": false
+            "freezeDonorAnim": false,
+            "fireOnAttack": false
         },
         {
             "resourceName": "Zeppelin",
@@ -474,8 +435,10 @@
             "animated": false,
             "animClip": "",
             "animateBones": "",
+            "animUnitFix": false,
             "respawnAfterLoad": false,
-            "freezeDonorAnim": true
+            "freezeDonorAnim": true,
+            "fireOnAttack": false
         },
         {
             "resourceName": "StealthCruiser",
@@ -527,8 +490,10 @@
             "animated": false,
             "animClip": "",
             "animateBones": "",
+            "animUnitFix": false,
             "respawnAfterLoad": false,
-            "freezeDonorAnim": false
+            "freezeDonorAnim": false,
+            "fireOnAttack": false
         },
         {
             "resourceName": "OrganGun",
@@ -580,8 +545,65 @@
             "animated": false,
             "animClip": "",
             "animateBones": "",
+            "animUnitFix": false,
             "respawnAfterLoad": false,
-            "freezeDonorAnim": false
+            "freezeDonorAnim": false,
+            "fireOnAttack": false
+        },
+        {
+            "resourceName": "ReconDrone",
+            "pawnDescription": "Era6_Common_ReconDrones_01",
+            "modelFile": "D:/Downloads/drone_clean.glb",
+            "rotation": {
+                "x": 90.0,
+                "y": 90.0,
+                "z": 0.0
+            },
+            "position": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 2.0
+            },
+            "size": 2.0,
+            "normalsMode": 1,
+            "smoothingAngle": 20.0,
+            "convertGrid": 0,
+            "reuseExtracted": true,
+            "doubleSided": false,
+            "windingFix": false,
+            "heightUV": false,
+            "albedoBrightness": 1.0,
+            "albedoSaturation": 1.0,
+            "keepBlack": false,
+            "atlasMaxDim": 512,
+            "targetTris": 5000,
+            "stripParts": "",
+            "hideMeshes": "",
+            "skel": [
+                -34687528,
+                1274838548,
+                -1072885069,
+                -1411659407
+            ],
+            "atlas": [
+                -1581395766,
+                1199223313,
+                1781020585,
+                -375107865
+            ],
+            "clip": [
+                1547596851,
+                1330585087,
+                -1602424179,
+                -1171813139
+            ],
+            "animated": true,
+            "animClip": "hover",
+            "animateBones": "prop",
+            "animUnitFix": false,
+            "respawnAfterLoad": false,
+            "freezeDonorAnim": false,
+            "fireOnAttack": false
         },
         {
             "resourceName": "TowedGunHowitzers",
@@ -633,8 +655,10 @@
             "animated": true,
             "animClip": "Fire",
             "animateBones": "",
+            "animUnitFix": true,
             "respawnAfterLoad": false,
-            "freezeDonorAnim": false
+            "freezeDonorAnim": false,
+            "fireOnAttack": true
         }
     ]
 }
