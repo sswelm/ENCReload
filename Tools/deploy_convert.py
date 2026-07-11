@@ -23,7 +23,8 @@ scene = bpy.context.scene
 
 # --- 1. strip crew + loose props (soft-skinned rigs = the bake-breakers; ammo/pole/string = loose firing props) ---
 KILL = tuple(k.strip().lower() for k in argv[4].split(",")) if len(argv) > 4 and argv[4].strip() else \
-    ("solder", "soldier", "pole", "string", "shell", "dynam", "ammun", "pcylinder1", "pcylinder3", "icosphere", "basicgal")
+    ("solder", "soldier", "pole", "string", "shell", "dynam", "ammun", "pcylinder1", "pcylinder3", "icosphere", "basicgal",
+     "polysurface")   # polySurface1/5 = a loose prop floating ~20u above the gun (a stray shell), not part of the howitzer
 def is_kill(o):
     names = [o.name.lower()]
     if getattr(o, "data", None) is not None and hasattr(o.data, "name"):
