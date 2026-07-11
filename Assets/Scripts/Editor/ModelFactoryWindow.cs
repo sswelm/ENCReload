@@ -54,7 +54,10 @@ public class ModelFactoryWindow : EditorWindow
         if (previewEditor != null) { UnityEngine.Object.DestroyImmediate(previewEditor); previewEditor = null; }
         previewFor = name ?? "";
         if (string.IsNullOrEmpty(name)) return;
-        string animPath = "Assets/Resources/" + name + "/" + name + "_Preview.prefab";
+        // The animated preview companion lives in FactorySource (bake INPUT, not shipped), NOT Resources — see
+        // GeneratePreviewPrefab. This path lagged behind when the working folder moved out of Resources, so the animated
+        // preview silently stopped loading; keep it pointed at FactorySource. The static _Model.prefab is a shipped OUTPUT and stays in Resources root.
+        string animPath = "Assets/FactorySource/" + name + "/" + name + "_Preview.prefab";
         string staticPath = "Assets/Resources/" + name + "_Model.prefab";
         string path = AssetDatabase.LoadMainAssetAtPath(animPath) != null ? animPath
                     : AssetDatabase.LoadMainAssetAtPath(staticPath) != null ? staticPath : null;
