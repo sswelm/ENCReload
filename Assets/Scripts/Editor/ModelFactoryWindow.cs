@@ -238,6 +238,12 @@ public class ModelFactoryWindow : EditorWindow
                 "Normalized clip time (0..1) of the DEPLOYED pose held when idle. 1 = a purpose-made deploy clip's end frame. " +
                 "(0.5 hits the barrel-fire clip's raised plateau — used to prove the mechanism without a dedicated deploy clip.)"),
                 cur.deployPoseTime <= 0f ? 1f : cur.deployPoseTime, 0f, 1f);
+        using (new EditorGUI.DisabledScope(!cur.animated || !cur.deployOnStop))
+            cur.deploySpeed = EditorGUILayout.Slider(new GUIContent("Deploy speed",
+                "Speed multiplier on the gradual deploy-on-stop ramp: 1 = the clip's authored speed, 2 = twice as fast, 0.5 = " +
+                "half. Only affects the forward deploy (playing the clip open when the unit stops) — folding on move is always " +
+                "instant. Runtime flag; no re-bake to change."),
+                cur.deploySpeed <= 0f ? 1f : cur.deploySpeed, 0.25f, 5f);
         // Blender is a HARD dependency for the animated path (rig-slim + clip bake); glbconv can't emit a rigged FBX.
         // Warn as soon as an animated model is detected — not only after ticking — so a Blender-less adopter knows upfront.
         // (Detection itself needs no Blender, so the checkbox stays usable; only Bake will fail until Blender is present.)

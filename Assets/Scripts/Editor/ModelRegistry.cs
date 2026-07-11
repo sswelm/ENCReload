@@ -48,6 +48,7 @@ public class ModelDef
     public bool fireOnAttack = false;   // RUNTIME (not baked): ANIMATED only. Play the baked clip ONCE when this unit attacks (bombards) instead of looping — the barrel rests, then elevates on the shot and returns. The plugin listens for SimulationEvent_ArtilleryStrikeStarted, matches the firing unit to this entry, and plays a single 0->1 pass of the clip (author it to start AND end at rest). Leave off for a continuously-looping clip (a drone's spinning prop).
     public bool deployOnStop = false;   // RUNTIME (not baked): ANIMATED only. Hold the baked clip's DEPLOYED pose when the unit is idle, and snap to the UNDEPLOYED pose (frame 0) while it moves — e.g. a howitzer whose barrel/trails deploy when it stops and fold for travel. Author the clip so frame 0 = travelling (undeployed) and deployPoseTime = deployed. Per-unit, instant snap, no state machine. Mutually exclusive with fireOnAttack for now (one clip slot; combining both is the multi-clip TODO).
     public float deployPoseTime = 1f;   // RUNTIME (not baked): deployOnStop only. Normalized clip time (0..1) of the DEPLOYED pose held when idle. 1 = a purpose-made deploy clip's end. (0.5 was used to prove the mechanism with the barrel-fire clip's raised plateau.)
+    public float deploySpeed = 1f;      // RUNTIME (not baked): deployOnStop only. Speed multiplier on the gradual deploy-on-stop ramp (1 = the clip's authored speed, 2 = twice as fast). Folding on move is always instant, so this only affects the forward deploy.
 }
 
 [Serializable]
