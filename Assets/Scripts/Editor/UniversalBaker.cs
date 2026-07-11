@@ -208,8 +208,31 @@ public static class UniversalBaker
         try
         {
             var mesh = AssetDatabase.LoadAllAssetsAtPath(fbxRel).OfType<Mesh>()
-                .OrderByDescending(m => m.vertexCount).FirstOrDefault();          // the body mesh
+                .OrderByDescending(m => m.vertexCount).FirstOrDefault();          // the body mesh (bind pose)
             if (mesh == null) { Debug.LogWarning("[Factory] preview: no mesh found in " + fbxRel); return; }
+            // Bake the DEPLOYED pose (clip's END frame) so the preview shows the deployed model, not the folded bind pose.
+            var fbxGo = AssetDatabase.LoadAssetAtPath<GameObject>(fbxRel);
+            var clip = AssetDatabase.LoadAllAssetsAtPath(fbxRel).OfType<AnimationClip>().FirstOrDefault(c => c != null && !c.name.StartsWith("__"));
+            if (fbxGo != null && clip != null)
+            {
+                var inst = UnityEngine.Object.Instantiate(fbxGo);
+                inst.hideFlags = HideFlags.HideAndDontSave;
+                try
+                {
+                    clip.SampleAnimation(inst, clip.length);                       // pose to the deployed (end) frame
+                    var smr = inst.GetComponentInChildren<SkinnedMeshRenderer>();
+                    if (smr != null)
+                    {
+                        var posed = new Mesh { name = name + "_PreviewMesh" };
+                        smr.BakeMesh(posed);
+                        string mp = resDir + "/" + name + "_PreviewMesh.asset";
+                        AssetDatabase.DeleteAsset(mp); AssetDatabase.CreateAsset(posed, mp);
+                        mesh = posed;                                             // preview the deployed pose
+                    }
+                }
+                catch (Exception ex) { Debug.LogWarning("[Factory] preview pose bake (falling back to bind pose): " + ex.Message); }
+                finally { UnityEngine.Object.DestroyImmediate(inst); }
+            }
             var mat = new Material(Shader.Find("Standard")) { name = name + "_PreviewMat", mainTexture = atlas };
             string matPath = resDir + "/" + name + "_PreviewMat.mat";
             AssetDatabase.DeleteAsset(matPath); AssetDatabase.CreateAsset(mat, matPath);
