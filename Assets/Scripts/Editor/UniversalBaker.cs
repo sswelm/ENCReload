@@ -110,16 +110,26 @@ public static class UniversalBaker
         imp.animationType = ModelImporterAnimationType.Generic;
         imp.importAnimation = true;
         imp.globalScale = 1f;
+        // THE 100x FIX (measure at true scale, bake at file scale).
+        // Two facts collide: (a) the SDK Skeleton bake needs useFileScale ON — the FBX's embedded metre->cm scale must be
+        // applied or the baked skeleton renders exactly 100x too big (proven: same scale factor 2.5, useFileScale off = giant,
+        // on = correct). (b) But with useFileScale ON, MeasureLongestAxis reads sharedMesh.bounds at ~1/100 of the true size
+        // (0.02 for a 2-unit gun), so `size/longest` computes the factor against the wrong basis — forcing the old Size÷100
+        // hack. Fix: measure with useFileScale OFF (true geometry size, matches glbconv), then bake with it ON. The factor is
+        // then size/true_longest, so `Size` means in-game units like the static path — no ÷100. Self-adjusts to any FBX unit.
+        imp.useFileScale = false;
         imp.SaveAndReimport();
         var fbxGo = AssetDatabase.LoadAssetAtPath<GameObject>(fbxRel);
-        float longest = MeasureLongestAxis(fbxGo);
+        float longest = MeasureLongestAxis(fbxGo);   // true native size (useFileScale off)
+        imp.useFileScale = true;                     // bake with the embedded unit scale ON (required for correct render size)
         if (longest > 1e-4f)
         {
-            imp.globalScale = size / longest;   // SDK skeleton uses the FBX native scale, so match `size` via Scale Factor
+            imp.globalScale = size / longest;   // factor against the TRUE longest -> hits `size` in-game
             imp.SaveAndReimport();
             fbxGo = AssetDatabase.LoadAssetAtPath<GameObject>(fbxRel);
             Debug.Log($"[Factory] {name} FBX scale factor {imp.globalScale:0.###} (native longest {longest:0.###} -> {size} units)");
         }
+        else { imp.SaveAndReimport(); fbxGo = AssetDatabase.LoadAssetAtPath<GameObject>(fbxRel); }   // still need useFileScale ON applied
         if (fbxGo == null) return Fail("imported FBX has no GameObject");
 
         // --- 3) atlas from the exported albedo (same single-albedo path + Resources-root location as static) ---

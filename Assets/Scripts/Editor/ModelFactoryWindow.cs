@@ -197,6 +197,14 @@ public class ModelFactoryWindow : EditorWindow
                     }).Show(r);
                 }
         }
+        using (new EditorGUI.DisabledScope(!cur.animated))
+            cur.fireOnAttack = EditorGUILayout.Toggle(new GUIContent("Fire on attack (play once)",
+                "Play the baked clip ONCE when this unit attacks, instead of looping — the model rests, then plays a single " +
+                "pass on the shot and returns to rest (e.g. a howitzer barrel that elevates only when it bombards). The plugin " +
+                "listens for the artillery-strike event, matches the firing unit to this model, and triggers one 0->1 playthrough. " +
+                "AUTHOR THE CLIP TO START AND END AT REST so the single pass looks clean. Leave OFF for a continuous loop (a " +
+                "drone's spinning prop). Animated models only; no re-bake to toggle, just rebuild the mod."),
+                cur.fireOnAttack);
         // Blender is a HARD dependency for the animated path (rig-slim + clip bake); glbconv can't emit a rigged FBX.
         // Warn as soon as an animated model is detected — not only after ticking — so a Blender-less adopter knows upfront.
         // (Detection itself needs no Blender, so the checkbox stays usable; only Bake will fail until Blender is present.)

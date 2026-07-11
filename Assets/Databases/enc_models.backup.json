@@ -1,324 +1,6 @@
 {
     "models": [
         {
-            "resourceName": "ReconDrone",
-            "pawnDescription": "Era6_Common_ReconDrones_01",
-            "modelFile": "D:/Downloads/drone_clean.glb",
-            "rotation": {
-                "x": 90.0,
-                "y": 90.0,
-                "z": 0.0
-            },
-            "position": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 2.0
-            },
-            "size": 2.0,
-            "normalsMode": 1,
-            "smoothingAngle": 20.0,
-            "convertGrid": 0,
-            "reuseExtracted": true,
-            "doubleSided": false,
-            "windingFix": false,
-            "heightUV": false,
-            "albedoBrightness": 1.0,
-            "albedoSaturation": 1.0,
-            "keepBlack": false,
-            "atlasMaxDim": 1024,
-            "targetTris": 5000,
-            "stripParts": "",
-            "hideMeshes": "",
-            "skel": [
-                -34687528,
-                1274838548,
-                -1072885069,
-                -1411659407
-            ],
-            "atlas": [
-                -1581395766,
-                1199223313,
-                1781020585,
-                -375107865
-            ],
-            "clip": [
-                1547596851,
-                1330585087,
-                -1602424179,
-                -1171813139
-            ],
-            "animated": true,
-            "animClip": "hover",
-            "animateBones": "prop",
-            "respawnAfterLoad": false,
-            "freezeDonorAnim": false
-        },
-        {
-            "resourceName": "StealthHelicopter",
-            "pawnDescription": "Era6_Common_StealthHelicopters_01",
-            "modelFile": "D:/Downloads/rah66.glb",
-            "rotation": {
-                "x": 141.0,
-                "y": 90.0,
-                "z": -7.0
-            },
-            "position": {
-                "x": 0.0,
-                "y": 1.25,
-                "z": 0.15000000596046449
-            },
-            "size": 5.599999904632568,
-            "normalsMode": 1,
-            "smoothingAngle": 20.0,
-            "convertGrid": 0,
-            "reuseExtracted": false,
-            "doubleSided": false,
-            "windingFix": false,
-            "heightUV": false,
-            "albedoBrightness": 1.0,
-            "albedoSaturation": 1.0,
-            "keepBlack": false,
-            "atlasMaxDim": 1024,
-            "targetTris": 24000,
-            "stripParts": "Cylinder06,Cylinder07",
-            "hideMeshes": "",
-            "skel": [
-                -2089899586,
-                1342005806,
-                1663056793,
-                -1584990090
-            ],
-            "atlas": [
-                -651005781,
-                1258427791,
-                2056586893,
-                -1593028268
-            ],
-            "clip": [
-                0,
-                0,
-                0,
-                0
-            ],
-            "animated": false,
-            "animClip": "",
-            "animateBones": "",
-            "respawnAfterLoad": true,
-            "freezeDonorAnim": false
-        },
-        {
-            "resourceName": "AttackHelicopter",
-            "pawnDescription": "Era6_Common_AttackHelicopter_01",
-            "modelFile": "D:/Downloads/Cobra.glb",
-            "rotation": {
-                "x": 184.0,
-                "y": 0.0,
-                "z": 142.0
-            },
-            "position": {
-                "x": 0.0,
-                "y": 0.8999999761581421,
-                "z": 0.10000000149011612
-            },
-            "size": 4.5,
-            "normalsMode": 1,
-            "smoothingAngle": 20.0,
-            "convertGrid": 0,
-            "reuseExtracted": false,
-            "doubleSided": false,
-            "windingFix": false,
-            "heightUV": false,
-            "albedoBrightness": 1.0,
-            "albedoSaturation": 1.0,
-            "keepBlack": false,
-            "atlasMaxDim": 1024,
-            "targetTris": 20000,
-            "stripParts": "",
-            "hideMeshes": "",
-            "skel": [
-                -331537095,
-                1140154852,
-                -2054616686,
-                612951554
-            ],
-            "atlas": [
-                1797777309,
-                1187567267,
-                1700934299,
-                -601300775
-            ],
-            "clip": [
-                0,
-                0,
-                0,
-                0
-            ],
-            "animated": false,
-            "animClip": "",
-            "animateBones": "",
-            "respawnAfterLoad": true,
-            "freezeDonorAnim": false
-        },
-        {
-            "resourceName": "Hovercraft",
-            "pawnDescription": "Era6_Common_Hovercrafts_01",
-            "modelFile": "D:/Downloads/lcac_esboco.glb",
-            "rotation": {
-                "x": 180.0,
-                "y": 0.0,
-                "z": 0.0
-            },
-            "position": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0
-            },
-            "size": 3.0,
-            "normalsMode": 1,
-            "smoothingAngle": 30.0,
-            "convertGrid": 0,
-            "reuseExtracted": false,
-            "doubleSided": true,
-            "windingFix": true,
-            "heightUV": true,
-            "albedoBrightness": 1.0,
-            "albedoSaturation": 1.0,
-            "keepBlack": false,
-            "atlasMaxDim": 1024,
-            "targetTris": 20100,
-            "stripParts": "",
-            "hideMeshes": "",
-            "skel": [
-                -1153397905,
-                1134277020,
-                577920438,
-                -573259371
-            ],
-            "atlas": [
-                -925132441,
-                1238979558,
-                -113654359,
-                2008506802
-            ],
-            "clip": [
-                0,
-                0,
-                0,
-                0
-            ],
-            "animated": false,
-            "animClip": "",
-            "animateBones": "",
-            "respawnAfterLoad": false,
-            "freezeDonorAnim": false
-        },
-        {
-            "resourceName": "VolleyGun",
-            "pawnDescription": "Era5_Common_VolleyGun_01",
-            "modelFile": "D:/Downloads/ozhiga_organ_gun_2.glb",
-            "rotation": {
-                "x": 0.0,
-                "y": 90.0,
-                "z": 0.0
-            },
-            "position": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0
-            },
-            "size": 3.0,
-            "normalsMode": 1,
-            "smoothingAngle": 30.0,
-            "convertGrid": 0,
-            "reuseExtracted": false,
-            "doubleSided": false,
-            "windingFix": false,
-            "heightUV": false,
-            "albedoBrightness": 1.5,
-            "albedoSaturation": 2.0,
-            "keepBlack": false,
-            "atlasMaxDim": 1024,
-            "targetTris": 20000,
-            "stripParts": "",
-            "hideMeshes": "",
-            "skel": [
-                -1638727052,
-                1317030671,
-                388418195,
-                1493697180
-            ],
-            "atlas": [
-                -1470912636,
-                1143649866,
-                2037381559,
-                -649946900
-            ],
-            "clip": [
-                0,
-                0,
-                0,
-                0
-            ],
-            "animated": false,
-            "animClip": "",
-            "animateBones": "",
-            "respawnAfterLoad": false,
-            "freezeDonorAnim": false
-        },
-        {
-            "resourceName": "OrganGun",
-            "pawnDescription": "Era4_Common_OrganGun_01",
-            "modelFile": "D:/Downloads/ribauldequin_da_vinci.glb",
-            "rotation": {
-                "x": 180.0,
-                "y": 90.0,
-                "z": 0.0
-            },
-            "position": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0
-            },
-            "size": 4.0,
-            "normalsMode": 1,
-            "smoothingAngle": 20.0,
-            "convertGrid": 0,
-            "reuseExtracted": false,
-            "doubleSided": false,
-            "windingFix": false,
-            "heightUV": false,
-            "albedoBrightness": 1.0,
-            "albedoSaturation": 2.0,
-            "keepBlack": false,
-            "atlasMaxDim": 1024,
-            "targetTris": 20000,
-            "stripParts": "",
-            "hideMeshes": "",
-            "skel": [
-                874993809,
-                1341296686,
-                1768571541,
-                -797467284
-            ],
-            "atlas": [
-                178328876,
-                1151181682,
-                673040292,
-                -1246427753
-            ],
-            "clip": [
-                0,
-                0,
-                0,
-                0
-            ],
-            "animated": false,
-            "animClip": "",
-            "animateBones": "",
-            "respawnAfterLoad": false,
-            "freezeDonorAnim": false
-        },
-        {
             "resourceName": "ReconHelicopter",
             "pawnDescription": "Era6_Common_ReconHelicopter_01",
             "modelFile": "D:/Downloads/Bel-H-13-Cleaned.glb",
@@ -425,59 +107,6 @@
             "freezeDonorAnim": false
         },
         {
-            "resourceName": "Zeppelin",
-            "pawnDescription": "Era5_Common_Zeppelins_01",
-            "modelFile": "D:/Downloads/92734a2c283e4d889fecbb010aaf7822(3).glb",
-            "rotation": {
-                "x": 0.0,
-                "y": 180.0,
-                "z": 0.0
-            },
-            "position": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0
-            },
-            "size": 12.0,
-            "normalsMode": 1,
-            "smoothingAngle": 20.0,
-            "convertGrid": 0,
-            "reuseExtracted": false,
-            "doubleSided": false,
-            "windingFix": false,
-            "heightUV": false,
-            "albedoBrightness": 1.5,
-            "albedoSaturation": 1.0,
-            "keepBlack": false,
-            "atlasMaxDim": 1024,
-            "targetTris": 20000,
-            "stripParts": "",
-            "hideMeshes": "",
-            "skel": [
-                781638270,
-                1224895347,
-                -2137756227,
-                -1885149832
-            ],
-            "atlas": [
-                -1350209554,
-                1087234341,
-                535526061,
-                -1240440085
-            ],
-            "clip": [
-                0,
-                0,
-                0,
-                0
-            ],
-            "animated": false,
-            "animClip": "",
-            "animateBones": "",
-            "respawnAfterLoad": false,
-            "freezeDonorAnim": true
-        },
-        {
             "resourceName": "ReconZeppelin",
             "pawnDescription": "Era6_Common_ReconZeppelin_01",
             "modelFile": "D:/Downloads/92734a2c283e4d889fecbb010aaf7822(3).glb",
@@ -531,6 +160,324 @@
             "freezeDonorAnim": true
         },
         {
+            "resourceName": "ReconDrone",
+            "pawnDescription": "Era6_Common_ReconDrones_01",
+            "modelFile": "D:/Downloads/drone_clean.glb",
+            "rotation": {
+                "x": 90.0,
+                "y": 90.0,
+                "z": 0.0
+            },
+            "position": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 2.0
+            },
+            "size": 2.0,
+            "normalsMode": 1,
+            "smoothingAngle": 20.0,
+            "convertGrid": 0,
+            "reuseExtracted": true,
+            "doubleSided": false,
+            "windingFix": false,
+            "heightUV": false,
+            "albedoBrightness": 1.0,
+            "albedoSaturation": 1.0,
+            "keepBlack": false,
+            "atlasMaxDim": 512,
+            "targetTris": 5000,
+            "stripParts": "",
+            "hideMeshes": "",
+            "skel": [
+                -34687528,
+                1274838548,
+                -1072885069,
+                -1411659407
+            ],
+            "atlas": [
+                -1581395766,
+                1199223313,
+                1781020585,
+                -375107865
+            ],
+            "clip": [
+                1547596851,
+                1330585087,
+                -1602424179,
+                -1171813139
+            ],
+            "animated": true,
+            "animClip": "hover",
+            "animateBones": "prop",
+            "respawnAfterLoad": false,
+            "freezeDonorAnim": false
+        },
+        {
+            "resourceName": "StealthHelicopter",
+            "pawnDescription": "Era6_Common_StealthHelicopters_01",
+            "modelFile": "D:/Downloads/rah66.glb",
+            "rotation": {
+                "x": 141.0,
+                "y": 90.0,
+                "z": -7.0
+            },
+            "position": {
+                "x": 0.0,
+                "y": 1.25,
+                "z": 0.15000000596046449
+            },
+            "size": 5.599999904632568,
+            "normalsMode": 1,
+            "smoothingAngle": 20.0,
+            "convertGrid": 0,
+            "reuseExtracted": false,
+            "doubleSided": false,
+            "windingFix": false,
+            "heightUV": false,
+            "albedoBrightness": 1.0,
+            "albedoSaturation": 1.0,
+            "keepBlack": false,
+            "atlasMaxDim": 512,
+            "targetTris": 24000,
+            "stripParts": "Cylinder06,Cylinder07",
+            "hideMeshes": "",
+            "skel": [
+                -2089899586,
+                1342005806,
+                1663056793,
+                -1584990090
+            ],
+            "atlas": [
+                -651005781,
+                1258427791,
+                2056586893,
+                -1593028268
+            ],
+            "clip": [
+                0,
+                0,
+                0,
+                0
+            ],
+            "animated": false,
+            "animClip": "",
+            "animateBones": "",
+            "respawnAfterLoad": true,
+            "freezeDonorAnim": false
+        },
+        {
+            "resourceName": "AttackHelicopter",
+            "pawnDescription": "Era6_Common_AttackHelicopter_01",
+            "modelFile": "D:/Downloads/Cobra.glb",
+            "rotation": {
+                "x": 184.0,
+                "y": 0.0,
+                "z": 142.0
+            },
+            "position": {
+                "x": 0.0,
+                "y": 0.8999999761581421,
+                "z": 0.10000000149011612
+            },
+            "size": 4.5,
+            "normalsMode": 1,
+            "smoothingAngle": 20.0,
+            "convertGrid": 0,
+            "reuseExtracted": false,
+            "doubleSided": false,
+            "windingFix": false,
+            "heightUV": false,
+            "albedoBrightness": 1.0,
+            "albedoSaturation": 1.0,
+            "keepBlack": false,
+            "atlasMaxDim": 512,
+            "targetTris": 20000,
+            "stripParts": "",
+            "hideMeshes": "",
+            "skel": [
+                -331537095,
+                1140154852,
+                -2054616686,
+                612951554
+            ],
+            "atlas": [
+                1797777309,
+                1187567267,
+                1700934299,
+                -601300775
+            ],
+            "clip": [
+                0,
+                0,
+                0,
+                0
+            ],
+            "animated": false,
+            "animClip": "",
+            "animateBones": "",
+            "respawnAfterLoad": true,
+            "freezeDonorAnim": false
+        },
+        {
+            "resourceName": "VolleyGun",
+            "pawnDescription": "Era5_Common_VolleyGun_01",
+            "modelFile": "D:/Downloads/ozhiga_organ_gun_2.glb",
+            "rotation": {
+                "x": 0.0,
+                "y": 90.0,
+                "z": 0.0
+            },
+            "position": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "size": 3.0,
+            "normalsMode": 1,
+            "smoothingAngle": 30.0,
+            "convertGrid": 0,
+            "reuseExtracted": false,
+            "doubleSided": false,
+            "windingFix": false,
+            "heightUV": false,
+            "albedoBrightness": 1.5,
+            "albedoSaturation": 2.0,
+            "keepBlack": false,
+            "atlasMaxDim": 512,
+            "targetTris": 20000,
+            "stripParts": "",
+            "hideMeshes": "",
+            "skel": [
+                -1638727052,
+                1317030671,
+                388418195,
+                1493697180
+            ],
+            "atlas": [
+                -1470912636,
+                1143649866,
+                2037381559,
+                -649946900
+            ],
+            "clip": [
+                0,
+                0,
+                0,
+                0
+            ],
+            "animated": false,
+            "animClip": "",
+            "animateBones": "",
+            "respawnAfterLoad": false,
+            "freezeDonorAnim": false
+        },
+        {
+            "resourceName": "Hovercraft",
+            "pawnDescription": "Era6_Common_Hovercrafts_01",
+            "modelFile": "D:/Downloads/lcac_esboco.glb",
+            "rotation": {
+                "x": 180.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "position": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "size": 3.0,
+            "normalsMode": 1,
+            "smoothingAngle": 30.0,
+            "convertGrid": 0,
+            "reuseExtracted": false,
+            "doubleSided": true,
+            "windingFix": true,
+            "heightUV": true,
+            "albedoBrightness": 1.0,
+            "albedoSaturation": 1.0,
+            "keepBlack": false,
+            "atlasMaxDim": 512,
+            "targetTris": 20100,
+            "stripParts": "",
+            "hideMeshes": "",
+            "skel": [
+                -1153397905,
+                1134277020,
+                577920438,
+                -573259371
+            ],
+            "atlas": [
+                -925132441,
+                1238979558,
+                -113654359,
+                2008506802
+            ],
+            "clip": [
+                0,
+                0,
+                0,
+                0
+            ],
+            "animated": false,
+            "animClip": "",
+            "animateBones": "",
+            "respawnAfterLoad": false,
+            "freezeDonorAnim": false
+        },
+        {
+            "resourceName": "Zeppelin",
+            "pawnDescription": "Era5_Common_Zeppelins_01",
+            "modelFile": "D:/Downloads/92734a2c283e4d889fecbb010aaf7822(3).glb",
+            "rotation": {
+                "x": 0.0,
+                "y": 180.0,
+                "z": 0.0
+            },
+            "position": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 3.0
+            },
+            "size": 12.0,
+            "normalsMode": 1,
+            "smoothingAngle": 20.0,
+            "convertGrid": 0,
+            "reuseExtracted": false,
+            "doubleSided": false,
+            "windingFix": false,
+            "heightUV": false,
+            "albedoBrightness": 1.5,
+            "albedoSaturation": 1.0,
+            "keepBlack": false,
+            "atlasMaxDim": 1024,
+            "targetTris": 20000,
+            "stripParts": "",
+            "hideMeshes": "",
+            "skel": [
+                781638270,
+                1224895347,
+                -2137756227,
+                -1885149832
+            ],
+            "atlas": [
+                -1350209554,
+                1087234341,
+                535526061,
+                -1240440085
+            ],
+            "clip": [
+                0,
+                0,
+                0,
+                0
+            ],
+            "animated": false,
+            "animClip": "",
+            "animateBones": "",
+            "respawnAfterLoad": false,
+            "freezeDonorAnim": true
+        },
+        {
             "resourceName": "StealthCruiser",
             "pawnDescription": "Era6_Common_StealthCruisers_01",
             "modelFile": "D:/Downloads/zumwalt_clean.glb",
@@ -555,7 +502,7 @@
             "albedoBrightness": 1.0,
             "albedoSaturation": 1.0,
             "keepBlack": false,
-            "atlasMaxDim": 1024,
+            "atlasMaxDim": 512,
             "targetTris": 0,
             "stripParts": "",
             "hideMeshes": "",
@@ -579,6 +526,112 @@
             ],
             "animated": false,
             "animClip": "",
+            "animateBones": "",
+            "respawnAfterLoad": false,
+            "freezeDonorAnim": false
+        },
+        {
+            "resourceName": "OrganGun",
+            "pawnDescription": "Era4_Common_OrganGun_01",
+            "modelFile": "D:/Downloads/ribauldequin_da_vinci.glb",
+            "rotation": {
+                "x": 180.0,
+                "y": 90.0,
+                "z": 0.0
+            },
+            "position": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "size": 5.0,
+            "normalsMode": 1,
+            "smoothingAngle": 40.0,
+            "convertGrid": 0,
+            "reuseExtracted": false,
+            "doubleSided": false,
+            "windingFix": false,
+            "heightUV": false,
+            "albedoBrightness": 1.0,
+            "albedoSaturation": 2.0,
+            "keepBlack": false,
+            "atlasMaxDim": 512,
+            "targetTris": 20000,
+            "stripParts": "",
+            "hideMeshes": "",
+            "skel": [
+                874993809,
+                1341296686,
+                1768571541,
+                -797467284
+            ],
+            "atlas": [
+                178328876,
+                1151181682,
+                673040292,
+                -1246427753
+            ],
+            "clip": [
+                0,
+                0,
+                0,
+                0
+            ],
+            "animated": false,
+            "animClip": "",
+            "animateBones": "",
+            "respawnAfterLoad": false,
+            "freezeDonorAnim": false
+        },
+        {
+            "resourceName": "TowedGunHowitzers",
+            "pawnDescription": "Era6_Common_TowedGunHowitzers_01",
+            "modelFile": "D:/Downloads/m114_gun_rigged.glb",
+            "rotation": {
+                "x": 180.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "position": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "size": 5.0,
+            "normalsMode": 1,
+            "smoothingAngle": 20.0,
+            "convertGrid": 0,
+            "reuseExtracted": false,
+            "doubleSided": false,
+            "windingFix": false,
+            "heightUV": false,
+            "albedoBrightness": 1.0,
+            "albedoSaturation": 1.0,
+            "keepBlack": false,
+            "atlasMaxDim": 512,
+            "targetTris": 20000,
+            "stripParts": "",
+            "hideMeshes": "",
+            "skel": [
+                2004171873,
+                1180179320,
+                -1547847012,
+                -1179420147
+            ],
+            "atlas": [
+                -568538526,
+                1184302532,
+                1891044226,
+                2047600623
+            ],
+            "clip": [
+                1512474007,
+                1251821256,
+                -1761944151,
+                -82410324
+            ],
+            "animated": true,
+            "animClip": "Fire",
             "animateBones": "",
             "respawnAfterLoad": false,
             "freezeDonorAnim": false
