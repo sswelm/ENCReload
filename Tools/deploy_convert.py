@@ -22,8 +22,9 @@ bpy.ops.import_scene.gltf(filepath=inp)
 scene = bpy.context.scene
 
 # --- 1. strip crew + loose props (soft-skinned rigs = the bake-breakers; ammo/pole/string = loose firing props) ---
-KILL = tuple(k.strip().lower() for k in argv[4].split(",")) if len(argv) > 4 else \
-    ("solder", "soldier", "pole", "string", "shell", "dynam", "ammun", "pcylinder1", "pcylinder3", "icosphere", "basicgal")
+KILL = tuple(k.strip().lower() for k in argv[4].split(",")) if len(argv) > 4 and argv[4].strip() else \
+    ("solder", "soldier", "pole", "string", "shell", "dynam", "ammun", "pcylinder1", "pcylinder3", "icosphere", "basicgal",
+     "polysurface")   # polySurface1/5 = a loose prop floating ~20u above the gun (a stray shell), not part of the howitzer
 def is_kill(o):
     names = [o.name.lower()]
     if getattr(o, "data", None) is not None and hasattr(o.data, "name"):
@@ -84,6 +85,69 @@ bpy.ops.nla.bake(frame_start=fmin, frame_end=fmax, only_selected=False,
 bpy.ops.object.mode_set(mode='OBJECT')
 print("DEPLOY baked %d bones" % len(bone_of))
 
+# --- 5b. optional: RETARGET the barrel to its fully-elevated 'ready' pose by the deploy's end (argv[5] = readyFrame) ---
+# The rest/deployed pose should be combat-ready (barrel up). In the source the barrel pauses at the aiming angle for a
+# long crew-loading hold before rising to the firing elevation, so a plain trim would deploy then sit then finish. Instead
+# capture the barrel's local pose at the firing frame and re-key JUST the barrel bones to rise there over the deploy's
+# back half — legs spread, then barrel elevates fully, no dead pause. Only the barrel/cannon bones are touched.
+# Blender 4.4+/5.x: fcurves live in slotted channelbags (action.fcurves removed). Clear the given bones' channels so
+# their existing keys don't fight a retarget. Works on both legacy and slotted actions.
+def clear_bone_channels(act, bone_names):
+    bags = ([act] if hasattr(act, "fcurves") else []) + \
+           [cb for layer in getattr(act, "layers", []) for strip in layer.strips for cb in getattr(strip, "channelbags", [])]
+    for cb in bags:
+        for fc in list(cb.fcurves):
+            if any(('pose.bones["%s"]' % bn) in fc.data_path for bn in bone_names):
+                cb.fcurves.remove(fc)
+
+if len(argv) > 5 and argv[5].strip():
+    from mathutils import Quaternion
+    ready_frame = int(argv[5])
+    barrel_scale = float(argv[7]) if len(argv) > 7 and argv[7].strip() else 1.0   # >1 exaggerates the elevation (extrapolate)
+    end_frame = int(argv[3]) if len(argv) > 3 else fmax
+    mid = max(int(end_frame * 0.5), 1)
+    barrel_bones = [bn for bn in bone_of.values() if any(k in bn.lower() for k in ("barrel", "cannon"))]
+    scene.frame_set(ready_frame)
+    ready = {bn: (arm.pose.bones[bn].rotation_quaternion.copy(), arm.pose.bones[bn].location.copy()) for bn in barrel_bones}
+    clear_bone_channels(arm.animation_data.action, barrel_bones)
+    bpy.context.view_layer.objects.active = arm
+    bpy.ops.object.mode_set(mode='POSE')
+    for bn in barrel_bones:      # rest (level) at mid-deploy, fully-elevated 'ready' (x barrel_scale) at the end
+        pb = arm.pose.bones[bn]
+        pb.rotation_quaternion = (1, 0, 0, 0); pb.location = (0, 0, 0)
+        pb.keyframe_insert('rotation_quaternion', frame=mid); pb.keyframe_insert('location', frame=mid)
+        rq, lc = ready[bn]
+        ax, ang = rq.to_axis_angle(); rq = Quaternion(ax, ang * barrel_scale); lc = lc * barrel_scale   # amplify elevation (scale the angle) past the source's max
+        pb.rotation_quaternion = rq; pb.location = lc
+        pb.keyframe_insert('rotation_quaternion', frame=end_frame); pb.keyframe_insert('location', frame=end_frame)
+    bpy.ops.object.mode_set(mode='OBJECT')
+    print("DEPLOY barrel retargeted to ready-frame %d over %d..%d (%d bones)" % (ready_frame, mid, end_frame, len(barrel_bones)))
+
+# --- 5c. optional: SCALE the leg spread (argv[6] = factor; 0.5 = half as wide). The legs fold->spread in the source; we
+#         scale the spread rotation via slerp(identity, full, factor) so the deployed stance is narrower, no re-authoring. ---
+if len(argv) > 6 and argv[6].strip():
+    leg_scale = float(argv[6])
+    end_frame = int(argv[3]) if len(argv) > 3 else fmax
+    spread_frame = max(int(end_frame * 0.5), 1)   # legs are fully spread by mid-deploy
+    leg_bones = [bn for bn in bone_of.values() if "leg" in bn.lower()]
+    scene.frame_set(fmin)                                                                          # true INITIAL (travel) pose
+    folded = {bn: arm.pose.bones[bn].rotation_quaternion.copy() for bn in leg_bones}
+    scene.frame_set(spread_frame)                                                                  # fully-spread pose
+    full = {bn: arm.pose.bones[bn].rotation_quaternion.copy() for bn in leg_bones}
+    scaled = {bn: folded[bn].slerp(full[bn], leg_scale) for bn in leg_bones}                       # 0 = initial, 1 = full spread
+    clear_bone_channels(arm.animation_data.action, leg_bones)
+    bpy.context.view_layer.objects.active = arm
+    bpy.ops.object.mode_set(mode='POSE')
+    for bn in leg_bones:      # INITIAL at start, SCALED spread by mid, held to the end (scale 0 = stay at initial width)
+        pb = arm.pose.bones[bn]
+        pb.rotation_quaternion = folded[bn]
+        pb.keyframe_insert('rotation_quaternion', frame=fmin)
+        pb.rotation_quaternion = scaled[bn]
+        pb.keyframe_insert('rotation_quaternion', frame=spread_frame)
+        pb.keyframe_insert('rotation_quaternion', frame=end_frame)
+    bpy.ops.object.mode_set(mode='OBJECT')
+    print("DEPLOY legs scaled x%.2f from initial (%d bones), spread by %d held to %d" % (leg_scale, len(leg_bones), spread_frame, end_frame))
+
 # --- 6. bind each mesh 100% to the bone of its nearest animated ancestor (rigid) ---
 def anim_ancestor(o):
     while o:
@@ -92,6 +156,8 @@ def anim_ancestor(o):
         o = o.parent
     return None
 
+scene.frame_set(fmin)   # CRITICAL: bind at the rest frame (matches the armature rest), NOT wherever a retarget left the
+                        # scene — else the mesh is baked in a posed (spread) position and the animation deforms it AGAIN.
 bound = 0
 for m in meshes:
     bname = anim_ancestor(m)
