@@ -145,7 +145,14 @@ public class ModelFactoryWindow : EditorWindow
             if (GUILayout.Button("Browse", GUILayout.Width(70)))
             {
                 var p = EditorUtility.OpenFilePanel("Select 3D model", "", "glb,gltf,obj,fbx,blend");
-                if (!string.IsNullOrEmpty(p)) cur.modelFile = p;
+                if (!string.IsNullOrEmpty(p))
+                {
+                    cur.modelFile = p;
+                    // Prefill "Fix 100x oversize" from the model's TRUE size (only on an explicit new pick, so a loaded
+                    // entry keeps its saved value). Best-effort guess the user can override — see SuggestUnitFix.
+                    float sz; bool guess = SuggestUnitFix(p, out sz);
+                    if (sz > 0f) { cur.animUnitFix = guess; status = $"Auto-set 'Fix 100× oversize' = {(guess ? "ON" : "off")} (model true size ≈ {sz:0.###}u). Override if the bake comes out wrong."; }
+                }
             }
         }
         if ((cur.modelFile ?? "").ToLowerInvariant().EndsWith(".blend") && !UniversalBaker.BlenderAvailable())
@@ -544,6 +551,59 @@ public class ModelFactoryWindow : EditorWindow
     // where JsonUtility silently fails) — it maps skin joints -> node names so bone COUNTS are accurate. A scoped
     // bracket-matching fallback (NamesInArray) handles truncated/odd JSON with no dependency. Clips = animations[].name;
     // bones grouped into prefixes (text before the first _ . - or space) with counts.
+    // Guess the "Fix 100× oversize (FBX unit scale)" default from the model's TRUE final size (POSITION accessor extent ×
+    // node world-scale, exactly what glbconv would report). Rationale (proven on 2 models, mechanism-backed): a metre-scale
+    // model (~2u gun) hits the metre→cm FBX-unit issue and needs the fix ON; a tiny-authored model (a GLB with a 0.01 root
+    // node scale → ~0.0025u, e.g. the drone) is re-inflated by Blender's FBX export and bakes correct with the fix OFF.
+    // Best-effort: glTF/GLB only (FBX/.blend/OBJ can't be read cheaply → sz=0, caller keeps the existing value). Node
+    // `matrix` transforms are not decomposed (→ sz=0, no guess) — most rigged glTF use TRS.
+    static bool SuggestUnitFix(string file, out float trueSize)
+    {
+        trueSize = 0f;
+        try
+        {
+            string ext = System.IO.Path.GetExtension(file ?? "").ToLowerInvariant();
+            string json = ext == ".glb" ? ReadGlbJson(file) : (ext == ".gltf" ? System.IO.File.ReadAllText(file) : null);
+            if (json == null) return false;
+            var root = JObject.Parse(json);
+            var nodes = root["nodes"] as JArray; var meshes = root["meshes"] as JArray; var accessors = root["accessors"] as JArray;
+            if (nodes == null || meshes == null || accessors == null) return false;
+            // largest POSITION extent of a mesh (in its own space)
+            float MeshExtent(int mi)
+            {
+                float e = 0f;
+                foreach (var prim in (meshes[mi]?["primitives"] as JArray ?? new JArray()))
+                {
+                    var ai = (int?)prim["attributes"]?["POSITION"]; if (ai == null || ai < 0 || ai >= accessors.Count) continue;
+                    var a = accessors[ai.Value]; var mn = a["min"] as JArray; var mx = a["max"] as JArray;
+                    if (mn == null || mx == null || mn.Count < 3 || mx.Count < 3) continue;
+                    for (int k = 0; k < 3; k++) e = Mathf.Max(e, Mathf.Abs((float)mx[k] - (float)mn[k]));
+                }
+                return e;
+            }
+            // DFS from the scene roots, accumulating uniform-ish world scale; track max(meshExtent × worldScale)
+            float best = 0f;
+            var child = new HashSet<int>();
+            foreach (var n in nodes) if (n["children"] is JArray ch) foreach (var c in ch) child.Add((int)c);
+            var stack = new Stack<KeyValuePair<int, float>>();
+            for (int i = 0; i < nodes.Count; i++) if (!child.Contains(i)) stack.Push(new KeyValuePair<int, float>(i, 1f));
+            int guard = 0;
+            while (stack.Count > 0 && guard++ < 100000)
+            {
+                var kv = stack.Pop(); var n = nodes[kv.Key];
+                float ns = 1f; var s = n["scale"] as JArray;
+                if (s != null && s.Count == 3) ns = ((float)s[0] + (float)s[1] + (float)s[2]) / 3f;   // uniform-ish average
+                float ws = kv.Value * ns;
+                var mesh = (int?)n["mesh"]; if (mesh != null && mesh >= 0 && mesh < meshes.Count) best = Mathf.Max(best, MeshExtent(mesh.Value) * ws);
+                if (n["children"] is JArray chn) foreach (var c in chn) stack.Push(new KeyValuePair<int, float>((int)c, ws));
+            }
+            if (best <= 1e-6f) return false;   // no positional data (or matrix-only nodes) → don't guess
+            trueSize = best;
+            return best >= 0.1f;   // metre-scale → fix ON; tiny-authored → OFF
+        }
+        catch { trueSize = 0f; return false; }
+    }
+
     static (List<string>, List<KeyValuePair<string, int>>) InspectModel(string file)
     {
         var clips = new List<string>();
