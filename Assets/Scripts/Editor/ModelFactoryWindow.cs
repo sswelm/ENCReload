@@ -224,6 +224,20 @@ public class ModelFactoryWindow : EditorWindow
                 "AUTHOR THE CLIP TO START AND END AT REST so the single pass looks clean. Leave OFF for a continuous loop (a " +
                 "drone's spinning prop). Animated models only; no re-bake to toggle, just rebuild the mod."),
                 cur.fireOnAttack);
+
+        using (new EditorGUI.DisabledScope(!cur.animated))
+            cur.deployOnStop = EditorGUILayout.Toggle(new GUIContent("Deploy when stopped",
+                "Hold the baked clip's DEPLOYED pose while the unit is idle, and snap to the UNDEPLOYED pose (frame 0) the " +
+                "instant it moves — e.g. a howitzer that deploys its barrel/trails when it stops and folds them for travel. " +
+                "AUTHOR THE CLIP so frame 0 = travelling and the deployed pose sits at 'Deployed pose time' below. Per-unit, " +
+                "instant, concurrency-safe (driven by the unit's moving state). Mutually exclusive with 'Fire on attack' for now " +
+                "(one clip slot). Animated models only; no re-bake to toggle."),
+                cur.deployOnStop);
+        using (new EditorGUI.DisabledScope(!cur.animated || !cur.deployOnStop))
+            cur.deployPoseTime = EditorGUILayout.Slider(new GUIContent("Deployed pose time",
+                "Normalized clip time (0..1) of the DEPLOYED pose held when idle. 1 = a purpose-made deploy clip's end frame. " +
+                "(0.5 hits the barrel-fire clip's raised plateau — used to prove the mechanism without a dedicated deploy clip.)"),
+                cur.deployPoseTime <= 0f ? 1f : cur.deployPoseTime, 0f, 1f);
         // Blender is a HARD dependency for the animated path (rig-slim + clip bake); glbconv can't emit a rigged FBX.
         // Warn as soon as an animated model is detected — not only after ticking — so a Blender-less adopter knows upfront.
         // (Detection itself needs no Blender, so the checkbox stays usable; only Bake will fail until Blender is present.)
