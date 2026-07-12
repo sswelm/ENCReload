@@ -51,8 +51,14 @@ public static class UniversalBaker
 {
     public static BakeResult Build(BakeConfig cfg)
     {
-        try { return BuildInner(cfg); }
-        catch (Exception e) { Debug.LogError("[Factory] " + e); return new BakeResult { ok = false, error = e.Message }; }
+        // E5: snapshot the existing baked outputs BEFORE the (delete-first) bake, and restore them if it fails, so a
+        // partway-failed re-bake can't leave the registry pointing at now-deleted assets. Success path is unchanged.
+        var backup = BackupOutputs(cfg.resourceName);
+        BakeResult r;
+        try { r = BuildInner(cfg); }
+        catch (Exception e) { Debug.LogError("[Factory] " + e); r = new BakeResult { ok = false, error = e.Message }; }
+        if (r.ok) DiscardBackup(backup); else RestoreOutputs(backup);
+        return r;
     }
 
     // ANIMATED bake — a parallel pipeline that keeps the model's OWN armature + clip instead of the procedural
@@ -62,8 +68,74 @@ public static class UniversalBaker
     // + atlas guids for the registry ("clip" makes the runtime drive the pawn's pose onto our animation).
     public static BakeResult BuildAnimated(BakeConfig cfg)
     {
-        try { return BuildAnimatedInner(cfg); }
-        catch (Exception e) { Debug.LogError("[Factory] " + e); return new BakeResult { ok = false, error = e.Message }; }
+        var backup = BackupOutputs(cfg.resourceName);   // E5: same rollback protection on the animated path
+        BakeResult r;
+        try { r = BuildAnimatedInner(cfg); }
+        catch (Exception e) { Debug.LogError("[Factory] " + e); r = new BakeResult { ok = false, error = e.Message }; }
+        if (r.ok) DiscardBackup(backup); else RestoreOutputs(backup);
+        return r;
+    }
+
+    // ---- E5: re-bake rollback protection --------------------------------------------------------------------------
+    // Both bake paths DELETE the model's baked outputs before the fallible steps (Blender, glbconv, the Amplitude
+    // skeleton/clip bake). Without this, a re-bake that throws or produces an empty GUID partway leaves those assets
+    // gone while the registry still references them — "re-bake failed, old model destroyed". So we copy the existing
+    // outputs (each .asset AND its .meta, so the GUIDs survive) to a temp dir OUTSIDE the project before the bake, and
+    // restore them on failure. The delete-first stale-cache fix is untouched — this only wraps it.
+    // OUTSIDE Assets/ is essential: a copy under Assets/ would import as a DUPLICATE-GUID asset and corrupt the original.
+    static readonly string[] OutputSuffixes = { "_ModelMesh.asset", "_Atlas.asset", "_Mat.mat", "_Model.prefab", "_Skeleton.asset", "_Clips.asset" };
+
+    class OutputBackup { public string name = ""; public string dir = ""; public readonly List<string> files = new List<string>(); }
+
+    static string ResourcesFull() => Path.Combine(Directory.GetParent(Application.dataPath).FullName, "Assets", "Resources");
+
+    // Copy whatever outputs currently exist for `name` (+ their .meta) to a fresh temp dir. Never throws.
+    static OutputBackup BackupOutputs(string name)
+    {
+        var b = new OutputBackup { name = name ?? "" };
+        if (string.IsNullOrEmpty(name)) return b;
+        b.dir = Path.Combine(Path.GetTempPath(), "enc_rebake_backup", name);
+        try
+        {
+            if (Directory.Exists(b.dir)) Directory.Delete(b.dir, true);
+            string res = ResourcesFull();
+            foreach (var s in OutputSuffixes)
+                foreach (var ext in new[] { "", ".meta" })
+                {
+                    string src = Path.Combine(res, name + s + ext);
+                    if (!File.Exists(src)) continue;
+                    Directory.CreateDirectory(b.dir);
+                    File.Copy(src, Path.Combine(b.dir, name + s + ext), true);
+                    b.files.Add(name + s + ext);
+                }
+        }
+        catch (Exception e) { Debug.LogWarning("[Factory] re-bake backup failed (proceeding WITHOUT rollback protection): " + e.Message); b.files.Clear(); }
+        return b;
+    }
+
+    static void DiscardBackup(OutputBackup b)
+    {
+        try { if (b != null && !string.IsNullOrEmpty(b.dir) && Directory.Exists(b.dir)) Directory.Delete(b.dir, true); } catch { }
+    }
+
+    // Restore the backed-up outputs (called only on a FAILED bake): wipe any partial new outputs, copy the backups back
+    // verbatim (asset + meta -> original GUIDs), and reimport. A no-op when nothing was backed up (a first bake).
+    static void RestoreOutputs(OutputBackup b)
+    {
+        if (b == null || b.files.Count == 0) { DiscardBackup(b); return; }
+        try
+        {
+            string res = ResourcesFull();
+            foreach (var s in OutputSuffixes)
+                foreach (var ext in new[] { "", ".meta" })
+                { string p = Path.Combine(res, b.name + s + ext); try { if (File.Exists(p)) File.Delete(p); } catch { } }
+            foreach (var f in b.files) File.Copy(Path.Combine(b.dir, f), Path.Combine(res, f), true);
+            AssetDatabase.Refresh();
+            int n = b.files.Count(f => !f.EndsWith(".meta"));
+            Debug.LogWarning($"[Factory] {b.name}: re-bake FAILED — restored the previous {n} baked asset(s) from backup. Your working model is intact (the registry was not changed).");
+        }
+        catch (Exception e) { Debug.LogError("[Factory] re-bake RESTORE failed — recover the model from git or the project backup: " + e); }
+        finally { DiscardBackup(b); }
     }
 
     static BakeResult BuildAnimatedInner(BakeConfig cfg)
