@@ -6,7 +6,7 @@
 # Soft-skinned character rigs (crew) collapse the bake, so a strip-list removes them (and any loose props).
 #
 # Run headless:
-#   blender -b -P deploy_convert.py -- <in.glb> <out.glb> [start end] [stripCsv] [readyFrame] [legScale] [barrelScale] [recoilSrcStart recoilSrcEnd] [step] [mag]
+#   blender -b -P deploy_convert.py -- <in.glb> <out.glb> [start end] [stripCsv] [readyFrame] [legScale] [barrelScale] [recoilSrcStart recoilSrcEnd] [step] [mag] [arcR]
 #     start end   : trim the clip to this sub-range (the deploy). Omit = full clip.
 #     stripCsv    : comma-separated name substrings to delete (crew/props). Omit = the M114 defaults below.
 #     readyFrame  : (5b) source frame of the fully-elevated barrel; retargets the barrel to rise there over the deploy's back half.
@@ -16,6 +16,7 @@
 #                                   tail appended after 'end', played on-fire from the deployed hold.
 #     step        : (5d) source-frame sampling step for the recoil (default 2).
 #     mag         : (5d) slide-distance scale (default 1 = the source distance; 2 ~= half the tube).
+#     arcR        : (5d) FK-arc pivot distance (default 400). Larger = straighter slide (less swing) but more jitter-prone.
 #   NOTE (5d): the clip bake keeps per-bone ROTATION but DISCARDS per-bone translation, so a literal barrel slide bakes to nothing.
 #   The recoil is faked via an FK-arc: a hidden far-pivot 'RecoilArm' bone the tube hangs off, rotated so the tube swings on a long
 #   arc that reads as a near-straight backward slide (the arm's rotation bakes; runtime FK rebuilds it). It keeps a slight swing;
@@ -229,7 +230,7 @@ if len(argv) > 8 and argv[8].strip():
     A = d.cross(Vector((0, 0, 1)))
     if A.length < 1e-4: A = d.cross(Vector((0, 1, 0)))
     A = A.normalized()                                         # arc rotation axis (perp to slide, horizontal-ish)
-    R = 400.0                                                  # pivot distance: large -> the arc ~ a straight slide (tiny re-aim)
+    R = float(argv[12]) if len(argv) > 12 and argv[12].strip() else 400.0   # arc pivot distance: larger -> straighter slide (less swing) but more jitter-prone
     radius = A.cross(d).normalized()
     tube_head = m_home[tube_root].translation.copy()
     pivot = tube_head - radius * R                             # place the pivot R away, perpendicular to the slide
