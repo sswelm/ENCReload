@@ -104,7 +104,7 @@ if albedo_out:
         for o in bpy.context.scene.objects:
             if o.type != 'MESH' or not o.data.materials: continue
             m = o.data.materials[0]
-            if m and m.use_nodes:
+            if m and m.node_tree:   # node_tree is non-None exactly when the material has nodes (use_nodes is deprecated -> removed in Blender 6.0)
                 for n in m.node_tree.nodes:
                     if n.type == 'TEX_IMAGE' and n.image:
                         img = n.image; break
