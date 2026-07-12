@@ -112,6 +112,7 @@ public static class UniversalBaker
         if (imp == null) return Fail("could not get ModelImporter for " + fbxRel);
         imp.animationType = ModelImporterAnimationType.Generic;
         imp.importAnimation = true;
+        imp.importTangents = ModelImporterTangents.None;   // the runtime neutralizes normal maps, so tangents are never sampled — 16 bytes/vertex of dead weight in BOTH the mesh and the hex-encoded skeleton, and tangent seams split extra verts. Dropping them shrinks the shipped assets with zero visual change.
         imp.globalScale = 1f;
         // "Fix 100x oversize (FBX unit scale)" — PER-MODEL toggle, because different rig exports embed different unit scales.
         // OFF (default): measure with Unity's default useFileScale (the drone bakes correctly this way). ON: some FBX exports
@@ -395,10 +396,11 @@ public static class UniversalBaker
         var wantImport = cfg.normals == NormalsMode.Recalculate ? ModelImporterNormals.Calculate : ModelImporterNormals.Import;
         if (AssetImporter.GetAtPath(objPath) is ModelImporter imp &&
             (imp.importNormals != wantImport || Mathf.Abs(imp.normalSmoothingAngle - smoothing) > 0.5f
-             || imp.weldVertices))
+             || imp.weldVertices || imp.importTangents != ModelImporterTangents.None))
         {
             imp.importNormals = wantImport; imp.normalSmoothingAngle = smoothing;
             imp.weldVertices = false;
+            imp.importTangents = ModelImporterTangents.None;   // normal maps are neutralized at runtime -> tangents are dead weight (16 bytes/vert in mesh + skeleton, plus extra vert splits). Drop them.
             imp.SaveAndReimport();
         }
 

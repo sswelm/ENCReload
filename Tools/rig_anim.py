@@ -11,7 +11,7 @@
 #   6. join to 1 mesh + 1 material + quadric-decimate to ~target tris (KEEPING the armature + weights)
 #   7. export a slim FBX with baked animation
 # Usage: blender -b --python rig_anim.py -- <input> <output.fbx> <targetTris> [bonePrefixesCSV] [clipName] [albedoOut.png]
-import bpy, sys, os
+import bpy, bmesh, sys, os
 
 argv = sys.argv[sys.argv.index("--") + 1:]
 inp, outp, target = argv[0], argv[1], int(argv[2])
@@ -131,6 +131,17 @@ if len(meshes) > 1:
     bpy.ops.object.join()
 joined = bpy.context.view_layer.objects.active
 me = joined.data
+# WELD FIRST. Many exports (this da-Vinci ribauldequin included) ship massively duplicated vertices —
+# coincident but unmerged — so the mesh is disconnected "face soup": 76k verts that weld down to 19k
+# (75% were dupes). Two problems fall out of that: (1) the vertex count looks huge and triggers brutal
+# decimation it never actually needed, and (2) quadric COLLAPSE needs connected edge loops, so on soup
+# it caves smooth cylinders (a cannon's barrels) into slivers while spoked parts survive. Merging by
+# distance reconnects the surface: decimation (if still needed) is clean, and the honest vert count is a
+# fraction of the raw one. Blender stores UVs per face-corner, so welding VERTICES preserves the UV seams.
+_wb = bmesh.new(); _wb.from_mesh(me); _n0 = len(_wb.verts)
+bmesh.ops.remove_doubles(_wb, verts=_wb.verts, dist=1e-4)
+_n1 = len(_wb.verts); _wb.to_mesh(me); _wb.free()
+print("RIGANIM weld: %d -> %d verts (%.0f%% duplicates removed)" % (_n0, _n1, 100.0 * (1 - _n1 / max(_n0, 1))))
 if not keep_materials:                       # SINGLE-material path: collapse to one slot (the old default)
     while len(me.materials) > 1:
         me.materials.pop(index=len(me.materials) - 1)
