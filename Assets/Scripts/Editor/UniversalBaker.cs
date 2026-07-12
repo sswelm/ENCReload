@@ -745,6 +745,12 @@ public static class UniversalBaker
         // ship renders 90 deg off in-game even though the (force-reimported) preview looks right. Fresh assets == first bake.
         foreach (var old in new[] { "_ModelMesh.asset", "_Mat.mat", "_Model.prefab", "_Skeleton.asset" })
             AssetDatabase.DeleteAsset("Assets/Resources/" + name + old);
+        // E7: a prior ANIMATED bake left <name>_Preview.prefab (+ _PreviewMesh/_PreviewMat) in FactorySource, and the
+        // window's LoadPreview PREFERS that over the static _Model.prefab whenever it exists — so without this a static
+        // re-bake would keep showing the OLD animated model in the preview. The static path has no _Preview of its own
+        // (its preview IS the _Model prefab), so delete the stale animated-preview assets to fall through to it.
+        foreach (var pv in new[] { "_Preview.prefab", "_PreviewMesh.asset", "_PreviewMat.mat" })
+            AssetDatabase.DeleteAsset(resDir + "/" + name + pv);
         AssetDatabase.CreateAsset(mesh, "Assets/Resources/" + name + "_ModelMesh.asset");
 
         var mat = new Material(Shader.Find("Standard")) { name = name + "_Mat", mainTexture = atlas };
