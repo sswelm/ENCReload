@@ -838,6 +838,20 @@ public class ModelFactoryWindow : EditorWindow
         return end >= 0 ? parts[end] : pawnName;
     }
 
+    // Map a registry ModelDef to a BakeConfig. SHARED so the bake smoke test (BakeSmokeTest.cs) bakes through the exact
+    // same config path as the Bake button — a parallel copy would silently drift from what ships.
+    internal static BakeConfig ConfigFor(ModelDef cur) => new BakeConfig
+    {
+        resourceName = cur.resourceName, modelFile = cur.modelFile, pawnDescription = cur.pawnDescription,
+        rotationEuler = cur.rotation, positionOffset = cur.position, size = cur.size,
+        normals = (NormalsMode)cur.normalsMode, smoothingAngle = cur.smoothingAngle, convertGrid = cur.convertGrid,
+        reuseExtracted = cur.reuseExtracted, doubleSided = cur.doubleSided, windingFix = cur.windingFix, heightUV = cur.heightUV, targetTris = cur.targetTris,
+        albedoBrightness = cur.albedoBrightness, albedoSaturation = cur.albedoSaturation, keepBlack = cur.keepBlack, materialMode = cur.materialMode,
+        atlasMaxDim = cur.atlasMaxDim <= 0 ? 512 : cur.atlasMaxDim,
+        stripParts = cur.stripParts,
+        animated = cur.animated, animClip = (cur.animClip ?? "").Trim(), animateBones = (cur.animateBones ?? "").Trim(), animUnitFix = cur.animUnitFix
+    };
+
     void DoBake()
     {
         // Tear down the preview editor BEFORE baking. The baked prefab has an Animator, so the preview is a GameObjectInspector
@@ -856,17 +870,7 @@ public class ModelFactoryWindow : EditorWindow
         cur.hideMeshes = (cur.hideMeshes ?? "").Trim();
         cur.animClip = (cur.animClip ?? "").Trim();
         cur.animateBones = (cur.animateBones ?? "").Trim();
-        var cfg = new BakeConfig
-        {
-            resourceName = cur.resourceName, modelFile = cur.modelFile, pawnDescription = cur.pawnDescription,
-            rotationEuler = cur.rotation, positionOffset = cur.position, size = cur.size,
-            normals = (NormalsMode)cur.normalsMode, smoothingAngle = cur.smoothingAngle, convertGrid = cur.convertGrid,
-            reuseExtracted = cur.reuseExtracted, doubleSided = cur.doubleSided, windingFix = cur.windingFix, heightUV = cur.heightUV, targetTris = cur.targetTris,
-            albedoBrightness = cur.albedoBrightness, albedoSaturation = cur.albedoSaturation, keepBlack = cur.keepBlack, materialMode = cur.materialMode,
-            atlasMaxDim = cur.atlasMaxDim <= 0 ? 512 : cur.atlasMaxDim,
-            stripParts = cur.stripParts,
-            animated = cur.animated, animClip = cur.animClip, animateBones = cur.animateBones, animUnitFix = cur.animUnitFix
-        };
+        var cfg = ConfigFor(cur);
         var r = cfg.animated ? UniversalBaker.BuildAnimated(cfg) : UniversalBaker.Build(cfg);
         if (!r.ok) { status = "Bake FAILED: " + r.error; return; }
         cur.skel = ModelRegistry.ParseGuid(r.skeletonGuid);
