@@ -38,7 +38,7 @@ public static class BakeFeatureTest
 
             // ---- baseline (KeepModel, no features) — the reference for ratio/relative checks ----
             var mBase = Bake(Cfg("base", cube1), used, out var rBase);
-            if (mBase == null) { res.Add("FAIL: baseline bake did not produce a mesh (" + rBase.error + ") — aborting"); fail++; Report(res, pass, fail, skip); return; }
+            if (mBase == null) { res.Add("FAIL: baseline bake did not produce a mesh (" + rBase.error + ") — aborting"); fail++; Report("Bake Feature Test", res, pass, fail, skip); return; }
             int T0 = mBase.triangles.Length / 3, V0 = mBase.vertexCount;
             res.Add($"(baseline: {V0} verts, {T0} tris)");
 
@@ -147,8 +147,80 @@ public static class BakeFeatureTest
             try { if (Directory.Exists(tmp)) Directory.Delete(tmp, true); } catch { }
             AssetDatabase.Refresh();
         }
-        Report(res, pass, fail, skip);
+        Report("Bake Feature Test", res, pass, fail, skip);
     }
+
+    // TIER 2 — the knobs a cube can't exercise: Blender-dependent (targetTris/stripParts) via generated high-poly / named
+    // fixtures, and the ANIMATED pipeline via a real rigged model borrowed from the registry (SKIP if none on disk). Slower
+    // (real Blender bakes) and fixture-dependent, so it's a separate menu item from the fast, self-contained Tier 1.
+    [MenuItem("Tools/ENC/Bake Feature Test (Tier 2 — Blender + animated)")]
+    static void RunTier2()
+    {
+        var res = new List<string>(); int pass = 0, fail = 0, skip = 0;
+        var used = new List<string>();
+        string tmp = Path.Combine(Path.GetTempPath(), "enc_feattest2");
+        if (!UniversalBaker.BlenderAvailable())
+        { EditorUtility.DisplayDialog("Bake Feature Test — Tier 2", "Blender not found — Tier 2 (targetTris / stripParts / animated) needs Blender.\nInstall it or set EditorPrefs 'ENC.blenderPath'.", "OK"); return; }
+        try
+        {
+            if (Directory.Exists(tmp)) Directory.Delete(tmp, true);
+            Directory.CreateDirectory(tmp);
+
+            // ---- targetTris: Blender quadric-decimates a high-poly source toward the ceiling -> far fewer tris ----
+            {
+                string grid = WriteGrid(tmp, "grid", 50);   // 50x50 quads = 5000 tris, gently displaced
+                var cf = Cfg("tt_full", grid); cf.targetTris = 0;
+                var mf = Bake(cf, used, out _); int Tfull = mf != null ? mf.triangles.Length / 3 : -1;
+                var cr = Cfg("tt_red", grid); cr.targetTris = 600;
+                var mr = Bake(cr, used, out var rr); int Tred = mr != null ? mr.triangles.Length / 3 : -1;
+                Check(res, ref pass, ref fail, "targetTris decimates via Blender",
+                    mf != null && mr != null && Tfull > 2000 && Tred > 0 && Tred < Tfull / 2, $"{Tfull} -> {Tred} tris (target 600)");
+            }
+
+            // ---- stripParts: Blender removes the named object (+children) before baking -> less geometry ----
+            {
+                string two = WriteTwoObjects(tmp, "twoobj");
+                var cf = Cfg("sp_full", two);
+                var mf = Bake(cf, used, out _); int Tfull = mf != null ? mf.triangles.Length / 3 : -1;
+                var cs = Cfg("sp_strip", two); cs.stripParts = "rotorpart";
+                var ms = Bake(cs, used, out var rs); int Tstrip = ms != null ? ms.triangles.Length / 3 : -1;
+                Check(res, ref pass, ref fail, "stripParts drops the named object",
+                    mf != null && ms != null && Tstrip > 0 && Tstrip < Tfull * 0.75f, $"{Tfull} -> {Tstrip} tris after strip 'rotorpart'");
+            }
+
+            // ---- animated pipeline: borrow a real rigged model from the registry, bake via the ANIMATED path ----
+            var animFx = ModelRegistry.Load().Where(m => m.animated && !string.IsNullOrEmpty(m.modelFile) && File.Exists(m.modelFile))
+                                             .GroupBy(m => m.resourceName).Select(g => g.First()).Take(2).ToList();
+            if (animFx.Count == 0) { Skip(res, "animated pipeline", "no animated registry model with an existing source file on disk"); skip++; }
+            foreach (var fx in animFx)
+            {
+                var c = new BakeConfig
+                {
+                    resourceName = Prefix + "anim_" + San(fx.resourceName), modelFile = fx.modelFile, animated = true,
+                    animClip = fx.animClip, animateBones = fx.animateBones, animUnitFix = fx.animUnitFix,
+                    size = fx.size > 0 ? fx.size : 5f, targetTris = fx.targetTris, materialMode = fx.materialMode,
+                    atlasMaxDim = fx.atlasMaxDim > 0 ? fx.atlasMaxDim : 512, albedoBrightness = 1f, albedoSaturation = 1f,
+                };
+                used.Add(c.resourceName);
+                var r = UniversalBaker.BuildAnimated(c);
+                bool clipAsset = AssetDatabase.LoadAssetAtPath<UnityEngine.Object>("Assets/Resources/" + c.resourceName + "_Clips.asset") != null;
+                bool ok = r.ok && !EmptyGuid(r.skeletonGuid) && !EmptyGuid(r.clipGuid) && clipAsset;
+                Check(res, ref pass, ref fail, $"animated bake '{fx.resourceName}' -> skeleton + clip", ok,
+                    ok ? $"skel {r.skeletonGuid}, clip {r.clipGuid}" : (r.ok ? "guids/clip asset missing" : r.error));
+            }
+        }
+        catch (Exception e) { res.Add("FAIL: harness exception — " + e.Message); fail++; }
+        finally
+        {
+            Cleanup(used);
+            try { if (Directory.Exists(tmp)) Directory.Delete(tmp, true); } catch { }
+            AssetDatabase.Refresh();
+        }
+        Report("Bake Feature Test — Tier 2", res, pass, fail, skip);
+    }
+
+    static bool EmptyGuid(string g) => string.IsNullOrEmpty(g) || g == "0,0,0,0";
+    static string San(string s) { var sb = new StringBuilder(); foreach (var ch in s ?? "") sb.Append(char.IsLetterOrDigit(ch) || ch == '_' ? ch : '_'); return sb.ToString(); }
 
     // ---- bake helpers ----
     static BakeConfig Cfg(string tag, string obj) => new BakeConfig
@@ -210,11 +282,11 @@ public static class BakeFeatureTest
         }
     }
 
-    static void Report(List<string> res, int pass, int fail, int skip)
+    static void Report(string title, List<string> res, int pass, int fail, int skip)
     {
-        string head = $"Bake Feature Test — {pass} passed, {fail} failed, {skip} skipped";
+        string head = $"{title} — {pass} passed, {fail} failed, {skip} skipped";
         Debug.Log("[FeatureTest] " + head + "\n" + string.Join("\n", res));
-        EditorUtility.DisplayDialog("Bake Feature Test", head + "\n\n" + string.Join("\n", res), "OK");
+        EditorUtility.DisplayDialog(title, head + "\n\n" + string.Join("\n", res), "OK");
     }
 
     // ---- synthetic model: a unit cube (single- or two-material) + a 512px vertical-gradient orange albedo ----
@@ -276,5 +348,69 @@ public static class BakeFeatureTest
         t.SetPixels32(px); t.Apply();
         File.WriteAllBytes(path, t.EncodeToPNG());
         UnityEngine.Object.DestroyImmediate(t);
+    }
+
+    // A gently-displaced N×N quad grid (N*N*2 tris) as a single-material OBJ — the high-poly source for the targetTris test.
+    static string WriteGrid(string dir, string name, int n)
+    {
+        var d = Path.Combine(dir, name); Directory.CreateDirectory(d);
+        var sb = new StringBuilder();
+        sb.AppendLine("mtllib " + name + ".mtl");
+        int W = n + 1;
+        for (int y = 0; y <= n; y++)
+            for (int x = 0; x <= n; x++)
+            {
+                float fx = x / (float)n, fy = y / (float)n;
+                float fz = 0.15f * Mathf.Sin(fx * Mathf.PI * 3f) * Mathf.Sin(fy * Mathf.PI * 3f);   // waves so decimation is curvature-driven, not a trivial plane collapse
+                sb.AppendLine($"v {fx - 0.5f} {fy - 0.5f} {fz}");
+            }
+        for (int y = 0; y <= n; y++)
+            for (int x = 0; x <= n; x++)
+                sb.AppendLine($"vt {x / (float)n} {y / (float)n}");
+        sb.AppendLine("usemtl mat");
+        for (int y = 0; y < n; y++)
+            for (int x = 0; x < n; x++)
+            {
+                int a = y * W + x + 1, b = y * W + (x + 1) + 1, c = (y + 1) * W + (x + 1) + 1, e = (y + 1) * W + x + 1;
+                sb.AppendLine($"f {a}/{a} {b}/{b} {c}/{c}");
+                sb.AppendLine($"f {a}/{a} {c}/{c} {e}/{e}");
+            }
+        File.WriteAllText(Path.Combine(d, name + ".obj"), sb.ToString());
+        var mtl = new StringBuilder(); mtl.AppendLine("newmtl mat"); mtl.AppendLine("map_Kd " + name + "_albedo.png");
+        File.WriteAllText(Path.Combine(d, name + ".mtl"), mtl.ToString());
+        WriteAlbedo(Path.Combine(d, name + "_albedo.png"), new Color(0.6f, 0.6f, 0.62f));
+        return Path.Combine(d, name + ".obj");
+    }
+
+    // Two named cube objects ("body" + "rotorpart") in one OBJ, for the stripParts test (strip 'rotorpart' -> body only).
+    static string WriteTwoObjects(string dir, string name)
+    {
+        var d = Path.Combine(dir, name); Directory.CreateDirectory(d);
+        var sb = new StringBuilder();
+        sb.AppendLine("mtllib " + name + ".mtl");
+        sb.AppendLine("vt 0 0"); sb.AppendLine("vt 1 0"); sb.AppendLine("vt 1 1"); sb.AppendLine("vt 0 1");
+        int baseV = 0;
+        void Cube(string objName, float ox)
+        {
+            sb.AppendLine("o " + objName);
+            float[,] vv = { { -0.5f, -0.5f, -0.5f }, { 0.5f, -0.5f, -0.5f }, { 0.5f, 0.5f, -0.5f }, { -0.5f, 0.5f, -0.5f },
+                            { -0.5f, -0.5f, 0.5f }, { 0.5f, -0.5f, 0.5f }, { 0.5f, 0.5f, 0.5f }, { -0.5f, 0.5f, 0.5f } };
+            for (int i = 0; i < 8; i++) sb.AppendLine($"v {vv[i, 0] + ox} {vv[i, 1]} {vv[i, 2]}");
+            sb.AppendLine("usemtl mat");
+            int[][] q = { new[]{1,2,3,4}, new[]{5,8,7,6}, new[]{1,4,8,5}, new[]{2,6,7,3}, new[]{1,5,6,2}, new[]{4,3,7,8} };
+            foreach (var f in q)
+            {
+                sb.AppendLine($"f {baseV + f[0]}/1 {baseV + f[1]}/2 {baseV + f[2]}/3");
+                sb.AppendLine($"f {baseV + f[0]}/1 {baseV + f[2]}/3 {baseV + f[3]}/4");
+            }
+            baseV += 8;
+        }
+        Cube("body", 0f);
+        Cube("rotorpart", 2f);
+        File.WriteAllText(Path.Combine(d, name + ".obj"), sb.ToString());
+        var mtl = new StringBuilder(); mtl.AppendLine("newmtl mat"); mtl.AppendLine("map_Kd " + name + "_albedo.png");
+        File.WriteAllText(Path.Combine(d, name + ".mtl"), mtl.ToString());
+        WriteAlbedo(Path.Combine(d, name + "_albedo.png"), new Color(0.6f, 0.6f, 0.62f));
+        return Path.Combine(d, name + ".obj");
     }
 }
