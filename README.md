@@ -36,6 +36,18 @@ Universal Model Factory (Assets/Scripts/Editor/)
 Custom units share the game's own GPU-instanced pawn renderer, so **instances are free** — the cost is the number of
 *distinct model types* loaded, not units on screen. See the vertex-budget notes in the docs.
 
+## Technology stack
+
+| Layer | Technology |
+|---|---|
+| Editor tooling (this repo) | **Unity 2021.3.1f1** — the same engine version Humankind itself runs on — with C# editor scripts in `Assets/Scripts/Editor/` |
+| Asset baking | The **official Amplitude (Humankind) modding SDK**, driven by the Factory to produce the game's native asset types: `Skeleton`, `ClipCollection`, mesh collections, and texture atlases |
+| Runtime injection | **[ENCAccessProof](https://github.com/sswelm/ENCAccessProof)**: a **BepInEx 5.4** plugin in C# (targets .NET Framework 4.7.1, the game's Mono runtime), using **Harmony** patches against the game's `Amplitude.Mercury` assemblies |
+| `glbconv` | Standalone C# console app on **.NET 8** (self-contained exe, no install needed), built on **SharpGLTF** for GLB/glTF parsing |
+| Model-prep scripts | **Python** scripts run headless inside **Blender** (`blender -b --python …`) using the `bpy` API — rigging, decimation, animation clip extraction |
+| Regression guard | A **bash** script (`check_schema_parity.sh`) plus a Unity-menu smoke test |
+| Editor ↔ runtime contract | A plain **JSON** registry (`enc_models.json`) — the only thing the two halves share |
+
 ## Repo layout
 
 - **`Assets/Scripts/Editor/`** — the Factory. `ModelFactoryWindow` (the GUI), `UniversalBaker` (the bake pipeline),
