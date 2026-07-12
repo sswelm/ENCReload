@@ -107,12 +107,24 @@ public static class UniversalBaker
         if (!File.Exists(fbxFull)) return Fail("no slim FBX at " + fbxRel + " — bake with a Model file first (Reuse extracted needs an existing one).");
         AssetDatabase.ImportAsset(fbxRel, ImportAssetOptions.ForceUpdate);
 
+        // Decide multi-material EARLY (from the MTL on disk) — a multi-material bake rebuilds/merges the skinned mesh
+        // (BuildMultiAtlasAndRemap below) and Amplitude's skeleton importer rejects that rebuilt mesh if tangents were
+        // stripped, so the tangent optimization is limited to single-material models (Amplitude reads their mesh as-is).
+        string fsResDir = Path.Combine(Directory.GetParent(Application.dataPath).FullName, resDir);
+        var orderedAlb = LoadOrderedAlbedos(fsResDir, name);   // MTL-ordered (materialName -> albedo texture)
+        bool multiMat = cfg.materialMode == MaterialMode.Multi
+                        || (cfg.materialMode == MaterialMode.Auto && orderedAlb.Count > 1);
+
         // --- 2) import the FBX: Generic rig, import animation, scale so the longest axis ~= size ---
         var imp = AssetImporter.GetAtPath(fbxRel) as ModelImporter;
         if (imp == null) return Fail("could not get ModelImporter for " + fbxRel);
         imp.animationType = ModelImporterAnimationType.Generic;
         imp.importAnimation = true;
-        imp.importTangents = ModelImporterTangents.None;   // the runtime neutralizes normal maps, so tangents are never sampled — 16 bytes/vertex of dead weight in BOTH the mesh and the hex-encoded skeleton, and tangent seams split extra verts. Dropping them shrinks the shipped assets with zero visual change.
+        // Tangents: EXPLICITLY set both ways (a prior bake stamps this into the .meta, so a bare "skip" leaves it stuck).
+        // Single-material -> None: runtime neutralizes normal maps, so tangents are 16 B/vert of dead weight in the mesh +
+        // hex skeleton. Multi-material -> CalculateMikk (the default): its mesh is REBUILT (Instantiate + submesh-merge),
+        // and Amplitude's skeleton importer throws IndexOutOfRange on that rebuilt mesh if it has no tangents.
+        imp.importTangents = multiMat ? ModelImporterTangents.CalculateMikk : ModelImporterTangents.None;
         imp.globalScale = 1f;
         // "Fix 100x oversize (FBX unit scale)" — PER-MODEL toggle, because different rig exports embed different unit scales.
         // OFF (default): measure with Unity's default useFileScale (the drone bakes correctly this way). ON: some FBX exports
@@ -135,11 +147,8 @@ public static class UniversalBaker
 
         // --- 3) atlas: SINGLE albedo, or (for a multi-material OPEN model like a towed gun) a PACKED atlas with the skinned
         //        mesh UVs remapped per-submesh. MaterialMode gates it: Single = one texture; Multi = force packing; Auto =
-        //        pack when the model has >1 material. Without this, every part samples one texture and e.g. a wheel maps wrong. ---
-        string fsResDir = Path.Combine(Directory.GetParent(Application.dataPath).FullName, resDir);
-        var orderedAlb = LoadOrderedAlbedos(fsResDir, name);   // MTL-ordered (materialName -> albedo texture)
-        bool multiMat = cfg.materialMode == MaterialMode.Multi
-                        || (cfg.materialMode == MaterialMode.Auto && orderedAlb.Count > 1);
+        //        pack when the model has >1 material. Without this, every part samples one texture and e.g. a wheel maps wrong.
+        //        (fsResDir / orderedAlb / multiMat were computed up front so the importer could gate tangent-stripping.) ---
         Mesh previewMesh = null;
         Texture2D atlas = multiMat
             ? BuildMultiAtlasAndRemap(fbxGo, orderedAlb, name, cfg, out previewMesh)   // pack + remap the skinned mesh UVs in place (SetPrefab below reads them)
@@ -889,6 +898,9 @@ public static class UniversalBaker
             for (int s = 0; s < mesh.subMeshCount; s++) allTris.AddRange(mesh.GetTriangles(s));
             mesh.subMeshCount = 1;
             mesh.SetTriangles(allTris, 0);
+            // Amplitude's skeleton importer reads tangents off this REBUILT mesh; regenerate them (aligned to the remapped
+            // UVs) so it never gets an empty tangent array -> IndexOutOfRange. Needs normals+UVs, both present here.
+            mesh.RecalculateTangents();
             smr.sharedMaterials = new[] { mats != null && mats.Length > 0 ? mats[0] : null };   // one slot to match the one submesh
             smr.sharedMesh = mesh;
             remappedPreviewMesh = mesh;   // hand the corrected mesh to the preview so it shows all parts with the right UVs

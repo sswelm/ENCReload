@@ -481,66 +481,6 @@
             "recoilSpeed": 1.0
         },
         {
-            "resourceName": "OrganGun",
-            "pawnDescription": "Era4_Common_OrganGun_01",
-            "modelFile": "D:/Downloads/ribauldequin_da_vinci.glb",
-            "rotation": {
-                "x": 180.0,
-                "y": 90.0,
-                "z": 0.0
-            },
-            "position": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0
-            },
-            "size": 5.0,
-            "normalsMode": 1,
-            "smoothingAngle": 40.0,
-            "convertGrid": 0,
-            "reuseExtracted": false,
-            "doubleSided": false,
-            "windingFix": false,
-            "heightUV": false,
-            "albedoBrightness": 1.0,
-            "albedoSaturation": 2.0,
-            "keepBlack": false,
-            "materialMode": 0,
-            "atlasMaxDim": 512,
-            "targetTris": 20000,
-            "stripParts": "",
-            "hideMeshes": "",
-            "skel": [
-                874993809,
-                1341296686,
-                1768571541,
-                -797467284
-            ],
-            "atlas": [
-                178328876,
-                1151181682,
-                673040292,
-                -1246427753
-            ],
-            "clip": [
-                0,
-                0,
-                0,
-                0
-            ],
-            "animated": false,
-            "animClip": "",
-            "animateBones": "",
-            "animUnitFix": false,
-            "respawnAfterLoad": false,
-            "freezeDonorAnim": false,
-            "fireOnAttack": false,
-            "deployOnStop": false,
-            "deployPoseTime": 1.0,
-            "deploySpeed": 1.0,
-            "recoilSpeed": 1.0
-        },
-        {
             "resourceName": "ReconDrone",
             "pawnDescription": "Era6_Common_ReconDrones_01",
             "modelFile": "D:/Downloads/drone_clean.glb",
@@ -591,6 +531,126 @@
             "animated": true,
             "animClip": "hover",
             "animateBones": "prop",
+            "animUnitFix": false,
+            "respawnAfterLoad": false,
+            "freezeDonorAnim": false,
+            "fireOnAttack": false,
+            "deployOnStop": false,
+            "deployPoseTime": 1.0,
+            "deploySpeed": 1.0,
+            "recoilSpeed": 1.0
+        },
+        {
+            "resourceName": "AttackHelicopter",
+            "pawnDescription": "Era6_Common_AttackHelicopter_01",
+            "modelFile": "D:/Downloads/Cobra.glb",
+            "rotation": {
+                "x": 184.0,
+                "y": 0.0,
+                "z": 142.0
+            },
+            "position": {
+                "x": 0.0,
+                "y": 0.8999999761581421,
+                "z": 0.10000000149011612
+            },
+            "size": 4.5,
+            "normalsMode": 1,
+            "smoothingAngle": 20.0,
+            "convertGrid": 0,
+            "reuseExtracted": false,
+            "doubleSided": false,
+            "windingFix": false,
+            "heightUV": false,
+            "albedoBrightness": 1.0,
+            "albedoSaturation": 1.0,
+            "keepBlack": true,
+            "materialMode": 2,
+            "atlasMaxDim": 1024,
+            "targetTris": 20000,
+            "stripParts": "",
+            "hideMeshes": "",
+            "skel": [
+                -331537095,
+                1140154852,
+                -2054616686,
+                612951554
+            ],
+            "atlas": [
+                1797777309,
+                1187567267,
+                1700934299,
+                -601300775
+            ],
+            "clip": [
+                0,
+                0,
+                0,
+                0
+            ],
+            "animated": false,
+            "animClip": "",
+            "animateBones": "",
+            "animUnitFix": false,
+            "respawnAfterLoad": true,
+            "freezeDonorAnim": false,
+            "fireOnAttack": false,
+            "deployOnStop": false,
+            "deployPoseTime": 1.0,
+            "deploySpeed": 1.0,
+            "recoilSpeed": 1.0
+        },
+        {
+            "resourceName": "OrganGun",
+            "pawnDescription": "Era4_Common_OrganGun_01",
+            "modelFile": "D:/Downloads/ribauldequin_da_vinci.glb",
+            "rotation": {
+                "x": 180.0,
+                "y": 90.0,
+                "z": 0.0
+            },
+            "position": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "size": 5.0,
+            "normalsMode": 1,
+            "smoothingAngle": 40.0,
+            "convertGrid": 0,
+            "reuseExtracted": false,
+            "doubleSided": false,
+            "windingFix": false,
+            "heightUV": false,
+            "albedoBrightness": 1.0,
+            "albedoSaturation": 2.0,
+            "keepBlack": false,
+            "materialMode": 0,
+            "atlasMaxDim": 512,
+            "targetTris": 20000,
+            "stripParts": "",
+            "hideMeshes": "",
+            "skel": [
+                874993809,
+                1341296686,
+                1768571541,
+                -797467284
+            ],
+            "atlas": [
+                178328876,
+                1151181682,
+                673040292,
+                -1246427753
+            ],
+            "clip": [
+                0,
+                0,
+                0,
+                0
+            ],
+            "animated": false,
+            "animClip": "",
+            "animateBones": "",
             "animUnitFix": false,
             "respawnAfterLoad": false,
             "freezeDonorAnim": false,
@@ -659,66 +719,6 @@
             "deployPoseTime": 0.7200000286102295,
             "deploySpeed": 4.0,
             "recoilSpeed": 3.0
-        },
-        {
-            "resourceName": "AttackHelicopter",
-            "pawnDescription": "Era6_Common_AttackHelicopter_01",
-            "modelFile": "D:/Downloads/Cobra.glb",
-            "rotation": {
-                "x": 184.0,
-                "y": 0.0,
-                "z": 142.0
-            },
-            "position": {
-                "x": 0.0,
-                "y": 0.8999999761581421,
-                "z": 0.10000000149011612
-            },
-            "size": 4.5,
-            "normalsMode": 1,
-            "smoothingAngle": 20.0,
-            "convertGrid": 0,
-            "reuseExtracted": false,
-            "doubleSided": false,
-            "windingFix": false,
-            "heightUV": false,
-            "albedoBrightness": 1.0,
-            "albedoSaturation": 1.0,
-            "keepBlack": true,
-            "materialMode": 2,
-            "atlasMaxDim": 1024,
-            "targetTris": 20000,
-            "stripParts": "",
-            "hideMeshes": "",
-            "skel": [
-                -331537095,
-                1140154852,
-                -2054616686,
-                612951554
-            ],
-            "atlas": [
-                1797777309,
-                1187567267,
-                1700934299,
-                -601300775
-            ],
-            "clip": [
-                0,
-                0,
-                0,
-                0
-            ],
-            "animated": false,
-            "animClip": "",
-            "animateBones": "",
-            "animUnitFix": false,
-            "respawnAfterLoad": true,
-            "freezeDonorAnim": false,
-            "fireOnAttack": false,
-            "deployOnStop": false,
-            "deployPoseTime": 1.0,
-            "deploySpeed": 1.0,
-            "recoilSpeed": 1.0
         }
     ]
 }

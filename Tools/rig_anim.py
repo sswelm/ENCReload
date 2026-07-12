@@ -138,10 +138,17 @@ me = joined.data
 # it caves smooth cylinders (a cannon's barrels) into slivers while spoked parts survive. Merging by
 # distance reconnects the surface: decimation (if still needed) is clean, and the honest vert count is a
 # fraction of the raw one. Blender stores UVs per face-corner, so welding VERTICES preserves the UV seams.
-_wb = bmesh.new(); _wb.from_mesh(me); _n0 = len(_wb.verts)
-bmesh.ops.remove_doubles(_wb, verts=_wb.verts, dist=1e-4)
-_n1 = len(_wb.verts); _wb.to_mesh(me); _wb.free()
-print("RIGANIM weld: %d -> %d verts (%.0f%% duplicates removed)" % (_n0, _n1, 100.0 * (1 - _n1 / max(_n0, 1))))
+# ONLY weld SINGLE-material meshes. On a multi-material model (the howitzer: 6 mats) welding merges verts
+# across material AND bone-part seams, which corrupts the per-submesh structure that Amplitude's skeleton
+# importer (MeshCollection.ImportMeshes) walks -> IndexOutOfRangeException at bake. Single-material models
+# (the fragmented OrganGun) are the ones that need it and are safe.
+if len(me.materials) <= 1:
+    _wb = bmesh.new(); _wb.from_mesh(me); _n0 = len(_wb.verts)
+    bmesh.ops.remove_doubles(_wb, verts=_wb.verts, dist=1e-4)
+    _n1 = len(_wb.verts); _wb.to_mesh(me); _wb.free()
+    print("RIGANIM weld: %d -> %d verts (%.0f%% duplicates removed)" % (_n0, _n1, 100.0 * (1 - _n1 / max(_n0, 1))))
+else:
+    print("RIGANIM weld: SKIPPED (%d materials -> preserve multi-material seams)" % len(me.materials))
 if not keep_materials:                       # SINGLE-material path: collapse to one slot (the old default)
     while len(me.materials) > 1:
         me.materials.pop(index=len(me.materials) - 1)
