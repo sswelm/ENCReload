@@ -83,14 +83,21 @@ if prefixes:
     def bone_of(dp):
         if 'pose.bones[' not in dp: return None
         return dp.split('["', 1)[1].split('"]', 1)[0]
+    owners = all_fcurve_owners(act)   # snapshot: safe to remove from the owning collections while iterating this list
+    avail = sorted({bone_of(fc.data_path) for _, fc in owners if bone_of(fc.data_path) is not None})
     kept = rem = 0
-    for coll, fc in all_fcurve_owners(act):
+    for coll, fc in owners:
         b = bone_of(fc.data_path)
         if b is not None and any(b.startswith(p) for p in prefixes):
             kept += 1
         else:
             coll.remove(fc); rem += 1
     print("RIGANIM bone-filter %s: kept %d fcurves, removed %d" % (prefixes, kept, rem))
+    # T6: if the prefix matched NOTHING, every fcurve was stripped -> a frozen 1-frame clip would bake and ship with
+    # exit 0 (silent). Hard-fail instead, listing the animated bones so the prefix can be corrected.
+    if kept == 0:
+        print("RIGANIM ERROR: bone-filter %s matched no animated bone — every fcurve was stripped, the clip would be frozen. Animated bones: %s" % (prefixes, avail))
+        sys.exit(1)
 
 # clamp scene frame range to the action's real range (else bake_anim pads a frozen tail -> ~1s stall per loop)
 fs, fe = [int(round(v)) for v in act.frame_range]
