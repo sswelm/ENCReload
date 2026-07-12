@@ -392,6 +392,12 @@ public class ModelFactoryWindow : EditorWindow
             "so SMALLER = smaller mod bundle. A unit is ~80px at map zoom (and its info card uses your 2D portrait, not the " +
             "model), so 512-1024 is plenty; pick 2048 only for a unit you zoom in on closely. Re-bake to apply."),
             cur.atlasMaxDim, new[] { new GUIContent("256"), new GUIContent("512"), new GUIContent("1024"), new GUIContent("2048") }, new[] { 256, 512, 1024, 2048 });
+        cur.materialMode = (MaterialMode)EditorGUILayout.EnumPopup(new GUIContent("Material mode",
+            "How the bake handles a model with MORE THAN ONE material. Auto = pack a multi-material atlas when the model has >1 " +
+            "material, else a single texture (right for most). Single = force one texture — correct for CLOSED models (tanks, " +
+            "planes) sharing a skin. Multi = force the multi-material atlas — needed for OPEN kit (a towed gun's wheels/legs/" +
+            "barrel each on their own material) where the wheel would otherwise sample the wrong texture. Costs atlas space. Re-bake to apply."),
+            cur.materialMode);
 
         EditorGUILayout.Space();
         EditorGUILayout.LabelField("Runtime — applied on load, no re-bake", EditorStyles.miniBoldLabel);
@@ -856,7 +862,7 @@ public class ModelFactoryWindow : EditorWindow
             rotationEuler = cur.rotation, positionOffset = cur.position, size = cur.size,
             normals = (NormalsMode)cur.normalsMode, smoothingAngle = cur.smoothingAngle, convertGrid = cur.convertGrid,
             reuseExtracted = cur.reuseExtracted, doubleSided = cur.doubleSided, windingFix = cur.windingFix, heightUV = cur.heightUV, targetTris = cur.targetTris,
-            albedoBrightness = cur.albedoBrightness, albedoSaturation = cur.albedoSaturation, keepBlack = cur.keepBlack,
+            albedoBrightness = cur.albedoBrightness, albedoSaturation = cur.albedoSaturation, keepBlack = cur.keepBlack, materialMode = cur.materialMode,
             atlasMaxDim = cur.atlasMaxDim <= 0 ? 512 : cur.atlasMaxDim,
             stripParts = cur.stripParts,
             animated = cur.animated, animClip = cur.animClip, animateBones = cur.animateBones, animUnitFix = cur.animUnitFix

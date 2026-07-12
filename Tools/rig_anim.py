@@ -18,6 +18,7 @@ inp, outp, target = argv[0], argv[1], int(argv[2])
 prefixes = [p.strip() for p in (argv[3] if len(argv) > 3 else "").split(",") if p.strip()]
 clip_name = (argv[4] if len(argv) > 4 else "").strip()
 albedo_out = argv[5] if len(argv) > 5 else ""
+keep_materials = len(argv) > 6 and argv[6].strip() == "1"   # multi-material bake: keep the slots (submeshes) instead of collapsing to 1
 
 bpy.ops.wm.read_factory_settings(use_empty=True)
 ext = os.path.splitext(inp)[1].lower()
@@ -130,10 +131,13 @@ if len(meshes) > 1:
     bpy.ops.object.join()
 joined = bpy.context.view_layer.objects.active
 me = joined.data
-while len(me.materials) > 1:
-    me.materials.pop(index=len(me.materials) - 1)
-for p in me.polygons:
-    p.material_index = 0
+if not keep_materials:                       # SINGLE-material path: collapse to one slot (the old default)
+    while len(me.materials) > 1:
+        me.materials.pop(index=len(me.materials) - 1)
+    for p in me.polygons:
+        p.material_index = 0
+else:
+    print("RIGANIM keeping %d material slots (multi-material)" % len(me.materials))
 total = sum(len(p.vertices) - 2 for p in me.polygons)
 ratio = min(1.0, max(0.02, target / max(1, total)))
 mdec = joined.modifiers.new("dec", 'DECIMATE')

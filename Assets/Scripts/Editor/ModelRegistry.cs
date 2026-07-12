@@ -12,6 +12,9 @@ using System.Text.RegularExpressions;
 using UnityEditor;
 using UnityEngine;
 
+// BAKE-TIME atlas mode. Auto = pack multi-material when the model has >1 material, else single texture. Single/Multi force it.
+public enum MaterialMode { Auto = 0, Single = 1, Multi = 2 }
+
 // One baked model. Field names MUST match the plugin's reader (JsonUtility binds by field name; extra fields ignored).
 [Serializable]
 public class ModelDef
@@ -32,6 +35,7 @@ public class ModelDef
     public float albedoBrightness = 1f; // BAKE-TIME: multiply the baked atlas RGB (1 = unchanged). >1 lifts a dark skin — the injection path ships FLAT albedo (donor PBR neutralized), so shiny/dark models read muddy in-game. Runtime plugin ignores it (baked into the atlas).
     public float albedoSaturation = 1f; // BAKE-TIME: scale colour vividness around per-pixel luminance (1 = unchanged, 0 = greyscale, >1 = punchier). Fixes a washed-out/desaturated albedo. Baked into the atlas; plugin ignores it.
     public bool keepBlack = false;      // BAKE-TIME (multi-material): default false neutralizes near-black atlas regions to grey (hides UV dead-zones / packing gaps). Tick for a model with an INTENTIONALLY black material (glossy canopy, dark cockpit) so it stays black. Default false = existing behaviour, so old registries are unaffected.
+    public MaterialMode materialMode = MaterialMode.Auto;   // BAKE-TIME: Auto = pack an atlas when the model has >1 material (needed for OPEN kit: a towed gun's wheels/legs/barrel), else one texture. Single = force one texture (closed models: tanks/planes). Multi = force the multi-material atlas even if auto-detect misfires. The ANIMATED path previously only did Single — Multi/Auto now bring per-material atlas packing to animated models too.
     public int atlasMaxDim = 512;      // BAKE-TIME: longest side of the baked atlas in px (256/512/1024/2048). Smaller = smaller shipped _Atlas.asset (DXT1). Units are ~80px at map zoom so 512-1024 is ample. 0/absent -> 512 (baker guards it), so old registries are safe.
     public int targetTris = 24000;      // >0 = quadric-decimate the source to ~this many triangles (via Blender) before baking, to fit the engine's shared buffer. Default 24000 (halves to 12000 under double-sided — the confirmed best-looking LCAC bake, just under the ~25k per-model vertex ceiling); it's a CEILING (models already under it pass through untouched, never upscaled). 0 = off. Double-sided halves the effective target at bake time (it doubles the baked geometry).
     public string stripParts = "";      // BAKE-TIME (Blender): comma-separated object-name substrings to DELETE from YOUR model before baking — e.g. its own rotor so the donor's spinning rotor shows through, or a crew figure / weapon pod. Mirror of hideMeshes but on the source model, not the donor. Ignored by the runtime plugin. Empty = keep everything.

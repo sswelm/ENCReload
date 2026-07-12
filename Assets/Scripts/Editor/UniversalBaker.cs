@@ -32,6 +32,7 @@ public struct BakeConfig
     public float   albedoBrightness; // multiply the baked atlas RGB (1 = unchanged). >1 lifts a dark skin — the injection path ships FLAT albedo (donor PBR neutralized), so shiny/dark models read muddy in-game; this compensates at bake time
     public float   albedoSaturation; // scale colour vividness around per-pixel luminance (1 = unchanged, 0 = greyscale, >1 = punchier). Fixes desaturated albedos (game lighting can't add colour back)
     public bool    keepBlack;        // MULTI-MATERIAL only: skip the near-black->grey remap so an intentionally black material (glossy canopy, dark cockpit) stays black. Default false = neutralize (hides UV dead-zones / packing gaps)
+    public MaterialMode materialMode; // Auto/Single/Multi atlas mode. The animated path uses this to decide single vs packed multi-material atlas (previously animated was always single).
     public int     atlasMaxDim;      // longest side of the baked atlas in px (256 / 512 / 1024 / 2048). Smaller = smaller shipped _Atlas.asset. A unit is ~80px at map zoom so 512-1024 is plenty; 0 = default (512)
     public int     targetTris;      // >0 = quadric-decimate the source to ~this many triangles (Blender) before baking, to fit the engine's shared vertex/index buffer
     public string  stripParts;      // bake-time (Blender): comma-separated object-name substrings to DELETE from the source before baking (e.g. a helicopter's own rotor so the donor's spinning rotor shows through). Empty = keep everything.
@@ -99,7 +100,8 @@ public static class UniversalBaker
         {
             int target = cfg.targetTris > 0 ? cfg.targetTris : 12000;   // animated skins want to stay well under the shared buffer
             string albedoOut = Path.Combine(fsDir, name + "_albedo.png");
-            if (!RigAnimViaBlender(cfg.modelFile, fbxFull, target, cfg.animateBones ?? "", cfg.animClip ?? "", albedoOut))
+            bool keepMats = cfg.materialMode != MaterialMode.Single;   // Auto/Multi keep the material slots so the atlas step can pack them (Single collapses to 1, the old default)
+            if (!RigAnimViaBlender(cfg.modelFile, fbxFull, target, cfg.animateBones ?? "", cfg.animClip ?? "", albedoOut, keepMats))
                 return Fail("Blender animated slim failed (see console). Is the model rigged with the named animation clip?");
         }
         if (!File.Exists(fbxFull)) return Fail("no slim FBX at " + fbxRel + " — bake with a Model file first (Reuse extracted needs an existing one).");
@@ -130,8 +132,17 @@ public static class UniversalBaker
         else if (cfg.animUnitFix) { imp.SaveAndReimport(); fbxGo = AssetDatabase.LoadAssetAtPath<GameObject>(fbxRel); }   // apply useFileScale-on even if too small to rescale
         if (fbxGo == null) return Fail("imported FBX has no GameObject");
 
-        // --- 3) atlas from the exported albedo (same single-albedo path + Resources-root location as static) ---
-        var atlas = BuildAtlas(resDir, name, cfg.albedoBrightness, cfg.albedoSaturation);
+        // --- 3) atlas: SINGLE albedo, or (for a multi-material OPEN model like a towed gun) a PACKED atlas with the skinned
+        //        mesh UVs remapped per-submesh. MaterialMode gates it: Single = one texture; Multi = force packing; Auto =
+        //        pack when the model has >1 material. Without this, every part samples one texture and e.g. a wheel maps wrong. ---
+        string fsResDir = Path.Combine(Directory.GetParent(Application.dataPath).FullName, resDir);
+        var orderedAlb = LoadOrderedAlbedos(fsResDir, name);   // MTL-ordered (materialName -> albedo texture)
+        bool multiMat = cfg.materialMode == MaterialMode.Multi
+                        || (cfg.materialMode == MaterialMode.Auto && orderedAlb.Count > 1);
+        Mesh previewMesh = null;
+        Texture2D atlas = multiMat
+            ? BuildMultiAtlasAndRemap(fbxGo, orderedAlb, name, cfg, out previewMesh)   // pack + remap the skinned mesh UVs in place (SetPrefab below reads them)
+            : BuildAtlas(resDir, name, cfg.albedoBrightness, cfg.albedoSaturation);
         atlas = FinalizeAtlas(atlas, name, cfg.atlasMaxDim);   // cap resolution + DXT1-compress (keeps the shipped _Atlas.asset small)
         string atlasPath = "Assets/Resources/" + name + "_Atlas.asset";
         AssetDatabase.DeleteAsset(atlasPath);
@@ -171,7 +182,7 @@ public static class UniversalBaker
         // --- 6) preview aid: a STATIC textured prefab (the baked mesh + the atlas skin) you can select to inspect in
         //        Unity's preview window and to judge the (decimated) vertex count. NOT written to the registry, so the
         //        runtime ignores it entirely — it's purely a modeling aid.
-        GeneratePreviewPrefab(name, resDir, fbxRel, atlas, cfg.rotationEuler);
+        GeneratePreviewPrefab(name, resDir, fbxRel, atlas, cfg.rotationEuler, previewMesh);
 
         string skelGuid = AmplitudeGuid(skel), atlasGuid = AmplitudeGuid(atlas), clipGuid = AmplitudeGuid(clipColl);
         // an empty GUID means the SDK skeleton/clip bake produced nothing — fail loudly rather than write a dead registry entry.
@@ -203,14 +214,22 @@ public static class UniversalBaker
     // modeling aid for Unity's preview window + judging the decimated vertex count — it is NOT in the registry, so the
     // runtime never touches it. Uses the same mesh that gets injected, so its vert count is the real one; logs it so you
     // can see the effect of 'Reduce to ~tris' and cut further.
-    static void GeneratePreviewPrefab(string name, string resDir, string fbxRel, Texture2D atlas, Vector3 rotationEuler)
+    static void GeneratePreviewPrefab(string name, string resDir, string fbxRel, Texture2D atlas, Vector3 rotationEuler, Mesh overrideMesh = null)
     {
         try
         {
-            var mesh = AssetDatabase.LoadAllAssetsAtPath(fbxRel).OfType<Mesh>()
-                .OrderByDescending(m => m.vertexCount).FirstOrDefault();          // the body mesh
+            // multi-material bake hands us the already-remapped, single-submesh mesh so the preview shows all parts with the
+            // right UVs; otherwise load the largest mesh from the FBX (the body).
+            var mesh = overrideMesh ?? AssetDatabase.LoadAllAssetsAtPath(fbxRel).OfType<Mesh>()
+                .OrderByDescending(m => m.vertexCount).FirstOrDefault();
             if (mesh == null) { Debug.LogWarning("[Factory] preview: no mesh found in " + fbxRel); return; }
+            if (overrideMesh != null && !AssetDatabase.Contains(mesh))   // a runtime clone can't be referenced by the saved prefab -> persist it as an asset first
+            {
+                string mp = resDir + "/" + name + "_PreviewMesh.asset";
+                AssetDatabase.DeleteAsset(mp); AssetDatabase.CreateAsset(mesh, mp); AssetDatabase.SaveAssets();
+            }
             var mat = new Material(Shader.Find("Standard")) { name = name + "_PreviewMat", mainTexture = atlas };
+            mat.SetFloat("_Glossiness", 0f); mat.SetFloat("_Metallic", 0f);   // matte (Standard defaults to 0.5 smoothness -> glossy on dark textures, e.g. tyres)
             string matPath = resDir + "/" + name + "_PreviewMat.mat";
             AssetDatabase.DeleteAsset(matPath); AssetDatabase.CreateAsset(mat, matPath);
             // Mesh on a CHILD: the registry Rotation offset, then a fixed 180° world-X flip so the preview lands upright
@@ -233,13 +252,13 @@ public static class UniversalBaker
     }
 
     // Blender: slim a rigged/animated model into a decimated FBX that keeps its armature + one clip (Tools/rig_anim.py).
-    static bool RigAnimViaBlender(string src, string outFbx, int targetTris, string bonePrefixes, string clipName, string albedoOut)
+    static bool RigAnimViaBlender(string src, string outFbx, int targetTris, string bonePrefixes, string clipName, string albedoOut, bool keepMaterials)
     {
         string proj = Directory.GetParent(Application.dataPath).FullName;
         string script = Path.Combine(proj, "Tools", "rig_anim.py");
         if (!File.Exists(script)) { Debug.LogError("[Factory] bundled rig_anim.py missing: " + script); return false; }
         string blender = FindBlender();
-        string args = $"--background --python \"{script}\" -- \"{src}\" \"{outFbx}\" {Mathf.Max(1, targetTris)} \"{bonePrefixes ?? ""}\" \"{clipName ?? ""}\" \"{albedoOut ?? ""}\"";
+        string args = $"--background --python \"{script}\" -- \"{src}\" \"{outFbx}\" {Mathf.Max(1, targetTris)} \"{bonePrefixes ?? ""}\" \"{clipName ?? ""}\" \"{albedoOut ?? ""}\" {(keepMaterials ? "1" : "0")}";
         var psi = new System.Diagnostics.ProcessStartInfo(blender, args)
         { UseShellExecute = false, RedirectStandardOutput = true, RedirectStandardError = true, CreateNoWindow = true };
         try
@@ -615,6 +634,7 @@ public static class UniversalBaker
         AssetDatabase.CreateAsset(mesh, "Assets/Resources/" + name + "_ModelMesh.asset");
 
         var mat = new Material(Shader.Find("Standard")) { name = name + "_Mat", mainTexture = atlas };
+        mat.SetFloat("_Glossiness", 0f); mat.SetFloat("_Metallic", 0f);   // matte (Standard defaults to 0.5 smoothness -> glossy on dark textures, e.g. tyres)
         AssetDatabase.CreateAsset(mat, "Assets/Resources/" + name + "_Mat.mat");
 
         var meshGO = new GameObject("Unit_" + name); meshGO.transform.SetParent(root.transform);
@@ -784,6 +804,82 @@ public static class UniversalBaker
             for (int i = 0; i < px.Length; i++) px[i] = new Color(0.62f, 0.64f, 0.67f, 1f);
             atlas.SetPixels(px); atlas.Apply();
             Debug.Log($"[Factory] {name} no albedo -> flat grey");
+        }
+        return atlas;
+    }
+
+    // Read the glbconv MTL and return its materials IN ORDER, each with its base-colour albedo loaded. The MTL is the
+    // authoritative material list/order for the atlas (submesh order matches it). Empty list => single-material fallback.
+    static List<KeyValuePair<string, Texture2D>> LoadOrderedAlbedos(string fsResDir, string name)
+    {
+        var list = new List<KeyValuePair<string, Texture2D>>();
+        string mtl = Path.Combine(fsResDir, name + ".mtl");
+        if (!File.Exists(mtl)) return list;
+        string cur = null;
+        foreach (var raw in File.ReadAllLines(mtl))
+        {
+            var t = raw.Trim();
+            if (t.StartsWith("newmtl ")) cur = t.Substring(7).Trim();
+            else if (t.StartsWith("map_Kd ") && cur != null)
+            {
+                string p = Path.Combine(fsResDir, t.Substring(7).Trim());
+                if (File.Exists(p)) { var tex = new Texture2D(2, 2, TextureFormat.RGBA32, false) { name = cur }; tex.LoadImage(File.ReadAllBytes(p)); list.Add(new KeyValuePair<string, Texture2D>(cur, tex)); }
+                cur = null;
+            }
+        }
+        return list;
+    }
+
+    static string SimplifyMat(string s) => (s ?? "").ToLowerInvariant().Replace("material", "").Replace("mat", "").Replace("_", "").Replace(" ", "").Replace(":", "");
+
+    // Pack the per-material albedos into ONE atlas and remap the FBX's SKINNED mesh UVs per-submesh into their packed rect,
+    // so each part samples its own texture. The mesh is CLONED (we never mutate the imported asset) and re-assigned to the
+    // renderer, so the skeleton bake (SetPrefab, run after this) reads the remapped UVs. Submesh->rect is matched by material
+    // base-name, falling back to submesh index (submesh order == MTL order for a glbconv/rig_anim pair from the same GLB).
+    static Texture2D BuildMultiAtlasAndRemap(GameObject fbxGo, List<KeyValuePair<string, Texture2D>> orderedAlb, string name, BakeConfig cfg, out Mesh remappedPreviewMesh)
+    {
+        remappedPreviewMesh = null;
+        var albs = orderedAlb.Select(kv => kv.Value).ToArray();
+        var atlas = new Texture2D(2, 2, TextureFormat.RGBA32, false) { name = name + "_Atlas" };
+        var rects = atlas.PackTextures(albs, 2, cfg.atlasMaxDim > 0 ? cfg.atlasMaxDim : AtlasMaxDimDefault);
+        var apx = atlas.GetPixels32();
+        AdjustAlbedo(apx, cfg.albedoBrightness, cfg.albedoSaturation);
+        for (int i = 0; i < apx.Length; i++) { apx[i].a = 255; if (!cfg.keepBlack && apx[i].r < 32 && apx[i].g < 32 && apx[i].b < 32) { apx[i].r = 160; apx[i].g = 160; apx[i].b = 168; } }
+        atlas.SetPixels32(apx); atlas.Apply();
+        Debug.Log($"[Factory] {name} ANIMATED MULTI-MATERIAL: {albs.Length} materials [{string.Join(", ", orderedAlb.Select(kv => kv.Key))}] -> packed atlas {atlas.width}x{atlas.height}");
+
+        var baseNames = orderedAlb.Select(kv => SimplifyMat(kv.Key)).ToArray();
+        foreach (var smr in fbxGo.GetComponentsInChildren<SkinnedMeshRenderer>())
+        {
+            var srcMesh = smr.sharedMesh;
+            if (srcMesh == null) continue;
+            var mesh = UnityEngine.Object.Instantiate(srcMesh); mesh.name = srcMesh.name;
+            var uv = mesh.uv;
+            if (uv == null || uv.Length != mesh.vertexCount) { smr.sharedMesh = mesh; continue; }
+            var mats = smr.sharedMaterials;
+            var doneVert = new bool[uv.Length];   // remap each vertex once (parts don't share verts across submeshes after a join)
+            for (int s = 0; s < mesh.subMeshCount; s++)
+            {
+                int ri = -1;
+                var sm = (mats != null && s < mats.Length) ? mats[s] : null;
+                if (sm != null) { string bn = SimplifyMat(sm.name); ri = System.Array.FindIndex(baseNames, b => b.Length > 0 && (bn.Contains(b) || b.Contains(bn))); }
+                if (ri < 0) ri = s;   // fall back to index (submesh order == MTL order)
+                if (ri < 0 || ri >= rects.Length) { Debug.LogWarning($"[Factory] {name} submesh {s} ('{(sm != null ? sm.name : "null")}') no atlas rect — left unmapped"); continue; }
+                var r = rects[ri];
+                foreach (int vi in mesh.GetTriangles(s)) if (!doneVert[vi]) { uv[vi] = new Vector2(r.x + uv[vi].x * r.width, r.y + uv[vi].y * r.height); doneVert[vi] = true; }
+                Debug.Log($"[Factory]   submesh {s} '{(sm != null ? sm.name : "null")}' -> rect[{ri}] '{orderedAlb[ri].Key}'");
+            }
+            mesh.uv = uv;
+            // MERGE the submeshes into ONE so the whole mesh draws with the single atlas material. A renderer (and the game's
+            // skeleton draw) only renders submesh i if a material slot i exists, and we supply ONE atlas material -> otherwise
+            // every submesh past 0 goes invisible (only the barrel showed). UVs are already remapped, so one submesh is correct.
+            var allTris = new List<int>();
+            for (int s = 0; s < mesh.subMeshCount; s++) allTris.AddRange(mesh.GetTriangles(s));
+            mesh.subMeshCount = 1;
+            mesh.SetTriangles(allTris, 0);
+            smr.sharedMaterials = new[] { mats != null && mats.Length > 0 ? mats[0] : null };   // one slot to match the one submesh
+            smr.sharedMesh = mesh;
+            remappedPreviewMesh = mesh;   // hand the corrected mesh to the preview so it shows all parts with the right UVs
         }
         return atlas;
     }
