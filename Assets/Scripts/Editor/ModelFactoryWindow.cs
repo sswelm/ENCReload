@@ -109,15 +109,19 @@ public class ModelFactoryWindow : EditorWindow
             using (new EditorGUI.DisabledScope(selected <= 0))
                 if (GUILayout.Button("Remove", GUILayout.Width(70)))
                 {
-                    var name = cur.resourceName;
+                    // E2: key on the SELECTED entry, NOT the (possibly edited) resource-name text field. Keying on the
+                    // text field meant editing the name then Remove would delete a DIFFERENT model — or nothing — while
+                    // still reporting "Removed". Also branch the status on Remove's actual result.
+                    var name = selected > 0 && selected < existing.Length ? existing[selected] : null;
                     if (!string.IsNullOrEmpty(name) &&
                         EditorUtility.DisplayDialog("Remove model",
                             $"Remove '{name}' from the registry? The plugin will stop injecting it on next launch. " +
                             "(The baked skeleton/atlas assets stay in the project.)", "Remove", "Cancel"))
                     {
-                        ModelRegistry.Remove(name);
+                        bool removed = ModelRegistry.Remove(name);
                         selected = 0; cur = new ModelDef(); RefreshList(); GUI.FocusControl(null);
-                        status = $"Removed '{name}' from the registry.";
+                        status = removed ? $"Removed '{name}' from the registry."
+                                         : $"'{name}' was not in the registry — nothing removed.";
                     }
                 }
             if (sel != selected) { selected = sel; OnSelectResource(); GUI.FocusControl(null); }

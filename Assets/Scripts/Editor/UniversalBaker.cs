@@ -606,6 +606,12 @@ public static class UniversalBaker
                 }
             }
         }
+        // E3: a rigged/skinned-only FBX imports as SkinnedMeshRenderers, which this static combine (MeshFilter-only) never
+        // sees -> cVerts is empty. Without this guard the bake would complete and ship a 0-vertex, INVISIBLE unit with a
+        // valid-looking registry entry (only trace: "verts=0" in a log). Fail loudly; rigged models belong on the Animated path.
+        if (cVerts.Count == 0)
+            return Fail($"{name}: the static combine found no mesh geometry (0 vertices) — the model likely imports as " +
+                        "skinned meshes (a rigged FBX) the static path can't read. Use the Animated bake, or check the model imported correctly.");
         var mesh = new Mesh { name = name + "_ModelMesh", indexFormat = UnityEngine.Rendering.IndexFormat.UInt32 };
         mesh.SetVertices(cVerts);
         if (haveUV) mesh.SetUVs(0, cUV);
@@ -1044,12 +1050,29 @@ public static class UniversalBaker
     // Returns false (after killing the child) on timeout; otherwise the process has exited and stdout/stderr are filled.
     static bool RunBounded(System.Diagnostics.Process p, int timeoutMs, out string stdout, out string stderr)
     {
+        stdout = ""; stderr = "";
         var outTask = System.Threading.Tasks.Task.Run(() => p.StandardOutput.ReadToEnd());
         var errTask = System.Threading.Tasks.Task.Run(() => p.StandardError.ReadToEnd());
-        if (!p.WaitForExit(timeoutMs)) { try { p.Kill(); } catch { } stdout = ""; stderr = ""; return false; }
-        stdout = outTask.GetAwaiter().GetResult();
-        stderr = errTask.GetAwaiter().GetResult();
-        return true;
+        var sw = System.Diagnostics.Stopwatch.StartNew();
+        if (!p.WaitForExit(timeoutMs)) { try { p.Kill(); } catch { } return false; }   // the process itself hung -> killed
+        // E4: WaitForExit(timeout) returns as soon as the PROCESS exits, but stdout/stderr stay open until EVERY handle to
+        // their write end is closed — including one a grandchild (a Blender helper) may have inherited. ReadToEnd only
+        // returns at pipe EOF, so awaiting the drain tasks UNBOUNDED (the old GetResult()) could hang the editor main
+        // thread forever — the exact freeze this timeout exists to prevent. Bound the drain to the remaining budget too;
+        // on timeout, take whatever was captured and move on (the process already exited cleanly).
+        int remaining = Math.Max(3000, timeoutMs - (int)sw.ElapsedMilliseconds);
+        bool drained; try { drained = System.Threading.Tasks.Task.WaitAll(new[] { outTask, errTask }, remaining); } catch { drained = true; }
+        stdout = outTask.Status == System.Threading.Tasks.TaskStatus.RanToCompletion ? outTask.Result : "";
+        stderr = errTask.Status == System.Threading.Tasks.TaskStatus.RanToCompletion ? errTask.Result : "";
+        if (!drained)
+        {
+            // reads are still blocked on an inherited-open pipe; don't hang. Observe any eventual fault (the caller
+            // disposes the process, which closes the streams and makes the leaked ReadToEnd throw) so it isn't unobserved.
+            outTask.ContinueWith(t => { var _ = t.Exception; }, System.Threading.Tasks.TaskContinuationOptions.OnlyOnFaulted);
+            errTask.ContinueWith(t => { var _ = t.Exception; }, System.Threading.Tasks.TaskContinuationOptions.OnlyOnFaulted);
+            Debug.LogWarning("[Factory] a bake sub-process exited but left its output pipe open (a grandchild likely inherited it); continued with partial output instead of hanging.");
+        }
+        return true;   // the process exited cleanly; report success even if a stray pipe kept us from fully draining it
     }
 
     // Locate blender.exe with zero config: explicit EditorPrefs override, else the newest install under Program Files,
