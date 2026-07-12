@@ -98,23 +98,45 @@ bpy.context.scene.frame_start = fs
 bpy.context.scene.frame_end = fe
 print("RIGANIM frame range %d..%d" % (fs, fe))
 
-# export the first material's base-colour image as the albedo PNG (for the Factory atlas)
+# export the base-colour image as the albedo PNG (for the Factory atlas). Trace the Principled BSDF's Base Color input
+# back to the actual base-colour texture — NOT just the first TEX_IMAGE node. Node order is creation order, so in a PBR
+# material the first image node can be a normal / roughness / metallic map, which would hand the atlas a purple normal
+# map as "albedo" (garbled skin, no error). Fall back to any image node only when there's no Principled / it's unlinked.
+def base_color_image(mat):
+    if not (mat and mat.node_tree):   # node_tree is non-None exactly when the material has nodes (use_nodes removed in Blender 6.0)
+        return None
+    nt = mat.node_tree
+    for n in nt.nodes:
+        if n.type == 'BSDF_PRINCIPLED':
+            inp = n.inputs.get('Base Color')
+            if inp and inp.is_linked:
+                seen, stack = set(), [inp.links[0].from_node]   # walk upstream to the nearest image (through a mix/gamma node etc.)
+                while stack:
+                    node = stack.pop()
+                    if node is None or node in seen: continue
+                    seen.add(node)
+                    if node.type == 'TEX_IMAGE' and node.image:
+                        return node.image
+                    for s in node.inputs:
+                        if s.is_linked: stack.append(s.links[0].from_node)
+            break
+    for n in nt.nodes:                # fallback: no Principled, or Base Color unlinked -> any image (better than nothing)
+        if n.type == 'TEX_IMAGE' and n.image:
+            return n.image
+    return None
+
 if albedo_out:
     try:
         img = None
         for o in bpy.context.scene.objects:
             if o.type != 'MESH' or not o.data.materials: continue
-            m = o.data.materials[0]
-            if m and m.node_tree:   # node_tree is non-None exactly when the material has nodes (use_nodes is deprecated -> removed in Blender 6.0)
-                for n in m.node_tree.nodes:
-                    if n.type == 'TEX_IMAGE' and n.image:
-                        img = n.image; break
+            img = base_color_image(o.data.materials[0])
             if img: break
         if img:
             img.filepath_raw = albedo_out
             img.file_format = 'PNG'
             img.save()
-            print("RIGANIM albedo ->", albedo_out)
+            print("RIGANIM albedo ->", albedo_out, "(%s)" % img.name)
         else:
             print("RIGANIM no albedo image found (model may be untextured)")
     except Exception as e:
@@ -126,7 +148,11 @@ if not meshes:
     print("RIGANIM ERROR: no mesh to export"); sys.exit(1)
 bpy.ops.object.select_all(action='DESELECT')
 for o in meshes: o.select_set(True)
-bpy.context.view_layer.objects.active = meshes[0]
+# join() keeps ONLY the active object's modifiers, so make the active one a mesh that HAS an armature modifier —
+# scene-order meshes[0] can be a bone-parented prop with no armature modifier, and joining onto it would drop the skin
+# binding and export the whole model rigid/frozen. Prefer a skinned mesh here; we also re-guarantee the modifier below.
+active = next((o for o in meshes if any(md.type == 'ARMATURE' for md in o.modifiers)), meshes[0])
+bpy.context.view_layer.objects.active = active
 if len(meshes) > 1:
     bpy.ops.object.join()
 joined = bpy.context.view_layer.objects.active
@@ -165,6 +191,13 @@ mdec.decimate_type = 'COLLAPSE'; mdec.ratio = ratio; mdec.use_collapse_triangula
 bpy.ops.object.select_all(action='DESELECT'); joined.select_set(True); bpy.context.view_layer.objects.active = joined
 bpy.ops.object.modifier_apply(modifier=mdec.name)
 print("RIGANIM decimate %d -> %d tris (ratio %.3f)" % (total, sum(len(p.vertices) - 2 for p in me.polygons), ratio))
+
+# GUARANTEE the skin binding: whichever object won the join, the joined mesh keeps every source mesh's vertex groups
+# (weights) regardless — so if the join dropped the armature modifier, re-adding one bound to `arm` fully restores
+# skinning. Without this a model whose first mesh was a bone-parented prop exports rigid/frozen (T4).
+if not any(md.type == 'ARMATURE' for md in joined.modifiers):
+    _am = joined.modifiers.new("Armature", 'ARMATURE'); _am.object = arm
+    print("RIGANIM re-bound armature modifier (join had dropped it)")
 
 bpy.ops.object.select_all(action='SELECT')
 bpy.ops.export_scene.fbx(filepath=outp, use_selection=False, add_leaf_bones=False,
