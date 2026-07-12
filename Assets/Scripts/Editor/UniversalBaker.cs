@@ -490,6 +490,13 @@ public static class UniversalBaker
                             ni = cVerts.Count; remap[oldI] = ni;
                             cVerts.Add(local.MultiplyPoint3x4(v[oldI]));
                             Vector2 u = mUV ? uv[oldI] : Vector2.zero;
+                            // Atlas cells have no texture WRAP, but many source models park each material's UV
+                            // island in a distant integer tile (this AH-1 runs U up to ~23) relying on wrap. Fold
+                            // every UV into [0,1) so it lands inside its packed rect instead of flying into the black
+                            // gaps between islands. An island that sits wholly within one tile has all its verts
+                            // subtract the same integer -> no distortion; only a triangle straddling a tile edge
+                            // smears slightly, which is unavoidable when emulating wrap on a packed atlas.
+                            u.x -= Mathf.Floor(u.x); u.y -= Mathf.Floor(u.y);
                             cUV.Add(new Vector2(r.x + u.x * r.width, r.y + u.y * r.height));
                             cNorm.Add(mNorm ? local.MultiplyVector(nr[oldI]).normalized : Vector3.up);
                         }
@@ -866,7 +873,10 @@ public static class UniversalBaker
                 if (ri < 0) ri = s;   // fall back to index (submesh order == MTL order)
                 if (ri < 0 || ri >= rects.Length) { Debug.LogWarning($"[Factory] {name} submesh {s} ('{(sm != null ? sm.name : "null")}') no atlas rect — left unmapped"); continue; }
                 var r = rects[ri];
-                foreach (int vi in mesh.GetTriangles(s)) if (!doneVert[vi]) { uv[vi] = new Vector2(r.x + uv[vi].x * r.width, r.y + uv[vi].y * r.height); doneVert[vi] = true; }
+                // Fold each UV into [0,1) first: atlas cells have no wrap, but source models often park a material's
+                // island in a distant integer tile relying on texture wrap — unfolded it flies outside its rect into
+                // the black gaps. Whole-in-one-tile islands subtract a uniform integer (no distortion); see the static path.
+                foreach (int vi in mesh.GetTriangles(s)) if (!doneVert[vi]) { float fu = uv[vi].x - Mathf.Floor(uv[vi].x), fv = uv[vi].y - Mathf.Floor(uv[vi].y); uv[vi] = new Vector2(r.x + fu * r.width, r.y + fv * r.height); doneVert[vi] = true; }
                 Debug.Log($"[Factory]   submesh {s} '{(sm != null ? sm.name : "null")}' -> rect[{ri}] '{orderedAlb[ri].Key}'");
             }
             mesh.uv = uv;
