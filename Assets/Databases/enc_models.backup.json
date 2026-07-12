@@ -56,7 +56,8 @@
             "fireOnAttack": false,
             "deployOnStop": false,
             "deployPoseTime": 1.0,
-            "deploySpeed": 1.0
+            "deploySpeed": 1.0,
+            "recoilSpeed": 1.0
         },
         {
             "resourceName": "HandCrankedSubmarines",
@@ -114,7 +115,8 @@
             "fireOnAttack": false,
             "deployOnStop": false,
             "deployPoseTime": 1.0,
-            "deploySpeed": 1.0
+            "deploySpeed": 1.0,
+            "recoilSpeed": 1.0
         },
         {
             "resourceName": "ReconZeppelin",
@@ -172,7 +174,8 @@
             "fireOnAttack": false,
             "deployOnStop": false,
             "deployPoseTime": 1.0,
-            "deploySpeed": 1.0
+            "deploySpeed": 1.0,
+            "recoilSpeed": 1.0
         },
         {
             "resourceName": "StealthHelicopter",
@@ -230,7 +233,8 @@
             "fireOnAttack": false,
             "deployOnStop": false,
             "deployPoseTime": 1.0,
-            "deploySpeed": 1.0
+            "deploySpeed": 1.0,
+            "recoilSpeed": 1.0
         },
         {
             "resourceName": "AttackHelicopter",
@@ -288,7 +292,8 @@
             "fireOnAttack": false,
             "deployOnStop": false,
             "deployPoseTime": 1.0,
-            "deploySpeed": 1.0
+            "deploySpeed": 1.0,
+            "recoilSpeed": 1.0
         },
         {
             "resourceName": "VolleyGun",
@@ -346,7 +351,8 @@
             "fireOnAttack": false,
             "deployOnStop": false,
             "deployPoseTime": 1.0,
-            "deploySpeed": 1.0
+            "deploySpeed": 1.0,
+            "recoilSpeed": 1.0
         },
         {
             "resourceName": "Hovercraft",
@@ -404,7 +410,8 @@
             "fireOnAttack": false,
             "deployOnStop": false,
             "deployPoseTime": 1.0,
-            "deploySpeed": 1.0
+            "deploySpeed": 1.0,
+            "recoilSpeed": 1.0
         },
         {
             "resourceName": "Zeppelin",
@@ -462,7 +469,8 @@
             "fireOnAttack": false,
             "deployOnStop": false,
             "deployPoseTime": 1.0,
-            "deploySpeed": 1.0
+            "deploySpeed": 1.0,
+            "recoilSpeed": 1.0
         },
         {
             "resourceName": "StealthCruiser",
@@ -520,7 +528,8 @@
             "fireOnAttack": false,
             "deployOnStop": false,
             "deployPoseTime": 1.0,
-            "deploySpeed": 1.0
+            "deploySpeed": 1.0,
+            "recoilSpeed": 1.0
         },
         {
             "resourceName": "OrganGun",
@@ -578,7 +587,8 @@
             "fireOnAttack": false,
             "deployOnStop": false,
             "deployPoseTime": 1.0,
-            "deploySpeed": 1.0
+            "deploySpeed": 1.0,
+            "recoilSpeed": 1.0
         },
         {
             "resourceName": "ReconDrone",
@@ -636,7 +646,8 @@
             "fireOnAttack": false,
             "deployOnStop": false,
             "deployPoseTime": 1.0,
-            "deploySpeed": 1.0
+            "deploySpeed": 1.0,
+            "recoilSpeed": 1.0
         },
         {
             "resourceName": "TowedGunHowitzers",
@@ -652,7 +663,7 @@
                 "y": 0.0,
                 "z": 0.0
             },
-            "size": 5.0,
+            "size": 6.0,
             "normalsMode": 1,
             "smoothingAngle": 20.0,
             "convertGrid": 0,
@@ -691,10 +702,11 @@
             "animUnitFix": true,
             "respawnAfterLoad": false,
             "freezeDonorAnim": false,
-            "fireOnAttack": false,
+            "fireOnAttack": true,
             "deployOnStop": true,
-            "deployPoseTime": 0.9990000128746033,
-            "deploySpeed": 2.0
+            "deployPoseTime": 0.7200000286102295,
+            "deploySpeed": 3.0,
+            "recoilSpeed": 3.0
         }
     ]
 }

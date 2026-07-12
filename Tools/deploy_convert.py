@@ -6,9 +6,20 @@
 # Soft-skinned character rigs (crew) collapse the bake, so a strip-list removes them (and any loose props).
 #
 # Run headless:
-#   blender -b -P deploy_convert.py -- <input.glb> <output.glb> [startFrame endFrame] [stripCsv]
-#     startFrame endFrame : trim the clip to this sub-range (e.g. just the deploy). Omit = full clip.
-#     stripCsv            : comma-separated name substrings to delete (crew/props). Omit = the M114 defaults below.
+#   blender -b -P deploy_convert.py -- <in.glb> <out.glb> [start end] [stripCsv] [readyFrame] [legScale] [barrelScale] [recoilSrcStart recoilSrcEnd] [step] [mag]
+#     start end   : trim the clip to this sub-range (the deploy). Omit = full clip.
+#     stripCsv    : comma-separated name substrings to delete (crew/props). Omit = the M114 defaults below.
+#     readyFrame  : (5b) source frame of the fully-elevated barrel; retargets the barrel to rise there over the deploy's back half.
+#     legScale    : (5c) scale the leg spread (1 = full, 0.5 = half as wide).
+#     barrelScale : (5b) scale the barrel elevation (>1 exaggerates past the source's firing max).
+#     recoilSrcStart recoilSrcEnd : (5d) the recoil sub-range IN THE SOURCE clip; its kickback TIMING is remapped onto a recoil
+#                                   tail appended after 'end', played on-fire from the deployed hold.
+#     step        : (5d) source-frame sampling step for the recoil (default 2).
+#     mag         : (5d) slide-distance scale (default 1 = the source distance; 2 ~= half the tube).
+#   NOTE (5d): the clip bake keeps per-bone ROTATION but DISCARDS per-bone translation, so a literal barrel slide bakes to nothing.
+#   The recoil is faked via an FK-arc: a hidden far-pivot 'RecoilArm' bone the tube hangs off, rotated so the tube swings on a long
+#   arc that reads as a near-straight backward slide (the arm's rotation bakes; runtime FK rebuilds it). It keeps a slight swing;
+#   DON'T counter-rotate the tube to straighten it — that needs translation the bake drops, and the model explodes in-game.
 # Checks BOTH the object name AND the mesh-data name (glTF import can name an object 'Object_NNN' while its mesh keeps
 # the real name, so an object-name-only filter misses them). Node `matrix` transforms aren't handled (TRS only).
 import bpy, sys
@@ -148,6 +159,111 @@ if len(argv) > 6 and argv[6].strip():
     bpy.ops.object.mode_set(mode='OBJECT')
     print("DEPLOY legs scaled x%.2f from initial (%d bones), spread by %d held to %d" % (leg_scale, len(leg_bones), spread_frame, end_frame))
 
+# --- 5d. optional: RECOIL-ON-FIRE tail — EXTRACT the source's own kickback (argv[8]=recoilSrcStart, argv[9]=recoilSrcEnd,
+#         argv[10]=step default 2) and remap it onto the deployed pose as a tail after the deploy. The source clip already
+#         animates a real firing recoil (the tube slams back + down then slowly runs out); we transfer that rigid motion,
+#         expressed relative to the source's aim pose, onto OUR deployed hold — faithful to the original, not synthesized.
+#         The runtime plays this tail once on ArtilleryStrikeStarted from the deployed hold (deployPoseTime = deployEnd/outEnd).
+#         Same clip, no extra slot. Carriage/legs stay planted (only the barrel/cannon bones get keys). ---
+recoil_out_end = None
+if len(argv) > 8 and argv[8].strip():
+    from mathutils import Matrix
+    deploy_end = int(argv[3])
+    rs = int(argv[8]); re = int(argv[9])                       # recoil sub-range IN THE SOURCE clip
+    step = int(argv[10]) if len(argv) > 10 and argv[10].strip() else 2
+    recoil_bones = [bn for bn in bone_of.values() if any(k in bn.lower() for k in ("barrel", "cannon"))]
+    bone_to_src = {bone_of[p.name]: p for p in parts if p.name in bone_of}   # bone -> its source node (still animated 0..fmax)
+    # parents before children so a child's local back-solves against the parent's ALREADY-posed recoil
+    def bone_depth(bn):
+        d = 0; b = arm.data.bones[bn].parent
+        while b: d += 1; b = b.parent
+        return d
+    ordered = sorted([bn for bn in recoil_bones if bn in bone_to_src], key=bone_depth)
+
+    # Phase A — read the source: capture each tube node's world matrix at the aim frame + across the recoil.
+    frames = list(range(rs, re + 1, step))
+    if frames[-1] != re: frames.append(re)
+    scene.frame_set(rs)
+    m_aim = {bn: bone_to_src[bn].matrix_world.copy() for bn in ordered}
+    src_w = {bn: {} for bn in ordered}
+    for t in frames:
+        scene.frame_set(t)
+        for bn in ordered:
+            src_w[bn][t] = bone_to_src[bn].matrix_world.copy()
+
+    # Phase B — write onto the bones: hold the scene at deploy_end (carriage/legs deployed), pose the recoil bones for each
+    # mapped frame f = deploy_end + (t - rs), and key them. target = home @ (aim^-1 @ src_t)  = the source's relative motion
+    # (in the aim's own frame) applied to our deployed pose. Parents first + a depsgraph update so children back-solve right.
+    bpy.context.view_layer.objects.active = arm
+    bpy.ops.object.mode_set(mode='POSE')
+    scene.frame_set(deploy_end)
+    m_home = {bn: arm.pose.bones[bn].matrix.copy() for bn in ordered}
+    prev_q = {}
+    def key_bone(bn, f):   # keyframe loc+rot, forcing quaternion continuity (else a sign flip makes Blender lerp the long way)
+        pb = arm.pose.bones[bn]
+        q = pb.rotation_quaternion.copy()
+        if bn in prev_q and q.dot(prev_q[bn]) < 0.0: q.negate()
+        pb.rotation_quaternion = q; prev_q[bn] = q
+        pb.keyframe_insert('location', frame=f)
+        pb.keyframe_insert('rotation_quaternion', frame=f)
+    # A bone's OWN local translation is DROPPED by the bake (verified: sliding cannon2's local left its baked bbox unchanged) —
+    # only ROTATION survives. But a bone's position derived from an ANCESTOR's rotation DOES bake (forward kinematics). So add a
+    # hidden RECOIL-ARM bone with its pivot placed FAR from the tube, reparent the tube under it, and rotate the ARM: the tube
+    # swings through a long arc that, over the recoil distance, reads as a near-straight backward SLIDE. The arm's ROTATION bakes;
+    # the tube's arc is rebuilt by FK at runtime. Only the tube hangs off the arm (wheels/legs are untouched). argv[11] = slide
+    # magnitude scale (default 1 = the source distance). Driven by the source's clean barrel-relative-to-cradle slide profile.
+    driver = max(ordered, key=lambda bn: max((src_w[bn][t].translation - m_aim[bn].translation).length for t in frames))
+    parent_bone = arm.data.bones[driver].parent
+    cradle = parent_bone.name if parent_bone and parent_bone.name in bone_to_src else driver
+    tube_root = cradle if cradle in m_home else driver
+    mag = float(argv[11]) if len(argv) > 11 and argv[11].strip() else 1.0
+    Sc_aim = src_w[cradle][rs]; Sb_aim = src_w[driver][rs]
+    Cbar3 = (m_home[driver] @ Sb_aim.inverted()).to_3x3()
+    slide = {}
+    for t in frames:
+        bt = Sc_aim @ (src_w[cradle][t].inverted() @ src_w[driver][t])   # barrel world, cradle FROZEN at aim = clean slide (no re-aim)
+        slide[t] = (Cbar3 @ (bt.translation - Sb_aim.translation)) * mag  # slide vector, output space
+    peak = max(slide.values(), key=lambda v: v.length)
+    dist = peak.length or 1.0
+    d = peak.normalized()                                      # slide direction (output)
+    A = d.cross(Vector((0, 0, 1)))
+    if A.length < 1e-4: A = d.cross(Vector((0, 1, 0)))
+    A = A.normalized()                                         # arc rotation axis (perp to slide, horizontal-ish)
+    R = 400.0                                                  # pivot distance: large -> the arc ~ a straight slide (tiny re-aim)
+    radius = A.cross(d).normalized()
+    tube_head = m_home[tube_root].translation.copy()
+    pivot = tube_head - radius * R                             # place the pivot R away, perpendicular to the slide
+
+    # insert a RecoilArm bone (head=pivot) between the tube and its parent
+    bpy.ops.object.mode_set(mode='EDIT')
+    ra = arm_data.edit_bones.new("RecoilArm"); ra_name = ra.name
+    ra.head = pivot; ra.tail = pivot + A * 10.0
+    teb = arm_data.edit_bones[tube_root]
+    ra.parent = teb.parent
+    teb.parent = ra
+    bpy.ops.object.mode_set(mode='POSE')
+    ra_rest = arm.data.bones[ra_name].matrix_local.copy()     # armature-space rest of the arm
+    scene.frame_set(deploy_end)                               # parents held at their deployed pose while we back-solve
+    prev_q.clear()
+    def key_arm(f):
+        pb = arm.pose.bones[ra_name]
+        q = pb.rotation_quaternion.copy()
+        if 'ra' in prev_q and q.dot(prev_q['ra']) < 0.0: q.negate()
+        pb.rotation_quaternion = q; prev_q['ra'] = q
+        pb.keyframe_insert('location', frame=f); pb.keyframe_insert('rotation_quaternion', frame=f)
+    for hold in (0, deploy_end):                              # identity through the whole deploy so it can't disturb it
+        arm.pose.bones[ra_name].matrix = ra_rest; bpy.context.view_layer.update(); key_arm(hold)
+    for t in frames:
+        f = deploy_end + (t - rs)
+        theta = -(slide[t].length) / R * (1 if slide[t].dot(d) >= 0 else -1)   # arc length R*theta along the slide dir
+        tgt = Matrix.Translation(pivot) @ Matrix.Rotation(theta, 4, A) @ Matrix.Translation(-pivot) @ ra_rest
+        arm.pose.bones[ra_name].matrix = tgt; bpy.context.view_layer.update(); key_arm(f)
+    recoil_out_end = deploy_end + (frames[-1] - rs)
+    arm.pose.bones[ra_name].matrix = ra_rest; bpy.context.view_layer.update(); key_arm(recoil_out_end)
+    bpy.ops.object.mode_set(mode='OBJECT')
+    print("DEPLOY recoil (ARC slide x%g, R=%g, peak=%.1f) tail %d..%d via RecoilArm; tube '%s'" %
+          (mag, R, dist, deploy_end, recoil_out_end, tube_root))
+
 # --- 6. bind each mesh 100% to the bone of its nearest animated ancestor (rigid) ---
 def anim_ancestor(o):
     while o:
@@ -199,9 +315,10 @@ if arm_action:
     arm_action.name = "deploy"   # clean clip name for the Factory picker (was an auto 'Action.NNN')
 print("DEPLOY kept 1 action:", arm_action.name if arm_action else None)
 
-# --- 8. export GLB, trimmed to the DEPLOY sub-range if given (argv: in out [start] [end]) ---
+# --- 8. export GLB, trimmed to the DEPLOY (+recoil tail) sub-range if given (argv: in out [start] [end] ...) ---
 if len(argv) >= 4:
-    scene.frame_start, scene.frame_end = int(argv[2]), int(argv[3])
+    trim_end = recoil_out_end if recoil_out_end is not None else int(argv[3])   # extend past the deploy to include the recoil tail
+    scene.frame_start, scene.frame_end = int(argv[2]), trim_end
     print("DEPLOY trim to frames %d..%d" % (scene.frame_start, scene.frame_end))
 bpy.ops.object.select_all(action='SELECT')
 bpy.ops.export_scene.gltf(filepath=outp, export_format='GLB', export_animations=True,

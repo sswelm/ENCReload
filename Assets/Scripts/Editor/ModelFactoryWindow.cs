@@ -244,6 +244,12 @@ public class ModelFactoryWindow : EditorWindow
                 "half. Only affects the forward deploy (playing the clip open when the unit stops) — folding on move is always " +
                 "instant. Runtime flag; no re-bake to change."),
                 cur.deploySpeed <= 0f ? 1f : cur.deploySpeed, 0.25f, 5f);
+        using (new EditorGUI.DisabledScope(!cur.animated || !cur.deployOnStop || !cur.fireOnAttack))
+            cur.recoilSpeed = EditorGUILayout.Slider(new GUIContent("Recoil speed",
+                "Speed multiplier on the recoil-on-fire kickback (needs Deploy-when-stopped + Fire-on-attack): 1 = the clip " +
+                "tail's authored speed, 3 = the kick plays 3x faster, 0.5 = half. Tune if the kick reads too slow/fast. " +
+                "Runtime flag; no re-bake to change."),
+                cur.recoilSpeed <= 0f ? 1f : cur.recoilSpeed, 0.25f, 8f);
         // Blender is a HARD dependency for the animated path (rig-slim + clip bake); glbconv can't emit a rigged FBX.
         // Warn as soon as an animated model is detected — not only after ticking — so a Blender-less adopter knows upfront.
         // (Detection itself needs no Blender, so the checkbox stays usable; only Bake will fail until Blender is present.)
