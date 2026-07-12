@@ -144,6 +144,17 @@ public static class ModelRegistry
     // history in git, and Load() auto-restores from it if the game registry ever goes missing.
     public static string ProjectBackupPath => Path.Combine(Application.dataPath, "Databases", "enc_models.backup.json");
 
+    // Keep the registry in a STABLE alphabetical order (by resourceName, case-insensitive) everywhere it's read or
+    // written, so the Factory dropdown AND both config files (the live enc_models.json + the git-tracked backup) list
+    // models the same way every time. Without this the order was insertion/re-serialization order, so a re-bake could
+    // shuffle entries — an annoying dropdown that keeps changing, and a giant meaningless backup.json diff each commit.
+    // Ordering is display/serialization only; the runtime plugin matches by pawnDescription, so order never affects it.
+    static List<ModelDef> SortByName(List<ModelDef> list)
+    {
+        list?.Sort((a, b) => string.Compare(a?.resourceName, b?.resourceName, StringComparison.OrdinalIgnoreCase));
+        return list ?? new List<ModelDef>();
+    }
+
     public static List<ModelDef> Load()
     {
         try
@@ -161,14 +172,14 @@ public static class ModelRegistry
                     {
                         try { Directory.CreateDirectory(ConfigDir); File.WriteAllText(RegistryPath, backupJson); } catch { }
                         Debug.Log($"[Factory] game registry was missing — restored {b.models.Count} model(s) from the project backup ({ProjectBackupPath}).");
-                        return b.models;
+                        return SortByName(b.models);
                     }
                 }
                 return new List<ModelDef>();
             }
             var data = JsonUtility.FromJson<ModelDefList>(File.ReadAllText(RegistryPath));
             lastLoadCorrupt = false;
-            return data?.models ?? new List<ModelDef>();
+            return SortByName(data?.models ?? new List<ModelDef>());
         }
         catch (Exception e)
         {
@@ -193,6 +204,7 @@ public static class ModelRegistry
                            "Fix or delete it and press Refresh first — refusing to overwrite it and lose your models.");
             return false;
         }
+        SortByName(models);   // write BOTH the live registry and the backup alphabetically, so the order is stable across bakes
         var json = JsonUtility.ToJson(new ModelDefList { models = models }, true);
         // 1) Atomic write to the live game target (what the plugin reads): fill a temp file, then swap it in, so an
         //    interrupted or locked write can never leave a truncated registry. GUARDED — File.Replace/Move throws on a
