@@ -112,8 +112,12 @@ public static class UniversalBaker
         // stripped, so the tangent optimization is limited to single-material models (Amplitude reads their mesh as-is).
         string fsResDir = Path.Combine(Directory.GetParent(Application.dataPath).FullName, resDir);
         var orderedAlb = LoadOrderedAlbedos(fsResDir, name);   // MTL-ordered (materialName -> albedo texture)
-        bool multiMat = cfg.materialMode == MaterialMode.Multi
-                        || (cfg.materialMode == MaterialMode.Auto && orderedAlb.Count > 1);
+        // Need >1 REAL albedo to pack a multi-material atlas. Multi/Auto with 0-1 albedos (e.g. a fresh extraction that
+        // didn't regenerate the per-material albedos, or a misconfig) falls back to a single atlas instead of building a
+        // blank 2x2 and spamming "no atlas rect — left unmapped" for every submesh. Multi still forces multi whenever
+        // the albedos are actually present (>1); it just can't conjure a multi-atlas from nothing.
+        bool multiMat = orderedAlb.Count > 1
+                        && (cfg.materialMode == MaterialMode.Multi || cfg.materialMode == MaterialMode.Auto);
 
         // --- 2) import the FBX: Generic rig, import animation, scale so the longest axis ~= size ---
         var imp = AssetImporter.GetAtPath(fbxRel) as ModelImporter;
