@@ -481,66 +481,6 @@
             "recoilSpeed": 1.0
         },
         {
-            "resourceName": "ReconDrone",
-            "pawnDescription": "Era6_Common_ReconDrones_01",
-            "modelFile": "D:/Downloads/drone_clean.glb",
-            "rotation": {
-                "x": 90.0,
-                "y": 90.0,
-                "z": 0.0
-            },
-            "position": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 2.0
-            },
-            "size": 2.0,
-            "normalsMode": 1,
-            "smoothingAngle": 20.0,
-            "convertGrid": 0,
-            "reuseExtracted": true,
-            "doubleSided": false,
-            "windingFix": false,
-            "heightUV": false,
-            "albedoBrightness": 1.0,
-            "albedoSaturation": 1.0,
-            "keepBlack": false,
-            "materialMode": 0,
-            "atlasMaxDim": 512,
-            "targetTris": 5000,
-            "stripParts": "",
-            "hideMeshes": "",
-            "skel": [
-                -34687528,
-                1274838548,
-                -1072885069,
-                -1411659407
-            ],
-            "atlas": [
-                -1581395766,
-                1199223313,
-                1781020585,
-                -375107865
-            ],
-            "clip": [
-                1547596851,
-                1330585087,
-                -1602424179,
-                -1171813139
-            ],
-            "animated": true,
-            "animClip": "hover",
-            "animateBones": "prop",
-            "animUnitFix": false,
-            "respawnAfterLoad": false,
-            "freezeDonorAnim": false,
-            "fireOnAttack": false,
-            "deployOnStop": false,
-            "deployPoseTime": 1.0,
-            "deploySpeed": 1.0,
-            "recoilSpeed": 1.0
-        },
-        {
             "resourceName": "AttackHelicopter",
             "pawnDescription": "Era6_Common_AttackHelicopter_01",
             "modelFile": "D:/Downloads/Cobra.glb",
@@ -719,6 +659,66 @@
             "deployPoseTime": 0.7200000286102295,
             "deploySpeed": 4.0,
             "recoilSpeed": 3.0
+        },
+        {
+            "resourceName": "ReconDrone",
+            "pawnDescription": "Era6_Common_ReconDrones_01",
+            "modelFile": "D:/Downloads/drone_clean.glb",
+            "rotation": {
+                "x": 90.0,
+                "y": 90.0,
+                "z": 0.0
+            },
+            "position": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 2.0
+            },
+            "size": 2.0,
+            "normalsMode": 1,
+            "smoothingAngle": 20.0,
+            "convertGrid": 0,
+            "reuseExtracted": true,
+            "doubleSided": false,
+            "windingFix": false,
+            "heightUV": false,
+            "albedoBrightness": 1.0,
+            "albedoSaturation": 1.0,
+            "keepBlack": false,
+            "materialMode": 0,
+            "atlasMaxDim": 512,
+            "targetTris": 5000,
+            "stripParts": "",
+            "hideMeshes": "",
+            "skel": [
+                -34687528,
+                1274838548,
+                -1072885069,
+                -1411659407
+            ],
+            "atlas": [
+                -1581395766,
+                1199223313,
+                1781020585,
+                -375107865
+            ],
+            "clip": [
+                1547596851,
+                1330585087,
+                -1602424179,
+                -1171813139
+            ],
+            "animated": true,
+            "animClip": "hover",
+            "animateBones": "prop",
+            "animUnitFix": false,
+            "respawnAfterLoad": false,
+            "freezeDonorAnim": false,
+            "fireOnAttack": false,
+            "deployOnStop": false,
+            "deployPoseTime": 1.0,
+            "deploySpeed": 1.0,
+            "recoilSpeed": 1.0
         }
     ]
 }

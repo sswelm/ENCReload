@@ -124,7 +124,7 @@ public static class UniversalBaker
         // Single-material -> None: runtime neutralizes normal maps, so tangents are 16 B/vert of dead weight in the mesh +
         // hex skeleton. Multi-material -> CalculateMikk (the default): its mesh is REBUILT (Instantiate + submesh-merge),
         // and Amplitude's skeleton importer throws IndexOutOfRange on that rebuilt mesh if it has no tangents.
-        imp.importTangents = multiMat ? ModelImporterTangents.CalculateMikk : ModelImporterTangents.None;
+        imp.importTangents = ModelImporterTangents.CalculateMikk;   // ALWAYS keep tangents on the ANIMATED path: its skeleton bake (Amplitude MeshCollection.ImportMeshes on a real skinned mesh) reads them, and stripping them throws IndexOutOfRange (broke the single-material ReconDrone — "worked last night", i.e. before the strip). The tangent-size optimization is safe ONLY on the static path below.
         imp.globalScale = 1f;
         // "Fix 100x oversize (FBX unit scale)" — PER-MODEL toggle, because different rig exports embed different unit scales.
         // OFF (default): measure with Unity's default useFileScale (the drone bakes correctly this way). ON: some FBX exports
@@ -166,6 +166,19 @@ public static class UniversalBaker
         AssetDatabase.DeleteAsset(skelPath);
         var skel = ScriptableObject.CreateInstance(skelType);
         AssetDatabase.CreateAsset(skel, skelPath);
+        // Pre-check the skinned mesh's bone data: a vertex weighted to a bone index the mesh's bone list doesn't have
+        // makes Amplitude's SetPrefab/Reimport (MeshCollection.ImportMeshes) throw an opaque IndexOutOfRange. Dump the
+        // state and flag any mismatch clearly (this is what breaks the ReconDrone's FRESH bake).
+        foreach (var smr in fbxGo.GetComponentsInChildren<SkinnedMeshRenderer>())
+        {
+            var m = smr.sharedMesh; if (m == null) continue;
+            int nBones = smr.bones != null ? smr.bones.Length : 0;
+            int maxIdx = -1; var bws = m.boneWeights;
+            if (bws != null) foreach (var w in bws) maxIdx = Mathf.Max(maxIdx, Mathf.Max(w.boneIndex0, w.boneIndex1), Mathf.Max(w.boneIndex2, w.boneIndex3));
+            Debug.Log($"[Factory] {name} SKMESH '{smr.name}': verts={m.vertexCount} subMeshes={m.subMeshCount} mats={(smr.sharedMaterials != null ? smr.sharedMaterials.Length : 0)} bones={nBones} bindposes={(m.bindposes != null ? m.bindposes.Length : 0)} maxBoneIdxUsed={maxIdx} tangents={(m.tangents != null ? m.tangents.Length : 0)}");
+            if (maxIdx >= nBones)
+                Debug.LogError($"[Factory] {name}: BONE MISMATCH — a vertex is weighted to bone index {maxIdx} but the mesh lists only {nBones} bones. THIS is the IndexOutOfRange in Amplitude's ImportMeshes (a fresh-extraction rig/decimation issue).");
+        }
         if (!InvokeReq(skelType, "SetPrefab", new[] { typeof(GameObject) }, skel, new object[] { fbxGo }, out var err)) return Fail(err);
         if (!InvokeReq(skelType, "Reimport", Type.EmptyTypes, skel, null, out err)) return Fail(err);
         EditorUtility.SetDirty(skel);
