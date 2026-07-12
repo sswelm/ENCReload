@@ -166,13 +166,26 @@ public static class ModelRegistry
                 // backup and write it back to the game target, so nothing is lost.
                 if (File.Exists(ProjectBackupPath))
                 {
-                    var backupJson = File.ReadAllText(ProjectBackupPath);
-                    var b = JsonUtility.FromJson<ModelDefList>(backupJson);
-                    if (b?.models != null && b.models.Count > 0)
+                    // E6: parse the backup in ITS OWN try/catch. If the backup is corrupt WHILE the live registry is
+                    // missing, a throw here would fall into the outer catch — which sets lastLoadCorrupt and names
+                    // RegistryPath (a file that doesn't exist in this case), locking Save forever with instructions that
+                    // can't be followed. Treat an unreadable backup as "no backup": there's no live registry to protect,
+                    // and the next successful Save rewrites the backup anyway.
+                    try
                     {
-                        try { Directory.CreateDirectory(ConfigDir); File.WriteAllText(RegistryPath, backupJson); } catch { }
-                        Debug.Log($"[Factory] game registry was missing — restored {b.models.Count} model(s) from the project backup ({ProjectBackupPath}).");
-                        return SortByName(b.models);
+                        var backupJson = File.ReadAllText(ProjectBackupPath);
+                        var b = JsonUtility.FromJson<ModelDefList>(backupJson);
+                        if (b?.models != null && b.models.Count > 0)
+                        {
+                            try { Directory.CreateDirectory(ConfigDir); File.WriteAllText(RegistryPath, backupJson); } catch { }
+                            Debug.Log($"[Factory] game registry was missing — restored {b.models.Count} model(s) from the project backup ({ProjectBackupPath}).");
+                            return SortByName(b.models);
+                        }
+                    }
+                    catch (Exception be)
+                    {
+                        Debug.LogWarning($"[Factory] the project backup '{ProjectBackupPath}' is unreadable ({be.Message}) — treating as no backup. " +
+                                         "Fix or delete it if you expected models to restore; a fresh Save will overwrite it.");
                     }
                 }
                 return new List<ModelDef>();

@@ -527,6 +527,7 @@ public static class UniversalBaker
             var albs = matList.Select(mm => LoadReadableAlbedo(fsResDir, mm)).ToArray();
             packedAtlas = new Texture2D(2, 2, TextureFormat.RGBA32, false) { name = name + "_Atlas" };
             atlasRects = packedAtlas.PackTextures(albs, 2, cfg.atlasMaxDim > 0 ? cfg.atlasMaxDim : AtlasMaxDimDefault);   // cap packing at the final size (was 4096) — no need to pack huge then shrink
+            foreach (var a in albs) if (a != null) UnityEngine.Object.DestroyImmediate(a);   // E8: free the packed source albedos — Unity objects don't GC, so they leak (tens of MB) per bake until a domain reload
             // Force opaque AND (unless keepBlack) repaint near-black regions neutral grey. Two sources of near-black:
             // (a) unused UV "dead-zones" inside a source albedo (e.g. the zeppelin hull texture's black corner that the
             // hull top samples), and (b) the gaps PackTextures leaves between packed islands — faces whose UVs land on
@@ -960,6 +961,7 @@ public static class UniversalBaker
         for (int i = 0; i < apx.Length; i++) { apx[i].a = 255; if (!cfg.keepBlack && apx[i].r < 32 && apx[i].g < 32 && apx[i].b < 32) { apx[i].r = 160; apx[i].g = 160; apx[i].b = 168; } }
         atlas.SetPixels32(apx); atlas.Apply();
         Debug.Log($"[Factory] {name} ANIMATED MULTI-MATERIAL: {albs.Length} materials [{string.Join(", ", orderedAlb.Select(kv => kv.Key))}] -> packed atlas {atlas.width}x{atlas.height}");
+        foreach (var a in albs) if (a != null) UnityEngine.Object.DestroyImmediate(a);   // E8: free the packed source albedos (packing copied them into the atlas); only orderedAlb's KEYS are used below
 
         var baseNames = orderedAlb.Select(kv => SimplifyMat(kv.Key)).ToArray();
         foreach (var smr in fbxGo.GetComponentsInChildren<SkinnedMeshRenderer>())
