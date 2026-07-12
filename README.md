@@ -89,3 +89,15 @@ them before committing changes to the baker, the `Tools/` scripts, or the regist
   whose license permits redistribution (CC0 / CC-BY / a commercial or explicit game-mod license) — a *personal-use*
   asset is not redistributable just because it's been baked.
 - The baked assets are regenerated on every bake; only source, tooling, and the registry backup are tracked here.
+
+## License
+
+**Code and tooling are MIT; the mod content is not.** Specifically:
+
+- **MIT** ([LICENSE](LICENSE)): all code, scripts, and project config — `Assets/Scripts/`, `Tools/`,
+  `ProjectSettings/`, `Packages/` manifests. Fork it, vendor it, build your own Factory on it.
+- **All rights reserved**: the ENC mod content — everything under **`Assets/Databases/`** (the mod's game data and
+  the `enc_models.backup.json` registry backup). This is the ENCReload *mod itself*, not the tooling; please don't
+  redistribute or rehost it.
+- Not ours to license: the Amplitude/Humankind SDK and game content are never committed here (see `.gitignore`), and
+  any baked third-party model geometry remains under its own model license.
