@@ -66,19 +66,27 @@ public static class BakeFeatureTest
                 Check(res, ref pass, ref fail, "Recalculate normals produces a full normal set", ok, m != null ? $"normals={(m.normals != null ? m.normals.Length : 0)}/{m.vertexCount}" : "no mesh");
             }
 
-            // ---- heightUV: overrides UVs with V = normalized height -> V spans ~[0,1] ----
+            // ---- heightUV: overrides UVs with V = normalized HEIGHT. Assert V actually TRACKS vertex height, not merely
+            //      that V spans [0,1] — the cube's own UVs already span [0,1], so a range check would pass even if heightUV
+            //      regressed to a no-op. The baker sets V = (z - minZ)/(maxZ - minZ) on the baked verts with no later
+            //      vertex move (heightUV-only bake), so the baked mesh must satisfy uv.v == normalizedHeight per vertex;
+            //      the stock per-face UVs (0/1, independent of height) would deviate far. ----
             {
                 var c = Cfg("heightuv", cube1); c.heightUV = true;
                 var m = Bake(c, used, out _);
                 bool ok = false; string d = "no mesh";
                 if (m != null && m.uv != null && m.uv.Length == m.vertexCount && m.vertexCount > 0)
                 {
-                    float mn = float.MaxValue, mx = float.MinValue;
-                    foreach (var uv in m.uv) { mn = Mathf.Min(mn, uv.y); mx = Mathf.Max(mx, uv.y); }
-                    ok = (mx - mn) > 0.5f && mn > -0.05f && mx < 1.05f;
-                    d = $"V range [{mn:0.00}..{mx:0.00}]";
+                    var vs = m.vertices; var uv = m.uv;
+                    float mnz = float.MaxValue, mxz = float.MinValue;
+                    foreach (var v in vs) { mnz = Mathf.Min(mnz, v.z); mxz = Mathf.Max(mxz, v.z); }
+                    float hz = Mathf.Max(1e-4f, mxz - mnz);
+                    float maxDev = 0f;
+                    for (int i = 0; i < vs.Length; i++) maxDev = Mathf.Max(maxDev, Mathf.Abs(uv[i].y - (vs[i].z - mnz) / hz));
+                    ok = maxDev < 0.02f;   // heightUV sets V = normalized Z exactly; a no-op (stock face UVs) would deviate ~1
+                    d = $"max |V - normalizedHeight| = {maxDev:0.000}";
                 }
-                Check(res, ref pass, ref fail, "heightUV maps V to normalized height", ok, d);
+                Check(res, ref pass, ref fail, "heightUV maps V to vertex height (not just [0,1])", ok, d);
             }
 
             // ---- atlasMaxDim: caps the baked atlas (source albedo is 512, so 256 must downscale) ----
@@ -138,6 +146,39 @@ public static class BakeFeatureTest
                 if (TryMaxChannelSpread(t, out float spread))
                     Check(res, ref pass, ref fail, "albedoSaturation=0 greyscales the atlas", spread < 24f, $"max channel spread {spread:0}");
                 else { Skip(res, "albedoSaturation", "baked atlas not CPU-readable (DXT1)"); skip++; }
+            }
+
+            // ---- E5 rollback: a FAILED re-bake must RESTORE the previous baked assets, not lose them. Exercises the E5
+            //      safety net end-to-end (its restore path is otherwise never hit at runtime). After a good bake, re-baking
+            //      the SAME resource with a missing model file fails -> E5's BackupOutputs captured the good outputs, so
+            //      RestoreOutputs deletes the outputs and copies the backups back. We assert the assets return with their
+            //      ORIGINAL Unity GUIDs (the registry resolves by GUID) + mesh content — which also catches a non-atomic
+            //      or GUID-losing restore (a broken restore leaves the asset missing or with a fresh GUID). ----
+            {
+                var good = Cfg("e5", cube1);
+                var m0 = Bake(good, used, out var r0);
+                string skelPath = "Assets/Resources/" + good.resourceName + "_Skeleton.asset";
+                string atlasPath = "Assets/Resources/" + good.resourceName + "_Atlas.asset";
+                string skelGuid0 = AssetDatabase.AssetPathToGUID(skelPath);
+                string atlasGuid0 = AssetDatabase.AssetPathToGUID(atlasPath);
+                int verts0 = m0 != null ? m0.vertexCount : -1;
+                if (m0 == null || string.IsNullOrEmpty(skelGuid0))
+                    Check(res, ref pass, ref fail, "E5 rollback restores a failed re-bake", false, "setup bake produced no assets (" + r0.error + ")");
+                else
+                {
+                    // Force a deterministic failure of the SAME resource: a missing model file makes Build throw at the
+                    // File.Copy in extraction -> ok:false, well after E5's BackupOutputs ran. Same resourceName => same
+                    // output paths the good bake owns, so RestoreOutputs must bring them back.
+                    var bad = Cfg("e5", cube1); bad.modelFile = Path.Combine(tmp, "does_not_exist.obj");
+                    var rBad = UniversalBaker.Build(bad);
+                    var mR = AssetDatabase.LoadAssetAtPath<Mesh>("Assets/Resources/" + good.resourceName + "_ModelMesh.asset");
+                    string skelGuid1 = AssetDatabase.AssetPathToGUID(skelPath);
+                    string atlasGuid1 = AssetDatabase.AssetPathToGUID(atlasPath);
+                    bool restored = !rBad.ok && mR != null && mR.vertexCount == verts0
+                                    && skelGuid1 == skelGuid0 && atlasGuid1 == atlasGuid0;
+                    Check(res, ref pass, ref fail, "E5 rollback restores a failed re-bake (GUIDs + content)", restored,
+                        $"rebakeFailed={!rBad.ok}, verts {verts0}->{(mR != null ? mR.vertexCount : -1)}, skelGuidKept={skelGuid1 == skelGuid0}, atlasGuidKept={atlasGuid1 == atlasGuid0}");
+                }
             }
         }
         catch (Exception e) { res.Add("FAIL: harness exception — " + e.Message); fail++; }
