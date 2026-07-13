@@ -1,44 +1,6 @@
 {
     "models": [
         {
-            "resourceName": "GreyStealthCorvette",
-            "pawnDescription": "Era6_Common_StealthCorvettes_01",
-            "modelFile": "",
-            "rotation": { "x": 0.0, "y": 0.0, "z": 0.0 },
-            "position": { "x": 0.0, "y": 0.0, "z": 0.0 },
-            "size": 5.0,
-            "normalsMode": 1,
-            "smoothingAngle": 20.0,
-            "convertGrid": 0,
-            "reuseExtracted": false,
-            "doubleSided": false,
-            "windingFix": false,
-            "heightUV": false,
-            "albedoBrightness": 1.0,
-            "albedoSaturation": 1.0,
-            "keepBlack": false,
-            "materialMode": 0,
-            "atlasMaxDim": 512,
-            "targetTris": 24000,
-            "stripParts": "",
-            "hideMeshes": "",
-            "skel": [0, 0, 0, 0],
-            "atlas": [0, 0, 0, 0],
-            "clip": [0, 0, 0, 0],
-            "animated": false,
-            "animClip": "",
-            "animateBones": "",
-            "animUnitFix": false,
-            "respawnAfterLoad": false,
-            "freezeDonorAnim": false,
-            "fireOnAttack": false,
-            "deployOnStop": false,
-            "deployPoseTime": 1.0,
-            "deploySpeed": 1.0,
-            "recoilSpeed": 1.0,
-            "desaturate": 1.0
-        },
-        {
             "resourceName": "AttackHelicopter",
             "pawnDescription": "Era6_Common_AttackHelicopter_01",
             "modelFile": "D:/Downloads/Cobra.glb",
@@ -96,7 +58,71 @@
             "deployOnStop": false,
             "deployPoseTime": 1.0,
             "deploySpeed": 1.0,
-            "recoilSpeed": 1.0
+            "recoilSpeed": 1.0,
+            "desaturate": 0.0,
+            "textureFile": ""
+        },
+        {
+            "resourceName": "GreyStealthCorvette",
+            "pawnDescription": "Era6_Common_StealthCorvettes_01",
+            "modelFile": "",
+            "rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "position": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "size": 5.0,
+            "normalsMode": 1,
+            "smoothingAngle": 20.0,
+            "convertGrid": 0,
+            "reuseExtracted": false,
+            "doubleSided": false,
+            "windingFix": false,
+            "heightUV": false,
+            "albedoBrightness": 1.0,
+            "albedoSaturation": 1.0,
+            "keepBlack": false,
+            "materialMode": 0,
+            "atlasMaxDim": 512,
+            "targetTris": 24000,
+            "stripParts": "",
+            "hideMeshes": "",
+            "skel": [
+                0,
+                0,
+                0,
+                0
+            ],
+            "atlas": [
+                0,
+                0,
+                0,
+                0
+            ],
+            "clip": [
+                0,
+                0,
+                0,
+                0
+            ],
+            "animated": false,
+            "animClip": "",
+            "animateBones": "",
+            "animUnitFix": false,
+            "respawnAfterLoad": false,
+            "freezeDonorAnim": false,
+            "fireOnAttack": false,
+            "deployOnStop": false,
+            "deployPoseTime": 1.0,
+            "deploySpeed": 1.0,
+            "recoilSpeed": 1.0,
+            "desaturate": 1.0,
+            "textureFile": ""
         },
         {
             "resourceName": "HandCrankedSubmarines",
@@ -156,7 +182,9 @@
             "deployOnStop": false,
             "deployPoseTime": 1.0,
             "deploySpeed": 1.0,
-            "recoilSpeed": 1.0
+            "recoilSpeed": 1.0,
+            "desaturate": 0.0,
+            "textureFile": ""
         },
         {
             "resourceName": "Hovercraft",
@@ -216,15 +244,17 @@
             "deployOnStop": false,
             "deployPoseTime": 1.0,
             "deploySpeed": 1.0,
-            "recoilSpeed": 1.0
+            "recoilSpeed": 1.0,
+            "desaturate": 0.0,
+            "textureFile": ""
         },
         {
             "resourceName": "OrganGun",
             "pawnDescription": "Era4_Common_OrganGun_01",
-            "modelFile": "D:/Downloads/ribauldequin_da_vinci.glb",
+            "modelFile": "D:/Downloads/Ribauldequin_textured.glb",
             "rotation": {
                 "x": 180.0,
-                "y": 90.0,
+                "y": 0.0,
                 "z": 0.0
             },
             "position": {
@@ -232,7 +262,7 @@
                 "y": 0.0,
                 "z": 0.0
             },
-            "size": 5.0,
+            "size": 3.0,
             "normalsMode": 1,
             "smoothingAngle": 40.0,
             "convertGrid": 0,
@@ -240,7 +270,7 @@
             "doubleSided": false,
             "windingFix": false,
             "heightUV": false,
-            "albedoBrightness": 1.0,
+            "albedoBrightness": 1.5,
             "albedoSaturation": 2.0,
             "keepBlack": false,
             "materialMode": 0,
@@ -269,14 +299,16 @@
             "animated": false,
             "animClip": "",
             "animateBones": "",
-            "animUnitFix": false,
+            "animUnitFix": true,
             "respawnAfterLoad": false,
             "freezeDonorAnim": false,
             "fireOnAttack": false,
             "deployOnStop": false,
             "deployPoseTime": 1.0,
             "deploySpeed": 1.0,
-            "recoilSpeed": 1.0
+            "recoilSpeed": 1.0,
+            "desaturate": 0.0,
+            "textureFile": ""
         },
         {
             "resourceName": "ReconDrone",
@@ -336,7 +368,9 @@
             "deployOnStop": false,
             "deployPoseTime": 1.0,
             "deploySpeed": 1.0,
-            "recoilSpeed": 1.0
+            "recoilSpeed": 1.0,
+            "desaturate": 0.0,
+            "textureFile": ""
         },
         {
             "resourceName": "ReconHelicopter",
@@ -396,7 +430,9 @@
             "deployOnStop": false,
             "deployPoseTime": 1.0,
             "deploySpeed": 1.0,
-            "recoilSpeed": 1.0
+            "recoilSpeed": 1.0,
+            "desaturate": 0.0,
+            "textureFile": ""
         },
         {
             "resourceName": "ReconZeppelin",
@@ -456,7 +492,9 @@
             "deployOnStop": false,
             "deployPoseTime": 1.0,
             "deploySpeed": 1.0,
-            "recoilSpeed": 1.0
+            "recoilSpeed": 1.0,
+            "desaturate": 0.0,
+            "textureFile": ""
         },
         {
             "resourceName": "StealthCruiser",
@@ -516,7 +554,9 @@
             "deployOnStop": false,
             "deployPoseTime": 1.0,
             "deploySpeed": 1.0,
-            "recoilSpeed": 1.0
+            "recoilSpeed": 1.0,
+            "desaturate": 0.0,
+            "textureFile": ""
         },
         {
             "resourceName": "StealthHelicopter",
@@ -576,7 +616,9 @@
             "deployOnStop": false,
             "deployPoseTime": 1.0,
             "deploySpeed": 1.0,
-            "recoilSpeed": 1.0
+            "recoilSpeed": 1.0,
+            "desaturate": 0.0,
+            "textureFile": ""
         },
         {
             "resourceName": "TowedGunHowitzers",
@@ -636,7 +678,9 @@
             "deployOnStop": true,
             "deployPoseTime": 0.7200000286102295,
             "deploySpeed": 4.0,
-            "recoilSpeed": 3.0
+            "recoilSpeed": 3.0,
+            "desaturate": 0.0,
+            "textureFile": ""
         },
         {
             "resourceName": "VolleyGun",
@@ -696,7 +740,9 @@
             "deployOnStop": false,
             "deployPoseTime": 1.0,
             "deploySpeed": 1.0,
-            "recoilSpeed": 1.0
+            "recoilSpeed": 1.0,
+            "desaturate": 0.0,
+            "textureFile": ""
         },
         {
             "resourceName": "Zeppelin",
@@ -756,7 +802,9 @@
             "deployOnStop": false,
             "deployPoseTime": 1.0,
             "deploySpeed": 1.0,
-            "recoilSpeed": 1.0
+            "recoilSpeed": 1.0,
+            "desaturate": 0.0,
+            "textureFile": ""
         }
     ]
 }

@@ -55,6 +55,7 @@ public class ModelDef
     public float deploySpeed = 1f;      // RUNTIME (not baked): deployOnStop only. Speed multiplier on the gradual deploy-on-stop ramp (1 = the clip's authored speed, 2 = twice as fast). Folding on move is always instant, so this only affects the forward deploy.
     public float recoilSpeed = 1f;      // RUNTIME (not baked): deployOnStop + fireOnAttack. Speed multiplier on the recoil-on-fire kickback (1 = the tail's authored speed, 3 = the kick plays 3x faster). Tune this if the kick reads too slow/fast.
     public float desaturate = 0f;       // RUNTIME (not baked): TEXTURE-ONLY GREY variant. 0 = off. >0 = don't repoint the mesh; isolate this unit's output layer and paint a DESATURATED copy of its OWN atlas (1 = full grey) + neutralise the civ-colour tint. Makes a Common copy read as a bland grey version of an emblematic unit (they share the layer, so the original is untouched). No bake / no custom model needed — a hand-added or window-added registry entry keyed on the copy's pawnDescription.
+    public string textureFile = "";     // RUNTIME (not baked): TEXTURE-ONLY RETEXTURE. A PNG filename in the game's BepInEx/config/enc_skins/. When set, the plugin hot-loads that PNG onto the unit's ISOLATED output layer (vanilla mesh kept, original untouched) — no bake/rebuild. Takes precedence over desaturate. Managed by the Unit Retexture window (Tools ▸ ENC ▸ Unit Retexture): paint on a dump of the unit's own atlas, drop it in enc_skins/.
 }
 
 [Serializable]

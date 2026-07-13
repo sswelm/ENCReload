@@ -51,7 +51,8 @@ Custom units share the game's own GPU-instanced pawn renderer, so **instances ar
 ## Repo layout
 
 - **`Assets/Scripts/Editor/`** — the Factory. `ModelFactoryWindow` (the GUI), `UniversalBaker` (the bake pipeline),
-  `ModelRegistry` (the `ModelDef` schema + registry read/write), plus the Orphan-Resources and Database-Browser tabs.
+  `ModelRegistry` (the `ModelDef` schema + registry read/write), `RetextureWindow` (texture-only reskins of vanilla
+  units — hot-loaded PNG or grey variant, no bake), plus the Orphan-Resources and Database-Browser tabs.
 - **`Tools/`** — the pre-bake toolchain: `glbconv` (GLB→OBJ+MTL, multi-material, UV-tile normalize), `rig_anim.py`
   (rig + one clip, join, decimate), `deploy_convert.py` (rigid-part animation → bone-per-part armature),
   `prep_model.py` (strip/decimate static meshes), and `check_schema_parity.sh` (a regression guard, below).
