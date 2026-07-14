@@ -21,11 +21,15 @@ public class RetextureWindow : EditorWindow
     float tintR = 0f, tintG = 0f, tintB = 0f;          // per-channel colour offset, -255..+255
     bool engineSound = false;                          // fire the per-ship engine move Start/Stop sound on this unit
     string engineStartEvent = "", engineStopEvent = ""; // optional Wwise event names (post by name -> works for the first unit)
+    string soundFile = "", soundWavPath = "";          // loop WAV: current filename + a new file to browse/copy
+    string soundStartFile = "", soundStartPath = "";   // move-start one-shot WAV
+    string soundStopFile = "", soundStopPath = "";     // move-stop one-shot WAV
     Vector2 scroll;
     string status = "";
 
     // The game's BepInEx/config (auto-detected by ModelRegistry, same folder the plugin reads).
     static string SkinsDir => Path.Combine(ModelRegistry.ConfigDir, "enc_skins");
+    static string SoundsDir => Path.Combine(ModelRegistry.ConfigDir, "enc_sounds");
     static string DumpDir  => Path.Combine(ModelRegistry.ConfigDir, "enc_atlas_dump");
 
     void OnGUI()
@@ -108,6 +112,13 @@ public class RetextureWindow : EditorWindow
             engineStopEvent = EditorGUILayout.TextField(new GUIContent("  Stop event", "e.g. Play_UNIT_Vehicles_StealthCorvette_Stop"), engineStopEvent);
         }
 
+        EditorGUILayout.Space();
+        EditorGUILayout.LabelField("Custom sound files (Unity AudioSource — WAV, 16-bit)", EditorStyles.boldLabel);
+        EditorGUILayout.LabelField("Loop plays while moving; Start/Stop are one-shots on move begin/end. Convert mp3/ogg to WAV first.", EditorStyles.miniLabel);
+        soundWavPath = WavRow("Loop (while moving)", soundFile, soundWavPath);
+        soundStartPath = WavRow("Start (one-shot)", soundStartFile, soundStartPath);
+        soundStopPath = WavRow("Stop (one-shot)", soundStopFile, soundStopPath);
+
         using (new EditorGUI.DisabledScope(string.IsNullOrEmpty(pawn) || string.IsNullOrEmpty(resourceName)))
             if (GUILayout.Button("Apply", GUILayout.Height(30)))
                 Apply();
@@ -118,7 +129,7 @@ public class RetextureWindow : EditorWindow
         // --- existing overrides ---
         EditorGUILayout.LabelField("Texture-only overrides", EditorStyles.boldLabel);
         scroll = EditorGUILayout.BeginScrollView(scroll, GUILayout.Height(150));
-        var overrides = existing.Where(x => x.desaturate > 0f || x.tintR != 0f || x.tintG != 0f || x.tintB != 0f || !string.IsNullOrEmpty(x.textureFile) || x.engineSound).ToList();
+        var overrides = existing.Where(x => x.desaturate > 0f || x.tintR != 0f || x.tintG != 0f || x.tintB != 0f || !string.IsNullOrEmpty(x.textureFile) || x.engineSound || !string.IsNullOrEmpty(x.soundFile) || !string.IsNullOrEmpty(x.soundStartFile) || !string.IsNullOrEmpty(x.soundStopFile)).ToList();
         if (overrides.Count == 0) EditorGUILayout.LabelField("  (none yet)", EditorStyles.miniLabel);
         foreach (var m in overrides)
             using (new EditorGUILayout.HorizontalScope())
@@ -128,7 +139,9 @@ public class RetextureWindow : EditorWindow
                 {
                     pawn = m.pawnDescription; resourceName = m.resourceName;
                     desaturate = m.desaturate; tintR = m.tintR; tintG = m.tintG; tintB = m.tintB; engineSound = m.engineSound;
-                    engineStartEvent = m.engineStartEvent; engineStopEvent = m.engineStopEvent; pngPath = "";
+                    engineStartEvent = m.engineStartEvent; engineStopEvent = m.engineStopEvent;
+                    soundFile = m.soundFile; soundStartFile = m.soundStartFile; soundStopFile = m.soundStopFile;
+                    soundWavPath = ""; soundStartPath = ""; soundStopPath = ""; pngPath = "";
                     GUIUtility.ExitGUI();
                 }
                 if (GUILayout.Button("Remove", GUILayout.Width(64)))
@@ -155,6 +168,10 @@ public class RetextureWindow : EditorWindow
             def.engineSound = engineSound;
             def.engineStartEvent = engineSound ? (engineStartEvent ?? "").Trim() : "";
             def.engineStopEvent = engineSound ? (engineStopEvent ?? "").Trim() : "";
+            if (!string.IsNullOrEmpty(soundWavPath))   { if (!TryCopyWav(soundWavPath, resourceName, out var wf))          { status = "WAV not found: " + soundWavPath;   return; } def.soundFile = wf; }
+            if (!string.IsNullOrEmpty(soundStartPath)) { if (!TryCopyWav(soundStartPath, resourceName + "_start", out var wf)) { status = "WAV not found: " + soundStartPath; return; } def.soundStartFile = wf; }
+            if (!string.IsNullOrEmpty(soundStopPath))  { if (!TryCopyWav(soundStopPath, resourceName + "_stop", out var wf))   { status = "WAV not found: " + soundStopPath;  return; } def.soundStopFile = wf; }
+            // unbrowsed WAVs keep their existing def value.
             if (!string.IsNullOrEmpty(pngPath))   // a new PNG was picked -> copy it in and use it as the skin
             {
                 if (!File.Exists(pngPath)) { status = "PNG not found: " + pngPath; return; }
@@ -167,9 +184,9 @@ public class RetextureWindow : EditorWindow
 
             bool hasSkin = !string.IsNullOrEmpty(def.textureFile);
             bool hasAdjust = def.desaturate > 0f || def.tintR != 0f || def.tintG != 0f || def.tintB != 0f;
-            if (!hasSkin && !hasAdjust && !engineSound)
+            if (!hasSkin && !hasAdjust && !engineSound && string.IsNullOrEmpty(def.soundFile) && string.IsNullOrEmpty(def.soundStartFile) && string.IsNullOrEmpty(def.soundStopFile))
             {
-                status = "Nothing to apply — browse a PNG, set an adjustment, or enable Engine sound.";
+                status = "Nothing to apply — browse a PNG/WAV, set an adjustment, or enable Engine sound.";
                 return;
             }
             bool ok = ModelRegistry.Upsert(def);
@@ -180,6 +197,33 @@ public class RetextureWindow : EditorWindow
         catch (Exception e) { status = "Failed: " + e.Message; }
     }
 
+    // Draw a "current + Browse" row for a WAV; returns the (possibly updated) browse path.
+    static string WavRow(string label, string current, string browsePath)
+    {
+        using (new EditorGUILayout.HorizontalScope())
+        {
+            EditorGUILayout.LabelField(new GUIContent("  " + label, "current: " + (string.IsNullOrEmpty(current) ? "(none)" : current)), GUILayout.Width(150));
+            browsePath = EditorGUILayout.TextField(browsePath);
+            if (GUILayout.Button(string.IsNullOrEmpty(current) ? "Browse" : "Replace", GUILayout.Width(70)))
+            {
+                var p = EditorUtility.OpenFilePanel("Pick a WAV", "", "wav");
+                if (!string.IsNullOrEmpty(p)) browsePath = p;
+            }
+        }
+        return browsePath;
+    }
+
+    // Copy a browsed WAV into enc_sounds/<baseName>.wav; false if the source is missing.
+    static bool TryCopyWav(string src, string baseName, out string filename)
+    {
+        filename = "";
+        if (!File.Exists(src)) return false;
+        Directory.CreateDirectory(SoundsDir);
+        filename = Sanitize(baseName) + ".wav";
+        File.Copy(src, Path.Combine(SoundsDir, filename), true);
+        return true;
+    }
+
     static string Describe(ModelDef m)
     {
         var parts = new System.Collections.Generic.List<string>();
@@ -187,6 +231,9 @@ public class RetextureWindow : EditorWindow
         if (m.desaturate > 0f) parts.Add($"desat {m.desaturate:0.00}");
         if (m.tintR != 0f || m.tintG != 0f || m.tintB != 0f) parts.Add($"rgb {m.tintR:+0;-0;0}/{m.tintG:+0;-0;0}/{m.tintB:+0;-0;0}");
         if (m.engineSound) parts.Add("engine");
+        if (!string.IsNullOrEmpty(m.soundFile)) parts.Add("wav " + m.soundFile);
+        if (!string.IsNullOrEmpty(m.soundStartFile)) parts.Add("wav-start");
+        if (!string.IsNullOrEmpty(m.soundStopFile)) parts.Add("wav-stop");
         return parts.Count > 0 ? string.Join(", ", parts) : "no change";
     }
 

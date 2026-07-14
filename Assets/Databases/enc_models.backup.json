@@ -66,7 +66,13 @@
             "textureFile": "",
             "engineSound": true,
             "engineStartEvent": "Play_UNIT_Helicopter_Move",
-            "engineStopEvent": "Play_UNIT_Helicopter_Stop"
+            "engineStopEvent": "Play_UNIT_Helicopter_Stop",
+            "soundFile": "",
+            "soundStartFile": "",
+            "soundStopFile": "",
+            "soundVolume": 1.0,
+            "soundStartVolume": 1.0,
+            "soundStopVolume": 1.0
         },
         {
             "resourceName": "HandCrankedSubmarines",
@@ -134,7 +140,13 @@
             "textureFile": "",
             "engineSound": true,
             "engineStartEvent": "Play_UNIT_Vehicles_Submarine_Start_Old",
-            "engineStopEvent": "Play_UNIT_Vehicles_Submarine_Stop_Old"
+            "engineStopEvent": "Play_UNIT_Vehicles_Submarine_Stop_Old",
+            "soundFile": "",
+            "soundStartFile": "",
+            "soundStopFile": "",
+            "soundVolume": 1.0,
+            "soundStartVolume": 1.0,
+            "soundStopVolume": 1.0
         },
         {
             "resourceName": "Hovercraft",
@@ -202,7 +214,13 @@
             "textureFile": "",
             "engineSound": true,
             "engineStartEvent": "Play_UNIT_LandingCraft_Start",
-            "engineStopEvent": "Play_UNIT_LandingCraft_Stop"
+            "engineStopEvent": "Play_UNIT_LandingCraft_Stop",
+            "soundFile": "",
+            "soundStartFile": "",
+            "soundStopFile": "",
+            "soundVolume": 1.0,
+            "soundStartVolume": 1.0,
+            "soundStopVolume": 1.0
         },
         {
             "resourceName": "OrganGun",
@@ -270,7 +288,13 @@
             "textureFile": "",
             "engineSound": true,
             "engineStartEvent": "Play_UNIT_Vehicles_Mortar_Move_Start",
-            "engineStopEvent": "Play_UNIT_Vehicles_Mortar_Move_Stop"
+            "engineStopEvent": "Play_UNIT_Vehicles_Mortar_Move_Stop",
+            "soundFile": "",
+            "soundStartFile": "",
+            "soundStopFile": "",
+            "soundVolume": 1.0,
+            "soundStartVolume": 1.0,
+            "soundStopVolume": 1.0
         },
         {
             "resourceName": "ReconDrone",
@@ -338,7 +362,13 @@
             "textureFile": "",
             "engineSound": false,
             "engineStartEvent": "",
-            "engineStopEvent": ""
+            "engineStopEvent": "",
+            "soundFile": "ReconDrone_loop.wav",
+            "soundStartFile": "ReconDrone_start.wav",
+            "soundStopFile": "ReconDrone_stop.wav",
+            "soundVolume": 0.1600000113248825,
+            "soundStartVolume": 1.0,
+            "soundStopVolume": 1.0
         },
         {
             "resourceName": "ReconHelicopter",
@@ -351,7 +381,7 @@
             },
             "position": {
                 "x": 0.0,
-                "y": 1.4500000476837158,
+                "y": 1.4500000476837159,
                 "z": 0.4300000071525574
             },
             "size": 5.300000190734863,
@@ -406,7 +436,13 @@
             "textureFile": "",
             "engineSound": true,
             "engineStartEvent": "Play_UNIT_Helicopter_Move",
-            "engineStopEvent": "Play_UNIT_Helicopter_Stop"
+            "engineStopEvent": "Play_UNIT_Helicopter_Stop",
+            "soundFile": "",
+            "soundStartFile": "",
+            "soundStopFile": "",
+            "soundVolume": 1.0,
+            "soundStartVolume": 1.0,
+            "soundStopVolume": 1.0
         },
         {
             "resourceName": "ReconZeppelin",
@@ -474,7 +510,13 @@
             "textureFile": "",
             "engineSound": false,
             "engineStartEvent": "",
-            "engineStopEvent": ""
+            "engineStopEvent": "",
+            "soundFile": "",
+            "soundStartFile": "",
+            "soundStopFile": "",
+            "soundVolume": 1.0,
+            "soundStartVolume": 1.0,
+            "soundStopVolume": 1.0
         },
         {
             "resourceName": "Retex_Era6_Common_StealthCorvettes_01",
@@ -542,7 +584,13 @@
             "textureFile": "",
             "engineSound": true,
             "engineStartEvent": "Play_UNIT_Vehicles_StealthCorvette_Start",
-            "engineStopEvent": "Play_UNIT_Vehicles_StealthCorvette_Stop"
+            "engineStopEvent": "Play_UNIT_Vehicles_StealthCorvette_Stop",
+            "soundFile": "",
+            "soundStartFile": "",
+            "soundStopFile": "",
+            "soundVolume": 1.0,
+            "soundStartVolume": 1.0,
+            "soundStopVolume": 1.0
         },
         {
             "resourceName": "StealthCruiser",
@@ -556,7 +604,7 @@
             "position": {
                 "x": 0.0,
                 "y": 0.0,
-                "z": -0.20000000298023224
+                "z": -0.20000000298023225
             },
             "size": 8.0,
             "normalsMode": 0,
@@ -610,7 +658,13 @@
             "textureFile": "",
             "engineSound": true,
             "engineStartEvent": "Play_UNIT_Vehicles_StealthCorvette_Start",
-            "engineStopEvent": "Play_UNIT_Vehicles_StealthCorvette_Stop"
+            "engineStopEvent": "Play_UNIT_Vehicles_StealthCorvette_Stop",
+            "soundFile": "",
+            "soundStartFile": "",
+            "soundStopFile": "",
+            "soundVolume": 1.0,
+            "soundStartVolume": 1.0,
+            "soundStopVolume": 1.0
         },
         {
             "resourceName": "StealthHelicopter",
@@ -624,7 +678,7 @@
             "position": {
                 "x": 0.0,
                 "y": 1.25,
-                "z": 0.15000000596046448
+                "z": 0.15000000596046449
             },
             "size": 5.599999904632568,
             "normalsMode": 1,
@@ -678,7 +732,13 @@
             "textureFile": "",
             "engineSound": true,
             "engineStartEvent": "Play_UNIT_Helicopter_Move",
-            "engineStopEvent": "Play_UNIT_Helicopter_Stop"
+            "engineStopEvent": "Play_UNIT_Helicopter_Stop",
+            "soundFile": "",
+            "soundStartFile": "",
+            "soundStopFile": "",
+            "soundVolume": 1.0,
+            "soundStartVolume": 1.0,
+            "soundStopVolume": 1.0
         },
         {
             "resourceName": "TowedGunHowitzers",
@@ -746,7 +806,13 @@
             "textureFile": "",
             "engineSound": true,
             "engineStartEvent": "Play_UNIT_CanonObusier_Move_Start",
-            "engineStopEvent": "Play_UNIT_CanonObusier_Move_Stop"
+            "engineStopEvent": "Play_UNIT_CanonObusier_Move_Stop",
+            "soundFile": "",
+            "soundStartFile": "",
+            "soundStopFile": "",
+            "soundVolume": 1.0,
+            "soundStartVolume": 1.0,
+            "soundStopVolume": 1.0
         },
         {
             "resourceName": "VolleyGun",
@@ -814,7 +880,13 @@
             "textureFile": "",
             "engineSound": true,
             "engineStartEvent": "Play_UNIT_Vehicles_Mortar_Move_Start",
-            "engineStopEvent": "Play_UNIT_Vehicles_Mortar_Move_Stop"
+            "engineStopEvent": "Play_UNIT_Vehicles_Mortar_Move_Stop",
+            "soundFile": "",
+            "soundStartFile": "",
+            "soundStopFile": "",
+            "soundVolume": 1.0,
+            "soundStartVolume": 1.0,
+            "soundStopVolume": 1.0
         },
         {
             "resourceName": "Zeppelin",
@@ -882,7 +954,13 @@
             "textureFile": "",
             "engineSound": false,
             "engineStartEvent": "",
-            "engineStopEvent": ""
+            "engineStopEvent": "",
+            "soundFile": "",
+            "soundStartFile": "",
+            "soundStopFile": "",
+            "soundVolume": 1.0,
+            "soundStartVolume": 1.0,
+            "soundStopVolume": 1.0
         }
     ]
 }

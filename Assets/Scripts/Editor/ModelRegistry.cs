@@ -62,6 +62,12 @@ public class ModelDef
     public bool engineSound = false;    // RUNTIME (not baked): fire the per-ship engine MOVE sound (Play_UNIT_Vehicles_<Type>_Start/_Stop) on this unit's instances. Our injected/retextured units never trigger it themselves (it rides the audio-service path tied to the vanilla unit's move state), so they're silent on move. The plugin detects each instance's move-start/stop (render-position delta) and posts the engine event onto the pawn's AudioEmitter. Naval units proven; land/air TBD.
     public string engineStartEvent = ""; // RUNTIME (not baked): Wwise event NAME posted on move-START (e.g. Play_UNIT_Vehicles_StealthCorvette_Start). Set => posted BY NAME so it works for the FIRST unit at load (no live capture). Empty => the plugin falls back to a handle auto-captured from any same-family vehicle that moved this session. Extract names via the F8 "Dump Sound Catalog" (writes enc_sound_catalog.txt).
     public string engineStopEvent = "";  // RUNTIME (not baked): Wwise event name posted on move-STOP (..._Stop).
+    public string soundFile = "";        // RUNTIME (not baked): CUSTOM audio, LOOP — a WAV filename in the game's BepInEx/config/enc_sounds/. The plugin loads it (Unity AudioSource, not Wwise) and plays it as a LOOPING 3D sound WHILE the unit moves — for units the game has no sound for (drones, zeppelins) or a bespoke engine. Convert mp3/ogg to WAV first (16-bit PCM). Managed by the Unit Retexture window.
+    public string soundStartFile = "";   // RUNTIME (not baked): CUSTOM audio one-shot played on move-START (spool-up) — a WAV in enc_sounds/.
+    public string soundStopFile = "";    // RUNTIME (not baked): CUSTOM audio one-shot played on move-STOP (spool-down) — a WAV in enc_sounds/.
+    public float soundVolume = 1f;       // RUNTIME (not baked): travel-loop volume (0..2).
+    public float soundStartVolume = 1f;  // RUNTIME (not baked): move-start one-shot volume (0..2).
+    public float soundStopVolume = 1f;   // RUNTIME (not baked): move-stop one-shot volume (0..2).
 }
 
 [Serializable]
