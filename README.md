@@ -36,6 +36,17 @@ Universal Model Factory (Assets/Scripts/Editor/)
 Custom units share the game's own GPU-instanced pawn renderer, so **instances are free** — the cost is the number of
 *distinct model types* loaded, not units on screen. See the vertex-budget notes in the docs.
 
+## Runtime tools — reskin & sound (no bake)
+
+Two more editor windows drive **runtime** overrides the in-game plugin applies without a bake or rebuild:
+
+- **Tools ▸ ENC ▸ Unit Retexture** — reskin an existing unit: a hot-loaded PNG, or a live **Desaturate + RGB** adjust of
+  its own atlas. Isolated per unit (the original stays as-is), and free on the vertex budget.
+- **Tools ▸ ENC ▸ Unit Sound** — give a unit **movement audio**: the game's own engine event by name, or custom WAVs as
+  **Start (spool-up) → Travel (loop) → Stop (spool-down)** with a per-clip volume and an in-editor **▶** preview.
+
+Both just write extra fields onto the unit's registry entry; see `ENCAccessProof/docs/Factory-Manual.md` §12–14.
+
 ## Technology stack
 
 | Layer | Technology |

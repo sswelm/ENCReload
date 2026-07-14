@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using UnityEditor;
 using UnityEngine;
 
@@ -66,8 +67,12 @@ public class SoundWindow : EditorWindow
         }
 
         EditorGUILayout.Space();
-        using (new EditorGUI.DisabledScope(string.IsNullOrEmpty(pawn)))
-            if (GUILayout.Button("Apply", GUILayout.Height(30))) Apply(all);
+        using (new EditorGUILayout.HorizontalScope())
+        {
+            using (new EditorGUI.DisabledScope(string.IsNullOrEmpty(pawn)))
+                if (GUILayout.Button("Apply", GUILayout.Height(30))) Apply(all);
+            if (GUILayout.Button(new GUIContent("■ Stop", "Stop the audio preview"), GUILayout.Height(30), GUILayout.Width(90))) PreviewStop();
+        }
         if (!string.IsNullOrEmpty(status)) EditorGUILayout.HelpBox(status, MessageType.None);
 
         // --- units with audio ---
@@ -114,9 +119,16 @@ public class SoundWindow : EditorWindow
     {
         using (new EditorGUILayout.HorizontalScope())
         {
-            EditorGUILayout.LabelField(new GUIContent("  " + label, "current: " + (string.IsNullOrEmpty(current) ? "(none)" : current)), GUILayout.Width(130));
-            path = EditorGUILayout.TextField(path);
-            if (GUILayout.Button(string.IsNullOrEmpty(current) ? "Browse" : "Replace", GUILayout.Width(70)))
+            EditorGUILayout.LabelField(label, GUILayout.Width(130));
+            // Show the file this clip is actually using: the just-browsed file if any, else the current registry filename.
+            string shown = !string.IsNullOrEmpty(path) ? "→ " + Path.GetFileName(path)
+                         : (string.IsNullOrEmpty(current) ? "(none)" : current);
+            EditorGUILayout.SelectableLabel(shown, EditorStyles.textField, GUILayout.Height(EditorGUIUtility.singleLineHeight));
+            string playPath = !string.IsNullOrEmpty(path) ? path : (string.IsNullOrEmpty(current) ? "" : Path.Combine(SoundsDir, current));
+            using (new EditorGUI.DisabledScope(string.IsNullOrEmpty(playPath) || !File.Exists(playPath)))
+                if (GUILayout.Button(new GUIContent("▶", "Preview this clip at the configured volume"), GUILayout.Width(26)))
+                    PreviewPlay(playPath, vol);
+            if (GUILayout.Button(string.IsNullOrEmpty(current) && string.IsNullOrEmpty(path) ? "Browse…" : "Replace…", GUILayout.Width(80)))
             {
                 var p = EditorUtility.OpenFilePanel("Pick a WAV", "", "wav");
                 if (!string.IsNullOrEmpty(p)) path = p;
@@ -182,6 +194,98 @@ public class SoundWindow : EditorWindow
         if (m.engineSound) p.Add("wwise");
         return p.Count > 0 ? string.Join("+", p) : "none";
     }
+    // ---- editor audio preview (Unity's internal UnityEditor.AudioUtil, resolved by reflection across versions) ----
+    static Type _audioUtil;
+    static Type AudioUtilType()
+    {
+        if (_audioUtil != null) return _audioUtil;
+        _audioUtil = Type.GetType("UnityEditor.AudioUtil,UnityEditor");
+        if (_audioUtil == null)
+            _audioUtil = AppDomain.CurrentDomain.GetAssemblies()
+                .Select(a => { try { return a.GetType("UnityEditor.AudioUtil"); } catch { return null; } })
+                .FirstOrDefault(t => t != null);
+        return _audioUtil;
+    }
+    const string PreviewAsset = "Assets/_ENCSoundPreview.wav";   // transient; imported so AudioUtil can preview it, deleted on close
+    void OnDisable() { PreviewStop(); try { if (File.Exists(PreviewAsset)) AssetDatabase.DeleteAsset(PreviewAsset); } catch { } }
+
+    // AudioUtil.PlayPreviewClip only plays IMPORTED AudioClips (not runtime AudioClip.Create ones), so build a temporary,
+    // volume-scaled 16-bit WAV under Assets/, import it, and preview that.
+    static void PreviewPlay(string srcPath, float volume)
+    {
+        PreviewStop();
+        if (string.IsNullOrEmpty(srcPath) || !File.Exists(srcPath)) return;
+        if (!ParseWav(srcPath, out var f, out int ch, out int rate)) { Debug.LogWarning("[ENC Sound] preview: WAV parse failed (need PCM WAV): " + srcPath); return; }
+        for (int i = 0; i < f.Length; i++) f[i] = Mathf.Clamp(f[i] * volume, -1f, 1f);
+        try { WriteWav16(PreviewAsset, f, ch, rate); } catch (Exception e) { Debug.LogWarning("[ENC Sound] preview: write failed: " + e.Message); return; }
+        AssetDatabase.ImportAsset(PreviewAsset, ImportAssetOptions.ForceSynchronousImport);
+        var clip = AssetDatabase.LoadAssetAtPath<AudioClip>(PreviewAsset);
+        if (clip == null) { Debug.LogWarning("[ENC Sound] preview: import failed"); return; }
+        var t = AudioUtilType();
+        var m = t?.GetMethods(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic)
+                  .Where(x => (x.Name == "PlayPreviewClip" || x.Name == "PlayClip") && x.GetParameters().Length >= 1 && x.GetParameters()[0].ParameterType == typeof(AudioClip))
+                  .OrderByDescending(x => x.Name == "PlayPreviewClip").FirstOrDefault();
+        if (m == null) { Debug.LogWarning("[ENC Sound] preview: AudioUtil play method not found"); return; }
+        var ps = m.GetParameters(); var args = new object[ps.Length]; args[0] = clip;
+        for (int i = 1; i < ps.Length; i++) args[i] = ps[i].ParameterType.IsValueType ? Activator.CreateInstance(ps[i].ParameterType) : null;
+        try { m.Invoke(null, args); } catch (Exception e) { Debug.LogWarning("[ENC Sound] preview invoke failed: " + (e.InnerException ?? e).Message); }
+    }
+    static void PreviewStop()
+    {
+        var t = AudioUtilType();
+        var m = t?.GetMethods(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic)
+                  .FirstOrDefault(x => x.Name == "StopAllPreviewClips" || x.Name == "StopAllClips");
+        try { m?.Invoke(null, null); } catch { }
+    }
+
+    // Parse a PCM/float WAV to interleaved float samples + format.
+    static bool ParseWav(string path, out float[] f, out int ch, out int rate)
+    {
+        f = null; ch = 1; rate = 44100;
+        try
+        {
+            var b = File.ReadAllBytes(path);
+            if (b.Length < 44 || b[0] != 'R' || b[1] != 'I' || b[2] != 'F' || b[3] != 'F') return false;
+            int bits = 16, fmt = 1, dataOff = -1, dataLen = 0, p = 12;
+            while (p + 8 <= b.Length)
+            {
+                string cid = System.Text.Encoding.ASCII.GetString(b, p, 4);
+                int csz = BitConverter.ToInt32(b, p + 4);
+                if (cid == "fmt ") { fmt = BitConverter.ToInt16(b, p + 8); ch = BitConverter.ToInt16(b, p + 10); rate = BitConverter.ToInt32(b, p + 12); bits = BitConverter.ToInt16(b, p + 22); }
+                else if (cid == "data") { dataOff = p + 8; dataLen = Math.Min(csz, b.Length - (p + 8)); break; }
+                p += 8 + csz + (csz & 1);
+            }
+            if (dataOff < 0 || ch < 1) return false;
+            int bps = bits / 8, n = dataLen / bps;
+            f = new float[n];
+            for (int i = 0; i < n; i++)
+            {
+                int o = dataOff + i * bps;
+                if (fmt == 3 && bits == 32) f[i] = BitConverter.ToSingle(b, o);
+                else if (bits == 16) f[i] = BitConverter.ToInt16(b, o) / 32768f;
+                else if (bits == 32) f[i] = BitConverter.ToInt32(b, o) / 2147483648f;
+                else if (bits == 24) { int v = b[o] | (b[o + 1] << 8) | ((sbyte)b[o + 2] << 16); f[i] = v / 8388608f; }
+                else if (bits == 8) f[i] = (b[o] - 128) / 128f;
+            }
+            return true;
+        }
+        catch { return false; }
+    }
+
+    // Write interleaved float samples as a 16-bit PCM WAV.
+    static void WriteWav16(string path, float[] f, int ch, int rate)
+    {
+        using (var w = new BinaryWriter(File.Create(path)))
+        {
+            int dataBytes = f.Length * 2;
+            void Tag(string s) { foreach (var c in s) w.Write((byte)c); }
+            Tag("RIFF"); w.Write(36 + dataBytes); Tag("WAVE");
+            Tag("fmt "); w.Write(16); w.Write((short)1); w.Write((short)ch); w.Write(rate); w.Write(rate * ch * 2); w.Write((short)(ch * 2)); w.Write((short)16);
+            Tag("data"); w.Write(dataBytes);
+            foreach (var s in f) w.Write((short)Mathf.Clamp(Mathf.RoundToInt(s * 32767f), -32768, 32767));
+        }
+    }
+
     static string Sanitize(string s)
     {
         var sb = new System.Text.StringBuilder();
