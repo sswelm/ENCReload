@@ -70,8 +70,24 @@ public class ModelDef
     public float soundStopVolume = 1f;   // RUNTIME (not baked): move-stop one-shot volume (0..2).
 }
 
+// An explicit override of another pack's asset: "this pack intentionally replaces <modId>'s skin on <pawnDescription>."
+// RESERVED for HAF multi-mod: the runtime parses + reports it today; ordering/override RESOLUTION is a later increment.
 [Serializable]
-class ModelDefList { public List<ModelDef> models = new List<ModelDef>(); }
+public class OverrideRef { public string modId = ""; public string pawnDescription = ""; }
+
+// The registry FILE (one HAF pack). The wrapper keys sit BESIDE the existing `models` array — additive, so an older
+// bare { "models": [...] } file still loads (JsonUtility fills wrapper defaults). ENC writes itself as the base pack
+// (modId "enc", no deps), and the same shape is what a joining modder copies as a template for their own pack.
+[Serializable]
+class RegistryFile
+{
+    public int schemaVersion = 1;                                   // HAF schema version this file targets (bump additively)
+    public string modId = "enc";                                   // unique pack id; ENC is the base pack
+    public List<string> dependsOn = new List<string>();            // RESERVED: modIds this pack requires (parsed + reported, not yet enforced)
+    public List<string> loadAfter = new List<string>();            // RESERVED: modIds this pack must load after (deterministic ordering, not yet enforced)
+    public List<OverrideRef> overrides = new List<OverrideRef>();  // RESERVED: explicit cross-pack replacements (no implicit overrides)
+    public List<ModelDef> models = new List<ModelDef>();           // the Factory-generated model entries (unchanged)
+}
 
 public static class ModelRegistry
 {
@@ -188,7 +204,7 @@ public static class ModelRegistry
                     try
                     {
                         var backupJson = File.ReadAllText(ProjectBackupPath);
-                        var b = JsonUtility.FromJson<ModelDefList>(backupJson);
+                        var b = JsonUtility.FromJson<RegistryFile>(backupJson);
                         if (b?.models != null && b.models.Count > 0)
                         {
                             try { Directory.CreateDirectory(ConfigDir); File.WriteAllText(RegistryPath, backupJson); } catch { }
@@ -204,7 +220,7 @@ public static class ModelRegistry
                 }
                 return new List<ModelDef>();
             }
-            var data = JsonUtility.FromJson<ModelDefList>(File.ReadAllText(RegistryPath));
+            var data = JsonUtility.FromJson<RegistryFile>(File.ReadAllText(RegistryPath));
             lastLoadCorrupt = false;
             return SortByName(data?.models ?? new List<ModelDef>());
         }
@@ -232,7 +248,7 @@ public static class ModelRegistry
             return false;
         }
         SortByName(models);   // write BOTH the live registry and the backup alphabetically, so the order is stable across bakes
-        var json = JsonUtility.ToJson(new ModelDefList { models = models }, true);
+        var json = JsonUtility.ToJson(new RegistryFile { models = models }, true);
         // 1) Atomic write to the live game target (what the plugin reads): fill a temp file, then swap it in, so an
         //    interrupted or locked write can never leave a truncated registry. GUARDED — File.Replace/Move throws on a
         //    transient lock (AV, search indexer, the running game holding the file). Without this, a bake that succeeds

@@ -37,7 +37,7 @@ canon() {
 
 # --- W: ModelDef serialized fields + types (the WRITE schema) ---
 declare -A W
-defbody=$(awk '/public class ModelDef/{f=1} /class ModelDefList/{f=0} f' "$DEF")
+defbody=$(awk '/public class ModelDef/{f=1} /class (OverrideRef|RegistryFile)/{f=0} f' "$DEF")
 while read -r ty nm; do
   [ -n "${nm:-}" ] && W["$nm"]=$(canon "$ty")
 done < <(grep -oE 'public[[:space:]]+[A-Za-z0-9_]+(\[\])?[[:space:]]+[A-Za-z_][A-Za-z0-9_]*[[:space:]]*[=;]' <<<"$defbody" \
@@ -93,6 +93,23 @@ if [ -n "$typemismatch" ]; then
   echo "  -> (S string, I int, F float, B bool, V Vector3, A array). Align the cast or the field type."
 fi
 
+# 4) WRAPPER parity (HAF multi-mod): the plugin's top-level root["..."] reads must all be RegistryFile fields the baker
+#    writes. These are per-FILE keys (modId/schemaVersion/dependsOn/loadAfter/overrides), a separate surface from the
+#    per-model keys above — so they drift independently and need their own guard.
+rfbody=$(awk '/class RegistryFile/{f=1} f&&/^}/{f=0} f' "$DEF")
+WR=$(grep -oE 'public[[:space:]]+[A-Za-z0-9_<>]+[[:space:]]+[A-Za-z_][A-Za-z0-9_]*[[:space:]]*[=;]' <<<"$rfbody" \
+     | sed -E 's/.*[[:space:]]([A-Za-z_][A-Za-z0-9_]*)[[:space:]]*[=;]/\1/' | sort -u)
+NR=$(grep -oE 'root\["[A-Za-z_][A-Za-z0-9_]*"\]' "$PLUG" | sed -E 's/root\["(.*)"\]/\1/' | sort -u)
+wrapmiss=""
+for k in $NR; do
+  case " $(tr '\n' ' ' <<<"$WR") " in *" $k "*) ;; *) wrapmiss="$wrapmiss $k";; esac
+done
+if [ -n "$wrapmiss" ]; then
+  fail=1
+  echo "FAIL — plugin reads wrapper key(s) the baker never writes:$wrapmiss"
+  echo "  -> add the field to RegistryFile (ModelRegistry.cs) or fix the key name in ParsePack (UniversalInjectPatch.cs)."
+fi
+
 # INFO: ModelDef fields never read at runtime (expected for bake-time-only knobs; scan for a genuinely-forgotten one).
 unread=""
 for k in "${!W[@]}"; do
@@ -102,7 +119,8 @@ done
 echo "Plugin reads (Newtonsoft): $(wc -w <<<"$N") keys"
 echo "Plugin reads (regex)     : $(wc -w <<<"$R") keys"
 echo "ModelDef writes          : ${#W[@]} fields"
+echo "Wrapper reads (root)     : $(wc -w <<<"$NR") keys | RegistryFile writes: $(wc -w <<<"$WR") fields"
 [ -n "$unread" ] && echo "INFO — ModelDef fields not read at runtime (bake-time-only, expected):$(echo "$unread" | tr ' ' '\n' | sort | tr '\n' ' ')"
 
 if [ "$fail" -ne 0 ]; then exit 1; fi
-echo "PASS — Newtonsoft == regex read paths, all read keys are written by the baker, and types agree."
+echo "PASS — Newtonsoft == regex read paths, all read keys (model + wrapper) are written by the baker, and types agree."
