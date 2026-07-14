@@ -11,13 +11,13 @@ It's the bake-time half of a two-part system:
 | Repo | Runtime | Role |
 |---|---|---|
 | **ENCReload** (this repo) | Unity Editor | The Factory: import → bake → write the registry. |
-| **ENCAccessProof** | BepInEx plugin, in-game | Reads the registry and injects each baked model onto its pawn at runtime. |
+| **HumankindAssetFramework** | BepInEx plugin, in-game | Reads the registry and injects each baked model onto its pawn at runtime. |
 
 The two talk only through a small JSON registry (`enc_models.json`), so the editor tooling and the runtime injector stay
 fully decoupled. That registry is now a versioned **pack** (a `schemaVersion`/`modId` wrapper around the model list): the
 runtime is a **Humankind Asset Framework** host that merges ENC's pack with any number of third-party packs, so other
 modders can augment their own units by shipping their own config + assets — no ENC edits. See
-[`ENCAccessProof/docs/Multi-Mod.md`](https://github.com/sswelm/ENCAccessProof/blob/master/docs/Multi-Mod.md).
+[`HumankindAssetFramework/docs/Multi-Mod.md`](https://github.com/sswelm/HumankindAssetFramework/blob/master/docs/Multi-Mod.md).
 
 ## How a bake works
 
@@ -48,7 +48,7 @@ Two more editor windows drive **runtime** overrides the in-game plugin applies w
 - **Tools ▸ ENC ▸ Unit Sound** — give a unit **movement audio**: the game's own engine event by name, or custom WAVs as
   **Start (spool-up) → Travel (loop) → Stop (spool-down)** with a per-clip volume and an in-editor **▶** preview.
 
-Both just write extra fields onto the unit's registry entry; see `ENCAccessProof/docs/Factory-Manual.md` §12–14.
+Both just write extra fields onto the unit's registry entry; see `HumankindAssetFramework/docs/Factory-Manual.md` §12–14.
 
 ## Technology stack
 
@@ -56,7 +56,7 @@ Both just write extra fields onto the unit's registry entry; see `ENCAccessProof
 |---|---|
 | Editor tooling (this repo) | **Unity 2021.3.1f1** — the same engine version Humankind itself runs on — with C# editor scripts in `Assets/Scripts/Editor/` |
 | Asset baking | The **official Amplitude (Humankind) modding SDK**, driven by the Factory to produce the game's native asset types: `Skeleton`, `ClipCollection`, mesh collections, and texture atlases |
-| Runtime injection | **[ENCAccessProof](https://github.com/sswelm/ENCAccessProof)**: a **BepInEx 5.4** plugin in C# (targets .NET Framework 4.7.1, the game's Mono runtime), using **Harmony** patches against the game's `Amplitude.Mercury` assemblies |
+| Runtime injection | **[HumankindAssetFramework](https://github.com/sswelm/HumankindAssetFramework)**: a **BepInEx 5.4** plugin in C# (targets .NET Framework 4.7.1, the game's Mono runtime), using **Harmony** patches against the game's `Amplitude.Mercury` assemblies |
 | `glbconv` | Standalone C# console app on **.NET 8** (self-contained exe, no install needed), built on **SharpGLTF** for GLB/glTF parsing |
 | Model-prep scripts | **Python** scripts run headless inside **Blender** (`blender -b --python …`) using the `bpy` API — rigging, decimation, animation clip extraction |
 | Regression guard | A **bash** script (`check_schema_parity.sh`) plus a Unity-menu smoke test |
@@ -85,7 +85,7 @@ Both just write extra fields onto the unit's registry entry; see `ENCAccessProof
 3. Click **Bake**. Watch the Console for `… DONE`.
 4. **Rebuild the mod** (your normal Humankind build/export step) and relaunch. The plugin does the rest.
 
-Full walkthrough, every knob explained, and troubleshooting: **[`docs/` in the ENCAccessProof repo](https://github.com/sswelm/ENCAccessProof/tree/master/docs)**
+Full walkthrough, every knob explained, and troubleshooting: **[`docs/` in the HumankindAssetFramework repo](https://github.com/sswelm/HumankindAssetFramework/tree/master/docs)**
 (`Factory-Manual.md`, `Capabilities.md`, `Vertex-Budget.md`).
 
 ## Regression guards
