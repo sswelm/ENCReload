@@ -159,6 +159,7 @@ MonoBehaviour:
   SettlementStatusPrerequisite:
     CampConstraint: 0
     CityConstraint: 1
+    OccupiedCityConstraint: 0
   ReligionAffinityPrerequisite:
     serializableElementName: 
   SettlementPropertyPrerequisites: []
@@ -444,6 +445,7 @@ MonoBehaviour:
   SettlementStatusPrerequisite:
     CampConstraint: 0
     CityConstraint: 1
+    OccupiedCityConstraint: 0
   ReligionAffinityPrerequisite:
     serializableElementName: 
   SettlementPropertyPrerequisites: []
@@ -675,7 +677,7 @@ MonoBehaviour:
   Unicity: 4
   UnicityAdditionalConstructible: []
   ConstructibleVisualAffinity:
-    serializableElementName: DistrictVisualAffinity_Base_Industry
+    serializableElementName: DistrictVisualAffinity_MissileSilo
   CanBeBoughtOut: 1
   CanBeCanceled: 1
   StartWhenQueued: 0
@@ -718,6 +720,7 @@ MonoBehaviour:
   SettlementStatusPrerequisite:
     CampConstraint: 0
     CityConstraint: 1
+    OccupiedCityConstraint: 0
   ReligionAffinityPrerequisite:
     serializableElementName: 
   SettlementPropertyPrerequisites: []
@@ -746,8 +749,7 @@ MonoBehaviour:
   - serializableElementName: Tag_Extension_PublicOrderLoss
   IsReplaceableOrDestroyable: 1
   CanBeDowngradedToRuin: 1
-  AdditionalVisualLevels:
-  - OutputThresholdPerEra: 01000000010000000100000001000000010000000100000001000000
+  AdditionalVisualLevels: []
   IsImmuneToBombardment: 0
   AllowBoroughExtension: 0
   AllowConnectionWithOtherBorough: 1

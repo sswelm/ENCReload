@@ -49,11 +49,29 @@ public static class DistrictBaker
         if (fxMeshType == null) { Debug.LogError("[District] Amplitude.Graphics.Fx.FxMesh type not found (SDK not loaded?)."); return; }
 
         string baseName = mesh.name.Replace("_ModelMesh", "");
+
+        // A unit static-bake rigs the mesh (boneWeights + bindposes) for its Skeleton. The DISTRICT path renders through a
+        // STATIC shader that can't read a skinned vertex format — the mesh uploads but draws nothing. So build a bone-FREE
+        // static copy (geometry only) and wrap THAT in the FxMesh. Keeps the original _ModelMesh intact for the unit path.
+        var stat = new Mesh { name = baseName + "_DistrictMesh", indexFormat = mesh.indexFormat };
+        stat.SetVertices(mesh.vertices);
+        if (mesh.normals != null && mesh.normals.Length == mesh.vertexCount) stat.SetNormals(mesh.normals);
+        if (mesh.uv != null && mesh.uv.Length == mesh.vertexCount) stat.SetUVs(0, mesh.uv);
+        if (mesh.tangents != null && mesh.tangents.Length == mesh.vertexCount) stat.SetTangents(mesh.tangents);
+        if (mesh.colors != null && mesh.colors.Length == mesh.vertexCount) stat.SetColors(mesh.colors);
+        stat.subMeshCount = mesh.subMeshCount;
+        for (int s = 0; s < mesh.subMeshCount; s++) stat.SetTriangles(mesh.GetTriangles(s), s);
+        // NO boneWeights / bindposes -> a pure static mesh the district shader can render.
+        if (stat.tangents == null || stat.tangents.Length != stat.vertexCount) stat.RecalculateTangents();
+        stat.RecalculateBounds();
+        string statPath = "Assets/Resources/" + baseName + "_DistrictMesh.asset";
+        AssetDatabase.DeleteAsset(statPath); AssetDatabase.CreateAsset(stat, statPath);
+
         string path = "Assets/Resources/" + baseName + "_FxMesh.asset";
         AssetDatabase.DeleteAsset(path);   // delete-first: CreateAsset over an existing asset can keep a stale serialized ref
 
         var fxMesh = ScriptableObject.CreateInstance(fxMeshType);
-        fxMeshType.GetField("mesh", BF)?.SetValue(fxMesh, mesh);
+        fxMeshType.GetField("mesh", BF)?.SetValue(fxMesh, stat);   // wrap the BONE-FREE static copy
         // importAngles rotates the mesh at draw time; a static-baked mesh is already oriented, so start neutral and let the
         // modder tune this in the Inspector if the building lies on its side in-game.
         var ia = fxMeshType.GetField("importAngles", BF);
