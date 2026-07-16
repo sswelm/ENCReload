@@ -113,55 +113,8 @@ public static class DistrictBaker
         Selection.activeObject = AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(path);
     }
 
-    // STEP 2 — clone a vanilla drawer material and repoint it at our FxMesh. Select TWO assets: a source
-    // FxEvolverMaterialDrawer (a vanilla district material, so we inherit its shader/output-layer setup) and our
-    // <name>_FxMesh.asset from step 1. Writes <name>_DistrictMat.asset; its GUID goes into the plugin's DistrictEvolverGuid.
-    [MenuItem("Tools/ENC/District/2. Clone District Material (select a vanilla drawer + our FxMesh)")]
-    static void CloneDistrictMaterial()
-    {
-        var drawerType = FindType("Amplitude.Mercury.Fx.HgFx.FxEvolverMaterialDrawer");
-        var fxMeshType = FindType("Amplitude.Graphics.Fx.FxMesh");
-        if (drawerType == null || fxMeshType == null) { Debug.LogError("[District] FxEvolverMaterialDrawer / FxMesh type not found (SDK not loaded?)."); return; }
-
-        var sel = Selection.objects;
-        var srcDrawer = sel.FirstOrDefault(o => o != null && drawerType.IsInstanceOfType(o));
-        var ourFxMesh = sel.FirstOrDefault(o => o != null && fxMeshType.IsInstanceOfType(o));
-        if (srcDrawer == null || ourFxMesh == null)
-        {
-            EditorUtility.DisplayDialog("Clone District Material",
-                "Select BOTH:\n • a vanilla FxEvolverMaterialDrawer asset (the donor material to clone), and\n" +
-                " • our <name>_FxMesh.asset (from step 1).\n\nThen run this again.", "OK");
-            return;
-        }
-
-        // resolve the FxMesh's GUID and write it into a clone of the donor drawer's private 'mesh' field.
-        var meshGuidStr = AmplitudeGuid(ourFxMesh);
-        var guidType = FindType("Amplitude.Framework.Guid");
-        var parts = meshGuidStr.Split(',');
-        object meshGuid = Activator.CreateInstance(guidType);
-        guidType.GetField("a", BF)?.SetValue(meshGuid, int.Parse(parts[0]));
-        guidType.GetField("b", BF)?.SetValue(meshGuid, int.Parse(parts[1]));
-        guidType.GetField("c", BF)?.SetValue(meshGuid, int.Parse(parts[2]));
-        guidType.GetField("d", BF)?.SetValue(meshGuid, int.Parse(parts[3]));
-
-        var clone = UnityEngine.Object.Instantiate(srcDrawer);   // deep-copies the serialized shader/output-layer wiring
-        var meshField = drawerType.GetField("mesh", BF);
-        if (meshField == null) { Debug.LogError("[District] FxEvolverMaterialDrawer.mesh field not found (SDK changed?)."); return; }
-        meshField.SetValue(clone, meshGuid);
-
-        string baseName = ourFxMesh.name.Replace("_FxMesh", "");
-        string path = "Assets/Resources/" + baseName + "_DistrictMat.asset";
-        AssetDatabase.DeleteAsset(path);
-        AssetDatabase.CreateAsset(clone, path);
-        EditorUtility.SetDirty(clone);
-        AssetDatabase.SaveAssets(); AssetDatabase.Refresh();
-
-        string matGuid = AmplitudeGuid(clone);
-        Debug.Log($"[District] District material cloned from '{srcDrawer.name}' -> {path}  mesh={meshGuidStr}  MATERIAL GUID={matGuid}");
-        EditorGUIUtility.systemCopyBuffer = matGuid;
-        EditorUtility.DisplayDialog("District material cloned",
-            $"{path}\ncloned from: {srcDrawer.name}\nmesh -> our FxMesh ({meshGuidStr})\n\nMATERIAL GUID = {matGuid}\n(copied to clipboard)\n\n" +
-            "Put this into the plugin config:\n[District]\nDistrictEvolverGuid = " + matGuid, "OK");
-        Selection.activeObject = clone;
-    }
+    // (A former "Step 2 — Clone District Material" menu command lived here: clone a vanilla FxEvolverMaterialDrawer and
+    // repoint its mesh at our FxMesh, for the SetChannel path. REMOVED — the investigation proved any material handed in
+    // via SetChannel is context-gated and draws nothing (see District-Visuals.md "History"); the working pipeline is the
+    // District Factory window + the plugin's leaf fxMesh-swap. Recover from git history if ever needed.)
 }
