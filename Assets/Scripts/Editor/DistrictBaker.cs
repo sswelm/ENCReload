@@ -33,22 +33,14 @@ public static class DistrictBaker
         return $"{t.GetField("a", BF)?.GetValue(g)},{t.GetField("b", BF)?.GetValue(g)},{t.GetField("c", BF)?.GetValue(g)},{t.GetField("d", BF)?.GetValue(g)}";
     }
 
-    // STEP 1 — wrap a baked mesh as an FxMesh. Select the model's <name>_ModelMesh.asset (the output of a normal static
-    // bake, already oriented/scaled by the Factory) and run this. Writes <name>_FxMesh.asset and logs its GUID.
-    [MenuItem("Tools/ENC/District/1. Bake District FxMesh (from selected _ModelMesh)")]
-    static void BakeDistrictFxMesh()
+    // CORE — wrap a baked mesh as a district FxMesh. Callable from the District Factory window (the normal path) and
+    // from the menu command below (manual path). Returns the FxMesh's Amplitude GUID "a,b,c,d", or null on failure.
+    public static string BakeFxMesh(Mesh mesh, string baseName, Vector3 importAngles, out string fxMeshPath)
     {
-        var mesh = Selection.activeObject as Mesh;
-        if (mesh == null)
-        {
-            EditorUtility.DisplayDialog("District FxMesh",
-                "Select a baked mesh asset first (a <name>_ModelMesh.asset in Assets/Resources, produced by a normal static bake).", "OK");
-            return;
-        }
+        fxMeshPath = null;
+        if (mesh == null) { Debug.LogError("[District] BakeFxMesh: no mesh."); return null; }
         var fxMeshType = FindType("Amplitude.Graphics.Fx.FxMesh");
-        if (fxMeshType == null) { Debug.LogError("[District] Amplitude.Graphics.Fx.FxMesh type not found (SDK not loaded?)."); return; }
-
-        string baseName = mesh.name.Replace("_ModelMesh", "");
+        if (fxMeshType == null) { Debug.LogError("[District] Amplitude.Graphics.Fx.FxMesh type not found (SDK not loaded?)."); return null; }
 
         // A unit static-bake rigs the mesh (boneWeights + bindposes) for its Skeleton. The DISTRICT path renders through a
         // STATIC shader that can't read a skinned vertex format — the mesh uploads but draws nothing. So build a bone-FREE
@@ -73,21 +65,40 @@ public static class DistrictBaker
         var fxMesh = ScriptableObject.CreateInstance(fxMeshType);
         fxMeshType.GetField("mesh", BF)?.SetValue(fxMesh, stat);   // wrap the BONE-FREE static copy
         // importAngles rotates the mesh at draw time. Vanilla district FxMeshes stand upright with (-90,0,0) (the FxMesh
-        // default) — the game authors meshes Z-up and rotates them to the tile's Y-up. Start there so it stands; the modder
-        // can fine-tune this on the FxMesh asset in the Inspector (no re-bake — just tweak + rebuild the mod) if it's tilted.
+        // default) — the game authors meshes Z-up and rotates them to the tile's Y-up. The Inspector preview on the
+        // resulting <name>_FxMesh PREDICTS the in-game orientation — tune the bake rotation / these angles until it stands.
         var ia = fxMeshType.GetField("importAngles", BF);
-        if (ia != null && ia.FieldType == typeof(Vector3)) ia.SetValue(fxMesh, new Vector3(-90f, 0f, 0f));
+        if (ia != null && ia.FieldType == typeof(Vector3)) ia.SetValue(fxMesh, importAngles);
         AssetDatabase.CreateAsset(fxMesh, path);
         EditorUtility.SetDirty(fxMesh);
         AssetDatabase.SaveAssets(); AssetDatabase.Refresh();
 
         string guid = AmplitudeGuid(fxMesh);
         Debug.Log($"[District] FxMesh baked: {path}  (verts={mesh.vertexCount})  GUID={guid}");
+        fxMeshPath = path;
+        return string.IsNullOrEmpty(guid) ? null : guid;
+    }
+
+    // MANUAL step — wrap a baked mesh as an FxMesh from the Project selection. Superseded by the District Factory window
+    // (which bakes model -> mesh -> FxMesh -> registry in one go) but kept for hand-driven experiments.
+    [MenuItem("Tools/ENC/District/1. Bake District FxMesh (from selected _ModelMesh)")]
+    static void BakeDistrictFxMesh()
+    {
+        var mesh = Selection.activeObject as Mesh;
+        if (mesh == null)
+        {
+            EditorUtility.DisplayDialog("District FxMesh",
+                "Select a baked mesh asset first (a <name>_ModelMesh.asset in Assets/Resources, produced by a normal static bake).", "OK");
+            return;
+        }
+        string baseName = mesh.name.Replace("_ModelMesh", "");
+        string guid = BakeFxMesh(mesh, baseName, new Vector3(-90f, 0f, 0f), out var path);
+        if (guid == null) return;
         EditorGUIUtility.systemCopyBuffer = guid;
         EditorUtility.DisplayDialog("District FxMesh baked",
             $"{path}\nverts = {mesh.vertexCount}\nFxMesh GUID = {guid}\n\n(GUID copied to clipboard.)\n\n" +
-            "Next: select a vanilla FxEvolverMaterialDrawer asset to clone (step 2), which points a district material at this FxMesh.", "OK");
-        Selection.activeObject = fxMesh;
+            "Prefer the District Factory window (Tools ▸ ENC ▸ District Factory) — it writes the registry entry too.", "OK");
+        Selection.activeObject = AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(path);
     }
 
     // STEP 2 — clone a vanilla drawer material and repoint it at our FxMesh. Select TWO assets: a source
