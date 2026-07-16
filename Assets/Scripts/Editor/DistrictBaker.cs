@@ -33,9 +33,11 @@ public static class DistrictBaker
         return $"{t.GetField("a", BF)?.GetValue(g)},{t.GetField("b", BF)?.GetValue(g)},{t.GetField("c", BF)?.GetValue(g)},{t.GetField("d", BF)?.GetValue(g)}";
     }
 
-    // CORE — wrap a baked mesh as a district FxMesh. Callable from the District Factory window (the normal path) and
-    // from the menu command below (manual path). Returns the FxMesh's Amplitude GUID "a,b,c,d", or null on failure.
-    public static string BakeFxMesh(Mesh mesh, string baseName, Vector3 importAngles, out string fxMeshPath)
+    // CORE — wrap a baked mesh as a district FxMesh. Callable from the District Factory window (the normal path), the
+    // Prop Lab (pawn attachments), and the menu command below. Returns the FxMesh's Amplitude GUID "a,b,c,d", or null.
+    // mergeSubMeshes: flatten a multi-material bake's submeshes into ONE — the pawn-fragment GPU encoder only draws
+    // submesh 0 (a two-material sling rendered cords but no pouch). Safe post-atlas: all submeshes share the packed UVs.
+    public static string BakeFxMesh(Mesh mesh, string baseName, Vector3 importAngles, out string fxMeshPath, bool mergeSubMeshes = false)
     {
         fxMeshPath = null;
         if (mesh == null) { Debug.LogError("[District] BakeFxMesh: no mesh."); return null; }
@@ -51,8 +53,18 @@ public static class DistrictBaker
         if (mesh.uv != null && mesh.uv.Length == mesh.vertexCount) stat.SetUVs(0, mesh.uv);
         if (mesh.tangents != null && mesh.tangents.Length == mesh.vertexCount) stat.SetTangents(mesh.tangents);
         if (mesh.colors != null && mesh.colors.Length == mesh.vertexCount) stat.SetColors(mesh.colors);
-        stat.subMeshCount = mesh.subMeshCount;
-        for (int s = 0; s < mesh.subMeshCount; s++) stat.SetTriangles(mesh.GetTriangles(s), s);
+        if (mergeSubMeshes && mesh.subMeshCount > 1)
+        {
+            var tris = new System.Collections.Generic.List<int>();
+            for (int s = 0; s < mesh.subMeshCount; s++) tris.AddRange(mesh.GetTriangles(s));
+            stat.subMeshCount = 1;
+            stat.SetTriangles(tris, 0);
+        }
+        else
+        {
+            stat.subMeshCount = mesh.subMeshCount;
+            for (int s = 0; s < mesh.subMeshCount; s++) stat.SetTriangles(mesh.GetTriangles(s), s);
+        }
         // NO boneWeights / bindposes -> a pure static mesh the district shader can render.
         if (stat.tangents == null || stat.tangents.Length != stat.vertexCount) stat.RecalculateTangents();
         stat.RecalculateBounds();

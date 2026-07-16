@@ -50,6 +50,19 @@ Two more editor windows drive **runtime** overrides the in-game plugin applies w
 
 Both just write extra fields onto the unit's registry entry; see `HumankindAssetFramework/docs/Factory-Manual.md` §12–14.
 
+## Beyond units — districts & props
+
+Units were the first injection axis; the same bake core now drives two more, each with its own window:
+
+- **Tools ▸ ENC ▸ District Factory** — put a custom static model on a **district tile** (e.g. ENC's Breeder Reactor).
+  Bakes model → bone-free FxMesh and writes an `enc_districts.json` registry entry the plugin reads (any number of
+  districts, each optionally isolated to its own tiles). See
+  [`District-Visuals.md`](https://github.com/sswelm/HumankindAssetFramework/blob/master/docs/District-Visuals.md).
+- **Tools ▸ ENC ▸ Prop Lab** — give a pawn a custom **weapon/gear prop** on an attachment slot (Humankind's Slingers
+  finally carry an actual sling). Dumps any vanilla fragment as an authoring template, then bakes model → FxMesh →
+  MeshCollection + fragment assets; the plugin registers the collection at load. See
+  [`Pawn-Props.md`](https://github.com/sswelm/HumankindAssetFramework/blob/master/docs/Pawn-Props.md).
+
 ## Technology stack
 
 | Layer | Technology |
@@ -66,7 +79,8 @@ Both just write extra fields onto the unit's registry entry; see `HumankindAsset
 
 - **`Assets/Scripts/Editor/`** — the Factory. `ModelFactoryWindow` (the GUI), `UniversalBaker` (the bake pipeline),
   `ModelRegistry` (the `ModelDef` schema + registry read/write), `RetextureWindow` (texture-only reskins of vanilla
-  units — hot-loaded PNG or grey variant, no bake), plus the Orphan-Resources and Database-Browser tabs.
+  units — hot-loaded PNG or grey variant, no bake), `DistrictFactoryWindow`/`DistrictRegistry`/`DistrictBaker` (the
+  district axis), `PropBaker` (the Prop Lab — pawn attachment props), plus the Orphan-Resources and Database-Browser tabs.
 - **`Tools/`** — the pre-bake toolchain: `glbconv` (GLB→OBJ+MTL, multi-material, UV-tile normalize), `rig_anim.py`
   (rig + one clip, join, decimate), `deploy_convert.py` (rigid-part animation → bone-per-part armature),
   `prep_model.py` (strip/decimate static meshes), and `check_schema_parity.sh` (a regression guard, below).
