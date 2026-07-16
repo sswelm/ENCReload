@@ -416,7 +416,8 @@ public static class UniversalBaker
             // AH-1's Blender time). Either step is skipped when unset (empty Strip parts / targetTris 0); the survivor
             // runs alone. targetTris is a CEILING, not a quota (a model already under it passes through unchanged);
             // double-sided doubles the baked geometry, so we HALVE the target then (default 24000 -> 12000), keeping the
-            // field a single "budget" the user sets once, just under the ~25k per-model vertex ceiling.
+            // field a single "budget" the user sets once. NOTE: there is NO hard per-model cap in the engine — the real
+            // budget is the shared pawn-layer pool (~1M verts; HAF docs/Vertex-Budget.md), so higher targets are fine.
             bool wantStrip = !string.IsNullOrWhiteSpace(cfg.stripParts);
             bool wantReduce = cfg.targetTris > 0;
             if (wantStrip || wantReduce)

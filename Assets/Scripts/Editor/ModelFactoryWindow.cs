@@ -331,18 +331,19 @@ public class ModelFactoryWindow : EditorWindow
             EditorGUILayout.HelpBox("Strip parts uses Blender — it wasn't found, so Bake will fail. Clear the field or set " +
                 "Blender's path in Settings above.", MessageType.Warning);
         // Reduce-to-tris — runs AFTER strip (so the tri budget is spent only on the geometry you keep, not on a rotor
-        // you're about to delete). IntSlider (not a bare field) to show where you sit vs the ~25k per-model ceiling.
-        // Range 0..50000: 0 = off, default 24000 ≈ mid, and the max is generous headroom (values much above the ceiling
-        // overflow the shared buffer anyway). The slider keeps an editable number box.
+        // you're about to delete). There is NO hard per-model cap in the engine (verified: maxMeshTriangleCount ships
+        // 0/unlimited) — the real budget is the SHARED pawn-layer pool (~1M verts, ~700k used by the full roster at load;
+        // see HAF docs/Vertex-Budget.md). Slider range 0..100000: default 24000 is a sensible share of the pool; go higher
+        // for a hero unit (mind the F8 'Mesh Budget' readout), or grow the pool itself via [Buffers] BufferOverrides.
         cur.targetTris = EditorGUILayout.IntSlider(new GUIContent("Reduce to ~tris (0 = off)",
-            "Quadric-decimate a heavy model to about this many triangles (via Blender) before baking, to fit the engine's " +
-            "SHARED buffer (one budget across ALL injected models + the game's own fx meshes). Runs AFTER 'Strip parts', so " +
-            "the budget covers only the geometry you keep. Default 24000 (halves to " +
-            "12000 under double-sided — the confirmed best LCAC bake, just under the ~25k per-model ceiling). It's a " +
-            "CEILING, not a quota: a model already under it passes through untouched (never " +
-            "upscaled). Toggling Double-sided automatically HALVES the effective target (it doubles the baked geometry), so " +
-            "you set this once and just flip Double-sided on/off. Preserves thin parts (per-object). 0 = no reduction. " +
-            "Needs Blender (auto-detected)."), cur.targetTris, 0, 50000);
+            "Quadric-decimate a heavy model to about this many triangles (via Blender) before baking. There's NO hard " +
+            "per-model limit — the budget is the SHARED pawn buffer (~1,000,000 verts across ALL loaded model types; " +
+            "~300k free with vanilla + the current set — check F8 ▸ Mesh Budget in-game, or raise the pool with the " +
+            "plugin's [Buffers] BufferOverrides). Runs AFTER 'Strip parts', so the budget covers only the geometry you " +
+            "keep. Default 24000 is a good roster citizen; 50k+ is fine for a hero unit. It's a CEILING, not a quota: a " +
+            "model already under it passes through untouched (never upscaled). Toggling Double-sided automatically HALVES " +
+            "the effective target (it doubles the baked geometry). Preserves thin parts (per-object). 0 = no reduction. " +
+            "Needs Blender (auto-detected)."), cur.targetTris, 0, 100000);
         if (cur.targetTris > 0 && !UniversalBaker.BlenderAvailable())
             EditorGUILayout.HelpBox("Reduce-to-tris uses Blender (quadric decimation) — Blender wasn't found, so Bake will " +
                 "fail. Either set this to 0, use 'Convert grid' below (Blender-free GLB decimation), or install Blender / " +
