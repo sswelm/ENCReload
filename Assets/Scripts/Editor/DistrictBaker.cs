@@ -72,10 +72,11 @@ public static class DistrictBaker
 
         var fxMesh = ScriptableObject.CreateInstance(fxMeshType);
         fxMeshType.GetField("mesh", BF)?.SetValue(fxMesh, stat);   // wrap the BONE-FREE static copy
-        // importAngles rotates the mesh at draw time; a static-baked mesh is already oriented, so start neutral and let the
-        // modder tune this in the Inspector if the building lies on its side in-game.
+        // importAngles rotates the mesh at draw time. Vanilla district FxMeshes stand upright with (-90,0,0) (the FxMesh
+        // default) — the game authors meshes Z-up and rotates them to the tile's Y-up. Start there so it stands; the modder
+        // can fine-tune this on the FxMesh asset in the Inspector (no re-bake — just tweak + rebuild the mod) if it's tilted.
         var ia = fxMeshType.GetField("importAngles", BF);
-        if (ia != null && ia.FieldType == typeof(Vector3)) ia.SetValue(fxMesh, Vector3.zero);
+        if (ia != null && ia.FieldType == typeof(Vector3)) ia.SetValue(fxMesh, new Vector3(-90f, 0f, 0f));
         AssetDatabase.CreateAsset(fxMesh, path);
         EditorUtility.SetDirty(fxMesh);
         AssetDatabase.SaveAssets(); AssetDatabase.Refresh();
