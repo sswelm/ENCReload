@@ -44,14 +44,25 @@ public class ModelFactoryWindow : EditorWindow
     }
 
     void OnEnable() { RefreshList(); LoadPreview(cur.resourceName); }
-    void OnDisable() { if (previewEditor != null) { UnityEngine.Object.DestroyImmediate(previewEditor); previewEditor = null; } }
+    void OnDisable() { DestroyPreview(); }
+
+    // Destroy the interactive preview editor safely. On a domain reload / window close, Unity's own
+    // GameObjectInspector.OnDisable can throw "SerializedObject ... has been Disposed" as it tears down a prefab
+    // preview (esp. one with an Animator) — its internals are already half-disposed and out of our control. Swallow it;
+    // the editor is being destroyed anyway.
+    void DestroyPreview()
+    {
+        if (previewEditor == null) return;
+        try { UnityEngine.Object.DestroyImmediate(previewEditor); } catch { }
+        previewEditor = null;
+    }
 
     // Load the baked prefab (animated <name>_Preview, else static <name>_Model) and build an interactive preview editor.
     // forceReimport: after a bake, the static path overwrites the mesh/prefab IN PLACE, so Unity can serve the preview a
     // stale cached copy until a manual reimport. Force a synchronous reimport of the mesh + prefab so the preview is current.
     void LoadPreview(string name, bool forceReimport = false)
     {
-        if (previewEditor != null) { UnityEngine.Object.DestroyImmediate(previewEditor); previewEditor = null; }
+        DestroyPreview();
         previewFor = name ?? "";
         if (string.IsNullOrEmpty(name)) return;
         // The animated preview companion lives in FactorySource (bake INPUT, not shipped), NOT Resources — see

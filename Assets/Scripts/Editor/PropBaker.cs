@@ -57,13 +57,22 @@ public class PropBakerWindow : EditorWindow
     }
 
     void OnEnable() { LoadPrefs(); if (!string.IsNullOrEmpty(resourceName)) LoadPreview(resourceName); }
-    void OnDisable() { SavePrefs(); if (previewEditor != null) { DestroyImmediate(previewEditor); previewEditor = null; } }
+    void OnDisable() { SavePrefs(); DestroyPreview(); }
+
+    // Destroy the preview editor safely — Unity's own GameObjectInspector.OnDisable can throw
+    // "SerializedObject ... has been Disposed" on a domain reload / window close; swallow it (we're destroying it anyway).
+    void DestroyPreview()
+    {
+        if (previewEditor == null) return;
+        try { DestroyImmediate(previewEditor); } catch { }
+        previewEditor = null;
+    }
 
     // Interactive 3D preview of the baked _Model.prefab, embedded like the unit Factory's — shows decimation damage
     // (a mangled pouch) right in the dialog instead of after a relaunch.
     void LoadPreview(string name, bool forceReimport = false)
     {
-        if (previewEditor != null) { DestroyImmediate(previewEditor); previewEditor = null; }
+        DestroyPreview();
         previewFor = name ?? "";
         if (string.IsNullOrEmpty(name)) return;
         string path = "Assets/Resources/" + name + "_Model.prefab";
