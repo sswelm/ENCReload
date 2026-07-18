@@ -208,10 +208,13 @@ public static class UniversalBaker
         imp.importTangents = ModelImporterTangents.CalculateMikk;   // ALWAYS keep tangents on the ANIMATED path: its skeleton bake (Amplitude MeshCollection.ImportMeshes on a real skinned mesh) reads them, and stripping them throws IndexOutOfRange (broke the single-material ReconDrone — "worked last night", i.e. before the strip). The tangent-size optimization is safe ONLY on the static path below.
         imp.globalScale = 1f;
         // "Fix 100x oversize (FBX unit scale)" — PER-MODEL toggle, because different rig exports embed different unit scales.
-        // OFF (default): measure with Unity's default useFileScale (the drone bakes correctly this way). ON: some FBX exports
-        // carry a metre->cm scale that makes the model bake ~100x too big; measure at the TRUE scale (useFileScale off) then
-        // bake with the unit scale on (the howitzer needs this). There is NO single rule that fits both — hence the toggle.
-        if (cfg.animUnitFix) imp.useFileScale = false;
+        // OFF: measure at the file's TRUE scale AND bake with useFileScale OFF — everything folds into globalScale, so
+        //   the baked skeleton's BindPose/Local scales are all 1 (like the proven ReconDrone). A live file-scale would
+        //   materialize as a 0.01-per-bindpose + x100-root sandwich that Amplitude's uniform-scale TRS composition
+        //   mangles on deep bone chains (the Combine soldier's head, depth 8-9, rode ~0.7u off the shoulders).
+        // ON: measure at TRUE scale then bake with the unit scale ON (the howitzer needs this; its shallow rig
+        //   tolerates the sandwich). No single rule fits both — hence the toggle stays per-model.
+        imp.useFileScale = false;   // ALWAYS measure raw; the bake either keeps this (OFF) or re-enables it (ON, below)
         imp.SaveAndReimport();
         var fbxGo = AssetDatabase.LoadAssetAtPath<GameObject>(fbxRel);
         float longest = MeasureLongestAxis(fbxGo);
