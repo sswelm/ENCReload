@@ -30,8 +30,13 @@ public static class BakeSmokeTest
     {
         var defs = ModelRegistry.Load();
         if (defs == null || defs.Count == 0) { EditorUtility.DisplayDialog("Bake Smoke Test", "No models in the registry.", "OK"); return; }
+        // The path key includes the CONVERSION dimension (2026-07-19): an animated model with rotation != 0 goes
+        // through the raw-rig conversion (rest normalization, rename, scale fold, unit-clean export) while rotation
+        // 0,0,0 is the byte-identical legacy pipeline — two genuinely different code paths that each need a
+        // representative (before this, whichever sorted first shadowed the other).
         var reps = defs.Where(d => !d.resourceName.StartsWith(PREFIX))
-                       .GroupBy(d => (d.animated, d.materialMode)).Select(g => g.First()).ToList();
+                       .GroupBy(d => (d.animated, d.materialMode, converted: d.animated && d.rotation != Vector3.zero))
+                       .Select(g => g.First()).ToList();
         Run(reps, "one per bake-path");
     }
 
@@ -52,7 +57,7 @@ public static class BakeSmokeTest
             for (int i = 0; i < models.Count; i++)
             {
                 var src = models[i];
-                string tag = (src.animated ? "animated" : "static") + "/" + src.materialMode;
+                string tag = (src.animated ? (src.rotation != Vector3.zero ? "animated-conv" : "animated-legacy") : "static") + "/" + src.materialMode;
                 string result;
 
                 if (src.reuseExtracted)
@@ -98,17 +103,24 @@ public static class BakeSmokeTest
     }
 
     // Passes only if the shipped assets exist and aren't empty stubs (a failed bake can leave a tiny/blank asset).
-    // The ANIMATED path emits _Skeleton + _Atlas but NO _ModelMesh (its mesh lives in the skeleton/FBX); only the STATIC
-    // path writes _ModelMesh. 1 KB floor: real meshes/skeletons are 100s of KB–MB, a 256 DXT1 atlas is ~32 KB.
+    // The ANIMATED path emits _Skeleton + _Atlas + THE ANIMATION (_Clips + its baked _ClipsPoseData bytes — checked
+    // since 2026-07-19: an animated bake whose clip came out empty used to pass silently) but NO _ModelMesh (its mesh
+    // lives in the skeleton); only the STATIC path writes _ModelMesh. 1 KB floor: real assets are far larger.
     static List<string> MissingAssets(string name, bool animated)
     {
         var bad = new List<string>();
         string root = Directory.GetParent(Application.dataPath).FullName;
-        var required = animated ? new[] { "_Skeleton", "_Atlas" } : new[] { "_ModelMesh", "_Skeleton", "_Atlas" };
+        var required = animated ? new[] { "_Skeleton", "_Atlas", "_Clips" } : new[] { "_ModelMesh", "_Skeleton", "_Atlas" };
         foreach (var suffix in required)
         {
             string full = Path.Combine(root, "Assets", "Resources", name + suffix + ".asset");
             if (!File.Exists(full) || new FileInfo(full).Length < 1024) bad.Add(name + suffix);
+        }
+        if (animated)
+        {
+            // the pose stream is a .bytes TextAsset next to the _Clips asset — the actual animation data
+            string pose = Path.Combine(root, "Assets", "Resources", name + "_ClipsPoseData.bytes");
+            if (!File.Exists(pose) || new FileInfo(pose).Length < 1024) bad.Add(name + "_ClipsPoseData");
         }
         return bad;
     }
