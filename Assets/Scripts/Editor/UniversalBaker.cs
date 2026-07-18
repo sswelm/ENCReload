@@ -173,7 +173,7 @@ public static class UniversalBaker
             int target = cfg.targetTris > 0 ? cfg.targetTris : 12000;   // animated skins want to stay well under the shared buffer
             string albedoOut = Path.Combine(fsDir, name + "_albedo.png");
             bool keepMats = cfg.materialMode != MaterialMode.Single;   // Auto/Multi keep the material slots so the atlas step can pack them (Single collapses to 1, the old default)
-            if (!RigAnimViaBlender(cfg.modelFile, fbxFull, target, cfg.animateBones ?? "", cfg.animClip ?? "", albedoOut, keepMats))
+            if (!RigAnimViaBlender(cfg.modelFile, fbxFull, target, cfg.animateBones ?? "", cfg.animClip ?? "", albedoOut, keepMats, cfg.rotationEuler))
                 return Fail("Blender animated slim failed (see console). Is the model rigged with the named animation clip?");
         }
         if (!File.Exists(fbxFull)) return Fail("no slim FBX at " + fbxRel + " — bake with a Model file first (Reuse extracted needs an existing one).");
@@ -281,7 +281,9 @@ public static class UniversalBaker
         // --- 6) preview aid: a STATIC textured prefab (the baked mesh + the atlas skin) you can select to inspect in
         //        Unity's preview window and to judge the (decimated) vertex count. NOT written to the registry, so the
         //        runtime ignores it entirely — it's purely a modeling aid.
-        GeneratePreviewPrefab(name, resDir, fbxRel, atlas, cfg.rotationEuler, previewMesh);
+        // Rotation is now baked INTO the rig by rig_anim.py (cfg.rotationEuler passed to the Blender step above), so
+        // the preview must NOT apply it again — pass zero. What the preview shows is now what the game gets.
+        GeneratePreviewPrefab(name, resDir, fbxRel, atlas, Vector3.zero, previewMesh);
 
         string skelGuid = AmplitudeGuid(skel), atlasGuid = AmplitudeGuid(atlas), clipGuid = AmplitudeGuid(clipColl);
         // an empty GUID means the SDK skeleton/clip bake produced nothing — fail loudly rather than write a dead registry entry.
@@ -351,13 +353,17 @@ public static class UniversalBaker
     }
 
     // Blender: slim a rigged/animated model into a decimated FBX that keeps its armature + one clip (Tools/rig_anim.py).
-    static bool RigAnimViaBlender(string src, string outFbx, int targetTris, string bonePrefixes, string clipName, string albedoOut, bool keepMaterials)
+    // `rotation` (degrees; x = pitch/stand-up, y = heading, z = roll) is baked INTO THE RIG — the game orients animated
+    // units by the rig, so a rig that round-trips lying down (the Combine soldier) can only be fixed here, at bake time.
+    static bool RigAnimViaBlender(string src, string outFbx, int targetTris, string bonePrefixes, string clipName, string albedoOut, bool keepMaterials, Vector3 rotation)
     {
         string proj = Directory.GetParent(Application.dataPath).FullName;
         string script = Path.Combine(proj, "Tools", "rig_anim.py");
         if (!File.Exists(script)) { Debug.LogError("[Factory] bundled rig_anim.py missing: " + script); return false; }
         string blender = FindBlender();
-        string args = $"--background --python \"{script}\" -- \"{src}\" \"{outFbx}\" {Mathf.Max(1, targetTris)} \"{bonePrefixes ?? ""}\" \"{clipName ?? ""}\" \"{albedoOut ?? ""}\" {(keepMaterials ? "1" : "0")}";
+        var inv = System.Globalization.CultureInfo.InvariantCulture;   // never the OS locale — a Dutch comma-decimal would corrupt the arg
+        string rotArg = string.Format(inv, "{0:0.###},{1:0.###},{2:0.###}", rotation.x, rotation.y, rotation.z);
+        string args = $"--background --python \"{script}\" -- \"{src}\" \"{outFbx}\" {Mathf.Max(1, targetTris)} \"{bonePrefixes ?? ""}\" \"{clipName ?? ""}\" \"{albedoOut ?? ""}\" {(keepMaterials ? "1" : "0")} \"{rotArg}\"";
         var psi = new System.Diagnostics.ProcessStartInfo(blender, args)
         { UseShellExecute = false, RedirectStandardOutput = true, RedirectStandardError = true, CreateNoWindow = true };
         try
