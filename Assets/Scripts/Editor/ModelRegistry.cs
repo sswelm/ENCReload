@@ -47,6 +47,7 @@ public class ModelDef
     public string animClip = "";        // ANIMATED only: name of the clip to bake when the model has several (e.g. "hover"); empty = the assigned/first action
     public string animateBones = "";    // ANIMATED only: comma-separated bone-name prefixes to keep animation on (e.g. "prop,rotor"); empty = keep the whole clip
     public bool animUnitFix = false;    // ANIMATED only (BAKE-TIME, not runtime): tick if the model bakes ~100x too big & floats (a metre->cm FBX unit scale). The baker then measures the FBX at true scale (useFileScale off) + bakes with the unit scale on, so Size = in-game units. Per-model: some rig exports need it, others break with it (the drone bakes correct OFF, the howitzer needs it ON).
+    public bool convertRig = false;     // ANIMATED only (BAKE-TIME, not runtime): route the bake through the RAW-RIG CONVERSION (rest-normalize + visual rebake, no-op root collapse, topological bone rename, rotation/scale fold, clean-unit export). Needed for auto-rigged/location-keyed rigs (the Combine soldier); leave OFF for purpose-made rigs (drone, howitzer) — off = the byte-identical legacy pipeline. This flag — not the Rotation field — is the pipeline switch (it used to be 'rotation != 0', which made Rotation a landmine on legacy models).
     public bool respawnAfterLoad = false; // RUNTIME (not baked): fix the save-load first-instance rotor race. The engine draws the FIRST custom pawn that borrows a donor's animated sub-part (a helicopter rotor) built during a save-load ~1 low; anything rebuilt AFTER load is correct. Tick this and the plugin re-runs the game's own PresentationUnit.UpdatePawns (release+re-instantiate) on this model's units ~3s post-load, clearing it. Set ONLY for borrowed-rotor models; a brief one-time flicker as those units rebuild.
     public bool freezeDonorAnim = false;  // RUNTIME (not baked): freeze the DONOR's idle/move animation so a STATIC borrowed mesh doesn't inherit its pose bob. Use when your model rides a donor whose hover/idle wiggle looks wrong on it (e.g. the Zeppelin on the Recon-Drone donor). The plugin pins every pawn pose's Time to 0 each frame, holding the mesh rigid while it still glides tile-to-tile. Static models only (animated models play their own baked clip); no re-bake.
     public bool fireOnAttack = false;   // RUNTIME (not baked): ANIMATED only. Play the baked clip ONCE when this unit attacks (bombards) instead of looping — the barrel rests, then elevates on the shot and returns. The plugin listens for SimulationEvent_ArtilleryStrikeStarted, matches the firing unit to this entry, and plays a single 0->1 pass of the clip (author it to start AND end at rest). Leave off for a continuously-looping clip (a drone's spinning prop).
@@ -185,6 +186,21 @@ public static class ModelRegistry
         return list ?? new List<ModelDef>();
     }
 
+    // LEGACY-CONTRACT MIGRATION (2026-07-18): the conversion pipeline used to be triggered by 'rotation != 0' on an
+    // animated entry (the soldier shipped with the 360,0,0 identity trick). That made Rotation a hidden pipeline
+    // switch — editing it on a legacy model silently rerouted the bake. The explicit convertRig flag replaced it;
+    // this upgrades any old entry in memory (the next Save persists it). Runs on every Load — a no-op once migrated.
+    static List<ModelDef> Migrate(List<ModelDef> list)
+    {
+        foreach (var m in list)
+            if (m != null && m.animated && !m.convertRig && m.rotation != Vector3.zero)
+            {
+                m.convertRig = true;
+                Debug.Log($"[Factory] {m.resourceName}: migrated to the explicit 'Convert raw rig' flag (was implied by rotation {m.rotation}). The rotation value is unchanged.");
+            }
+        return list;
+    }
+
     public static List<ModelDef> Load()
     {
         try
@@ -209,7 +225,7 @@ public static class ModelRegistry
                         {
                             try { Directory.CreateDirectory(ConfigDir); File.WriteAllText(RegistryPath, backupJson); } catch { }
                             Debug.Log($"[Factory] game registry was missing — restored {b.models.Count} model(s) from the project backup ({ProjectBackupPath}).");
-                            return SortByName(b.models);
+                            return Migrate(SortByName(b.models));
                         }
                     }
                     catch (Exception be)
@@ -222,7 +238,7 @@ public static class ModelRegistry
             }
             var data = JsonUtility.FromJson<RegistryFile>(File.ReadAllText(RegistryPath));
             lastLoadCorrupt = false;
-            return SortByName(data?.models ?? new List<ModelDef>());
+            return Migrate(SortByName(data?.models ?? new List<ModelDef>()));
         }
         catch (Exception e)
         {

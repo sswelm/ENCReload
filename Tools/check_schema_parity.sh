@@ -100,8 +100,12 @@ rfbody=$(awk '/class RegistryFile/{f=1} f&&/^}/{f=0} f' "$DEF")
 WR=$(grep -oE 'public[[:space:]]+[A-Za-z0-9_<>]+[[:space:]]+[A-Za-z_][A-Za-z0-9_]*[[:space:]]*[=;]' <<<"$rfbody" \
      | sed -E 's/.*[[:space:]]([A-Za-z_][A-Za-z0-9_]*)[[:space:]]*[=;]/\1/' | sort -u)
 NR=$(grep -oE 'root\["[A-Za-z_][A-Za-z0-9_]*"\]' "$PLUG" | sed -E 's/root\["(.*)"\]/\1/' | sort -u)
+# `districts` is a FALSE MATCH of the root["..."] grep: that read parses enc_districts.json (its own file, written by
+# DistrictRegistry.cs with its own schema), not the model registry this wrapper check guards.
+wrapallow=" districts "
 wrapmiss=""
 for k in $NR; do
+  case "$wrapallow" in *" $k "*) continue;; esac
   case " $(tr '\n' ' ' <<<"$WR") " in *" $k "*) ;; *) wrapmiss="$wrapmiss $k";; esac
 done
 if [ -n "$wrapmiss" ]; then

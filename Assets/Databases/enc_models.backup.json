@@ -84,7 +84,7 @@
             "pawnDescription": "Era6_Common_DroneSquadFPV_01",
             "modelFile": "D:/Downloads/combine_soldier.glb",
             "rotation": {
-                "x": 360.0,
+                "x": 0.0,
                 "y": 0.0,
                 "z": 0.0
             },
@@ -131,6 +131,7 @@
             "animClip": "Soldier_reference_skeleton|Idle1",
             "animateBones": "",
             "animUnitFix": false,
+            "convertRig": true,
             "respawnAfterLoad": false,
             "freezeDonorAnim": false,
             "fireOnAttack": false,
