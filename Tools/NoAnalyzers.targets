@@ -1,0 +1,8 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <!-- CLI compile-check helper (see memory: editor-compile-check / Tools docs). Unity's generated csproj hardcodes a
+       stale VS-Tools-for-Unity analyzer path that breaks `dotnet build` with CS0006; analyzers are irrelevant for an
+       error check, so drop them all. Injected via -p:CustomAfterMicrosoftCommonTargets=<this file>. -->
+  <ItemGroup>
+    <Analyzer Remove="@(Analyzer)" />
+  </ItemGroup>
+</Project>

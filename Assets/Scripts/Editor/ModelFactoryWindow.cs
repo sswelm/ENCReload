@@ -93,10 +93,16 @@ public class ModelFactoryWindow : EditorWindow
 
     void RefreshList()
     {
+        // STATIC entries only — ANIMATED entries are authored exclusively in Tools ▸ ENC ▸ Animation Lab (which in
+        // turn lists only animated ones). One entry = one owning window, so the same model can never be edited (and
+        // silently overwritten, last-save-wins) from two places at once.
         var names = ModelRegistry.Load().Select(e => e.resourceName).ToList();
         names.Insert(0, "<New>");
         existing = names.ToArray();
-        if (selected >= existing.Length) selected = 0;
+        // The dropdown INDEX follows the loaded entry by NAME — the list is rebuilt on every reload, so a persisted
+        // numeric index can silently point at a different entry than the form holds.
+        selected = Array.IndexOf(existing, cur.resourceName);
+        if (selected < 0) selected = 0;
     }
 
     void OnGUI()
@@ -173,113 +179,44 @@ public class ModelFactoryWindow : EditorWindow
         if ((cur.modelFile ?? "").ToLowerInvariant().EndsWith(".blend") && !UniversalBaker.BlenderAvailable())
             EditorGUILayout.HelpBox(".blend import needs Blender installed (auto-detected). Install it, or set EditorPrefs 'ENC.blenderPath' to blender.exe.", MessageType.Warning);
 
+        // --- Animation: SUMMARY ONLY. The settings themselves (clip, bones, behaviors) are edited exclusively in the
+        //     Animation Lab — mutually exclusive settings, working together: this window shows what's configured and
+        //     jumps there; Bake here still uses the saved animation config, so baking works from either window.
         EditorGUILayout.Space();
         EditorGUILayout.LabelField("Animation", EditorStyles.miniBoldLabel);
         EnsureAnimProbe(cur.modelFile);
-        bool noAnim = animProbeState == 2;
-        if (noAnim) cur.animated = false;   // a static model can't drive the animated path
-        using (new EditorGUI.DisabledScope(noAnim))
-            cur.animated = EditorGUILayout.Toggle(new GUIContent("Animated (own rig + clip)",
-            "Bake from the model's OWN armature + animation clip so it plays its own motion in-game (e.g. a drone's " +
-            "propellers spin) — instead of the static single-bone vehicle rig. The model MUST be rigged with a skeletal " +
-            "animation (glb/fbx/blend). Blender slims it (join + decimate, keep the armature + first clip), Unity bakes an " +
-            "Amplitude Skeleton + ClipCollection, and the plugin drives the pawn's pose onto it. Needs Blender (auto-detected)."), cur.animated);
-        // Clip name — free text + a Pick button that lists the clips read from the model (glb/gltf; no Blender).
-        using (new EditorGUI.DisabledScope(!cur.animated))
-        using (new EditorGUILayout.HorizontalScope())
-        {
-            cur.animClip = EditorGUILayout.TextField(new GUIContent("Clip name",
-                "Which animation to bake when the model has several clips — e.g. 'hover'. Use Pick to choose from the clips " +
-                "found in the model. Leave EMPTY to use the model's assigned/first clip."), cur.animClip ?? "");
-            using (new EditorGUI.DisabledScope(animClips.Count == 0))
-                if (GUILayout.Button(new GUIContent("Pick", animClips.Count == 0 ? "No clips readable from this model (glb/gltf only) — type the name" : null), GUILayout.Width(70)))
-                {
-                    var r = GUILayoutUtility.GetLastRect();
-                    var arr = animClips.ToArray();
-                    new StringDropdown(new AdvancedDropdownState(), arr, arr, "Clips", n => { cur.animClip = n; Repaint(); }).Show(r);
-                }
-        }
-        // Animate only bones — free text + a Pick that appends a bone-name prefix (grouped, with counts) from the model.
-        using (new EditorGUI.DisabledScope(!cur.animated))
-        using (new EditorGUILayout.HorizontalScope())
-        {
-            cur.animateBones = EditorGUILayout.TextField(new GUIContent("Animate only bones",
-                "Optional. Comma-separated bone-name PREFIXES to keep animation on — e.g. 'prop' keeps the spinning parts " +
-                "and strips camera / body-bob curves that make the model wobble. Use Pick to add a prefix found in the model. " +
-                "Leave EMPTY to keep the whole clip. The frame range is always auto-clamped (kills the ~1s per-loop stall)."), cur.animateBones ?? "");
-            using (new EditorGUI.DisabledScope(animBonePrefixes.Count == 0))
-                if (GUILayout.Button(new GUIContent("Pick", animBonePrefixes.Count == 0 ? "No bones readable from this model (glb/gltf only) — type prefixes" : null), GUILayout.Width(70)))
-                {
-                    var r = GUILayoutUtility.GetLastRect();
-                    var labels = animBonePrefixes.Select(kv => $"{kv.Key}  ({kv.Value} part{(kv.Value == 1 ? "" : "s")})").ToArray();
-                    var values = animBonePrefixes.Select(kv => kv.Key).ToArray();
-                    new StringDropdown(new AdvancedDropdownState(), labels, values, "Bone prefixes", p =>
-                    {
-                        var set = (cur.animateBones ?? "").Split(',').Select(s => s.Trim()).Where(s => s.Length > 0).ToList();
-                        if (!set.Contains(p)) set.Add(p);
-                        cur.animateBones = string.Join(",", set);
-                        Repaint();
-                    }).Show(r);
-                }
-        }
-        using (new EditorGUI.DisabledScope(!cur.animated))
-            cur.animUnitFix = EditorGUILayout.Toggle(new GUIContent("Fix 100× oversize (FBX unit scale)",
-                "Bake-time scale fix for ANIMATED models. Some rigged FBX exports embed a metre→centimetre unit scale that makes " +
-                "the model bake ~100× too big and float high in the sky (fine in the preview, wrong in-game). Tick this and the " +
-                "baker measures the FBX at its true scale then bakes with the unit scale on, so Size means in-game units. " +
-                "PER-MODEL — some exports need it, others break with it: if your model bakes huge/floating, tick it; if ticking it " +
-                "makes the model vanish or shrink to nothing, UNtick it (the drone bakes right OFF; the howitzer needs it ON). Re-bake after changing."),
-                cur.animUnitFix);
-
-        using (new EditorGUI.DisabledScope(!cur.animated))
-            cur.fireOnAttack = EditorGUILayout.Toggle(new GUIContent("Fire on attack (play once)",
-                "Play the baked clip ONCE when this unit attacks, instead of looping — the model rests, then plays a single " +
-                "pass on the shot and returns to rest (e.g. a howitzer barrel that elevates only when it bombards). The plugin " +
-                "listens for the artillery-strike event, matches the firing unit to this model, and triggers one 0->1 playthrough. " +
-                "AUTHOR THE CLIP TO START AND END AT REST so the single pass looks clean. Leave OFF for a continuous loop (a " +
-                "drone's spinning prop). Animated models only; no re-bake to toggle, just rebuild the mod."),
-                cur.fireOnAttack);
-
-        using (new EditorGUI.DisabledScope(!cur.animated))
-            cur.deployOnStop = EditorGUILayout.Toggle(new GUIContent("Deploy when stopped",
-                "Hold the baked clip's DEPLOYED pose while the unit is idle, and snap to the UNDEPLOYED pose (frame 0) the " +
-                "instant it moves — e.g. a howitzer that deploys its barrel/trails when it stops and folds them for travel. " +
-                "AUTHOR THE CLIP so frame 0 = travelling and the deployed pose sits at 'Deployed pose time' below. Per-unit, " +
-                "instant, concurrency-safe (driven by the unit's moving state). Mutually exclusive with 'Fire on attack' for now " +
-                "(one clip slot). Animated models only; no re-bake to toggle."),
-                cur.deployOnStop);
-        using (new EditorGUI.DisabledScope(!cur.animated || !cur.deployOnStop))
-            cur.deployPoseTime = EditorGUILayout.Slider(new GUIContent("Deployed pose time",
-                "Normalized clip time (0..1) of the DEPLOYED pose held when idle. 1 = a purpose-made deploy clip's end frame. " +
-                "(0.5 hits the barrel-fire clip's raised plateau — used to prove the mechanism without a dedicated deploy clip.)"),
-                cur.deployPoseTime <= 0f ? 1f : cur.deployPoseTime, 0f, 1f);
-        using (new EditorGUI.DisabledScope(!cur.animated || !cur.deployOnStop))
-            cur.deploySpeed = EditorGUILayout.Slider(new GUIContent("Deploy speed",
-                "Speed multiplier on the gradual deploy-on-stop ramp: 1 = the clip's authored speed, 2 = twice as fast, 0.5 = " +
-                "half. Only affects the forward deploy (playing the clip open when the unit stops) — folding on move is always " +
-                "instant. Runtime flag; no re-bake to change."),
-                cur.deploySpeed <= 0f ? 1f : cur.deploySpeed, 0.25f, 5f);
-        using (new EditorGUI.DisabledScope(!cur.animated || !cur.deployOnStop || !cur.fireOnAttack))
-            cur.recoilSpeed = EditorGUILayout.Slider(new GUIContent("Recoil speed",
-                "Speed multiplier on the recoil-on-fire kickback (needs Deploy-when-stopped + Fire-on-attack): 1 = the clip " +
-                "tail's authored speed, 3 = the kick plays 3x faster, 0.5 = half. Tune if the kick reads too slow/fast. " +
-                "Runtime flag; no re-bake to change."),
-                cur.recoilSpeed <= 0f ? 1f : cur.recoilSpeed, 0.25f, 8f);
-        // Blender is a HARD dependency for the animated path (rig-slim + clip bake); glbconv can't emit a rigged FBX.
-        // Warn as soon as an animated model is detected — not only after ticking — so a Blender-less adopter knows upfront.
-        // (Detection itself needs no Blender, so the checkbox stays usable; only Bake will fail until Blender is present.)
-        if ((cur.animated || animProbeState == 1) && !UniversalBaker.BlenderAvailable())
-            EditorGUILayout.HelpBox("The Animated path needs Blender (to slim the rig + bake the clip) — it wasn't found. " +
-                "Install Blender (auto-detected under Program Files) or set EditorPrefs 'ENC.blenderPath' to blender.exe. " +
-                "Detection above works without Blender, but Bake will fail until it's installed.", MessageType.Warning);
+        if (!cur.animated && LooksAnimated(cur)) cur.animated = true;   // self-heal a lost flag (entry carries animation config)
         if (cur.animated)
+        {
+            var beh = new List<string>();
+            if (!string.IsNullOrWhiteSpace(cur.animClip)) beh.Add("clip '" + cur.animClip + "'");
+            if (!string.IsNullOrWhiteSpace(cur.animateBones)) beh.Add("bones '" + cur.animateBones + "'");
+            if (cur.fireOnAttack) beh.Add("fire-on-attack");
+            if (cur.deployOnStop) beh.Add($"deploy-on-stop (pose {cur.deployPoseTime:0.##}, speed {cur.deploySpeed:0.##})");
+            if (cur.fireOnAttack && cur.deployOnStop) beh.Add($"recoil (speed {cur.recoilSpeed:0.##})");
+            using (new EditorGUILayout.HorizontalScope())
+            {
+                EditorGUILayout.HelpBox("ANIMATED — " + (beh.Count > 0 ? string.Join(", ", beh) : "no clip/behaviors configured yet") +
+                    "\nAnimation settings are edited in the Animation Lab; Bake here uses them as saved.", MessageType.None);
+                if (GUILayout.Button("Edit in\nAnimation Lab", GUILayout.Width(110), GUILayout.Height(38)))
+                    AnimationLabWindow.OpenFor(cur.resourceName, cur.modelFile, cur.pawnDescription);
+            }
+            if (!UniversalBaker.BlenderAvailable())
+                EditorGUILayout.HelpBox("The animated path needs Blender (to slim the rig + bake the clip) — it wasn't found. " +
+                    "Install Blender or set EditorPrefs 'ENC.blenderPath' to blender.exe.", MessageType.Warning);
             EditorGUILayout.HelpBox("Animated mode uses Size + Reduce-to-tris; the static Mesh/shading options below " +
                 "(normals, winding, double-sided, height UVs, convert grid) don't apply.", MessageType.None);
-        else if (noAnim)
-            EditorGUILayout.HelpBox("No animation found in this model — the Animated option is disabled. Pick a rigged " +
-                "glb / gltf / fbx (with a skeletal clip) to enable it, or use the static bake.", MessageType.None);
+        }
         else if (animProbeState == 1)
-            EditorGUILayout.HelpBox("Animation detected in this model — tick 'Animated' to bake its own rig + clip.", MessageType.None);
+        {
+            using (new EditorGUILayout.HorizontalScope())
+            {
+                EditorGUILayout.HelpBox("Animation detected in this model — configure its clip + behaviors in the " +
+                    "Animation Lab (it will bake as ANIMATED from then on).", MessageType.Info);
+                if (GUILayout.Button("Open\nAnimation Lab", GUILayout.Width(110), GUILayout.Height(38)))
+                    AnimationLabWindow.OpenFor(cur.resourceName, cur.modelFile, cur.pawnDescription);
+            }
+        }
 
         EditorGUILayout.Space();
         EditorGUILayout.LabelField("Transform", EditorStyles.miniBoldLabel);
@@ -574,6 +511,15 @@ public class ModelFactoryWindow : EditorWindow
         }
     }
 
+    // An entry that CARRIES animation config is an animated entry, whatever its (window-state-fragile) 'animated'
+    // bool says: a named clip, animation behaviors, bone filter, or an actually-baked clip GUID. Used to self-heal
+    // the flag so a stale unticked checkbox can't silently downgrade a working animated unit to a static bake
+    // (the "howitzers on their side" incident).
+    internal static bool LooksAnimated(ModelDef d) =>
+        !string.IsNullOrWhiteSpace(d.animClip) || d.fireOnAttack || d.deployOnStop ||
+        !string.IsNullOrWhiteSpace(d.animateBones) ||
+        (d.clip != null && d.clip.Length == 4 && !(d.clip[0] == 0 && d.clip[1] == 0 && d.clip[2] == 0 && d.clip[3] == 0));
+
     void OnSelectResource()
     {
         if (selected <= 0) { cur = new ModelDef(); status = ""; LoadPreview(null); return; }
@@ -581,6 +527,11 @@ public class ModelFactoryWindow : EditorWindow
         if (e == null) return;
         cur = JsonUtility.FromJson<ModelDef>(JsonUtility.ToJson(e));   // clone so edits don't mutate the stored copy
         status = "Loaded '" + e.resourceName + "'. Edit + Bake; leave Model file empty to re-bake with new settings.";
+        if (!cur.animated && LooksAnimated(cur))
+        {
+            cur.animated = true;   // self-heal: the entry carries animation config, so it IS animated
+            status += "\nRe-marked ANIMATED (the entry carries a clip/animation behaviors — the flag had been lost).";
+        }
         LoadPreview(cur.resourceName);
     }
 
@@ -605,7 +556,7 @@ public class ModelFactoryWindow : EditorWindow
     // node scale → ~0.0025u, e.g. the drone) is re-inflated by Blender's FBX export and bakes correct with the fix OFF.
     // Best-effort: glTF/GLB only (FBX/.blend/OBJ can't be read cheaply → sz=0, caller keeps the existing value). Node
     // `matrix` transforms are not decomposed (→ sz=0, no guess) — most rigged glTF use TRS.
-    static bool SuggestUnitFix(string file, out float trueSize)
+    internal static bool SuggestUnitFix(string file, out float trueSize)
     {
         trueSize = 0f;
         try
@@ -652,7 +603,7 @@ public class ModelFactoryWindow : EditorWindow
         catch { trueSize = 0f; return false; }
     }
 
-    static (List<string>, List<KeyValuePair<string, int>>) InspectModel(string file)
+    internal static (List<string>, List<KeyValuePair<string, int>>) InspectModel(string file)
     {
         var clips = new List<string>();
         var prefixes = new List<KeyValuePair<string, int>>();
@@ -828,7 +779,7 @@ public class ModelFactoryWindow : EditorWindow
     }
 
     static string[] pawnCache;
-    static string[] GatherPawnNames()
+    internal static string[] GatherPawnNames()
     {
         if (pawnCache != null) return pawnCache;
         var names = new SortedSet<string>(StringComparer.OrdinalIgnoreCase);
@@ -845,7 +796,7 @@ public class ModelFactoryWindow : EditorWindow
     }
 
     // Era6_Common_StealthCruisers_01 -> "StealthCruisers" (drop a trailing numeric token). Suggested resource name.
-    static string DeriveResourceName(string pawnName)
+    internal static string DeriveResourceName(string pawnName)
     {
         if (string.IsNullOrEmpty(pawnName)) return "";
         var parts = pawnName.Split('_');
@@ -886,6 +837,24 @@ public class ModelFactoryWindow : EditorWindow
         cur.hideMeshes = (cur.hideMeshes ?? "").Trim();
         cur.animClip = (cur.animClip ?? "").Trim();
         cur.animateBones = (cur.animateBones ?? "").Trim();
+        // GUARD against a silent animated->static downgrade (the "howitzers on their side" incident). Two layers:
+        // (1) the ENTRY carries animation config (clip/behaviors) -> it IS animated; self-heal the flag, no dialog.
+        // (2) only the FILE has animation (a fresh rigged model, no config yet) -> unticked may be deliberate; ask.
+        // A static bake would strip clip + behaviors and bake the (animated-path-ignored) Rotation offset into the
+        // mesh, so the unit renders tipped over — never let that happen silently.
+        EnsureAnimProbe(cur.modelFile);
+        if (!cur.animated && LooksAnimated(cur))
+        {
+            cur.animated = true;
+            Debug.Log("[Factory] " + cur.resourceName + ": re-marked ANIMATED before bake (entry carries animation config).");
+        }
+        if (!cur.animated && animProbeState == 1 &&
+            !EditorUtility.DisplayDialog("Bake static?",
+                "This model contains animation, but 'Animated (own rig + clip)' is UNTICKED.\n\n" +
+                "Baking now produces a STATIC model: no clip, no fire/deploy behaviors, and the Rotation offset gets " +
+                "baked into the mesh.\n\nBake static anyway?",
+                "Bake static", "Cancel"))
+        { status = "Bake cancelled — tick 'Animated (own rig + clip)' to bake the animated version."; return; }
         var cfg = ConfigFor(cur);
         var r = cfg.animated ? UniversalBaker.BuildAnimated(cfg) : UniversalBaker.Build(cfg);
         if (!r.ok) { status = "Bake FAILED: " + r.error; return; }

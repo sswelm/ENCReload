@@ -150,6 +150,7 @@ if albedo_out:
         print("RIGANIM albedo export warn:", e)
 
 # join to 1 mesh + 1 material + decimate (KEEP the armature + skin weights)
+# (material-less reference junk — e.g. a stray Icosphere — was already culled up top, right after import)
 meshes = [o for o in bpy.context.scene.objects if o.type == 'MESH']
 if not meshes:
     print("RIGANIM ERROR: no mesh to export"); sys.exit(1)
