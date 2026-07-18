@@ -380,8 +380,8 @@
             "pawnDescription": "Era6_Common_ReconDrones_01",
             "modelFile": "D:/Downloads/drone_clean.glb",
             "rotation": {
-                "x": 90.0,
-                "y": 90.0,
+                "x": 0.0,
+                "y": 0.0,
                 "z": 0.0
             },
             "position": {
@@ -393,7 +393,7 @@
             "normalsMode": 1,
             "smoothingAngle": 20.0,
             "convertGrid": 0,
-            "reuseExtracted": true,
+            "reuseExtracted": false,
             "doubleSided": false,
             "windingFix": false,
             "heightUV": false,
@@ -402,7 +402,7 @@
             "keepBlack": false,
             "materialMode": 0,
             "atlasMaxDim": 512,
-            "targetTris": 5000,
+            "targetTris": 0,
             "stripParts": "",
             "hideMeshes": "",
             "skel": [
