@@ -41,14 +41,22 @@ Custom units share the game's own GPU-instanced pawn renderer, so **instances ar
 
 ## Runtime tools — reskin & sound (no bake)
 
-Two more editor windows drive **runtime** overrides the in-game plugin applies without a bake or rebuild:
+More editor windows drive overrides and focused workflows alongside the Factory:
 
+- **Tools ▸ ENC ▸ Animation Lab** — a model's **animation** in its own dialog (docks as a tab beside the Factory):
+  clip + bone-filter pickers, fire-on-attack, deploy-on-stop + recoil sliders, and **Save (no bake)** for runtime
+  flags. The Factory owns the model (file/transform/size), the Lab owns the animation — settings are mutually
+  exclusive and **enforced at bake time** (each window rebases on the registry and writes only its own fields).
+  Bake from either window; the pipeline is identical.
 - **Tools ▸ ENC ▸ Unit Retexture** — reskin an existing unit: a hot-loaded PNG, or a live **Desaturate + RGB** adjust of
   its own atlas. Isolated per unit (the original stays as-is), and free on the vertex budget.
 - **Tools ▸ ENC ▸ Unit Sound** — give a unit **movement audio**: the game's own engine event by name, or custom WAVs as
   **Start (spool-up) → Travel (loop) → Stop (spool-down)** with a per-clip volume and an in-editor **▶** preview.
 
-Both just write extra fields onto the unit's registry entry; see `HumankindAssetFramework/docs/Factory-Manual.md` §12–14.
+These write fields onto the unit's registry entry; see `HumankindAssetFramework/docs/Factory-Manual.md` §12–15.
+Animated-model niceties (2026-07-18): **rotation is baked into the rig** when set (`0,0,0` = untouched legacy path),
+the Blender re-slim runs **automatically** when its inputs change, and the old "Reuse extracted" checkbox is now
+purely **"Keep extracted texture (hand-edits)"**.
 
 ## Beyond units — districts & props
 
