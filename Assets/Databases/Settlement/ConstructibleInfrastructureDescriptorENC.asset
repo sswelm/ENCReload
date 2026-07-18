@@ -1731,47 +1731,6 @@ MonoBehaviour:
       PropertyLocalName: []
   serializableCategory: 
   startingType: Amplitude.Mercury.Simulation.Settlement, Amplitude.Mercury.Firstpass
---- !u!114 &8313954370552251138
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 411102237, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
-  m_Name: Effect_Infrastructure_Money_Family03_01
-  m_EditorClassIdentifier: 
-  Effects:
-  - ApplyEffectOnSource: 0
-    Path:
-      PropertyToFollow:
-      - Districts
-      Validations:
-      - PathIndex: 0
-        ValidableElementCollection: 
-        Inverted: 0
-        serializableElementName: Effect_Extension_Base_CityCenter
-      specificTargetType: 
-    PropertyEffects:
-    - Note: 
-      TargetProperty: MoneyProduced
-      ToTargetOperation: 0
-      RpnOperationStack: 
-      ConstantStack:
-      - RawValue: 3000
-      PropertyLocalName: []
-    - Note: 
-      TargetProperty: MoneyProduced
-      ToTargetOperation: 0
-      RpnOperationStack: 0a0000000900000002000000
-      ConstantStack:
-      - RawValue: 100
-      PropertyLocalName:
-      - Population
-  serializableCategory: 
-  startingType: Amplitude.Mercury.Simulation.Settlement, Amplitude.Mercury.Firstpass
 --- !u!114 &8497835448577686607
 MonoBehaviour:
   m_ObjectHideFlags: 0
