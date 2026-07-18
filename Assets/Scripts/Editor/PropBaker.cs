@@ -19,17 +19,19 @@ public class PropBakerWindow : EditorWindow
     [MenuItem("Tools/ENC/Prop Lab (attachments)")]
     static void Open() => GetWindow<PropBakerWindow>("Prop Lab");
 
+    // [SerializeField] so Unity keeps the window + its form across a DOMAIN RELOAD (recompile / bake / Play toggle)
+    // instead of discarding it — matches the Model Factory / Unit Retexture windows, which survive for this reason.
     // dump
-    string dumpGuid = "";
+    [SerializeField] string dumpGuid = "";
     // bake
-    string modelFile = "", resourceName = "Sling", materialGuid = "";
-    string lastDumpedMaterial = "";   // MaterialRef harvested by the last Dump — the 'From dump' picker
-    float size = 0.6f;
-    Vector3 rotation, importAngles, posOffset;
-    int targetTris = 1500;
-    string status = "";
-    Vector2 scroll;
-    UnityEditor.Editor previewEditor; string previewFor = "";
+    [SerializeField] string modelFile = "", resourceName = "Sling", materialGuid = "";
+    [SerializeField] string lastDumpedMaterial = "";   // MaterialRef harvested by the last Dump — the 'From dump' picker
+    [SerializeField] float size = 0.6f;
+    [SerializeField] Vector3 rotation, importAngles, posOffset;
+    [SerializeField] int targetTris = 1500;
+    [SerializeField] string status = "";
+    [SerializeField] Vector2 scroll;
+    UnityEditor.Editor previewEditor; string previewFor = "";   // previewEditor is non-serializable (rebuilt in OnEnable)
 
     // Persist the dialog's settings across domain reloads / editor restarts (plain EditorWindow fields don't survive).
     const string P = "ENC.PropLab.";

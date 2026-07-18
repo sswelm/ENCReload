@@ -25,15 +25,17 @@ public class ProjectileBakerWindow : EditorWindow
     [MenuItem("Tools/ENC/Projectile Lab (munitions)")]
     static void Open() => GetWindow<ProjectileBakerWindow>("Projectile Lab");
 
-    string dumpGuid = "";
-    string status = "";
-    Vector2 scroll;
+    // [SerializeField] so Unity preserves the window + its form across a DOMAIN RELOAD (any script recompile / bake /
+    // Play toggle) instead of discarding it — matches the Universal Model Factory (which survives reloads for this reason).
+    [SerializeField] string dumpGuid = "";
+    [SerializeField] string status = "";
+    [SerializeField] Vector2 scroll;
     // bake
-    string donorProjGuid = "", impactDonorGuid = "", modelFile = "", resourceName = "KamikazeDrone";
-    float size = 0.9f, importSize = 100f, speed = 0f;
-    Vector3 rotation, importAngles, posOffset;
-    int targetTris = 3000;
-    Color tintColor = Color.black;
+    [SerializeField] string donorProjGuid = "", impactDonorGuid = "", modelFile = "", resourceName = "KamikazeDrone";
+    [SerializeField] float size = 0.9f, importSize = 100f, speed = 0f;
+    [SerializeField] Vector3 rotation, importAngles, posOffset;
+    [SerializeField] int targetTris = 3000;
+    [SerializeField] Color tintColor = Color.black;
 
     const string P = "ENC.ProjLab.";
     void OnEnable()
