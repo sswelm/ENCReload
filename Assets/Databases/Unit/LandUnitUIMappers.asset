@@ -7731,6 +7731,48 @@ MonoBehaviour:
   Symbol: 
   SortPriority: 7400
   ConstructibleTraits: 
+--- !u!114 &-2324837823258649752
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -717291864, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: LandUnit_Era6_Common_DroneSquadFPV
+  m_EditorClassIdentifier: 
+  Title: FPV Drone Squad
+  Description: This specialized infantry team is equiped with the latest portable
+    Fire and Forget Ant Tank Guided Missile (ATGM) allowing them remain hidden after
+    an attack
+  Images:
+  - Value:
+      guid:
+        a: 2111627768
+        b: 1293319289
+        c: 1898946968
+        d: 1851869009
+    serializableKey: Picto
+  - Value:
+      guid:
+        a: -1738097934
+        b: 1198421453
+        c: -1750469724
+        d: 1687582889
+    serializableKey: Default_Small
+  - Value:
+      guid:
+        a: -1738097934
+        b: 1198421453
+        c: -1750469724
+        d: 1687582889
+    serializableKey: Default_Tooltip
+  Color: {r: 1, g: 1, b: 1, a: 1}
+  Symbol: 
+  SortPriority: 7700
+  ConstructibleTraits: 
 --- !u!114 &-2308983281045342094
 MonoBehaviour:
   m_ObjectHideFlags: 0
