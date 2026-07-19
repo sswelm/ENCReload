@@ -230,6 +230,12 @@ if len(argv) > 8 and argv[8].strip():
     cradle = parent_bone.name if parent_bone and parent_bone.name in bone_to_src else driver
     tube_root = cradle if cradle in m_home else driver
     mag = float(argv[11]) if len(argv) > 11 and argv[11].strip() else 1.0
+    if mag == 0.0:
+        # a zero slide scale annihilates the slide profile — and with it the SLAM layer's amplitude curve,
+        # regardless of the requested degrees (a hidden legacy field silently killing a visible knob). 0 is
+        # meaningless here; treat as 1.
+        mag = 1.0
+        print("DEPLOY slide scale 0 treated as 1 (zero would silently kill the Slam)")
     if cradle not in src_w:
         # The tube's parent can be ANY animated part ('cradle', 'mount' — only the M114's barrel-named parent masked
         # this): Phase A sampled just the barrel/cannon bones, so dereferencing the parent below was a guaranteed
