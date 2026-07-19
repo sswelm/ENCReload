@@ -443,6 +443,25 @@ public class AnimationLabWindow : EditorWindow
             }
             EditorGUI.indentLevel--;
         }
+        if (!string.IsNullOrWhiteSpace(cur.modelFile))
+        {
+            using (new EditorGUILayout.HorizontalScope())
+            {
+                GUILayout.Space(EditorGUIUtility.labelWidth);
+                if (GUILayout.Button(new GUIContent("▶ Play raw source clip…",
+                    "Open the clip player on the RAW model file — the ENTIRE source animation (every take, full length, " +
+                    "no conversion, no slicing): play it, scrub it, analyze it. Frame numbers found here feed the recipe " +
+                    "(Deploy frames, Recoil a..b). Confirm copies the picked a..b range to the clipboard; Cancel just closes."),
+                    GUILayout.Width(220)))
+                    ClipRangeDialog.Open(cur.modelFile, (cur.resourceName ?? "").Trim() + "_raw", "", s =>
+                    {
+                        var m = System.Text.RegularExpressions.Regex.Match(s ?? "", @"\[(\d+)\.\.(\d+)\]");
+                        string range = m.Success ? (m.Groups[1].Value + ".." + m.Groups[2].Value) : (s ?? "");
+                        EditorGUIUtility.systemCopyBuffer = range;
+                        ShowNotification(new GUIContent("Range " + range + " copied to clipboard"));
+                    });
+            }
+        }
         EnsureClips();
 
         // --- Clip(s) ---
