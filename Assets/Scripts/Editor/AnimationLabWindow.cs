@@ -294,7 +294,10 @@ public class AnimationLabWindow : EditorWindow
                 {
                     var r = GUILayoutUtility.GetLastRect();
                     var arr = animClips.ToArray();
-                    new StringDropdown(new AdvancedDropdownState(), arr, arr, "Clips", n => { set(n); Repaint(); }).Show(r);
+                    // labels carry the clip LENGTH (frames 0..N) so a clip[start..end] slice can be authored
+                    // straight from the dropdown; the picked VALUE stays the pure clip name.
+                    var labels = animClips.Select(n => ModelFactoryWindow.ClipLengths.TryGetValue(n, out var len) ? n + "   —   " + len : n).ToArray();
+                    new StringDropdown(new AdvancedDropdownState(), labels, arr, "Clips", n => { set(n); Repaint(); }).Show(r);
                 }
         }
     }
