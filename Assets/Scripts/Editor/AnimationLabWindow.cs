@@ -297,7 +297,14 @@ public class AnimationLabWindow : EditorWindow
                     // labels carry the clip LENGTH (frames 0..N) so a clip[start..end] slice can be authored
                     // straight from the dropdown; the picked VALUE stays the pure clip name.
                     var labels = animClips.Select(n => { var len = ModelFactoryWindow.ClipLengthOf(cur.modelFile, n); return len != null ? n + "   —   " + len : n; }).ToArray();
-                    new StringDropdown(new AdvancedDropdownState(), labels, arr, "Clips", n => { set(n); Repaint(); }).Show(r);
+                    new StringDropdown(new AdvancedDropdownState(), labels, arr, "Clips", n =>
+                    {
+                        // picking the SAME clip the field already slices keeps the slice — Pick must not wipe a
+                        // hand-authored [start..end] range; picking a different clip replaces as before
+                        var mSl = System.Text.RegularExpressions.Regex.Match(get() ?? "", @"^(.*)\[\d+\.\.\d+\]$");
+                        if (!(mSl.Success && mSl.Groups[1].Value == n)) set(n);
+                        Repaint();
+                    }).Show(r);
                 }
             if (GUILayout.Button(new GUIContent("▶", "Open the CLIP RANGE PICKER: preview + play/scrub the model's clips, set a Start..End " +
                 "frame slice, and Confirm to fill this field (clip[start..end])."), GUILayout.Width(26)))
