@@ -274,9 +274,25 @@ public class AnimationLabWindow : EditorWindow
     }
 
     // Re-read the model's clip/bone names only when the path changes (OnGUI runs every frame; file I/O must not).
+    // With deploy conversion on, the clips the bake (and the roles) actually see live in the CONVERTED file — the
+    // Pick dropdowns and the ▶ picker must inspect that, not the raw source. convertIfNeeded=true may run Blender
+    // (progress bar) to bring the conversion up to date; false only swaps in an already-converted file (safe per-GUI).
+    string EffectiveModelFile(bool convertIfNeeded)
+    {
+        if (!cur.deployConvert) return cur.modelFile;
+        if (convertIfNeeded)
+        {
+            string conv = UniversalBaker.EnsureDeployConverted(ModelFactoryWindow.ConfigFor(cur), out string err);
+            if (conv == null) { ShowNotification(new GUIContent(err)); Debug.LogError("[AnimLab] " + err); }
+            return conv;
+        }
+        string p = UniversalBaker.DeployConvertedPath((cur.resourceName ?? "").Trim());
+        return System.IO.File.Exists(p) ? p : cur.modelFile;
+    }
+
     void EnsureClips()
     {
-        string f = cur.modelFile ?? "";
+        string f = EffectiveModelFile(false) ?? "";
         if (f == clipProbeFile) return;
         clipProbeFile = f;
         (animClips, animBonePrefixes) = ModelFactoryWindow.InspectModel(f);
@@ -309,7 +325,10 @@ public class AnimationLabWindow : EditorWindow
                 }
             if (GUILayout.Button(new GUIContent("▶", "Open the CLIP RANGE PICKER: preview + play/scrub the model's clips, set a Start..End " +
                 "frame slice, and Confirm to fill this field (clip[start..end])."), GUILayout.Width(26)))
-                ClipRangeDialog.Open(cur.modelFile, cur.resourceName, get(), s => { set(s); Repaint(); });
+            {
+                string mf = EffectiveModelFile(true);   // deploy conversion on -> preview the CONVERTED rig (runs/updates the conversion first)
+                if (mf != null) ClipRangeDialog.Open(mf, cur.resourceName, get(), s => { set(s); Repaint(); });
+            }
         }
     }
 
@@ -366,6 +385,44 @@ public class AnimationLabWindow : EditorWindow
                     if (!string.IsNullOrEmpty(picked)) cur.modelFile = picked.Replace('\\', '/');
                 }
             }
+        }
+        // --- Deploy conversion (raw rigid-parts source → bone-per-part rig, part of the recipe) ---
+        EditorGUILayout.Space();
+        cur.deployConvert = EditorGUILayout.Toggle(new GUIContent("Deploy conversion (rigid-parts source)",
+            "Model file is a RAW original whose animation moves rigid PARTS (Sketchfab howitzer/crane/landing gear — node " +
+            "transforms, no skinning)? Tick this: the bake first runs the deploy converter (Blender, automatic, cached) to " +
+            "build a bone-per-part rig, then bakes the CONVERTED file. All knobs live on this entry — the full pipeline " +
+            "reproduces from the registry, nothing hand-run. The converted file adds ready-made role clips " +
+            "(deployed/folded/unfold/fold/recoil) to pick below."), cur.deployConvert);
+        if (cur.deployConvert)
+        {
+            EditorGUI.indentLevel++;
+            cur.deployStart = EditorGUILayout.IntField(new GUIContent("Deploy start frame",
+                "Source frame where the deploy motion STARTS (usually 0)."), cur.deployStart);
+            cur.deployEnd = EditorGUILayout.IntField(new GUIContent("Deploy end frame",
+                "Source frame where the deploy COMPLETES (fully deployed). REQUIRED. Find it by scrubbing the raw file in the ▶ picker."), cur.deployEnd);
+            cur.deployStrip = EditorGUILayout.TextField(new GUIContent("Strip parts",
+                "Comma-separated name substrings to DELETE from the source (crew figures, loose shells/props — soft-skinned " +
+                "rigs break the rigid bake). Empty = the converter's proven defaults (crew/shell/prop names)."), cur.deployStrip);
+            cur.deployReadyFrame = EditorGUILayout.TextField(new GUIContent("Barrel ready frame",
+                "Source frame of the FULLY-ELEVATED barrel. Sources often pause at an aim angle and only rise much later; " +
+                "this re-keys barrel/cannon parts to rise over the deploy's back half instead. Empty = leave the barrel as authored."), cur.deployReadyFrame);
+            cur.deployLegScale = EditorGUILayout.TextField(new GUIContent("Leg spread scale",
+                "EMPTY = keep the original leg animation VERBATIM (no re-authoring — recommended first try). A number re-keys " +
+                "*leg* parts as a clean travel→spread interpolation scaled by it: 1 = the source's full spread as pure " +
+                "rotation (needed if the game's rotation-only bake mangles sliding legs), 0.5 = half as wide."), cur.deployLegScale);
+            cur.deployBarrelScale = EditorGUILayout.TextField(new GUIContent("Barrel elevation scale",
+                "Empty = 1. >1 exaggerates the elevation past the source's firing max."), cur.deployBarrelScale);
+            cur.deployRecoil = EditorGUILayout.TextField(new GUIContent("Recoil frames (a..b)",
+                "The recoil kickback's sub-range IN THE SOURCE clip (e.g. 440..510). It is remapped onto the deployed pose " +
+                "as a tail after the deploy end — the 'recoil' role clip. Empty = no recoil."), cur.deployRecoil);
+            using (new EditorGUILayout.HorizontalScope())
+            {
+                cur.deployRecoilStep = EditorGUILayout.TextField(new GUIContent("Recoil step", "Source-frame sampling step (empty = 2)."), cur.deployRecoilStep);
+                cur.deployRecoilMag = EditorGUILayout.TextField(new GUIContent("Slide scale", "Recoil slide-distance scale (empty = 1; 2 ≈ half the tube)."), cur.deployRecoilMag);
+                cur.deployArcR = EditorGUILayout.TextField(new GUIContent("Arc R", "FK-arc pivot distance (empty = 400). Larger = straighter slide, more jitter-prone."), cur.deployArcR);
+            }
+            EditorGUI.indentLevel--;
         }
         EnsureClips();
 
@@ -598,6 +655,9 @@ public class AnimationLabWindow : EditorWindow
         cur.animated = true;
         cur.animClip = mine.animClip; cur.animateBones = mine.animateBones; cur.animUnitFix = mine.animUnitFix;
         cur.convertRig = mine.convertRig;
+        cur.deployConvert = mine.deployConvert; cur.deployStart = mine.deployStart; cur.deployEnd = mine.deployEnd;
+        cur.deployStrip = mine.deployStrip; cur.deployReadyFrame = mine.deployReadyFrame; cur.deployLegScale = mine.deployLegScale; cur.deployBarrelScale = mine.deployBarrelScale;
+        cur.deployRecoil = mine.deployRecoil; cur.deployRecoilStep = mine.deployRecoilStep; cur.deployRecoilMag = mine.deployRecoilMag; cur.deployArcR = mine.deployArcR;
         cur.animStateDriven = mine.animStateDriven; cur.animClipMove = mine.animClipMove; cur.animClipAfter = mine.animClipAfter; cur.animClipAttack = mine.animClipAttack; cur.animClipCombat = mine.animClipCombat; cur.animClipPreMove = mine.animClipPreMove; cur.attackRepeats = mine.attackRepeats; cur.clearAimLayer = mine.clearAimLayer;
         cur.handPropName = mine.handPropName; cur.handPropGuid = mine.handPropGuid; cur.handPropMat = mine.handPropMat; cur.handPropBone = mine.handPropBone;
         cur.handPropAngles = mine.handPropAngles;   // Lab-owned again since the LIVE fit knob edits it ('Save rotation to game')

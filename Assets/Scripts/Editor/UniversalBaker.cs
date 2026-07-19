@@ -41,6 +41,9 @@ public struct BakeConfig
     public string  animateBones;    // ANIMATED only: comma-separated bone-name prefixes to keep animation on (e.g. "prop,rotor"); empty = keep the whole clip
     public bool    animUnitFix;     // ANIMATED only: if the model bakes ~100x too big & floats (a metre->cm FBX unit scale), tick this — the baker measures the FBX at its true scale (useFileScale off) then bakes with the unit scale on, so Size = in-game units. Per-model because different rig exports embed different unit scales (some need it, some break with it).
     public bool    convertRig;      // ANIMATED only: route the Blender step through the RAW-RIG CONVERSION (rest-normalize + rebake, root collapse, topological rename, rotation/scale fold, clean-unit export). THE pipeline switch — rotationEuler is just a rotation again (applied only on this path; the legacy path stays byte-identical).
+    public bool    deployConvert;   // ANIMATED only: run Tools/deploy_convert.py on modelFile first (rigid-parts source -> bone-per-part rig) and bake the converted GLB. All knobs below mirror ModelDef.deploy* (see ModelRegistry.cs for semantics).
+    public int     deployStart, deployEnd;
+    public string  deployStrip, deployReadyFrame, deployLegScale, deployBarrelScale, deployRecoil, deployRecoilStep, deployRecoilMag, deployArcR;
     public bool    animStateDriven; // ANIMATED only (Phase 2): bake one ClipCollection PER ROLE (idle = animClip, move = animClipMove, optional after = animClipAfter), all sharing the ONE baked skeleton — the runtime picks per state.
     public string  animClipMove;    // STATE-DRIVEN only: the MOVEMENT clip name (required when animStateDriven)
     public string  animClipAfter;   // STATE-DRIVEN only: the optional AFTER-MOVEMENT one-shot clip name ("" = none)
@@ -165,6 +168,71 @@ public static class UniversalBaker
         finally { DiscardBackup(b); }
     }
 
+    // DEPLOY CONVERSION AS PART OF THE RECIPE (2026-07-19, user-designed): run Tools/deploy_convert.py on the RAW
+    // source and return the converted GLB path — every knob lives on the entry, so the whole pipeline (raw Sketchfab
+    // file -> bone-per-part rig -> bake) reproduces from the registry alone; no hand-run Blender commands whose
+    // arguments only live in someone's shell history (the M114's leg re-key was exactly such a lost step).
+    // Cached on an args+source+tool fingerprint (sidecar .args.txt) — reconverts exactly when an input changed.
+    // Returns cfg.modelFile untouched when deployConvert is off; null + error on failure.
+    public static string DeployConvertedPath(string resourceName) =>
+        Path.Combine(Application.dataPath, "FactorySource", resourceName ?? "", "deploy_converted.glb");
+
+    public static string EnsureDeployConverted(BakeConfig cfg, out string error)
+    {
+        error = "";
+        if (!cfg.deployConvert) return cfg.modelFile;
+        if (string.IsNullOrWhiteSpace(cfg.modelFile) || !File.Exists(cfg.modelFile))
+        { error = "deploy conversion: the model file must point at the RAW source (.glb) — not found: " + cfg.modelFile; return null; }
+        if (cfg.deployEnd <= 0)
+        { error = "deploy conversion: 'Deploy end frame' is required (the source frame where the deploy motion completes — scrub the raw file in the ▶ picker to find it)."; return null; }
+        string projRoot = Directory.GetParent(Application.dataPath).FullName;
+        string script = Path.Combine(projRoot, "Tools", "deploy_convert.py");
+        if (!File.Exists(script)) { error = "deploy conversion: Tools/deploy_convert.py not found."; return null; }
+        string outDir = Path.Combine(Application.dataPath, "FactorySource", cfg.resourceName);
+        Directory.CreateDirectory(outDir);
+        string outFull = Path.Combine(outDir, "deploy_converted.glb");
+        string sidecar = Path.Combine(outDir, "deploy_converted.args.txt");
+
+        // recoil range "start..end" -> two ints ("" = no recoil tail)
+        string rs = "", re = "";
+        string recoil = (cfg.deployRecoil ?? "").Trim();
+        if (recoil.Length > 0)
+        {
+            var m = System.Text.RegularExpressions.Regex.Match(recoil, @"^(\d+)\s*\.\.\s*(\d+)$");
+            if (!m.Success) { error = "deploy conversion: recoil range must look like 440..510 (source frames), got '" + recoil + "'."; return null; }
+            rs = m.Groups[1].Value; re = m.Groups[2].Value;
+        }
+        string key = string.Join("|", cfg.modelFile, File.GetLastWriteTimeUtc(cfg.modelFile).Ticks.ToString(),
+            File.GetLastWriteTimeUtc(script).Ticks.ToString(), cfg.deployStart.ToString(), cfg.deployEnd.ToString(),
+            (cfg.deployStrip ?? "").Trim(), (cfg.deployReadyFrame ?? "").Trim(), (cfg.deployLegScale ?? "").Trim(),
+            (cfg.deployBarrelScale ?? "").Trim(), rs, re, (cfg.deployRecoilStep ?? "").Trim(), (cfg.deployRecoilMag ?? "").Trim(), (cfg.deployArcR ?? "").Trim());
+        if (File.Exists(outFull) && File.Exists(sidecar) && File.ReadAllText(sidecar) == key)
+            return outFull;   // unchanged inputs — reuse (the slim step's own source-newer buster keys off this file's mtime)
+
+        try
+        {
+            EditorUtility.DisplayProgressBar("Model Factory", "Deploy conversion (Blender): rigid parts → bone-per-part rig…", 0.3f);
+            var p = new System.Diagnostics.Process();
+            p.StartInfo.FileName = FindBlender();
+            p.StartInfo.Arguments = $"--background --python \"{script}\" -- \"{cfg.modelFile}\" \"{outFull}\" " +
+                $"{cfg.deployStart} {cfg.deployEnd} \"{(cfg.deployStrip ?? "").Trim()}\" \"{(cfg.deployReadyFrame ?? "").Trim()}\" " +
+                $"\"{(cfg.deployLegScale ?? "").Trim()}\" \"{(cfg.deployBarrelScale ?? "").Trim()}\" " +
+                $"\"{rs}\" \"{re}\" \"{(cfg.deployRecoilStep ?? "").Trim()}\" \"{(cfg.deployRecoilMag ?? "").Trim()}\" \"{(cfg.deployArcR ?? "").Trim()}\"";
+            p.StartInfo.UseShellExecute = false; p.StartInfo.CreateNoWindow = true;
+            p.StartInfo.RedirectStandardOutput = true; p.StartInfo.RedirectStandardError = true;
+            p.Start();
+            string so = p.StandardOutput.ReadToEnd(); p.StandardError.ReadToEnd();
+            if (!p.WaitForExit(300000)) { try { p.Kill(); } catch { } error = "deploy conversion: Blender timed out (5 min)."; return null; }
+            foreach (var line in so.Split('\n')) if (line.StartsWith("DEPLOY")) Debug.Log("[Factory] " + line.Trim());
+            if (!File.Exists(outFull) || p.ExitCode != 0)
+            { error = "deploy conversion produced no GLB (see Console for the DEPLOY log)."; Debug.LogError("[Factory] deploy_convert output:\n" + so); return null; }
+            File.WriteAllText(sidecar, key);
+            return outFull;
+        }
+        catch (Exception e) { error = "deploy conversion: " + e.Message; return null; }
+        finally { EditorUtility.ClearProgressBar(); }
+    }
+
     static BakeResult BuildAnimatedInner(BakeConfig cfg)
     {
         if (string.IsNullOrEmpty(cfg.resourceName)) return Fail("resourceName is required");
@@ -175,6 +243,15 @@ public static class UniversalBaker
                 return Fail($"resource name '{cfg.resourceName}' contains an invalid character ('{c}'). " +
                             "Use letters, digits, '_' or '-' only — no spaces (e.g. 'AttackHelicopter').");
         if (!BlenderAvailable()) return Fail("Animated import needs Blender installed (auto-detected, or set EditorPrefs 'ENC.blenderPath').");
+        if (cfg.deployConvert)
+        {
+            // recipe-driven pre-step: convert the raw rigid-parts source, then bake the CONVERTED rig. Overwriting
+            // cfg.modelFile (a struct copy) routes every downstream step — the source-newer cache buster included —
+            // through the converted file, so a knob change reconverts AND re-slims with no extra plumbing.
+            string conv = EnsureDeployConverted(cfg, out string convErr);
+            if (conv == null) return Fail(convErr);
+            cfg.modelFile = conv;
+        }
         string name = cfg.resourceName;
         float size = cfg.size > 0f ? cfg.size : 5f;
 
