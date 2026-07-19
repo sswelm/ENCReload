@@ -415,8 +415,8 @@ public class AnimationLabWindow : EditorWindow
             {
                 cur.deployStart = EditorGUILayout.IntField(new GUIContent("Deploy frames",
                     "Source frame where the deploy motion STARTS (usually 0)."), cur.deployStart);
-                float lw = EditorGUIUtility.labelWidth; EditorGUIUtility.labelWidth = 22;
-                cur.deployEnd = EditorGUILayout.IntField(new GUIContent("to",
+                float lw = EditorGUIUtility.labelWidth; EditorGUIUtility.labelWidth = 40;
+                cur.deployEnd = EditorGUILayout.IntField(new GUIContent("End",
                     "Source frame where the deploy COMPLETES (fully deployed). REQUIRED. Find it by scrubbing the raw file in the ▶ picker."), cur.deployEnd, GUILayout.MinWidth(90));
                 EditorGUIUtility.labelWidth = lw;
             }
