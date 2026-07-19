@@ -146,8 +146,39 @@ public class RetextureWindow : EditorWindow
                 }
                 if (GUILayout.Button("Remove", GUILayout.Width(64)))
                 {
-                    ModelRegistry.Remove(m.resourceName);
-                    status = "Removed '" + m.resourceName + "'.";
+                    // This list matches ANY entry carrying texture/tint/sound settings — including FULL MODEL entries
+                    // (Unit Sound deliberately writes audio onto a pawn's model entry, e.g. the howitzer). Deleting
+                    // such an entry here would wipe the whole baked-model registration, not just the override
+                    // (review 2026-07-19). Model entries get their overrides CLEARED instead; only pure
+                    // texture/sound-only entries are actually removed — and both ask first.
+                    bool isModelEntry = m.animated || !string.IsNullOrEmpty(m.modelFile) ||
+                        (m.skel != null && m.skel.Length == 4 && !(m.skel[0] == 0 && m.skel[1] == 0 && m.skel[2] == 0 && m.skel[3] == 0));
+                    if (isModelEntry)
+                    {
+                        if (EditorUtility.DisplayDialog("Clear overrides",
+                            $"'{m.resourceName}' is a FULL MODEL entry — removing it would deregister the baked model itself.\n\n" +
+                            "Clear only its texture/tint/sound overrides and keep the model?", "Clear overrides", "Cancel"))
+                        {
+                            var def = ModelRegistry.Load().FirstOrDefault(x => x.resourceName == m.resourceName);
+                            if (def != null)
+                            {
+                                def.desaturate = 0f; def.tintR = 0f; def.tintG = 0f; def.tintB = 0f; def.textureFile = "";
+                                def.engineSound = false; def.engineStartEvent = ""; def.engineStopEvent = "";
+                                def.soundFile = ""; def.soundStartFile = ""; def.soundStopFile = "";
+                                def.soundVolume = 1f; def.soundStartVolume = 1f; def.soundStopVolume = 1f;
+                                status = ModelRegistry.Upsert(def)
+                                    ? "Cleared the overrides on '" + m.resourceName + "' (model entry kept)."
+                                    : "Clear FAILED — see the Console.";
+                            }
+                        }
+                    }
+                    else if (EditorUtility.DisplayDialog("Remove override",
+                        $"Remove '{m.resourceName}' (→ {m.pawnDescription}) from the registry?", "Remove", "Cancel"))
+                    {
+                        status = ModelRegistry.Remove(m.resourceName)
+                            ? "Removed '" + m.resourceName + "'."
+                            : "Remove FAILED — see the Console.";
+                    }
                     GUIUtility.ExitGUI();
                 }
             }
