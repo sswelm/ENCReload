@@ -242,9 +242,11 @@ if len(argv) > 8 and argv[8].strip():
     # pitch of peak_dist/R radians). DEFAULT 0 = NO kick pitch — the slam exists only when a modder asks for
     # degrees. Legacy Arc R (argv[12]) is honored only for old recipes that set it explicitly.
     _slam_deg = float(argv[14]) if len(argv) > 14 and argv[14].strip() else 0.0
-    if _slam_deg > 0.0:
+    if abs(_slam_deg) > 0.0:
+        # SIGNED slam (user request): positive = muzzle-DOWN dip (the legacy look), NEGATIVE = muzzle-UP jump
+        # (the same arc mirrored — a negative radius flips theta's sign through the identical math).
         R = dist * 57.2958 / _slam_deg
-        print("DEPLOY slam %.1f deg -> derived Arc R %.1f (peak slide %.1f)" % (_slam_deg, R, dist))
+        print("DEPLOY slam %.1f deg -> derived Arc R %.1f (peak slide %.1f)%s" % (_slam_deg, R, dist, " [REVERSED: muzzle-up]" if _slam_deg < 0 else ""))
     elif len(argv) > 12 and argv[12].strip():
         R = float(argv[12])   # legacy explicit Arc R
     else:
