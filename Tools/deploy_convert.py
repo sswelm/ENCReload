@@ -168,7 +168,7 @@ if len(argv) > 6 and argv[6].strip():
 #         Same clip, no extra slot. Carriage/legs stay planted (only the barrel/cannon bones get keys). ---
 recoil_out_end = None
 if len(argv) > 8 and argv[8].strip():
-    from mathutils import Matrix
+    from mathutils import Matrix, Quaternion
     deploy_end = int(argv[3])
     rs = int(argv[8]); re = int(argv[9])                       # recoil sub-range IN THE SOURCE clip
     step = int(argv[10]) if len(argv) > 10 and argv[10].strip() else 2
@@ -250,33 +250,30 @@ if len(argv) > 8 and argv[8].strip():
     ra.parent = teb.parent
     teb.parent = ra
     bpy.ops.object.mode_set(mode='POSE')
-    ra_rest = arm.data.bones[ra_name].matrix_local.copy()     # armature-space rest of the arm
-    scene.frame_set(deploy_end)                               # parents held at their deployed pose while we back-solve
-    # PASS-THROUGH baseline. The arm's no-op is an IDENTITY BASIS (pose local == rest local), which passes the parent
-    # chain through untouched at EVERY frame. The old code posed `matrix = ra_rest` instead — only a no-op when the
-    # parent chain sits at REST (= the fmin travel pose): with a parent that moves during the deploy (tilting
-    # carriage, elevating mount) it rigidly displaced the tube through the whole deploy. The arc targets are built on
-    # the parent-aware pass-through pose, so the t=rs recoil frame (theta 0) is continuous with the identity hold.
-    _pp = arm.pose.bones[ra_name].parent
-    passthrough = (_pp.matrix @ arm.data.bones[_pp.name].matrix_local.inverted() @ ra_rest) if _pp else ra_rest.copy()
+    scene.frame_set(deploy_end)                               # parents held at their deployed pose
+    # STRIP-SAFE ARC (2026-07-19, byte-gate finding): the shipping pipeline DROPS per-bone translation, so any
+    # location component in the arm's keys silently dies and the tube drifts (the old matrix-assignment targets
+    # decomposed into rotation+location whenever the parent chain had moved off rest — even the long-proven
+    # legacy file carries a latent mid-deploy contamination from this, invisible at map zoom). The arm's HEAD
+    # sits exactly at the arc pivot, so the arc is expressible as PURE LOCAL ROTATION about an axis converted
+    # into the arm's own frame — zero location BY CONSTRUCTION; the strip has nothing left to break. The pivot
+    # also now follows the deployed carriage (parents moved the head with them), which is physically right.
     prev_q.clear()
-    def key_arm(f):
-        pb = arm.pose.bones[ra_name]
-        q = pb.rotation_quaternion.copy()
-        if 'ra' in prev_q and q.dot(prev_q['ra']) < 0.0: q.negate()
-        pb.rotation_quaternion = q; prev_q['ra'] = q
-        pb.keyframe_insert('location', frame=f); pb.keyframe_insert('rotation_quaternion', frame=f)
-    def key_arm_identity(f):                                  # the true no-op, independent of the parent pose
-        pb = arm.pose.bones[ra_name]
-        pb.rotation_quaternion = (1.0, 0.0, 0.0, 0.0); pb.location = (0.0, 0.0, 0.0)
-        bpy.context.view_layer.update(); key_arm(f)
+    _pbra = arm.pose.bones[ra_name]
+    def key_arm_identity(f):                                  # the true no-op at any parent pose — and strip-safe
+        _pbra.rotation_quaternion = (1.0, 0.0, 0.0, 0.0); _pbra.location = (0.0, 0.0, 0.0)
+        _pbra.keyframe_insert('location', frame=f); _pbra.keyframe_insert('rotation_quaternion', frame=f)
     for hold in (0, deploy_end):                              # identity basis through the whole deploy so it can't disturb it
         key_arm_identity(hold)
+    bpy.context.view_layer.update()
+    A_local = (_pbra.matrix.to_3x3().inverted() @ A).normalized()   # world arc axis -> the arm's local frame (identity basis at the hold)
     for t in frames:
         f = deploy_end + (t - rs)
         theta = -(slide[t].length) / R * (1 if slide[t].dot(d) >= 0 else -1)   # arc length R*theta along the slide dir
-        tgt = Matrix.Translation(pivot) @ Matrix.Rotation(theta, 4, A) @ Matrix.Translation(-pivot) @ passthrough
-        arm.pose.bones[ra_name].matrix = tgt; bpy.context.view_layer.update(); key_arm(f)
+        q = Quaternion(A_local, theta)
+        if 'ra' in prev_q and q.dot(prev_q['ra']) < 0.0: q.negate()
+        _pbra.rotation_quaternion = q; _pbra.location = (0.0, 0.0, 0.0); prev_q['ra'] = q
+        _pbra.keyframe_insert('location', frame=f); _pbra.keyframe_insert('rotation_quaternion', frame=f)
     recoil_out_end = deploy_end + (frames[-1] - rs)
     key_arm_identity(recoil_out_end)                          # run-out returns to the exact pass-through
     bpy.ops.object.mode_set(mode='OBJECT')
