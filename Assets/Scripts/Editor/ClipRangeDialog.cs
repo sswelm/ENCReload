@@ -217,9 +217,9 @@ public class ClipRangeDialog : EditorWindow
         {
             if (GUILayout.Button(playing ? "❚❚ Pause" : "► Play", GUILayout.Width(80))) playing = !playing;
             if (GUILayout.Button(new GUIContent("|◄", "One frame back (also ← key; Shift+← = 10 back)"), GUILayout.Width(30)))
-            { playing = false; frame = Mathf.Max(0, Mathf.Round(frame) - 1); }
+            { playing = false; frame = Mathf.Max(0, Mathf.Round(frame) - 1); GUI.FocusControl(null); Repaint(); }
             if (GUILayout.Button(new GUIContent("►|", "One frame forward (also → key; Shift+→ = 10 forward)"), GUILayout.Width(30)))
-            { playing = false; frame = Mathf.Min(total, Mathf.Round(frame) + 1); }
+            { playing = false; frame = Mathf.Min(total, Mathf.Round(frame) + 1); GUI.FocusControl(null); Repaint(); }
             EditorGUI.BeginChangeCheck();
             frame = GUILayout.HorizontalSlider(frame, 0, total);
             if (EditorGUI.EndChangeCheck()) playing = false;   // scrubbing pauses
