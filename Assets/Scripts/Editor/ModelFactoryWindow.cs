@@ -637,9 +637,13 @@ public class ModelFactoryWindow : EditorWindow
         catch { trueSize = 0f; return false; }
     }
 
-    // clip name -> human length ("frames 0..250 (10.4s @24fps)") from the LAST InspectModel call — the Pick
-    // dropdowns append it so slicing ranges (clip[start..end]) are discoverable without opening Blender.
+    // clip name -> human length ("frames 0..250 (10.4s @24fps)"), PER FILE — the Pick dropdowns append it so slicing
+    // ranges (clip[start..end]) are discoverable without opening Blender. Keyed "file|clip" because SEVERAL windows
+    // (Factory + Lab, both visible) inspect DIFFERENT files: a single last-writer dict got wiped by whichever window
+    // inspected last, so the other window's dropdown showed plain names.
     internal static readonly Dictionary<string, string> ClipLengths = new Dictionary<string, string>();
+    internal static string ClipLengthOf(string file, string clip)
+        => ClipLengths.TryGetValue((file ?? "") + "|" + clip, out var len) ? len : null;
 
     internal static (List<string>, List<KeyValuePair<string, int>>) InspectModel(string file)
     {
@@ -662,7 +666,6 @@ public class ModelFactoryWindow : EditorWindow
                 // Clip LENGTHS for the Pick dropdowns — the answer to "how do I know the frame range for a
                 // clip[start..end] slice?" glTF stores times in SECONDS; frames assume the Blender-standard 24 fps
                 // export (verified exact on every model so far: deploy 10.417s=250f, Idle1 14.208s=341f).
-                ClipLengths.Clear();
                 var accsJ = root["accessors"] as JArray;
                 if (root["animations"] is JArray animsJ && accsJ != null)
                     foreach (var a in animsJ)
@@ -676,7 +679,7 @@ public class ModelFactoryWindow : EditorWindow
                             if (accsJ[ii.Value]?["max"] is JArray mxa && mxa.Count > 0)
                                 maxSec = Mathf.Max(maxSec, (float)mxa[0]);
                         }
-                        if (maxSec > 0f) ClipLengths[nm] = $"frames 0..{Mathf.RoundToInt(maxSec * 24f)}  ({maxSec:0.0}s @24fps)";
+                        if (maxSec > 0f) ClipLengths[file + "|" + nm] = $"frames 0..{Mathf.RoundToInt(maxSec * 24f)}  ({maxSec:0.0}s @24fps)";
                     }
                 var nodes = root["nodes"] as JArray;
                 var joints = new HashSet<int>();
@@ -689,8 +692,9 @@ public class ModelFactoryWindow : EditorWindow
                     : (nodes?.Select(n => (string)n?["name"]) ?? Enumerable.Empty<string>());
                 boneNames = bn.Where(n => !string.IsNullOrEmpty(n)).ToList();
             }
-            catch   // truncated / odd JSON -> zero-dependency bracket-matching fallback (glTF-specific)
+            catch (Exception ix)   // truncated / odd JSON -> zero-dependency bracket-matching fallback (glTF-specific)
             {
+                Debug.LogWarning("[Factory] InspectModel: structured parse failed (" + ix.Message + ") — name-only fallback, no clip lengths.");
                 clips = NamesInArray(json, "\"animations\"\\s*:\\s*\\[").Distinct().ToList();
                 boneNames = NamesInArray(json, "\"nodes\"\\s*:\\s*\\[(?=\\s*\\{)");
             }

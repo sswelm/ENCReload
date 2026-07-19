@@ -296,7 +296,7 @@ public class AnimationLabWindow : EditorWindow
                     var arr = animClips.ToArray();
                     // labels carry the clip LENGTH (frames 0..N) so a clip[start..end] slice can be authored
                     // straight from the dropdown; the picked VALUE stays the pure clip name.
-                    var labels = animClips.Select(n => ModelFactoryWindow.ClipLengths.TryGetValue(n, out var len) ? n + "   —   " + len : n).ToArray();
+                    var labels = animClips.Select(n => { var len = ModelFactoryWindow.ClipLengthOf(cur.modelFile, n); return len != null ? n + "   —   " + len : n; }).ToArray();
                     new StringDropdown(new AdvancedDropdownState(), labels, arr, "Clips", n => { set(n); Repaint(); }).Show(r);
                 }
         }
