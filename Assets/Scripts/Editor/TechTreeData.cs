@@ -330,7 +330,7 @@ public static class TechTreeData
     }
 
     // ── Verification dump ─────────────────────────────────────────────────────
-    [MenuItem("Tools/Tech Tree/Diagnose Mod Split")]
+    [MenuItem("Tools/HAF/Tech Tree/Diagnose Mod Split")]
     static void DiagnoseModSplit()
     {
         DiagnoseModSplit(DefaultModPath);
@@ -377,7 +377,7 @@ public static class TechTreeData
         Debug.Log(sb.ToString());
     }
 
-    [MenuItem("Tools/Tech Tree/Dump Data")]
+    [MenuItem("Tools/HAF/Tech Tree/Dump Data")]
     static void DumpData()
     {
         var nodes = Build();

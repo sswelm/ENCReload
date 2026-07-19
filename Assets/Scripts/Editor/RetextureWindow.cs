@@ -11,7 +11,7 @@ using UnityEngine;
 
 public class RetextureWindow : EditorWindow
 {
-    [MenuItem("Tools/ENC/Unit Retexture")]
+    [MenuItem("Tools/HAF/Unit Retexture")]
     static void Open() => GetWindow<RetextureWindow>("Unit Retexture");
 
     string pawn = "Era6_Common_StealthCorvettes_01";   // the pawn descriptor to retexture (a unique substring the plugin matches)

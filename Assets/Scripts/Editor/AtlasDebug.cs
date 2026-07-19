@@ -8,7 +8,7 @@ using UnityEngine;
 
 public static class AtlasDebug
 {
-    [MenuItem("Tools/ENC/Export selected atlas to PNG")]
+    [MenuItem("Tools/HAF/Export selected atlas to PNG")]
     static void ExportSelectedAtlas()
     {
         var tex = Selection.activeObject as Texture2D;

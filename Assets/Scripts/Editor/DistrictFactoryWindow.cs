@@ -16,7 +16,7 @@ using UnityEngine;
 
 public class DistrictFactoryWindow : EditorWindow
 {
-    [MenuItem("Tools/ENC/District Factory")]
+    [MenuItem("Tools/HAF/District Factory")]
     static void Open() => GetWindow<DistrictFactoryWindow>("District Factory");
 
     List<DistrictDef> all = new List<DistrictDef>();

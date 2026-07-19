@@ -68,7 +68,7 @@ public class DatabaseBrowser : EditorWindow
 
     GUIStyle _typeColStyle, _headerStyle;
 
-    [MenuItem("Tools/Database Browser")]
+    [MenuItem("Tools/HAF/Database Browser")]
     static void Open() => GetWindow<DatabaseBrowser>("Database Browser");
 
     void OnEnable()

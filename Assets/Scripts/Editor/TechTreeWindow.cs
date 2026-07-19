@@ -54,7 +54,7 @@ public class TechTreeWindow : EditorWindow
     static readonly Color EDIT_DOT = new Color(1f, 0.65f, 0.1f);     // amber: unsaved
     static readonly Color MOD_BADGE = new Color(0.4f, 0.7f, 1f);     // blue: modded on disk
 
-    [MenuItem("Tools/Tech Tree/Open Viewer")]
+    [MenuItem("Tools/HAF/Tech Tree/Open Viewer")]
     static void Open()
     {
         var w = GetWindow<TechTreeWindow>("Tech Tree");

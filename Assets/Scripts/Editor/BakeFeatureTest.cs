@@ -21,7 +21,7 @@ public static class BakeFeatureTest
 {
     const string Prefix = "__feat_";
 
-    [MenuItem("Tools/ENC/Tests/Bake Feature Test")]
+    [MenuItem("Tools/HAF/Tests/Bake Feature Test")]
     static void Run()
     {
         var res = new List<string>();
@@ -194,7 +194,7 @@ public static class BakeFeatureTest
     // TIER 2 — the knobs a cube can't exercise: Blender-dependent (targetTris/stripParts) via generated high-poly / named
     // fixtures, and the ANIMATED pipeline via a real rigged model borrowed from the registry (SKIP if none on disk). Slower
     // (real Blender bakes) and fixture-dependent, so it's a separate menu item from the fast, self-contained Tier 1.
-    [MenuItem("Tools/ENC/Tests/Bake Feature Test (Tier 2 — Blender + animated)")]
+    [MenuItem("Tools/HAF/Tests/Bake Feature Test (Tier 2 — Blender + animated)")]
     static void RunTier2()
     {
         var res = new List<string>(); int pass = 0, fail = 0, skip = 0;

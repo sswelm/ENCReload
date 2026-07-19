@@ -93,7 +93,7 @@ public static class DistrictBaker
 
     // MANUAL step — wrap a baked mesh as an FxMesh from the Project selection. Superseded by the District Factory window
     // (which bakes model -> mesh -> FxMesh -> registry in one go) but kept for hand-driven experiments.
-    [MenuItem("Tools/ENC/District/1. Bake District FxMesh (from selected _ModelMesh)")]
+    [MenuItem("Tools/HAF/District/1. Bake District FxMesh (from selected _ModelMesh)")]
     static void BakeDistrictFxMesh()
     {
         var mesh = Selection.activeObject as Mesh;

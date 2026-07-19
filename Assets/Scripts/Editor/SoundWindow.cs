@@ -13,7 +13,7 @@ using UnityEngine;
 
 public class SoundWindow : EditorWindow
 {
-    [MenuItem("Tools/ENC/Unit Sound")]
+    [MenuItem("Tools/HAF/Unit Sound")]
     static void Open() => GetWindow<SoundWindow>("Unit Sound");
 
     string pawn = "";

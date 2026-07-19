@@ -22,7 +22,7 @@ public class ProjectileBakerWindow : EditorWindow
 {
     const BindingFlags BF = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance;
 
-    [MenuItem("Tools/ENC/Projectile Lab (munitions)")]
+    [MenuItem("Tools/HAF/Projectile Lab (munitions)")]
     static void Open() => GetWindow<ProjectileBakerWindow>("Projectile Lab");
 
     // [SerializeField] so Unity preserves the window + its form across a DOMAIN RELOAD (any script recompile / bake /

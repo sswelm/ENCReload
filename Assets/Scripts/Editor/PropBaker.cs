@@ -17,7 +17,7 @@ public class PropBakerWindow : EditorWindow
 {
     const BindingFlags BF = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance;
 
-    [MenuItem("Tools/ENC/Prop Lab (attachments)")]
+    [MenuItem("Tools/HAF/Prop Lab (attachments)")]
     static void Open() => GetWindow<PropBakerWindow>("Prop Lab");
 
     // [SerializeField] so Unity keeps the window + its form across a DOMAIN RELOAD (recompile / bake / Play toggle)
