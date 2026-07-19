@@ -380,6 +380,11 @@ public class AnimationLabWindow : EditorWindow
             if (cur.fireOnAttack || cur.deployOnStop)
                 EditorGUILayout.HelpBox("State-driven is mutually exclusive with Fire-on-attack / Deploy-when-stopped — " +
                     "those flags are ignored while State-driven is ON.", MessageType.Warning);
+            cur.clearAimLayer = EditorGUILayout.Toggle(new GUIContent("Clear aim layer (artillery)",
+                "Clear the game's procedural bone-rotation layer for this model. ARTILLERY needs it ON (the donor " +
+                "streams aim/wheel junk that twists the rig — the legacy Fire/Deploy behaviors cleared it " +
+                "implicitly); CHARACTERS need it OFF (the layer carries their facing). RUNTIME-ONLY — Save (no " +
+                "bake) + relaunch."), cur.clearAimLayer);
         }
 
         // --- Hand prop (runtime-only: Save (no bake) + rebuild the mod) ---
@@ -567,7 +572,7 @@ public class AnimationLabWindow : EditorWindow
         cur.animated = true;
         cur.animClip = mine.animClip; cur.animateBones = mine.animateBones; cur.animUnitFix = mine.animUnitFix;
         cur.convertRig = mine.convertRig;
-        cur.animStateDriven = mine.animStateDriven; cur.animClipMove = mine.animClipMove; cur.animClipAfter = mine.animClipAfter; cur.animClipAttack = mine.animClipAttack; cur.animClipCombat = mine.animClipCombat; cur.animClipPreMove = mine.animClipPreMove; cur.attackRepeats = mine.attackRepeats;
+        cur.animStateDriven = mine.animStateDriven; cur.animClipMove = mine.animClipMove; cur.animClipAfter = mine.animClipAfter; cur.animClipAttack = mine.animClipAttack; cur.animClipCombat = mine.animClipCombat; cur.animClipPreMove = mine.animClipPreMove; cur.attackRepeats = mine.attackRepeats; cur.clearAimLayer = mine.clearAimLayer;
         cur.handPropName = mine.handPropName; cur.handPropGuid = mine.handPropGuid; cur.handPropMat = mine.handPropMat; cur.handPropBone = mine.handPropBone;
         cur.handPropAngles = mine.handPropAngles;   // Lab-owned again since the LIVE fit knob edits it ('Save rotation to game')
         cur.fireOnAttack = mine.fireOnAttack; cur.deployOnStop = mine.deployOnStop;
