@@ -1,0 +1,38 @@
+{
+    "props": [
+        {
+            "resourceName": "Sling",
+            "modelFile": "D:/Downloads/sling.glb",
+            "materialGuid": "1356489961,1316891353,-864888678,1241300466",
+            "size": 0.6000000238418579,
+            "rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "posOffset": {
+                "x": 0.0,
+                "y": 0.25,
+                "z": 0.0
+            },
+            "targetTris": 20000
+        },
+        {
+            "resourceName": "M60",
+            "modelFile": "D:/Downloads/m60_machine_gun.glb",
+            "materialGuid": "1356489961,1316891353,-864888678,1241300466",
+            "size": 1.25,
+            "rotation": {
+                "x": -90.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "posOffset": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": -1.0
+            },
+            "targetTris": 2000
+        }
+    ]
+}
