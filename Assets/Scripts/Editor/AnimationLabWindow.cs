@@ -186,6 +186,28 @@ public class AnimationLabWindow : EditorWindow
                 EditorGUILayout.HelpBox("State-driven is mutually exclusive with Fire-on-attack / Deploy-when-stopped — " +
                     "those flags are ignored while State-driven is ON.", MessageType.Warning);
         }
+
+        // --- Hand prop (runtime-only: Save (no bake) + rebuild the mod) ---
+        EditorGUILayout.Space();
+        EditorGUILayout.LabelField("Hand prop (weapon — runtime-only)", EditorStyles.miniBoldLabel);
+        cur.handPropName = EditorGUILayout.TextField(new GUIContent("Prop resource name",
+            "The weapon's Prop Lab resource name (e.g. 'M60'). Bake it first in Tools ▸ HAF ▸ Prop Lab — that produces " +
+            "<name>_Collection.asset (whose GUID goes below) with the mesh <name>_DistrictMesh inside. The plugin glues " +
+            "that rigid mesh to a bone of THIS model's skeleton at runtime. Empty Collection GUID = no hand prop."),
+            cur.handPropName ?? "");
+        cur.handPropGuid = EditorGUILayout.TextField(new GUIContent("Collection GUID",
+            "The <name>_Collection Amplitude GUID — four ints \"a,b,c,d\", printed and copied to the clipboard by the " +
+            "Prop Lab bake. Empty = no hand prop."), cur.handPropGuid ?? "");
+        if (!string.IsNullOrWhiteSpace(cur.handPropGuid))
+        {
+            cur.handPropBone = EditorGUILayout.TextField(new GUIContent("Bone substring",
+                "Which bone of THIS model's skeleton the prop glues to — a case-insensitive SUBSTRING of the bone name " +
+                "(the conversion renames bones to b###_<original>, so match the original part, e.g. 'R_Hand'). " +
+                "Empty = 'R_Hand'."), cur.handPropBone ?? "");
+            cur.handPropMat = EditorGUILayout.TextField(new GUIContent("Material GUID (borrowed)",
+                "MaterialRef whose output layer the prop renders with — \"a,b,c,d\". Empty = the shared " +
+                "EQ_DLC04_Weapons material (verified working for weapon props)."), cur.handPropMat ?? "");
+        }
         // Animate only bones — free text + a Pick that appends a bone-name prefix (grouped, with counts) from the model.
         using (new EditorGUILayout.HorizontalScope())
         {
@@ -292,6 +314,7 @@ public class AnimationLabWindow : EditorWindow
         cur.animClip = mine.animClip; cur.animateBones = mine.animateBones; cur.animUnitFix = mine.animUnitFix;
         cur.convertRig = mine.convertRig;
         cur.animStateDriven = mine.animStateDriven; cur.animClipMove = mine.animClipMove; cur.animClipAfter = mine.animClipAfter; cur.animClipAttack = mine.animClipAttack; cur.animClipCombat = mine.animClipCombat; cur.attackRepeats = mine.attackRepeats;
+        cur.handPropName = mine.handPropName; cur.handPropGuid = mine.handPropGuid; cur.handPropMat = mine.handPropMat; cur.handPropBone = mine.handPropBone;
         cur.fireOnAttack = mine.fireOnAttack; cur.deployOnStop = mine.deployOnStop;
         cur.deployPoseTime = mine.deployPoseTime; cur.deploySpeed = mine.deploySpeed; cur.recoilSpeed = mine.recoilSpeed;
     }

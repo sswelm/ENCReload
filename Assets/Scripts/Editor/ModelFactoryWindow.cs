@@ -907,6 +907,7 @@ public class ModelFactoryWindow : EditorWindow
                 cur.animStateDriven = regE.animStateDriven; cur.animClipMove = regE.animClipMove; cur.animClipAfter = regE.animClipAfter; cur.animClipAttack = regE.animClipAttack; cur.animClipCombat = regE.animClipCombat;
                 cur.clipMove = regE.clipMove; cur.clipAfter = regE.clipAfter; cur.clipAttack = regE.clipAttack; cur.clipCombat = regE.clipCombat;
                 cur.attackRepeats = regE.attackRepeats;
+                cur.handPropName = regE.handPropName; cur.handPropGuid = regE.handPropGuid; cur.handPropMat = regE.handPropMat; cur.handPropBone = regE.handPropBone;
                 cur.fireOnAttack = regE.fireOnAttack; cur.deployOnStop = regE.deployOnStop;
                 cur.deployPoseTime = regE.deployPoseTime; cur.deploySpeed = regE.deploySpeed; cur.recoilSpeed = regE.recoilSpeed;
                 // Unit Retexture / Unit Sound ownership — same rule as the Lab fields: this window can't even display
