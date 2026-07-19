@@ -651,9 +651,13 @@ public class AnimationLabWindow : EditorWindow
             EditorGUILayout.HelpBox("The animated bake needs Blender (to slim the rig + bake the clip) — it wasn't found. " +
                 "Install Blender or set EditorPrefs 'ENC.blenderPath' to blender.exe.", MessageType.Warning);
 
-        // --- Behavior (runtime flags — Save (no bake) + relaunch applies them) ---
+        // --- Behavior (LEGACY single-clip runtime flags — superseded by the state machine and HIDDEN whenever
+        //     State-driven is ON: the two are mutually exclusive, and dead sliders confuse. Full removal is staged
+        //     for after the TowedGunHowitzers migration is verified in-game (the last user of this path). ---
+        if (!cur.animStateDriven)
+        {
         EditorGUILayout.Space();
-        EditorGUILayout.LabelField("Behavior", EditorStyles.miniBoldLabel);
+        EditorGUILayout.LabelField("Behavior (legacy single-clip)", EditorStyles.miniBoldLabel);
         cur.fireOnAttack = EditorGUILayout.Toggle(new GUIContent("Fire on attack (play once)",
             "Play the baked clip ONCE when this unit attacks, instead of looping — the model rests, then plays a single pass " +
             "on the shot and returns to rest (e.g. a howitzer barrel that elevates only when it bombards). AUTHOR THE CLIP TO " +
@@ -677,6 +681,7 @@ public class AnimationLabWindow : EditorWindow
                 "Speed multiplier on the recoil-on-fire kickback (needs Deploy-when-stopped + Fire-on-attack): 1 = the clip " +
                 "tail's authored speed."),
                 cur.recoilSpeed <= 0f ? 1f : cur.recoilSpeed, 0.25f, 8f);
+        }
 
         // --- Bake / Save ---
         EditorGUILayout.Space();
