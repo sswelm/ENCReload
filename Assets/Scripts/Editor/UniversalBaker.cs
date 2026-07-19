@@ -432,7 +432,7 @@ public static class UniversalBaker
         // an empty GUID means the SDK skeleton/clip bake produced nothing — fail loudly rather than write a dead registry entry.
         if (string.IsNullOrEmpty(skelGuid) || skelGuid == "0,0,0,0") return Fail($"{name}: skeleton bake produced an empty GUID (SetPrefab/Reimport did nothing).");
         if (string.IsNullOrEmpty(clipGuid) || clipGuid == "0,0,0,0") return Fail($"{name}: ClipCollection GUID is empty — the model has no bakeable clip (check the Clip name / that it's actually animated).");
-        string clipMoveGuid = "", clipAfterGuid = "", clipAttackGuid = "";
+        string clipMoveGuid = "", clipAfterGuid = "", clipAttackGuid = "", clipCombatGuid = "";
         if (cfg.animStateDriven)
         {
             clipMoveGuid = AmplitudeGuid(clipMoveColl);
