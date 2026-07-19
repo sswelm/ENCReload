@@ -166,21 +166,26 @@ public class AnimationLabWindow : EditorWindow
             string res = (cur.resourceName ?? "").Trim();
             string prop = (cur.handPropName ?? "").Trim();
             if (res.Length == 0) { status = "Preview needs a loaded entry."; return; }
-            // No hand prop configured (e.g. the drone): show the model's own baked preview prefab instead —
-            // same orbit/zoom renderer, just without the glue step. The Lab always has a preview after a bake.
-            if (prop.Length == 0 || string.IsNullOrEmpty((cur.handPropGuid ?? "").Trim()))
+            bool withProp = prop.Length > 0 && !string.IsNullOrEmpty((cur.handPropGuid ?? "").Trim());
+            string fbxRel = "Assets/FactorySource/" + res + "/anim/" + res + "_anim.fbx";
+            var fbxGo = AssetDatabase.LoadAssetAtPath<GameObject>(fbxRel);
+            if (fbxGo == null)
             {
+                // No rig FBX (a STATIC model): the baked preview prefab is all there is. Animated models always
+                // take the FBX route below — the rest-pose hierarchy previews UPRIGHT and faithful, unlike the
+                // old preview prefab whose fixed display flips stood the howitzer on end.
                 string pp = "Assets/FactorySource/" + res + "/" + res + "_Preview.prefab";
-                if (AssetDatabase.LoadAssetAtPath<GameObject>(pp) == null) { status = "No preview prefab at " + pp + " — bake the model first."; return; }
+                if (AssetDatabase.LoadAssetAtPath<GameObject>(pp) == null) { status = "No preview assets for '" + res + "' — bake the model first."; return; }
                 LoadFitPreview(pp);
                 return;
             }
-            string fbxRel = "Assets/FactorySource/" + res + "/anim/" + res + "_anim.fbx";
-            var fbxGo = AssetDatabase.LoadAssetAtPath<GameObject>(fbxRel);
-            if (fbxGo == null) { status = "Fit preview: no slim FBX at " + fbxRel + " (bake the model first)."; return; }
-            var propMesh = AssetDatabase.LoadAssetAtPath<Mesh>("Assets/Resources/" + prop + "_ModelMesh.asset");
-            var propMat = AssetDatabase.LoadAssetAtPath<Material>("Assets/Resources/" + prop + "_Mat.mat");
-            if (propMesh == null) { status = "Fit preview: no baked mesh for '" + prop + "' (bake it in the Prop Lab)."; return; }
+            Mesh propMesh = null; Material propMat = null;
+            if (withProp)
+            {
+                propMesh = AssetDatabase.LoadAssetAtPath<Mesh>("Assets/Resources/" + prop + "_ModelMesh.asset");
+                propMat = AssetDatabase.LoadAssetAtPath<Material>("Assets/Resources/" + prop + "_Mat.mat");
+                if (propMesh == null) { status = "Fit preview: no baked mesh for '" + prop + "' (bake it in the Prop Lab)."; return; }
+            }
 
             var inst = (GameObject)PrefabUtility.InstantiatePrefab(fbxGo);
             try
@@ -195,6 +200,8 @@ public class AnimationLabWindow : EditorWindow
                         for (int i = 0; i < mats.Length; i++) mats[i] = bodyMat;
                         r.sharedMaterials = mats;
                     }
+                if (withProp)
+                {
                 // the glue bone — same substring match as the plugin (renamed b###_<orig> bones)
                 string sub = string.IsNullOrEmpty(cur.handPropBone) ? "R_Hand" : cur.handPropBone;
                 Transform bone = inst.GetComponentsInChildren<Transform>()
@@ -210,11 +217,14 @@ public class AnimationLabWindow : EditorWindow
                 var pmats = new Material[Mathf.Max(1, propMesh.subMeshCount)];
                 for (int i = 0; i < pmats.Length; i++) pmats[i] = propMat;
                 pmr.sharedMaterials = pmats;
+                }
                 string outPath = "Assets/FactorySource/" + res + "/" + res + "_PropFit.prefab";
                 AssetDatabase.DeleteAsset(outPath);
                 PrefabUtility.SaveAsPrefabAsset(inst, outPath);
                 LoadFitPreview(outPath);
-                status = "Fit preview rebuilt (" + outPath + ") — bone '" + bone.name + "'. NOT shipped; preview-only.";
+                status = withProp
+                    ? "Fit preview rebuilt (" + outPath + ") — model + prop. NOT shipped; preview-only."
+                    : "Model preview rebuilt (rest pose from the rig FBX). NOT shipped; preview-only.";
             }
             finally { DestroyImmediate(inst); }
         }
