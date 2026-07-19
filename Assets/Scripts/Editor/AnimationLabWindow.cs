@@ -239,8 +239,11 @@ public class AnimationLabWindow : EditorWindow
         Open();
         var w = GetWindow<AnimationLabWindow>();
         var all = ModelRegistry.Load();
+        // Match by RESOURCE NAME only when the Factory form carries one: the model-file fallback hijacked the WRONG
+        // entry once several entries share a model (the sandbox pattern — e.g. a state-machine test entry reusing the
+        // howitzer's GLB). File-matching remains only for an UNNAMED form.
         var e = all.FirstOrDefault(x => x.animated && !string.IsNullOrEmpty(resourceName) && x.resourceName == resourceName)
-             ?? all.FirstOrDefault(x => x.animated && !string.IsNullOrEmpty(modelFile) && x.modelFile == modelFile)
+             ?? (string.IsNullOrEmpty(resourceName) ? all.FirstOrDefault(x => x.animated && !string.IsNullOrEmpty(modelFile) && x.modelFile == modelFile) : null)
              ?? all.FirstOrDefault(x => !string.IsNullOrEmpty(resourceName) && x.resourceName == resourceName);   // not-yet-animated entry being upgraded
         if (e != null)
         {
