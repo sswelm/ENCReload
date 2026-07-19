@@ -369,6 +369,8 @@ public class AnimationLabWindow : EditorWindow
                 () => cur.animClipAttack ?? "", v => cur.animClipAttack = v);
             ClipRow("Combat-idle clip", "Optional. Replaces Idle while the army is locked in a battle (a weapon-raised stance like 'CombatIdle1' — a single-frame pose clip is fine). Empty = normal Idle in battle.",
                 () => cur.animClipCombat ?? "", v => cur.animClipCombat = v);
+            ClipRow("Pre-movement clip", "Optional. Played ONCE when the unit STARTS moving (e.g. a howitzer folding its legs), then the Movement loop. Empty = straight into Movement.",
+                () => cur.animClipPreMove ?? "", v => cur.animClipPreMove = v);
             if (!string.IsNullOrWhiteSpace(cur.animClipAttack))
                 cur.attackRepeats = EditorGUILayout.IntSlider(new GUIContent("Attack repeats",
                     "How many times the Attack clip replays per trigger (the sim fires ONCE per attack, so a short " +
@@ -565,7 +567,7 @@ public class AnimationLabWindow : EditorWindow
         cur.animated = true;
         cur.animClip = mine.animClip; cur.animateBones = mine.animateBones; cur.animUnitFix = mine.animUnitFix;
         cur.convertRig = mine.convertRig;
-        cur.animStateDriven = mine.animStateDriven; cur.animClipMove = mine.animClipMove; cur.animClipAfter = mine.animClipAfter; cur.animClipAttack = mine.animClipAttack; cur.animClipCombat = mine.animClipCombat; cur.attackRepeats = mine.attackRepeats;
+        cur.animStateDriven = mine.animStateDriven; cur.animClipMove = mine.animClipMove; cur.animClipAfter = mine.animClipAfter; cur.animClipAttack = mine.animClipAttack; cur.animClipCombat = mine.animClipCombat; cur.animClipPreMove = mine.animClipPreMove; cur.attackRepeats = mine.attackRepeats;
         cur.handPropName = mine.handPropName; cur.handPropGuid = mine.handPropGuid; cur.handPropMat = mine.handPropMat; cur.handPropBone = mine.handPropBone;
         cur.handPropAngles = mine.handPropAngles;   // Lab-owned again since the LIVE fit knob edits it ('Save rotation to game')
         cur.fireOnAttack = mine.fireOnAttack; cur.deployOnStop = mine.deployOnStop;
@@ -605,6 +607,7 @@ public class AnimationLabWindow : EditorWindow
         cur.animClipAfter = (cur.animClipAfter ?? "").Trim();
         cur.animClipAttack = (cur.animClipAttack ?? "").Trim();
         cur.animClipCombat = (cur.animClipCombat ?? "").Trim();
+        cur.animClipPreMove = (cur.animClipPreMove ?? "").Trim();
         var cfg = ModelFactoryWindow.ConfigFor(cur);
         // Geometry caching is AUTOMATIC (mirror of the Factory's DoBake): re-slim exactly when a Blender-step input
         // changed; the 'Reuse extracted' checkbox only protects the hand-edited extracted texture (cfg.keepTexture).
@@ -619,6 +622,7 @@ public class AnimationLabWindow : EditorWindow
         cur.clipAfter = cur.animStateDriven && !string.IsNullOrEmpty(r.clipAfterGuid) ? ModelRegistry.ParseGuid(r.clipAfterGuid) : new int[4];
         cur.clipAttack = cur.animStateDriven && !string.IsNullOrEmpty(r.clipAttackGuid) ? ModelRegistry.ParseGuid(r.clipAttackGuid) : new int[4];
         cur.clipCombat = cur.animStateDriven && !string.IsNullOrEmpty(r.clipCombatGuid) ? ModelRegistry.ParseGuid(r.clipCombatGuid) : new int[4];
+        cur.clipPreMove = cur.animStateDriven && !string.IsNullOrEmpty(r.clipPreMoveGuid) ? ModelRegistry.ParseGuid(r.clipPreMoveGuid) : new int[4];
         bool saved = ModelRegistry.Upsert(cur);
         RefreshList();
         ModelFactoryWindow.ReloadPreviews();   // give the Factory tab its preview back (fresh from this bake)

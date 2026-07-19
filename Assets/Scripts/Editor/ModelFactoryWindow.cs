@@ -858,6 +858,7 @@ public class ModelFactoryWindow : EditorWindow
             || (cur.animClipAfter ?? "") != (e.animClipAfter ?? "")
             || (cur.animClipAttack ?? "") != (e.animClipAttack ?? "")
             || (cur.animClipCombat ?? "") != (e.animClipCombat ?? "")
+            || (cur.animClipPreMove ?? "") != (e.animClipPreMove ?? "")
             || (cur.modelFile ?? "") != (e.modelFile ?? "");
     }
 
@@ -873,7 +874,7 @@ public class ModelFactoryWindow : EditorWindow
         atlasMaxDim = cur.atlasMaxDim <= 0 ? 512 : cur.atlasMaxDim,
         stripParts = cur.stripParts,
         animated = cur.animated, animClip = (cur.animClip ?? "").Trim(), animateBones = (cur.animateBones ?? "").Trim(), animUnitFix = cur.animUnitFix, convertRig = cur.convertRig,
-        animStateDriven = cur.animStateDriven, animClipMove = (cur.animClipMove ?? "").Trim(), animClipAfter = (cur.animClipAfter ?? "").Trim(), animClipAttack = (cur.animClipAttack ?? "").Trim(), animClipCombat = (cur.animClipCombat ?? "").Trim(),
+        animStateDriven = cur.animStateDriven, animClipMove = (cur.animClipMove ?? "").Trim(), animClipAfter = (cur.animClipAfter ?? "").Trim(), animClipAttack = (cur.animClipAttack ?? "").Trim(), animClipCombat = (cur.animClipCombat ?? "").Trim(), animClipPreMove = (cur.animClipPreMove ?? "").Trim(),
         keepTexture = cur.reuseExtracted   // on the ANIMATED path the checkbox's ONLY meaning is 'protect the hand-edited extracted texture'
     };
 
@@ -906,8 +907,8 @@ public class ModelFactoryWindow : EditorWindow
             {
                 cur.animClip = regE.animClip; cur.animateBones = regE.animateBones; cur.animUnitFix = regE.animUnitFix;
                 cur.convertRig = regE.convertRig;
-                cur.animStateDriven = regE.animStateDriven; cur.animClipMove = regE.animClipMove; cur.animClipAfter = regE.animClipAfter; cur.animClipAttack = regE.animClipAttack; cur.animClipCombat = regE.animClipCombat;
-                cur.clipMove = regE.clipMove; cur.clipAfter = regE.clipAfter; cur.clipAttack = regE.clipAttack; cur.clipCombat = regE.clipCombat;
+                cur.animStateDriven = regE.animStateDriven; cur.animClipMove = regE.animClipMove; cur.animClipAfter = regE.animClipAfter; cur.animClipAttack = regE.animClipAttack; cur.animClipCombat = regE.animClipCombat; cur.animClipPreMove = regE.animClipPreMove;
+                cur.clipMove = regE.clipMove; cur.clipAfter = regE.clipAfter; cur.clipAttack = regE.clipAttack; cur.clipCombat = regE.clipCombat; cur.clipPreMove = regE.clipPreMove;
                 cur.attackRepeats = regE.attackRepeats;
                 cur.handPropName = regE.handPropName; cur.handPropGuid = regE.handPropGuid; cur.handPropMat = regE.handPropMat; cur.handPropBone = regE.handPropBone; cur.handPropAngles = regE.handPropAngles;
                 cur.fireOnAttack = regE.fireOnAttack; cur.deployOnStop = regE.deployOnStop;
@@ -959,6 +960,7 @@ public class ModelFactoryWindow : EditorWindow
         cur.clipAfter = cfg.animated && cfg.animStateDriven && !string.IsNullOrEmpty(r.clipAfterGuid) ? ModelRegistry.ParseGuid(r.clipAfterGuid) : new int[4];
         cur.clipAttack = cfg.animated && cfg.animStateDriven && !string.IsNullOrEmpty(r.clipAttackGuid) ? ModelRegistry.ParseGuid(r.clipAttackGuid) : new int[4];
         cur.clipCombat = cfg.animated && cfg.animStateDriven && !string.IsNullOrEmpty(r.clipCombatGuid) ? ModelRegistry.ParseGuid(r.clipCombatGuid) : new int[4];
+        cur.clipPreMove = cfg.animated && cfg.animStateDriven && !string.IsNullOrEmpty(r.clipPreMoveGuid) ? ModelRegistry.ParseGuid(r.clipPreMoveGuid) : new int[4];
         bool saved = ModelRegistry.Upsert(cur);
         RefreshList();
         selected = System.Array.IndexOf(existing, cur.resourceName); if (selected < 0) selected = 0;

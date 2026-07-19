@@ -334,6 +334,49 @@ if arm_action:
     arm_action.name = "deploy"   # clean clip name for the Factory picker (was an auto 'Action.NNN')
 print("DEPLOY kept 1 action:", arm_action.name if arm_action else None)
 
+# --- 7c. ROLE CLIPS for the STATE-DRIVEN machine (howitzer migration prep, 2026-07-19): sample the baked deploy
+#         action into separate actions so the Animation Lab can assign one per state:
+#           deployed = idle stance (2 identical frames at the deploy end)   folded = move stance (travel pose)
+#           unfold   = after-movement one-shot (the deploy segment)         fold   = PRE-movement one-shot (reversed)
+#           recoil   = attack one-shot (the recoil tail, when present)
+#         The legacy single 'deploy' action is kept unchanged (and stays the active one), so existing legacy-path
+#         bakes are byte-identical; the new actions just ride along in the GLB for the Lab's Pick dropdowns. ---
+if arm_action:
+    deploy_end = int(argv[3]) if len(argv) > 3 else fmax
+    tail_end = recoil_out_end if recoil_out_end is not None else None
+    for pb in arm.pose.bones:
+        pb.rotation_mode = 'QUATERNION'
+    _last = tail_end if (tail_end is not None and tail_end > deploy_end) else deploy_end
+    _snap = {}
+    for f in range(fmin, _last + 1):    # snapshot the evaluated pose basis per frame (what the bake keyed)
+        scene.frame_set(f)
+        bpy.context.view_layer.update()
+        _snap[f] = {pb.name: (pb.location.copy(), pb.rotation_quaternion.copy()) for pb in arm.pose.bones}
+    def make_role(name, frames):
+        a = bpy.data.actions.new(name)
+        arm.animation_data.action = a
+        try: arm.animation_data.action_slot = a.slots.new(id_type='OBJECT', name=arm.name)   # Blender 4.4+/5 slotted actions
+        except Exception: pass
+        for i, f in enumerate(frames):
+            for pb in arm.pose.bones:
+                loc, quat = _snap[f][pb.name]
+                pb.location = loc
+                pb.rotation_quaternion = quat
+                # keyed from fmin so every role stays inside the export frame range (rig_anim re-clamps per role later)
+                pb.keyframe_insert('location', frame=fmin + i)
+                pb.keyframe_insert('rotation_quaternion', frame=fmin + i)
+        return a
+    _dep = list(range(fmin, deploy_end + 1))
+    make_role("unfold", _dep)
+    make_role("fold", list(reversed(_dep)))
+    make_role("folded", [fmin, fmin])            # 2 identical frames: a valid HELD pose (0-length clips can be dropped by importers)
+    make_role("deployed", [deploy_end, deploy_end])
+    has_recoil = tail_end is not None and tail_end > deploy_end
+    if has_recoil:
+        make_role("recoil", list(range(deploy_end, tail_end + 1)))
+    arm.animation_data.action = arm_action       # the legacy action stays active (legacy bakes untouched)
+    print("DEPLOY role clips: unfold/fold/folded/deployed%s (+ legacy 'deploy')" % ("/recoil" if has_recoil else ""))
+
 # --- 8. export GLB, trimmed to the DEPLOY (+recoil tail) sub-range if given (argv: in out [start] [end] ...) ---
 if len(argv) >= 4:
     trim_end = recoil_out_end if recoil_out_end is not None else int(argv[3])   # extend past the deploy to include the recoil tail
