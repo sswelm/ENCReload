@@ -245,6 +245,17 @@ public static class ModelRegistry
         {
             if (!File.Exists(RegistryPath))
             {
+                // Don't declare the registry dead on ONE glance: an external editor's save-by-rename (temp write →
+                // delete → rename) leaves a milliseconds-wide window where the file doesn't exist, and a Load()
+                // landing inside it triggered a full (harmless but alarming) backup recovery. Re-check briefly.
+                System.Threading.Thread.Sleep(250);
+                if (File.Exists(RegistryPath))
+                {
+                    var retryJson = File.ReadAllText(RegistryPath);
+                    var retry = JsonUtility.FromJson<RegistryFile>(retryJson);
+                    lastLoadCorrupt = false;
+                    return Migrate(SortByName(retry?.models ?? new List<ModelDef>()), retryJson);
+                }
                 lastLoadCorrupt = false;
                 // Game registry gone (fresh/reinstalled game, verified files). Recover from the versioned project
                 // backup and write it back to the game target, so nothing is lost.
