@@ -46,15 +46,23 @@ public class AnimationLabWindow : EditorWindow
         w.RefreshList();
     }
 
+    [SerializeField] bool formDiffersFromRegistry;   // set on domain reload when the surviving form ≠ the saved entry
+
     void OnEnable()
     {
         RefreshList();
-        // RE-SYNC FROM THE REGISTRY on every domain reload (compile / project open). The form state is serialized
-        // across reloads, so without this the window resurrects a PRE-reload copy of the entry and quietly ignores
-        // whatever is in the registry now — the "stale Lab clobber" trap that cost multiple bakes (Take-001 idle,
-        // blank deploy recipe). After a reload the registry is the single source of truth; unsaved form edits from
-        // before a compile are deliberately dropped (use Save (no bake) to keep edits before compiling).
-        if (selected > 0) OnSelectResource();
+        // DOMAIN-RELOAD RECONCILIATION (v2 — the v1 auto-resync silently DISCARDED unsaved form edits on every
+        // compile, destroying user work mid-authoring; the opposite policy silently kept a stale form that clobbered
+        // registry edits at the next Save. Neither silence is acceptable.) The form's serialized state SURVIVES the
+        // reload untouched; if it differs from the saved registry entry, a warning banner appears with an explicit
+        // choice: ↻ Reload (take the registry) or Save (keep the form). The user decides — never the reload.
+        formDiffersFromRegistry = false;
+        if (selected > 0 && !string.IsNullOrEmpty((cur.resourceName ?? "").Trim()))
+        {
+            var reg = ModelRegistry.Load().FirstOrDefault(x => x.resourceName == cur.resourceName.Trim());
+            if (reg != null && JsonUtility.ToJson(reg) != JsonUtility.ToJson(cur))
+                formDiffersFromRegistry = true;
+        }
         if (!string.IsNullOrEmpty(previewPath)) LoadFitPreview(previewPath);
     }
     void OnDisable() { DestroyFitPreview(); }
@@ -314,8 +322,9 @@ public class AnimationLabWindow : EditorWindow
     {
         using (new EditorGUILayout.HorizontalScope())
         {
-            // half-width value box (matches the deploy-conversion fields); Pick/▶ sit right beside it
+            // half-width value box (matches the deploy-conversion fields); Pick/▶ stay FIXED at the right edge
             set(EditorGUILayout.TextField(new GUIContent(label, tooltip), get(), GUILayout.MinWidth(0), GUILayout.MaxWidth(EditorGUIUtility.currentViewWidth * 0.5f)));
+            GUILayout.FlexibleSpace();
             using (new EditorGUI.DisabledScope(animClips.Count == 0))
                 if (GUILayout.Button(new GUIContent("Pick", animClips.Count == 0 ? "No clips readable (glb/gltf only) — type the name" : null), GUILayout.Width(70)))
                 {
@@ -345,6 +354,7 @@ public class AnimationLabWindow : EditorWindow
 
     void OnSelectResource()
     {
+        formDiffersFromRegistry = false;   // loading fresh = in sync by definition
         if (selected <= 0) { cur = new ModelDef { animated = true }; status = ""; return; }
         var e = ModelRegistry.Load().FirstOrDefault(x => x.resourceName == existing[selected]);
         if (e == null) return;
@@ -377,6 +387,10 @@ public class AnimationLabWindow : EditorWindow
                         $"Remove '{existing[selected]}' from the registry? (Baked assets stay on disk.)", "Remove", "Cancel"))
                     { bool rem = ModelRegistry.Remove(existing[selected]); cur = new ModelDef { animated = true }; selected = 0; RefreshList(); status = rem ? "Removed." : "Remove FAILED — see the Console (registry locked or corrupt)."; }
         }
+        if (formDiffersFromRegistry)
+            EditorGUILayout.HelpBox("Form ≠ saved registry entry (your edits survived a compile, or the registry changed " +
+                "outside this window). Nothing was discarded. Choose: ↻ Reload = take the registry (drops these form " +
+                "values) · Save (no bake) or Bake = keep exactly what you see here.", MessageType.Warning);
         EditorGUILayout.Space();
 
         // --- Model identity: READ-ONLY here (the Factory owns it) ---
@@ -728,6 +742,7 @@ public class AnimationLabWindow : EditorWindow
         cur.resourceName = (cur.resourceName ?? "").Trim();
         cur.pawnDescription = (cur.pawnDescription ?? "").Trim();
         bool saved = ModelRegistry.Upsert(cur);
+        if (saved) formDiffersFromRegistry = false;   // form is now the saved truth
         RefreshList();
         status = saved
             ? $"Saved '{cur.resourceName}' (registry only, assets untouched). Relaunch the game — no re-bake, no mod rebuild."
@@ -771,6 +786,7 @@ public class AnimationLabWindow : EditorWindow
         cur.clipPreMove = cur.animStateDriven && !string.IsNullOrEmpty(r.clipPreMoveGuid) ? ModelRegistry.ParseGuid(r.clipPreMoveGuid) : new int[4];
         cur.clipIdle = cur.animStateDriven && !string.IsNullOrEmpty(r.clipIdleGuid) ? ModelRegistry.ParseGuid(r.clipIdleGuid) : new int[4];
         bool saved = ModelRegistry.Upsert(cur);
+        if (saved) formDiffersFromRegistry = false;   // form is now the saved truth
         RefreshList();
         ModelFactoryWindow.ReloadPreviews();   // give the Factory tab its preview back (fresh from this bake)
         BuildFitPreview();                     // and OUR preview: combined (hand prop) or plain model — fresh from this bake, never stale
