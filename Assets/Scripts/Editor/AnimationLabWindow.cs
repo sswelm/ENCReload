@@ -478,7 +478,8 @@ public class AnimationLabWindow : EditorWindow
                 // fields survive for legacy recipes.
                 cur.deployRecoilStep = EditorGUILayout.TextField(new GUIContent("Recoil step", "Source-frame sampling step (empty = 2)."), cur.deployRecoilStep, GUILayout.MinWidth(0));
                 cur.deploySlamDeg = EditorGUILayout.TextField(new GUIContent("Slam (deg)", "The kick's SLAM PITCH in DEGREES — states intent directly; the converter derives the arc so the rendered in-game peak equals this exactly. 0/empty = NO kick pitch. POSITIVE = muzzle-DOWN dip (the legacy look); NEGATIVE = muzzle-UP jump (same motion mirrored). ~5 = subtle, 8-12 = clearly visible, 20+ = dramatic."), cur.deploySlamDeg, GUILayout.MinWidth(0));
-                cur.deployRecoilReturn = EditorGUILayout.TextField(new GUIContent("Return slow", "OPTIONAL palindrome return: the slam played BACKWARD at this multiple of its duration, gliding the tube back into battery (empty = 4 = quarter speed). 0 = OFF — the kick holds and the idle hold snaps the tube forward."), cur.deployRecoilReturn, GUILayout.MinWidth(0));
+                cur.deploySlamSettle = EditorGUILayout.TextField(new GUIContent("Slam settle", "The slam's RECOVERY as a multiple of its rise (empty = 1 = a symmetric snap; 3 = a heavy gun easing back). The rise always follows the source's own slam timing."), cur.deploySlamSettle, GUILayout.MinWidth(0));
+                cur.deployRecoilReturn = EditorGUILayout.TextField(new GUIContent("Return slow", "The fire-cycle's palindrome return: the recoil window played BACKWARD at this multiple of its duration (raises the barrel back to battery; empty = 4, 1 = natural speed). 0 = OFF — ends as the source ends."), cur.deployRecoilReturn, GUILayout.MinWidth(0));
                 EditorGUIUtility.labelWidth = lw2;
             }
             EditorGUI.indentLevel--;
@@ -725,7 +726,7 @@ public class AnimationLabWindow : EditorWindow
         cur.convertRig = mine.convertRig;
         cur.deployConvert = mine.deployConvert; cur.deployStart = mine.deployStart; cur.deployEnd = mine.deployEnd;
         cur.deployStrip = mine.deployStrip; cur.deployReadyFrame = mine.deployReadyFrame; cur.deployLegScale = mine.deployLegScale; cur.deployBarrelScale = mine.deployBarrelScale;
-        cur.deployRecoil = mine.deployRecoil; cur.deployRecoilStep = mine.deployRecoilStep; cur.deployRecoilMag = mine.deployRecoilMag; cur.deployArcR = mine.deployArcR; cur.deployRecoilReturn = mine.deployRecoilReturn; cur.deploySlamDeg = mine.deploySlamDeg;
+        cur.deployRecoil = mine.deployRecoil; cur.deployRecoilStep = mine.deployRecoilStep; cur.deployRecoilMag = mine.deployRecoilMag; cur.deployArcR = mine.deployArcR; cur.deployRecoilReturn = mine.deployRecoilReturn; cur.deploySlamDeg = mine.deploySlamDeg; cur.deploySlamSettle = mine.deploySlamSettle;
         cur.animStateDriven = mine.animStateDriven; cur.animClipMove = mine.animClipMove; cur.animClipAfter = mine.animClipAfter; cur.animClipAttack = mine.animClipAttack; cur.animClipCombat = mine.animClipCombat; cur.animClipPreMove = mine.animClipPreMove; cur.animClipIdle = mine.animClipIdle; cur.attackRepeats = mine.attackRepeats; cur.clearAimLayer = mine.clearAimLayer;
         cur.handPropName = mine.handPropName; cur.handPropGuid = mine.handPropGuid; cur.handPropMat = mine.handPropMat; cur.handPropBone = mine.handPropBone;
         cur.handPropAngles = mine.handPropAngles;   // Lab-owned again since the LIVE fit knob edits it ('Save rotation to game')

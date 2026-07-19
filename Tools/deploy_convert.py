@@ -6,7 +6,7 @@
 # Soft-skinned character rigs (crew) collapse the bake, so a strip-list removes them (and any loose props).
 #
 # Run headless:
-#   blender -b -P deploy_convert.py -- <in.glb> <out.glb> [start end] [stripCsv] [readyFrame] [legScale] [barrelScale] [recoilSrcStart recoilSrcEnd] [step] [mag] [arcR] [returnSlow] [slamDeg]
+#   blender -b -P deploy_convert.py -- <in.glb> <out.glb> [start end] [stripCsv] [readyFrame] [legScale] [barrelScale] [recoilSrcStart recoilSrcEnd] [step] [mag] [arcR] [returnSlow] [slamDeg] [slamSettle]
 #     start end   : trim the clip to this sub-range (the deploy). Omit = full clip.
 #     stripCsv    : comma-separated name substrings to delete (crew/props). Omit = the M114 defaults below.
 #     readyFrame  : (5b) source frame of the fully-elevated barrel; retargets the barrel to rise there over the deploy's back half.
@@ -459,10 +459,12 @@ if arm_action:
         # peak, then plays the same rise MIRRORED back to zero — a symmetric snap of ~2x the natural attack time
         # (~half a second), independent of how long the recoil window is. Identity everywhere else.
         _t_peak = max(_arc_by_src, key=lambda k: abs(_arc_by_src[k])) if _arc_by_src else 0
+        _settle = float(argv[15]) if len(argv) > 15 and argv[15].strip() else 1.0   # Slam settle: recovery takes N x the rise (1 = symmetric snap)
+        if _settle <= 0.0: _settle = 1.0
         def slam_theta(t):
             if not _arc_by_src: return 0.0
             if t <= _t_peak: return theta_at(t)                     # the rise, exactly as the source slams
-            m = _t_peak - (t - _t_peak)                             # mirrored decay over the same duration
+            m = _t_peak - (t - _t_peak) / _settle                   # mirrored decay, stretched by the settle factor
             return theta_at(m) if m >= rs2 else 0.0
         arm_quats = [Quaternion(_arc_axis, slam_theta(t)) if (_arc_by_src and i < len(fwd)) else Quaternion((1.0, 0.0, 0.0, 0.0))
                      for i, t in enumerate(frames2)]
