@@ -1,6 +1,6 @@
 // AnimationLabWindow.cs (ENC editor) — Tools > ENC > Animation Lab.
 // The dedicated dialog for a model's ANIMATION: which clip plays and how (fire-on-attack, deploy-on-stop, recoil —
-// and, next, the state-driven idle/movement/after-movement set). Mutually exclusive with the Universal Model Factory
+// and, next, the state-driven idle/movement/after-movement set). Mutually exclusive with the Model Factory
 // and working together with it: the Factory owns the MODEL (identity, file, transform, size, geometry/shading) and
 // shows a read-only animation summary with a jump button here; this Lab owns the animation settings and shows the
 // model identity read-only. Both bake through the same pipeline (ConfigFor -> UniversalBaker.BuildAnimated ->
@@ -29,7 +29,7 @@ public class AnimationLabWindow : EditorWindow
     [MenuItem("Tools/HAF/Animation Lab")]
     static void Open()
     {
-        // Dock as a TAB next to the Universal Model Factory (desiredDockNextTo) so the two authoring tools present as
+        // Dock as a TAB next to the Model Factory (desiredDockNextTo) so the two authoring tools present as
         // one tabbed dialog. Falls back to a floating window when the Factory isn't open.
         var w = GetWindow<AnimationLabWindow>("Animation Lab", false, typeof(ModelFactoryWindow));
         w.minSize = new Vector2(480, 420);
@@ -38,7 +38,7 @@ public class AnimationLabWindow : EditorWindow
 
     void OnEnable() { RefreshList(); }
 
-    // Context handoff from the Universal Model Factory ("Edit in Animation Lab"): land on the RIGHT entry. Match an
+    // Context handoff from the Model Factory ("Edit in Animation Lab"): land on the RIGHT entry. Match an
     // existing animated entry by resource name, then by model file; otherwise pre-fill a NEW animated entry from the
     // Factory's current form (a fresh rigged model getting its animation configured for the first time).
     internal static void OpenFor(string resourceName, string modelFile, string pawnDescription)
@@ -119,7 +119,7 @@ public class AnimationLabWindow : EditorWindow
         EditorGUILayout.LabelField("Animation Lab", EditorStyles.boldLabel);
         EditorGUILayout.HelpBox(
             "Configures the ANIMATION of a model: which clip plays and how (continuous loop, fire-on-attack, " +
-            "deploy-on-stop + recoil). The model itself (file, transform, size, shading) is set up in the Universal " +
+            "deploy-on-stop + recoil). The model itself (file, transform, size, shading) is set up in the " +
             "Model Factory — each setting lives in exactly one of the two windows.", MessageType.None);
 
         // --- Pick the animated entry to edit ---
@@ -140,7 +140,7 @@ public class AnimationLabWindow : EditorWindow
         if (!hasModel)
         {
             EditorGUILayout.HelpBox("No model loaded. Pick one under 'Edit existing', or set the model up in the " +
-                "Universal Model Factory first (file, transform, size) and press its 'Edit in Animation Lab' button.", MessageType.Info);
+                "Model Factory first (file, transform, size) and press its 'Edit in Animation Lab' button.", MessageType.Info);
         }
         else
         {

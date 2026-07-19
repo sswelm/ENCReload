@@ -1,4 +1,4 @@
-// ModelFactoryWindow.cs (ENC editor) — Tools > Universal Model Factory.
+// ModelFactoryWindow.cs (ENC editor) — Tools > Model Factory.
 // Create a NEW 3D resource or pick an existing one, choose a target pawn description + a model file (.glb/.obj/.fbx),
 // and configure EVERYTHING we learned makes a model work: rotation, position (z = waterline), size, normals mode,
 // smoothing angle, conversion grid. Press Bake -> skeleton + atlas + a JSON registry entry the in-game plugin reads.
@@ -35,10 +35,10 @@ public class ModelFactoryWindow : EditorWindow
     List<string> animClips = new List<string>();                                   // clip names read from the model (Clip picker)
     List<KeyValuePair<string, int>> animBonePrefixes = new List<KeyValuePair<string, int>>();  // bone-name prefix -> count (Bones picker)
 
-    [MenuItem("Tools/HAF/Universal Model Factory")]
+    [MenuItem("Tools/HAF/Model Factory")]
     static void Open()
     {
-        var w = GetWindow<ModelFactoryWindow>(false, "Universal Model Factory");
+        var w = GetWindow<ModelFactoryWindow>(false, "Model Factory");
         w.minSize = new Vector2(500, 470);
         w.RefreshList();
     }
@@ -139,7 +139,7 @@ public class ModelFactoryWindow : EditorWindow
         // "Animated (own rig + clip)") aren't clipped. Scales with window width so fields still get room when widened.
         EditorGUIUtility.labelWidth = Mathf.Clamp(position.width * 0.42f, 210f, 320f);
         GUILayout.Space(10f);
-        EditorGUILayout.LabelField("Universal Model Factory", EditorStyles.boldLabel);
+        EditorGUILayout.LabelField("Model Factory", EditorStyles.boldLabel);
         EditorGUILayout.Space();
 
         DrawSettings();

@@ -26,7 +26,7 @@ public class ProjectileBakerWindow : EditorWindow
     static void Open() => GetWindow<ProjectileBakerWindow>("Projectile Lab");
 
     // [SerializeField] so Unity preserves the window + its form across a DOMAIN RELOAD (any script recompile / bake /
-    // Play toggle) instead of discarding it — matches the Universal Model Factory (which survives reloads for this reason).
+    // Play toggle) instead of discarding it — matches the Model Factory (which survives reloads for this reason).
     [SerializeField] string dumpGuid = "";
     [SerializeField] string status = "";
     [SerializeField] Vector2 scroll;
