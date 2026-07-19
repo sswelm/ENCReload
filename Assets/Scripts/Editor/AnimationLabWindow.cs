@@ -356,7 +356,16 @@ public class AnimationLabWindow : EditorWindow
         {
             EditorGUILayout.LabelField("Resource", cur.resourceName);
             EditorGUILayout.LabelField("Target pawn", string.IsNullOrWhiteSpace(cur.pawnDescription) ? "(set in the Model Factory)" : cur.pawnDescription);
-            EditorGUILayout.LabelField("Model file", string.IsNullOrWhiteSpace(cur.modelFile) ? "(re-bake uses the extracted files)" : cur.modelFile, EditorStyles.wordWrappedMiniLabel);
+            using (new EditorGUILayout.HorizontalScope())
+            {
+                EditorGUILayout.LabelField("Model file", string.IsNullOrWhiteSpace(cur.modelFile) ? "(re-bake uses the extracted files)" : cur.modelFile, EditorStyles.wordWrappedMiniLabel);
+                if (GUILayout.Button("Browse…", GUILayout.Width(70)))
+                {
+                    string start = string.IsNullOrWhiteSpace(cur.modelFile) ? "" : System.IO.Path.GetDirectoryName(cur.modelFile);
+                    string picked = EditorUtility.OpenFilePanel("Model file", start, "glb,gltf,fbx,blend,obj");
+                    if (!string.IsNullOrEmpty(picked)) cur.modelFile = picked.Replace('\\', '/');
+                }
+            }
         }
         EnsureClips();
 

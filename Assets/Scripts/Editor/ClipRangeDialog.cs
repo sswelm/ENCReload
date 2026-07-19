@@ -24,15 +24,15 @@ public class ClipRangeDialog : EditorWindow
     float frame; int startF, endF;
     bool playing; double lastTick;
 
+    // The instance is added to the PreviewRenderUtility's OWN SCENE (AddSingleGO) and rendered by its camera like
+    // any live object — Unity's real skinning path, real transforms, real materials. NO hand-rolled BakeMesh/DrawMesh:
+    // two attempts at reproducing the renderer's scale handling by hand each corrupted the view (un-mirrored legs,
+    // then giant parts) while the underlying animation data was provably correct. Nothing sits between data and eyes.
     GameObject inst;
-    readonly List<SkinnedMeshRenderer> smrs = new List<SkinnedMeshRenderer>();
-    readonly List<MeshFilter> mfs = new List<MeshFilter>();
-    Mesh[] bakedMeshes = new Mesh[0];
     PreviewRenderUtility pru;
     Vector2 orbit = new Vector2(150f, -15f);
     float zoom = 1.4f;
     Bounds bounds; bool boundsValid;
-    static Material fallbackMat;
 
     public static void Open(string modelFile, string resourceName, string currentSpec, Action<string> onConfirm)
     {
@@ -133,22 +133,15 @@ public class ClipRangeDialog : EditorWindow
         instPath = want;
         var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(want);
         if (prefab == null) return;
+        if (pru == null) pru = new PreviewRenderUtility();
         inst = Instantiate(prefab);
-        inst.hideFlags = HideFlags.HideAndDontSave;
-        smrs.Clear(); mfs.Clear();
-        smrs.AddRange(inst.GetComponentsInChildren<SkinnedMeshRenderer>(true));
-        mfs.AddRange(inst.GetComponentsInChildren<MeshFilter>(true));
-        bakedMeshes = new Mesh[smrs.Count];
-        for (int i = 0; i < bakedMeshes.Length; i++) bakedMeshes[i] = new Mesh { hideFlags = HideFlags.HideAndDontSave };
+        pru.AddSingleGO(inst);   // lives in the preview scene; its own renderers draw it — no manual mesh baking
         boundsValid = false;
     }
 
     void DestroyInstance()
     {
         if (inst != null) { DestroyImmediate(inst); inst = null; }
-        foreach (var bm in bakedMeshes) if (bm != null) DestroyImmediate(bm);
-        bakedMeshes = new Mesh[0];
-        smrs.Clear(); mfs.Clear();
         boundsValid = false;
     }
 
@@ -180,38 +173,16 @@ public class ClipRangeDialog : EditorWindow
         if (inst == null) return;
         var clip = clips[Mathf.Clamp(clipIdx, 0, clips.Length - 1)];
         clip.SampleAnimation(inst, Mathf.Clamp(frame, 0, TotalFrames) / FPS);
-        for (int i = 0; i < smrs.Count; i++)
-            if (smrs[i] != null) smrs[i].BakeMesh(bakedMeshes[i], true);   // useScale=true: bake the renderer's scale INTO the vertices — glTF->FBX rigs carry NEGATIVE node scales (mirrors); baking without scale and drawing scale-less UN-mirrored one side (the M114's crossed legs — a renderer bug, not the data)
         if (!boundsValid)
         {
             bool first = true;
-            for (int i = 0; i < smrs.Count; i++)
+            foreach (var r in inst.GetComponentsInChildren<Renderer>())
             {
-                if (smrs[i] == null) continue;
-                var b = TransformBounds(GlueMatrix(smrs[i].transform), bakedMeshes[i].bounds);
-                if (first) { bounds = b; first = false; } else bounds.Encapsulate(b);
-            }
-            foreach (var mf in mfs)
-            {
-                if (mf == null || mf.sharedMesh == null) continue;
-                var b = TransformBounds(mf.transform.localToWorldMatrix, mf.sharedMesh.bounds);
-                if (first) { bounds = b; first = false; } else bounds.Encapsulate(b);
+                if (r == null) continue;
+                if (first) { bounds = r.bounds; first = false; } else bounds.Encapsulate(r.bounds);
             }
             boundsValid = !first;
         }
-    }
-
-    // BakeMesh output already carries the renderer's scale — draw with rotation+position only (no double-scale).
-    static Matrix4x4 GlueMatrix(Transform t) => Matrix4x4.TRS(t.position, t.rotation, Vector3.one);
-
-    static Bounds TransformBounds(Matrix4x4 m, Bounds b)
-    {
-        var c = m.MultiplyPoint3x4(b.center); var e = b.extents;
-        var ne = new Vector3(
-            Mathf.Abs(m.m00) * e.x + Mathf.Abs(m.m01) * e.y + Mathf.Abs(m.m02) * e.z,
-            Mathf.Abs(m.m10) * e.x + Mathf.Abs(m.m11) * e.y + Mathf.Abs(m.m12) * e.z,
-            Mathf.Abs(m.m20) * e.x + Mathf.Abs(m.m21) * e.y + Mathf.Abs(m.m22) * e.z);
-        return new Bounds(c, ne * 2f);
     }
 
     void OnGUI()
@@ -278,9 +249,7 @@ public class ClipRangeDialog : EditorWindow
     void RenderPreview(Rect rect)
     {
         SamplePose();
-        if (!boundsValid) return;
-        if (pru == null) pru = new PreviewRenderUtility();
-        if (fallbackMat == null) fallbackMat = new Material(Shader.Find("Standard"));
+        if (!boundsValid || pru == null) return;
         pru.BeginPreview(rect, GUIStyle.none);
         var cam = pru.camera;
         float radius = Mathf.Max(bounds.extents.magnitude, 0.1f);
@@ -293,23 +262,7 @@ public class ClipRangeDialog : EditorWindow
         pru.lights[0].transform.rotation = Quaternion.Euler(45f, 45f, 0f);
         if (pru.lights.Length > 1) pru.lights[1].intensity = 0.6f;
         pru.ambientColor = new Color(0.3f, 0.3f, 0.3f);
-        for (int i = 0; i < smrs.Count; i++)
-        {
-            if (smrs[i] == null) continue;
-            var mats = smrs[i].sharedMaterials;
-            var mtx = GlueMatrix(smrs[i].transform);
-            for (int s = 0; s < bakedMeshes[i].subMeshCount; s++)
-                pru.DrawMesh(bakedMeshes[i], mtx, mats != null && mats.Length > 0 ? (mats[Mathf.Min(s, mats.Length - 1)] ?? fallbackMat) : fallbackMat, s);
-        }
-        foreach (var mf in mfs)
-        {
-            if (mf == null || mf.sharedMesh == null) continue;
-            var r = mf.GetComponent<MeshRenderer>();
-            var mats = r != null ? r.sharedMaterials : null;
-            for (int s = 0; s < mf.sharedMesh.subMeshCount; s++)
-                pru.DrawMesh(mf.sharedMesh, mf.transform.localToWorldMatrix, mats != null && mats.Length > 0 ? (mats[Mathf.Min(s, mats.Length - 1)] ?? fallbackMat) : fallbackMat, s);
-        }
-        cam.Render();
+        cam.Render();   // the instance lives in the preview scene (AddSingleGO) — its own renderers draw it
         GUI.DrawTexture(rect, pru.EndPreview(), ScaleMode.StretchToFill, false);
     }
 }
