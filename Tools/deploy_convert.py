@@ -97,20 +97,6 @@ bpy.ops.nla.bake(frame_start=fmin, frame_end=fmax, only_selected=False,
 bpy.ops.object.mode_set(mode='OBJECT')
 print("DEPLOY baked %d bones" % len(bone_of))
 
-# --- 5a. PRISTINE FIRE-WINDOW SNAPSHOT (user-designed fire cycle, 2026-07-19): capture the recoil range NOW,
-#         BEFORE 5b/5c clear and re-key the barrel/leg channels — the source's own fire choreography (kick, barrel
-#         LOWERING to reload, raising back to battery) lives in these frames and 5b would erase the barrel part.
-#         The 'recoil' role clip (7c) is built from THIS snapshot: the authentic fire cycle, rotations intact. ---
-_fire_snap = {}
-if len(argv) > 8 and argv[8].strip():
-    for pb in arm.pose.bones:
-        pb.rotation_mode = 'QUATERNION'
-    for f in range(int(argv[8]), int(argv[9]) + 1):
-        scene.frame_set(f)
-        bpy.context.view_layer.update()
-        _fire_snap[f] = {pb.name: (pb.location.copy(), pb.rotation_quaternion.copy()) for pb in arm.pose.bones}
-    print("DEPLOY fire-window snapshot: %d frames (%s..%s) captured PRISTINE (pre-retarget)" % (len(_fire_snap), argv[8], argv[9]))
-
 # --- 5b. optional: RETARGET the barrel to its fully-elevated 'ready' pose by the deploy's end (argv[5] = readyFrame) ---
 # The rest/deployed pose should be combat-ready (barrel up). In the source the barrel pauses at the aiming angle for a
 # long crew-loading hold before rising to the firing elevation, so a plain trim would deploy then sit then finish. Instead
@@ -352,7 +338,6 @@ for p in list(parts):
 # --- 7b. keep ONLY the armature's baked action; strip every other object's animation + purge stray actions,
 #         so the export produces ONE clean deploy clip (not 17 leftover per-part animations) ---
 arm_action = arm.animation_data.action if arm.animation_data else None
-arm_slot = getattr(arm.animation_data, "action_slot", None) if arm.animation_data else None   # the ORIGINAL binding — reassigning arm_action later must restore THIS slot (slots[0] can be a different, dead binding: evaluation silently no-ops and poses freeze at leftovers)
 for o in bpy.data.objects:
     if o is not arm and o.animation_data:
         o.animation_data_clear()
@@ -381,56 +366,28 @@ if arm_action:
         scene.frame_set(f)
         bpy.context.view_layer.update()
         _snap[f] = {pb.name: (pb.location.copy(), pb.rotation_quaternion.copy()) for pb in arm.pose.bones}
-    def make_role(name, frames, outs=None):
+    def make_role(name, frames):
         a = bpy.data.actions.new(name)
         arm.animation_data.action = a
         try: arm.animation_data.action_slot = a.slots.new(id_type='OBJECT', name=arm.name)   # Blender 4.4+/5 slotted actions
         except Exception: pass
         for i, f in enumerate(frames):
-            fo = fmin + (outs[i] if outs is not None else i)
             for pb in arm.pose.bones:
-                if pb.name in _snap[f]:
-                    loc, quat = _snap[f][pb.name]
-                    pb.location = loc
-                    pb.rotation_quaternion = quat
-                else:
-                    # bone born AFTER this snapshot (the RecoilArm vs the pristine 5a fire window) — identity no-op
-                    pb.location = (0.0, 0.0, 0.0)
-                    pb.rotation_quaternion = (1.0, 0.0, 0.0, 0.0)
+                loc, quat = _snap[f][pb.name]
+                pb.location = loc
+                pb.rotation_quaternion = quat
                 # keyed from fmin so every role stays inside the export frame range (rig_anim re-clamps per role later)
-                pb.keyframe_insert('location', frame=fo)
-                pb.keyframe_insert('rotation_quaternion', frame=fo)
+                pb.keyframe_insert('location', frame=fmin + i)
+                pb.keyframe_insert('rotation_quaternion', frame=fmin + i)
         return a
     _dep = list(range(fmin, deploy_end + 1))
     make_role("unfold", _dep)
     make_role("fold", list(reversed(_dep)))
     make_role("folded", [fmin, fmin])            # 2 identical frames: a valid HELD pose (0-length clips can be dropped by importers)
     make_role("deployed", [deploy_end, deploy_end])
-    has_recoil = len(argv) > 8 and argv[8].strip() != ""
+    has_recoil = tail_end is not None and tail_end > deploy_end
     if has_recoil:
-        # THE SOURCE'S OWN KICK (user call, 2026-07-19, after the engine's Law 5 — bone POSITIONS are pinned at
-        # bind, only ROTATIONS animate): the far-pivot arm arc renders as a mere in-place pitch, but the SOURCE'S
-        # fire frames carry real ROTATIONAL content — the M114's wheels ROLL 33° as the carriage recoils and runs
-        # back (measured f444..452). The recoil role therefore samples the source's fire window directly (barrel/
-        # legs hold their re-keyed stances via extrapolation; wheels roll; translations die in-game, harmless) +
-        # the PALINDROME RETURN (same frames backward, slowed by argv[13]).
-        rs2, re2 = int(argv[8]), int(argv[9])
-        ret2 = int(argv[13]) if len(argv) > 13 and argv[13].strip() else 4
-        # The role samples the PRISTINE pre-retarget snapshot (5a) — the source's own fire cycle: kick, barrel
-        # lowering to reload, raising back to battery. All-rotation content renders; translations die harmlessly.
-        _snap.update(_fire_snap)
-        fwd = list(range(rs2, re2 + 1))
-        frames2 = list(fwd)
-        outs2 = list(range(len(fwd)))
-        if ret2 > 0:
-            o = len(fwd) - 1
-            for f in reversed(fwd[:-1]):
-                o += ret2
-                frames2.append(f)
-                outs2.append(o)
-        make_role("recoil", frames2, outs2)
-        print("DEPLOY recoil role: SOURCE fire frames %d..%d (wheel roll & all rotational content) + %s" %
-              (rs2, re2, ("palindrome return x%d" % ret2) if ret2 > 0 else "no return (hold)"))
+        make_role("recoil", list(range(deploy_end, tail_end + 1)))
     arm.animation_data.action = arm_action       # the legacy action stays active (legacy bakes untouched)
     print("DEPLOY role clips: unfold/fold/folded/deployed%s (+ legacy 'deploy')" % ("/recoil" if has_recoil else ""))
 
