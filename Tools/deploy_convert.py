@@ -366,28 +366,53 @@ if arm_action:
         scene.frame_set(f)
         bpy.context.view_layer.update()
         _snap[f] = {pb.name: (pb.location.copy(), pb.rotation_quaternion.copy()) for pb in arm.pose.bones}
-    def make_role(name, frames):
+    def make_role(name, frames, outs=None):
         a = bpy.data.actions.new(name)
         arm.animation_data.action = a
         try: arm.animation_data.action_slot = a.slots.new(id_type='OBJECT', name=arm.name)   # Blender 4.4+/5 slotted actions
         except Exception: pass
         for i, f in enumerate(frames):
+            fo = fmin + (outs[i] if outs is not None else i)
             for pb in arm.pose.bones:
                 loc, quat = _snap[f][pb.name]
                 pb.location = loc
                 pb.rotation_quaternion = quat
                 # keyed from fmin so every role stays inside the export frame range (rig_anim re-clamps per role later)
-                pb.keyframe_insert('location', frame=fmin + i)
-                pb.keyframe_insert('rotation_quaternion', frame=fmin + i)
+                pb.keyframe_insert('location', frame=fo)
+                pb.keyframe_insert('rotation_quaternion', frame=fo)
         return a
     _dep = list(range(fmin, deploy_end + 1))
     make_role("unfold", _dep)
     make_role("fold", list(reversed(_dep)))
     make_role("folded", [fmin, fmin])            # 2 identical frames: a valid HELD pose (0-length clips can be dropped by importers)
     make_role("deployed", [deploy_end, deploy_end])
-    has_recoil = tail_end is not None and tail_end > deploy_end
+    has_recoil = len(argv) > 8 and argv[8].strip() != ""
     if has_recoil:
-        make_role("recoil", list(range(deploy_end, tail_end + 1)))
+        # THE SOURCE'S OWN KICK (user call, 2026-07-19, after the engine's Law 5 — bone POSITIONS are pinned at
+        # bind, only ROTATIONS animate): the far-pivot arm arc renders as a mere in-place pitch, but the SOURCE'S
+        # fire frames carry real ROTATIONAL content — the M114's wheels ROLL 33° as the carriage recoils and runs
+        # back (measured f444..452). The recoil role therefore samples the source's fire window directly (barrel/
+        # legs hold their re-keyed stances via extrapolation; wheels roll; translations die in-game, harmless) +
+        # the PALINDROME RETURN (same frames backward, slowed by argv[13]).
+        rs2, re2 = int(argv[8]), int(argv[9])
+        ret2 = int(argv[13]) if len(argv) > 13 and argv[13].strip() else 4
+        for f in range(rs2, re2 + 1):
+            if f not in _snap:
+                scene.frame_set(f)
+                bpy.context.view_layer.update()
+                _snap[f] = {pb.name: (pb.location.copy(), pb.rotation_quaternion.copy()) for pb in arm.pose.bones}
+        fwd = list(range(rs2, re2 + 1))
+        frames2 = list(fwd)
+        outs2 = list(range(len(fwd)))
+        if ret2 > 0:
+            o = len(fwd) - 1
+            for f in reversed(fwd[:-1]):
+                o += ret2
+                frames2.append(f)
+                outs2.append(o)
+        make_role("recoil", frames2, outs2)
+        print("DEPLOY recoil role: SOURCE fire frames %d..%d (wheel roll & all rotational content) + %s" %
+              (rs2, re2, ("palindrome return x%d" % ret2) if ret2 > 0 else "no return (hold)"))
     arm.animation_data.action = arm_action       # the legacy action stays active (legacy bakes untouched)
     print("DEPLOY role clips: unfold/fold/folded/deployed%s (+ legacy 'deploy')" % ("/recoil" if has_recoil else ""))
 
