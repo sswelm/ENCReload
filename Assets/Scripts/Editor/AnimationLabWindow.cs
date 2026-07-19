@@ -473,8 +473,10 @@ public class AnimationLabWindow : EditorWindow
                 // compact labels + zero-minimum fields: four standard 150px label columns don't fit a row — the
                 // last field (Return slow) was starved clean off at normal window widths.
                 float lw2 = EditorGUIUtility.labelWidth; EditorGUIUtility.labelWidth = 88;
+                // Slide scale + Arc R deliberately NOT shown: under Slam-degrees the slide scale self-cancels (the
+                // radius derives from the scaled peak) and raw Arc R is superseded — dead knobs confuse. Both registry
+                // fields survive for legacy recipes.
                 cur.deployRecoilStep = EditorGUILayout.TextField(new GUIContent("Recoil step", "Source-frame sampling step (empty = 2)."), cur.deployRecoilStep, GUILayout.MinWidth(0));
-                cur.deployRecoilMag = EditorGUILayout.TextField(new GUIContent("Slide scale", "Recoil slide-distance scale (empty = 1; 2 ≈ half the tube)."), cur.deployRecoilMag, GUILayout.MinWidth(0));
                 cur.deploySlamDeg = EditorGUILayout.TextField(new GUIContent("Slam (deg)", "The kick's SLAM PITCH in DEGREES — states intent directly; the converter derives the arc so the rendered in-game peak equals this exactly. 0/empty = NO kick pitch. POSITIVE = muzzle-DOWN dip (the legacy look); NEGATIVE = muzzle-UP jump (same motion mirrored). ~5 = subtle, 8-12 = clearly visible, 20+ = dramatic."), cur.deploySlamDeg, GUILayout.MinWidth(0));
                 cur.deployRecoilReturn = EditorGUILayout.TextField(new GUIContent("Return slow", "OPTIONAL palindrome return: the slam played BACKWARD at this multiple of its duration, gliding the tube back into battery (empty = 4 = quarter speed). 0 = OFF — the kick holds and the idle hold snaps the tube forward."), cur.deployRecoilReturn, GUILayout.MinWidth(0));
                 EditorGUIUtility.labelWidth = lw2;
