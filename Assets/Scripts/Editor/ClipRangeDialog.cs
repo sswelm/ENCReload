@@ -58,24 +58,32 @@ public class ClipRangeDialog : EditorWindow
         string dirFull = System.IO.Path.Combine(proj, fbxDir);
         var existing = System.IO.Directory.Exists(dirFull) ? System.IO.Directory.GetFiles(dirFull, "*.fbx") : new string[0];
         bool stale = existing.Length == 0
-                     || existing.Any(f => System.IO.Path.GetFileName(f) == resourceName + "_inspect.fbx")   // legacy single-file converter output (mirrored anim bug) — force re-convert
+                     || !System.IO.File.Exists(System.IO.Path.Combine(dirFull, "manifest.txt"))   // pre-manifest converter output (mirrored anim / unreliable take names) — force re-convert
                      || System.IO.File.GetLastWriteTimeUtc(modelFile) > existing.Max(f => System.IO.File.GetLastWriteTimeUtc(f));
         if (stale && !BuildInspectFbx(proj, dirFull)) return;
 
+        // exact action names come from the manifest (FBX take names are unreliable: slot quirks yielded "Scene",
+        // and safe filenames can't round-trip characters like the '|' in Sketchfab action names)
+        var nameByFile = new Dictionary<string, string>();
+        string manifestPath = System.IO.Path.Combine(dirFull, "manifest.txt");
+        if (System.IO.File.Exists(manifestPath))
+            foreach (var line in System.IO.File.ReadAllLines(manifestPath))
+            { var t = line.Split('\t'); if (t.Length == 2) nameByFile[t[0]] = t[1]; }
         var clipL = new List<AnimationClip>(); var nameL = new List<string>(); var pathL = new List<string>();
         foreach (var full in System.IO.Directory.GetFiles(dirFull, "*.fbx").OrderBy(f => f))
         {
-            string rel = fbxDir + "/" + System.IO.Path.GetFileName(full);
+            string fileName = System.IO.Path.GetFileName(full);
+            string rel = fbxDir + "/" + fileName;
             var imp = AssetImporter.GetAtPath(rel) as ModelImporter;
             if (imp != null && (imp.animationType != ModelImporterAnimationType.Generic || !imp.importAnimation))
             { imp.animationType = ModelImporterAnimationType.Generic; imp.importAnimation = true; imp.SaveAndReimport(); }
             foreach (var c in AssetDatabase.LoadAllAssetsAtPath(rel).OfType<AnimationClip>())
             {
                 if (c.name.StartsWith("__preview")) continue;
-                // the take name is "HAFCLIP|<action>" (sentinel armature name) — strip the FIXED prefix to recover
-                // the exact action name, which may itself contain '|' (e.g. "Soldier_reference_skeleton|Idle1")
-                string nm = c.name.StartsWith("HAFCLIP|") ? c.name.Substring("HAFCLIP|".Length) : c.name;
+                string nm = nameByFile.TryGetValue(fileName, out var exact) ? exact
+                          : System.IO.Path.GetFileNameWithoutExtension(fileName);
                 clipL.Add(c); nameL.Add(nm); pathL.Add(rel);
+                break;   // one action per inspection FBX — ignore any extra takes
             }
         }
         clips = clipL.ToArray(); clipNames = nameL.ToArray(); clipPaths = pathL.ToArray();
