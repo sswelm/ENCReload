@@ -232,11 +232,22 @@ public class AnimationLabWindow : EditorWindow
             cur.handPropMat = EditorGUILayout.TextField(new GUIContent("Material GUID (borrowed)",
                 "MaterialRef whose output layer the prop renders with — \"a,b,c,d\". Empty = the shared " +
                 "EQ_DLC04_Weapons material (verified working for weapon props)."), cur.handPropMat ?? "");
-            cur.handPropAngles = EditorGUILayout.TextField(new GUIContent("Import angles (x,y,z)",
-                "Draw-time rotation of the prop around its glue bone, in degrees — e.g. \"0,90,0\". The FAST " +
-                "orientation knob: the plugin stamps it onto the collection at load, so iterating = change + " +
-                "Save (no bake) + RELAUNCH (no prop re-bake, no mod rebuild). Dial one axis at a time. " +
-                "Empty = whatever the Prop Lab baked."), cur.handPropAngles ?? "");
+            // Proper Vector3 field over the "x,y,z" registry string (invariant-culture round-trip).
+            Vector3 hpa = Vector3.zero;
+            {
+                var parts = (cur.handPropAngles ?? "").Split(',');
+                if (parts.Length == 3
+                    && float.TryParse(parts[0].Trim(), System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out float hx)
+                    && float.TryParse(parts[1].Trim(), System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out float hy)
+                    && float.TryParse(parts[2].Trim(), System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out float hz))
+                    hpa = new Vector3(hx, hy, hz);
+            }
+            var hpa2 = EditorGUILayout.Vector3Field(new GUIContent("Import angles (deg)",
+                "Draw-time rotation of the prop around its glue bone. The FAST orientation knob: the plugin stamps " +
+                "it onto the collection at load, so iterating = change + Save (no bake) + RELAUNCH (no prop " +
+                "re-bake, no mod rebuild). Dial one axis at a time (try Y=90 first)."), hpa);
+            if (hpa2 != hpa || string.IsNullOrEmpty(cur.handPropAngles))
+                cur.handPropAngles = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0:0.###},{1:0.###},{2:0.###}", hpa2.x, hpa2.y, hpa2.z);
         }
         // Animate only bones — free text + a Pick that appends a bone-name prefix (grouped, with counts) from the model.
         using (new EditorGUILayout.HorizontalScope())
