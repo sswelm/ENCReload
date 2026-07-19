@@ -299,6 +299,9 @@ public class AnimationLabWindow : EditorWindow
                     var labels = animClips.Select(n => { var len = ModelFactoryWindow.ClipLengthOf(cur.modelFile, n); return len != null ? n + "   —   " + len : n; }).ToArray();
                     new StringDropdown(new AdvancedDropdownState(), labels, arr, "Clips", n => { set(n); Repaint(); }).Show(r);
                 }
+            if (GUILayout.Button(new GUIContent("▶", "Open the CLIP RANGE PICKER: preview + play/scrub the model's clips, set a Start..End " +
+                "frame slice, and Confirm to fill this field (clip[start..end])."), GUILayout.Width(26)))
+                ClipRangeDialog.Open(cur.modelFile, cur.resourceName, get(), s => { set(s); Repaint(); });
         }
     }
 
