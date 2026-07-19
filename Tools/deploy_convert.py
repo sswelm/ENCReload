@@ -452,7 +452,20 @@ if arm_action:
             if lo == hi: return _arc_by_src[lo]
             w = (t - lo) / float(hi - lo)
             return _arc_by_src[lo] * (1 - w) + _arc_by_src[hi] * w
-        arm_quats = [Quaternion(_arc_axis, theta_at(t)) if _arc_by_src else Quaternion((1.0, 0.0, 0.0, 0.0)) for t in frames2]
+        # THE SLAM IS A SPIKE — forward pass only, and SHORT by construction. Two field findings shaped this:
+        # (1) mirroring the arm into the palindrome return re-enacted the kick in reverse at the cycle's end
+        # ("recoiled twice"); (2) the raw slide profile keeps the tube displaced through the whole reload, so the
+        # pitch lingered for seconds ("active too long"). The arm now follows the profile only UP TO the slam's
+        # peak, then plays the same rise MIRRORED back to zero — a symmetric snap of ~2x the natural attack time
+        # (~half a second), independent of how long the recoil window is. Identity everywhere else.
+        _t_peak = max(_arc_by_src, key=lambda k: abs(_arc_by_src[k])) if _arc_by_src else 0
+        def slam_theta(t):
+            if not _arc_by_src: return 0.0
+            if t <= _t_peak: return theta_at(t)                     # the rise, exactly as the source slams
+            m = _t_peak - (t - _t_peak)                             # mirrored decay over the same duration
+            return theta_at(m) if m >= rs2 else 0.0
+        arm_quats = [Quaternion(_arc_axis, slam_theta(t)) if (_arc_by_src and i < len(fwd)) else Quaternion((1.0, 0.0, 0.0, 0.0))
+                     for i, t in enumerate(frames2)]
         make_role("recoil", frames2, snaps=_fire_snap, arm_override=(ra_name, arm_quats))
         print("DEPLOY recoil role: PRISTINE fire cycle %d..%d (barrel choreography intact) + Slam layer%s" %
               (rs2, re2, (" + palindrome return x%d" % ret2) if ret2 > 0 else " (no return)"))
