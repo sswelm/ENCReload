@@ -176,6 +176,12 @@ public class AnimationLabWindow : EditorWindow
                 () => cur.animClipAttack ?? "", v => cur.animClipAttack = v);
             ClipRow("Combat-idle clip", "Optional. Replaces Idle while the army is locked in a battle (a weapon-raised stance like 'CombatIdle1' — a single-frame pose clip is fine). Empty = normal Idle in battle.",
                 () => cur.animClipCombat ?? "", v => cur.animClipCombat = v);
+            if (!string.IsNullOrWhiteSpace(cur.animClipAttack))
+                cur.attackRepeats = EditorGUILayout.IntSlider(new GUIContent("Attack repeats",
+                    "How many times the Attack clip replays per trigger (the sim fires ONCE per attack, so a short " +
+                    "recoil-pop clip like shootAR2s (0.17s) reads as a blip at 1; e.g. 6 ≈ 1s of sustained fire). " +
+                    "RUNTIME-ONLY — 'Save (no bake)' + rebuild is enough, no re-bake."),
+                    Mathf.Max(1, cur.attackRepeats), 1, 20);
             if (cur.fireOnAttack || cur.deployOnStop)
                 EditorGUILayout.HelpBox("State-driven is mutually exclusive with Fire-on-attack / Deploy-when-stopped — " +
                     "those flags are ignored while State-driven is ON.", MessageType.Warning);
@@ -285,7 +291,7 @@ public class AnimationLabWindow : EditorWindow
         cur.animated = true;
         cur.animClip = mine.animClip; cur.animateBones = mine.animateBones; cur.animUnitFix = mine.animUnitFix;
         cur.convertRig = mine.convertRig;
-        cur.animStateDriven = mine.animStateDriven; cur.animClipMove = mine.animClipMove; cur.animClipAfter = mine.animClipAfter; cur.animClipAttack = mine.animClipAttack; cur.animClipCombat = mine.animClipCombat;
+        cur.animStateDriven = mine.animStateDriven; cur.animClipMove = mine.animClipMove; cur.animClipAfter = mine.animClipAfter; cur.animClipAttack = mine.animClipAttack; cur.animClipCombat = mine.animClipCombat; cur.attackRepeats = mine.attackRepeats;
         cur.fireOnAttack = mine.fireOnAttack; cur.deployOnStop = mine.deployOnStop;
         cur.deployPoseTime = mine.deployPoseTime; cur.deploySpeed = mine.deploySpeed; cur.recoilSpeed = mine.recoilSpeed;
     }

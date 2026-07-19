@@ -53,6 +53,7 @@ public class ModelDef
     public string animClipAfter = "";   // STATE-DRIVEN only: source clip name for the optional AFTER-MOVEMENT one-shot (played once on stopping, then Idle). Empty = stop straight into Idle.
     public string animClipAttack = "";  // STATE-DRIVEN only: source clip name for the optional ATTACK one-shot (played once when the unit ranged-attacks; overrides every other state for its duration). Empty = no attack clip.
     public string animClipCombat = "";  // STATE-DRIVEN only: source clip name for the optional COMBAT-IDLE stance (replaces Idle while the army is locked in a battle; a single-frame stance clip is fine). Empty = normal Idle in battle.
+    public int attackRepeats = 1;       // STATE-DRIVEN only: how many times the ATTACK clip replays per trigger (window = repeats × clip duration). For short recoil-pop clips (shootAR2s = 0.17s). RUNTIME-ONLY — Save (no bake) is enough.
     public int[] clipMove = new int[4]; // STATE-DRIVEN only: baked MOVEMENT ClipCollection Amplitude guid {a,b,c,d}
     public int[] clipAfter = new int[4];// STATE-DRIVEN only: baked AFTER-MOVEMENT ClipCollection Amplitude guid {a,b,c,d}; {0,0,0,0} = no after clip
     public int[] clipAttack = new int[4];// STATE-DRIVEN only: baked ATTACK ClipCollection Amplitude guid {a,b,c,d}; {0,0,0,0} = no attack clip
