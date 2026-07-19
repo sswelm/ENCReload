@@ -7,6 +7,7 @@
 // It also has a DUMP tool: paste a vanilla fragment's Amplitude GUID (from the SDK Asset Picker's info panel) to log
 // its exact field values — the authoring template (esp. MaterialRef, which must match an existing output layer).
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using UnityEditor;
@@ -96,8 +97,17 @@ public class PropBakerWindow : EditorWindow
         previewEditor.OnInteractivePreviewGUI(r, EditorStyles.helpBox);
     }
 
-    static Type FindType(string fullName) =>
-        AppDomain.CurrentDomain.GetAssemblies().SelectMany(SafeTypes).FirstOrDefault(t => t.FullName == fullName);
+    // CACHED: OnGUI calls this (via MakeAmpliGuid) on every repaint, and the uncached version enumerated every type
+    // of every loaded assembly each time — a per-mouse-move CPU/GC hit that made the whole editor sluggish while
+    // this window was open. Loaded-assembly types don't change outside a domain reload, which resets the cache anyway.
+    static readonly Dictionary<string, Type> typeCache = new Dictionary<string, Type>();
+    static Type FindType(string fullName)
+    {
+        if (typeCache.TryGetValue(fullName, out var cached)) return cached;
+        var t = AppDomain.CurrentDomain.GetAssemblies().SelectMany(SafeTypes).FirstOrDefault(x => x.FullName == fullName);
+        typeCache[fullName] = t;   // negative results cached too (same reload-scoped validity)
+        return t;
+    }
     static Type[] SafeTypes(Assembly a) { try { return a.GetTypes(); } catch { return Array.Empty<Type>(); } }
 
     // GetField can't see PRIVATE fields of BASE classes (AssetReference<T> hides its guid exactly there) — walk the chain.
@@ -310,6 +320,11 @@ public class PropBakerWindow : EditorWindow
         if (prefabAsset == null) { status = "Baked, but _Model.prefab not found (needed as the collection's SourcePrefab key)."; return; }
         object prefabGuid = MakeAmpliGuid(AmplitudeGuid(prefabAsset));
         object fxGuid = MakeAmpliGuid(fxGuidCsv);
+        // GUARD (review 2026-07-19): FieldInfo.SetValue(struct, null) silently writes default(Guid) — a null here
+        // used to bake a ZERO-GUID collection/fragment that reports success but can never match at runtime (the
+        // "mammoth fallback" with nothing pointing at the cause). Same recovery as ProjectileBaker: rebuild + re-bake.
+        if (prefabGuid == null || fxGuid == null)
+        { status = "Amplitude GUID missing for the " + (prefabGuid == null ? "_Model.prefab" : "FxMesh") + " — the asset isn't in Amplitude's database yet. Run the mod Build once, then re-bake."; Debug.LogError("[Props] " + status); return; }
         string meshName = resourceName + "_DistrictMesh";   // the bone-free mesh BakeFxMesh wrapped (its name inside the FxMesh)
 
         var mc = ScriptableObject.CreateInstance(mcType);

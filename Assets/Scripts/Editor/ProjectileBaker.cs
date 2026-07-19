@@ -257,6 +257,12 @@ public class ProjectileBakerWindow : EditorWindow
         var meshField = FindFieldDeep(donorDrawer.GetType(), "mesh");
         if (meshField == null || meshField.FieldType.FullName != "Amplitude.Framework.Guid")
         { status = $"Donor trail '{donorDrawer.GetType().Name}' has no swappable FxMesh 'mesh' field — it's not a mesh drawer. Try Torpedo/ThrownAxe."; return; }
+        // SPRITE-DONOR BLOCK (review 2026-07-19): the field existing isn't enough — a sprite drawer is the SAME type
+        // with a NULL mesh value, and Dump's own verdict logic knows it renders our munition INVISIBLE in flight.
+        // Baking used to proceed anyway with a full success message; refuse with the same guidance as the verdict.
+        var donorMeshVal = meshField.GetValue(donorDrawer);
+        if (!IsAmpliGuid(donorMeshVal) || IsNullGuid(donorMeshVal))
+        { status = $"Donor trail '{(donorDrawer as UnityEngine.Object)?.name}' is a SPRITE drawer (NULL mesh) — the baked munition would be INVISIBLE in flight. Pick a MESH projectile (ThrownSpear / ThrownAxe / Torpedo / Boomerang); run Dump for the verdict."; return; }
 
         SavePrefs();
 
@@ -396,10 +402,14 @@ public class ProjectileBakerWindow : EditorWindow
 
         Debug.Log(sb.ToString());
         status = sb.ToString();
-        // A successful dump IS the donor you're about to bake with — auto-fill the donor field so there's no manual copy.
-        donorProjGuid = dumpGuid;
         EditorPrefs.SetString(P + "dumpGuid", dumpGuid);
-        EditorPrefs.SetString(P + "donorProjGuid", donorProjGuid);
+        // Auto-fill the donor field ONLY on a usable verdict — dumping CanonObusier to INSPECT it used to silently
+        // repoint the donor at a sprite drawer, and the next Bake shipped an invisible munition (review 2026-07-19).
+        if (verdict.StartsWith("VERDICT: ✓"))
+        {
+            donorProjGuid = dumpGuid;
+            EditorPrefs.SetString(P + "donorProjGuid", donorProjGuid);
+        }
     }
 
     // Write `built` to `path` while PRESERVING the existing asset's GUID if one is already there — so the unit's Projectile
@@ -463,7 +473,8 @@ public class ProjectileBakerWindow : EditorWindow
         status = $"Tinted '{resourceName}' drawer to RGBA({tintColor.r:0.##},{tintColor.g:0.##},{tintColor.b:0.##},{tintColor.a:0.##}) " +
                  $"(color prop {colorIndex}, exportColor on). Rebuild the bundle to see it.";
         Debug.Log("[Projectile] " + status);
-        EditorGUIUtility.systemCopyBuffer = "";
+        // (deliberately does NOT touch the clipboard — it may hold the projectile GUID from Bake, which the user is
+        //  about to paste into the unit's Projectile field; wiping it here killed that workflow. Review 2026-07-19.)
     }
 
     // Recursively surface any field that is a GUID or whose type name mentions Mesh — depth-limited, cycle-guarded.

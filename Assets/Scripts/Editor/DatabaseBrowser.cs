@@ -354,6 +354,7 @@ public class DatabaseBrowser : EditorWindow
         _inspScroll = EditorGUILayout.BeginScrollView(_inspScroll);
         EditorGUILayout.BeginVertical(GUILayout.Width(area.width - 24));
         try { _editor.OnInspectorGUI(); }
+        catch (ExitGUIException) { throw; }   // IMGUI control flow (object picker etc.), NOT an error — swallowing it breaks the layout contract mid-frame
         catch (Exception ex)
         {
             EditorGUILayout.HelpBox(

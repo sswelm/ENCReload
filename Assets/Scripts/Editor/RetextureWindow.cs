@@ -26,6 +26,7 @@ public class RetextureWindow : EditorWindow
     string soundStopFile = "", soundStopPath = "";     // move-stop one-shot WAV
     Vector2 scroll;
     string status = "";
+    string editedEntry = "";                           // which entry the form was last LOADED from (Edit button) — Apply onto a different existing entry asks first
 
     // The game's BepInEx/config (auto-detected by ModelRegistry, same folder the plugin reads).
     static string SkinsDir => Path.Combine(ModelRegistry.ConfigDir, "enc_skins");
@@ -137,7 +138,7 @@ public class RetextureWindow : EditorWindow
                 EditorGUILayout.LabelField($"{m.resourceName}  → {m.pawnDescription}  [{Describe(m)}]");
                 if (GUILayout.Button("Edit", GUILayout.Width(46)))
                 {
-                    pawn = m.pawnDescription; resourceName = m.resourceName;
+                    pawn = m.pawnDescription; resourceName = m.resourceName; editedEntry = m.resourceName;
                     desaturate = m.desaturate; tintR = m.tintR; tintG = m.tintG; tintB = m.tintB; engineSound = m.engineSound;
                     engineStartEvent = m.engineStartEvent; engineStopEvent = m.engineStopEvent;
                     soundFile = m.soundFile; soundStartFile = m.soundStartFile; soundStopFile = m.soundStopFile;
@@ -190,6 +191,15 @@ public class RetextureWindow : EditorWindow
         try
         {
             var def = ModelRegistry.Load().FirstOrDefault(m => m.resourceName == resourceName) ?? new ModelDef();
+            // Applying onto an EXISTING entry the form was never loaded from would overwrite its adjust/engine-sound
+            // settings with the form's (possibly default) values — e.g. typing a name and hitting Apply silently
+            // flipped an entry's engineSound off (review 2026-07-19). Ask first; Edit pre-loads and skips the dialog.
+            if (!string.IsNullOrEmpty(def.resourceName) && editedEntry != resourceName &&
+                !EditorUtility.DisplayDialog("Overwrite existing entry?",
+                    $"'{resourceName}' already exists ({Describe(def)}).\n\nApply will overwrite its adjustment/engine-sound " +
+                    "settings with this form's values (un-browsed files are kept). Press Edit on the entry below to load " +
+                    "its current settings first.", "Overwrite", "Cancel"))
+            { status = "Cancelled — press Edit on '" + resourceName + "' to load its settings first."; return; }
             def.resourceName = resourceName.Trim();
             def.pawnDescription = pawn.Trim();
             def.desaturate = Mathf.Clamp01(desaturate);
@@ -221,6 +231,7 @@ public class RetextureWindow : EditorWindow
                 return;
             }
             bool ok = ModelRegistry.Upsert(def);
+            if (ok) editedEntry = def.resourceName;   // the form now matches the entry — no dialog on a re-Apply
             status = ok
                 ? $"Saved '{def.resourceName}' → {def.pawnDescription}  ({Describe(def)}).\nRelaunch the game (or reload a save) to see it."
                 : "Registry save FAILED — see the Console.";

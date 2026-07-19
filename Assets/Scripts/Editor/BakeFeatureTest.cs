@@ -317,8 +317,8 @@ public static class BakeFeatureTest
     {
         foreach (var n in names.Distinct())
         {
-            foreach (var s in new[] { "_ModelMesh.asset", "_Atlas.asset", "_Mat.mat", "_Model.prefab", "_Skeleton.asset", "_Clips.asset" })
-                AssetDatabase.DeleteAsset("Assets/Resources/" + n + s);
+            foreach (var s in new[] { "_ModelMesh.asset", "_Atlas.asset", "_Mat.mat", "_Model.prefab", "_Skeleton.asset", "_Clips.asset", "_ClipsPoseData.bytes" })
+                AssetDatabase.DeleteAsset("Assets/Resources/" + n + s);   // pose bytes incl. — Tier-2 animated runs used to strand them in the SHIPPED Resources root
             AssetDatabase.DeleteAsset("Assets/FactorySource/" + n);
         }
     }

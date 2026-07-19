@@ -260,6 +260,7 @@ public class SoundWindow : EditorWindow
             {
                 string cid = System.Text.Encoding.ASCII.GetString(b, p, 4);
                 int csz = BitConverter.ToInt32(b, p + 4);
+                if (csz < 0) return false;   // corrupt chunk size -> p would stop advancing = editor hard-hang (twin of the plugin's LoadWav guard)
                 if (cid == "fmt ") { fmt = BitConverter.ToInt16(b, p + 8); ch = BitConverter.ToInt16(b, p + 10); rate = BitConverter.ToInt32(b, p + 12); bits = BitConverter.ToInt16(b, p + 22); }
                 else if (cid == "data") { dataOff = p + 8; dataLen = Math.Min(csz, b.Length - (p + 8)); break; }
                 p += 8 + csz + (csz & 1);

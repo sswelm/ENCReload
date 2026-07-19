@@ -191,6 +191,12 @@ public class TechTreeWindow : EditorWindow
     void HandleInput(Rect canvas)
     {
         var e = Event.current;
+        // End an active drag on ANY MouseUp, even outside the canvas — the early-return below used to skip the
+        // MouseUp when the button was released over the side panel / outside the window, leaving a stale _dragNode:
+        // the next drag then teleported that node by the old delta and silently staged a position edit (review
+        // 2026-07-19). Releasing a drag out-of-bounds keeps the position it had at the last in-canvas drag event.
+        if (e.rawType == EventType.MouseUp && _dragNode != null && !canvas.Contains(e.mousePosition))
+        { _dragNode = null; Repaint(); return; }
         if (!canvas.Contains(e.mousePosition) && !_panning) return;
 
         if (e.type == EventType.ScrollWheel)
@@ -448,10 +454,14 @@ public class TechTreeWindow : EditorWindow
     {
         if (_pending.Count == 0) return;
         int pos = 0, pre = 0, skipped = 0;
+        var committed = new List<string>();   // only fully-written entries leave the overlay — a SKIPPED edit must
+                                              // survive the save (the old unconditional Clear discarded them, so
+                                              // after creating the missing collection there was nothing left to save)
         foreach (var kv in _pending)
         {
-            if (!_byName.TryGetValue(kv.Key, out var node)) continue;
+            if (!_byName.TryGetValue(kv.Key, out var node)) { committed.Add(kv.Key); continue; }   // node gone — nothing to keep
             var p = kv.Value;
+            bool anySkipped = false;
 
             if (p.X.HasValue || p.Y.HasValue)
             {
@@ -463,7 +473,7 @@ public class TechTreeWindow : EditorWindow
                     EditorUtility.SetDirty(mapper);
                     pos++;
                 }
-                else skipped++;
+                else { skipped++; anySkipped = true; }
             }
 
             if (p.Prereqs != null)
@@ -475,14 +485,16 @@ public class TechTreeWindow : EditorWindow
                     if (TechTreeData.WritePrereqs(def, p.Prereqs.ToArray())) pre++;
                     EditorUtility.SetDirty(def);
                 }
-                else skipped++;
+                else { skipped++; anySkipped = true; }
             }
+
+            if (!anySkipped) committed.Add(kv.Key);
         }
         AssetDatabase.SaveAssets();
         AssetDatabase.Refresh();
         Debug.Log($"[TechTree] Saved: {pos} position, {pre} prerequisite change(s)"
-                + (skipped > 0 ? $" · {skipped} skipped (no writable target — see step 5)" : "") + ".");
-        _pending.Clear();
+                + (skipped > 0 ? $" · {skipped} skipped (no writable target — see step 5; those edits are KEPT staged)" : "") + ".");
+        foreach (var k in committed) _pending.Remove(k);
         Reload(keepView: true);
     }
 
