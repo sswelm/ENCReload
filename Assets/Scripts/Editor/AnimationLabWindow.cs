@@ -322,9 +322,9 @@ public class AnimationLabWindow : EditorWindow
     {
         using (new EditorGUILayout.HorizontalScope())
         {
-            // half-width value box (matches the deploy-conversion fields); Pick/▶ stay FIXED at the right edge
-            set(EditorGUILayout.TextField(new GUIContent(label, tooltip), get(), GUILayout.MinWidth(0), GUILayout.MaxWidth(EditorGUIUtility.currentViewWidth * 0.5f)));
-            GUILayout.FlexibleSpace();
+            // VARIABLE-width value box: expands from the label to the right-pinned Pick/▶ buttons, shrinks freely
+            // with the window (MinWidth 0 — never starves the buttons).
+            set(EditorGUILayout.TextField(new GUIContent(label, tooltip), get(), GUILayout.MinWidth(0), GUILayout.ExpandWidth(true)));
             using (new EditorGUI.DisabledScope(animClips.Count == 0))
                 if (GUILayout.Button(new GUIContent("Pick", animClips.Count == 0 ? "No clips readable (glb/gltf only) — type the name" : null), GUILayout.Width(70)))
                 {
