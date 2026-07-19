@@ -25,9 +25,16 @@ public class AnimationLabWindow : EditorWindow
     List<string> animClips = new List<string>();   // clip names read from the model (Clip picker)
     List<KeyValuePair<string, int>> animBonePrefixes = new List<KeyValuePair<string, int>>();  // bone-name prefix -> count (Bones picker)
     string clipProbeFile = "\0";                    // sentinel != any real path so the first real path always inspects
-    UnityEditor.Editor previewEditor;               // FIT PREVIEW (model + hand prop combined) — non-serializable, rebuilt on demand
+    // FIT PREVIEW (model + hand prop combined) — custom PreviewRenderUtility renderer: Unity's built-in prefab
+    // preview has no zoom and the window's scroll view steals the wheel; owning the camera gives real orbit + zoom.
+    PreviewRenderUtility fitPRU;                                    // non-serializable; lazily created, cleaned in OnDisable
+    List<(Mesh mesh, Material[] mats, Matrix4x4 mtx)> fitDraws;     // flattened draw list from the combined prefab
+    Bounds fitBounds;
     [SerializeField] string previewPath = "";       // the combined prefab shown (survives domain reloads)
+    [SerializeField] Vector2 fitOrbit = new Vector2(150f, -15f);    // yaw/pitch (deg)
+    [SerializeField] float fitZoom = 1.4f;                          // camera distance factor (scroll wheel)
     [SerializeField] Vector3 fitAngles;             // LIVE prop rotation: applied to the previewed prop instantly (no bake) and saved to the registry (the plugin stamps the same value in-game)
+    static Material fitFallbackMat;
 
     [MenuItem("Tools/HAF/Animation Lab")]
     static void Open()
@@ -44,17 +51,88 @@ public class AnimationLabWindow : EditorWindow
 
     void DestroyFitPreview()
     {
-        if (previewEditor == null) return;
-        try { DestroyImmediate(previewEditor); } catch { }
-        previewEditor = null;
+        fitDraws = null;
+        if (fitPRU != null) { try { fitPRU.Cleanup(); } catch { } fitPRU = null; }
     }
 
+    // Flatten the combined prefab into (mesh, materials, matrix) draws — the asset hierarchy's transforms are valid
+    // (the FBX rest pose IS the bind pose after rest-normalization, so drawing sharedMesh at the renderer transform
+    // shows the correct stance; the prop's matrix includes the bone chain + the live rotation).
     void LoadFitPreview(string prefabPath)
     {
-        DestroyFitPreview();
         previewPath = prefabPath ?? "";
-        var asset = string.IsNullOrEmpty(previewPath) ? null : AssetDatabase.LoadMainAssetAtPath(previewPath);
-        if (asset != null) previewEditor = UnityEditor.Editor.CreateEditor(asset);
+        fitDraws = null;
+        var go = string.IsNullOrEmpty(previewPath) ? null : AssetDatabase.LoadAssetAtPath<GameObject>(previewPath);
+        if (go == null) return;
+        fitDraws = new List<(Mesh, Material[], Matrix4x4)>();
+        bool first = true;
+        foreach (var r in go.GetComponentsInChildren<Renderer>(true))
+        {
+            Mesh m = r is SkinnedMeshRenderer smr ? smr.sharedMesh : r.GetComponent<MeshFilter>()?.sharedMesh;
+            if (m == null) continue;
+            var mtx = r.transform.localToWorldMatrix;
+            fitDraws.Add((m, r.sharedMaterials, mtx));
+            var wb = TransformBounds(mtx, m.bounds);
+            if (first) { fitBounds = wb; first = false; } else fitBounds.Encapsulate(wb);
+        }
+        if (fitDraws.Count == 0) fitDraws = null;
+        Repaint();
+    }
+
+    static Bounds TransformBounds(Matrix4x4 m, Bounds b)
+    {
+        var c = m.MultiplyPoint3x4(b.center);
+        var e = b.extents;
+        var ne = new Vector3(
+            Mathf.Abs(m.m00) * e.x + Mathf.Abs(m.m01) * e.y + Mathf.Abs(m.m02) * e.z,
+            Mathf.Abs(m.m10) * e.x + Mathf.Abs(m.m11) * e.y + Mathf.Abs(m.m12) * e.z,
+            Mathf.Abs(m.m20) * e.x + Mathf.Abs(m.m21) * e.y + Mathf.Abs(m.m22) * e.z);
+        return new Bounds(c, ne * 2f);
+    }
+
+    void DrawFitPreview(Rect rect)
+    {
+        var e = Event.current;
+        if (rect.Contains(e.mousePosition))
+        {
+            if (e.type == EventType.ScrollWheel)
+            {
+                // consume the wheel HERE so the window's scroll view never sees it — this is the zoom
+                fitZoom = Mathf.Clamp(fitZoom * Mathf.Pow(1.12f, e.delta.y > 0 ? 1f : -1f), 0.2f, 5f);
+                e.Use(); Repaint();
+            }
+            else if (e.type == EventType.MouseDrag && e.button == 0)
+            {
+                fitOrbit += new Vector2(e.delta.x, -e.delta.y) * 0.7f;
+                fitOrbit.y = Mathf.Clamp(fitOrbit.y, -89f, 89f);
+                e.Use(); Repaint();
+            }
+        }
+        if (e.type != EventType.Repaint || fitDraws == null) return;
+        if (fitPRU == null) fitPRU = new PreviewRenderUtility();
+        if (fitFallbackMat == null) fitFallbackMat = new Material(Shader.Find("Standard"));
+        fitPRU.BeginPreview(rect, GUIStyle.none);
+        var cam = fitPRU.camera;
+        float radius = Mathf.Max(fitBounds.extents.magnitude, 0.1f);
+        float dist = radius * 2.0f * fitZoom;
+        var rot = Quaternion.Euler(-fitOrbit.y, fitOrbit.x, 0f);
+        cam.transform.position = fitBounds.center + rot * (Vector3.back * dist);
+        cam.transform.rotation = Quaternion.LookRotation(fitBounds.center - cam.transform.position);
+        cam.nearClipPlane = 0.01f;
+        cam.farClipPlane = dist + radius * 4f;
+        cam.fieldOfView = 30f;
+        fitPRU.lights[0].intensity = 1.3f;
+        fitPRU.lights[0].transform.rotation = Quaternion.Euler(45f, 45f, 0f);
+        if (fitPRU.lights.Length > 1) fitPRU.lights[1].intensity = 0.6f;
+        fitPRU.ambientColor = new Color(0.3f, 0.3f, 0.3f);
+        foreach (var (mesh, mats, mtx) in fitDraws)
+            for (int s = 0; s < mesh.subMeshCount; s++)
+            {
+                var mat = mats != null && mats.Length > 0 ? (mats[Mathf.Min(s, mats.Length - 1)] ?? fitFallbackMat) : fitFallbackMat;
+                fitPRU.DrawMesh(mesh, mtx, mat, s);
+            }
+        cam.Render();
+        GUI.DrawTexture(rect, fitPRU.EndPreview(), ScaleMode.StretchToFill, false);
     }
 
     // FIT PREVIEW: the model's slim FBX (its rest pose IS the idle stance after rest-normalization, and its bone
@@ -322,7 +400,7 @@ public class AnimationLabWindow : EditorWindow
                 "Rotates the prop around its glue bone LIVE in the preview below — no bake, no relaunch. When it " +
                 "looks right, press 'Save rotation to game': the value goes to the registry and the plugin applies " +
                 "the SAME rotation at the SAME stage in-game (relaunch to see it; no re-bake, no mod rebuild)."), fitAngles);
-            if (EditorGUI.EndChangeCheck() && previewEditor != null) BuildFitPreview();
+            if (EditorGUI.EndChangeCheck() && fitDraws != null) BuildFitPreview();
             if (GUILayout.Button(new GUIContent("Save rotation to game",
                 "Writes the live rotation above into the registry (handPropAngles) — the plugin stamps it at load. " +
                 "Relaunch the game to see it; no bake or mod rebuild needed.")))
@@ -419,13 +497,13 @@ public class AnimationLabWindow : EditorWindow
             EditorGUILayout.HelpBox("This entry has no baked assets and no model file — open it in the Model Factory to set the file, then bake.", MessageType.Warning);
         if (!string.IsNullOrEmpty(status)) EditorGUILayout.HelpBox(status, MessageType.Info);
         EditorGUILayout.HelpBox("Registry: " + ModelRegistry.RegistryPath, MessageType.None);
-        // --- FIT PREVIEW (model + hand prop, glued as in-game) ---
-        if (previewEditor != null)
+        // --- FIT PREVIEW (model + hand prop, glued as in-game; own camera => real zoom) ---
+        if (fitDraws != null)
         {
             EditorGUILayout.Space();
             EditorGUILayout.LabelField("Fit preview — model + hand prop  (drag to orbit, scroll to zoom)", EditorStyles.miniBoldLabel);
-            var rect = GUILayoutUtility.GetRect(200, 320, GUILayout.ExpandWidth(true));
-            previewEditor.OnInteractivePreviewGUI(rect, GUIStyle.none);
+            var rect = GUILayoutUtility.GetRect(200, 360, GUILayout.ExpandWidth(true));
+            DrawFitPreview(rect);
         }
         EditorGUILayout.EndScrollView();
     }
