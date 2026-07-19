@@ -411,10 +411,15 @@ public class AnimationLabWindow : EditorWindow
         if (cur.deployConvert)
         {
             EditorGUI.indentLevel++;
-            cur.deployStart = EditorGUILayout.IntField(new GUIContent("Deploy start frame",
-                "Source frame where the deploy motion STARTS (usually 0)."), cur.deployStart);
-            cur.deployEnd = EditorGUILayout.IntField(new GUIContent("Deploy end frame",
-                "Source frame where the deploy COMPLETES (fully deployed). REQUIRED. Find it by scrubbing the raw file in the ▶ picker."), cur.deployEnd);
+            using (new EditorGUILayout.HorizontalScope())
+            {
+                cur.deployStart = EditorGUILayout.IntField(new GUIContent("Deploy frames",
+                    "Source frame where the deploy motion STARTS (usually 0)."), cur.deployStart);
+                float lw = EditorGUIUtility.labelWidth; EditorGUIUtility.labelWidth = 22;
+                cur.deployEnd = EditorGUILayout.IntField(new GUIContent("to",
+                    "Source frame where the deploy COMPLETES (fully deployed). REQUIRED. Find it by scrubbing the raw file in the ▶ picker."), cur.deployEnd, GUILayout.MinWidth(90));
+                EditorGUIUtility.labelWidth = lw;
+            }
             cur.deployStrip = EditorGUILayout.TextField(new GUIContent("Strip parts",
                 "Comma-separated name substrings to DELETE from the source (crew figures, loose shells/props — soft-skinned " +
                 "rigs break the rigid bake). Empty = the converter's proven defaults (crew/shell/prop names)."), cur.deployStrip);
