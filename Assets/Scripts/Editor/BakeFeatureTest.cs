@@ -235,13 +235,13 @@ public static class BakeFeatureTest
             if (animFx.Count == 0) { Skip(res, "animated pipeline", "no animated registry model with an existing source file on disk"); skip++; }
             foreach (var fx in animFx)
             {
-                var c = new BakeConfig
-                {
-                    resourceName = Prefix + "anim_" + San(fx.resourceName), modelFile = fx.modelFile, animated = true,
-                    animClip = fx.animClip, animateBones = fx.animateBones, animUnitFix = fx.animUnitFix,
-                    size = fx.size > 0 ? fx.size : 5f, targetTris = fx.targetTris, materialMode = fx.materialMode,
-                    atlasMaxDim = fx.atlasMaxDim > 0 ? fx.atlasMaxDim : 512, albedoBrightness = 1f, albedoSaturation = 1f,
-                };
+                // Route through ModelFactoryWindow.ConfigFor — the SAME config path the Bake button and the smoke
+                // test use. The old hand-built BakeConfig silently dropped convertRig + rotationEuler (and
+                // keepBlack/keepTexture), so a conversion-path model (the Combine soldier) was baked through the
+                // LEGACY pipeline here — exercising a pipeline that model never ships on (review 2026-07-19).
+                var clone = JsonUtility.FromJson<ModelDef>(JsonUtility.ToJson(fx));   // never mutate the real entry
+                clone.resourceName = Prefix + "anim_" + San(fx.resourceName);
+                var c = ModelFactoryWindow.ConfigFor(clone);
                 used.Add(c.resourceName);
                 var r = UniversalBaker.BuildAnimated(c);
                 bool clipAsset = AssetDatabase.LoadAssetAtPath<UnityEngine.Object>("Assets/Resources/" + c.resourceName + "_Clips.asset") != null;
