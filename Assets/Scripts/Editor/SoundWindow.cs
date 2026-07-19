@@ -151,11 +151,20 @@ public class SoundWindow : EditorWindow
         try
         {
             // reuse the unit's existing registry entry (a model / retexture) if it has one, so a pawn has ONE entry.
-            var def = all.FirstOrDefault(m => m.pawnDescription == pawn.Trim())
-                   ?? all.FirstOrDefault(m => m.resourceName == resourceName)
+            // The resourceName fallback is ONLY safe when that entry isn't already bound to a DIFFERENT pawn: with
+            // the pick-then-edit workflow (pick unit A from the dropdown, retype the pawn to unit B, Apply), the old
+            // unconditional fallback matched A's FULL entry and silently retargeted its pawnDescription to B —
+            // hijacking A's custom model/skin. And a fresh entry must NOT inherit A's resourceName either: Upsert
+            // replaces by resourceName, so that was the same hijack via replacement (review round 2).
+            string p = pawn.Trim();
+            bool nameTakenByOtherPawn = !string.IsNullOrEmpty(resourceName) &&
+                all.Any(m => m.resourceName == resourceName && !string.IsNullOrEmpty(m.pawnDescription) && m.pawnDescription != p);
+            var def = all.FirstOrDefault(m => m.pawnDescription == p)
+                   ?? (nameTakenByOtherPawn ? null : all.FirstOrDefault(m => m.resourceName == resourceName && !string.IsNullOrEmpty(resourceName)))
                    ?? new ModelDef();
-            def.pawnDescription = pawn.Trim();
-            if (string.IsNullOrEmpty(def.resourceName)) def.resourceName = string.IsNullOrEmpty(resourceName) ? "Sound_" + Sanitize(pawn) : resourceName;
+            def.pawnDescription = p;
+            if (string.IsNullOrEmpty(def.resourceName))
+                def.resourceName = (string.IsNullOrEmpty(resourceName) || nameTakenByOtherPawn) ? "Sound_" + Sanitize(pawn) : resourceName;
 
             if (!CopyWav(startPath, def.resourceName + "_start", ref def.soundStartFile)) return;
             if (!CopyWav(loopPath, def.resourceName + "_loop", ref def.soundFile)) return;
