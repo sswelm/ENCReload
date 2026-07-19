@@ -457,10 +457,14 @@ public class AnimationLabWindow : EditorWindow
                 "clip to plain 'recoil'. Empty = no recoil."), cur.deployRecoil, half);
             using (new EditorGUILayout.HorizontalScope())
             {
-                cur.deployRecoilStep = EditorGUILayout.TextField(new GUIContent("Recoil step", "Source-frame sampling step (empty = 2)."), cur.deployRecoilStep);
-                cur.deployRecoilMag = EditorGUILayout.TextField(new GUIContent("Slide scale", "Recoil slide-distance scale (empty = 1; 2 ≈ half the tube)."), cur.deployRecoilMag);
-                cur.deployArcR = EditorGUILayout.TextField(new GUIContent("Arc R", "FK-arc pivot distance (empty = 400). Larger = straighter slide, more jitter-prone."), cur.deployArcR);
-                cur.deployRecoilReturn = EditorGUILayout.TextField(new GUIContent("Return slow", "OPTIONAL palindrome return: the slam played BACKWARD at this multiple of its duration, gliding the tube back into battery (empty = 4 = quarter speed). 0 = OFF — the kick holds and the idle hold snaps the tube forward."), cur.deployRecoilReturn);
+                // compact labels + zero-minimum fields: four standard 150px label columns don't fit a row — the
+                // last field (Return slow) was starved clean off at normal window widths.
+                float lw2 = EditorGUIUtility.labelWidth; EditorGUIUtility.labelWidth = 78;
+                cur.deployRecoilStep = EditorGUILayout.TextField(new GUIContent("Recoil step", "Source-frame sampling step (empty = 2)."), cur.deployRecoilStep, GUILayout.MinWidth(0));
+                cur.deployRecoilMag = EditorGUILayout.TextField(new GUIContent("Slide scale", "Recoil slide-distance scale (empty = 1; 2 ≈ half the tube)."), cur.deployRecoilMag, GUILayout.MinWidth(0));
+                cur.deployArcR = EditorGUILayout.TextField(new GUIContent("Arc R", "FK-arc pivot distance (empty = 400). Larger = straighter slide, more jitter-prone."), cur.deployArcR, GUILayout.MinWidth(0));
+                cur.deployRecoilReturn = EditorGUILayout.TextField(new GUIContent("Return slow", "OPTIONAL palindrome return: the slam played BACKWARD at this multiple of its duration, gliding the tube back into battery (empty = 4 = quarter speed). 0 = OFF — the kick holds and the idle hold snaps the tube forward."), cur.deployRecoilReturn, GUILayout.MinWidth(0));
+                EditorGUIUtility.labelWidth = lw2;
             }
             EditorGUI.indentLevel--;
         }
