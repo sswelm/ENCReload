@@ -75,20 +75,6 @@ if arm is None:
     print("RIGANIM ERROR: no armature found — the model is not rigged, use the normal (static) bake instead")
     sys.exit(1)
 
-# pick an action: the named clip if given, else the one already on the armature, else the first in the file
-act = None
-if clip_name:
-    act = bpy.data.actions.get(clip_name)
-    if act is None:
-        print("RIGANIM ERROR: clip '%s' not found. Available: %s" % (clip_name, [a.name for a in bpy.data.actions]))
-        sys.exit(1)
-if act is None and arm.animation_data and arm.animation_data.action:
-    act = arm.animation_data.action
-if act is None and len(bpy.data.actions):
-    act = bpy.data.actions[0]
-if act is None:
-    print("RIGANIM ERROR: no animation action found in the model")
-    sys.exit(1)
 if not arm.animation_data:
     arm.animation_data_create()
 def assign_action(a):
@@ -98,15 +84,73 @@ def assign_action(a):
             arm.animation_data.action_slot = a.slots[0]   # Blender 5.x slotted actions
     except Exception as e:
         print("RIGANIM slot warn:", e)
+
+# CLIP SLICING (howitzer migration take 2, 2026-07-19): a clip name may carry a FRAME RANGE — "deploy[0..180]".
+# The slice is synthesized as a NEW action by sampling the SOURCE action's evaluated pose basis per frame INSIDE
+# THIS session (the same pipeline that provably bakes the source right) — the Blender import→export round-trip
+# retrofit (add_role_clips.py) altered the clip-vs-rest relationship and baked flipped/inverse in-game; never
+# round-trip a converted GLB. start>end = REVERSED (a fold from an unfold); single frame = padded to 2 identical
+# frames (a held stance; 0-length clips can be dropped by importers).
+_slice_re = __import__("re").compile(r"^(.*)\[(\d+)\.\.(\d+)\]$")
+def resolve_clip(spec, tag):
+    m = _slice_re.match(spec.strip())
+    if not m:
+        a = bpy.data.actions.get(spec)
+        if a is None:
+            print("RIGANIM ERROR: clip '%s' (%s) not found. Available: %s" % (spec, tag, [a.name for a in bpy.data.actions]))
+            sys.exit(1)
+        return a
+    src_name, f0, f1 = m.group(1), int(m.group(2)), int(m.group(3))
+    src = bpy.data.actions.get(src_name)
+    if src is None:
+        print("RIGANIM ERROR: slice source '%s' (%s) not found. Available: %s" % (src_name, tag, [a.name for a in bpy.data.actions]))
+        sys.exit(1)
+    frames = list(range(f0, f1 + 1)) if f1 >= f0 else list(range(f0, f1 - 1, -1))
+    if len(frames) == 1:
+        frames = frames * 2                              # held stance: 2 identical frames
+    new_name = "%s_%s_%d_%d" % (src_name, tag, f0, f1)
+    old = bpy.data.actions.get(new_name)
+    if old is not None:
+        return old                                       # same slice requested by two roles -> share it
+    assign_action(src)
+    for pb in arm.pose.bones:
+        pb.rotation_mode = 'QUATERNION'
+    snap = {}
+    lo, hi = min(frames), max(frames)
+    for f in range(lo, hi + 1):                          # snapshot the evaluated basis over the span once
+        bpy.context.scene.frame_set(f)
+        bpy.context.view_layer.update()
+        snap[f] = {pb.name: pb.matrix_basis.decompose() for pb in arm.pose.bones}
+    a = bpy.data.actions.new(new_name)
+    assign_action(a)
+    try: arm.animation_data.action_slot = a.slots.new(id_type='OBJECT', name=arm.name)
+    except Exception: pass
+    for i, f in enumerate(frames):
+        for pb in arm.pose.bones:
+            loc, rot, _s = snap[f][pb.name]
+            pb.location = loc
+            pb.rotation_quaternion = rot
+            pb.keyframe_insert('location', frame=i)
+            pb.keyframe_insert('rotation_quaternion', frame=i)
+    print("RIGANIM sliced '%s' -> '%s' (%d frames%s)" % (spec, new_name, len(frames), ", reversed" if f1 < f0 else ""))
+    return a
+
+# pick an action: the named clip (slice-aware) if given, else the one already on the armature, else the first
+act = None
+if clip_name:
+    act = resolve_clip(clip_name, "primary")
+if act is None and arm.animation_data and arm.animation_data.action:
+    act = arm.animation_data.action
+if act is None and len(bpy.data.actions):
+    act = bpy.data.actions[0]
+if act is None:
+    print("RIGANIM ERROR: no animation action found in the model")
+    sys.exit(1)
 assign_action(act)
-# resolve the state-role clips BEFORE pruning actions (a role may share the primary clip, e.g. after = idle)
+# resolve the state-role clips (slice-aware) BEFORE pruning actions (a role may share the primary clip)
 role_acts = {}   # role -> action
 for _r, _cn in role_specs:
-    _a = bpy.data.actions.get(_cn)
-    if _a is None:
-        print("RIGANIM ERROR: state clip '%s' (role '%s') not found. Available: %s" % (_cn, _r, [a.name for a in bpy.data.actions]))
-        sys.exit(1)
-    role_acts[_r] = _a
+    role_acts[_r] = resolve_clip(_cn, _r)
 keep_names = set([act.name] + [a.name for a in role_acts.values()])
 for a in list(bpy.data.actions):
     if a.name not in keep_names:
