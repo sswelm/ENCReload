@@ -181,7 +181,7 @@ public class ClipRangeDialog : EditorWindow
         var clip = clips[Mathf.Clamp(clipIdx, 0, clips.Length - 1)];
         clip.SampleAnimation(inst, Mathf.Clamp(frame, 0, TotalFrames) / FPS);
         for (int i = 0; i < smrs.Count; i++)
-            if (smrs[i] != null) smrs[i].BakeMesh(bakedMeshes[i]);
+            if (smrs[i] != null) smrs[i].BakeMesh(bakedMeshes[i], true);   // useScale=true: bake the renderer's scale INTO the vertices — glTF->FBX rigs carry NEGATIVE node scales (mirrors); baking without scale and drawing scale-less UN-mirrored one side (the M114's crossed legs — a renderer bug, not the data)
         if (!boundsValid)
         {
             bool first = true;
