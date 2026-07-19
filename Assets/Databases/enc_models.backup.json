@@ -75,6 +75,7 @@
             "animClipAttack": "",
             "animClipCombat": "",
             "animClipPreMove": "",
+            "animClipIdle": "",
             "clearAimLayer": false,
             "attackRepeats": 1,
             "handPropName": "",
@@ -107,6 +108,12 @@
                 0
             ],
             "clipPreMove": [
+                0,
+                0,
+                0,
+                0
+            ],
+            "clipIdle": [
                 0,
                 0,
                 0,
@@ -204,6 +211,7 @@
             "animClipAttack": "Soldier_reference_skeleton|shootAR2s",
             "animClipCombat": "Soldier_reference_skeleton|CombatIdle1",
             "animClipPreMove": "",
+            "animClipIdle": "",
             "clearAimLayer": false,
             "attackRepeats": 18,
             "handPropName": "M60",
@@ -236,6 +244,12 @@
                 -783094968
             ],
             "clipPreMove": [
+                0,
+                0,
+                0,
+                0
+            ],
+            "clipIdle": [
                 0,
                 0,
                 0,
@@ -333,6 +347,7 @@
             "animClipAttack": "",
             "animClipCombat": "",
             "animClipPreMove": "",
+            "animClipIdle": "",
             "clearAimLayer": false,
             "attackRepeats": 1,
             "handPropName": "",
@@ -365,6 +380,12 @@
                 0
             ],
             "clipPreMove": [
+                0,
+                0,
+                0,
+                0
+            ],
+            "clipIdle": [
                 0,
                 0,
                 0,
@@ -462,6 +483,7 @@
             "animClipAttack": "",
             "animClipCombat": "",
             "animClipPreMove": "",
+            "animClipIdle": "",
             "clearAimLayer": false,
             "attackRepeats": 1,
             "handPropName": "",
@@ -494,6 +516,12 @@
                 0
             ],
             "clipPreMove": [
+                0,
+                0,
+                0,
+                0
+            ],
+            "clipIdle": [
                 0,
                 0,
                 0,
@@ -591,6 +619,7 @@
             "animClipAttack": "",
             "animClipCombat": "",
             "animClipPreMove": "",
+            "animClipIdle": "",
             "clearAimLayer": false,
             "attackRepeats": 1,
             "handPropName": "",
@@ -623,6 +652,12 @@
                 0
             ],
             "clipPreMove": [
+                0,
+                0,
+                0,
+                0
+            ],
+            "clipIdle": [
                 0,
                 0,
                 0,
@@ -720,6 +755,7 @@
             "animClipAttack": "",
             "animClipCombat": "",
             "animClipPreMove": "",
+            "animClipIdle": "",
             "clearAimLayer": false,
             "attackRepeats": 1,
             "handPropName": "",
@@ -752,6 +788,12 @@
                 0
             ],
             "clipPreMove": [
+                0,
+                0,
+                0,
+                0
+            ],
+            "clipIdle": [
                 0,
                 0,
                 0,
@@ -849,6 +891,7 @@
             "animClipAttack": "",
             "animClipCombat": "",
             "animClipPreMove": "",
+            "animClipIdle": "",
             "clearAimLayer": false,
             "attackRepeats": 1,
             "handPropName": "",
@@ -881,6 +924,12 @@
                 0
             ],
             "clipPreMove": [
+                0,
+                0,
+                0,
+                0
+            ],
+            "clipIdle": [
                 0,
                 0,
                 0,
@@ -978,6 +1027,7 @@
             "animClipAttack": "",
             "animClipCombat": "",
             "animClipPreMove": "",
+            "animClipIdle": "",
             "clearAimLayer": false,
             "attackRepeats": 1,
             "handPropName": "",
@@ -1010,6 +1060,12 @@
                 0
             ],
             "clipPreMove": [
+                0,
+                0,
+                0,
+                0
+            ],
+            "clipIdle": [
                 0,
                 0,
                 0,
@@ -1107,6 +1163,7 @@
             "animClipAttack": "",
             "animClipCombat": "",
             "animClipPreMove": "",
+            "animClipIdle": "",
             "clearAimLayer": false,
             "attackRepeats": 1,
             "handPropName": "",
@@ -1144,6 +1201,12 @@
                 0,
                 0
             ],
+            "clipIdle": [
+                0,
+                0,
+                0,
+                0
+            ],
             "respawnAfterLoad": false,
             "freezeDonorAnim": false,
             "fireOnAttack": false,
@@ -1169,7 +1232,7 @@
         {
             "resourceName": "SiegeHowitzersCar",
             "pawnDescription": "Era5_Common_SiegeHowitzersCar_01",
-            "modelFile": "D:/Downloads/m114_howitzer_in_action.glb",
+            "modelFile": "D:/Downloads/m114_deploy.glb",
             "rotation": {
                 "x": 0.0,
                 "y": 0.0,
@@ -1215,27 +1278,28 @@
                 813289573
             ],
             "animated": true,
-            "animClip": "deployed",
+            "animClip": "deploy",
             "animateBones": "",
             "animUnitFix": true,
             "convertRig": false,
-            "deployConvert": true,
+            "deployConvert": false,
             "deployStart": 0,
             "deployEnd": 180,
             "deployStrip": "",
             "deployReadyFrame": "420",
             "deployLegScale": "1",
             "deployBarrelScale": "1",
-            "deployRecoil": "440..510",
+            "deployRecoil": "",
             "deployRecoilStep": "2",
             "deployRecoilMag": "2",
             "deployArcR": "",
             "animStateDriven": true,
-            "animClipMove": "folded",
-            "animClipAfter": "unfold",
-            "animClipAttack": "recoil",
+            "animClipMove": "deploy[0..0]",
+            "animClipAfter": "deploy[0..179/3]",
+            "animClipAttack": "",
             "animClipCombat": "",
-            "animClipPreMove": "fold",
+            "animClipPreMove": "deploy[179..0/12]",
+            "animClipIdle": "deploy[179..180]",
             "clearAimLayer": true,
             "attackRepeats": 1,
             "handPropName": "",
@@ -1256,10 +1320,10 @@
                 -235713860
             ],
             "clipAttack": [
-                1415329878,
-                1226342821,
-                -342839397,
-                910338746
+                0,
+                0,
+                0,
+                0
             ],
             "clipCombat": [
                 0,
@@ -1273,11 +1337,17 @@
                 945172392,
                 -1081904014
             ],
+            "clipIdle": [
+                -468840109,
+                1096326834,
+                -1117999173,
+                1349242129
+            ],
             "respawnAfterLoad": false,
             "freezeDonorAnim": false,
             "fireOnAttack": false,
             "deployOnStop": false,
-            "deployPoseTime": 1.0,
+            "deployPoseTime": 0.9990000128746033,
             "deploySpeed": 1.0,
             "recoilSpeed": 1.0,
             "desaturate": 0.0,
@@ -1365,6 +1435,7 @@
             "animClipAttack": "",
             "animClipCombat": "",
             "animClipPreMove": "",
+            "animClipIdle": "",
             "clearAimLayer": false,
             "attackRepeats": 1,
             "handPropName": "",
@@ -1397,6 +1468,12 @@
                 0
             ],
             "clipPreMove": [
+                0,
+                0,
+                0,
+                0
+            ],
+            "clipIdle": [
                 0,
                 0,
                 0,
@@ -1494,6 +1571,7 @@
             "animClipAttack": "",
             "animClipCombat": "",
             "animClipPreMove": "",
+            "animClipIdle": "",
             "clearAimLayer": false,
             "attackRepeats": 1,
             "handPropName": "",
@@ -1526,6 +1604,12 @@
                 0
             ],
             "clipPreMove": [
+                0,
+                0,
+                0,
+                0
+            ],
+            "clipIdle": [
                 0,
                 0,
                 0,
@@ -1623,6 +1707,7 @@
             "animClipAttack": "",
             "animClipCombat": "",
             "animClipPreMove": "",
+            "animClipIdle": "",
             "clearAimLayer": false,
             "attackRepeats": 1,
             "handPropName": "",
@@ -1655,6 +1740,12 @@
                 0
             ],
             "clipPreMove": [
+                0,
+                0,
+                0,
+                0
+            ],
+            "clipIdle": [
                 0,
                 0,
                 0,
@@ -1752,6 +1843,7 @@
             "animClipAttack": "",
             "animClipCombat": "",
             "animClipPreMove": "",
+            "animClipIdle": "",
             "clearAimLayer": false,
             "attackRepeats": 1,
             "handPropName": "",
@@ -1784,6 +1876,12 @@
                 0
             ],
             "clipPreMove": [
+                0,
+                0,
+                0,
+                0
+            ],
+            "clipIdle": [
                 0,
                 0,
                 0,
@@ -1881,6 +1979,7 @@
             "animClipAttack": "",
             "animClipCombat": "",
             "animClipPreMove": "",
+            "animClipIdle": "",
             "clearAimLayer": false,
             "attackRepeats": 1,
             "handPropName": "",
@@ -1913,6 +2012,12 @@
                 0
             ],
             "clipPreMove": [
+                0,
+                0,
+                0,
+                0
+            ],
+            "clipIdle": [
                 0,
                 0,
                 0,
