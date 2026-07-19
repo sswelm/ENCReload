@@ -27,6 +27,7 @@ public class AnimationLabWindow : EditorWindow
     string clipProbeFile = "\0";                    // sentinel != any real path so the first real path always inspects
     UnityEditor.Editor previewEditor;               // FIT PREVIEW (model + hand prop combined) — non-serializable, rebuilt on demand
     [SerializeField] string previewPath = "";       // the combined prefab shown (survives domain reloads)
+    [SerializeField] Vector3 fitAngles;             // LIVE prop rotation: applied to the previewed prop instantly (no bake) and saved to the registry (the plugin stamps the same value in-game)
 
     [MenuItem("Tools/HAF/Animation Lab")]
     static void Open()
@@ -93,15 +94,11 @@ public class AnimationLabWindow : EditorWindow
                 Transform bone = inst.GetComponentsInChildren<Transform>()
                     .FirstOrDefault(t => t.name.IndexOf(sub, StringComparison.OrdinalIgnoreCase) >= 0);
                 if (bone == null) { status = $"Fit preview: no bone matches '{sub}' in the FBX."; return; }
-                // the prop, glued exactly like the runtime: identity local + the registry override angles (default 0)
+                // the prop, glued exactly like the runtime: identity local + the LIVE rotation (same composition
+                // stage as the runtime handPropAngles stamp — 'Save rotation to game' ships this exact value)
                 var pgo = new GameObject(prop);
                 pgo.transform.SetParent(bone, false);
-                var av = (cur.handPropAngles ?? "").Split(',');
-                if (av.Length == 3
-                    && float.TryParse(av[0].Trim(), System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out float ax)
-                    && float.TryParse(av[1].Trim(), System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out float ay)
-                    && float.TryParse(av[2].Trim(), System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out float az))
-                    pgo.transform.localRotation = Quaternion.Euler(ax, ay, az);
+                pgo.transform.localRotation = Quaternion.Euler(fitAngles);
                 pgo.AddComponent<MeshFilter>().sharedMesh = propMesh;
                 var pmr = pgo.AddComponent<MeshRenderer>();
                 var pmats = new Material[Mathf.Max(1, propMesh.subMeshCount)];
@@ -318,9 +315,22 @@ public class AnimationLabWindow : EditorWindow
             // dial-in relaunch-only. Deliberately not exposed here to keep one owner per setting.
             if (GUILayout.Button(new GUIContent("Refresh fit preview (model + prop, as glued in-game)",
                 "Rebuilds the combined preview below: the model's rig at rest (the idle stance) with the prop's SHIPPED " +
-                "mesh parented to the glue bone using the exact runtime math. Iterate: adjust the Prop Lab's " +
-                "Rotation/Position offsets, Bake the prop, press this — no game relaunch needed for fit tuning.")))
+                "mesh parented to the glue bone using the exact runtime math. Press after any bake.")))
                 BuildFitPreview();
+            EditorGUI.BeginChangeCheck();
+            fitAngles = EditorGUILayout.Vector3Field(new GUIContent("Prop rotation (LIVE, deg)",
+                "Rotates the prop around its glue bone LIVE in the preview below — no bake, no relaunch. When it " +
+                "looks right, press 'Save rotation to game': the value goes to the registry and the plugin applies " +
+                "the SAME rotation at the SAME stage in-game (relaunch to see it; no re-bake, no mod rebuild)."), fitAngles);
+            if (EditorGUI.EndChangeCheck() && previewEditor != null) BuildFitPreview();
+            if (GUILayout.Button(new GUIContent("Save rotation to game",
+                "Writes the live rotation above into the registry (handPropAngles) — the plugin stamps it at load. " +
+                "Relaunch the game to see it; no bake or mod rebuild needed.")))
+            {
+                cur.handPropAngles = string.Format(System.Globalization.CultureInfo.InvariantCulture,
+                    "{0:0.###},{1:0.###},{2:0.###}", fitAngles.x, fitAngles.y, fitAngles.z);
+                SaveOnly();
+            }
         }
         // Animate only bones — free text + a Pick that appends a bone-name prefix (grouped, with counts) from the model.
         using (new EditorGUILayout.HorizontalScope())
@@ -437,8 +447,7 @@ public class AnimationLabWindow : EditorWindow
         cur.convertRig = mine.convertRig;
         cur.animStateDriven = mine.animStateDriven; cur.animClipMove = mine.animClipMove; cur.animClipAfter = mine.animClipAfter; cur.animClipAttack = mine.animClipAttack; cur.animClipCombat = mine.animClipCombat; cur.attackRepeats = mine.attackRepeats;
         cur.handPropName = mine.handPropName; cur.handPropGuid = mine.handPropGuid; cur.handPropMat = mine.handPropMat; cur.handPropBone = mine.handPropBone;
-        // handPropAngles deliberately NOT carried: it's a hand-edited registry-only knob now (no UI here) — carrying
-        // the Lab's stale copy resurrected old values on every Save/Bake, silently overriding the recipe's angles.
+        cur.handPropAngles = mine.handPropAngles;   // Lab-owned again since the LIVE fit knob edits it ('Save rotation to game')
         cur.fireOnAttack = mine.fireOnAttack; cur.deployOnStop = mine.deployOnStop;
         cur.deployPoseTime = mine.deployPoseTime; cur.deploySpeed = mine.deploySpeed; cur.recoilSpeed = mine.recoilSpeed;
     }
