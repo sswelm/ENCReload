@@ -24,7 +24,7 @@
 # Checks BOTH the object name AND the mesh-data name (glTF import can name an object 'Object_NNN' while its mesh keeps
 # the real name, so an object-name-only filter misses them). Node `matrix` transforms aren't handled (TRS only).
 import bpy, sys
-from mathutils import Vector
+from mathutils import Vector, Quaternion
 
 argv = sys.argv[sys.argv.index("--") + 1:]
 inp, outp = argv[0], argv[1]
@@ -96,6 +96,20 @@ bpy.ops.nla.bake(frame_start=fmin, frame_end=fmax, only_selected=False,
                  visual_keying=True, clear_constraints=True, bake_types={'POSE'})
 bpy.ops.object.mode_set(mode='OBJECT')
 print("DEPLOY baked %d bones" % len(bone_of))
+
+# --- 5a. PRISTINE FIRE-WINDOW SNAPSHOT (2026-07-19): capture the recoil range NOW, BEFORE 5b/5c clear and re-key
+#         the barrel/leg channels — the source's own fire choreography (the barrel LOWERING to reload and any other
+#         rotational content) lives in these frames and the retarget would erase it. The 'recoil' role clip (7c) is
+#         built from THIS snapshot, with the Slam arc layered on the (later-born) RecoilArm on top. ---
+_fire_snap = {}
+if len(argv) > 8 and argv[8].strip():
+    for pb in arm.pose.bones:
+        pb.rotation_mode = 'QUATERNION'
+    for f in range(int(argv[8]), int(argv[9]) + 1):
+        scene.frame_set(f)
+        bpy.context.view_layer.update()
+        _fire_snap[f] = {pb.name: (pb.location.copy(), pb.rotation_quaternion.copy()) for pb in arm.pose.bones}
+    print("DEPLOY fire-window snapshot: %d frames (%s..%s) captured PRISTINE (pre-retarget)" % (len(_fire_snap), argv[8], argv[9]))
 
 # --- 5b. optional: RETARGET the barrel to its fully-elevated 'ready' pose by the deploy's end (argv[5] = readyFrame) ---
 # The rest/deployed pose should be combat-ready (barrel up). In the source the barrel pauses at the aiming angle for a
@@ -287,10 +301,13 @@ if len(argv) > 8 and argv[8].strip():
         _pbra.rotation_quaternion = q; _pbra.location = (0.0, 0.0, 0.0); prev_q['ra'] = q
         _pbra.keyframe_insert('location', frame=f); _pbra.keyframe_insert('rotation_quaternion', frame=f)
     thetas = []
+    _arc_by_src = {}                                          # source frame -> theta, reused by 7c's recoil role (Slam layer)
     for t in frames:
         theta = -(slide[t].length) / R * (1 if slide[t].dot(d) >= 0 else -1)   # arc length R*theta along the slide dir
         key_theta(deploy_end + (t - rs), theta)
         thetas.append(theta)
+        _arc_by_src[t] = theta
+    _arc_axis = A_local
     kick_end = deploy_end + (frames[-1] - rs)
     # PALINDROME RETURN (user-designed, 2026-07-19): the source's post-slam frames are usually RELOAD choreography
     # (the crew lowers the barrel), not a run-out — so give deployRecoil the SLAM ONLY and the return is synthesized
@@ -380,16 +397,25 @@ if arm_action:
         scene.frame_set(f)
         bpy.context.view_layer.update()
         _snap[f] = {pb.name: (pb.location.copy(), pb.rotation_quaternion.copy()) for pb in arm.pose.bones}
-    def make_role(name, frames):
+    def make_role(name, frames, snaps=None, arm_override=None):
+        src = snaps if snaps is not None else _snap
         a = bpy.data.actions.new(name)
         arm.animation_data.action = a
         try: arm.animation_data.action_slot = a.slots.new(id_type='OBJECT', name=arm.name)   # Blender 4.4+/5 slotted actions
         except Exception: pass
         for i, f in enumerate(frames):
             for pb in arm.pose.bones:
-                loc, quat = _snap[f][pb.name]
-                pb.location = loc
-                pb.rotation_quaternion = quat
+                if arm_override is not None and pb.name == arm_override[0]:
+                    pb.location = (0.0, 0.0, 0.0)
+                    pb.rotation_quaternion = arm_override[1][i]      # the Slam layer: per-output-frame arm quaternion
+                elif pb.name in src[f]:
+                    loc, quat = src[f][pb.name]
+                    pb.location = loc
+                    pb.rotation_quaternion = quat
+                else:
+                    # bone born after this snapshot (the RecoilArm vs the pristine 5a fire window) — identity no-op
+                    pb.location = (0.0, 0.0, 0.0)
+                    pb.rotation_quaternion = (1.0, 0.0, 0.0, 0.0)
                 # keyed from fmin so every role stays inside the export frame range (rig_anim re-clamps per role later)
                 pb.keyframe_insert('location', frame=fmin + i)
                 pb.keyframe_insert('rotation_quaternion', frame=fmin + i)
@@ -399,9 +425,31 @@ if arm_action:
     make_role("fold", list(reversed(_dep)))
     make_role("folded", [fmin, fmin])            # 2 identical frames: a valid HELD pose (0-length clips can be dropped by importers)
     make_role("deployed", [deploy_end, deploy_end])
-    has_recoil = tail_end is not None and tail_end > deploy_end
+    has_recoil = len(_fire_snap) > 0
     if has_recoil:
-        make_role("recoil", list(range(deploy_end, tail_end + 1)))
+        # THE FULL FIRE CYCLE (user-designed): the 'recoil' role plays the PRISTINE source fire window — the real
+        # barrel lowering-to-reload and every other rotational content 5b would have erased — with the SLAM layered
+        # on the RecoilArm (theta from 5d's slam-derived arc, interpolated per source frame; identity outside the
+        # kick). The palindrome return (argv[13], default 4) plays the whole thing backward slowed, raising the
+        # barrel back to battery and gliding the kick home; 0 = no return (ends as the source ends).
+        rs2, re2 = int(argv[8]), int(argv[9])
+        ret2 = int(argv[13]) if len(argv) > 13 and argv[13].strip() else 4
+        fwd = list(range(rs2, re2 + 1))
+        frames2 = list(fwd) + (list(reversed(fwd[:-1])) if ret2 > 0 else [])
+        # per-entry arm quaternion: linear-interpolate theta between 5d's sampled arc keys (dict on source frames)
+        def theta_at(t):
+            if not _arc_by_src: return 0.0
+            ks = sorted(_arc_by_src)
+            if t <= ks[0]: return _arc_by_src[ks[0]]
+            if t >= ks[-1]: return _arc_by_src[ks[-1]]
+            lo = max(k for k in ks if k <= t); hi = min(k for k in ks if k >= t)
+            if lo == hi: return _arc_by_src[lo]
+            w = (t - lo) / float(hi - lo)
+            return _arc_by_src[lo] * (1 - w) + _arc_by_src[hi] * w
+        arm_quats = [Quaternion(_arc_axis, theta_at(t)) if _arc_by_src else Quaternion((1.0, 0.0, 0.0, 0.0)) for t in frames2]
+        make_role("recoil", frames2, snaps=_fire_snap, arm_override=(ra_name, arm_quats))
+        print("DEPLOY recoil role: PRISTINE fire cycle %d..%d (barrel choreography intact) + Slam layer%s" %
+              (rs2, re2, (" + palindrome return x%d" % ret2) if ret2 > 0 else " (no return)"))
     arm.animation_data.action = arm_action       # the legacy action stays active (legacy bakes untouched)
     print("DEPLOY role clips: unfold/fold/folded/deployed%s (+ legacy 'deploy')" % ("/recoil" if has_recoil else ""))
 
