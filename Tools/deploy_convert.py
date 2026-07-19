@@ -29,14 +29,15 @@ from mathutils import Vector, Quaternion
 argv = sys.argv[sys.argv.index("--") + 1:]
 inp, outp = argv[0], argv[1]
 
-# FAMILY CONVENTION: a knob's 0 disables its feature. Recoil step 0 = the ENTIRE fire animation OFF — the
-# recoil sections are skipped, and the 'recoil' role bakes as a held deployed stance so an Attack field still
-# pointing at it plays a graceful no-op instead of failing the bake.
-_recoil_off = len(argv) > 10 and argv[10].strip() == "0"
+# FAMILY CONVENTION: OFF is the default; a feature exists only when its knob asks for it. Recoil step empty
+# or 0 = the ENTIRE fire animation OFF — the recoil sections are skipped, and the 'recoil' role bakes as a
+# held deployed stance so an Attack field still pointing at it plays a graceful no-op instead of failing the
+# bake. Set step 1 (finest) or 2 to ENABLE the fire cycle.
+_recoil_off = len(argv) <= 10 or argv[10].strip() in ("", "0")
 _had_recoil_arg = len(argv) > 8 and argv[8].strip() != ""
 if _recoil_off and _had_recoil_arg:
     argv[8] = ""
-    print("DEPLOY recoil step 0 — fire cycle DISABLED ('recoil' role = held stance)")
+    print("DEPLOY recoil step empty/0 — fire cycle DISABLED ('recoil' role = held stance)")
 
 bpy.ops.wm.read_factory_settings(use_empty=True)
 bpy.ops.import_scene.gltf(filepath=inp)
