@@ -215,19 +215,6 @@ public class ClipRangeDialog : EditorWindow
         }
         using (new EditorGUILayout.HorizontalScope())
         {
-            if (GUILayout.Button(playing ? "❚❚ Pause" : "► Play", GUILayout.Width(80))) playing = !playing;
-            if (GUILayout.Button(new GUIContent("|◄", "One frame back (also ← key; Shift+← = 10 back)"), GUILayout.Width(30)))
-            { playing = false; frame = Mathf.Max(0, Mathf.Round(frame) - 1); GUI.FocusControl(null); Repaint(); }
-            if (GUILayout.Button(new GUIContent("►|", "One frame forward (also → key; Shift+→ = 10 forward)"), GUILayout.Width(30)))
-            { playing = false; frame = Mathf.Min(total, Mathf.Round(frame) + 1); GUI.FocusControl(null); Repaint(); }
-            EditorGUI.BeginChangeCheck();
-            frame = GUILayout.HorizontalSlider(frame, 0, total);
-            if (EditorGUI.EndChangeCheck()) playing = false;   // scrubbing pauses
-            GUILayout.Label($"frame {Mathf.RoundToInt(frame)} / {total}", GUILayout.Width(110));
-        }
-
-        using (new EditorGUILayout.HorizontalScope())
-        {
             startF = EditorGUILayout.IntField("Start", startF, GUILayout.Width(220));
             if (GUILayout.Button(new GUIContent("◄ set current", "Copy the preview's current frame into this field"), GUILayout.Width(95))) startF = Mathf.RoundToInt(frame);
             if (GUILayout.Button(new GUIContent("go ►", "Jump the preview TO this frame (the reverse of 'set current')"), GUILayout.Width(45)))
@@ -237,6 +224,20 @@ public class ClipRangeDialog : EditorWindow
             if (GUILayout.Button(new GUIContent("◄ set current", "Copy the preview's current frame into this field"), GUILayout.Width(95))) endF = Mathf.RoundToInt(frame);
             if (GUILayout.Button(new GUIContent("go ►", "Jump the preview TO this frame (the reverse of 'set current')"), GUILayout.Width(45)))
             { playing = false; frame = Mathf.Clamp(endF, 0, total); GUI.FocusControl(null); Repaint(); }
+        }
+
+        // transport row BELOW Start/End (user call): the controls sit adjacent to the preview they drive
+        using (new EditorGUILayout.HorizontalScope())
+        {
+            if (GUILayout.Button(playing ? "❚❚ Pause" : "► Play", GUILayout.Width(80))) playing = !playing;
+            if (GUILayout.Button(new GUIContent("|◄", "One frame back (also ← key; Shift+← = 10 back)"), GUILayout.Width(30)))
+            { playing = false; frame = Mathf.Max(0, Mathf.Round(frame) - 1); GUI.FocusControl(null); Repaint(); }
+            if (GUILayout.Button(new GUIContent("►|", "One frame forward (also → key; Shift+→ = 10 forward)"), GUILayout.Width(30)))
+            { playing = false; frame = Mathf.Min(total, Mathf.Round(frame) + 1); GUI.FocusControl(null); Repaint(); }
+            EditorGUI.BeginChangeCheck();
+            frame = GUILayout.HorizontalSlider(frame, 0, total);
+            if (EditorGUI.EndChangeCheck()) playing = false;   // scrubbing pauses
+            GUILayout.Label($"frame {Mathf.RoundToInt(frame)} / {total}", GUILayout.Width(110));
         }
         startF = Mathf.Clamp(startF, 0, total);
         endF = Mathf.Clamp(endF, 0, total);
