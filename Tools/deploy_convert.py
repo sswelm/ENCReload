@@ -29,6 +29,15 @@ from mathutils import Vector, Quaternion
 argv = sys.argv[sys.argv.index("--") + 1:]
 inp, outp = argv[0], argv[1]
 
+# FAMILY CONVENTION: a knob's 0 disables its feature. Recoil step 0 = the ENTIRE fire animation OFF — the
+# recoil sections are skipped, and the 'recoil' role bakes as a held deployed stance so an Attack field still
+# pointing at it plays a graceful no-op instead of failing the bake.
+_recoil_off = len(argv) > 10 and argv[10].strip() == "0"
+_had_recoil_arg = len(argv) > 8 and argv[8].strip() != ""
+if _recoil_off and _had_recoil_arg:
+    argv[8] = ""
+    print("DEPLOY recoil step 0 — fire cycle DISABLED ('recoil' role = held stance)")
+
 bpy.ops.wm.read_factory_settings(use_empty=True)
 bpy.ops.import_scene.gltf(filepath=inp)
 scene = bpy.context.scene
@@ -432,7 +441,10 @@ if arm_action:
     make_role("folded", [fmin, fmin])            # 2 identical frames: a valid HELD pose (0-length clips can be dropped by importers)
     make_role("deployed", [deploy_end, deploy_end])
     has_recoil = len(_fire_snap) > 0
-    if has_recoil:
+    if _recoil_off and _had_recoil_arg:
+        make_role("recoil", [deploy_end, deploy_end])   # graceful no-op: the attack holds the deployed stance
+        has_recoil = True
+    elif has_recoil:
         # THE FULL FIRE CYCLE (user-designed): the 'recoil' role plays the PRISTINE source fire window — the real
         # barrel lowering-to-reload and every other rotational content 5b would have erased — with the SLAM layered
         # on the RecoilArm (theta from 5d's slam-derived arc, interpolated per source frame; identity outside the
