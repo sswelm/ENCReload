@@ -85,13 +85,15 @@ def assign_action(a):
     except Exception as e:
         print("RIGANIM slot warn:", e)
 
-# CLIP SLICING (howitzer migration take 2, 2026-07-19): a clip name may carry a FRAME RANGE — "deploy[0..180]".
-# The slice is synthesized as a NEW action by sampling the SOURCE action's evaluated pose basis per frame INSIDE
-# THIS session (the same pipeline that provably bakes the source right) — the Blender import→export round-trip
-# retrofit (add_role_clips.py) altered the clip-vs-rest relationship and baked flipped/inverse in-game; never
-# round-trip a converted GLB. start>end = REVERSED (a fold from an unfold); single frame = padded to 2 identical
-# frames (a held stance; 0-length clips can be dropped by importers).
-_slice_re = __import__("re").compile(r"^(.*)\[(\d+)\.\.(\d+)\]$")
+# CLIP SLICING (howitzer migration take 2, 2026-07-19): a clip name may carry a FRAME RANGE — "deploy[0..180]" —
+# and optionally a SPEED STEP — "deploy[179..0/3]" = every 3rd source frame, so the slice plays 3× faster (BAKE-ONLY
+# pacing: a 7.5 s authored fold outlasts a one-tile map move; at /3 it completes in 2.5 s — the runtime deliberately
+# plays clips at face value, no speed knobs). The slice is synthesized as a NEW action by sampling the SOURCE
+# action's evaluated pose basis per frame INSIDE THIS session (the same pipeline that provably bakes the source
+# right) — the Blender import→export round-trip retrofit (add_role_clips.py) altered the clip-vs-rest relationship
+# and baked flipped/inverse in-game; never round-trip a converted GLB. start>end = REVERSED (a fold from an
+# unfold); single frame = padded to 2 identical frames (a held stance; 0-length clips can be dropped by importers).
+_slice_re = __import__("re").compile(r"^(.*)\[(\d+)\.\.(\d+)(?:/(\d+))?\]$")
 def resolve_clip(spec, tag):
     m = _slice_re.match(spec.strip())
     if not m:
@@ -101,17 +103,25 @@ def resolve_clip(spec, tag):
             sys.exit(1)
         return a
     src_name, f0, f1 = m.group(1), int(m.group(2)), int(m.group(3))
+    step = max(1, int(m.group(4))) if m.group(4) else 1
     src = bpy.data.actions.get(src_name)
     if src is None:
         print("RIGANIM ERROR: slice source '%s' (%s) not found. Available: %s" % (src_name, tag, [a.name for a in bpy.data.actions]))
         sys.exit(1)
-    frames = list(range(f0, f1 + 1)) if f1 >= f0 else list(range(f0, f1 - 1, -1))
+    frames = list(range(f0, f1 + 1, step)) if f1 >= f0 else list(range(f0, f1 - 1, -step))
+    if frames[-1] != f1:
+        frames.append(f1)                                # always land exactly on the end frame (the held pose)
     if len(frames) == 1:
         frames = frames * 2                              # held stance: 2 identical frames
-    new_name = "%s_%s_%d_%d" % (src_name, tag, f0, f1)
+    new_name = "%s_%s_%d_%d_%d" % (src_name, tag, f0, f1, step)
     old = bpy.data.actions.get(new_name)
     if old is not None:
         return old                                       # same slice requested by two roles -> share it
+    # SCENE-STATE HYGIENE (the byte-gate finding, 2026-07-19): slicing SETS pose values on every bone; any channel
+    # the PRIMARY action doesn't key then evaluates to those leftovers in the primary's own export — the sandbox
+    # primary baked byte-identical to the proven legacy clip for ~100 frames and then diverged. Save every bone's
+    # pose (and rotation mode) and RESTORE it before returning, so role processing is invisible to every other export.
+    saved = {pb.name: (pb.location.copy(), pb.rotation_quaternion.copy(), pb.scale.copy(), pb.rotation_mode) for pb in arm.pose.bones}
     assign_action(src)
     for pb in arm.pose.bones:
         pb.rotation_mode = 'QUATERNION'
@@ -132,6 +142,11 @@ def resolve_clip(spec, tag):
             pb.rotation_quaternion = rot
             pb.keyframe_insert('location', frame=i)
             pb.keyframe_insert('rotation_quaternion', frame=i)
+    for pb in arm.pose.bones:                            # restore the found pose exactly (mode LAST-set wins, so set it first)
+        if pb.name in saved:
+            l, q, s, mode = saved[pb.name]
+            pb.rotation_mode = mode
+            pb.location = l; pb.rotation_quaternion = q; pb.scale = s
     print("RIGANIM sliced '%s' -> '%s' (%d frames%s)" % (spec, new_name, len(frames), ", reversed" if f1 < f0 else ""))
     return a
 
@@ -590,6 +605,12 @@ def _export_one(_a, _o):
     _fs, _fe = [int(round(v)) for v in _a.frame_range]
     bpy.context.scene.frame_start = _fs
     bpy.context.scene.frame_end = _fe
+    # PIN THE EXPORT-TIME POSE (2026-07-19): the FBX's node defaults — which downstream become the imported
+    # prefab's default pose and thereby the REFERENCE the engine encodes clips against — used to be whatever
+    # frame the last processing step happened to leave the scene on (arbitrary). Evaluate the clip's own first
+    # frame before every export so the reference is deterministic: the primary's frame 0 = the travel/rest pose.
+    bpy.context.scene.frame_set(_fs)
+    bpy.context.view_layer.update()
     _d = os.path.dirname(_o)
     if _d and not os.path.isdir(_d):
         os.makedirs(_d)

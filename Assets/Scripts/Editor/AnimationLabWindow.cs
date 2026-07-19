@@ -455,15 +455,24 @@ public class AnimationLabWindow : EditorWindow
             "plays once on stopping before settling into Idle. All clips come from the same model file and bake " +
             "against ONE shared skeleton. Mutually exclusive with Fire-on-attack / Deploy-when-stopped. Re-Bake after changing."),
             cur.animStateDriven);
-        ClipRow(cur.animStateDriven ? "Idle clip" : "Clip name",
+        ClipRow(cur.animStateDriven ? "Idle / reference clip" : "Clip name",
             cur.animStateDriven
-                ? "Plays while the unit stands still (also the rest/reference clip — its first frame defines the shared rest pose on the conversion path)."
+                ? "Plays while the unit stands still, AND serves as the model's REFERENCE clip (its first frame defines the " +
+                  "shared rest pose all role clips encode against — use the FULL source motion here, never a stance slice). " +
+                  "If the resting look is a POSE from mid-motion (a deployed howitzer), keep this the full clip and put the " +
+                  "stance in 'Idle stance (override)' below."
                 : "Which animation to bake when the model has several clips. Use Pick to choose from the clips found in the " +
                   "model. Leave EMPTY to use the model's assigned/first clip. Changing the clip needs a re-Bake.",
             () => cur.animClip ?? "", v => cur.animClip = v);
         if (cur.animStateDriven)
         {
-            ClipRow("Movement clip", "REQUIRED. Plays in a loop while the unit moves (e.g. a run cycle like 'a_RunN').",
+            ClipRow("Idle stance (override)", "Optional. A held STANCE played instead of the reference clip while standing " +
+                "(e.g. 'deploy[179..180]' — a 2-frame hold of the deployed pose). REQUIRED for stance idles: a stance baked " +
+                "as the reference clip itself encodes as its own rest and renders as the TRAVEL pose in-game (the " +
+                "\"forgot to deploy\" trap). Empty = idle plays the reference clip (characters with a real idle loop).",
+                () => cur.animClipIdle ?? "", v => cur.animClipIdle = v);
+            ClipRow("Movement clip", "REQUIRED. Plays in a loop while the unit moves (e.g. a run cycle like 'a_RunN'). " +
+                "Slices support a SPEED step: 'deploy[0..179/3]' = every 3rd frame = 3× faster (pacing is baked, never a runtime knob).",
                 () => cur.animClipMove ?? "", v => cur.animClipMove = v);
             ClipRow("After-movement clip", "Optional. Played ONCE when the unit stops (a settle/plant motion), then Idle. Empty = stop straight into Idle.",
                 () => cur.animClipAfter ?? "", v => cur.animClipAfter = v);
@@ -677,7 +686,7 @@ public class AnimationLabWindow : EditorWindow
         cur.deployConvert = mine.deployConvert; cur.deployStart = mine.deployStart; cur.deployEnd = mine.deployEnd;
         cur.deployStrip = mine.deployStrip; cur.deployReadyFrame = mine.deployReadyFrame; cur.deployLegScale = mine.deployLegScale; cur.deployBarrelScale = mine.deployBarrelScale;
         cur.deployRecoil = mine.deployRecoil; cur.deployRecoilStep = mine.deployRecoilStep; cur.deployRecoilMag = mine.deployRecoilMag; cur.deployArcR = mine.deployArcR;
-        cur.animStateDriven = mine.animStateDriven; cur.animClipMove = mine.animClipMove; cur.animClipAfter = mine.animClipAfter; cur.animClipAttack = mine.animClipAttack; cur.animClipCombat = mine.animClipCombat; cur.animClipPreMove = mine.animClipPreMove; cur.attackRepeats = mine.attackRepeats; cur.clearAimLayer = mine.clearAimLayer;
+        cur.animStateDriven = mine.animStateDriven; cur.animClipMove = mine.animClipMove; cur.animClipAfter = mine.animClipAfter; cur.animClipAttack = mine.animClipAttack; cur.animClipCombat = mine.animClipCombat; cur.animClipPreMove = mine.animClipPreMove; cur.animClipIdle = mine.animClipIdle; cur.attackRepeats = mine.attackRepeats; cur.clearAimLayer = mine.clearAimLayer;
         cur.handPropName = mine.handPropName; cur.handPropGuid = mine.handPropGuid; cur.handPropMat = mine.handPropMat; cur.handPropBone = mine.handPropBone;
         cur.handPropAngles = mine.handPropAngles;   // Lab-owned again since the LIVE fit knob edits it ('Save rotation to game')
         cur.fireOnAttack = mine.fireOnAttack; cur.deployOnStop = mine.deployOnStop;
@@ -718,6 +727,7 @@ public class AnimationLabWindow : EditorWindow
         cur.animClipAttack = (cur.animClipAttack ?? "").Trim();
         cur.animClipCombat = (cur.animClipCombat ?? "").Trim();
         cur.animClipPreMove = (cur.animClipPreMove ?? "").Trim();
+        cur.animClipIdle = (cur.animClipIdle ?? "").Trim();
         var cfg = ModelFactoryWindow.ConfigFor(cur);
         // Geometry caching is AUTOMATIC (mirror of the Factory's DoBake): re-slim exactly when a Blender-step input
         // changed; the 'Reuse extracted' checkbox only protects the hand-edited extracted texture (cfg.keepTexture).
@@ -733,6 +743,7 @@ public class AnimationLabWindow : EditorWindow
         cur.clipAttack = cur.animStateDriven && !string.IsNullOrEmpty(r.clipAttackGuid) ? ModelRegistry.ParseGuid(r.clipAttackGuid) : new int[4];
         cur.clipCombat = cur.animStateDriven && !string.IsNullOrEmpty(r.clipCombatGuid) ? ModelRegistry.ParseGuid(r.clipCombatGuid) : new int[4];
         cur.clipPreMove = cur.animStateDriven && !string.IsNullOrEmpty(r.clipPreMoveGuid) ? ModelRegistry.ParseGuid(r.clipPreMoveGuid) : new int[4];
+        cur.clipIdle = cur.animStateDriven && !string.IsNullOrEmpty(r.clipIdleGuid) ? ModelRegistry.ParseGuid(r.clipIdleGuid) : new int[4];
         bool saved = ModelRegistry.Upsert(cur);
         RefreshList();
         ModelFactoryWindow.ReloadPreviews();   // give the Factory tab its preview back (fresh from this bake)
