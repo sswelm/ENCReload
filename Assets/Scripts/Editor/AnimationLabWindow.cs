@@ -472,7 +472,7 @@ public class AnimationLabWindow : EditorWindow
             {
                 // compact labels + zero-minimum fields: four standard 150px label columns don't fit a row — the
                 // last field (Return slow) was starved clean off at normal window widths.
-                float lw2 = EditorGUIUtility.labelWidth; EditorGUIUtility.labelWidth = 78;
+                float lw2 = EditorGUIUtility.labelWidth; EditorGUIUtility.labelWidth = 88;
                 cur.deployRecoilStep = EditorGUILayout.TextField(new GUIContent("Recoil step", "Source-frame sampling step (empty = 2)."), cur.deployRecoilStep, GUILayout.MinWidth(0));
                 cur.deployRecoilMag = EditorGUILayout.TextField(new GUIContent("Slide scale", "Recoil slide-distance scale (empty = 1; 2 ≈ half the tube)."), cur.deployRecoilMag, GUILayout.MinWidth(0));
                 cur.deployArcR = EditorGUILayout.TextField(new GUIContent("Arc R", "FK-arc pivot distance (empty = 400). Larger = straighter slide, more jitter-prone."), cur.deployArcR, GUILayout.MinWidth(0));
