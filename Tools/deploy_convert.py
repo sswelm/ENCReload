@@ -6,7 +6,7 @@
 # Soft-skinned character rigs (crew) collapse the bake, so a strip-list removes them (and any loose props).
 #
 # Run headless:
-#   blender -b -P deploy_convert.py -- <in.glb> <out.glb> [start end] [stripCsv] [readyFrame] [legScale] [barrelScale] [recoilSrcStart recoilSrcEnd] [step] [mag] [arcR] [returnSlow]
+#   blender -b -P deploy_convert.py -- <in.glb> <out.glb> [start end] [stripCsv] [readyFrame] [legScale] [barrelScale] [recoilSrcStart recoilSrcEnd] [step] [mag] [arcR] [returnSlow] [slamDeg]
 #     start end   : trim the clip to this sub-range (the deploy). Omit = full clip.
 #     stripCsv    : comma-separated name substrings to delete (crew/props). Omit = the M114 defaults below.
 #     readyFrame  : (5b) source frame of the fully-elevated barrel; retargets the barrel to rise there over the deploy's back half.
@@ -237,7 +237,19 @@ if len(argv) > 8 and argv[8].strip():
     A = d.cross(Vector((0, 0, 1)))
     if A.length < 1e-4: A = d.cross(Vector((0, 1, 0)))
     A = A.normalized()                                         # arc rotation axis (perp to slide, horizontal-ish)
-    R = float(argv[12]) if len(argv) > 12 and argv[12].strip() else 400.0   # arc pivot distance: larger -> straighter slide (less swing) but more jitter-prone
+    # SLAM IN DEGREES (user-designed, 2026-07-19): the recipe states the desired kick PITCH directly (argv[14]);
+    # the arc radius is derived so the rendered in-game peak equals it exactly (Law 5: the arc renders as a tube
+    # pitch of peak_dist/R radians). DEFAULT 0 = NO kick pitch — the slam exists only when a modder asks for
+    # degrees. Legacy Arc R (argv[12]) is honored only for old recipes that set it explicitly.
+    _slam_deg = float(argv[14]) if len(argv) > 14 and argv[14].strip() else 0.0
+    if _slam_deg > 0.0:
+        R = dist * 57.2958 / _slam_deg
+        print("DEPLOY slam %.1f deg -> derived Arc R %.1f (peak slide %.1f)" % (_slam_deg, R, dist))
+    elif len(argv) > 12 and argv[12].strip():
+        R = float(argv[12])   # legacy explicit Arc R
+    else:
+        R = 1.0e9             # slam 0/off: near-zero theta — the arm holds identity, no kick pitch
+        print("DEPLOY slam 0 — no kick pitch (arm stays identity)")
     radius = A.cross(d).normalized()
     tube_head = m_home[tube_root].translation.copy()
     pivot = tube_head - radius * R                             # place the pivot R away, perpendicular to the slide
