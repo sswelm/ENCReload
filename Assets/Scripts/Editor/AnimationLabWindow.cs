@@ -391,7 +391,9 @@ public class AnimationLabWindow : EditorWindow
             EditorGUILayout.LabelField("Target pawn", string.IsNullOrWhiteSpace(cur.pawnDescription) ? "(set in the Model Factory)" : cur.pawnDescription);
             using (new EditorGUILayout.HorizontalScope())
             {
-                EditorGUILayout.LabelField("Model file", string.IsNullOrWhiteSpace(cur.modelFile) ? "(re-bake uses the extracted files)" : cur.modelFile, EditorStyles.wordWrappedMiniLabel);
+                // MinWidth(0) lets the path label SHRINK: without it the label claims all remaining width and, at
+                // narrower window widths, starves the fixed-width buttons to nothing ("where did my button go?").
+                EditorGUILayout.LabelField("Model file", string.IsNullOrWhiteSpace(cur.modelFile) ? "(re-bake uses the extracted files)" : cur.modelFile, EditorStyles.wordWrappedMiniLabel, GUILayout.MinWidth(0), GUILayout.ExpandWidth(true));
                 using (new EditorGUI.DisabledScope(string.IsNullOrWhiteSpace(cur.modelFile)))
                     if (GUILayout.Button(new GUIContent("▶ Play clip",
                         "Play the RAW model file's ENTIRE source animation (every take, full length — no conversion, no " +
