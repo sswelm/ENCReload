@@ -202,6 +202,8 @@ public static class UniversalBaker
             var m = System.Text.RegularExpressions.Regex.Match(recoil, @"^(\d+)\s*\.\.\s*(\d+)$");
             if (!m.Success) { error = "deploy conversion: recoil range must look like 440..510 (source frames), got '" + recoil + "'."; return null; }
             rs = m.Groups[1].Value; re = m.Groups[2].Value;
+            if (int.Parse(rs) >= int.Parse(re))
+            { error = $"deploy conversion: recoil range start must be BEFORE end — got {recoil} (reversed). The fire window runs forward in source frames (e.g. 443..543)."; return null; }
         }
         string key = string.Join("|", cfg.modelFile, File.GetLastWriteTimeUtc(cfg.modelFile).Ticks.ToString(),
             File.GetLastWriteTimeUtc(script).Ticks.ToString(), cfg.deployStart.ToString(), cfg.deployEnd.ToString(),
@@ -225,8 +227,11 @@ public static class UniversalBaker
             string so = p.StandardOutput.ReadToEnd(); p.StandardError.ReadToEnd();
             if (!p.WaitForExit(300000)) { try { p.Kill(); } catch { } error = "deploy conversion: Blender timed out (5 min)."; return null; }
             foreach (var line in so.Split('\n')) if (line.StartsWith("DEPLOY")) Debug.Log("[Factory] " + line.Trim());
-            if (!File.Exists(outFull) || p.ExitCode != 0)
-            { error = "deploy conversion produced no GLB (see Console for the DEPLOY log)."; Debug.LogError("[Factory] deploy_convert output:\n" + so); return null; }
+            // Blender exits 0 even when the python script DIES on an exception — a crashed conversion then left the
+            // OLD converted GLB in place and the bake silently slimmed stale roles (the reversed-recoil incident).
+            // Success = the script's own final marker, nothing less.
+            if (!File.Exists(outFull) || p.ExitCode != 0 || !so.Contains("DEPLOY wrote:"))
+            { error = "deploy conversion FAILED (script did not complete — see Console for the DEPLOY log / traceback)."; Debug.LogError("[Factory] deploy_convert output:\n" + so); return null; }
             File.WriteAllText(sidecar, key);
             return outFull;
         }
