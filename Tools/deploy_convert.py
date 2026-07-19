@@ -95,11 +95,27 @@ for p in parts:   # mirror object parenting onto the bones
     if p.parent and p.parent.name in bone_of:
         arm_data.edit_bones[bone_of[p.name]].parent = arm_data.edit_bones[bone_of[p.parent.name]]
 # STATIC ROOT (helicopter finding, 2026-07-19): a model whose BODY is unanimated (only rotors move) has meshes
-# with NO animated ancestor — they'd bind to nothing and render garbage. Give them an identity root bone.
+# with NO animated ancestor — they'd bind to nothing and render garbage. Give them a root bone — and BAKE it
+# like a real part (constrained to a static mesh's topmost ancestor node): a naked synthetic bone skipped the
+# node-scale treatment the part bones get (glTF roots carry ~9-100x scales) and bound ~9x off — the AW101's
+# fuselage vanished in-game while its rotors rendered.
 _sr = arm_data.edit_bones.new("StaticRoot")
 _sr.head = Vector((0.0, 0.0, 0.0)); _sr.tail = Vector((0.0, 0.0, 0.1))
 static_root = _sr.name
 bpy.ops.object.mode_set(mode='OBJECT')
+def _ancestors(o):
+    out = []
+    p = o
+    while p is not None:
+        out.append(p); p = p.parent
+    return out
+_static_anchor = None
+for m in [o for o in bpy.data.objects if o.type == 'MESH']:
+    if not any(a.name in bone_of for a in _ancestors(m)):
+        # the mesh's IMMEDIATE parent (else the mesh itself) — the same bone-to-node relationship the animated
+        # parts have; the topmost root often sits at scale 1 while the accumulated node scale lives mid-chain
+        _static_anchor = m.parent if m.parent is not None else m
+        break
 
 # --- 5. retarget: each bone copies its part's WORLD transform, then bake to keyframes ---
 bpy.context.view_layer.objects.active = arm
@@ -107,6 +123,12 @@ bpy.ops.object.mode_set(mode='POSE')
 for p in parts:
     c = arm.pose.bones[bone_of[p.name]].constraints.new('COPY_TRANSFORMS')
     c.target = p
+if _static_anchor is not None:
+    # bake StaticRoot against the static meshes' topmost node so it inherits the SAME scale semantics as the
+    # part bones (the naked-bone version bound ~9x off and the static geometry vanished in-game)
+    c = arm.pose.bones[static_root].constraints.new('COPY_TRANSFORMS')
+    c.target = _static_anchor
+    print("DEPLOY StaticRoot baked against '%s' (static geometry scale anchor)" % _static_anchor.name)
 bpy.ops.nla.bake(frame_start=fmin, frame_end=fmax, only_selected=False,
                  visual_keying=True, clear_constraints=True, bake_types={'POSE'})
 bpy.ops.object.mode_set(mode='OBJECT')
