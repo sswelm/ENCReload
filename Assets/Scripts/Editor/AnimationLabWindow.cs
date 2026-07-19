@@ -343,7 +343,9 @@ public class AnimationLabWindow : EditorWindow
         cur.animClip = mine.animClip; cur.animateBones = mine.animateBones; cur.animUnitFix = mine.animUnitFix;
         cur.convertRig = mine.convertRig;
         cur.animStateDriven = mine.animStateDriven; cur.animClipMove = mine.animClipMove; cur.animClipAfter = mine.animClipAfter; cur.animClipAttack = mine.animClipAttack; cur.animClipCombat = mine.animClipCombat; cur.attackRepeats = mine.attackRepeats;
-        cur.handPropName = mine.handPropName; cur.handPropGuid = mine.handPropGuid; cur.handPropMat = mine.handPropMat; cur.handPropBone = mine.handPropBone; cur.handPropAngles = mine.handPropAngles;
+        cur.handPropName = mine.handPropName; cur.handPropGuid = mine.handPropGuid; cur.handPropMat = mine.handPropMat; cur.handPropBone = mine.handPropBone;
+        // handPropAngles deliberately NOT carried: it's a hand-edited registry-only knob now (no UI here) — carrying
+        // the Lab's stale copy resurrected old values on every Save/Bake, silently overriding the recipe's angles.
         cur.fireOnAttack = mine.fireOnAttack; cur.deployOnStop = mine.deployOnStop;
         cur.deployPoseTime = mine.deployPoseTime; cur.deploySpeed = mine.deploySpeed; cur.recoilSpeed = mine.recoilSpeed;
     }
