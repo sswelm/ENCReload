@@ -6,7 +6,7 @@
 # Soft-skinned character rigs (crew) collapse the bake, so a strip-list removes them (and any loose props).
 #
 # Run headless:
-#   blender -b -P deploy_convert.py -- <in.glb> <out.glb> [start end] [stripCsv] [readyFrame] [legScale] [barrelScale] [recoilSrcStart recoilSrcEnd] [step] [mag] [arcR]
+#   blender -b -P deploy_convert.py -- <in.glb> <out.glb> [start end] [stripCsv] [readyFrame] [legScale] [barrelScale] [recoilSrcStart recoilSrcEnd] [step] [mag] [arcR] [returnSlow]
 #     start end   : trim the clip to this sub-range (the deploy). Omit = full clip.
 #     stripCsv    : comma-separated name substrings to delete (crew/props). Omit = the M114 defaults below.
 #     readyFrame  : (5b) source frame of the fully-elevated barrel; retargets the barrel to rise there over the deploy's back half.
@@ -267,15 +267,32 @@ if len(argv) > 8 and argv[8].strip():
         key_arm_identity(hold)
     bpy.context.view_layer.update()
     A_local = (_pbra.matrix.to_3x3().inverted() @ A).normalized()   # world arc axis -> the arm's local frame (identity basis at the hold)
-    for t in frames:
-        f = deploy_end + (t - rs)
-        theta = -(slide[t].length) / R * (1 if slide[t].dot(d) >= 0 else -1)   # arc length R*theta along the slide dir
+    def key_theta(f, theta):
         q = Quaternion(A_local, theta)
         if 'ra' in prev_q and q.dot(prev_q['ra']) < 0.0: q.negate()
         _pbra.rotation_quaternion = q; _pbra.location = (0.0, 0.0, 0.0); prev_q['ra'] = q
         _pbra.keyframe_insert('location', frame=f); _pbra.keyframe_insert('rotation_quaternion', frame=f)
-    recoil_out_end = deploy_end + (frames[-1] - rs)
-    key_arm_identity(recoil_out_end)                          # run-out returns to the exact pass-through
+    thetas = []
+    for t in frames:
+        theta = -(slide[t].length) / R * (1 if slide[t].dot(d) >= 0 else -1)   # arc length R*theta along the slide dir
+        key_theta(deploy_end + (t - rs), theta)
+        thetas.append(theta)
+    kick_end = deploy_end + (frames[-1] - rs)
+    # PALINDROME RETURN (user-designed, 2026-07-19): the source's post-slam frames are usually RELOAD choreography
+    # (the crew lowers the barrel), not a run-out — so give deployRecoil the SLAM ONLY and the return is synthesized
+    # here: the same kick played BACKWARD, slowed by argv[13] (default 4 = a quarter-speed glide back into battery;
+    # 0 = no return, the kick holds and the idle hold snaps the tube forward). The whole cycle lives in the
+    # generated 'recoil' role clip — set the Attack clip to plain `recoil`, no frame math.
+    ret_slow = int(argv[13]) if len(argv) > 13 and argv[13].strip() else 4
+    f = kick_end
+    if ret_slow > 0:
+        for i in range(len(thetas) - 2, -1, -1):          # reversed, skipping the peak frame we're already on
+            f += step * ret_slow
+            key_theta(f, thetas[i])
+    recoil_out_end = f
+    key_arm_identity(recoil_out_end + 1)                  # settle exactly into the pass-through hold
+    recoil_out_end += 1
+    print("DEPLOY recoil return: %s" % ("x%d slow-back glide" % ret_slow if ret_slow > 0 else "none (hold + snap)"))
     bpy.ops.object.mode_set(mode='OBJECT')
     print("DEPLOY recoil (ARC slide x%g, R=%g, peak=%.1f) tail %d..%d via RecoilArm; tube '%s'" %
           (mag, R, dist, deploy_end, recoil_out_end, tube_root))

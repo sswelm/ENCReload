@@ -445,13 +445,16 @@ public class AnimationLabWindow : EditorWindow
             cur.deployBarrelScale = EditorGUILayout.TextField(new GUIContent("Barrel elevation scale",
                 "Empty = 1. >1 exaggerates the elevation past the source's firing max."), cur.deployBarrelScale);
             cur.deployRecoil = EditorGUILayout.TextField(new GUIContent("Recoil frames (a..b)",
-                "The recoil kickback's sub-range IN THE SOURCE clip (e.g. 440..510). It is remapped onto the deployed pose " +
-                "as a tail after the deploy end — the 'recoil' role clip. Empty = no recoil."), cur.deployRecoil);
+                "The recoil SLAM's sub-range IN THE SOURCE clip (e.g. 445..451) — the slam ONLY: the source's post-slam " +
+                "frames are usually reload choreography (crew lowering the barrel), not a run-out. The return to battery " +
+                "is synthesized (see Return slow). The whole fire cycle becomes the 'recoil' role clip — set the Attack " +
+                "clip to plain 'recoil'. Empty = no recoil."), cur.deployRecoil);
             using (new EditorGUILayout.HorizontalScope())
             {
                 cur.deployRecoilStep = EditorGUILayout.TextField(new GUIContent("Recoil step", "Source-frame sampling step (empty = 2)."), cur.deployRecoilStep);
                 cur.deployRecoilMag = EditorGUILayout.TextField(new GUIContent("Slide scale", "Recoil slide-distance scale (empty = 1; 2 ≈ half the tube)."), cur.deployRecoilMag);
                 cur.deployArcR = EditorGUILayout.TextField(new GUIContent("Arc R", "FK-arc pivot distance (empty = 400). Larger = straighter slide, more jitter-prone."), cur.deployArcR);
+                cur.deployRecoilReturn = EditorGUILayout.TextField(new GUIContent("Return slow", "OPTIONAL palindrome return: the slam played BACKWARD at this multiple of its duration, gliding the tube back into battery (empty = 4 = quarter speed). 0 = OFF — the kick holds and the idle hold snaps the tube forward."), cur.deployRecoilReturn);
             }
             EditorGUI.indentLevel--;
         }
@@ -697,7 +700,7 @@ public class AnimationLabWindow : EditorWindow
         cur.convertRig = mine.convertRig;
         cur.deployConvert = mine.deployConvert; cur.deployStart = mine.deployStart; cur.deployEnd = mine.deployEnd;
         cur.deployStrip = mine.deployStrip; cur.deployReadyFrame = mine.deployReadyFrame; cur.deployLegScale = mine.deployLegScale; cur.deployBarrelScale = mine.deployBarrelScale;
-        cur.deployRecoil = mine.deployRecoil; cur.deployRecoilStep = mine.deployRecoilStep; cur.deployRecoilMag = mine.deployRecoilMag; cur.deployArcR = mine.deployArcR;
+        cur.deployRecoil = mine.deployRecoil; cur.deployRecoilStep = mine.deployRecoilStep; cur.deployRecoilMag = mine.deployRecoilMag; cur.deployArcR = mine.deployArcR; cur.deployRecoilReturn = mine.deployRecoilReturn;
         cur.animStateDriven = mine.animStateDriven; cur.animClipMove = mine.animClipMove; cur.animClipAfter = mine.animClipAfter; cur.animClipAttack = mine.animClipAttack; cur.animClipCombat = mine.animClipCombat; cur.animClipPreMove = mine.animClipPreMove; cur.animClipIdle = mine.animClipIdle; cur.attackRepeats = mine.attackRepeats; cur.clearAimLayer = mine.clearAimLayer;
         cur.handPropName = mine.handPropName; cur.handPropGuid = mine.handPropGuid; cur.handPropMat = mine.handPropMat; cur.handPropBone = mine.handPropBone;
         cur.handPropAngles = mine.handPropAngles;   // Lab-owned again since the LIVE fit knob edits it ('Save rotation to game')
