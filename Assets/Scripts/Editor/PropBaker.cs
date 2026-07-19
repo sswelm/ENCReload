@@ -384,6 +384,10 @@ public class PropBakerWindow : EditorWindow
 
     void DoBake()
     {
+        // Tear down every live preview BEFORE the delete-first bake — a preview inspector watching the deleted
+        // prefab throws InstantiateForAnimatorPreview(null) from Unity internals (same fix as the Animation Lab).
+        DestroyPreview();
+        ModelFactoryWindow.ReleasePreviews();
         resourceName = resourceName.Trim(); modelFile = modelFile.Trim();
         var matGuid = MakeAmpliGuid(materialGuid.Trim());
 
@@ -472,6 +476,7 @@ public class PropBakerWindow : EditorWindow
                                           posOffset = posOffset, targetTris = targetTris });
         Debug.Log("[Props] " + status);
         LoadPreview(resourceName, forceReimport: true);   // show the just-baked prop in the dialog
+        ModelFactoryWindow.ReloadPreviews();              // give the Factory tab its preview back
         Selection.activeObject = frag;
     }
 }
