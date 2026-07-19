@@ -314,7 +314,8 @@ public class AnimationLabWindow : EditorWindow
     {
         using (new EditorGUILayout.HorizontalScope())
         {
-            set(EditorGUILayout.TextField(new GUIContent(label, tooltip), get()));
+            // half-width value box (matches the deploy-conversion fields); Pick/▶ sit right beside it
+            set(EditorGUILayout.TextField(new GUIContent(label, tooltip), get(), GUILayout.MinWidth(0), GUILayout.MaxWidth(EditorGUIUtility.currentViewWidth * 0.5f)));
             using (new EditorGUI.DisabledScope(animClips.Count == 0))
                 if (GUILayout.Button(new GUIContent("Pick", animClips.Count == 0 ? "No clips readable (glb/gltf only) — type the name" : null), GUILayout.Width(70)))
                 {
