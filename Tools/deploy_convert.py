@@ -94,6 +94,11 @@ for p in parts:
 for p in parts:   # mirror object parenting onto the bones
     if p.parent and p.parent.name in bone_of:
         arm_data.edit_bones[bone_of[p.name]].parent = arm_data.edit_bones[bone_of[p.parent.name]]
+# STATIC ROOT (helicopter finding, 2026-07-19): a model whose BODY is unanimated (only rotors move) has meshes
+# with NO animated ancestor — they'd bind to nothing and render garbage. Give them an identity root bone.
+_sr = arm_data.edit_bones.new("StaticRoot")
+_sr.head = Vector((0.0, 0.0, 0.0)); _sr.tail = Vector((0.0, 0.0, 0.1))
+static_root = _sr.name
 bpy.ops.object.mode_set(mode='OBJECT')
 
 # --- 5. retarget: each bone copies its part's WORLD transform, then bake to keyframes ---
@@ -358,7 +363,8 @@ bound = 0
 for m in meshes:
     bname = anim_ancestor(m)
     if not bname:
-        print("DEPLOY WARN no animated ancestor:", m.name); continue
+        bname = static_root
+        print("DEPLOY static mesh '%s' -> StaticRoot (no animated ancestor)" % m.name)
     # detach from the old animated parent, keeping world transform at fmin
     mw = m.matrix_world.copy()
     m.parent = None
