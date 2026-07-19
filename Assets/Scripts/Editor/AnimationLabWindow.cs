@@ -299,10 +299,11 @@ public class AnimationLabWindow : EditorWindow
                     var labels = animClips.Select(n => { var len = ModelFactoryWindow.ClipLengthOf(cur.modelFile, n); return len != null ? n + "   —   " + len : n; }).ToArray();
                     new StringDropdown(new AdvancedDropdownState(), labels, arr, "Clips", n =>
                     {
-                        // picking the SAME clip the field already slices keeps the slice — Pick must not wipe a
-                        // hand-authored [start..end] range; picking a different clip replaces as before
-                        var mSl = System.Text.RegularExpressions.Regex.Match(get() ?? "", @"^(.*)\[\d+\.\.\d+\]$");
-                        if (!(mSl.Success && mSl.Groups[1].Value == n)) set(n);
+                        // picking the SAME clip the field already holds (plain or sliced) keeps it — Pick must not
+                        // wipe a hand-authored [start..end] range. "Same" = exactly the name, or the name followed
+                        // by a slice bracket (so picking 'deploy' can't preserve a different clip named 'deploy2').
+                        var curV = (get() ?? "").Trim();
+                        if (!(curV == n || curV.StartsWith(n + "[", StringComparison.Ordinal))) set(n);
                         Repaint();
                     }).Show(r);
                 }
