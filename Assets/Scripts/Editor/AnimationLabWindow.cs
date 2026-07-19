@@ -153,7 +153,7 @@ public class AnimationLabWindow : EditorWindow
         // --- Clip(s) ---
         EditorGUILayout.Space();
         EditorGUILayout.LabelField("Clip", EditorStyles.miniBoldLabel);
-        cur.animStateDriven = EditorGUILayout.Toggle(new GUIContent("State-driven (idle / move / after)",
+        cur.animStateDriven = EditorGUILayout.Toggle(new GUIContent("State-driven (idle / move / after / attack)",
             "OFF = today's single-clip modes: one clip, played as a continuous loop or via the Behavior flags below " +
             "(the drone, the howitzer). ON = a STATE MACHINE for characters: the IDLE clip plays standing, the " +
             "MOVEMENT clip plays while the unit moves (fixes the idle-slide), and the optional AFTER-MOVEMENT clip " +
@@ -172,6 +172,8 @@ public class AnimationLabWindow : EditorWindow
                 () => cur.animClipMove ?? "", v => cur.animClipMove = v);
             ClipRow("After-movement clip", "Optional. Played ONCE when the unit stops (a settle/plant motion), then Idle. Empty = stop straight into Idle.",
                 () => cur.animClipAfter ?? "", v => cur.animClipAfter = v);
+            ClipRow("Attack clip", "Optional. Played ONCE when the unit fires a ranged attack (e.g. 'shootAR2s'), overriding every other state for its duration. Empty = no attack animation.",
+                () => cur.animClipAttack ?? "", v => cur.animClipAttack = v);
             if (cur.fireOnAttack || cur.deployOnStop)
                 EditorGUILayout.HelpBox("State-driven is mutually exclusive with Fire-on-attack / Deploy-when-stopped — " +
                     "those flags are ignored while State-driven is ON.", MessageType.Warning);
@@ -281,7 +283,7 @@ public class AnimationLabWindow : EditorWindow
         cur.animated = true;
         cur.animClip = mine.animClip; cur.animateBones = mine.animateBones; cur.animUnitFix = mine.animUnitFix;
         cur.convertRig = mine.convertRig;
-        cur.animStateDriven = mine.animStateDriven; cur.animClipMove = mine.animClipMove; cur.animClipAfter = mine.animClipAfter;
+        cur.animStateDriven = mine.animStateDriven; cur.animClipMove = mine.animClipMove; cur.animClipAfter = mine.animClipAfter; cur.animClipAttack = mine.animClipAttack;
         cur.fireOnAttack = mine.fireOnAttack; cur.deployOnStop = mine.deployOnStop;
         cur.deployPoseTime = mine.deployPoseTime; cur.deploySpeed = mine.deploySpeed; cur.recoilSpeed = mine.recoilSpeed;
     }
@@ -316,6 +318,7 @@ public class AnimationLabWindow : EditorWindow
         cur.animateBones = (cur.animateBones ?? "").Trim();
         cur.animClipMove = (cur.animClipMove ?? "").Trim();
         cur.animClipAfter = (cur.animClipAfter ?? "").Trim();
+        cur.animClipAttack = (cur.animClipAttack ?? "").Trim();
         var cfg = ModelFactoryWindow.ConfigFor(cur);
         // Geometry caching is AUTOMATIC (mirror of the Factory's DoBake): re-slim exactly when a Blender-step input
         // changed; the 'Reuse extracted' checkbox only protects the hand-edited extracted texture (cfg.keepTexture).
@@ -328,11 +331,12 @@ public class AnimationLabWindow : EditorWindow
         cur.clip = ModelRegistry.ParseGuid(r.clipGuid);
         cur.clipMove = cur.animStateDriven ? ModelRegistry.ParseGuid(r.clipMoveGuid) : new int[4];
         cur.clipAfter = cur.animStateDriven && !string.IsNullOrEmpty(r.clipAfterGuid) ? ModelRegistry.ParseGuid(r.clipAfterGuid) : new int[4];
+        cur.clipAttack = cur.animStateDriven && !string.IsNullOrEmpty(r.clipAttackGuid) ? ModelRegistry.ParseGuid(r.clipAttackGuid) : new int[4];
         bool saved = ModelRegistry.Upsert(cur);
         RefreshList();
         ModelFactoryWindow.ReloadPreviews();   // give the Factory tab its preview back (fresh from this bake)
         status = saved
-            ? $"Baked ANIMATED '{cur.resourceName}' -> '{cur.pawnDescription}'\nskeleton {r.skeletonGuid}\nclip {r.clipGuid}{(cur.animStateDriven ? $"\nmove clip {r.clipMoveGuid}{(string.IsNullOrEmpty(r.clipAfterGuid) ? "" : $"  after clip {r.clipAfterGuid}")}" : "")}\nRebuild the mod + relaunch."
+            ? $"Baked ANIMATED '{cur.resourceName}' -> '{cur.pawnDescription}'\nskeleton {r.skeletonGuid}\nclip {r.clipGuid}{(cur.animStateDriven ? $"\nmove clip {r.clipMoveGuid}{(string.IsNullOrEmpty(r.clipAfterGuid) ? "" : $"  after clip {r.clipAfterGuid}")}{(string.IsNullOrEmpty(r.clipAttackGuid) ? "" : $"  attack clip {r.clipAttackGuid}")}" : "")}\nRebuild the mod + relaunch."
             : $"Baked '{cur.resourceName}', but the REGISTRY SAVE FAILED (see Console). Close whatever's locking enc_models.json and re-bake.";
         Debug.Log("[AnimLab] " + status);
     }
