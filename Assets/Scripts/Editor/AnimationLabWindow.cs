@@ -392,6 +392,18 @@ public class AnimationLabWindow : EditorWindow
             using (new EditorGUILayout.HorizontalScope())
             {
                 EditorGUILayout.LabelField("Model file", string.IsNullOrWhiteSpace(cur.modelFile) ? "(re-bake uses the extracted files)" : cur.modelFile, EditorStyles.wordWrappedMiniLabel);
+                using (new EditorGUI.DisabledScope(string.IsNullOrWhiteSpace(cur.modelFile)))
+                    if (GUILayout.Button(new GUIContent("▶ Play clip",
+                        "Play the RAW model file's ENTIRE source animation (every take, full length — no conversion, no " +
+                        "slicing): play, scrub, analyze. Frame numbers found here feed the recipe (Deploy frames, Recoil " +
+                        "a..b). Confirm copies the picked a..b range to the clipboard; Cancel just closes."), GUILayout.Width(80)))
+                        ClipRangeDialog.Open(cur.modelFile, (cur.resourceName ?? "").Trim() + "_raw", "", s =>
+                        {
+                            var m = System.Text.RegularExpressions.Regex.Match(s ?? "", @"\[(\d+)\.\.(\d+)\]");
+                            string range = m.Success ? (m.Groups[1].Value + ".." + m.Groups[2].Value) : (s ?? "");
+                            EditorGUIUtility.systemCopyBuffer = range;
+                            ShowNotification(new GUIContent("Range " + range + " copied to clipboard"));
+                        });
                 if (GUILayout.Button("Browse…", GUILayout.Width(70)))
                 {
                     string start = string.IsNullOrWhiteSpace(cur.modelFile) ? "" : System.IO.Path.GetDirectoryName(cur.modelFile);
@@ -442,25 +454,6 @@ public class AnimationLabWindow : EditorWindow
                 cur.deployArcR = EditorGUILayout.TextField(new GUIContent("Arc R", "FK-arc pivot distance (empty = 400). Larger = straighter slide, more jitter-prone."), cur.deployArcR);
             }
             EditorGUI.indentLevel--;
-        }
-        if (!string.IsNullOrWhiteSpace(cur.modelFile))
-        {
-            using (new EditorGUILayout.HorizontalScope())
-            {
-                GUILayout.Space(EditorGUIUtility.labelWidth);
-                if (GUILayout.Button(new GUIContent("▶ Play raw source clip…",
-                    "Open the clip player on the RAW model file — the ENTIRE source animation (every take, full length, " +
-                    "no conversion, no slicing): play it, scrub it, analyze it. Frame numbers found here feed the recipe " +
-                    "(Deploy frames, Recoil a..b). Confirm copies the picked a..b range to the clipboard; Cancel just closes."),
-                    GUILayout.Width(220)))
-                    ClipRangeDialog.Open(cur.modelFile, (cur.resourceName ?? "").Trim() + "_raw", "", s =>
-                    {
-                        var m = System.Text.RegularExpressions.Regex.Match(s ?? "", @"\[(\d+)\.\.(\d+)\]");
-                        string range = m.Success ? (m.Groups[1].Value + ".." + m.Groups[2].Value) : (s ?? "");
-                        EditorGUIUtility.systemCopyBuffer = range;
-                        ShowNotification(new GUIContent("Range " + range + " copied to clipboard"));
-                    });
-            }
         }
         EnsureClips();
 
