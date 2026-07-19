@@ -201,9 +201,22 @@ public class ClipRangeDialog : EditorWindow
         int newIdx = EditorGUILayout.Popup("Clip", clipIdx, clipLabels);
         if (newIdx != clipIdx) { clipIdx = newIdx; total = TotalFrames; frame = 0; startF = 0; endF = total; boundsValid = false; }
 
+        // keyboard single-frame stepping (←/→, with Shift = ±10) — the analyst's scrub
+        var ev = Event.current;
+        if (ev.type == EventType.KeyDown && (ev.keyCode == KeyCode.LeftArrow || ev.keyCode == KeyCode.RightArrow))
+        {
+            playing = false;
+            int stride = ev.shift ? 10 : 1;
+            frame = Mathf.Clamp(Mathf.Round(frame) + (ev.keyCode == KeyCode.RightArrow ? stride : -stride), 0, total);
+            ev.Use(); Repaint();
+        }
         using (new EditorGUILayout.HorizontalScope())
         {
             if (GUILayout.Button(playing ? "❚❚ Pause" : "► Play", GUILayout.Width(80))) playing = !playing;
+            if (GUILayout.Button(new GUIContent("|◄", "One frame back (also ← key; Shift+← = 10 back)"), GUILayout.Width(30)))
+            { playing = false; frame = Mathf.Max(0, Mathf.Round(frame) - 1); }
+            if (GUILayout.Button(new GUIContent("►|", "One frame forward (also → key; Shift+→ = 10 forward)"), GUILayout.Width(30)))
+            { playing = false; frame = Mathf.Min(total, Mathf.Round(frame) + 1); }
             EditorGUI.BeginChangeCheck();
             frame = GUILayout.HorizontalSlider(frame, 0, total);
             if (EditorGUI.EndChangeCheck()) playing = false;   // scrubbing pauses
