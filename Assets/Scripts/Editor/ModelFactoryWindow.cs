@@ -45,6 +45,7 @@ public class ModelFactoryWindow : EditorWindow
 
     void OnEnable()
     {
+        titleContent = new GUIContent("Model Factory");   // rename any pre-existing docked instance: Unity caches the tab title in the window's serialized state, so the GetWindow title alone never reaches already-open windows
         RefreshList(); LoadPreview(cur.resourceName);
         // Tear the preview editor down BEFORE the domain unloads (and before editor quit). Destroying it from
         // OnDisable DURING a reload is too late: Unity's GameObjectInspector.OnDisable then runs against an
