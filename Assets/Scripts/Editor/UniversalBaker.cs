@@ -225,9 +225,16 @@ public static class UniversalBaker
         bool toolNewer = File.Exists(rigScript) && File.Exists(fbxFull) &&
                          File.GetLastWriteTimeUtc(rigScript) > File.GetLastWriteTimeUtc(fbxFull);
         if (toolNewer) Debug.Log($"[Factory] {name}: rig_anim.py is newer than the cached slim FBX — re-slimming (tool changed).");
+        // SOURCE-FILE CACHE-BUSTER (2026-07-19): same trap class as the tool buster — the slim cache keyed only on
+        // SETTINGS, so replacing the source model file with identical settings silently reused the OLD slim (the
+        // howitzer re-baked from a stale migration-era FBX after its GLB was restored). Re-slim when the source
+        // model is newer than the cached FBX.
+        bool srcNewer = !string.IsNullOrEmpty(cfg.modelFile) && File.Exists(cfg.modelFile) && File.Exists(fbxFull) &&
+                        File.GetLastWriteTimeUtc(cfg.modelFile) > File.GetLastWriteTimeUtc(fbxFull);
+        if (srcNewer) Debug.Log($"[Factory] {name}: the source model file is newer than the cached slim FBX — re-slimming (source changed).");
 
         // --- 1) Blender: slim the rigged model (keep armature + clip, clamp frame range, optional bone strip, albedo) ---
-        if (!string.IsNullOrEmpty(cfg.modelFile) && (!cfg.reuseExtracted || !File.Exists(fbxFull) || roleFbxMissing || toolNewer))
+        if (!string.IsNullOrEmpty(cfg.modelFile) && (!cfg.reuseExtracted || !File.Exists(fbxFull) || roleFbxMissing || toolNewer || srcNewer))
         {
             int target = cfg.targetTris > 0 ? cfg.targetTris : 12000;   // animated skins want to stay well under the shared buffer
             string albedoOut = Path.Combine(fsDir, name + "_albedo.png");
