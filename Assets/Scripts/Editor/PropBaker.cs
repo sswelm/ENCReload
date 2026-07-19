@@ -22,7 +22,7 @@ public class PropDef
 {
     public string resourceName = "", modelFile = "", materialGuid = "";
     public float size = 0.6f;
-    public Vector3 rotation, importAngles, posOffset;
+    public Vector3 rotation, posOffset;   // importAngles removed 2026-07-19: baked FxMesh angles don't survive the mod bundle (orientation = Rotation offset)
     public int targetTris = 1500;
 }
 
@@ -79,7 +79,7 @@ public class PropBakerWindow : EditorWindow
     [SerializeField] string modelFile = "", resourceName = "Sling", materialGuid = "";
     [SerializeField] string lastDumpedMaterial = "";   // MaterialRef harvested by the last Dump — the 'From dump' picker
     [SerializeField] float size = 0.6f;
-    [SerializeField] Vector3 rotation, importAngles, posOffset;
+    [SerializeField] Vector3 rotation, posOffset;
     [SerializeField] int targetTris = 1500;
     [SerializeField] string status = "";
     [SerializeField] Vector2 scroll;
@@ -96,7 +96,6 @@ public class PropBakerWindow : EditorWindow
         size = EditorPrefs.GetFloat(P + "size", size);
         targetTris = EditorPrefs.GetInt(P + "targetTris", targetTris);
         rotation = new Vector3(EditorPrefs.GetFloat(P + "rotX", 0), EditorPrefs.GetFloat(P + "rotY", 0), EditorPrefs.GetFloat(P + "rotZ", 0));
-        importAngles = new Vector3(EditorPrefs.GetFloat(P + "impX", 0), EditorPrefs.GetFloat(P + "impY", 0), EditorPrefs.GetFloat(P + "impZ", 0));
         posOffset = new Vector3(EditorPrefs.GetFloat(P + "posX", 0), EditorPrefs.GetFloat(P + "posY", 0), EditorPrefs.GetFloat(P + "posZ", 0));
         lastDumpedMaterial = EditorPrefs.GetString(P + "lastDumpedMaterial", lastDumpedMaterial);
     }
@@ -106,7 +105,6 @@ public class PropBakerWindow : EditorWindow
         EditorPrefs.SetString(P + "modelFile", modelFile); EditorPrefs.SetString(P + "materialGuid", materialGuid);
         EditorPrefs.SetFloat(P + "size", size); EditorPrefs.SetInt(P + "targetTris", targetTris);
         EditorPrefs.SetFloat(P + "rotX", rotation.x); EditorPrefs.SetFloat(P + "rotY", rotation.y); EditorPrefs.SetFloat(P + "rotZ", rotation.z);
-        EditorPrefs.SetFloat(P + "impX", importAngles.x); EditorPrefs.SetFloat(P + "impY", importAngles.y); EditorPrefs.SetFloat(P + "impZ", importAngles.z);
         EditorPrefs.SetFloat(P + "posX", posOffset.x); EditorPrefs.SetFloat(P + "posY", posOffset.y); EditorPrefs.SetFloat(P + "posZ", posOffset.z);
     }
 
@@ -119,7 +117,7 @@ public class PropBakerWindow : EditorWindow
         if (!string.IsNullOrEmpty(resourceName) && !string.IsNullOrEmpty(modelFile)
             && !PropRegistry.Load().Any(d => d.resourceName == resourceName))
             PropRegistry.Upsert(new PropDef { resourceName = resourceName, modelFile = modelFile, materialGuid = materialGuid,
-                                              size = size, rotation = rotation, importAngles = importAngles,
+                                              size = size, rotation = rotation,
                                               posOffset = posOffset, targetTris = targetTris });
     }
     void OnDisable() { SavePrefs(); DestroyPreview(); }
@@ -260,7 +258,7 @@ public class PropBakerWindow : EditorWindow
             {
                 var d = defs[sel];
                 resourceName = d.resourceName; modelFile = d.modelFile; materialGuid = d.materialGuid;
-                size = d.size; rotation = d.rotation; importAngles = d.importAngles; posOffset = d.posOffset;
+                size = d.size; rotation = d.rotation; posOffset = d.posOffset;
                 targetTris = d.targetTris; status = "";
                 LoadPreview(resourceName);
                 GUI.FocusControl(null);
@@ -268,7 +266,7 @@ public class PropBakerWindow : EditorWindow
             if (GUILayout.Button(new GUIContent("New", "Start a fresh prop: clears the form (saved recipes and baked assets are untouched)."), GUILayout.Width(50)))
             {
                 resourceName = ""; modelFile = ""; size = 0.6f;
-                rotation = importAngles = posOffset = Vector3.zero; targetTris = 1500;
+                rotation = posOffset = Vector3.zero; targetTris = 1500;
                 materialGuid = "1356489961,1316891353,-864888678,1241300466";   // the shared EQ_DLC04_Weapons default
                 status = ""; DestroyPreview();
                 GUI.FocusControl(null);
@@ -297,9 +295,10 @@ public class PropBakerWindow : EditorWindow
         rotation = EditorGUILayout.Vector3Field(new GUIContent("Rotation offset (deg)",
             "Bake-time rotation on top of the auto longest-axis align. The prop glues RIGIDLY to the slot's hand bone, so " +
             "orientation is relative to the hand — expect to iterate."), rotation);
-        importAngles = EditorGUILayout.Vector3Field(new GUIContent("FxMesh import angles",
-            "Draw-time rotation on the FxMesh (tweak on the asset without re-baking). Start (0,0,0) for props — the " +
-            "district's -90 upright default is for Z-up tile meshes, a hand prop's frame is the bone's."), importAngles);
+        // FxMesh import angles UI REMOVED (2026-07-19): the baked angle field does NOT survive the mod bundle for
+        // props (in-game the encoder saw defaults while the project asset carried the value — field-proven with the
+        // M60). Orientation is authored with Rotation offset above (baked into the vertices, preview-visible);
+        // the runtime `handPropAngles` registry override remains the relaunch-only escape hatch.
         posOffset = EditorGUILayout.Vector3Field(new GUIContent("Position offset",
             "BAKE-TIME shift of the mesh relative to the bone it glues to (in world units, ~meters) — moves the prop in the " +
             "hand. Baked into the vertices, so changing it needs a re-bake (orientation alone doesn't: use the FxMesh " +
@@ -407,7 +406,7 @@ public class PropBakerWindow : EditorWindow
         // 2) bone-free FxMesh (same requirement as districts: rigid GPU paths reject skinned vertex formats)
         var mesh = AssetDatabase.LoadAssetAtPath<Mesh>("Assets/Resources/" + resourceName + "_ModelMesh.asset");
         if (mesh == null) { status = "Baked, but _ModelMesh not found."; return; }
-        string fxGuidCsv = DistrictBaker.BakeFxMesh(mesh, resourceName, importAngles, out _, mergeSubMeshes: true);   // pawn-fragment encoder draws only submesh 0 — flatten the multi-material split
+        string fxGuidCsv = DistrictBaker.BakeFxMesh(mesh, resourceName, Vector3.zero, out _, mergeSubMeshes: true);   // pawn-fragment encoder draws only submesh 0 — flatten the multi-material split
         if (string.IsNullOrEmpty(fxGuidCsv)) { status = "FxMesh bake FAILED (see Console)."; return; }
 
         // 3) MeshCollection asset: prefab = our _Model.prefab's Amplitude GUID (the fragment's ModelPrefab must MATCH it —
@@ -435,7 +434,7 @@ public class PropBakerWindow : EditorWindow
         siType.GetField("MeshName", BF)?.SetValue(si, meshName);
         object fmc = Activator.CreateInstance(fmcType);
         fmcType.GetField("Guid", BF)?.SetValue(fmc, fxGuid);
-        fmcType.GetField("ImportAngles", BF)?.SetValue(fmc, importAngles);
+        fmcType.GetField("ImportAngles", BF)?.SetValue(fmc, Vector3.zero);
         siType.GetField("FxMeshContent", BF)?.SetValue(si, fmc);
         var arr = Array.CreateInstance(siType, 1); arr.SetValue(si, 0);
         mcType.GetField("skinnedMeshInfos", BF)?.SetValue(mc, arr);
@@ -472,7 +471,7 @@ public class PropBakerWindow : EditorWindow
         EditorGUIUtility.systemCopyBuffer = mcGuid;
         // Persist this prop's recipe so 'Edit existing' can bring it back (and the Animation Lab picker lists it).
         PropRegistry.Upsert(new PropDef { resourceName = resourceName, modelFile = modelFile, materialGuid = materialGuid,
-                                          size = size, rotation = rotation, importAngles = importAngles,
+                                          size = size, rotation = rotation,
                                           posOffset = posOffset, targetTris = targetTris });
         Debug.Log("[Props] " + status);
         LoadPreview(resourceName, forceReimport: true);   // show the just-baked prop in the dialog
