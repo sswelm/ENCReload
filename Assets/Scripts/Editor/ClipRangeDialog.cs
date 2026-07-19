@@ -229,10 +229,14 @@ public class ClipRangeDialog : EditorWindow
         using (new EditorGUILayout.HorizontalScope())
         {
             startF = EditorGUILayout.IntField("Start", startF, GUILayout.Width(220));
-            if (GUILayout.Button("◄ set current", GUILayout.Width(95))) startF = Mathf.RoundToInt(frame);
+            if (GUILayout.Button(new GUIContent("◄ set current", "Copy the preview's current frame into this field"), GUILayout.Width(95))) startF = Mathf.RoundToInt(frame);
+            if (GUILayout.Button(new GUIContent("go ►", "Jump the preview TO this frame (the reverse of 'set current')"), GUILayout.Width(45)))
+            { playing = false; frame = Mathf.Clamp(startF, 0, total); GUI.FocusControl(null); Repaint(); }
             GUILayout.Space(12);
             endF = EditorGUILayout.IntField("End", endF, GUILayout.Width(220));
-            if (GUILayout.Button("◄ set current", GUILayout.Width(95))) endF = Mathf.RoundToInt(frame);
+            if (GUILayout.Button(new GUIContent("◄ set current", "Copy the preview's current frame into this field"), GUILayout.Width(95))) endF = Mathf.RoundToInt(frame);
+            if (GUILayout.Button(new GUIContent("go ►", "Jump the preview TO this frame (the reverse of 'set current')"), GUILayout.Width(45)))
+            { playing = false; frame = Mathf.Clamp(endF, 0, total); GUI.FocusControl(null); Repaint(); }
         }
         startF = Mathf.Clamp(startF, 0, total);
         endF = Mathf.Clamp(endF, 0, total);
