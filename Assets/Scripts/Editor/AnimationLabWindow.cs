@@ -55,6 +55,16 @@ public class AnimationLabWindow : EditorWindow
         if (fitPRU != null) { try { fitPRU.Cleanup(); } catch { } fitPRU = null; }
     }
 
+    // Any BAKE (this Lab, the Factory, the Prop Lab) deletes+recreates assets the combined prefab references —
+    // the stale fit preview then renders the soldier MAGENTA (dead material refs). So every bake retires the
+    // combined view (back to the normal per-window previews); pressing 'Refresh fit preview' rebuilds it from
+    // the fresh assets. previewPath is kept so Refresh knows what to rebuild.
+    internal static void InvalidateFitPreviews()
+    {
+        foreach (var w in Resources.FindObjectsOfTypeAll<AnimationLabWindow>())
+        { w.fitDraws = null; w.Repaint(); }
+    }
+
     // Flatten the combined prefab into (mesh, materials, matrix) draws — the asset hierarchy's transforms are valid
     // (the FBX rest pose IS the bind pose after rest-normalization, so drawing sharedMesh at the renderer transform
     // shows the correct stance; the prop's matrix includes the bone chain + the live rotation).
@@ -551,6 +561,7 @@ public class AnimationLabWindow : EditorWindow
     void DoBake()
     {
         ModelFactoryWindow.ReleasePreviews();   // the bake rewrites the preview prefab — a live Factory preview watching it throws from Unity internals
+        InvalidateFitPreviews();                // the combined fit view would go stale (magenta) — retire it; Refresh rebuilds from fresh assets
         RebaseOnRegistry();   // bake with the freshest model-owned fields (rotation/size/…) — only animation fields are ours
         cur.animated = true;
         cur.resourceName = (cur.resourceName ?? "").Trim();

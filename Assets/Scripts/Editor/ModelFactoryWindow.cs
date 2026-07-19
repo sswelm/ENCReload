@@ -884,6 +884,7 @@ public class ModelFactoryWindow : EditorWindow
         // and SaveAsPrefabAsset's OnPostprocessAllAssets fires InstantiateForAnimatorPreview(null) -> ArgumentException. Destroying
         // it up front means nothing watches the prefab while it's deleted; we rebuild the preview after the bake.
         LoadPreview(null);
+        AnimationLabWindow.InvalidateFitPreviews();   // the Lab's combined fit view would go stale (magenta) on this bake — retire it; its Refresh rebuilds
         // Trim the text fields ON cur ITSELF, not just into the bake config: Upsert(cur) below persists cur, and a
         // pasted trailing space in pawnDescription used to bake fine but write the untrimmed string to the registry —
         // the plugin's substring match then never fired: "Baked ✓", model silently never injected (review finding E1).

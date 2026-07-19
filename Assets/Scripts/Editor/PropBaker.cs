@@ -387,6 +387,7 @@ public class PropBakerWindow : EditorWindow
         // prefab throws InstantiateForAnimatorPreview(null) from Unity internals (same fix as the Animation Lab).
         DestroyPreview();
         ModelFactoryWindow.ReleasePreviews();
+        AnimationLabWindow.InvalidateFitPreviews();   // a prop re-bake recreates <prop>_Mat/_ModelMesh — a stale fit preview would render magenta
         resourceName = resourceName.Trim(); modelFile = modelFile.Trim();
         var matGuid = MakeAmpliGuid(materialGuid.Trim());
 
