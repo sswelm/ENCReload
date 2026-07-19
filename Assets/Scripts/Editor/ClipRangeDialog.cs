@@ -13,11 +13,14 @@ public class ClipRangeDialog : EditorWindow
 {
     const float FPS = 24f;   // Blender-standard export rate; exact on every model so far (deploy 250f=10.417s, Idle1 341f=14.208s)
 
-    string modelFile, resourceName, fbxPath;
+    string modelFile, resourceName, fbxDir;
     Action<string> onConfirm;
     AnimationClip[] clips = new AnimationClip[0];
+    string[] clipNames = new string[0];    // EXACT action names (the "HAFCLIP|" take prefix stripped) — what Confirm writes
+    string[] clipPaths = new string[0];    // which inspection FBX carries each clip (one action per file)
     string[] clipLabels = new string[0];
     int clipIdx;
+    string instPath;                       // the FBX the current instance came from
     float frame; int startF, endF;
     bool playing; double lastTick;
 
@@ -50,22 +53,35 @@ public class ClipRangeDialog : EditorWindow
 
         if (string.IsNullOrEmpty(resourceName) || string.IsNullOrEmpty(modelFile) || !System.IO.File.Exists(modelFile))
         { ShowNotification(new GUIContent("Needs a loaded entry with an existing model file.")); return; }
-        fbxPath = "Assets/FactorySource/" + resourceName + "/inspect/" + resourceName + "_inspect.fbx";
+        fbxDir = "Assets/FactorySource/" + resourceName + "/inspect";
         string proj = System.IO.Directory.GetParent(Application.dataPath).FullName;
-        string fbxFull = System.IO.Path.Combine(proj, fbxPath);
-        bool stale = !System.IO.File.Exists(fbxFull)
-                     || System.IO.File.GetLastWriteTimeUtc(modelFile) > System.IO.File.GetLastWriteTimeUtc(fbxFull);
-        if (stale && !BuildInspectFbx(proj, fbxFull)) return;
-        // make sure the FBX imports its animation
-        var imp = AssetImporter.GetAtPath(fbxPath) as ModelImporter;
-        if (imp != null && (imp.animationType != ModelImporterAnimationType.Generic || !imp.importAnimation))
-        { imp.animationType = ModelImporterAnimationType.Generic; imp.importAnimation = true; imp.SaveAndReimport(); }
+        string dirFull = System.IO.Path.Combine(proj, fbxDir);
+        var existing = System.IO.Directory.Exists(dirFull) ? System.IO.Directory.GetFiles(dirFull, "*.fbx") : new string[0];
+        bool stale = existing.Length == 0
+                     || existing.Any(f => System.IO.Path.GetFileName(f) == resourceName + "_inspect.fbx")   // legacy single-file converter output (mirrored anim bug) — force re-convert
+                     || System.IO.File.GetLastWriteTimeUtc(modelFile) > existing.Max(f => System.IO.File.GetLastWriteTimeUtc(f));
+        if (stale && !BuildInspectFbx(proj, dirFull)) return;
 
-        clips = AssetDatabase.LoadAllAssetsAtPath(fbxPath).OfType<AnimationClip>()
-            .Where(c => !c.name.StartsWith("__preview")).OrderBy(c => c.name).ToArray();
-        clipLabels = clips.Select(c => $"{c.name}   (frames 0..{Mathf.RoundToInt(c.length * FPS)}, {c.length:0.0}s)").ToArray();
-        if (clips.Length == 0) { ShowNotification(new GUIContent("No animation clips in the inspection FBX.")); return; }
-        clipIdx = Mathf.Max(0, Array.FindIndex(clips, c => c.name == wantClip));
+        var clipL = new List<AnimationClip>(); var nameL = new List<string>(); var pathL = new List<string>();
+        foreach (var full in System.IO.Directory.GetFiles(dirFull, "*.fbx").OrderBy(f => f))
+        {
+            string rel = fbxDir + "/" + System.IO.Path.GetFileName(full);
+            var imp = AssetImporter.GetAtPath(rel) as ModelImporter;
+            if (imp != null && (imp.animationType != ModelImporterAnimationType.Generic || !imp.importAnimation))
+            { imp.animationType = ModelImporterAnimationType.Generic; imp.importAnimation = true; imp.SaveAndReimport(); }
+            foreach (var c in AssetDatabase.LoadAllAssetsAtPath(rel).OfType<AnimationClip>())
+            {
+                if (c.name.StartsWith("__preview")) continue;
+                // the take name is "HAFCLIP|<action>" (sentinel armature name) — strip the FIXED prefix to recover
+                // the exact action name, which may itself contain '|' (e.g. "Soldier_reference_skeleton|Idle1")
+                string nm = c.name.StartsWith("HAFCLIP|") ? c.name.Substring("HAFCLIP|".Length) : c.name;
+                clipL.Add(c); nameL.Add(nm); pathL.Add(rel);
+            }
+        }
+        clips = clipL.ToArray(); clipNames = nameL.ToArray(); clipPaths = pathL.ToArray();
+        clipLabels = clips.Select((c, i) => $"{clipNames[i]}   (frames 0..{Mathf.RoundToInt(c.length * FPS)}, {c.length:0.0}s)").ToArray();
+        if (clips.Length == 0) { ShowNotification(new GUIContent("No animation clips in the inspection FBXs.")); return; }
+        clipIdx = Mathf.Max(0, Array.IndexOf(clipNames, wantClip));
         int total = TotalFrames;
         startF = wantS >= 0 ? Mathf.Clamp(wantS, 0, total) : 0;
         endF = wantE >= 0 ? Mathf.Clamp(wantE, 0, total) : total;
@@ -74,22 +90,24 @@ public class ClipRangeDialog : EditorWindow
         Repaint();
     }
 
-    bool BuildInspectFbx(string proj, string fbxFull)
+    bool BuildInspectFbx(string proj, string dirFull)
     {
         try
         {
-            EditorUtility.DisplayProgressBar("Clip range picker", "Converting the model to an inspection FBX (Blender)…", 0.4f);
+            EditorUtility.DisplayProgressBar("Clip range picker", "Converting the model's clips to inspection FBXs (Blender)…", 0.4f);
+            if (System.IO.Directory.Exists(dirFull))                                    // clear stale per-clip files (removed clips)
+                foreach (var f in System.IO.Directory.GetFiles(dirFull, "*.fbx")) System.IO.File.Delete(f);
             var p = new System.Diagnostics.Process();
             p.StartInfo.FileName = UniversalBaker.FindBlender();
-            p.StartInfo.Arguments = $"--background --python \"{System.IO.Path.Combine(proj, "Tools", "inspect_fbx.py")}\" -- \"{modelFile}\" \"{fbxFull}\"";
+            p.StartInfo.Arguments = $"--background --python \"{System.IO.Path.Combine(proj, "Tools", "inspect_fbx.py")}\" -- \"{modelFile}\" \"{dirFull}\"";
             p.StartInfo.UseShellExecute = false; p.StartInfo.CreateNoWindow = true;
             p.StartInfo.RedirectStandardOutput = true; p.StartInfo.RedirectStandardError = true;
             p.Start();
             string so = p.StandardOutput.ReadToEnd(); p.StandardError.ReadToEnd();
             if (!p.WaitForExit(180000)) { try { p.Kill(); } catch { } Debug.LogError("[ClipRange] Blender inspect conversion timed out."); return false; }
-            if (!System.IO.File.Exists(fbxFull)) { Debug.LogError("[ClipRange] inspect FBX not produced:\n" + so); return false; }
+            if (!System.IO.Directory.Exists(dirFull) || System.IO.Directory.GetFiles(dirFull, "*.fbx").Length == 0)
+            { Debug.LogError("[ClipRange] no inspection FBXs produced:\n" + so); return false; }
             AssetDatabase.Refresh();
-            AssetDatabase.ImportAsset(fbxPath, ImportAssetOptions.ForceUpdate);
             return true;
         }
         catch (Exception e) { Debug.LogError("[ClipRange] " + e.Message); return false; }
@@ -100,8 +118,12 @@ public class ClipRangeDialog : EditorWindow
 
     void EnsureInstance()
     {
-        if (inst != null) return;
-        var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(fbxPath);
+        string want = clips.Length > 0 ? clipPaths[Mathf.Clamp(clipIdx, 0, clipPaths.Length - 1)] : null;
+        if (inst != null && instPath == want) return;
+        DestroyInstance();
+        if (want == null) return;
+        instPath = want;
+        var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(want);
         if (prefab == null) return;
         inst = Instantiate(prefab);
         inst.hideFlags = HideFlags.HideAndDontSave;
@@ -227,7 +249,7 @@ public class ClipRangeDialog : EditorWindow
 
         using (new EditorGUILayout.HorizontalScope())
         {
-            string clipName = clips[clipIdx].name;
+            string clipName = clipNames[clipIdx];
             string spec = (startF == 0 && endF == total) ? clipName : $"{clipName}[{startF}..{endF}]";
             if (GUILayout.Button("Confirm:   " + spec, GUILayout.Height(30)))
             { onConfirm?.Invoke(spec); Close(); }
