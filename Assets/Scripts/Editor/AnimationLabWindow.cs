@@ -65,6 +65,15 @@ public class AnimationLabWindow : EditorWindow
         { w.fitDraws = null; w.Repaint(); }
     }
 
+    // ...and after a bake COMPLETES, rebuild them from the fresh assets (a preview built post-bake can't be stale).
+    // Only windows that were showing one (previewPath set) and still have a hand prop configured come back.
+    internal static void RebuildFitPreviews()
+    {
+        foreach (var w in Resources.FindObjectsOfTypeAll<AnimationLabWindow>())
+            if (!string.IsNullOrEmpty(w.previewPath))
+                w.BuildFitPreview();
+    }
+
     // Flatten the combined prefab into (mesh, materials, matrix) draws — the asset hierarchy's transforms are valid
     // (the FBX rest pose IS the bind pose after rest-normalization, so drawing sharedMesh at the renderer transform
     // shows the correct stance; the prop's matrix includes the bone chain + the live rotation).
@@ -156,7 +165,16 @@ public class AnimationLabWindow : EditorWindow
         {
             string res = (cur.resourceName ?? "").Trim();
             string prop = (cur.handPropName ?? "").Trim();
-            if (res.Length == 0 || prop.Length == 0) { status = "Fit preview needs a loaded entry with a Hand prop selected."; return; }
+            if (res.Length == 0) { status = "Preview needs a loaded entry."; return; }
+            // No hand prop configured (e.g. the drone): show the model's own baked preview prefab instead —
+            // same orbit/zoom renderer, just without the glue step. The Lab always has a preview after a bake.
+            if (prop.Length == 0 || string.IsNullOrEmpty((cur.handPropGuid ?? "").Trim()))
+            {
+                string pp = "Assets/FactorySource/" + res + "/" + res + "_Preview.prefab";
+                if (AssetDatabase.LoadAssetAtPath<GameObject>(pp) == null) { status = "No preview prefab at " + pp + " — bake the model first."; return; }
+                LoadFitPreview(pp);
+                return;
+            }
             string fbxRel = "Assets/FactorySource/" + res + "/anim/" + res + "_anim.fbx";
             var fbxGo = AssetDatabase.LoadAssetAtPath<GameObject>(fbxRel);
             if (fbxGo == null) { status = "Fit preview: no slim FBX at " + fbxRel + " (bake the model first)."; return; }
@@ -511,7 +529,11 @@ public class AnimationLabWindow : EditorWindow
         if (fitDraws != null)
         {
             EditorGUILayout.Space();
-            EditorGUILayout.LabelField("Fit preview — model + hand prop  (drag to orbit, scroll to zoom)", EditorStyles.miniBoldLabel);
+            EditorGUILayout.LabelField(
+                string.IsNullOrEmpty((cur.handPropGuid ?? "").Trim())
+                    ? "Model preview  (drag to orbit, scroll to zoom)"
+                    : "Fit preview — model + hand prop  (drag to orbit, scroll to zoom)",
+                EditorStyles.miniBoldLabel);
             var rect = GUILayoutUtility.GetRect(200, 360, GUILayout.ExpandWidth(true));
             DrawFitPreview(rect);
         }
@@ -590,6 +612,7 @@ public class AnimationLabWindow : EditorWindow
         bool saved = ModelRegistry.Upsert(cur);
         RefreshList();
         ModelFactoryWindow.ReloadPreviews();   // give the Factory tab its preview back (fresh from this bake)
+        BuildFitPreview();                     // and OUR preview: combined (hand prop) or plain model — fresh from this bake, never stale
         status = saved
             ? $"Baked ANIMATED '{cur.resourceName}' -> '{cur.pawnDescription}'\nskeleton {r.skeletonGuid}\nclip {r.clipGuid}{(cur.animStateDriven ? $"\nmove clip {r.clipMoveGuid}{(string.IsNullOrEmpty(r.clipAfterGuid) ? "" : $"  after clip {r.clipAfterGuid}")}{(string.IsNullOrEmpty(r.clipAttackGuid) ? "" : $"  attack clip {r.clipAttackGuid}")}{(string.IsNullOrEmpty(r.clipCombatGuid) ? "" : $"  combat clip {r.clipCombatGuid}")}" : "")}\nRebuild the mod + relaunch."
             : $"Baked '{cur.resourceName}', but the REGISTRY SAVE FAILED (see Console). Close whatever's locking enc_models.json and re-bake.";

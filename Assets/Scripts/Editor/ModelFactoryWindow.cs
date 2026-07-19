@@ -977,6 +977,7 @@ public class ModelFactoryWindow : EditorWindow
             : $"Baked '{cur.resourceName}' -> '{cur.pawnDescription}'  (raw bbox {r.bbox})\nskeleton {r.skeletonGuid}\nNow rebuild the mod + relaunch.";
         Debug.Log("[Factory] " + status);
         LoadPreview(cur.resourceName, forceReimport: true);   // show the just-baked model (force reimport so it isn't stale)
+        AnimationLabWindow.RebuildFitPreviews();              // rebuild the Lab's (fit) preview from the fresh assets
     }
 }
 

@@ -477,6 +477,7 @@ public class PropBakerWindow : EditorWindow
         Debug.Log("[Props] " + status);
         LoadPreview(resourceName, forceReimport: true);   // show the just-baked prop in the dialog
         ModelFactoryWindow.ReloadPreviews();              // give the Factory tab its preview back
+        AnimationLabWindow.RebuildFitPreviews();          // rebuild the Lab's (fit) preview from the fresh assets
         Selection.activeObject = frag;
     }
 }
