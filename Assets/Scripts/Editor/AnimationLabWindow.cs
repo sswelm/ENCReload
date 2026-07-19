@@ -46,7 +46,17 @@ public class AnimationLabWindow : EditorWindow
         w.RefreshList();
     }
 
-    void OnEnable() { RefreshList(); if (!string.IsNullOrEmpty(previewPath)) LoadFitPreview(previewPath); }
+    void OnEnable()
+    {
+        RefreshList();
+        // RE-SYNC FROM THE REGISTRY on every domain reload (compile / project open). The form state is serialized
+        // across reloads, so without this the window resurrects a PRE-reload copy of the entry and quietly ignores
+        // whatever is in the registry now — the "stale Lab clobber" trap that cost multiple bakes (Take-001 idle,
+        // blank deploy recipe). After a reload the registry is the single source of truth; unsaved form edits from
+        // before a compile are deliberately dropped (use Save (no bake) to keep edits before compiling).
+        if (selected > 0) OnSelectResource();
+        if (!string.IsNullOrEmpty(previewPath)) LoadFitPreview(previewPath);
+    }
     void OnDisable() { DestroyFitPreview(); }
 
     void DestroyFitPreview()
@@ -356,6 +366,10 @@ public class AnimationLabWindow : EditorWindow
         {
             int newSel = EditorGUILayout.Popup("Edit existing", selected, existing);
             if (newSel != selected) { selected = newSel; OnSelectResource(); GUI.FocusControl(null); }
+            using (new EditorGUI.DisabledScope(selected <= 0))
+                if (GUILayout.Button(new GUIContent("↻ Reload", "Discard the form and RE-LOAD this entry fresh from the registry file — " +
+                    "the explicit escape from any stale window copy. (Selecting the same entry in the dropdown does NOT reload it.)"), GUILayout.Width(72)))
+                { RefreshList(); OnSelectResource(); GUI.FocusControl(null); }
             using (new EditorGUI.DisabledScope(selected <= 0))
                 if (GUILayout.Button("Remove", GUILayout.Width(72)))
                     if (EditorUtility.DisplayDialog("Remove entry",
