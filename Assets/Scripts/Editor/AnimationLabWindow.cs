@@ -25,6 +25,8 @@ public class AnimationLabWindow : EditorWindow
     List<string> animClips = new List<string>();   // clip names read from the model (Clip picker)
     List<KeyValuePair<string, int>> animBonePrefixes = new List<KeyValuePair<string, int>>();  // bone-name prefix -> count (Bones picker)
     string clipProbeFile = "\0";                    // sentinel != any real path so the first real path always inspects
+    UnityEditor.Editor previewEditor;               // FIT PREVIEW (model + hand prop combined) — non-serializable, rebuilt on demand
+    [SerializeField] string previewPath = "";       // the combined prefab shown (survives domain reloads)
 
     [MenuItem("Tools/HAF/Animation Lab")]
     static void Open()
@@ -36,7 +38,85 @@ public class AnimationLabWindow : EditorWindow
         w.RefreshList();
     }
 
-    void OnEnable() { RefreshList(); }
+    void OnEnable() { RefreshList(); if (!string.IsNullOrEmpty(previewPath)) LoadFitPreview(previewPath); }
+    void OnDisable() { DestroyFitPreview(); }
+
+    void DestroyFitPreview()
+    {
+        if (previewEditor == null) return;
+        try { DestroyImmediate(previewEditor); } catch { }
+        previewEditor = null;
+    }
+
+    void LoadFitPreview(string prefabPath)
+    {
+        DestroyFitPreview();
+        previewPath = prefabPath ?? "";
+        var asset = string.IsNullOrEmpty(previewPath) ? null : AssetDatabase.LoadMainAssetAtPath(previewPath);
+        if (asset != null) previewEditor = UnityEditor.Editor.CreateEditor(asset);
+    }
+
+    // FIT PREVIEW: the model's slim FBX (its rest pose IS the idle stance after rest-normalization, and its bone
+    // hierarchy is exactly what the game composes) with the hand prop's SHIPPED mesh parented to the glue bone using
+    // the same math as the runtime: identity local transform + the registry handPropAngles rotation (default zero).
+    // What you see here is what the game glues — dial the Prop Lab's Rotation/Position offsets, re-bake the prop,
+    // press Refresh: no relaunch needed for fit iteration.
+    void BuildFitPreview()
+    {
+        try
+        {
+            string res = (cur.resourceName ?? "").Trim();
+            string prop = (cur.handPropName ?? "").Trim();
+            if (res.Length == 0 || prop.Length == 0) { status = "Fit preview needs a loaded entry with a Hand prop selected."; return; }
+            string fbxRel = "Assets/FactorySource/" + res + "/anim/" + res + "_anim.fbx";
+            var fbxGo = AssetDatabase.LoadAssetAtPath<GameObject>(fbxRel);
+            if (fbxGo == null) { status = "Fit preview: no slim FBX at " + fbxRel + " (bake the model first)."; return; }
+            var propMesh = AssetDatabase.LoadAssetAtPath<Mesh>("Assets/Resources/" + prop + "_ModelMesh.asset");
+            var propMat = AssetDatabase.LoadAssetAtPath<Material>("Assets/Resources/" + prop + "_Mat.mat");
+            if (propMesh == null) { status = "Fit preview: no baked mesh for '" + prop + "' (bake it in the Prop Lab)."; return; }
+
+            var inst = (GameObject)PrefabUtility.InstantiatePrefab(fbxGo);
+            try
+            {
+                PrefabUtility.UnpackPrefabInstance(inst, PrefabUnpackMode.Completely, InteractionMode.AutomatedAction);
+                // texture the body with the model's baked atlas (reuse the Factory's preview material when present)
+                var bodyMat = AssetDatabase.LoadAssetAtPath<Material>("Assets/FactorySource/" + res + "/" + res + "_PreviewMat.mat");
+                if (bodyMat != null)
+                    foreach (var r in inst.GetComponentsInChildren<Renderer>())
+                    {
+                        var mats = new Material[Mathf.Max(1, r.sharedMaterials.Length)];
+                        for (int i = 0; i < mats.Length; i++) mats[i] = bodyMat;
+                        r.sharedMaterials = mats;
+                    }
+                // the glue bone — same substring match as the plugin (renamed b###_<orig> bones)
+                string sub = string.IsNullOrEmpty(cur.handPropBone) ? "R_Hand" : cur.handPropBone;
+                Transform bone = inst.GetComponentsInChildren<Transform>()
+                    .FirstOrDefault(t => t.name.IndexOf(sub, StringComparison.OrdinalIgnoreCase) >= 0);
+                if (bone == null) { status = $"Fit preview: no bone matches '{sub}' in the FBX."; return; }
+                // the prop, glued exactly like the runtime: identity local + the registry override angles (default 0)
+                var pgo = new GameObject(prop);
+                pgo.transform.SetParent(bone, false);
+                var av = (cur.handPropAngles ?? "").Split(',');
+                if (av.Length == 3
+                    && float.TryParse(av[0].Trim(), System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out float ax)
+                    && float.TryParse(av[1].Trim(), System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out float ay)
+                    && float.TryParse(av[2].Trim(), System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out float az))
+                    pgo.transform.localRotation = Quaternion.Euler(ax, ay, az);
+                pgo.AddComponent<MeshFilter>().sharedMesh = propMesh;
+                var pmr = pgo.AddComponent<MeshRenderer>();
+                var pmats = new Material[Mathf.Max(1, propMesh.subMeshCount)];
+                for (int i = 0; i < pmats.Length; i++) pmats[i] = propMat;
+                pmr.sharedMaterials = pmats;
+                string outPath = "Assets/FactorySource/" + res + "/" + res + "_PropFit.prefab";
+                AssetDatabase.DeleteAsset(outPath);
+                PrefabUtility.SaveAsPrefabAsset(inst, outPath);
+                LoadFitPreview(outPath);
+                status = "Fit preview rebuilt (" + outPath + ") — bone '" + bone.name + "'. NOT shipped; preview-only.";
+            }
+            finally { DestroyImmediate(inst); }
+        }
+        catch (Exception e) { status = "Fit preview FAILED: " + e.Message; Debug.LogError("[AnimLab] " + e); }
+    }
 
     // Context handoff from the Model Factory ("Edit in Animation Lab"): land on the RIGHT entry. Match an
     // existing animated entry by resource name, then by model file; otherwise pre-fill a NEW animated entry from the
@@ -232,10 +312,15 @@ public class AnimationLabWindow : EditorWindow
             cur.handPropMat = EditorGUILayout.TextField(new GUIContent("Material GUID (borrowed)",
                 "MaterialRef whose output layer the prop renders with — \"a,b,c,d\". Empty = the shared " +
                 "EQ_DLC04_Weapons material (verified working for weapon props)."), cur.handPropMat ?? "");
-            // NOTE: the prop's orientation (FxMesh import angles) is authored in the PROP LAB recipe — single owner.
+            // NOTE: the prop's orientation is authored in the PROP LAB recipe (Rotation offset — baked vertices).
             // The registry still supports a per-model runtime override (`handPropAngles` "x,y,z", hand-editable in
             // enc_models.json): the plugin stamps it onto the FxMesh asset before encoding, making orientation
             // dial-in relaunch-only. Deliberately not exposed here to keep one owner per setting.
+            if (GUILayout.Button(new GUIContent("Refresh fit preview (model + prop, as glued in-game)",
+                "Rebuilds the combined preview below: the model's rig at rest (the idle stance) with the prop's SHIPPED " +
+                "mesh parented to the glue bone using the exact runtime math. Iterate: adjust the Prop Lab's " +
+                "Rotation/Position offsets, Bake the prop, press this — no game relaunch needed for fit tuning.")))
+                BuildFitPreview();
         }
         // Animate only bones — free text + a Pick that appends a bone-name prefix (grouped, with counts) from the model.
         using (new EditorGUILayout.HorizontalScope())
@@ -324,6 +409,14 @@ public class AnimationLabWindow : EditorWindow
             EditorGUILayout.HelpBox("This entry has no baked assets and no model file — open it in the Model Factory to set the file, then bake.", MessageType.Warning);
         if (!string.IsNullOrEmpty(status)) EditorGUILayout.HelpBox(status, MessageType.Info);
         EditorGUILayout.HelpBox("Registry: " + ModelRegistry.RegistryPath, MessageType.None);
+        // --- FIT PREVIEW (model + hand prop, glued as in-game) ---
+        if (previewEditor != null)
+        {
+            EditorGUILayout.Space();
+            EditorGUILayout.LabelField("Fit preview — model + hand prop  (drag to orbit, scroll to zoom)", EditorStyles.miniBoldLabel);
+            var rect = GUILayoutUtility.GetRect(200, 320, GUILayout.ExpandWidth(true));
+            previewEditor.OnInteractivePreviewGUI(rect, GUIStyle.none);
+        }
         EditorGUILayout.EndScrollView();
     }
 
