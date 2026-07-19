@@ -180,6 +180,11 @@ if len(argv) > 8 and argv[8].strip():
         while b: d += 1; b = b.parent
         return d
     ordered = sorted([bn for bn in recoil_bones if bn in bone_to_src], key=bone_depth)
+    if not ordered:
+        # A silent empty set used to crash the max() below with a bare ValueError traceback (exit 0, "produced no
+        # GLB" downstream) — fail loudly with the fix instead: the tube match is a NAME substring.
+        print("DEPLOY ERROR: recoil requested but no animated part name contains 'barrel'/'cannon' — cannot pick the tube. Animated parts: %s" % ", ".join(sorted(bone_of.values())))
+        sys.exit(1)
 
     # Phase A — read the source: capture each tube node's world matrix at the aim frame + across the recoil.
     frames = list(range(rs, re + 1, step))
@@ -200,13 +205,6 @@ if len(argv) > 8 and argv[8].strip():
     scene.frame_set(deploy_end)
     m_home = {bn: arm.pose.bones[bn].matrix.copy() for bn in ordered}
     prev_q = {}
-    def key_bone(bn, f):   # keyframe loc+rot, forcing quaternion continuity (else a sign flip makes Blender lerp the long way)
-        pb = arm.pose.bones[bn]
-        q = pb.rotation_quaternion.copy()
-        if bn in prev_q and q.dot(prev_q[bn]) < 0.0: q.negate()
-        pb.rotation_quaternion = q; prev_q[bn] = q
-        pb.keyframe_insert('location', frame=f)
-        pb.keyframe_insert('rotation_quaternion', frame=f)
     # A bone's OWN local translation is DROPPED by the bake (verified: sliding cannon2's local left its baked bbox unchanged) —
     # only ROTATION survives. But a bone's position derived from an ANCESTOR's rotation DOES bake (forward kinematics). So add a
     # hidden RECOIL-ARM bone with its pivot placed FAR from the tube, reparent the tube under it, and rotate the ARM: the tube
@@ -218,6 +216,15 @@ if len(argv) > 8 and argv[8].strip():
     cradle = parent_bone.name if parent_bone and parent_bone.name in bone_to_src else driver
     tube_root = cradle if cradle in m_home else driver
     mag = float(argv[11]) if len(argv) > 11 and argv[11].strip() else 1.0
+    if cradle not in src_w:
+        # The tube's parent can be ANY animated part ('cradle', 'mount' — only the M114's barrel-named parent masked
+        # this): Phase A sampled just the barrel/cannon bones, so dereferencing the parent below was a guaranteed
+        # KeyError on other naming. Sample the parent's world matrices over the same frames.
+        src_w[cradle] = {}
+        for t in frames:
+            scene.frame_set(t)
+            src_w[cradle][t] = bone_to_src[cradle].matrix_world.copy()
+        scene.frame_set(deploy_end)   # restore the deployed hold the back-solve below relies on
     Sc_aim = src_w[cradle][rs]; Sb_aim = src_w[driver][rs]
     Cbar3 = (m_home[driver] @ Sb_aim.inverted()).to_3x3()
     slide = {}
@@ -245,6 +252,13 @@ if len(argv) > 8 and argv[8].strip():
     bpy.ops.object.mode_set(mode='POSE')
     ra_rest = arm.data.bones[ra_name].matrix_local.copy()     # armature-space rest of the arm
     scene.frame_set(deploy_end)                               # parents held at their deployed pose while we back-solve
+    # PASS-THROUGH baseline. The arm's no-op is an IDENTITY BASIS (pose local == rest local), which passes the parent
+    # chain through untouched at EVERY frame. The old code posed `matrix = ra_rest` instead — only a no-op when the
+    # parent chain sits at REST (= the fmin travel pose): with a parent that moves during the deploy (tilting
+    # carriage, elevating mount) it rigidly displaced the tube through the whole deploy. The arc targets are built on
+    # the parent-aware pass-through pose, so the t=rs recoil frame (theta 0) is continuous with the identity hold.
+    _pp = arm.pose.bones[ra_name].parent
+    passthrough = (_pp.matrix @ arm.data.bones[_pp.name].matrix_local.inverted() @ ra_rest) if _pp else ra_rest.copy()
     prev_q.clear()
     def key_arm(f):
         pb = arm.pose.bones[ra_name]
@@ -252,15 +266,19 @@ if len(argv) > 8 and argv[8].strip():
         if 'ra' in prev_q and q.dot(prev_q['ra']) < 0.0: q.negate()
         pb.rotation_quaternion = q; prev_q['ra'] = q
         pb.keyframe_insert('location', frame=f); pb.keyframe_insert('rotation_quaternion', frame=f)
-    for hold in (0, deploy_end):                              # identity through the whole deploy so it can't disturb it
-        arm.pose.bones[ra_name].matrix = ra_rest; bpy.context.view_layer.update(); key_arm(hold)
+    def key_arm_identity(f):                                  # the true no-op, independent of the parent pose
+        pb = arm.pose.bones[ra_name]
+        pb.rotation_quaternion = (1.0, 0.0, 0.0, 0.0); pb.location = (0.0, 0.0, 0.0)
+        bpy.context.view_layer.update(); key_arm(f)
+    for hold in (0, deploy_end):                              # identity basis through the whole deploy so it can't disturb it
+        key_arm_identity(hold)
     for t in frames:
         f = deploy_end + (t - rs)
         theta = -(slide[t].length) / R * (1 if slide[t].dot(d) >= 0 else -1)   # arc length R*theta along the slide dir
-        tgt = Matrix.Translation(pivot) @ Matrix.Rotation(theta, 4, A) @ Matrix.Translation(-pivot) @ ra_rest
+        tgt = Matrix.Translation(pivot) @ Matrix.Rotation(theta, 4, A) @ Matrix.Translation(-pivot) @ passthrough
         arm.pose.bones[ra_name].matrix = tgt; bpy.context.view_layer.update(); key_arm(f)
     recoil_out_end = deploy_end + (frames[-1] - rs)
-    arm.pose.bones[ra_name].matrix = ra_rest; bpy.context.view_layer.update(); key_arm(recoil_out_end)
+    key_arm_identity(recoil_out_end)                          # run-out returns to the exact pass-through
     bpy.ops.object.mode_set(mode='OBJECT')
     print("DEPLOY recoil (ARC slide x%g, R=%g, peak=%.1f) tail %d..%d via RecoilArm; tube '%s'" %
           (mag, R, dist, deploy_end, recoil_out_end, tube_root))
