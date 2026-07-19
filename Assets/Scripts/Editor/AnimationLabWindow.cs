@@ -232,6 +232,11 @@ public class AnimationLabWindow : EditorWindow
             cur.handPropMat = EditorGUILayout.TextField(new GUIContent("Material GUID (borrowed)",
                 "MaterialRef whose output layer the prop renders with — \"a,b,c,d\". Empty = the shared " +
                 "EQ_DLC04_Weapons material (verified working for weapon props)."), cur.handPropMat ?? "");
+            cur.handPropAngles = EditorGUILayout.TextField(new GUIContent("Import angles (x,y,z)",
+                "Draw-time rotation of the prop around its glue bone, in degrees — e.g. \"0,90,0\". The FAST " +
+                "orientation knob: the plugin stamps it onto the collection at load, so iterating = change + " +
+                "Save (no bake) + RELAUNCH (no prop re-bake, no mod rebuild). Dial one axis at a time. " +
+                "Empty = whatever the Prop Lab baked."), cur.handPropAngles ?? "");
         }
         // Animate only bones — free text + a Pick that appends a bone-name prefix (grouped, with counts) from the model.
         using (new EditorGUILayout.HorizontalScope())
@@ -339,7 +344,7 @@ public class AnimationLabWindow : EditorWindow
         cur.animClip = mine.animClip; cur.animateBones = mine.animateBones; cur.animUnitFix = mine.animUnitFix;
         cur.convertRig = mine.convertRig;
         cur.animStateDriven = mine.animStateDriven; cur.animClipMove = mine.animClipMove; cur.animClipAfter = mine.animClipAfter; cur.animClipAttack = mine.animClipAttack; cur.animClipCombat = mine.animClipCombat; cur.attackRepeats = mine.attackRepeats;
-        cur.handPropName = mine.handPropName; cur.handPropGuid = mine.handPropGuid; cur.handPropMat = mine.handPropMat; cur.handPropBone = mine.handPropBone;
+        cur.handPropName = mine.handPropName; cur.handPropGuid = mine.handPropGuid; cur.handPropMat = mine.handPropMat; cur.handPropBone = mine.handPropBone; cur.handPropAngles = mine.handPropAngles;
         cur.fireOnAttack = mine.fireOnAttack; cur.deployOnStop = mine.deployOnStop;
         cur.deployPoseTime = mine.deployPoseTime; cur.deploySpeed = mine.deploySpeed; cur.recoilSpeed = mine.recoilSpeed;
     }

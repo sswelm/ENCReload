@@ -58,6 +58,7 @@ public class ModelDef
     public string handPropGuid = "";    // HAND PROP: the <name>_Collection Amplitude guid "a,b,c,d" (printed + clipboarded by the Prop Lab bake). "" = no hand prop.
     public string handPropMat = "";     // HAND PROP: borrowed material guid "a,b,c,d"; "" = the shared EQ_DLC04_Weapons material (sling-verified).
     public string handPropBone = "";    // HAND PROP: bone-name SUBSTRING on our skeleton (bones are renamed b###_<orig>); "" = "R_Hand".
+    public string handPropAngles = "";  // HAND PROP: draw-time rotation "x,y,z" (deg) — stamped onto the collection's FxMeshContent.ImportAngles at runtime (the only angles the fragment path reads). "" = the baked value. RUNTIME-ONLY: change + Save (no bake) + relaunch.
     public int[] clipMove = new int[4]; // STATE-DRIVEN only: baked MOVEMENT ClipCollection Amplitude guid {a,b,c,d}
     public int[] clipAfter = new int[4];// STATE-DRIVEN only: baked AFTER-MOVEMENT ClipCollection Amplitude guid {a,b,c,d}; {0,0,0,0} = no after clip
     public int[] clipAttack = new int[4];// STATE-DRIVEN only: baked ATTACK ClipCollection Amplitude guid {a,b,c,d}; {0,0,0,0} = no attack clip
