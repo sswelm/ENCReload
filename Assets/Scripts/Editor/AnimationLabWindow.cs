@@ -425,32 +425,36 @@ public class AnimationLabWindow : EditorWindow
         if (cur.deployConvert)
         {
             EditorGUI.indentLevel++;
+            // half-width fields: a full-window text box for "420" is noise (user call) — labels keep the standard
+            // column, values get ~half the view and the row ends there.
+            var half = GUILayout.MaxWidth(EditorGUIUtility.currentViewWidth * 0.5f);
             using (new EditorGUILayout.HorizontalScope())
             {
                 cur.deployStart = EditorGUILayout.IntField(new GUIContent("Deploy frames",
-                    "Source frame where the deploy motion STARTS (usually 0)."), cur.deployStart);
+                    "Source frame where the deploy motion STARTS (usually 0)."), cur.deployStart, GUILayout.MaxWidth(EditorGUIUtility.currentViewWidth * 0.3f));
                 float lw = EditorGUIUtility.labelWidth; EditorGUIUtility.labelWidth = 40;
                 cur.deployEnd = EditorGUILayout.IntField(new GUIContent("End",
-                    "Source frame where the deploy COMPLETES (fully deployed). REQUIRED. Find it by scrubbing the raw file in the ▶ picker."), cur.deployEnd, GUILayout.MinWidth(90));
+                    "Source frame where the deploy COMPLETES (fully deployed). REQUIRED. Find it by scrubbing the raw file in the ▶ picker."), cur.deployEnd, GUILayout.MinWidth(60), GUILayout.MaxWidth(160));
                 EditorGUIUtility.labelWidth = lw;
+                GUILayout.FlexibleSpace();
             }
             cur.deployStrip = EditorGUILayout.TextField(new GUIContent("Strip parts",
                 "Comma-separated name substrings to DELETE from the source (crew figures, loose shells/props — soft-skinned " +
-                "rigs break the rigid bake). Empty = the converter's proven defaults (crew/shell/prop names)."), cur.deployStrip);
+                "rigs break the rigid bake). Empty = the converter's proven defaults (crew/shell/prop names)."), cur.deployStrip, half);
             cur.deployReadyFrame = EditorGUILayout.TextField(new GUIContent("Barrel ready frame",
                 "Source frame of the FULLY-ELEVATED barrel. Sources often pause at an aim angle and only rise much later; " +
-                "this re-keys barrel/cannon parts to rise over the deploy's back half instead. Empty = leave the barrel as authored."), cur.deployReadyFrame);
+                "this re-keys barrel/cannon parts to rise over the deploy's back half instead. Empty = leave the barrel as authored."), cur.deployReadyFrame, half);
             cur.deployLegScale = EditorGUILayout.TextField(new GUIContent("Leg spread scale",
                 "EMPTY = keep the original leg animation VERBATIM (no re-authoring — recommended first try). A number re-keys " +
                 "*leg* parts as a clean travel→spread interpolation scaled by it: 1 = the source's full spread as pure " +
-                "rotation (needed if the game's rotation-only bake mangles sliding legs), 0.5 = half as wide."), cur.deployLegScale);
+                "rotation (needed if the game's rotation-only bake mangles sliding legs), 0.5 = half as wide."), cur.deployLegScale, half);
             cur.deployBarrelScale = EditorGUILayout.TextField(new GUIContent("Barrel elevation scale",
-                "Empty = 1. >1 exaggerates the elevation past the source's firing max."), cur.deployBarrelScale);
+                "Empty = 1. >1 exaggerates the elevation past the source's firing max."), cur.deployBarrelScale, half);
             cur.deployRecoil = EditorGUILayout.TextField(new GUIContent("Recoil frames (a..b)",
                 "The recoil SLAM's sub-range IN THE SOURCE clip (e.g. 445..451) — the slam ONLY: the source's post-slam " +
                 "frames are usually reload choreography (crew lowering the barrel), not a run-out. The return to battery " +
                 "is synthesized (see Return slow). The whole fire cycle becomes the 'recoil' role clip — set the Attack " +
-                "clip to plain 'recoil'. Empty = no recoil."), cur.deployRecoil);
+                "clip to plain 'recoil'. Empty = no recoil."), cur.deployRecoil, half);
             using (new EditorGUILayout.HorizontalScope())
             {
                 cur.deployRecoilStep = EditorGUILayout.TextField(new GUIContent("Recoil step", "Source-frame sampling step (empty = 2)."), cur.deployRecoilStep);
