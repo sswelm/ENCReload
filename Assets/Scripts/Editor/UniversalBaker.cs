@@ -366,6 +366,25 @@ public static class UniversalBaker
         // (BuildMultiAtlasAndRemap below) and Amplitude's skeleton importer rejects that rebuilt mesh if tangents were
         // stripped, so the tangent optimization is limited to single-material models (Amplitude reads their mesh as-is).
         string fsResDir = Path.Combine(Directory.GetParent(Application.dataPath).FullName, resDir);
+        // The MTL + per-material albedos come from the glbconv extraction — which the ANIMATED path never ran: it
+        // silently piggybacked on files left behind by an earlier static-style extraction (the original howitzer had
+        // them; a FRESH resource dir does not, and the bake quietly fell back to a single atlas — every part sampled
+        // material 0: the sandbox howitzer's borked wheel/legs). Generate them here when Multi/Auto needs them,
+        // stale-checked against the (possibly deploy-converted) model file; 'Keep extracted texture' protects
+        // hand-edited albedos exactly like the single-albedo path.
+        if ((cfg.materialMode == MaterialMode.Multi || cfg.materialMode == MaterialMode.Auto)
+            && !string.IsNullOrEmpty(cfg.modelFile) && File.Exists(cfg.modelFile)
+            && (cfg.modelFile.EndsWith(".glb", StringComparison.OrdinalIgnoreCase) || cfg.modelFile.EndsWith(".gltf", StringComparison.OrdinalIgnoreCase)))
+        {
+            string mtlPath = Path.Combine(fsResDir, name + ".mtl");
+            bool mtlFresh = File.Exists(mtlPath) && File.GetLastWriteTimeUtc(cfg.modelFile) <= File.GetLastWriteTimeUtc(mtlPath);
+            if (!mtlFresh && !(cfg.keepTexture && File.Exists(mtlPath)))
+            {
+                Debug.Log($"[Factory] {name}: extracting per-material albedos (glbconv) for the multi-material animated atlas…");
+                if (!ConvertGlb(cfg.modelFile, fsResDir, name, 0))
+                    Debug.LogWarning($"[Factory] {name}: glbconv extraction FAILED — a multi-material model will fall back to a SINGLE atlas (every part samples material 0). See the [glbconv] Console error.");
+            }
+        }
         var orderedAlb = LoadOrderedAlbedos(fsResDir, name);   // MTL-ordered (materialName -> albedo texture)
         // Need >1 REAL albedo to pack a multi-material atlas. Multi/Auto with 0-1 albedos (e.g. a fresh extraction that
         // didn't regenerate the per-material albedos, or a misconfig) falls back to a single atlas instead of building a
