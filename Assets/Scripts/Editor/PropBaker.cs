@@ -13,6 +13,57 @@ using System.Reflection;
 using UnityEditor;
 using UnityEngine;
 
+// A saved prop RECIPE (the Prop Lab form for one prop). Editor-side bookkeeping only — the runtime never reads
+// this file; it works from the baked assets + the GUIDs the model entries carry. Stored in
+// Assets/Databases/enc_props.json so recipes survive editor restarts and are re-loadable per prop (the form used
+// to be one shared EditorPrefs blob, which forced overwriting the previous prop's settings to start a new one).
+[Serializable]
+public class PropDef
+{
+    public string resourceName = "", modelFile = "", materialGuid = "";
+    public float size = 0.6f;
+    public Vector3 rotation, importAngles, posOffset;
+    public int targetTris = 1500;
+}
+
+public static class PropRegistry
+{
+    [Serializable] class PropFile { public List<PropDef> props = new List<PropDef>(); }
+    const string PathJson = "Assets/Databases/enc_props.json";
+
+    public static List<PropDef> Load()
+    {
+        try
+        {
+            if (System.IO.File.Exists(PathJson))
+                return JsonUtility.FromJson<PropFile>(System.IO.File.ReadAllText(PathJson))?.props ?? new List<PropDef>();
+        }
+        catch (Exception e) { Debug.LogError("[Props] enc_props.json unreadable: " + e.Message); }
+        return new List<PropDef>();
+    }
+
+    public static void Upsert(PropDef d)
+    {
+        var l = Load();
+        int i = l.FindIndex(x => x.resourceName == d.resourceName);
+        if (i >= 0) l[i] = d; else l.Add(d);
+        Save(l);
+    }
+
+    public static void Remove(string name) { var l = Load(); l.RemoveAll(x => x.resourceName == name); Save(l); }
+
+    static void Save(List<PropDef> l)
+    {
+        try
+        {
+            System.IO.Directory.CreateDirectory("Assets/Databases");
+            System.IO.File.WriteAllText(PathJson, JsonUtility.ToJson(new PropFile { props = l }, true));
+            AssetDatabase.ImportAsset(PathJson);
+        }
+        catch (Exception e) { Debug.LogError("[Props] enc_props.json save failed: " + e.Message); }
+    }
+}
+
 public class PropBakerWindow : EditorWindow
 {
     const BindingFlags BF = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance;
@@ -59,7 +110,18 @@ public class PropBakerWindow : EditorWindow
         EditorPrefs.SetFloat(P + "posX", posOffset.x); EditorPrefs.SetFloat(P + "posY", posOffset.y); EditorPrefs.SetFloat(P + "posZ", posOffset.z);
     }
 
-    void OnEnable() { LoadPrefs(); if (!string.IsNullOrEmpty(resourceName)) LoadPreview(resourceName); }
+    void OnEnable()
+    {
+        LoadPrefs();
+        if (!string.IsNullOrEmpty(resourceName)) LoadPreview(resourceName);
+        // MIGRATION (one-shot): the form predates the recipe registry — seed it with the current (last-baked)
+        // settings so 'Edit existing' starts populated (the Sling) instead of empty.
+        if (!string.IsNullOrEmpty(resourceName) && !string.IsNullOrEmpty(modelFile)
+            && !PropRegistry.Load().Any(d => d.resourceName == resourceName))
+            PropRegistry.Upsert(new PropDef { resourceName = resourceName, modelFile = modelFile, materialGuid = materialGuid,
+                                              size = size, rotation = rotation, importAngles = importAngles,
+                                              posOffset = posOffset, targetTris = targetTris });
+    }
     void OnDisable() { SavePrefs(); DestroyPreview(); }
 
     // Destroy the preview editor safely — Unity's own GameObjectInspector.OnDisable can throw
@@ -185,6 +247,41 @@ public class PropBakerWindow : EditorWindow
 
         EditorGUILayout.Space();
         EditorGUILayout.LabelField("Bake a prop (model → FxMesh → MeshCollection → FragmentMesh)", EditorStyles.boldLabel);
+        // Edit existing / New / Remove — the same recipe header as the other Labs. Recipes live in enc_props.json
+        // (saved on every successful bake); switching recipes loads that prop's form, New clears it for a fresh prop.
+        using (new EditorGUILayout.HorizontalScope())
+        {
+            var defs = PropRegistry.Load();
+            var names = defs.Select(d => d.resourceName).ToArray();
+            int curI = Array.IndexOf(names, resourceName);
+            int sel = EditorGUILayout.Popup(new GUIContent("Edit existing",
+                "Saved prop recipes (one per baked prop). Picking one loads its settings into the form below."), curI, names);
+            if (sel != curI && sel >= 0)
+            {
+                var d = defs[sel];
+                resourceName = d.resourceName; modelFile = d.modelFile; materialGuid = d.materialGuid;
+                size = d.size; rotation = d.rotation; importAngles = d.importAngles; posOffset = d.posOffset;
+                targetTris = d.targetTris; status = "";
+                LoadPreview(resourceName);
+                GUI.FocusControl(null);
+            }
+            if (GUILayout.Button(new GUIContent("New", "Start a fresh prop: clears the form (saved recipes and baked assets are untouched)."), GUILayout.Width(50)))
+            {
+                resourceName = ""; modelFile = ""; size = 0.6f;
+                rotation = importAngles = posOffset = Vector3.zero; targetTris = 1500;
+                materialGuid = "1356489961,1316891353,-864888678,1241300466";   // the shared EQ_DLC04_Weapons default
+                status = ""; DestroyPreview();
+                GUI.FocusControl(null);
+            }
+            using (new EditorGUI.DisabledScope(curI < 0))
+                if (GUILayout.Button(new GUIContent("Remove", "Forget this prop's saved recipe. Baked assets are NOT deleted."), GUILayout.Width(60))
+                    && EditorUtility.DisplayDialog("Remove prop recipe", $"Forget the saved settings for '{resourceName}'?\nBaked assets stay in Assets/Resources.", "Remove", "Cancel"))
+                {
+                    PropRegistry.Remove(resourceName);
+                    resourceName = ""; modelFile = ""; status = ""; DestroyPreview();
+                    GUI.FocusControl(null);
+                }
+        }
         resourceName = EditorGUILayout.TextField("Resource name", resourceName);
         using (new EditorGUILayout.HorizontalScope())
         {
@@ -369,6 +466,10 @@ public class PropBakerWindow : EditorWindow
                  $"FRAGMENT {fragPath}\n  GUID = {fragGuid}   → the pawn's attachment slot\n" +
                  "(collection GUID copied to clipboard)";
         EditorGUIUtility.systemCopyBuffer = mcGuid;
+        // Persist this prop's recipe so 'Edit existing' can bring it back (and the Animation Lab picker lists it).
+        PropRegistry.Upsert(new PropDef { resourceName = resourceName, modelFile = modelFile, materialGuid = materialGuid,
+                                          size = size, rotation = rotation, importAngles = importAngles,
+                                          posOffset = posOffset, targetTris = targetTris });
         Debug.Log("[Props] " + status);
         LoadPreview(resourceName, forceReimport: true);   // show the just-baked prop in the dialog
         Selection.activeObject = frag;
