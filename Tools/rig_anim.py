@@ -252,6 +252,13 @@ try:
             try: arm.animation_data.action_slot = _na.slots.new(id_type='OBJECT', name=arm.name)
             except Exception: pass
             _frames = sorted(_snaps[_oa].keys())
+            # SINGLE-FRAME clip (a held stance like CombatIdle1, range 0..0): also key the same pose at frame+1 —
+            # a zero-length animation can be dropped whole by Unity's FBX importer, which would fail the role's
+            # ClipCollection bake downstream. Two identical frames = a valid (visually static) clip everywhere.
+            if len(_frames) == 1:
+                _frames = [_frames[0], _frames[0] + 1]
+                _snaps[_oa][_frames[1]] = _snaps[_oa][_frames[0]]
+                print("RIGANIM single-frame clip '%s' padded to 2 identical frames (stance)" % _oa.name)
             for _f in _frames:
                 _world = _snaps[_oa][_f]
                 for pb in arm.pose.bones:

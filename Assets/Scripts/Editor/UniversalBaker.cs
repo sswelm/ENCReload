@@ -45,13 +45,14 @@ public struct BakeConfig
     public string  animClipMove;    // STATE-DRIVEN only: the MOVEMENT clip name (required when animStateDriven)
     public string  animClipAfter;   // STATE-DRIVEN only: the optional AFTER-MOVEMENT one-shot clip name ("" = none)
     public string  animClipAttack;  // STATE-DRIVEN only: the optional ATTACK one-shot clip name ("" = none) — played once when the unit ranged-attacks
+    public string  animClipCombat;  // STATE-DRIVEN only: the optional COMBAT-IDLE stance clip name ("" = none) — replaces Idle while the army is in a battle
     public bool    keepTexture;     // ANIMATED only: when the Blender step re-runs, DON'T regenerate the extracted albedo (protects hand-edited textures). This is the 'Reuse extracted files' checkbox's ONLY effect on the animated path — geometry caching is automatic (the windows re-slim exactly when a Blender-step setting changed).
 }
 
 public struct BakeResult
 {
     public bool ok; public string error; public string skeletonGuid, atlasGuid, clipGuid; public Vector3 bbox;
-    public string clipMoveGuid, clipAfterGuid, clipAttackGuid;   // STATE-DRIVEN only: the per-role ClipCollection GUIDs ("" when not baked)
+    public string clipMoveGuid, clipAfterGuid, clipAttackGuid, clipCombatGuid;   // STATE-DRIVEN only: the per-role ClipCollection GUIDs ("" when not baked)
 }
 
 public static class UniversalBaker
@@ -95,7 +96,8 @@ public static class UniversalBaker
     // missing from this list, so a failed animated re-bake could restore an OLD _Clips next to NEW pose bytes.
     static readonly string[] OutputSuffixes = { "_ModelMesh.asset", "_Atlas.asset", "_Mat.mat", "_Model.prefab", "_Skeleton.asset", "_Clips.asset", "_ClipsPoseData.bytes",
                                                 "_ClipsMove.asset", "_ClipsMovePoseData.bytes", "_ClipsAfter.asset", "_ClipsAfterPoseData.bytes",
-                                                "_ClipsAttack.asset", "_ClipsAttackPoseData.bytes" };   // state-driven role collections
+                                                "_ClipsAttack.asset", "_ClipsAttackPoseData.bytes",
+                                                "_ClipsCombat.asset", "_ClipsCombatPoseData.bytes" };   // state-driven role collections
 
     // CROSS-PATH SWEEP: each bake path deletes-then-recreates only its OWN assets, so re-baking a model on the OTHER
     // path (animated <-> static) used to orphan the previous path's outputs in shipped Resources — Unity force-ships
@@ -203,11 +205,14 @@ public static class UniversalBaker
         string moveFbxRel = resDir + "/anim_move/" + name + "_anim.fbx";
         string afterFbxRel = resDir + "/anim_after/" + name + "_anim.fbx";
         string attackFbxRel = resDir + "/anim_attack/" + name + "_anim.fbx";
+        string combatFbxRel = resDir + "/anim_combat/" + name + "_anim.fbx";
         bool wantAfter = cfg.animStateDriven && !string.IsNullOrWhiteSpace(cfg.animClipAfter);
         bool wantAttack = cfg.animStateDriven && !string.IsNullOrWhiteSpace(cfg.animClipAttack);
+        bool wantCombat = cfg.animStateDriven && !string.IsNullOrWhiteSpace(cfg.animClipCombat);
         bool roleFbxMissing = cfg.animStateDriven &&
             (!File.Exists(Path.Combine(projRoot, moveFbxRel)) || (wantAfter && !File.Exists(Path.Combine(projRoot, afterFbxRel)))
-                                                              || (wantAttack && !File.Exists(Path.Combine(projRoot, attackFbxRel))));
+                                                              || (wantAttack && !File.Exists(Path.Combine(projRoot, attackFbxRel)))
+                                                              || (wantCombat && !File.Exists(Path.Combine(projRoot, combatFbxRel))));
         // TOOL-VERSION CACHE-BUSTER (2026-07-19): a cached slim FBX older than rig_anim.py itself is stale — a
         // pipeline fix would otherwise be silently skipped by the reuse path and re-wrap the old (possibly broken)
         // FBX (exactly how the frozen-runner fix got bypassed on its first bake).
@@ -233,6 +238,7 @@ public static class UniversalBaker
                 stateRoles = "move=" + cfg.animClipMove.Trim();
                 if (wantAfter) stateRoles += ";after=" + cfg.animClipAfter.Trim();
                 if (wantAttack) stateRoles += ";attack=" + cfg.animClipAttack.Trim();
+                if (wantCombat) stateRoles += ";combat=" + cfg.animClipCombat.Trim();
             }
             if (!RigAnimViaBlender(cfg.modelFile, fbxFull, target, cfg.animateBones ?? "", cfg.animClip ?? "", albedoOut, keepMats, cfg.rotationEuler, cfg.convertRig, stateRoles))
                 return Fail("Blender animated slim failed (see console). Is the model rigged with the named animation clip(s)?");
@@ -253,6 +259,11 @@ public static class UniversalBaker
             {
                 if (!File.Exists(Path.Combine(projRoot, attackFbxRel))) return Fail("state-driven: the Blender step produced no Attack FBX (" + attackFbxRel + ") — check the Attack clip name.");
                 AssetDatabase.ImportAsset(attackFbxRel, ImportAssetOptions.ForceUpdate);
+            }
+            if (wantCombat)
+            {
+                if (!File.Exists(Path.Combine(projRoot, combatFbxRel))) return Fail("state-driven: the Blender step produced no Combat FBX (" + combatFbxRel + ") — check the Combat-idle clip name.");
+                AssetDatabase.ImportAsset(combatFbxRel, ImportAssetOptions.ForceUpdate);
             }
         }
 
@@ -307,6 +318,7 @@ public static class UniversalBaker
             var roleRels = new List<string> { moveFbxRel };
             if (wantAfter) roleRels.Add(afterFbxRel);
             if (wantAttack) roleRels.Add(attackFbxRel);
+            if (wantCombat) roleRels.Add(combatFbxRel);
             foreach (var roleRel in roleRels)
             {
                 var rimp = AssetImporter.GetAtPath(roleRel) as ModelImporter;
@@ -386,7 +398,7 @@ public static class UniversalBaker
         }
         string cerr = BakeClipCollection(animDir, "_Clips", out var clipColl);
         if (cerr != null) return Fail(cerr);
-        UnityEngine.Object clipMoveColl = null, clipAfterColl = null, clipAttackColl = null;
+        UnityEngine.Object clipMoveColl = null, clipAfterColl = null, clipAttackColl = null, clipCombatColl = null;
         if (cfg.animStateDriven)
         {
             cerr = BakeClipCollection(resDir + "/anim_move", "_ClipsMove", out clipMoveColl);
@@ -400,6 +412,11 @@ public static class UniversalBaker
             {
                 cerr = BakeClipCollection(resDir + "/anim_attack", "_ClipsAttack", out clipAttackColl);
                 if (cerr != null) return Fail("Attack clip collection: " + cerr);
+            }
+            if (wantCombat)
+            {
+                cerr = BakeClipCollection(resDir + "/anim_combat", "_ClipsCombat", out clipCombatColl);
+                if (cerr != null) return Fail("Combat clip collection: " + cerr);
             }
         }
         AssetDatabase.SaveAssets(); AssetDatabase.Refresh();
@@ -430,11 +447,16 @@ public static class UniversalBaker
                 clipAttackGuid = AmplitudeGuid(clipAttackColl);
                 if (string.IsNullOrEmpty(clipAttackGuid) || clipAttackGuid == "0,0,0,0") return Fail($"{name}: ATTACK ClipCollection GUID is empty — check the Attack clip name.");
             }
+            if (wantCombat)
+            {
+                clipCombatGuid = AmplitudeGuid(clipCombatColl);
+                if (string.IsNullOrEmpty(clipCombatGuid) || clipCombatGuid == "0,0,0,0") return Fail($"{name}: COMBAT ClipCollection GUID is empty — check the Combat-idle clip name.");
+            }
         }
         Debug.Log($"[Factory] {name} ANIMATED DONE. skeleton={skelGuid} clip={clipGuid} atlas={atlasGuid}" +
-                  (cfg.animStateDriven ? $" [state-driven: move={clipMoveGuid}{(wantAfter ? " after=" + clipAfterGuid : "")}{(wantAttack ? " attack=" + clipAttackGuid : "")}]" : ""));
+                  (cfg.animStateDriven ? $" [state-driven: move={clipMoveGuid}{(wantAfter ? " after=" + clipAfterGuid : "")}{(wantAttack ? " attack=" + clipAttackGuid : "")}{(wantCombat ? " combat=" + clipCombatGuid : "")}]" : ""));
         return new BakeResult { ok = true, skeletonGuid = skelGuid, atlasGuid = atlasGuid, clipGuid = clipGuid, bbox = Vector3.zero,
-                                clipMoveGuid = clipMoveGuid, clipAfterGuid = clipAfterGuid, clipAttackGuid = clipAttackGuid };
+                                clipMoveGuid = clipMoveGuid, clipAfterGuid = clipAfterGuid, clipAttackGuid = clipAttackGuid, clipCombatGuid = clipCombatGuid };
     }
 
     // Longest axis of the FBX's combined mesh bounds (native scale), so we can compute the Scale Factor that hits `size`.
