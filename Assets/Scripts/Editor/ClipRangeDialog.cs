@@ -57,8 +57,11 @@ public class ClipRangeDialog : EditorWindow
         string proj = System.IO.Directory.GetParent(Application.dataPath).FullName;
         string dirFull = System.IO.Path.Combine(proj, fbxDir);
         var existing = System.IO.Directory.Exists(dirFull) ? System.IO.Directory.GetFiles(dirFull, "*.fbx") : new string[0];
+        string srcTag = System.IO.Path.Combine(dirFull, "source.txt");   // which model file these FBXs came from — a
+        // timestamp check alone silently reuses the previous model's clips when the entry is repointed at an OLDER file
         bool stale = existing.Length == 0
                      || !System.IO.File.Exists(System.IO.Path.Combine(dirFull, "manifest.txt"))   // pre-manifest converter output (mirrored anim / unreliable take names) — force re-convert
+                     || !System.IO.File.Exists(srcTag) || System.IO.File.ReadAllText(srcTag).Trim() != modelFile
                      || System.IO.File.GetLastWriteTimeUtc(modelFile) > existing.Max(f => System.IO.File.GetLastWriteTimeUtc(f));
         if (stale && !BuildInspectFbx(proj, dirFull)) return;
 
@@ -115,6 +118,7 @@ public class ClipRangeDialog : EditorWindow
             if (!p.WaitForExit(180000)) { try { p.Kill(); } catch { } Debug.LogError("[ClipRange] Blender inspect conversion timed out."); return false; }
             if (!System.IO.Directory.Exists(dirFull) || System.IO.Directory.GetFiles(dirFull, "*.fbx").Length == 0)
             { Debug.LogError("[ClipRange] no inspection FBXs produced:\n" + so); return false; }
+            System.IO.File.WriteAllText(System.IO.Path.Combine(dirFull, "source.txt"), modelFile);
             AssetDatabase.Refresh();
             return true;
         }

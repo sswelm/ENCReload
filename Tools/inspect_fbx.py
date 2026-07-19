@@ -1,10 +1,11 @@
 # inspect_fbx.py — convert a model into PER-CLIP inspection FBXs for the editor's clip-range picker dialog
 # (preview / play / scrub, pick a start..end slice). One action per file, exported with the proven rig_anim flags.
 #
-# TWO fidelity rules learned the hard way:
-# - bone LOCATION fcurves are STRIPPED before export, exactly like the shipping pipeline does: Amplitude clips are
-#   rotation-only (locations never play in-game), and location keys round-trip MIRRORED through FBX on this rig —
-#   the M114 previewed with crossed legs. The preview must show what the game actually plays.
+# Fidelity rules learned the hard way:
+# - the animation is exported COMPLETE — rotations AND locations. An earlier location-strip (meant to mimic the
+#   shipping pipeline) CAUSED the M114's crossed-legs preview: the trail legs spread by rotation+translation, and
+#   rotation-only swings them about the wrong pivot, sweeping them inward. The picker is a RAW animation player of
+#   the source; the shipping pipeline's rotation-only conversion is made safe by its own rest-fold step, not here.
 # - clip names are recorded in a manifest.txt (filename<TAB>exact action name): FBX take names are unreliable
 #   (slot-assignment quirks yielded a take named "Scene"), and the safe filename can't round-trip characters like
 #   the '|' in Sketchfab action names.
@@ -50,33 +51,10 @@ def assign(a):
     try: arm.animation_data.action_slot = a.slots[0]   # Blender 4.4+/5 slotted actions
     except Exception: pass
 
-def fcurve_owners(a):
-    # fcurves live in slotted channelbags on 4.4+/5; legacy action.fcurves elsewhere
-    owners = []
-    try:
-        for layer in a.layers:
-            for strip in layer.strips:
-                for cb in strip.channelbags:
-                    owners.append(cb)
-    except Exception:
-        pass
-    if not owners and getattr(a, "fcurves", None) is not None:
-        owners.append(a)
-    return owners
-
-def strip_locations(a):
-    n = 0
-    for ow in fcurve_owners(a):
-        for fc in list(ow.fcurves):
-            if 'pose.bones[' in fc.data_path and fc.data_path.endswith('.location'):
-                ow.fcurves.remove(fc); n += 1
-    return n
-
 os.makedirs(outdir, exist_ok=True)
 manifest = []
 count = 0
 for a in list(bpy.data.actions):
-    stripped = strip_locations(a)
     assign(a)
     fs, fe = [int(round(v)) for v in a.frame_range]
     bpy.context.scene.frame_start, bpy.context.scene.frame_end = fs, fe
@@ -86,7 +64,7 @@ for a in list(bpy.data.actions):
                              bake_anim=True, bake_anim_use_all_actions=False,
                              bake_anim_use_nla_strips=False, object_types={'ARMATURE', 'MESH'})
     manifest.append("%s\t%s" % (safe + ".fbx", a.name))
-    print("INSPECT wrote %s ('%s' frames %d..%d, %d location curves stripped)" % (out, a.name, fs, fe, stripped))
+    print("INSPECT wrote %s ('%s' frames %d..%d)" % (out, a.name, fs, fe))
     count += 1
 with open(os.path.join(outdir, "manifest.txt"), "w", encoding="utf-8") as f:
     f.write("\n".join(manifest))
