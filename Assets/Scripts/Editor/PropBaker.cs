@@ -161,8 +161,9 @@ public class PropBakerWindow : EditorWindow
         return $"{t.GetField("a", BF)?.GetValue(g)},{t.GetField("b", BF)?.GetValue(g)},{t.GetField("c", BF)?.GetValue(g)},{t.GetField("d", BF)?.GetValue(g)}";
     }
 
-    // "a,b,c,d" of an authored asset (mirrors DistrictBaker.AmplitudeGuid)
-    static string AmplitudeGuid(UnityEngine.Object asset)
+    // "a,b,c,d" of an authored asset (mirrors DistrictBaker.AmplitudeGuid). Internal: the Animation Lab's
+    // Hand-prop picker resolves a picked <name>_Collection's GUID through this exact helper.
+    internal static string AmplitudeGuid(UnityEngine.Object asset)
     {
         var adb = FindType("Amplitude.Framework.Asset.AssetDatabase");
         var g = adb?.GetMethod("GetAssetGUID", new[] { typeof(UnityEngine.Object) })?.Invoke(null, new object[] { asset });

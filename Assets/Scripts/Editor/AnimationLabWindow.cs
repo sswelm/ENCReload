@@ -190,14 +190,39 @@ public class AnimationLabWindow : EditorWindow
         // --- Hand prop (runtime-only: Save (no bake) + rebuild the mod) ---
         EditorGUILayout.Space();
         EditorGUILayout.LabelField("Hand prop (weapon — runtime-only)", EditorStyles.miniBoldLabel);
-        cur.handPropName = EditorGUILayout.TextField(new GUIContent("Prop resource name",
-            "The weapon's Prop Lab resource name (e.g. 'M60'). Bake it first in Tools ▸ HAF ▸ Prop Lab — that produces " +
-            "<name>_Collection.asset (whose GUID goes below) with the mesh <name>_DistrictMesh inside. The plugin glues " +
-            "that rigid mesh to a bone of THIS model's skeleton at runtime. Empty Collection GUID = no hand prop."),
-            cur.handPropName ?? "");
-        cur.handPropGuid = EditorGUILayout.TextField(new GUIContent("Collection GUID",
-            "The <name>_Collection Amplitude GUID — four ints \"a,b,c,d\", printed and copied to the clipboard by the " +
-            "Prop Lab bake. Empty = no hand prop."), cur.handPropGuid ?? "");
+        using (new EditorGUILayout.HorizontalScope())
+        {
+            // Combobox over the baked props (every Assets/Resources/<name>_Collection.asset the Prop Lab produced):
+            // picking one fills BOTH the name and the collection GUID — no clipboard round-trip. "(none)" clears.
+            var propFiles = System.IO.Directory.Exists("Assets/Resources")
+                ? System.IO.Directory.GetFiles("Assets/Resources", "*_Collection.asset")
+                    .Select(p => System.IO.Path.GetFileName(p))
+                    .Select(f => f.Substring(0, f.Length - "_Collection.asset".Length))
+                    .OrderBy(n => n).ToArray()
+                : new string[0];
+            var options = new[] { "(none)" }.Concat(propFiles).ToArray();
+            int curIdx = System.Array.IndexOf(options, string.IsNullOrEmpty(cur.handPropName) ? "(none)" : cur.handPropName);
+            if (curIdx < 0) curIdx = 0;
+            int pick = EditorGUILayout.Popup(new GUIContent("Hand prop",
+                "A weapon glued to a bone of THIS model's skeleton at runtime. The list shows every prop baked in " +
+                "Tools ▸ HAF ▸ Prop Lab (its <name>_Collection assets); picking one fills the collection GUID " +
+                "automatically. Bake the weapon there first (e.g. 'M60'). '(none)' = no hand prop."),
+                curIdx, options);
+            if (pick != curIdx)
+            {
+                if (pick == 0) { cur.handPropName = ""; cur.handPropGuid = ""; }
+                else
+                {
+                    cur.handPropName = options[pick];
+                    var asset = AssetDatabase.LoadAssetAtPath<UnityEngine.Object>("Assets/Resources/" + options[pick] + "_Collection.asset");
+                    cur.handPropGuid = asset != null ? PropBakerWindow.AmplitudeGuid(asset) : "";
+                    if (string.IsNullOrEmpty(cur.handPropGuid))
+                        Debug.LogWarning("[AnimLab] could not read the Amplitude GUID of " + options[pick] + "_Collection.asset — re-bake the prop in the Prop Lab.");
+                }
+            }
+        }
+        if (!string.IsNullOrEmpty(cur.handPropName) && string.IsNullOrEmpty(cur.handPropGuid))
+            EditorGUILayout.HelpBox("No collection GUID for '" + cur.handPropName + "' — re-pick it (or re-bake the prop).", MessageType.Warning);
         if (!string.IsNullOrWhiteSpace(cur.handPropGuid))
         {
             cur.handPropBone = EditorGUILayout.TextField(new GUIContent("Bone substring",
