@@ -2613,6 +2613,172 @@ MonoBehaviour:
   Symbol: 
   SortPriority: 7450
   ConstructibleTraits: 
+--- !u!114 &-6995942052852098024
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -717291864, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: LandUnit_Era6_Common_LightAssaultMech
+  m_EditorClassIdentifier: 
+  Title: Light Assault Mech
+  Description: '%LandUnit_Era6_Common_ArmouredPersonnelCarriersDescription'
+  Images:
+  - Value:
+      guid:
+        a: 1965454753
+        b: 1212735515
+        c: -59006040
+        d: -1810710166
+    serializableKey: Picto
+  - Value:
+      guid:
+        a: -874641645
+        b: 1278825178
+        c: 625887116
+        d: -653792796
+    serializableKey: Default_Small
+  - Value:
+      guid:
+        a: -874641645
+        b: 1278825178
+        c: 625887116
+        d: -653792796
+    serializableKey: Default_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation1_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation1_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation2_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation2_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation3_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation3_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation4_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation4_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation5_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation5_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation6_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation6_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation7_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation7_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation8_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation8_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation9_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation9_Tooltip
+  Color: {r: 1, g: 1, b: 1, a: 1}
+  Symbol: 
+  SortPriority: 7400
+  ConstructibleTraits: 
 --- !u!114 &-6926952287579249190
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17393,6 +17559,172 @@ MonoBehaviour:
   Color: {r: 1, g: 1, b: 1, a: 1}
   Symbol: 
   SortPriority: 7900
+  ConstructibleTraits: 
+--- !u!114 &7675858885050320352
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -717291864, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: LandUnit_Era6_Common_ArmouredPersonnelCarriers
+  m_EditorClassIdentifier: 
+  Title: '%LandUnit_Era6_Common_ArmouredPersonnelCarriersTitle'
+  Description: '%LandUnit_Era6_Common_ArmouredPersonnelCarriersDescription'
+  Images:
+  - Value:
+      guid:
+        a: 1965454753
+        b: 1212735515
+        c: -59006040
+        d: -1810710166
+    serializableKey: Picto
+  - Value:
+      guid:
+        a: 1636746921
+        b: 1263740403
+        c: -485765220
+        d: 1906445109
+    serializableKey: Default_Small
+  - Value:
+      guid:
+        a: -1862783236
+        b: 1165784662
+        c: -1267733371
+        d: 1104708365
+    serializableKey: Default_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation1_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation1_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation2_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation2_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation3_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation3_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation4_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation4_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation5_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation5_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation6_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation6_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation7_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation7_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation8_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation8_Tooltip
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation9_Small
+  - Value:
+      guid:
+        a: 0
+        b: 0
+        c: 0
+        d: 0
+    serializableKey: Variation9_Tooltip
+  Color: {r: 1, g: 1, b: 1, a: 1}
+  Symbol: 
+  SortPriority: 7400
   ConstructibleTraits: 
 --- !u!114 &8009799410281844626
 MonoBehaviour:
