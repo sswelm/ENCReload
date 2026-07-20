@@ -164,27 +164,34 @@ public class AnimationLabWindow : EditorWindow
         if (fitPRU == null) fitPRU = new PreviewRenderUtility();
         if (fitFallbackMat == null) fitFallbackMat = new Material(Shader.Find("Standard"));
         fitPRU.BeginPreview(rect, GUIStyle.none);
-        var cam = fitPRU.camera;
-        float radius = Mathf.Max(fitBounds.extents.magnitude, 0.1f);
-        float dist = radius * 2.0f * fitZoom;
-        var rot = Quaternion.Euler(-fitOrbit.y, fitOrbit.x, 0f);
-        cam.transform.position = fitBounds.center + rot * (Vector3.back * dist);
-        cam.transform.rotation = Quaternion.LookRotation(fitBounds.center - cam.transform.position);
-        cam.nearClipPlane = 0.01f;
-        cam.farClipPlane = dist + radius * 4f;
-        cam.fieldOfView = 30f;
-        fitPRU.lights[0].intensity = 1.3f;
-        fitPRU.lights[0].transform.rotation = Quaternion.Euler(45f, 45f, 0f);
-        if (fitPRU.lights.Length > 1) fitPRU.lights[1].intensity = 0.6f;
-        fitPRU.ambientColor = new Color(0.3f, 0.3f, 0.3f);
-        foreach (var (mesh, mats, mtx) in fitDraws)
-            for (int s = 0; s < mesh.subMeshCount; s++)
-            {
-                var mat = mats != null && mats.Length > 0 ? (mats[Mathf.Min(s, mats.Length - 1)] ?? fitFallbackMat) : fitFallbackMat;
-                fitPRU.DrawMesh(mesh, mtx, mat, s);
-            }
-        cam.Render();
-        GUI.DrawTexture(rect, fitPRU.EndPreview(), ScaleMode.StretchToFill, false);
+        // try/finally so a throw in DrawMesh/Render can never skip EndPreview — an unclosed PRU errors and renders
+        // garbage on EVERY later frame (the "BeginPreview not closed" cascade), which made this preview untrustworthy.
+        Texture fitTex = null;
+        try
+        {
+            var cam = fitPRU.camera;
+            float radius = Mathf.Max(fitBounds.extents.magnitude, 0.1f);
+            float dist = radius * 2.0f * fitZoom;
+            var rot = Quaternion.Euler(-fitOrbit.y, fitOrbit.x, 0f);
+            cam.transform.position = fitBounds.center + rot * (Vector3.back * dist);
+            cam.transform.rotation = Quaternion.LookRotation(fitBounds.center - cam.transform.position);
+            cam.nearClipPlane = 0.01f;
+            cam.farClipPlane = dist + radius * 4f;
+            cam.fieldOfView = 30f;
+            fitPRU.lights[0].intensity = 1.3f;
+            fitPRU.lights[0].transform.rotation = Quaternion.Euler(45f, 45f, 0f);
+            if (fitPRU.lights.Length > 1) fitPRU.lights[1].intensity = 0.6f;
+            fitPRU.ambientColor = new Color(0.3f, 0.3f, 0.3f);
+            foreach (var (mesh, mats, mtx) in fitDraws)
+                for (int s = 0; s < mesh.subMeshCount; s++)
+                {
+                    var mat = mats != null && mats.Length > 0 ? (mats[Mathf.Min(s, mats.Length - 1)] ?? fitFallbackMat) : fitFallbackMat;
+                    fitPRU.DrawMesh(mesh, mtx, mat, s);
+                }
+            cam.Render();
+        }
+        finally { fitTex = fitPRU.EndPreview(); }
+        if (fitTex != null) GUI.DrawTexture(rect, fitTex, ScaleMode.StretchToFill, false);
     }
 
     // FIT PREVIEW: the model's slim FBX (its rest pose IS the idle stance after rest-normalization, and its bone
