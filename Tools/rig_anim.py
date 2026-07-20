@@ -75,6 +75,26 @@ if arm is None:
     print("RIGANIM ERROR: no armature found — the model is not rigged, use the normal (static) bake instead")
     sys.exit(1)
 
+# FLATTEN WRAPPER EMPTIES (mech finding 2026-07-20): glTF/FBX sources often wrap the rig in a parent empty (a
+# "group"/scene-root) carrying a NON-IDENTITY scale — the Light Assault Mech's was 0.010. convertRig's later
+# transform_apply only bakes an object's OWN transform, never an inherited parent scale, so that wrapper survived
+# to the export as a scaled root node. Unity folds it into the mesh, but Amplitude's skeleton import reads bind
+# poses WITHOUT it → the skeleton sits ~100× off the mesh and every rigid single-bone vert flings into a "wing".
+# Un-parent the rig from any EMPTY (KEEP_TRANSFORM bakes the empty's transform onto the object, where convertRig's
+# transform_apply then folds it into the data) and delete the empties → identity export nodes. Gated to convertRig
+# so the legacy byte-identical path is untouched; a no-op for rigs without wrapper empties (the soldier).
+if convert_rig:
+    _wrapped = [o for o in bpy.context.scene.objects if o.type in ('MESH', 'ARMATURE') and o.parent is not None and o.parent.type == 'EMPTY']
+    for _o in _wrapped:
+        _mw = _o.matrix_world.copy()
+        _o.parent = None
+        _o.matrix_world = _mw
+    _empties = [o for o in list(bpy.data.objects) if o.type == 'EMPTY']
+    for _e in _empties:
+        bpy.data.objects.remove(_e, do_unlink=True)
+    if _empties:
+        print("RIGANIM flattened %d wrapper empt%s; rig reparented to root for identity export nodes" % (len(_empties), "y" if len(_empties) == 1 else "ies"))
+
 if not arm.animation_data:
     arm.animation_data_create()
 def assign_action(a):
