@@ -117,8 +117,10 @@ public class ClipRangeDialog : EditorWindow
             p.StartInfo.UseShellExecute = false; p.StartInfo.CreateNoWindow = true;
             p.StartInfo.RedirectStandardOutput = true; p.StartInfo.RedirectStandardError = true;
             p.Start();
-            string so = p.StandardOutput.ReadToEnd(); p.StandardError.ReadToEnd();
-            if (!p.WaitForExit(180000)) { try { p.Kill(); } catch { } Debug.LogError("[ClipRange] Blender inspect conversion timed out."); return false; }
+            // concurrent drain (shared with the baker): sequential ReadToEnd(stdout)+ReadToEnd(stderr) deadlocks when
+            // Blender fills the stderr pipe buffer while we block on stdout — Unity hangs until the process is killed.
+            if (!UniversalBaker.RunBounded(p, 180000, out string so, out string _))
+            { Debug.LogError("[ClipRange] Blender inspect conversion timed out."); return false; }
             if (!System.IO.Directory.Exists(dirFull) || System.IO.Directory.GetFiles(dirFull, "*.fbx").Length == 0)
             { Debug.LogError("[ClipRange] no inspection FBXs produced:\n" + so); return false; }
             System.IO.File.WriteAllText(System.IO.Path.Combine(dirFull, "source.txt"), srcKey);

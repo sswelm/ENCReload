@@ -60,12 +60,27 @@ public class AnimationLabWindow : EditorWindow
         if (selected > 0 && !string.IsNullOrEmpty((cur.resourceName ?? "").Trim()))
         {
             var reg = ModelRegistry.Load().FirstOrDefault(x => x.resourceName == cur.resourceName.Trim());
+            // Compare apples-to-apples: OnGUI materializes cur's empty recoil knobs to their defaults, so a raw reg
+            // (empty strings on entries never re-saved since these fields existed) must be materialized too — else
+            // the banner fires spuriously after every compile with no user edit, and users learn to ignore it.
+            if (reg != null) MaterializeRecoilDefaults(reg);
             if (reg != null && JsonUtility.ToJson(reg) != JsonUtility.ToJson(cur))
                 formDiffersFromRegistry = true;
         }
         if (!string.IsNullOrEmpty(previewPath)) LoadFitPreview(previewPath);
     }
     void OnDisable() { DestroyFitPreview(); }
+
+    // The recoil knobs' explicit defaults, in ONE place (user rule: no empty fields). Applied to the form so
+    // what's shown is what bakes/saves, AND to a loaded entry before the form-vs-registry diff so a not-yet-
+    // re-saved entry's empty strings don't read as a spurious edit.
+    static void MaterializeRecoilDefaults(ModelDef d)
+    {
+        if (string.IsNullOrWhiteSpace(d.deployRecoilStep)) d.deployRecoilStep = "0";
+        if (string.IsNullOrWhiteSpace(d.deployRecoilReturn)) d.deployRecoilReturn = "4";
+        if (string.IsNullOrWhiteSpace(d.deploySlamDeg)) d.deploySlamDeg = "0";
+        if (string.IsNullOrWhiteSpace(d.deploySlamSettle)) d.deploySlamSettle = "1";
+    }
 
     void DestroyFitPreview()
     {
@@ -472,10 +487,7 @@ public class AnimationLabWindow : EditorWindow
             {
                 // NO EMPTY FIELDS (user rule — blanks confuse): the recoil knobs materialize their explicit
                 // defaults on sight, so what you read is exactly what bakes (and what saves).
-                if (string.IsNullOrWhiteSpace(cur.deployRecoilStep)) cur.deployRecoilStep = "0";
-                if (string.IsNullOrWhiteSpace(cur.deployRecoilReturn)) cur.deployRecoilReturn = "4";
-                if (string.IsNullOrWhiteSpace(cur.deploySlamDeg)) cur.deploySlamDeg = "0";
-                if (string.IsNullOrWhiteSpace(cur.deploySlamSettle)) cur.deploySlamSettle = "1";
+                MaterializeRecoilDefaults(cur);
                 // compact labels + zero-minimum fields: four standard 150px label columns don't fit a row — the
                 // last field (Return slow) was starved clean off at normal window widths.
                 float lw2 = EditorGUIUtility.labelWidth; EditorGUIUtility.labelWidth = 88;

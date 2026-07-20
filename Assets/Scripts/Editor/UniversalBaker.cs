@@ -224,8 +224,9 @@ public static class UniversalBaker
             p.StartInfo.UseShellExecute = false; p.StartInfo.CreateNoWindow = true;
             p.StartInfo.RedirectStandardOutput = true; p.StartInfo.RedirectStandardError = true;
             p.Start();
-            string so = p.StandardOutput.ReadToEnd(); p.StandardError.ReadToEnd();
-            if (!p.WaitForExit(300000)) { try { p.Kill(); } catch { } error = "deploy conversion: Blender timed out (5 min)."; return null; }
+            // Drain BOTH pipes concurrently (RunBounded): the old sequential ReadToEnd(stdout) then ReadToEnd(stderr)
+            // deadlocks when Blender — very chatty on stderr — fills the stderr pipe buffer while we block on stdout.
+            if (!RunBounded(p, 300000, out string so, out string _)) { error = "deploy conversion: Blender timed out (5 min)."; return null; }
             foreach (var line in so.Split('\n')) if (line.StartsWith("DEPLOY")) Debug.Log("[Factory] " + line.Trim());
             // Blender exits 0 even when the python script DIES on an exception — a crashed conversion then left the
             // OLD converted GLB in place and the bake silently slimmed stale roles (the reversed-recoil incident).
@@ -1401,7 +1402,7 @@ public static class UniversalBaker
     // (reading stdout-then-stderr on this thread deadlocks: the child fills its ~4KB stderr pipe buffer, blocks writing,
     // never exits, stdout never EOFs, and we hang forever). The wait is bounded, so a hung child can't freeze the editor.
     // Returns false (after killing the child) on timeout; otherwise the process has exited and stdout/stderr are filled.
-    static bool RunBounded(System.Diagnostics.Process p, int timeoutMs, out string stdout, out string stderr)
+    internal static bool RunBounded(System.Diagnostics.Process p, int timeoutMs, out string stdout, out string stderr)
     {
         stdout = ""; stderr = "";
         var outTask = System.Threading.Tasks.Task.Run(() => p.StandardOutput.ReadToEnd());
