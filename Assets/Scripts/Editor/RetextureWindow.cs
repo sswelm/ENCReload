@@ -19,18 +19,22 @@ public class RetextureWindow : EditorWindow
     string pngPath = "";                               // the painted PNG to inject
     float desaturate = 0f;                             // 0 = keep colours, 1 = full grey
     float tintR = 0f, tintG = 0f, tintB = 0f;          // per-channel colour offset, -255..+255
-    bool engineSound = false;                          // fire the per-ship engine move Start/Stop sound on this unit
-    string engineStartEvent = "", engineStopEvent = ""; // optional Wwise event names (post by name -> works for the first unit)
-    string soundFile = "", soundWavPath = "";          // loop WAV: current filename + a new file to browse/copy
-    string soundStartFile = "", soundStartPath = "";   // move-start one-shot WAV
-    string soundStopFile = "", soundStopPath = "";     // move-stop one-shot WAV
+    // Sound config (engine move sound + custom WAVs) lives EXCLUSIVELY in the dedicated Unit Sound window (SoundWindow.cs),
+    // which owns the same registry fields plus per-clip volumes and a ▶ preview — this window is skins only. Existing sound
+    // on an entry is preserved through Apply (it loads the entry first and never touches the sound fields).
     Vector2 scroll;
     string status = "";
     string editedEntry = "";                           // which entry the form was last LOADED from (Edit button) — Apply onto a different existing entry asks first
 
+    // --- live skin preview (mirrors the plugin's AdjustSkin pixel math so what you see == what gets injected) ---
+    Texture2D previewTex;                              // the composited preview drawn in the window
+    Color32[] srcPixels;                              // downscaled source-atlas pixels, cached per source file
+    int srcW, srcH;                                  // preview dimensions
+    string srcSig = null;                            // signature of the loaded source (path + timestamp)
+    string previewSig = null;                        // signature of the built preview (source + adjustments)
+
     // The game's BepInEx/config (auto-detected by ModelRegistry, same folder the plugin reads).
     static string SkinsDir => Path.Combine(ModelRegistry.ConfigDir, "enc_skins");
-    static string SoundsDir => Path.Combine(ModelRegistry.ConfigDir, "enc_sounds");
     static string DumpDir  => Path.Combine(ModelRegistry.ConfigDir, "enc_atlas_dump");
 
     void OnGUI()
@@ -102,24 +106,12 @@ public class RetextureWindow : EditorWindow
             GUILayout.FlexibleSpace();
         }
 
-        EditorGUILayout.Space();
-        engineSound = EditorGUILayout.ToggleLeft(new GUIContent("Engine sound on move",
-            "Fire the unit's engine move Start/Stop sound on this unit — our injected/retextured units don't trigger it themselves, so they go silent on move. Naval proven."), engineSound);
-        if (engineSound)
-        {
-            EditorGUILayout.HelpBox("Name the Wwise events to post on move start/stop — then it works for the FIRST unit at load (no live capture). " +
-                "Get names from the game: F8 window ▸ Dump Sound Catalog (writes enc_sound_catalog.txt). Leave blank to auto-capture from a same-family vehicle that moved this session.", MessageType.None);
-            engineStartEvent = EditorGUILayout.TextField(new GUIContent("  Start event", "e.g. Play_UNIT_Vehicles_StealthCorvette_Start"), engineStartEvent);
-            engineStopEvent = EditorGUILayout.TextField(new GUIContent("  Stop event", "e.g. Play_UNIT_Vehicles_StealthCorvette_Stop"), engineStopEvent);
-        }
+        DrawSkinPreview(existing);
 
         EditorGUILayout.Space();
-        EditorGUILayout.LabelField("Custom sound files (Unity AudioSource — WAV, 16-bit)", EditorStyles.boldLabel);
-        EditorGUILayout.LabelField("Loop plays while moving; Start/Stop are one-shots on move begin/end. Convert mp3/ogg to WAV first.", EditorStyles.miniLabel);
-        soundWavPath = WavRow("Loop (while moving)", soundFile, soundWavPath);
-        soundStartPath = WavRow("Start (one-shot)", soundStartFile, soundStartPath);
-        soundStopPath = WavRow("Stop (one-shot)", soundStopFile, soundStopPath);
+        EditorGUILayout.LabelField("Engine/custom move sounds live in the dedicated Unit Sound window (with per-clip volume + ▶ preview).", EditorStyles.miniLabel);
 
+        EditorGUILayout.Space();
         using (new EditorGUI.DisabledScope(string.IsNullOrEmpty(pawn) || string.IsNullOrEmpty(resourceName)))
             if (GUILayout.Button("Apply", GUILayout.Height(30)))
                 Apply();
@@ -139,10 +131,8 @@ public class RetextureWindow : EditorWindow
                 if (GUILayout.Button("Edit", GUILayout.Width(46)))
                 {
                     pawn = m.pawnDescription; resourceName = m.resourceName; editedEntry = m.resourceName;
-                    desaturate = m.desaturate; tintR = m.tintR; tintG = m.tintG; tintB = m.tintB; engineSound = m.engineSound;
-                    engineStartEvent = m.engineStartEvent; engineStopEvent = m.engineStopEvent;
-                    soundFile = m.soundFile; soundStartFile = m.soundStartFile; soundStopFile = m.soundStopFile;
-                    soundWavPath = ""; soundStartPath = ""; soundStopPath = ""; pngPath = "";
+                    desaturate = m.desaturate; tintR = m.tintR; tintG = m.tintG; tintB = m.tintB;
+                    pngPath = "";   // sound stays put — it's owned by the Unit Sound window and untouched by Apply here
                     GUIUtility.ExitGUI();
                 }
                 if (GUILayout.Button("Remove", GUILayout.Width(64)))
@@ -186,6 +176,96 @@ public class RetextureWindow : EditorWindow
         EditorGUILayout.EndScrollView();
     }
 
+    // Live preview of the skin that WILL be injected: the browsed Replacement PNG (or, when none is browsed, this
+    // entry's already-saved skin) with the Desaturate + R/G/B adjustments applied by the SAME math the plugin runs
+    // (AdjustSkin). Units are GPU crowd-rendered with no editor-side GameObject, so this previews the atlas itself —
+    // not a posed 3D mech. Rebuilds only when the source file or an adjustment changes (cached), so slider drags are smooth.
+    void DrawSkinPreview(System.Collections.Generic.IEnumerable<ModelDef> existing)
+    {
+        string src = null;
+        if (!string.IsNullOrEmpty(pngPath) && File.Exists(pngPath)) src = pngPath;
+        else
+        {
+            var def = existing.FirstOrDefault(m => m.resourceName == resourceName);
+            if (def != null && !string.IsNullOrEmpty(def.textureFile))
+            {
+                var p = Path.Combine(SkinsDir, def.textureFile);
+                if (File.Exists(p)) src = p;
+            }
+        }
+
+        EditorGUILayout.LabelField("Preview — skin atlas (live, = what gets injected)", EditorStyles.boldLabel);
+        if (src == null)
+        {
+            EditorGUILayout.HelpBox("Browse a Replacement PNG (or Edit a saved entry) to preview here. The unit's OWN atlas " +
+                "can only be previewed after an in-game atlas dump — units are GPU-rendered, so there's no 3D mech view in the editor.", MessageType.None);
+            return;
+        }
+
+        EnsureSource(src);
+        if (srcPixels == null) { EditorGUILayout.HelpBox("Could not read '" + Path.GetFileName(src) + "' as an image.", MessageType.Warning); return; }
+
+        string sig = srcSig + "|" + desaturate + "|" + tintR + "|" + tintG + "|" + tintB;
+        if (sig != previewSig || previewTex == null) { BuildPreview(); previewSig = sig; }
+
+        float ar = (float)srcH / Mathf.Max(1, srcW);
+        float boxW = Mathf.Min(EditorGUIUtility.currentViewWidth - 30f, 320f);
+        var r = GUILayoutUtility.GetRect(boxW, boxW * ar, GUILayout.ExpandWidth(false));
+        EditorGUI.DrawTextureTransparent(r, previewTex, ScaleMode.ScaleToFit);   // checkerboard shows the atlas's transparent gaps
+        EditorGUILayout.LabelField($"  {Path.GetFileName(src)} — adjustments applied live (Desaturate/RGB)", EditorStyles.miniLabel);
+    }
+
+    // Load a source image and cache a downscaled Color32 copy (<=256px) so re-applying adjustments per slider-drag is cheap.
+    void EnsureSource(string path)
+    {
+        string sig = path + "|" + File.GetLastWriteTimeUtc(path).Ticks;
+        if (sig == srcSig && srcPixels != null) return;
+        try
+        {
+            var full = new Texture2D(2, 2, TextureFormat.RGBA32, false);
+            if (!full.LoadImage(File.ReadAllBytes(path))) { DestroyImmediate(full); srcPixels = null; srcSig = sig; return; }
+            const int MAX = 256;
+            int fw = full.width, fh = full.height;
+            int sw = Mathf.Min(MAX, fw), sh = Mathf.Max(1, Mathf.RoundToInt(sw * (float)fh / fw));
+            var fpx = full.GetPixels32();
+            var dst = new Color32[sw * sh];
+            for (int y = 0; y < sh; y++)
+            {
+                int sy = y * fh / sh;
+                for (int x = 0; x < sw; x++) dst[y * sw + x] = fpx[sy * fw + (x * fw / sw)];
+            }
+            DestroyImmediate(full);
+            srcPixels = dst; srcW = sw; srcH = sh; srcSig = sig; previewSig = null;
+        }
+        catch { srcPixels = null; srcSig = sig; }
+    }
+
+    // Rebuild previewTex from the cached source pixels — EXACTLY the plugin's AdjustSkin (luminance pull + RGB offset).
+    void BuildPreview()
+    {
+        if (previewTex == null || previewTex.width != srcW || previewTex.height != srcH)
+        {
+            if (previewTex != null) DestroyImmediate(previewTex);
+            previewTex = new Texture2D(srcW, srcH, TextureFormat.RGBA32, false);
+        }
+        var px = (Color32[])srcPixels.Clone();
+        float s = Mathf.Clamp01(desaturate);
+        for (int i = 0; i < px.Length; i++)
+        {
+            float lum = px[i].r * 0.299f + px[i].g * 0.587f + px[i].b * 0.114f;
+            px[i].r = (byte)Mathf.Clamp((px[i].r + (lum - px[i].r) * s) + tintR, 0, 255);
+            px[i].g = (byte)Mathf.Clamp((px[i].g + (lum - px[i].g) * s) + tintG, 0, 255);
+            px[i].b = (byte)Mathf.Clamp((px[i].b + (lum - px[i].b) * s) + tintB, 0, 255);
+        }
+        previewTex.SetPixels32(px); previewTex.Apply();
+    }
+
+    void OnDisable()
+    {
+        if (previewTex != null) DestroyImmediate(previewTex);
+        previewTex = null; srcPixels = null; srcSig = previewSig = null;
+    }
+
     void Apply()
     {
         try
@@ -206,13 +286,8 @@ public class RetextureWindow : EditorWindow
             def.tintR = Mathf.Clamp(tintR, -255f, 255f);
             def.tintG = Mathf.Clamp(tintG, -255f, 255f);
             def.tintB = Mathf.Clamp(tintB, -255f, 255f);
-            def.engineSound = engineSound;
-            def.engineStartEvent = engineSound ? (engineStartEvent ?? "").Trim() : "";
-            def.engineStopEvent = engineSound ? (engineStopEvent ?? "").Trim() : "";
-            if (!string.IsNullOrEmpty(soundWavPath))   { if (!TryCopyWav(soundWavPath, resourceName, out var wf))          { status = "WAV not found: " + soundWavPath;   return; } def.soundFile = wf; }
-            if (!string.IsNullOrEmpty(soundStartPath)) { if (!TryCopyWav(soundStartPath, resourceName + "_start", out var wf)) { status = "WAV not found: " + soundStartPath; return; } def.soundStartFile = wf; }
-            if (!string.IsNullOrEmpty(soundStopPath))  { if (!TryCopyWav(soundStopPath, resourceName + "_stop", out var wf))   { status = "WAV not found: " + soundStopPath;  return; } def.soundStopFile = wf; }
-            // unbrowsed WAVs keep their existing def value.
+            // Sound fields (engineSound / WAVs / volumes) are NOT touched here — they're owned by the Unit Sound window.
+            // def was loaded from the existing entry above, so whatever sound it already carries is preserved on save.
             if (!string.IsNullOrEmpty(pngPath))   // a new PNG was picked -> copy it in and use it as the skin
             {
                 if (!File.Exists(pngPath)) { status = "PNG not found: " + pngPath; return; }
@@ -225,9 +300,10 @@ public class RetextureWindow : EditorWindow
 
             bool hasSkin = !string.IsNullOrEmpty(def.textureFile);
             bool hasAdjust = def.desaturate > 0f || def.tintR != 0f || def.tintG != 0f || def.tintB != 0f;
-            if (!hasSkin && !hasAdjust && !engineSound && string.IsNullOrEmpty(def.soundFile) && string.IsNullOrEmpty(def.soundStartFile) && string.IsNullOrEmpty(def.soundStopFile))
+            bool hasSound = def.engineSound || !string.IsNullOrEmpty(def.soundFile) || !string.IsNullOrEmpty(def.soundStartFile) || !string.IsNullOrEmpty(def.soundStopFile);
+            if (!hasSkin && !hasAdjust && !hasSound)   // truly-empty entry (no skin here, no sound from the Sound window)
             {
-                status = "Nothing to apply — browse a PNG/WAV, set an adjustment, or enable Engine sound.";
+                status = "Nothing to apply — browse a Replacement PNG or set a Desaturate/RGB adjustment.";
                 return;
             }
             bool ok = ModelRegistry.Upsert(def);
@@ -237,33 +313,6 @@ public class RetextureWindow : EditorWindow
                 : "Registry save FAILED — see the Console.";
         }
         catch (Exception e) { status = "Failed: " + e.Message; }
-    }
-
-    // Draw a "current + Browse" row for a WAV; returns the (possibly updated) browse path.
-    static string WavRow(string label, string current, string browsePath)
-    {
-        using (new EditorGUILayout.HorizontalScope())
-        {
-            EditorGUILayout.LabelField(new GUIContent("  " + label, "current: " + (string.IsNullOrEmpty(current) ? "(none)" : current)), GUILayout.Width(150));
-            browsePath = EditorGUILayout.TextField(browsePath);
-            if (GUILayout.Button(string.IsNullOrEmpty(current) ? "Browse" : "Replace", GUILayout.Width(70)))
-            {
-                var p = EditorUtility.OpenFilePanel("Pick a WAV", "", "wav");
-                if (!string.IsNullOrEmpty(p)) browsePath = p;
-            }
-        }
-        return browsePath;
-    }
-
-    // Copy a browsed WAV into enc_sounds/<baseName>.wav; false if the source is missing.
-    static bool TryCopyWav(string src, string baseName, out string filename)
-    {
-        filename = "";
-        if (!File.Exists(src)) return false;
-        Directory.CreateDirectory(SoundsDir);
-        filename = Sanitize(baseName) + ".wav";
-        File.Copy(src, Path.Combine(SoundsDir, filename), true);
-        return true;
     }
 
     static string Describe(ModelDef m)
