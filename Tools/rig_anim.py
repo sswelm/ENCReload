@@ -95,51 +95,32 @@ def assign_action(a):
 _BONE_LIMIT = 240
 if len(arm.data.bones) > _BONE_LIMIT:
     _skmesh = [m for m in bpy.data.objects if m.type == 'MESH' and m.find_armature() == arm]
-    _parent = {b.name: (b.parent.name if b.parent else None) for b in arm.data.bones}
-    _children = {b.name: set(c.name for c in b.children) for b in arm.data.bones}
-    _survivors = set(b.name for b in arm.data.bones)
-    _detail = lambda n: any(k in n.lower() for k in ("piston", "tube", "_end", "target", "secondary", "limb"))
-    _remove = []
-    while len(_survivors) > _BONE_LIMIT:
-        _leaves = [n for n in _survivors if _parent[n] and not (_children[n] & _survivors)]
-        if not _leaves:
-            break
-        _leaves.sort(key=lambda n: (0 if _detail(n) else 1, n))
-        _v = _leaves[0]
-        _survivors.discard(_v); _remove.append(_v)
-    def _surv_anc(n):
-        p = _parent[n]
-        while p is not None and p not in _survivors:
-            p = _parent[p]
-        return p
-    _remap = {n: _surv_anc(n) for n in _remove}
+    # which bones actually deform the mesh? Only those need to survive with a low index. The rest — IK targets,
+    # _end markers, control bones — carry NO skin weight, so removing them NEVER moves a vertex (unlike transferring
+    # weights, which corrupted the bind shape: a first attempt flung 350 verts). Remove zero-weight LEAF bones
+    # iteratively (a leaf has no children, so deleting it can't break a weighted descendant's hierarchy or its
+    # animation); each pass may expose new zero-weight leaves as their children go. Stops when under the cap or when
+    # only weighted bones + their zero-weight ANCESTORS remain (those are load-bearing and kept).
+    _weighted = set()
     for _m in _skmesh:
-        _vgs = {vg.name: vg for vg in _m.vertex_groups}
-        for _n in _remove:
-            _anc = _remap[_n]
-            if _anc and _anc not in _vgs:
-                _vgs[_anc] = _m.vertex_groups.new(name=_anc)
-        _rm = {_vgs[_n].index: _remap[_n] for _n in _remove if _n in _vgs}
-        for _vert in _m.data.vertices:
-            _adds = {}
-            for _g in _vert.groups:
-                if _g.group in _rm and _g.weight > 0:
-                    _a = _rm[_g.group]
-                    if _a:
-                        _adds[_a] = _adds.get(_a, 0.0) + _g.weight
-            for _a, _w in _adds.items():
-                _vgs[_a].add([_vert.index], _w, 'ADD')
-        for _n in _remove:
-            if _n in _vgs:
-                _m.vertex_groups.remove(_vgs[_n])
+        _vgn = {vg.index: vg.name for vg in _m.vertex_groups}
+        for _v in _m.data.vertices:
+            for _g in _v.groups:
+                if _g.weight > 0.001:
+                    _weighted.add(_vgn.get(_g.group))
+    _removed = 0
     bpy.context.view_layer.objects.active = arm
-    bpy.ops.object.mode_set(mode='EDIT')
-    for _n in _remove:
-        _eb = arm.data.edit_bones.get(_n)
-        if _eb:
-            arm.data.edit_bones.remove(_eb)
-    bpy.ops.object.mode_set(mode='OBJECT')
-    print("RIGANIM bone-cap: merged %d leaf/detail bones into parents -> %d bones (Amplitude 256-bone GPU limit)" % (len(_remove), len(arm.data.bones)))
+    while len(arm.data.bones) > _BONE_LIMIT:
+        _leaves = [b.name for b in arm.data.bones if len(b.children) == 0 and b.name not in _weighted]
+        if not _leaves:
+            break                                     # only weighted bones + their load-bearing ancestors remain
+        bpy.ops.object.mode_set(mode='EDIT')
+        for _n in _leaves:                            # remove every zero-weight leaf this pass (all safe to delete)
+            _eb = arm.data.edit_bones.get(_n)
+            if _eb:
+                arm.data.edit_bones.remove(_eb); _removed += 1
+        bpy.ops.object.mode_set(mode='OBJECT')        # a parent may become a new zero-weight leaf next pass
+    print("RIGANIM bone-cap: removed %d zero-weight leaf bones -> %d bones (Amplitude 256-bone GPU limit; weighted bones untouched)" % (_removed, len(arm.data.bones)))
 
 # CLIP SLICING (howitzer migration take 2, 2026-07-19): a clip name may carry a FRAME RANGE — "deploy[0..180]" —
 # and optionally a SPEED STEP — "deploy[179..0/3]" = every 3rd source frame, so the slice plays 3× faster (BAKE-ONLY
