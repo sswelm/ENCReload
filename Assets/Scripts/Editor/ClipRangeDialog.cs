@@ -1,7 +1,8 @@
 // ClipRangeDialog.cs — the CLIP RANGE PICKER (2026-07-19, user-designed). Opened from any clip field's ▶ button:
 // shows a playable/scrubbable 3D preview of the model's clips (via an "inspection FBX" — a pure Blender format
-// conversion carrying ALL clips, no rig surgery) with Start/End frame fields; Confirm writes `clip[start..end]`
-// (or the plain clip name for the full range) back into the field. This is how a modder finds segment boundaries
+// conversion carrying ALL clips, no rig surgery) with Start/End frame fields and a Speed /N step (every Nth source
+// frame = N× faster; pacing is bake-only — Law 3 — so this is where walk speed is authored, and Play previews at
+// that speed); Confirm writes `clip[start..end/N]` (or the plain clip name for the full range at /1) back into the field. This is how a modder finds segment boundaries
 // inside a long multi-motion clip (e.g. the M114's deploy 0..180 + recoil 180..250) without opening Blender.
 using System;
 using System.Collections.Generic;
@@ -21,7 +22,7 @@ public class ClipRangeDialog : EditorWindow
     string[] clipLabels = new string[0];
     int clipIdx;
     string instPath;                       // the FBX the current instance came from
-    float frame; int startF, endF;
+    float frame; int startF, endF; int stepN = 1;
     bool playing; double lastTick;
 
     // The instance is added to the PreviewRenderUtility's OWN SCENE (AddSingleGO) and rendered by its camera like
@@ -46,10 +47,14 @@ public class ClipRangeDialog : EditorWindow
 
     void Prepare(string currentSpec)
     {
-        // parse a pre-existing "name[a..b]" spec so the dialog reopens where the field points
-        string wantClip = currentSpec; int wantS = -1, wantE = -1;
-        var m = System.Text.RegularExpressions.Regex.Match(currentSpec, @"^(.*)\[(\d+)\.\.(\d+)\]$");
-        if (m.Success) { wantClip = m.Groups[1].Value; wantS = int.Parse(m.Groups[2].Value); wantE = int.Parse(m.Groups[3].Value); }
+        // parse a pre-existing "name[a..b]" / "name[a..b/N]" spec so the dialog reopens where the field points
+        string wantClip = currentSpec; int wantS = -1, wantE = -1; stepN = 1;
+        var m = System.Text.RegularExpressions.Regex.Match(currentSpec, @"^(.*)\[(\d+)\.\.(\d+)(?:/(\d+))?\]$");
+        if (m.Success)
+        {
+            wantClip = m.Groups[1].Value; wantS = int.Parse(m.Groups[2].Value); wantE = int.Parse(m.Groups[3].Value);
+            if (m.Groups[4].Success) stepN = Mathf.Max(1, int.Parse(m.Groups[4].Value));
+        }
 
         if (string.IsNullOrEmpty(resourceName) || string.IsNullOrEmpty(modelFile) || !System.IO.File.Exists(modelFile))
         { ShowNotification(new GUIContent("Needs a loaded entry with an existing model file.")); return; }
@@ -167,7 +172,9 @@ public class ClipRangeDialog : EditorWindow
         double now = EditorApplication.timeSinceStartup;
         if (playing && clips.Length > 0)
         {
-            frame += (float)((now - lastTick) * FPS);
+            // Speed step: /N keeps every Nth source frame at bake, so in-game the slice plays N× faster — the
+            // preview advances N× over the SOURCE frames, which is the same pace the baked clip will have.
+            frame += (float)((now - lastTick) * FPS * Mathf.Max(1, stepN));
             // Play LOOPS WITHIN the selected Start..End range (not the whole clip) so it previews exactly the slice
             // being captured. Reversed ranges (start>end) just loop the same span forward; a held stance (start==end)
             // parks on that frame. Falls back to the full clip only when no range is set.
@@ -251,13 +258,16 @@ public class ClipRangeDialog : EditorWindow
             frame = GUILayout.HorizontalSlider(frame, 0, total);
             if (EditorGUI.EndChangeCheck()) playing = false;   // scrubbing pauses
             GUILayout.Label($"frame {Mathf.RoundToInt(frame)} / {total}", GUILayout.Width(110));
+            GUILayout.Label(new GUIContent("Speed /", "Frame-skip step baked into the slice: /2 keeps every 2nd source frame, so the slice plays 2× faster in-game (pacing is bake-only — there is no runtime speed knob). ► Play previews at this speed."), GUILayout.Width(50));
+            stepN = Mathf.Max(1, EditorGUILayout.IntField(stepN, GUILayout.Width(28)));
+            GUILayout.Label(stepN > 1 ? $"= {stepN}× faster" : "(1 = authored pace)", GUILayout.Width(95));
         }
         startF = Mathf.Clamp(startF, 0, total);
         endF = Mathf.Clamp(endF, 0, total);
         EditorGUILayout.HelpBox(
             "Play or scrub to find where a motion begins/ends, capture the numbers with 'set current'. " +
             "Start > End plays the slice REVERSED (a fold from an unfold); Start = End is a held stance. " +
-            "Confirm writes the slice into the clip field.", MessageType.None);
+            "Speed /N bakes every Nth frame = N× faster (Play previews it). Confirm writes the slice into the clip field.", MessageType.None);
 
         // preview (own camera: drag orbits, scroll zooms — the wheel is consumed here)
         var rect = GUILayoutUtility.GetRect(200, 330, GUILayout.ExpandWidth(true));
@@ -267,7 +277,8 @@ public class ClipRangeDialog : EditorWindow
         using (new EditorGUILayout.HorizontalScope())
         {
             string clipName = clipNames[clipIdx];
-            string spec = (startF == 0 && endF == total) ? clipName : $"{clipName}[{startF}..{endF}]";
+            string spec = (startF == 0 && endF == total && stepN <= 1) ? clipName
+                        : $"{clipName}[{startF}..{endF}{(stepN > 1 ? "/" + stepN : "")}]";
             if (GUILayout.Button("Confirm:   " + spec, GUILayout.Height(30)))
             { onConfirm?.Invoke(spec); Close(); }
             if (GUILayout.Button("Cancel", GUILayout.Height(30), GUILayout.Width(90))) Close();
