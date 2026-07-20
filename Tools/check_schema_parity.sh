@@ -53,7 +53,7 @@ R=$(grep -oE 'Regex\.Matches\(text, "\\"[A-Za-z_][A-Za-z0-9_]*' "$PLUG" \
 # How the Newtonsoft path READS a key -> one-letter shape code (skel/atlas/clip are int arrays, position is a Vector3).
 ntype() {
   local K=$1 c
-  case $K in skel|atlas|clip|clipMove|clipAfter|clipAttack|clipCombat|clipPreMove) echo A; return;; position) echo V; return;; esac
+  case $K in skel|atlas|clip|clipMove|clipAfter|clipAttack|clipCombat|clipPreMove|clipIdle) echo A; return;; position) echo V; return;; esac
   c=$(grep -oE "\((string|bool\?|float|int)\)m\[\"$K\"\]" "$PLUG" | head -1 | sed -E 's/\(([a-z?]+)\).*/\1/')
   case $c in string) echo S;; "bool?") echo B;; float) echo F;; int) echo I;; *) echo "?";; esac
 }

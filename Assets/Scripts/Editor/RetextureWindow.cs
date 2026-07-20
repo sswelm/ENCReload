@@ -17,6 +17,7 @@ public class RetextureWindow : EditorWindow
     string pawn = "Era6_Common_StealthCorvettes_01";   // the pawn descriptor to retexture (a unique substring the plugin matches)
     string resourceName = "";                          // registry id for this override entry
     string pngPath = "";                               // the painted PNG to inject
+    float brightness = 1f;                             // gamma lift, 1 = unchanged (>1 lighter, <1 darker) — applied FIRST
     float desaturate = 0f;                             // 0 = keep colours, 1 = full grey
     float tintR = 0f, tintG = 0f, tintB = 0f;          // per-channel colour offset, -255..+255
     // Sound config (engine move sound + custom WAVs) lives EXCLUSIVELY in the dedicated Unit Sound window (SoundWindow.cs),
@@ -94,6 +95,10 @@ public class RetextureWindow : EditorWindow
             }
         }
         EditorGUILayout.LabelField("Adjustments — applied on top of the skin above (or the own atlas):", EditorStyles.miniLabel);
+        brightness = EditorGUILayout.Slider(new GUIContent("Brightness (gamma)",
+            "Gamma lift, applied FIRST: 1 = unchanged, >1 lighter, <1 darker. Multiplies along a curve that lifts dark/mid tones most " +
+            "while keeping black and white pinned — the right knob for 'this skin reads too dark in-game' (the RGB sliders are ADDITIVE: " +
+            "they shift every pixel equally and wash out before they meaningfully lighten a dark skin)."), brightness, 0.4f, 2.5f);
         desaturate = EditorGUILayout.Slider(new GUIContent("Desaturate",
             "0 = keep colours, 1 = full grey (pull each pixel toward its brightness)."), desaturate, 0f, 1f);
         tintR = EditorGUILayout.Slider(new GUIContent("Red  ±255",
@@ -102,7 +107,7 @@ public class RetextureWindow : EditorWindow
         tintB = EditorGUILayout.Slider(new GUIContent("Blue ±255", "Add (or subtract) blue."), tintB, -255f, 255f);
         using (new EditorGUILayout.HorizontalScope())
         {
-            if (GUILayout.Button("Reset adjustments", GUILayout.Width(150))) { desaturate = 0f; tintR = tintG = tintB = 0f; }
+            if (GUILayout.Button("Reset adjustments", GUILayout.Width(150))) { brightness = 1f; desaturate = 0f; tintR = tintG = tintB = 0f; }
             GUILayout.FlexibleSpace();
         }
 
@@ -122,7 +127,7 @@ public class RetextureWindow : EditorWindow
         // --- existing overrides ---
         EditorGUILayout.LabelField("Texture-only overrides", EditorStyles.boldLabel);
         scroll = EditorGUILayout.BeginScrollView(scroll, GUILayout.Height(150));
-        var overrides = existing.Where(x => x.desaturate > 0f || x.tintR != 0f || x.tintG != 0f || x.tintB != 0f || !string.IsNullOrEmpty(x.textureFile) || x.engineSound || !string.IsNullOrEmpty(x.soundFile) || !string.IsNullOrEmpty(x.soundStartFile) || !string.IsNullOrEmpty(x.soundStopFile)).ToList();
+        var overrides = existing.Where(x => x.desaturate > 0f || x.tintR != 0f || x.tintG != 0f || x.tintB != 0f || (x.brightness > 0f && Mathf.Abs(x.brightness - 1f) > 0.001f) || !string.IsNullOrEmpty(x.textureFile) || x.engineSound || !string.IsNullOrEmpty(x.soundFile) || !string.IsNullOrEmpty(x.soundStartFile) || !string.IsNullOrEmpty(x.soundStopFile)).ToList();
         if (overrides.Count == 0) EditorGUILayout.LabelField("  (none yet)", EditorStyles.miniLabel);
         foreach (var m in overrides)
             using (new EditorGUILayout.HorizontalScope())
@@ -132,6 +137,7 @@ public class RetextureWindow : EditorWindow
                 {
                     pawn = m.pawnDescription; resourceName = m.resourceName; editedEntry = m.resourceName;
                     desaturate = m.desaturate; tintR = m.tintR; tintG = m.tintG; tintB = m.tintB;
+                    brightness = m.brightness <= 0f ? 1f : m.brightness;   // entries saved before the knob existed carry 0 through JsonUtility — treat as unchanged
                     pngPath = "";   // sound stays put — it's owned by the Unit Sound window and untouched by Apply here
                     GUIUtility.ExitGUI();
                 }
@@ -153,7 +159,7 @@ public class RetextureWindow : EditorWindow
                             var def = ModelRegistry.Load().FirstOrDefault(x => x.resourceName == m.resourceName);
                             if (def != null)
                             {
-                                def.desaturate = 0f; def.tintR = 0f; def.tintG = 0f; def.tintB = 0f; def.textureFile = "";
+                                def.brightness = 1f; def.desaturate = 0f; def.tintR = 0f; def.tintG = 0f; def.tintB = 0f; def.textureFile = "";
                                 def.engineSound = false; def.engineStartEvent = ""; def.engineStopEvent = "";
                                 def.soundFile = ""; def.soundStartFile = ""; def.soundStopFile = "";
                                 def.soundVolume = 1f; def.soundStartVolume = 1f; def.soundStopVolume = 1f;
@@ -205,7 +211,7 @@ public class RetextureWindow : EditorWindow
         EnsureSource(src);
         if (srcPixels == null) { EditorGUILayout.HelpBox("Could not read '" + Path.GetFileName(src) + "' as an image.", MessageType.Warning); return; }
 
-        string sig = srcSig + "|" + desaturate + "|" + tintR + "|" + tintG + "|" + tintB;
+        string sig = srcSig + "|" + brightness + "|" + desaturate + "|" + tintR + "|" + tintG + "|" + tintB;
         if (sig != previewSig || previewTex == null) { BuildPreview(); previewSig = sig; }
 
         float ar = (float)srcH / Mathf.Max(1, srcW);
@@ -250,8 +256,17 @@ public class RetextureWindow : EditorWindow
         }
         var px = (Color32[])srcPixels.Clone();
         float s = Mathf.Clamp01(desaturate);
+        // gamma FIRST, then desaturate, then tint — the plugin's AdjustSkin order, mirrored exactly
+        byte[] lut = null;
+        if (Mathf.Abs(brightness - 1f) > 0.001f)
+        {
+            float inv = 1f / Mathf.Clamp(brightness, 0.2f, 4f);
+            lut = new byte[256];
+            for (int v = 0; v < 256; v++) lut[v] = (byte)Mathf.Clamp(Mathf.RoundToInt(255f * Mathf.Pow(v / 255f, inv)), 0, 255);
+        }
         for (int i = 0; i < px.Length; i++)
         {
+            if (lut != null) { px[i].r = lut[px[i].r]; px[i].g = lut[px[i].g]; px[i].b = lut[px[i].b]; }
             float lum = px[i].r * 0.299f + px[i].g * 0.587f + px[i].b * 0.114f;
             px[i].r = (byte)Mathf.Clamp((px[i].r + (lum - px[i].r) * s) + tintR, 0, 255);
             px[i].g = (byte)Mathf.Clamp((px[i].g + (lum - px[i].g) * s) + tintG, 0, 255);
@@ -282,6 +297,7 @@ public class RetextureWindow : EditorWindow
             { status = "Cancelled — press Edit on '" + resourceName + "' to load its settings first."; return; }
             def.resourceName = resourceName.Trim();
             def.pawnDescription = pawn.Trim();
+            def.brightness = Mathf.Clamp(brightness, 0.2f, 4f);
             def.desaturate = Mathf.Clamp01(desaturate);
             def.tintR = Mathf.Clamp(tintR, -255f, 255f);
             def.tintG = Mathf.Clamp(tintG, -255f, 255f);
@@ -299,7 +315,7 @@ public class RetextureWindow : EditorWindow
             // else: keep def.textureFile as-is (an existing entry's PNG, or "" to adjust the unit's own atlas).
 
             bool hasSkin = !string.IsNullOrEmpty(def.textureFile);
-            bool hasAdjust = def.desaturate > 0f || def.tintR != 0f || def.tintG != 0f || def.tintB != 0f;
+            bool hasAdjust = def.desaturate > 0f || def.tintR != 0f || def.tintG != 0f || def.tintB != 0f || Mathf.Abs(def.brightness - 1f) > 0.001f;
             bool hasSound = def.engineSound || !string.IsNullOrEmpty(def.soundFile) || !string.IsNullOrEmpty(def.soundStartFile) || !string.IsNullOrEmpty(def.soundStopFile);
             if (!hasSkin && !hasAdjust && !hasSound)   // truly-empty entry (no skin here, no sound from the Sound window)
             {
@@ -319,6 +335,7 @@ public class RetextureWindow : EditorWindow
     {
         var parts = new System.Collections.Generic.List<string>();
         if (!string.IsNullOrEmpty(m.textureFile)) parts.Add("skin " + m.textureFile);
+        if (m.brightness > 0f && Mathf.Abs(m.brightness - 1f) > 0.001f) parts.Add($"gamma {m.brightness:0.00}");
         if (m.desaturate > 0f) parts.Add($"desat {m.desaturate:0.00}");
         if (m.tintR != 0f || m.tintG != 0f || m.tintB != 0f) parts.Add($"rgb {m.tintR:+0;-0;0}/{m.tintG:+0;-0;0}/{m.tintB:+0;-0;0}");
         if (m.engineSound) parts.Add("engine");
