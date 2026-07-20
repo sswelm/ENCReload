@@ -75,6 +75,51 @@ if arm is None:
     print("RIGANIM ERROR: no armature found — the model is not rigged, use the normal (static) bake instead")
     sys.exit(1)
 
+# BONE-PARENT -> SKIN-WEIGHT CONVERSION (mech finding 2026-07-20): many downloaded mech/vehicle rigs never SKIN their
+# meshes (vertex weights); they RIGIDLY HANG each part off a bone via Blender bone-parenting (parent_type='BONE'),
+# often through intermediate empties or parent meshes (bone -> empty -> mesh, or bone -> mesh -> child mesh). Blender
+# animates that fine, but our pipeline JOINS all meshes into ONE skinned mesh and rebinds via VERTEX WEIGHTS —
+# bone-parenting carries NO weights, so the join drops every part's bone and all verts fall to bone #0 (Unity warns
+# "N verts with no weight -> assigned to bone #0"); the whole model then collapses onto the root bone in-game — it
+# lies flat and the arms fling up. Fix: BEFORE the join, convert each part's bone-parenting into a FULL-WEIGHT vertex
+# group on its governing bone + an armature modifier, so the join preserves per-part bone binding. Walk the parent
+# chain to find the governing bone (a child hung off a bone-parented mesh follows that same bone). BIND AT REST so the
+# armature deform is identity there — otherwise the modifier double-applies the current pose on top of the parented
+# position. Gated to convertRig (properly skinned rigs need none of this); a no-op when nothing is bone-parented.
+if convert_rig:
+    def _governing_bone(o):
+        cur = o
+        while cur is not None and cur.parent is not None:
+            if cur.parent_type == 'BONE' and cur.parent.type == 'ARMATURE' and cur.parent_bone:
+                return cur.parent_bone
+            cur = cur.parent
+        return None
+    _bp = [o for o in bpy.context.scene.objects if o.type == 'MESH' and _governing_bone(o) is not None]
+    if _bp:
+        _root_bone = next((b.name for b in arm.data.bones if b.parent is None), None)
+        _prev_pp = arm.data.pose_position
+        arm.data.pose_position = 'REST'                        # bind against rest: bone delta is identity there
+        bpy.context.view_layer.update()
+        _plan = [(o, _governing_bone(o), o.matrix_world.copy()) for o in _bp]   # capture bone + rest world BEFORE reparenting
+        _bound = 0
+        for _o, _bone, _mw in _plan:
+            _tgt = _bone if arm.data.bones.get(_bone) else _root_bone
+            if _tgt is None:
+                continue
+            _o.parent = arm                                   # re-home onto the armature OBJECT (not the bone)
+            _o.parent_type = 'OBJECT'
+            _o.parent_bone = ''
+            _o.matrix_parent_inverse = Matrix()               # clear the old bone-parent inverse ...
+            _o.matrix_world = _mw                             # ... then pin the rest-pose world position exactly
+            _vg = _o.vertex_groups.get(_tgt) or _o.vertex_groups.new(name=_tgt)
+            _vg.add(list(range(len(_o.data.vertices))), 1.0, 'REPLACE')
+            if not any(md.type == 'ARMATURE' for md in _o.modifiers):
+                _am = _o.modifiers.new("Armature", 'ARMATURE'); _am.object = arm
+            _bound += 1
+        arm.data.pose_position = _prev_pp
+        bpy.context.view_layer.update()
+        print("RIGANIM bone-parent->skin: bound %d rigidly-hung mesh(es) full-weight to their governing bones (was: no weights -> bone #0)" % _bound)
+
 # FLATTEN WRAPPER EMPTIES (mech finding 2026-07-20): glTF/FBX sources often wrap the rig in a parent empty (a
 # "group"/scene-root) carrying a NON-IDENTITY scale — the Light Assault Mech's was 0.010. convertRig's later
 # transform_apply only bakes an object's OWN transform, never an inherited parent scale, so that wrapper survived
