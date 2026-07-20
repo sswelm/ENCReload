@@ -85,6 +85,62 @@ def assign_action(a):
     except Exception as e:
         print("RIGANIM slot warn:", e)
 
+# BONE CAP (mech finding, 2026-07-20): Amplitude's GPU crowd-skinning caps at 256 bones; verts weighted to a bone
+# index >255 get garbage transforms and stretch into huge "wing" spikes in-game (invisible in Blender, which has no
+# limit). Detailed mech/robot rigs blow past it (the Light Assault Mech had 332 bones; 4084 verts / 5.6% flung).
+# Fix: merge LEAF bones (no surviving children) into their nearest surviving ancestor — transferring their skin
+# weights so the geometry follows the parent limb — prioritizing mechanical DETAIL (pistons/tubes/_end/targets),
+# until under a safe budget. No-op for rigs already under it (soldier 62, howitzer ~27), so proven models are
+# byte-identical. The important limb/gun bones are never leaves, so the animation is preserved.
+_BONE_LIMIT = 240
+if len(arm.data.bones) > _BONE_LIMIT:
+    _skmesh = [m for m in bpy.data.objects if m.type == 'MESH' and m.find_armature() == arm]
+    _parent = {b.name: (b.parent.name if b.parent else None) for b in arm.data.bones}
+    _children = {b.name: set(c.name for c in b.children) for b in arm.data.bones}
+    _survivors = set(b.name for b in arm.data.bones)
+    _detail = lambda n: any(k in n.lower() for k in ("piston", "tube", "_end", "target", "secondary", "limb"))
+    _remove = []
+    while len(_survivors) > _BONE_LIMIT:
+        _leaves = [n for n in _survivors if _parent[n] and not (_children[n] & _survivors)]
+        if not _leaves:
+            break
+        _leaves.sort(key=lambda n: (0 if _detail(n) else 1, n))
+        _v = _leaves[0]
+        _survivors.discard(_v); _remove.append(_v)
+    def _surv_anc(n):
+        p = _parent[n]
+        while p is not None and p not in _survivors:
+            p = _parent[p]
+        return p
+    _remap = {n: _surv_anc(n) for n in _remove}
+    for _m in _skmesh:
+        _vgs = {vg.name: vg for vg in _m.vertex_groups}
+        for _n in _remove:
+            _anc = _remap[_n]
+            if _anc and _anc not in _vgs:
+                _vgs[_anc] = _m.vertex_groups.new(name=_anc)
+        _rm = {_vgs[_n].index: _remap[_n] for _n in _remove if _n in _vgs}
+        for _vert in _m.data.vertices:
+            _adds = {}
+            for _g in _vert.groups:
+                if _g.group in _rm and _g.weight > 0:
+                    _a = _rm[_g.group]
+                    if _a:
+                        _adds[_a] = _adds.get(_a, 0.0) + _g.weight
+            for _a, _w in _adds.items():
+                _vgs[_a].add([_vert.index], _w, 'ADD')
+        for _n in _remove:
+            if _n in _vgs:
+                _m.vertex_groups.remove(_vgs[_n])
+    bpy.context.view_layer.objects.active = arm
+    bpy.ops.object.mode_set(mode='EDIT')
+    for _n in _remove:
+        _eb = arm.data.edit_bones.get(_n)
+        if _eb:
+            arm.data.edit_bones.remove(_eb)
+    bpy.ops.object.mode_set(mode='OBJECT')
+    print("RIGANIM bone-cap: merged %d leaf/detail bones into parents -> %d bones (Amplitude 256-bone GPU limit)" % (len(_remove), len(arm.data.bones)))
+
 # CLIP SLICING (howitzer migration take 2, 2026-07-19): a clip name may carry a FRAME RANGE — "deploy[0..180]" —
 # and optionally a SPEED STEP — "deploy[179..0/3]" = every 3rd source frame, so the slice plays 3× faster (BAKE-ONLY
 # pacing: a 7.5 s authored fold outlasts a one-tile map move; at /3 it completes in 2.5 s — the runtime deliberately
