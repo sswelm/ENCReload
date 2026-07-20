@@ -239,6 +239,10 @@ public class ClipRangeDialog : EditorWindow
             if (GUILayout.Button(new GUIContent("◄ set current", "Copy the preview's current frame into this field"), GUILayout.Width(95))) endF = Mathf.RoundToInt(frame);
             if (GUILayout.Button(new GUIContent("go ►", "Jump the preview TO this frame (the reverse of 'set current')"), GUILayout.Width(45)))
             { playing = false; frame = Mathf.Clamp(endF, 0, total); GUI.FocusControl(null); Repaint(); }
+            GUILayout.Space(12);
+            GUILayout.Label(new GUIContent("Speed /", "Frame-skip step baked into the slice: /2 keeps every 2nd source frame, so the slice plays 2× faster in-game (pacing is bake-only — there is no runtime speed knob). ► Play previews at this speed."), GUILayout.Width(50));
+            stepN = Mathf.Max(1, EditorGUILayout.IntField(stepN, GUILayout.Width(28)));
+            GUILayout.Label(stepN > 1 ? $"= {stepN}× faster" : "(1 = authored pace)", GUILayout.Width(95));
         }
 
         // transport row BELOW Start/End (user call): the controls sit adjacent to the preview they drive
@@ -258,9 +262,6 @@ public class ClipRangeDialog : EditorWindow
             frame = GUILayout.HorizontalSlider(frame, 0, total);
             if (EditorGUI.EndChangeCheck()) playing = false;   // scrubbing pauses
             GUILayout.Label($"frame {Mathf.RoundToInt(frame)} / {total}", GUILayout.Width(110));
-            GUILayout.Label(new GUIContent("Speed /", "Frame-skip step baked into the slice: /2 keeps every 2nd source frame, so the slice plays 2× faster in-game (pacing is bake-only — there is no runtime speed knob). ► Play previews at this speed."), GUILayout.Width(50));
-            stepN = Mathf.Max(1, EditorGUILayout.IntField(stepN, GUILayout.Width(28)));
-            GUILayout.Label(stepN > 1 ? $"= {stepN}× faster" : "(1 = authored pace)", GUILayout.Width(95));
         }
         startF = Mathf.Clamp(startF, 0, total);
         endF = Mathf.Clamp(endF, 0, total);
