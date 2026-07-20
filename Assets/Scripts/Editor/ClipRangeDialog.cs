@@ -168,8 +168,14 @@ public class ClipRangeDialog : EditorWindow
         if (playing && clips.Length > 0)
         {
             frame += (float)((now - lastTick) * FPS);
+            // Play LOOPS WITHIN the selected Start..End range (not the whole clip) so it previews exactly the slice
+            // being captured. Reversed ranges (start>end) just loop the same span forward; a held stance (start==end)
+            // parks on that frame. Falls back to the full clip only when no range is set.
             int total = Mathf.Max(1, TotalFrames);
-            if (frame > total) frame -= total;   // loop
+            int lo = Mathf.Clamp(Mathf.Min(startF, endF), 0, total);
+            int hi = Mathf.Clamp(Mathf.Max(startF, endF), 0, total);
+            if (hi <= lo) { frame = lo; }                       // held stance — sit on the frame
+            else { if (frame > hi) frame = lo + (frame - hi) % (hi - lo); if (frame < lo) frame = lo; }
             Repaint();
         }
         lastTick = now;
@@ -231,7 +237,12 @@ public class ClipRangeDialog : EditorWindow
         // transport row BELOW Start/End (user call): the controls sit adjacent to the preview they drive
         using (new EditorGUILayout.HorizontalScope())
         {
-            if (GUILayout.Button(playing ? "❚❚ Pause" : "► Play", GUILayout.Width(80))) playing = !playing;
+            if (GUILayout.Button(playing ? "❚❚ Pause" : "► Play", GUILayout.Width(80)))
+            {
+                playing = !playing;
+                // start playback at the range's beginning if the playhead is outside the Start..End slice
+                if (playing) { int lo = Mathf.Min(startF, endF), hi = Mathf.Max(startF, endF); if (frame < lo || frame > hi) frame = lo; }
+            }
             if (GUILayout.Button(new GUIContent("|◄", "One frame back (also ← key; Shift+← = 10 back)"), GUILayout.Width(30)))
             { playing = false; frame = Mathf.Max(0, Mathf.Round(frame) - 1); GUI.FocusControl(null); Repaint(); }
             if (GUILayout.Button(new GUIContent("►|", "One frame forward (also → key; Shift+→ = 10 forward)"), GUILayout.Width(30)))
