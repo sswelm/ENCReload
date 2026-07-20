@@ -995,6 +995,7 @@ public class ModelFactoryWindow : EditorWindow
         cur.clipAttack = cfg.animated && cfg.animStateDriven && !string.IsNullOrEmpty(r.clipAttackGuid) ? ModelRegistry.ParseGuid(r.clipAttackGuid) : new int[4];
         cur.clipCombat = cfg.animated && cfg.animStateDriven && !string.IsNullOrEmpty(r.clipCombatGuid) ? ModelRegistry.ParseGuid(r.clipCombatGuid) : new int[4];
         cur.clipPreMove = cfg.animated && cfg.animStateDriven && !string.IsNullOrEmpty(r.clipPreMoveGuid) ? ModelRegistry.ParseGuid(r.clipPreMoveGuid) : new int[4];
+        cur.clipIdle = cfg.animated && cfg.animStateDriven && !string.IsNullOrEmpty(r.clipIdleGuid) ? ModelRegistry.ParseGuid(r.clipIdleGuid) : new int[4];   // was DROPPED — a Factory bake shipped a dead idle-override GUID (the "forgot to deploy" trap); mirrors the Lab's capture
         bool saved = ModelRegistry.Upsert(cur);
         RefreshList();
         selected = System.Array.IndexOf(existing, cur.resourceName); if (selected < 0) selected = 0;
