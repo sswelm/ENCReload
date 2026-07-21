@@ -48,8 +48,38 @@ internal static class VanillaConsoleNoiseFilter
 
     static VanillaConsoleNoiseFilter()
     {
+        // Keep the side-log bounded (1,500+ entries accumulate fast — the SDK NRE fires once per narrative-event
+        // validate). Over 2 MB the file is rotated to .old (one generation kept), so it never grows unbounded.
+        try
+        {
+            var p = LogFile();
+            if (p != null && File.Exists(p) && new FileInfo(p).Length > 2_000_000)
+            { File.Copy(p, p + ".old", true); File.Delete(p); }
+        }
+        catch { }
         if (Debug.unityLogger.logHandler is FilterHandler) return;   // already installed
         Debug.unityLogger.logHandler = new FilterHandler(Debug.unityLogger.logHandler);
+    }
+
+    [MenuItem("Tools/HAF/Suppressed Console Noise — open log")]
+    private static void OpenSuppressedLog()
+    {
+        var p = LogFile();
+        if (p != null && File.Exists(p)) EditorUtility.OpenWithDefaultApp(p);
+        else EditorUtility.DisplayDialog("Suppressed console noise", "Nothing has been suppressed yet — the side-log doesn't exist.", "OK");
+    }
+
+    [MenuItem("Tools/HAF/Suppressed Console Noise — clear log")]
+    private static void ClearSuppressedLog()
+    {
+        try
+        {
+            var p = LogFile();
+            if (p != null && File.Exists(p)) File.Delete(p);
+            if (p != null && File.Exists(p + ".old")) File.Delete(p + ".old");
+            Debug.Log("[VanillaNoiseFilter] side-log cleared.");
+        }
+        catch (Exception e) { Debug.LogWarning("[VanillaNoiseFilter] clear failed: " + e.Message); }
     }
 
     private static bool Matches(string s) =>
