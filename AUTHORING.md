@@ -71,6 +71,41 @@ Units were the first injection axis; the same bake core now drives two more, eac
   MeshCollection + fragment assets; the plugin registers the collection at load. See
   [`Pawn-Props.md`](https://github.com/sswelm/HumankindAssetFramework/blob/master/docs/Pawn-Props.md).
 
+## Cavalry & chariots need a mount (`PresentationMountDefinition`)
+
+Every unit whose presentation definition has **`UnitSpecification: Cavalry` or `Chariot`** must have at least one
+matching **mount** entry in `Assets/Databases/UnitPresentation/PresentationMountDefinition.asset`, or the game logs
+`No Variation for this presentation unit definition <name>` on every spawn of that unit. A mount is a
+`PresentationSecondaryPawnDefinition` (the horse/camel/chariot-team) that carries the mount mesh; the rider is a
+separate pawn. When the mod **re-declares** a vanilla cavalry unit's presentation in an `_ENC` file, it drops the
+vanilla mount linkage — so the mount must be re-added here. This is *the* cause of the long-standing cavalry log
+spam.
+
+**Recipe (per unit):**
+1. In `PresentationMountDefinition.asset`, duplicate a **working, plain** mount — e.g. `Era3_Common_Knights_Mount_01`
+   (Era 3 horse) or `Era5_Common_Dragoons_Mount_01` (Era 5 horse). Clone chariots from a vanilla chariot mount in
+   `Assets/~References/`.
+2. Change **only** the mount's `PresentationUnitDefinition` reference to the target unit's
+   `PresentationLandUnit_…_Default`. The mount's *name* is cosmetic — the engine matches on that reference, not the
+   name. Leave `Description` and `Attachements` alone (they carry the horse meshes that already resolve in the bundle).
+3. Export the mod and launch; the unit's `No Variation` line is gone. Find the full to-do list by cross-referencing
+   every `UnitSpecification: 1|2` presentation unit against the mounts already present.
+
+**Traps (each cost a crash-and-reset — learned the hard way):**
+- **One mount is enough** to clear the error (the engine check is `MountDefinitionsPerVisualAffinities.Length == 0`).
+  The vanilla count of **5** is *visual variety* — five differently-skinned horses picked at random per spawn, not a
+  requirement. Five identical-except-name clones render the same horse and buy nothing; do one per unit unless you
+  actually vary each clone's `characterPalette`.
+- **Clone plain mounts, not culture-affinity ones.** A mount cloned from a `…AztecEmpire`-affinity variant onto a
+  different unit destabilizes the load (a `LoadAsset`/`AnimatorControllerCollection` crash → generic
+  `Mismatched mods` dialog + config reset), even when its top-level references look identical to a working mount.
+- **`AnimatorOverrideController: <None>` is normal** for mounts — they animate via their `AnimationCapabilityProfile`
+  (Mount), not an override. A null there is not the bug.
+- A load failure shows only the generic **"Mismatched mods"** dialog; the real error is in the newest
+  `Diagnostics (…).html` under `<GameData>\Humankind\Temporary Files`, after `Loading runtime module 'encreload'`.
+  The `No Variation` lines only appear for units that actually **spawned** that session — the log is not the full
+  list, so enumerate from the data.
+
 ## Technology stack
 
 | Layer | Technology |
