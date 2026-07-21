@@ -31,6 +31,18 @@ internal static class VanillaConsoleNoiseFilter
         "Datatable element collection guid is missing",  // vanilla collection-mount warning spam
     };
 
+    // Two-part exception rules: BOTH the message AND the stack trace must match. For Unity-internal noise whose
+    // message alone is too generic to filter safely — our own EditorWindows can throw the same message for a REAL
+    // layout bug, and theirs must stay red (their stacks don't go through the Inspector's IMGUI host).
+    private static readonly (string msg, string stack)[] ExceptionPairs =
+    {
+        // IMGUI Layout/Repaint control-count mismatch inside the INSPECTOR pane ("Getting control N's position in a
+        // group with only M controls when doing repaint", rethrown as ImmediateModeException). A single-frame repaint
+        // abort in whatever custom/SDK inspector is hosted for the current selection — harmless, recurring, Unity
+        // 2021-era. Only suppressed when the stack shows the Inspector IMGUI host (InspectorElement).
+        ("position in a group with only", "InspectorElement"),
+    };
+
     private static int _count;
     private static bool _announced;
 
@@ -83,6 +95,14 @@ internal static class VanillaConsoleNoiseFilter
                 Record(_inner, "EXCEPTION " + exception.GetType().Name + ": " + exception.Message + "\n" + exception.StackTrace);
                 return;
             }
+            if (exception != null && exception.Message != null && exception.StackTrace != null)
+                foreach (var p in ExceptionPairs)
+                    if (exception.Message.IndexOf(p.msg, StringComparison.Ordinal) >= 0
+                        && exception.StackTrace.IndexOf(p.stack, StringComparison.Ordinal) >= 0)
+                    {
+                        Record(_inner, "EXCEPTION " + exception.GetType().Name + ": " + exception.Message + "\n" + exception.StackTrace);
+                        return;
+                    }
             _inner.LogException(exception, context);
         }
 
