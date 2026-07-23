@@ -156,6 +156,24 @@ them before committing changes to the baker, the `Tools/` scripts, or the regist
 - **Schema parity** — `bash Tools/check_schema_parity.sh`. Verifies every registry key the runtime plugin reads is a
   field the baker writes, so the two hand-synced schemas can't silently drift.
 
+## Adding a brand-NEW unit (the gameplay databases)
+
+The Factory gives a unit its *look*; a **new** unit also needs gameplay data. The pattern is **clone an existing
+similar unit's blocks** across five database assets (the Abomination — an animal cloned from the Animal presentation
+family — is the reference example for creatures; the Light Assault Mech for vehicles):
+
+1. **`Assets/Databases/Unit/LandUnitDefinition.asset`** — the unit itself: stats, movement, era, cost, class.
+2. **`Assets/Databases/Unit/UnitFamilyDefinitionENC.asset`** — add it to a family so it appears in the roster.
+3. **`Assets/Databases/Unit/LandUnitUIMappers.asset`** — display name, description, and portrait wiring.
+4. **A technology unlock** — `Assets/Databases/Technologies/TechnologyDefinitionENC.asset` (or the era tech of your choice).
+5. **Presentation definitions** — `PresentationPawnDefinition_*` + `PresentationUnitDefinition_Era*_ENC`: clone the
+   donor's pawn description under a new name (e.g. `Era4_Common_Tigers_01`) **with the visual levels cleared** — this
+   name is what the Factory entry's *Target pawn* points at, the contract between gameplay data and the injected model.
+
+Then the usual loop: Factory entry on that pawn description → bake → rebuild the mod → the unit exists in-game with
+your model. Sanity checks: the unit buildable via its tech, correct era art *fallback* until your bake lands, and
+`NoAttackRotation`/`SubPawnComposition` inherited from a donor that behaves the way your unit should.
+
 ## Notes
 
 - **Model licensing is your responsibility.** Baking embeds a model's geometry into the shipped mod. Only bake models
