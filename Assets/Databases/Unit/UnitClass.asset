@@ -217,6 +217,27 @@ MonoBehaviour:
     RawValue: 1000
   InstantResolveAttackingOrder: 1
   InstantResolveBlockingOrder: 1
+--- !u!114 &-810773514532257491
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -553307230, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitClass_Melee
+  m_EditorClassIdentifier: 
+  Prototype:
+    serializableElementName: UnitClass_Prototype_LandUnit
+  OwnAbilityReferences:
+  - serializableElementName: UnitAbility_Prototype_Melee
+  - serializableElementName: UnitAbility_CannotTargetSeafaring
+  InstantResolveBattleStrengthBonus:
+    RawValue: 0
+  InstantResolveAttackingOrder: 3
+  InstantResolveBlockingOrder: 1
 --- !u!114 &-376798785512573013
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -310,6 +331,49 @@ MonoBehaviour:
     RawValue: 1000
   InstantResolveAttackingOrder: 1
   InstantResolveBlockingOrder: 3
+--- !u!114 &4220060535688807134
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -553307230, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitClass_Monster
+  m_EditorClassIdentifier: 
+  Prototype:
+    serializableElementName: UnitClass_Prototype_LandUnit
+  OwnAbilityReferences:
+  - serializableElementName: UnitAbility_Prototype_Monster
+  - serializableElementName: UnitAbility_CannotTargetSeafaring
+  - serializableElementName: UnitAbility_IgnoreZoneOfControl
+  InstantResolveBattleStrengthBonus:
+    RawValue: -1000
+  InstantResolveAttackingOrder: 1
+  InstantResolveBlockingOrder: 1
+--- !u!114 &5794853005569291167
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -553307230, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitClass_Animal
+  m_EditorClassIdentifier: 
+  Prototype:
+    serializableElementName: UnitClass_Prototype_LandUnit
+  OwnAbilityReferences:
+  - serializableElementName: UnitAbility_Prototype_Animal
+  - serializableElementName: UnitAbility_CannotTargetSeafaring
+  InstantResolveBattleStrengthBonus:
+    RawValue: -1000
+  InstantResolveAttackingOrder: 1
+  InstantResolveBlockingOrder: 1
 --- !u!114 &6262694060627237953
 MonoBehaviour:
   m_ObjectHideFlags: 0
