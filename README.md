@@ -124,7 +124,7 @@ HAF enables features that were previously impossible in Humankind modding, inclu
 - Custom weapons and props (down to a rifle in a soldier's hands)
 - Custom projectiles
 - Runtime textures
-- Custom sounds (engine, movement, creature voices with idle growl + attack roar)
+- Custom sounds (engine, movement, creature voices: idle growl, attack roar, death rattle, battle war cry)
 - Multi-mod asset packs
 
 While ENCReload is fully playable on its own, it also serves as a showcase of what HAF makes possible for the
