@@ -22,6 +22,8 @@ public class SoundWindow : EditorWindow
     string loopFile = "", loopPath = "";  float loopVol = 1f;     // Travel loop
     string stopFile = "", stopPath = "";  float stopVol = 1f;     // Stop spool-down
     bool engineSound = false; string engineStart = "", engineStop = "";   // game (Wwise) engine event alternative
+    bool silenceDonor = false;   // suppress the borrowed donor's inherited Wwise sound (idle growl + combat maul)
+    string idleFile = "", idlePath = ""; float idleVol = 1f, idleInterval = 11f;   // occasional idle growl (one-shot on a timer)
     Vector2 scroll; string status = "";
 
     static string SoundsDir => Path.Combine(ModelRegistry.ConfigDir, "enc_sounds");
@@ -67,6 +69,19 @@ public class SoundWindow : EditorWindow
         }
 
         EditorGUILayout.Space();
+        EditorGUILayout.LabelField("Idle growl (occasional, while standing)", EditorStyles.boldLabel);
+        WavVolRow("Idle growl", idleFile, ref idlePath, ref idleVol);
+        idleInterval = EditorGUILayout.Slider(new GUIContent("  avg interval (s)",
+            "Average seconds between idle growls; jittered 0.6–1.4× per unit so a pack doesn't growl in unison. 0 = off."), idleInterval, 0f, 40f);
+
+        EditorGUILayout.Space();
+        EditorGUILayout.LabelField("Suppress inherited donor sound", EditorStyles.boldLabel);
+        silenceDonor = EditorGUILayout.ToggleLeft(new GUIContent("Silence the borrowed donor's Wwise sound (idle growl + combat maul)",
+            "For a custom creature that reuses a donor (e.g. the Abomination borrows a BEAR): the donor's idle growl and " +
+            "attack maul/scratch ride in on the reused animator and can't be nulled in data. This drops them at runtime. " +
+            "Only silences the game's (Wwise) sound — your custom WAVs above still play, so use both to REPLACE the sound."), silenceDonor);
+
+        EditorGUILayout.Space();
         using (new EditorGUILayout.HorizontalScope())
         {
             using (new EditorGUI.DisabledScope(string.IsNullOrEmpty(pawn)))
@@ -88,7 +103,7 @@ public class SoundWindow : EditorWindow
                 if (GUILayout.Button("Edit", GUILayout.Width(46))) { LoadForPawn(m.pawnDescription, all); GUIUtility.ExitGUI(); }
                 if (GUILayout.Button("Clear", GUILayout.Width(52)))
                 {
-                    m.soundStartFile = m.soundFile = m.soundStopFile = ""; m.engineSound = false; m.engineStartEvent = m.engineStopEvent = "";
+                    m.soundStartFile = m.soundFile = m.soundStopFile = m.soundIdleFile = ""; m.engineSound = false; m.engineStartEvent = m.engineStopEvent = ""; m.silenceDonorAudio = false;
                     ModelRegistry.Upsert(m); status = "Cleared audio on '" + m.pawnDescription + "'."; GUIUtility.ExitGUI();
                 }
             }
@@ -105,13 +120,17 @@ public class SoundWindow : EditorWindow
             startFile = m.soundStartFile; loopFile = m.soundFile; stopFile = m.soundStopFile;
             startVol = m.soundStartVolume; loopVol = m.soundVolume; stopVol = m.soundStopVolume;
             engineSound = m.engineSound; engineStart = m.engineStartEvent; engineStop = m.engineStopEvent;
+            silenceDonor = m.silenceDonorAudio;
+            idleFile = m.soundIdleFile; idleVol = m.soundIdleVolume; idleInterval = m.soundIdleInterval;
         }
         else
         {
             resourceName = "Sound_" + Sanitize(p);
             startFile = loopFile = stopFile = ""; startVol = loopVol = stopVol = 1f;
-            engineSound = false; engineStart = engineStop = "";
+            engineSound = false; engineStart = engineStop = ""; silenceDonor = false;
+            idleFile = ""; idleVol = 1f; idleInterval = 11f;
         }
+        idlePath = "";
         startPath = loopPath = stopPath = ""; status = "";
     }
 
@@ -169,10 +188,13 @@ public class SoundWindow : EditorWindow
             if (!CopyWav(startPath, def.resourceName + "_start", ref def.soundStartFile)) return;
             if (!CopyWav(loopPath, def.resourceName + "_loop", ref def.soundFile)) return;
             if (!CopyWav(stopPath, def.resourceName + "_stop", ref def.soundStopFile)) return;
+            if (!CopyWav(idlePath, def.resourceName + "_idle", ref def.soundIdleFile)) return;
             def.soundStartVolume = startVol; def.soundVolume = loopVol; def.soundStopVolume = stopVol;
+            def.soundIdleVolume = idleVol; def.soundIdleInterval = idleInterval;
             def.engineSound = engineSound;
             def.engineStartEvent = engineSound ? (engineStart ?? "").Trim() : "";
             def.engineStopEvent = engineSound ? (engineStop ?? "").Trim() : "";
+            def.silenceDonorAudio = silenceDonor;
 
             bool ok = ModelRegistry.Upsert(def);
             status = ok ? $"Saved audio for '{def.pawnDescription}' ({DescribeAudio(def)}).\nRelaunch (or reload a save) to hear it."
@@ -193,14 +215,16 @@ public class SoundWindow : EditorWindow
         return true;
     }
 
-    static bool HasAudio(ModelDef m) => m.engineSound || !string.IsNullOrEmpty(m.soundFile) || !string.IsNullOrEmpty(m.soundStartFile) || !string.IsNullOrEmpty(m.soundStopFile);
+    static bool HasAudio(ModelDef m) => m.engineSound || m.silenceDonorAudio || !string.IsNullOrEmpty(m.soundFile) || !string.IsNullOrEmpty(m.soundStartFile) || !string.IsNullOrEmpty(m.soundStopFile) || !string.IsNullOrEmpty(m.soundIdleFile);
     static string DescribeAudio(ModelDef m)
     {
         var p = new List<string>();
         if (!string.IsNullOrEmpty(m.soundStartFile)) p.Add("start");
         if (!string.IsNullOrEmpty(m.soundFile)) p.Add("loop");
         if (!string.IsNullOrEmpty(m.soundStopFile)) p.Add("stop");
+        if (!string.IsNullOrEmpty(m.soundIdleFile)) p.Add("idle");
         if (m.engineSound) p.Add("wwise");
+        if (m.silenceDonorAudio) p.Add("silenced");
         return p.Count > 0 ? string.Join("+", p) : "none";
     }
     // ---- editor audio preview (Unity's internal UnityEditor.AudioUtil, resolved by reflection across versions) ----
