@@ -687,6 +687,12 @@ public class AnimationLabWindow : EditorWindow
             "Tick it when a rig plays fine in the preview but tears apart / displaces in-game; usually paired with " +
             "Fix 100× OFF. Re-bake after changing."),
             cur.convertRig);
+        cur.autoGroundWheels = EditorGUILayout.Toggle(new GUIContent("Auto-ground wheels (vehicles)",
+            "Sit a rigged VEHICLE on the terrain automatically — no manual Position-offset dial. The bake measures how " +
+            "far the ROTATING (wheel) bones stick out below the static body and lifts the rig by exactly that. Tick it " +
+            "for a car/tank with spinning wheels. Leave OFF for a full-body rig (mech/soldier) or a deploy rig " +
+            "(howitzer) — their moving parts aren't wheels and would be mis-measured. Re-bake after changing."),
+            cur.autoGroundWheels);
         if (!UniversalBaker.BlenderAvailable())
             EditorGUILayout.HelpBox("The animated bake needs Blender (to slim the rig + bake the clip) — it wasn't found. " +
                 "Install Blender or set EditorPrefs 'ENC.blenderPath' to blender.exe.", MessageType.Warning);
@@ -779,7 +785,7 @@ public class AnimationLabWindow : EditorWindow
         // Blender the OLD file and failed with "no clip". Keep the Lab's chosen file so Browse actually sticks.
         if (!string.IsNullOrWhiteSpace(mine.modelFile)) cur.modelFile = mine.modelFile;
         cur.animClip = mine.animClip; cur.animateBones = mine.animateBones; cur.animUnitFix = mine.animUnitFix;
-        cur.convertRig = mine.convertRig;
+        cur.convertRig = mine.convertRig; cur.autoGroundWheels = mine.autoGroundWheels;
         cur.deployConvert = mine.deployConvert; cur.deployStart = mine.deployStart; cur.deployEnd = mine.deployEnd;
         cur.deployStrip = mine.deployStrip; cur.deployReadyFrame = mine.deployReadyFrame; cur.deployLegScale = mine.deployLegScale; cur.deployBarrelScale = mine.deployBarrelScale;
         cur.deployRecoil = mine.deployRecoil; cur.deployRecoilStep = mine.deployRecoilStep; cur.deployRecoilMag = mine.deployRecoilMag; cur.deployArcR = mine.deployArcR; cur.deployRecoilReturn = mine.deployRecoilReturn; cur.deploySlamDeg = mine.deploySlamDeg; cur.deploySlamSettle = mine.deploySlamSettle;
