@@ -22,6 +22,10 @@
 /Assets/*
 !/Assets/Databases
 !/Assets/Scripts
+# The self-contained HAF pack (source of truth): pack.json + sounds/ + skins/, shipped as one directory.
+# These are runtime FILE-assets (raw WAV/PNG read by the plugin), not Unity assets — keep their .meta out.
+!/Assets/Pack
+/Assets/Pack/**/*.meta
 
 # --- Packages: only the dependency manifests, NOT the downloaded PackageCache ---
 /Packages/*
