@@ -29,6 +29,11 @@ internal static class VanillaConsoleNoiseFilter
     {
         "EnumerateSimulationEventVariables",             // NarrativeEventDefinition NRE at startup
         "Datatable element collection guid is missing",  // vanilla collection-mount warning spam
+        // The SDK's ModuleEditor (mod-build window) aborts a layout scope when a build is CANCELLED and spams this
+        // per repaint (ModuleEditor.cs:438, GUI/Scope:Dispose). Message-only match — a LogFormat carries no stack to
+        // pair on — so a genuine layout bug in OUR windows would be relocated too; acceptable because relocated ≠
+        // lost (see the side-log), and ours would show up loudly in other ways (broken window layout on screen).
+        "EndLayoutGroup: BeginLayoutGroup must be called first",
     };
 
     // Two-part exception rules: BOTH the message AND the stack trace must match. For Unity-internal noise whose
