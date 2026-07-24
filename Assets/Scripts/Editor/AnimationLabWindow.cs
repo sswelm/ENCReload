@@ -773,6 +773,11 @@ public class AnimationLabWindow : EditorWindow
         var mine = cur;
         cur = JsonUtility.FromJson<ModelDef>(JsonUtility.ToJson(reg));
         cur.animated = true;
+        // The Lab has its OWN Model-file Browse (to repoint a moved file, or to swap a static export for the rigged one).
+        // Without preserving it here, RebaseOnRegistry silently reverts modelFile to the registry's value at bake time —
+        // so Browsing to the animated GLB looked like it worked (the clip picker reads the live field) but the bake fed
+        // Blender the OLD file and failed with "no clip". Keep the Lab's chosen file so Browse actually sticks.
+        if (!string.IsNullOrWhiteSpace(mine.modelFile)) cur.modelFile = mine.modelFile;
         cur.animClip = mine.animClip; cur.animateBones = mine.animateBones; cur.animUnitFix = mine.animUnitFix;
         cur.convertRig = mine.convertRig;
         cur.deployConvert = mine.deployConvert; cur.deployStart = mine.deployStart; cur.deployEnd = mine.deployEnd;
