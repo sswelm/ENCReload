@@ -15,7 +15,7 @@ Status: ✅ verified redistributable · ⚠ needs checking · ❌ do NOT ship
 | Resource (in‑game) | Source file | Author / Source URL | License | Status |
 |---|---|---|---|---|
 | Abominations | scp-682_low-poly_style.glb | **SCP‑682 low‑poly style** by **CommunicationNode** (Sketchfab) | **CC BY‑SA** (attribution + share‑alike; commercial ok) | ✅ |
-| HandCrankedSubmarines | submarine_diver.glb | **"Submarine Diver"** by **Tucuru@3D** — **Fab** (fab.com), purchased 2026‑07‑08, invoice A1122204036 | **Fab license** (Personal/Professional — TBD): confirm it permits inclusion in a distributed game/mod, and check the "standalone / extractable" restriction (mod bundles are extractable). License page: fab.com Library → this item. | ⚠ |
+| HandCrankedSubmarines | submarine_diver.glb | **"Submarine 'Diver'"** by **Fareastern Loner** (store: Tucuru@3D) — **Fab** (fab.com), purchased 2026‑07‑08, invoice A1122204036. *Seller notes some textures are from Texture.com — seller's responsibility to have cleared for resale; buyer relies on the Fab license.* | **Fab Personal license** (fab.com/eula): permits distributing content **incorporated into a Project** (a game/mod qualifies); not on a standalone basis / not to enable third‑party reuse. Sub is 1 of 16 incorporated units → satisfies "incorporated, not standalone". No attribution required (crediting anyway). ✅ likely OK; final confirm = read the EULA's License Grant/Distribution clause. | ✅* |
 | AttackHelicopter | Cobra.glb | __ | __ | ⚠ |
 | DroneSquadFPV | combine_soldier.glb | __ | __ | ⚠ |
 | Hovercraft | lcac_esboco.glb | __ | __ | ⚠ |
