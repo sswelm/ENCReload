@@ -618,6 +618,25 @@ public class AnimationLabWindow : EditorWindow
                 cur.turretAxis,
                 new[] { new GUIContent("Default (game aim)"), new GUIContent("Axis 0 (X)"), new GUIContent("Axis 1 (Y)"), new GUIContent("Axis 2 (Z)") },
                 new[] { -1, 0, 1, 2 });
+            // Muzzle bone — the donor's fire clip fires the muzzle-flash from ITS weapon socket, which is absent on our
+            // renamed rig, so the flash lands off-side. Redirect it to a bone of OURS (e.g. the turret/gun). Free text + Pick.
+            using (new EditorGUILayout.HorizontalScope())
+            {
+                cur.muzzleBone = EditorGUILayout.TextField(new GUIContent("Muzzle bone (flash fires from)",
+                    "MUZZLE-RELOCATE: bone-name SUBSTRING the weapon muzzle-flash should fire FROM — use Pick, or type e.g. " +
+                    "'Turret'. The donor's fire clip names ITS own weapon socket (an AA gun's 'Canon'), which our renamed rig " +
+                    "lacks, so the flash lands off-side; the plugin redirects it to THIS bone. Empty = leave vanilla. " +
+                    "RUNTIME-ONLY — Save (no bake) + relaunch."),
+                    cur.muzzleBone ?? "");
+                using (new EditorGUI.DisabledScope(animBonePrefixes.Count == 0))
+                    if (GUILayout.Button(new GUIContent("Pick", animBonePrefixes.Count == 0 ? "No bones readable from this model (glb/gltf only) — type the name" : null), GUILayout.Width(70)))
+                    {
+                        var r = GUILayoutUtility.GetLastRect();
+                        var labels = animBonePrefixes.Select(kv => $"{kv.Key}  ({kv.Value} part{(kv.Value == 1 ? "" : "s")})").ToArray();
+                        var values = animBonePrefixes.Select(kv => kv.Key).ToArray();
+                        new StringDropdown(new AdvancedDropdownState(), labels, values, "Muzzle bone", p => { cur.muzzleBone = p; Repaint(); }).Show(r);
+                    }
+            }
         }
 
         // --- Hand prop (runtime-only: Save (no bake) + rebuild the mod) ---
@@ -824,7 +843,7 @@ public class AnimationLabWindow : EditorWindow
         cur.deployConvert = mine.deployConvert; cur.deployStart = mine.deployStart; cur.deployEnd = mine.deployEnd;
         cur.deployStrip = mine.deployStrip; cur.deployReadyFrame = mine.deployReadyFrame; cur.deployLegScale = mine.deployLegScale; cur.deployBarrelScale = mine.deployBarrelScale;
         cur.deployRecoil = mine.deployRecoil; cur.deployRecoilStep = mine.deployRecoilStep; cur.deployRecoilMag = mine.deployRecoilMag; cur.deployArcR = mine.deployArcR; cur.deployRecoilReturn = mine.deployRecoilReturn; cur.deploySlamDeg = mine.deploySlamDeg; cur.deploySlamSettle = mine.deploySlamSettle;
-        cur.animStateDriven = mine.animStateDriven; cur.animClipMove = mine.animClipMove; cur.animClipAfter = mine.animClipAfter; cur.animClipAttack = mine.animClipAttack; cur.animClipCombat = mine.animClipCombat; cur.animClipPreMove = mine.animClipPreMove; cur.animClipIdle = mine.animClipIdle; cur.animClipIdleAlt = mine.animClipIdleAlt; cur.animClipIdleAlt2 = mine.animClipIdleAlt2; cur.idleAltInterval = mine.idleAltInterval; cur.attackRepeats = mine.attackRepeats; cur.clearAimLayer = mine.clearAimLayer; cur.turretBone = mine.turretBone; cur.turretAxis = mine.turretAxis; cur.disabled = mine.disabled;
+        cur.animStateDriven = mine.animStateDriven; cur.animClipMove = mine.animClipMove; cur.animClipAfter = mine.animClipAfter; cur.animClipAttack = mine.animClipAttack; cur.animClipCombat = mine.animClipCombat; cur.animClipPreMove = mine.animClipPreMove; cur.animClipIdle = mine.animClipIdle; cur.animClipIdleAlt = mine.animClipIdleAlt; cur.animClipIdleAlt2 = mine.animClipIdleAlt2; cur.idleAltInterval = mine.idleAltInterval; cur.attackRepeats = mine.attackRepeats; cur.clearAimLayer = mine.clearAimLayer; cur.turretBone = mine.turretBone; cur.turretAxis = mine.turretAxis; cur.muzzleBone = mine.muzzleBone; cur.disabled = mine.disabled;
         cur.handPropName = mine.handPropName; cur.handPropGuid = mine.handPropGuid; cur.handPropMat = mine.handPropMat; cur.handPropBone = mine.handPropBone;
         cur.handPropAngles = mine.handPropAngles;   // Lab-owned again since the LIVE fit knob edits it ('Save rotation to game')
         cur.fireOnAttack = mine.fireOnAttack; cur.deployOnStop = mine.deployOnStop;
