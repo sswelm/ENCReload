@@ -24,7 +24,15 @@ public class ModelFactoryWindow : EditorWindow
     Vector2 stripScroll;                // scroll position of the multi-line Strip-parts text area
     GUIStyle wrapArea;                  // cached word-wrapping text-area style (lazy-init in OnGUI; EditorStyles isn't ready earlier)
     bool showSettings;
-    UnityEditor.Editor previewEditor;   // embedded interactive 3D preview of the baked model (its _Preview/_Model prefab)
+    // Custom PreviewRenderUtility renderer (ported from the Animation Lab): Unity's built-in GameObject preview has NO
+    // scroll-zoom AND the window's outer scroll view steals the wheel, so "scroll to zoom" never worked. Owning the
+    // camera gives real orbit + zoom. The non-serializable PRU is lazily created and cleaned before every domain reload.
+    PreviewRenderUtility previewPRU;
+    List<(Mesh mesh, Material[] mats, Matrix4x4 mtx)> previewDraws;   // flattened draw list from the baked prefab
+    Bounds previewBounds;
+    [SerializeField] Vector2 previewOrbit = new Vector2(135f, -20f);  // yaw/pitch (deg); survives domain reload
+    [SerializeField] float previewZoom = 1.4f;                        // camera distance factor (scroll wheel)
+    static Material previewFallbackMat;
     string previewFor = "";
 
     // Cheap animation probe (no Blender), cached per model-file path. State: 0 = unknown (allow), 1 = animation
@@ -47,11 +55,9 @@ public class ModelFactoryWindow : EditorWindow
     {
         titleContent = new GUIContent("Model Factory");   // rename any pre-existing docked instance: Unity caches the tab title in the window's serialized state, so the GetWindow title alone never reaches already-open windows
         RefreshList(); LoadPreview(cur.resourceName);
-        // Tear the preview editor down BEFORE the domain unloads (and before editor quit). Destroying it from
-        // OnDisable DURING a reload is too late: Unity's GameObjectInspector.OnDisable then runs against an
-        // already-Disposed SerializedObject and logs "NullReferenceException: SerializedObject of SerializedProperty
-        // has been Disposed" — logged INSIDE DestroyImmediate by Unity itself, so our try/catch never sees it.
-        // Destroying at beforeAssemblyReload, while everything is still alive, is clean; OnDisable then no-ops.
+        // Clean the PreviewRenderUtility BEFORE the domain unloads (and before editor quit): a PRU that survives a
+        // domain reload leaks its camera/scene and spams errors. Cleaning at beforeAssemblyReload, while everything is
+        // still alive, is clean; OnDisable also cleans for a plain window close.
         AssemblyReloadEvents.beforeAssemblyReload += DestroyPreview;
         EditorApplication.quitting += DestroyPreview;
     }
@@ -75,14 +81,14 @@ public class ModelFactoryWindow : EditorWindow
         { w.LoadPreview(w.cur != null ? w.cur.resourceName : null, forceReimport: true); w.Repaint(); }
     }
 
-    // Destroy the interactive preview editor safely. The try/catch covers a plain window close where Unity's
-    // GameObjectInspector teardown can still throw for reasons of its own; the domain-reload variant of that
-    // failure is prevented at the source by the beforeAssemblyReload hook above.
+    // Release the preview: drop the draw list and clean the PreviewRenderUtility (safe if already null). Called on
+    // selection change (draw list only, via LoadPreview) and on window close / domain reload / quit (full clean).
     void DestroyPreview()
     {
-        if (previewEditor == null) return;
-        try { UnityEngine.Object.DestroyImmediate(previewEditor); } catch { }
-        previewEditor = null;
+        previewDraws = null;
+        if (previewPRU == null) return;
+        try { previewPRU.Cleanup(); } catch { }
+        previewPRU = null;
     }
 
     // Load the baked prefab (animated <name>_Preview, else static <name>_Model) and build an interactive preview editor.
@@ -90,7 +96,7 @@ public class ModelFactoryWindow : EditorWindow
     // stale cached copy until a manual reimport. Force a synchronous reimport of the mesh + prefab so the preview is current.
     void LoadPreview(string name, bool forceReimport = false)
     {
-        DestroyPreview();
+        previewDraws = null;   // drop the old draw list; keep the PRU alive for reuse (it's cleaned on reload/close)
         previewFor = name ?? "";
         if (string.IsNullOrEmpty(name)) return;
         // The animated preview companion lives in FactorySource (bake INPUT, not shipped), NOT Resources — see
@@ -106,17 +112,94 @@ public class ModelFactoryWindow : EditorWindow
                 if (AssetDatabase.LoadMainAssetAtPath(dep) != null)
                     AssetDatabase.ImportAsset(dep, ImportAssetOptions.ForceUpdate | ImportAssetOptions.ForceSynchronousImport);
         var go = AssetDatabase.LoadAssetAtPath<GameObject>(path);
-        if (go != null) previewEditor = UnityEditor.Editor.CreateEditor(go);
+        if (go != null) BuildDrawList(go);
+    }
+
+    // Flatten the baked prefab's renderers into a draw list + combined bounds for the PreviewRenderUtility (same
+    // approach as the Animation Lab fit preview). The prefab's shared materials already carry the baked atlas.
+    void BuildDrawList(GameObject go)
+    {
+        previewDraws = new List<(Mesh, Material[], Matrix4x4)>();
+        bool first = true;
+        foreach (var rr in go.GetComponentsInChildren<Renderer>(true))
+        {
+            Mesh m = rr is SkinnedMeshRenderer smr ? smr.sharedMesh : rr.GetComponent<MeshFilter>()?.sharedMesh;
+            if (m == null) continue;
+            var mtx = rr.transform.localToWorldMatrix;
+            previewDraws.Add((m, rr.sharedMaterials, mtx));
+            var wb = TransformBounds(mtx, m.bounds);
+            if (first) { previewBounds = wb; first = false; } else previewBounds.Encapsulate(wb);
+        }
+        if (previewDraws.Count == 0) previewDraws = null;
+    }
+
+    static Bounds TransformBounds(Matrix4x4 m, Bounds b)
+    {
+        var c = m.MultiplyPoint3x4(b.center);
+        var e = b.extents;
+        var ne = new Vector3(
+            Mathf.Abs(m.m00) * e.x + Mathf.Abs(m.m01) * e.y + Mathf.Abs(m.m02) * e.z,
+            Mathf.Abs(m.m10) * e.x + Mathf.Abs(m.m11) * e.y + Mathf.Abs(m.m12) * e.z,
+            Mathf.Abs(m.m20) * e.x + Mathf.Abs(m.m21) * e.y + Mathf.Abs(m.m22) * e.z);
+        return new Bounds(c, ne * 2f);
     }
 
     // Interactive 3D preview embedded in the window, so a bake's result shows immediately (no hunting in the Project view).
     void DrawPreview()
     {
-        if (previewEditor == null || !previewEditor.HasPreviewGUI()) return;
+        if (previewDraws == null) return;
         EditorGUILayout.Space();
         EditorGUILayout.LabelField("Preview — " + previewFor + "   (drag to orbit, scroll to zoom)", EditorStyles.miniBoldLabel);
         var r = GUILayoutUtility.GetRect(200, 260, GUILayout.ExpandWidth(true));
-        previewEditor.OnInteractivePreviewGUI(r, EditorStyles.helpBox);
+        var e = Event.current;
+        if (r.Contains(e.mousePosition))
+        {
+            if (e.type == EventType.ScrollWheel)
+            {
+                // Consume the wheel HERE so the window's outer scroll view never sees it — THIS is the zoom. (The
+                // built-in GameObject preview had no zoom at all, and the scroll view ate the wheel — the old bug.)
+                previewZoom = Mathf.Clamp(previewZoom * Mathf.Pow(1.12f, e.delta.y > 0 ? 1f : -1f), 0.2f, 5f);
+                e.Use(); Repaint();
+            }
+            else if (e.type == EventType.MouseDrag && e.button == 0)
+            {
+                previewOrbit += new Vector2(e.delta.x, -e.delta.y) * 0.7f;
+                previewOrbit.y = Mathf.Clamp(previewOrbit.y, -89f, 89f);
+                e.Use(); Repaint();
+            }
+        }
+        if (e.type != EventType.Repaint) return;
+        if (previewPRU == null) previewPRU = new PreviewRenderUtility();
+        if (previewFallbackMat == null) previewFallbackMat = new Material(Shader.Find("Standard"));
+        previewPRU.BeginPreview(r, GUIStyle.none);
+        // try/finally so a throw in DrawMesh/Render can never skip EndPreview — an unclosed PRU errors and renders
+        // garbage on EVERY later frame (the "BeginPreview not closed" cascade).
+        Texture tex = null;
+        try
+        {
+            var cam = previewPRU.camera;
+            float radius = Mathf.Max(previewBounds.extents.magnitude, 0.1f);
+            float dist = radius * 2.0f * previewZoom;
+            var rot = Quaternion.Euler(-previewOrbit.y, previewOrbit.x, 0f);
+            cam.transform.position = previewBounds.center + rot * (Vector3.back * dist);
+            cam.transform.rotation = Quaternion.LookRotation(previewBounds.center - cam.transform.position);
+            cam.nearClipPlane = 0.01f;
+            cam.farClipPlane = dist + radius * 4f;
+            cam.fieldOfView = 30f;
+            previewPRU.lights[0].intensity = 1.3f;
+            previewPRU.lights[0].transform.rotation = Quaternion.Euler(45f, 45f, 0f);
+            if (previewPRU.lights.Length > 1) previewPRU.lights[1].intensity = 0.6f;
+            previewPRU.ambientColor = new Color(0.3f, 0.3f, 0.3f);
+            foreach (var (mesh, mats, mtx) in previewDraws)
+                for (int s = 0; s < mesh.subMeshCount; s++)
+                {
+                    var mat = mats != null && mats.Length > 0 ? (mats[Mathf.Min(s, mats.Length - 1)] ?? previewFallbackMat) : previewFallbackMat;
+                    previewPRU.DrawMesh(mesh, mtx, mat, s);
+                }
+            cam.Render();
+        }
+        finally { tex = previewPRU.EndPreview(); }
+        if (tex != null) GUI.DrawTexture(r, tex, ScaleMode.StretchToFill, false);
     }
 
     void RefreshList()
