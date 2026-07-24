@@ -8,12 +8,6 @@
         {
             "resourceName": "Abominations",
             "pawnDescription": "Era6_Common_Abominations_01",
-            "silenceDonorAudio": true,
-            "soundIdleFile": "Abomination_idle.wav",
-            "soundIdleVolume": 1.0,
-            "soundIdleInterval": 18.0,
-            "soundAttackFile": "Abomination_attack.wav",
-            "soundAttackVolume": 1.0,
             "modelFile": "D:/3DModels/Abomination/scp-682_low-poly_style.glb",
             "rotation": {
                 "x": 0.0,
@@ -84,6 +78,8 @@
             "animClipAttack": "attack",
             "animClipCombat": "",
             "animClipPreMove": "",
+            "animClipIdleAlt": "",
+            "animClipIdleAlt2": "",
             "animClipIdle": "idle",
             "clearAimLayer": false,
             "attackRepeats": 2,
@@ -128,6 +124,19 @@
                 1223511432,
                 -304435979
             ],
+            "clipIdleAlt": [
+                0,
+                0,
+                0,
+                0
+            ],
+            "clipIdleAlt2": [
+                0,
+                0,
+                0,
+                0
+            ],
+            "idleAltInterval": 25.0,
             "respawnAfterLoad": false,
             "freezeDonorAnim": false,
             "fireOnAttack": false,
@@ -141,6 +150,7 @@
             "tintG": 0.0,
             "tintB": 0.0,
             "textureFile": "",
+            "silenceDonorAudio": true,
             "engineSound": false,
             "engineStartEvent": "",
             "engineStopEvent": "",
@@ -149,7 +159,20 @@
             "soundStopFile": "",
             "soundVolume": 1.0,
             "soundStartVolume": 1.0,
-            "soundStopVolume": 1.0
+            "soundStopVolume": 1.0,
+            "soundIdleFile": "Abomination_idle.wav",
+            "soundIdleVolume": 1.0,
+            "soundIdleInterval": 18.0,
+            "soundIdleGroupRadius": 10.0,
+            "soundAttackFile": "Abomination_attack.wav",
+            "soundAttackVolume": 1.0,
+            "soundAttackOffset": 0.0,
+            "soundDeathFile": "",
+            "soundDeathVolume": 1.0,
+            "soundDeathOffset": 0.0,
+            "soundBattleFile": "",
+            "soundBattleVolume": 1.0,
+            "soundBattleOffset": 0.0
         },
         {
             "resourceName": "AttackHelicopter",
@@ -224,6 +247,8 @@
             "animClipAttack": "",
             "animClipCombat": "",
             "animClipPreMove": "",
+            "animClipIdleAlt": "",
+            "animClipIdleAlt2": "",
             "animClipIdle": "",
             "clearAimLayer": false,
             "attackRepeats": 1,
@@ -268,6 +293,19 @@
                 0,
                 0
             ],
+            "clipIdleAlt": [
+                0,
+                0,
+                0,
+                0
+            ],
+            "clipIdleAlt2": [
+                0,
+                0,
+                0,
+                0
+            ],
+            "idleAltInterval": 25.0,
             "respawnAfterLoad": true,
             "freezeDonorAnim": false,
             "fireOnAttack": false,
@@ -281,6 +319,7 @@
             "tintG": 0.0,
             "tintB": 0.0,
             "textureFile": "",
+            "silenceDonorAudio": false,
             "engineSound": true,
             "engineStartEvent": "Play_UNIT_Helicopter_Move",
             "engineStopEvent": "Play_UNIT_Helicopter_Stop",
@@ -289,7 +328,20 @@
             "soundStopFile": "",
             "soundVolume": 1.0,
             "soundStartVolume": 1.0,
-            "soundStopVolume": 1.0
+            "soundStopVolume": 1.0,
+            "soundIdleFile": "",
+            "soundIdleVolume": 1.0,
+            "soundIdleInterval": 11.0,
+            "soundIdleGroupRadius": 10.0,
+            "soundAttackFile": "",
+            "soundAttackVolume": 1.0,
+            "soundAttackOffset": 0.0,
+            "soundDeathFile": "",
+            "soundDeathVolume": 1.0,
+            "soundDeathOffset": 0.0,
+            "soundBattleFile": "",
+            "soundBattleVolume": 1.0,
+            "soundBattleOffset": 0.0
         },
         {
             "resourceName": "DroneSquadFPV",
@@ -364,6 +416,8 @@
             "animClipAttack": "Soldier_reference_skeleton|shootAR2s",
             "animClipCombat": "Soldier_reference_skeleton|CombatIdle1",
             "animClipPreMove": "",
+            "animClipIdleAlt": "",
+            "animClipIdleAlt2": "",
             "animClipIdle": "",
             "clearAimLayer": false,
             "attackRepeats": 18,
@@ -408,6 +462,19 @@
                 0,
                 0
             ],
+            "clipIdleAlt": [
+                0,
+                0,
+                0,
+                0
+            ],
+            "clipIdleAlt2": [
+                0,
+                0,
+                0,
+                0
+            ],
+            "idleAltInterval": 25.0,
             "respawnAfterLoad": false,
             "freezeDonorAnim": false,
             "fireOnAttack": false,
@@ -421,6 +488,7 @@
             "tintG": 0.0,
             "tintB": 0.0,
             "textureFile": "",
+            "silenceDonorAudio": false,
             "engineSound": false,
             "engineStartEvent": "",
             "engineStopEvent": "",
@@ -429,7 +497,20 @@
             "soundStopFile": "",
             "soundVolume": 1.0,
             "soundStartVolume": 1.0,
-            "soundStopVolume": 1.0
+            "soundStopVolume": 1.0,
+            "soundIdleFile": "",
+            "soundIdleVolume": 1.0,
+            "soundIdleInterval": 11.0,
+            "soundIdleGroupRadius": 10.0,
+            "soundAttackFile": "",
+            "soundAttackVolume": 1.0,
+            "soundAttackOffset": 0.0,
+            "soundDeathFile": "",
+            "soundDeathVolume": 1.0,
+            "soundDeathOffset": 0.0,
+            "soundBattleFile": "",
+            "soundBattleVolume": 1.0,
+            "soundBattleOffset": 0.0
         },
         {
             "resourceName": "HandCrankedSubmarines",
@@ -504,6 +585,8 @@
             "animClipAttack": "",
             "animClipCombat": "",
             "animClipPreMove": "",
+            "animClipIdleAlt": "",
+            "animClipIdleAlt2": "",
             "animClipIdle": "",
             "clearAimLayer": false,
             "attackRepeats": 1,
@@ -548,6 +631,19 @@
                 0,
                 0
             ],
+            "clipIdleAlt": [
+                0,
+                0,
+                0,
+                0
+            ],
+            "clipIdleAlt2": [
+                0,
+                0,
+                0,
+                0
+            ],
+            "idleAltInterval": 25.0,
             "respawnAfterLoad": false,
             "freezeDonorAnim": false,
             "fireOnAttack": false,
@@ -561,6 +657,7 @@
             "tintG": 0.0,
             "tintB": 0.0,
             "textureFile": "",
+            "silenceDonorAudio": false,
             "engineSound": true,
             "engineStartEvent": "Play_UNIT_Vehicles_Submarine_Start_Old",
             "engineStopEvent": "Play_UNIT_Vehicles_Submarine_Stop_Old",
@@ -569,7 +666,20 @@
             "soundStopFile": "",
             "soundVolume": 1.0,
             "soundStartVolume": 1.0,
-            "soundStopVolume": 1.0
+            "soundStopVolume": 1.0,
+            "soundIdleFile": "",
+            "soundIdleVolume": 1.0,
+            "soundIdleInterval": 11.0,
+            "soundIdleGroupRadius": 10.0,
+            "soundAttackFile": "",
+            "soundAttackVolume": 1.0,
+            "soundAttackOffset": 0.0,
+            "soundDeathFile": "",
+            "soundDeathVolume": 1.0,
+            "soundDeathOffset": 0.0,
+            "soundBattleFile": "",
+            "soundBattleVolume": 1.0,
+            "soundBattleOffset": 0.0
         },
         {
             "resourceName": "Hovercraft",
@@ -644,6 +754,8 @@
             "animClipAttack": "",
             "animClipCombat": "",
             "animClipPreMove": "",
+            "animClipIdleAlt": "",
+            "animClipIdleAlt2": "",
             "animClipIdle": "",
             "clearAimLayer": false,
             "attackRepeats": 1,
@@ -688,6 +800,19 @@
                 0,
                 0
             ],
+            "clipIdleAlt": [
+                0,
+                0,
+                0,
+                0
+            ],
+            "clipIdleAlt2": [
+                0,
+                0,
+                0,
+                0
+            ],
+            "idleAltInterval": 25.0,
             "respawnAfterLoad": false,
             "freezeDonorAnim": false,
             "fireOnAttack": false,
@@ -701,6 +826,7 @@
             "tintG": 0.0,
             "tintB": 0.0,
             "textureFile": "",
+            "silenceDonorAudio": false,
             "engineSound": true,
             "engineStartEvent": "Play_UNIT_LandingCraft_Start",
             "engineStopEvent": "Play_UNIT_LandingCraft_Stop",
@@ -709,7 +835,20 @@
             "soundStopFile": "",
             "soundVolume": 1.0,
             "soundStartVolume": 1.0,
-            "soundStopVolume": 1.0
+            "soundStopVolume": 1.0,
+            "soundIdleFile": "",
+            "soundIdleVolume": 1.0,
+            "soundIdleInterval": 11.0,
+            "soundIdleGroupRadius": 10.0,
+            "soundAttackFile": "",
+            "soundAttackVolume": 1.0,
+            "soundAttackOffset": 0.0,
+            "soundDeathFile": "",
+            "soundDeathVolume": 1.0,
+            "soundDeathOffset": 0.0,
+            "soundBattleFile": "",
+            "soundBattleVolume": 1.0,
+            "soundBattleOffset": 0.0
         },
         {
             "resourceName": "LightAssaultMech",
@@ -784,6 +923,8 @@
             "animClipAttack": "Armature|Armature|ArmatureAction[0..0]",
             "animClipCombat": "",
             "animClipPreMove": "",
+            "animClipIdleAlt": "",
+            "animClipIdleAlt2": "",
             "animClipIdle": "Armature|Armature|ArmatureAction[0..0]",
             "clearAimLayer": false,
             "attackRepeats": 1,
@@ -828,6 +969,19 @@
                 183207871,
                 1455592426
             ],
+            "clipIdleAlt": [
+                0,
+                0,
+                0,
+                0
+            ],
+            "clipIdleAlt2": [
+                0,
+                0,
+                0,
+                0
+            ],
+            "idleAltInterval": 25.0,
             "respawnAfterLoad": false,
             "freezeDonorAnim": false,
             "fireOnAttack": false,
@@ -841,6 +995,7 @@
             "tintG": 50.0,
             "tintB": 0.0,
             "textureFile": "LightAssaultMech.png",
+            "silenceDonorAudio": false,
             "engineSound": false,
             "engineStartEvent": "",
             "engineStopEvent": "",
@@ -849,7 +1004,20 @@
             "soundStopFile": "",
             "soundVolume": 1.0,
             "soundStartVolume": 1.0,
-            "soundStopVolume": 1.0
+            "soundStopVolume": 1.0,
+            "soundIdleFile": "",
+            "soundIdleVolume": 1.0,
+            "soundIdleInterval": 11.0,
+            "soundIdleGroupRadius": 10.0,
+            "soundAttackFile": "",
+            "soundAttackVolume": 1.0,
+            "soundAttackOffset": 0.0,
+            "soundDeathFile": "",
+            "soundDeathVolume": 1.0,
+            "soundDeathOffset": 0.0,
+            "soundBattleFile": "",
+            "soundBattleVolume": 1.0,
+            "soundBattleOffset": 0.0
         },
         {
             "resourceName": "OrganGun",
@@ -924,6 +1092,8 @@
             "animClipAttack": "",
             "animClipCombat": "",
             "animClipPreMove": "",
+            "animClipIdleAlt": "",
+            "animClipIdleAlt2": "",
             "animClipIdle": "",
             "clearAimLayer": false,
             "attackRepeats": 1,
@@ -968,6 +1138,19 @@
                 0,
                 0
             ],
+            "clipIdleAlt": [
+                0,
+                0,
+                0,
+                0
+            ],
+            "clipIdleAlt2": [
+                0,
+                0,
+                0,
+                0
+            ],
+            "idleAltInterval": 25.0,
             "respawnAfterLoad": false,
             "freezeDonorAnim": false,
             "fireOnAttack": false,
@@ -981,6 +1164,7 @@
             "tintG": 0.0,
             "tintB": 0.0,
             "textureFile": "",
+            "silenceDonorAudio": false,
             "engineSound": true,
             "engineStartEvent": "Play_UNIT_Vehicles_Mortar_Move_Start",
             "engineStopEvent": "Play_UNIT_Vehicles_Mortar_Move_Stop",
@@ -989,7 +1173,20 @@
             "soundStopFile": "",
             "soundVolume": 1.0,
             "soundStartVolume": 1.0,
-            "soundStopVolume": 1.0
+            "soundStopVolume": 1.0,
+            "soundIdleFile": "",
+            "soundIdleVolume": 1.0,
+            "soundIdleInterval": 11.0,
+            "soundIdleGroupRadius": 10.0,
+            "soundAttackFile": "",
+            "soundAttackVolume": 1.0,
+            "soundAttackOffset": 0.0,
+            "soundDeathFile": "",
+            "soundDeathVolume": 1.0,
+            "soundDeathOffset": 0.0,
+            "soundBattleFile": "",
+            "soundBattleVolume": 1.0,
+            "soundBattleOffset": 0.0
         },
         {
             "resourceName": "ReconDrone",
@@ -1064,6 +1261,8 @@
             "animClipAttack": "",
             "animClipCombat": "",
             "animClipPreMove": "",
+            "animClipIdleAlt": "",
+            "animClipIdleAlt2": "",
             "animClipIdle": "",
             "clearAimLayer": false,
             "attackRepeats": 1,
@@ -1108,6 +1307,19 @@
                 0,
                 0
             ],
+            "clipIdleAlt": [
+                0,
+                0,
+                0,
+                0
+            ],
+            "clipIdleAlt2": [
+                0,
+                0,
+                0,
+                0
+            ],
+            "idleAltInterval": 25.0,
             "respawnAfterLoad": false,
             "freezeDonorAnim": false,
             "fireOnAttack": false,
@@ -1121,6 +1333,7 @@
             "tintG": 0.0,
             "tintB": 0.0,
             "textureFile": "",
+            "silenceDonorAudio": false,
             "engineSound": false,
             "engineStartEvent": "",
             "engineStopEvent": "",
@@ -1129,7 +1342,20 @@
             "soundStopFile": "ReconDrone_stop.wav",
             "soundVolume": 0.25,
             "soundStartVolume": 1.0,
-            "soundStopVolume": 1.0
+            "soundStopVolume": 1.0,
+            "soundIdleFile": "",
+            "soundIdleVolume": 1.0,
+            "soundIdleInterval": 11.0,
+            "soundIdleGroupRadius": 10.0,
+            "soundAttackFile": "",
+            "soundAttackVolume": 1.0,
+            "soundAttackOffset": 0.0,
+            "soundDeathFile": "",
+            "soundDeathVolume": 1.0,
+            "soundDeathOffset": 0.0,
+            "soundBattleFile": "",
+            "soundBattleVolume": 1.0,
+            "soundBattleOffset": 0.0
         },
         {
             "resourceName": "ReconHelicopter",
@@ -1204,6 +1430,8 @@
             "animClipAttack": "",
             "animClipCombat": "",
             "animClipPreMove": "",
+            "animClipIdleAlt": "",
+            "animClipIdleAlt2": "",
             "animClipIdle": "",
             "clearAimLayer": false,
             "attackRepeats": 1,
@@ -1248,6 +1476,19 @@
                 0,
                 0
             ],
+            "clipIdleAlt": [
+                0,
+                0,
+                0,
+                0
+            ],
+            "clipIdleAlt2": [
+                0,
+                0,
+                0,
+                0
+            ],
+            "idleAltInterval": 25.0,
             "respawnAfterLoad": true,
             "freezeDonorAnim": false,
             "fireOnAttack": false,
@@ -1261,6 +1502,7 @@
             "tintG": 0.0,
             "tintB": 0.0,
             "textureFile": "",
+            "silenceDonorAudio": false,
             "engineSound": true,
             "engineStartEvent": "Play_UNIT_Helicopter_Move",
             "engineStopEvent": "Play_UNIT_Helicopter_Stop",
@@ -1269,7 +1511,20 @@
             "soundStopFile": "",
             "soundVolume": 1.0,
             "soundStartVolume": 1.0,
-            "soundStopVolume": 1.0
+            "soundStopVolume": 1.0,
+            "soundIdleFile": "",
+            "soundIdleVolume": 1.0,
+            "soundIdleInterval": 11.0,
+            "soundIdleGroupRadius": 10.0,
+            "soundAttackFile": "",
+            "soundAttackVolume": 1.0,
+            "soundAttackOffset": 0.0,
+            "soundDeathFile": "",
+            "soundDeathVolume": 1.0,
+            "soundDeathOffset": 0.0,
+            "soundBattleFile": "",
+            "soundBattleVolume": 1.0,
+            "soundBattleOffset": 0.0
         },
         {
             "resourceName": "ReconZeppelin",
@@ -1344,6 +1599,8 @@
             "animClipAttack": "",
             "animClipCombat": "",
             "animClipPreMove": "",
+            "animClipIdleAlt": "",
+            "animClipIdleAlt2": "",
             "animClipIdle": "",
             "clearAimLayer": false,
             "attackRepeats": 1,
@@ -1388,6 +1645,19 @@
                 0,
                 0
             ],
+            "clipIdleAlt": [
+                0,
+                0,
+                0,
+                0
+            ],
+            "clipIdleAlt2": [
+                0,
+                0,
+                0,
+                0
+            ],
+            "idleAltInterval": 25.0,
             "respawnAfterLoad": false,
             "freezeDonorAnim": true,
             "fireOnAttack": false,
@@ -1401,6 +1671,7 @@
             "tintG": 0.0,
             "tintB": 0.0,
             "textureFile": "",
+            "silenceDonorAudio": false,
             "engineSound": false,
             "engineStartEvent": "",
             "engineStopEvent": "",
@@ -1409,7 +1680,20 @@
             "soundStopFile": "",
             "soundVolume": 1.0,
             "soundStartVolume": 1.0,
-            "soundStopVolume": 1.0
+            "soundStopVolume": 1.0,
+            "soundIdleFile": "",
+            "soundIdleVolume": 1.0,
+            "soundIdleInterval": 11.0,
+            "soundIdleGroupRadius": 10.0,
+            "soundAttackFile": "",
+            "soundAttackVolume": 1.0,
+            "soundAttackOffset": 0.0,
+            "soundDeathFile": "",
+            "soundDeathVolume": 1.0,
+            "soundDeathOffset": 0.0,
+            "soundBattleFile": "",
+            "soundBattleVolume": 1.0,
+            "soundBattleOffset": 0.0
         },
         {
             "resourceName": "Retex_Era6_Common_StealthCorvettes_01",
@@ -1484,6 +1768,8 @@
             "animClipAttack": "",
             "animClipCombat": "",
             "animClipPreMove": "",
+            "animClipIdleAlt": "",
+            "animClipIdleAlt2": "",
             "animClipIdle": "",
             "clearAimLayer": false,
             "attackRepeats": 1,
@@ -1528,6 +1814,19 @@
                 0,
                 0
             ],
+            "clipIdleAlt": [
+                0,
+                0,
+                0,
+                0
+            ],
+            "clipIdleAlt2": [
+                0,
+                0,
+                0,
+                0
+            ],
+            "idleAltInterval": 25.0,
             "respawnAfterLoad": false,
             "freezeDonorAnim": false,
             "fireOnAttack": false,
@@ -1541,6 +1840,7 @@
             "tintG": 0.0,
             "tintB": 0.0,
             "textureFile": "",
+            "silenceDonorAudio": false,
             "engineSound": true,
             "engineStartEvent": "Play_UNIT_Vehicles_StealthCorvette_Start",
             "engineStopEvent": "Play_UNIT_Vehicles_StealthCorvette_Stop",
@@ -1549,7 +1849,20 @@
             "soundStopFile": "",
             "soundVolume": 1.0,
             "soundStartVolume": 1.0,
-            "soundStopVolume": 1.0
+            "soundStopVolume": 1.0,
+            "soundIdleFile": "",
+            "soundIdleVolume": 1.0,
+            "soundIdleInterval": 11.0,
+            "soundIdleGroupRadius": 10.0,
+            "soundAttackFile": "",
+            "soundAttackVolume": 1.0,
+            "soundAttackOffset": 0.0,
+            "soundDeathFile": "",
+            "soundDeathVolume": 1.0,
+            "soundDeathOffset": 0.0,
+            "soundBattleFile": "",
+            "soundBattleVolume": 1.0,
+            "soundBattleOffset": 0.0
         },
         {
             "resourceName": "StealthCruiser",
@@ -1624,6 +1937,8 @@
             "animClipAttack": "",
             "animClipCombat": "",
             "animClipPreMove": "",
+            "animClipIdleAlt": "",
+            "animClipIdleAlt2": "",
             "animClipIdle": "",
             "clearAimLayer": false,
             "attackRepeats": 1,
@@ -1668,6 +1983,19 @@
                 0,
                 0
             ],
+            "clipIdleAlt": [
+                0,
+                0,
+                0,
+                0
+            ],
+            "clipIdleAlt2": [
+                0,
+                0,
+                0,
+                0
+            ],
+            "idleAltInterval": 25.0,
             "respawnAfterLoad": false,
             "freezeDonorAnim": false,
             "fireOnAttack": false,
@@ -1681,6 +2009,7 @@
             "tintG": 0.0,
             "tintB": 0.0,
             "textureFile": "",
+            "silenceDonorAudio": false,
             "engineSound": true,
             "engineStartEvent": "Play_UNIT_Vehicles_StealthCorvette_Start",
             "engineStopEvent": "Play_UNIT_Vehicles_StealthCorvette_Stop",
@@ -1689,7 +2018,20 @@
             "soundStopFile": "",
             "soundVolume": 1.0,
             "soundStartVolume": 1.0,
-            "soundStopVolume": 1.0
+            "soundStopVolume": 1.0,
+            "soundIdleFile": "",
+            "soundIdleVolume": 1.0,
+            "soundIdleInterval": 11.0,
+            "soundIdleGroupRadius": 10.0,
+            "soundAttackFile": "",
+            "soundAttackVolume": 1.0,
+            "soundAttackOffset": 0.0,
+            "soundDeathFile": "",
+            "soundDeathVolume": 1.0,
+            "soundDeathOffset": 0.0,
+            "soundBattleFile": "",
+            "soundBattleVolume": 1.0,
+            "soundBattleOffset": 0.0
         },
         {
             "resourceName": "StealthHelicopter",
@@ -1764,6 +2106,8 @@
             "animClipAttack": "",
             "animClipCombat": "",
             "animClipPreMove": "",
+            "animClipIdleAlt": "",
+            "animClipIdleAlt2": "",
             "animClipIdle": "",
             "clearAimLayer": false,
             "attackRepeats": 1,
@@ -1808,6 +2152,19 @@
                 0,
                 0
             ],
+            "clipIdleAlt": [
+                0,
+                0,
+                0,
+                0
+            ],
+            "clipIdleAlt2": [
+                0,
+                0,
+                0,
+                0
+            ],
+            "idleAltInterval": 25.0,
             "respawnAfterLoad": true,
             "freezeDonorAnim": false,
             "fireOnAttack": false,
@@ -1821,6 +2178,7 @@
             "tintG": 0.0,
             "tintB": 0.0,
             "textureFile": "",
+            "silenceDonorAudio": false,
             "engineSound": true,
             "engineStartEvent": "Play_UNIT_Helicopter_Move",
             "engineStopEvent": "Play_UNIT_Helicopter_Stop",
@@ -1829,7 +2187,20 @@
             "soundStopFile": "",
             "soundVolume": 1.0,
             "soundStartVolume": 1.0,
-            "soundStopVolume": 1.0
+            "soundStopVolume": 1.0,
+            "soundIdleFile": "",
+            "soundIdleVolume": 1.0,
+            "soundIdleInterval": 11.0,
+            "soundIdleGroupRadius": 10.0,
+            "soundAttackFile": "",
+            "soundAttackVolume": 1.0,
+            "soundAttackOffset": 0.0,
+            "soundDeathFile": "",
+            "soundDeathVolume": 1.0,
+            "soundDeathOffset": 0.0,
+            "soundBattleFile": "",
+            "soundBattleVolume": 1.0,
+            "soundBattleOffset": 0.0
         },
         {
             "resourceName": "TowedGunHowitzers",
@@ -1904,6 +2275,8 @@
             "animClipAttack": "recoil",
             "animClipCombat": "",
             "animClipPreMove": "deploy[179..0/12]",
+            "animClipIdleAlt": "",
+            "animClipIdleAlt2": "",
             "animClipIdle": "deploy[179..180]",
             "clearAimLayer": true,
             "attackRepeats": 1,
@@ -1948,6 +2321,19 @@
                 -1231208020,
                 -727344561
             ],
+            "clipIdleAlt": [
+                0,
+                0,
+                0,
+                0
+            ],
+            "clipIdleAlt2": [
+                0,
+                0,
+                0,
+                0
+            ],
+            "idleAltInterval": 25.0,
             "respawnAfterLoad": false,
             "freezeDonorAnim": false,
             "fireOnAttack": false,
@@ -1961,6 +2347,7 @@
             "tintG": 0.0,
             "tintB": 0.0,
             "textureFile": "",
+            "silenceDonorAudio": false,
             "engineSound": true,
             "engineStartEvent": "Play_UNIT_CanonObusier_Move_Start",
             "engineStopEvent": "Play_UNIT_CanonObusier_Move_Stop",
@@ -1969,7 +2356,20 @@
             "soundStopFile": "",
             "soundVolume": 1.0,
             "soundStartVolume": 1.0,
-            "soundStopVolume": 1.0
+            "soundStopVolume": 1.0,
+            "soundIdleFile": "",
+            "soundIdleVolume": 1.0,
+            "soundIdleInterval": 11.0,
+            "soundIdleGroupRadius": 10.0,
+            "soundAttackFile": "",
+            "soundAttackVolume": 1.0,
+            "soundAttackOffset": 0.0,
+            "soundDeathFile": "",
+            "soundDeathVolume": 1.0,
+            "soundDeathOffset": 0.0,
+            "soundBattleFile": "",
+            "soundBattleVolume": 1.0,
+            "soundBattleOffset": 0.0
         },
         {
             "resourceName": "VolleyGun",
@@ -2044,6 +2444,8 @@
             "animClipAttack": "",
             "animClipCombat": "",
             "animClipPreMove": "",
+            "animClipIdleAlt": "",
+            "animClipIdleAlt2": "",
             "animClipIdle": "",
             "clearAimLayer": false,
             "attackRepeats": 1,
@@ -2088,6 +2490,19 @@
                 0,
                 0
             ],
+            "clipIdleAlt": [
+                0,
+                0,
+                0,
+                0
+            ],
+            "clipIdleAlt2": [
+                0,
+                0,
+                0,
+                0
+            ],
+            "idleAltInterval": 25.0,
             "respawnAfterLoad": false,
             "freezeDonorAnim": false,
             "fireOnAttack": false,
@@ -2101,6 +2516,7 @@
             "tintG": 0.0,
             "tintB": 0.0,
             "textureFile": "",
+            "silenceDonorAudio": false,
             "engineSound": true,
             "engineStartEvent": "Play_UNIT_Vehicles_Mortar_Move_Start",
             "engineStopEvent": "Play_UNIT_Vehicles_Mortar_Move_Stop",
@@ -2109,7 +2525,20 @@
             "soundStopFile": "",
             "soundVolume": 1.0,
             "soundStartVolume": 1.0,
-            "soundStopVolume": 1.0
+            "soundStopVolume": 1.0,
+            "soundIdleFile": "",
+            "soundIdleVolume": 1.0,
+            "soundIdleInterval": 11.0,
+            "soundIdleGroupRadius": 10.0,
+            "soundAttackFile": "",
+            "soundAttackVolume": 1.0,
+            "soundAttackOffset": 0.0,
+            "soundDeathFile": "",
+            "soundDeathVolume": 1.0,
+            "soundDeathOffset": 0.0,
+            "soundBattleFile": "",
+            "soundBattleVolume": 1.0,
+            "soundBattleOffset": 0.0
         },
         {
             "resourceName": "Zeppelin",
@@ -2184,6 +2613,8 @@
             "animClipAttack": "",
             "animClipCombat": "",
             "animClipPreMove": "",
+            "animClipIdleAlt": "",
+            "animClipIdleAlt2": "",
             "animClipIdle": "",
             "clearAimLayer": false,
             "attackRepeats": 1,
@@ -2228,6 +2659,19 @@
                 0,
                 0
             ],
+            "clipIdleAlt": [
+                0,
+                0,
+                0,
+                0
+            ],
+            "clipIdleAlt2": [
+                0,
+                0,
+                0,
+                0
+            ],
+            "idleAltInterval": 25.0,
             "respawnAfterLoad": false,
             "freezeDonorAnim": true,
             "fireOnAttack": false,
@@ -2241,6 +2685,7 @@
             "tintG": 0.0,
             "tintB": 0.0,
             "textureFile": "",
+            "silenceDonorAudio": false,
             "engineSound": false,
             "engineStartEvent": "",
             "engineStopEvent": "",
@@ -2249,7 +2694,20 @@
             "soundStopFile": "",
             "soundVolume": 1.0,
             "soundStartVolume": 1.0,
-            "soundStopVolume": 1.0
+            "soundStopVolume": 1.0,
+            "soundIdleFile": "",
+            "soundIdleVolume": 1.0,
+            "soundIdleInterval": 11.0,
+            "soundIdleGroupRadius": 10.0,
+            "soundAttackFile": "",
+            "soundAttackVolume": 1.0,
+            "soundAttackOffset": 0.0,
+            "soundDeathFile": "",
+            "soundDeathVolume": 1.0,
+            "soundDeathOffset": 0.0,
+            "soundBattleFile": "",
+            "soundBattleVolume": 1.0,
+            "soundBattleOffset": 0.0
         }
     ]
 }
