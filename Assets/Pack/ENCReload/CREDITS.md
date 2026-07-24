@@ -1,50 +1,53 @@
 # ENCReload — Third‑Party Asset Credits & Licenses
 
-Attribution and license record for every third‑party asset shipped in this pack / mod.
-**This must be completed and verified before any public release.** For each row, fill in the
-author, source URL, and license, and confirm the license **permits redistribution as part of a
-published game/mod**. Watch for two catches:
-- **ShareAlike (CC BY‑SA):** your baked/modified version must carry the same license.
-- **Paid / "royalty‑free" models:** some forbid the asset being *extractable* — and mod
-  AssetBundles CAN be unpacked, so "baked in" does not always satisfy that clause. Read it.
+Attribution / license record for every third‑party asset shipped in this pack / mod.
+Much of this was recovered from the **embedded glTF `asset.extras`** metadata inside the source
+`.glb` files (Sketchfab stamps author/license/source into downloads). Complete before public release.
 
-Status: ✅ verified redistributable · ⚠ needs checking · ❌ do NOT ship
+**License quick‑guide** (all obligations assume you *distribute* the mod):
+- **CC‑BY** → OK to ship + modify + commercial; **must credit** author + license + link, and note you modified it.
+- **CC‑BY‑SA** → same as BY, **plus** your modified/baked version must carry CC‑BY‑SA too.
+- **CC‑BY‑NC‑ND** → **NoDerivatives = you may NOT distribute a modified version. Baking/converting IS a modification. Do not ship.**
+- **Fab / paid** → per the Fab EULA: OK when *incorporated into a Project* (a mod), not standalone.
+
+Status: ✅ clear (credit as noted) · ⚠ needs its source/license found · ❌ **do NOT ship as‑is**
 
 ## 3D models
 
-| Resource (in‑game) | Source file | Author / Source URL | License | Status |
+| Resource | Author (credit) | License | Source | Status |
 |---|---|---|---|---|
-| Abominations | scp-682_low-poly_style.glb | **SCP‑682 low‑poly style** by **CommunicationNode** (Sketchfab) | **CC BY‑SA** (attribution + share‑alike; commercial ok) | ✅ |
-| HandCrankedSubmarines | submarine_diver.glb | **"Submarine 'Diver'"** by **Fareastern Loner** (store: Tucuru@3D) — **Fab** (fab.com), purchased 2026‑07‑08, invoice A1122204036. *Seller notes some textures are from Texture.com — seller's responsibility to have cleared for resale; buyer relies on the Fab license.* | **Fab Personal license** (fab.com/eula): permits distributing content **incorporated into a Project** (a game/mod qualifies); not on a standalone basis / not to enable third‑party reuse. Sub is 1 of 16 incorporated units → satisfies "incorporated, not standalone". No attribution required (crediting anyway). ✅ likely OK; final confirm = read the EULA's License Grant/Distribution clause. | ✅* |
-| AttackHelicopter | Cobra.glb | __ | __ | ⚠ |
-| DroneSquadFPV | combine_soldier.glb | __ | __ | ⚠ |
-| Hovercraft | lcac_esboco.glb | __ | __ | ⚠ |
-| LightAssaultMech | robo1A.fbx (uploads_files_6690430) | __ | __ | ⚠ |
-| OrganGun | Ribauldequin_textured.glb | __ | __ | ⚠ |
-| ReconDrone | drone_clean.glb | __ | __ | ⚠ |
-| ReconHelicopter | Bel-H-13-Cleaned.glb | __ | __ | ⚠ |
-| Zeppelin / ReconZeppelin | 92734a2c…glb (shared) | __ | __ | ⚠ |
-| StealthCruiser | zumwalt_clean.glb | __ | __ | ⚠ |
-| StealthHelicopter | rah66.glb | __ | __ | ⚠ |
-| TowedGunHowitzers | m114_howitzer_in_action.glb | __ | __ | ⚠ |
-| VolleyGun | ozhiga_organ_gun_2.glb | __ | __ | ⚠ |
+| Abominations | **CommunicationNode** (sketchfab.com/Starven38) | **CC‑BY‑SA‑4.0** | [SCP‑682 low‑poly style](https://sketchfab.com/3d-models/scp-682-low-poly-style-e40059dbf3334081a1577602b8d98335) | ✅ (credit + share‑alike) |
+| DroneSquadFPV | **MrYoink** (sketchfab.com/mryoinkie) | **CC‑BY‑4.0** | [Combine Soldier](https://sketchfab.com/3d-models/combine-soldier-6fa87ed8061b4bda85cd5b4b8bd7b7b2) | ✅ (credit) |
+| Hovercraft | **lm9241221** (sketchfab.com/lm9241221) | **CC‑BY‑4.0** | [LCAC esboço](https://sketchfab.com/3d-models/lcac-esboco-c22158e65f6f4cd99b16fd27653cf24f) | ✅ (credit) |
+| Zeppelin / ReconZeppelin | **MMD_SonicNewYear** (sketchfab.com/MMD_SonicNewYear) | **CC‑BY‑4.0** | [Дирижабль HD](https://sketchfab.com/3d-models/hd-92734a2c283e4d889fecbb010aaf7822) | ✅ (credit) |
+| StealthHelicopter | **manilov.ap** (sketchfab.com/manilov.ap) | **CC‑BY‑4.0** | [Rah66](https://sketchfab.com/3d-models/rah66-f9f7a920d24b42c19d87a2d569e27436) | ✅ (credit) |
+| HandCrankedSubmarines | **Fareastern Loner** (Tucuru@3D) — Fab | **Fab Personal** (fab.com/eula) — OK incorporated in a Project | Fab, invoice A1122204036 (textures partly Texture.com, seller‑cleared) | ✅* (confirm EULA clause) |
+| **VolleyGun** | **Orpind** (sketchfab.com/leondp) | **CC‑BY‑NC‑ND‑4.0** ❌ | [Ozhiga organ gun 2](https://sketchfab.com/3d-models/ozhiga-organ-gun-2-caca104025c345aba8fb4c3a33ae8216) | ❌ **NoDerivatives — cannot ship the baked/modified model. REMOVE, or get the author's written permission.** |
+| AttackHelicopter | ? (Cobra) — metadata stripped on Blender re‑export | ⚠ find in your Sketchfab library | `Cobra.glb` | ⚠ |
+| OrganGun | ? (Ribauldequin) — metadata stripped | ⚠ | `Ribauldequin_textured.glb` | ⚠ |
+| ReconDrone | ? — metadata stripped | ⚠ | `drone_clean.glb` | ⚠ |
+| ReconHelicopter | ? (Bell H‑13) — metadata stripped | ⚠ | `Bel-H-13-Cleaned.glb` | ⚠ |
+| StealthCruiser | ? (Zumwalt) — metadata stripped | ⚠ | `zumwalt_clean.glb` | ⚠ |
+| TowedGunHowitzers | ? (M114) — metadata stripped | ⚠ | `m114_howitzer_in_action.glb` | ⚠ |
+| LightAssaultMech | ? (robo1A) — FBX, no glTF metadata | ⚠ | `uploads_files_6690430_robo1A.fbx` | ⚠ |
+
+*The ⚠ rows lost their embedded metadata because they were re‑exported through Blender (generator = "Khronos glTF Blender I/O") before import. Find each in your **Sketchfab → My Library / liked models** (or wherever downloaded) and record author + license.*
 
 ## Sounds (pack `sounds/`)
 
-| File | Author / Source URL | License | Status |
+| File | Author / Source | License | Status |
 |---|---|---|---|
-| Abomination_idle.wav (capaholiczsfx‑creature‑snarl‑very‑close‑403154) | __ | __ | ⚠ |
-| Abomination_attack.wav (yodguard‑creature‑beam‑attack‑with‑roar‑4‑482510) | __ | __ | ⚠ |
-| drone / ReconDrone_* / DronStart / DroneStop / dronTravel | __ | __ | ⚠ |
+| Abomination_idle.wav (capaholiczsfx‑creature‑snarl‑very‑close‑403154) | ⚠ | ⚠ | ⚠ |
+| Abomination_attack.wav (yodguard‑creature‑beam‑attack‑with‑roar‑4‑482510) | ⚠ | ⚠ | ⚠ |
+| drone / ReconDrone_* / DronStart / DroneStop / dronTravel | ⚠ | ⚠ | ⚠ |
 
 ## Textures (pack `skins/`)
 
 | File | Origin | License | Status |
 |---|---|---|---|
-| Retex_Era6_Common_StealthCorvettes_01.png | painted / derived from vanilla atlas? | __ | ⚠ |
-| Retex_Era6_Common_LightAssaultMech_01.png | __ | __ | ⚠ |
-| LightAssaultMech.png | __ | __ | ⚠ |
+| Retex_Era6_Common_StealthCorvettes_01.png | painted / derived from vanilla atlas? | ⚠ | ⚠ |
+| Retex_Era6_Common_LightAssaultMech_01.png | ⚠ | ⚠ | ⚠ |
+| LightAssaultMech.png | ⚠ | ⚠ | ⚠ |
 
 ---
-*Retexture PNGs derived from vanilla Humankind atlases fall under the usual "modified game asset"
-modding terms. Self‑painted textures are yours. Baked model atlases inherit their source model's license.*
+**⚠ ACTION BEFORE RELEASE:** (1) **VolleyGun is CC‑BY‑NC‑ND — remove it or get permission; it can't ship baked.** (2) Find the license for the 7 Blender‑stripped models + the 2 SFX. (3) All CC‑BY/BY‑SA models above must be credited (author, license, link, "modified") in the mod's public credits.
