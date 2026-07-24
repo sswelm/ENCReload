@@ -183,12 +183,20 @@ public class AnimationLabWindow : EditorWindow
             fitPRU.lights[0].transform.rotation = Quaternion.Euler(45f, 45f, 0f);
             if (fitPRU.lights.Length > 1) fitPRU.lights[1].intensity = 0.6f;
             fitPRU.ambientColor = new Color(0.3f, 0.3f, 0.3f);
+            bool anyDead = false;
             foreach (var (mesh, mats, mtx) in fitDraws)
+            {
+                // A cached mesh can be DESTROYED under us (the slim FBX deleted/reimported outside the window —
+                // e.g. a forced cache clear); Unity fake-null catches it. Drop the stale cache instead of spamming
+                // MissingReferenceException on every repaint; the next Refresh/Bake rebuilds it.
+                if (mesh == null) { anyDead = true; continue; }
                 for (int s = 0; s < mesh.subMeshCount; s++)
                 {
                     var mat = mats != null && mats.Length > 0 ? (mats[Mathf.Min(s, mats.Length - 1)] ?? fitFallbackMat) : fitFallbackMat;
                     fitPRU.DrawMesh(mesh, mtx, mat, s);
                 }
+            }
+            if (anyDead) fitDraws.Clear();
             cam.Render();
         }
         finally { fitTex = fitPRU.EndPreview(); }
