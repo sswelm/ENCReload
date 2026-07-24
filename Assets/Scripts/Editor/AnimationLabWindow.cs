@@ -637,6 +637,16 @@ public class AnimationLabWindow : EditorWindow
                         new StringDropdown(new AdvancedDropdownState(), labels, values, "Muzzle bone", p => { cur.muzzleBone = p; Repaint(); }).Show(r);
                     }
             }
+            // Donor sockets — the BAKE-TIME endgame for donor-anchored fire effects: bake EXACT-NAMED donor socket
+            // bones onto our rig so the game's own lookups (flash, launch smoke, projectile origin) resolve natively.
+            cur.socketBones = EditorGUILayout.TextField(new GUIContent("Donor sockets (bake)",
+                "BAKE-TIME donor-socket bones: \"DonorName=OurBoneSubstr[@x,y,z];...\" — creates zero-weight bones with " +
+                "the EXACT names the donor's fire events ask for (find them via the [Muzzle] GetBoneTRS log lines, e.g. " +
+                "'Canon_Up_left=MW_T;Move_bloc=Root'), parented to your bone so flash, smoke AND projectile origin all " +
+                "anchor natively and follow it (a tracking turret). Optional @x,y,z = model-space offset from the parent's " +
+                "head (dial the barrel tip). Socketed models bake with the 'A###_' bone prefix (alphabetical topology). " +
+                "Needs a re-BAKE; makes the runtime Muzzle-bone redirect unnecessary for this model."),
+                cur.socketBones ?? "");
         }
 
         // --- Hand prop (runtime-only: Save (no bake) + rebuild the mod) ---
@@ -843,7 +853,7 @@ public class AnimationLabWindow : EditorWindow
         cur.deployConvert = mine.deployConvert; cur.deployStart = mine.deployStart; cur.deployEnd = mine.deployEnd;
         cur.deployStrip = mine.deployStrip; cur.deployReadyFrame = mine.deployReadyFrame; cur.deployLegScale = mine.deployLegScale; cur.deployBarrelScale = mine.deployBarrelScale;
         cur.deployRecoil = mine.deployRecoil; cur.deployRecoilStep = mine.deployRecoilStep; cur.deployRecoilMag = mine.deployRecoilMag; cur.deployArcR = mine.deployArcR; cur.deployRecoilReturn = mine.deployRecoilReturn; cur.deploySlamDeg = mine.deploySlamDeg; cur.deploySlamSettle = mine.deploySlamSettle;
-        cur.animStateDriven = mine.animStateDriven; cur.animClipMove = mine.animClipMove; cur.animClipAfter = mine.animClipAfter; cur.animClipAttack = mine.animClipAttack; cur.animClipCombat = mine.animClipCombat; cur.animClipPreMove = mine.animClipPreMove; cur.animClipIdle = mine.animClipIdle; cur.animClipIdleAlt = mine.animClipIdleAlt; cur.animClipIdleAlt2 = mine.animClipIdleAlt2; cur.idleAltInterval = mine.idleAltInterval; cur.attackRepeats = mine.attackRepeats; cur.clearAimLayer = mine.clearAimLayer; cur.turretBone = mine.turretBone; cur.turretAxis = mine.turretAxis; cur.muzzleBone = mine.muzzleBone; cur.disabled = mine.disabled;
+        cur.animStateDriven = mine.animStateDriven; cur.animClipMove = mine.animClipMove; cur.animClipAfter = mine.animClipAfter; cur.animClipAttack = mine.animClipAttack; cur.animClipCombat = mine.animClipCombat; cur.animClipPreMove = mine.animClipPreMove; cur.animClipIdle = mine.animClipIdle; cur.animClipIdleAlt = mine.animClipIdleAlt; cur.animClipIdleAlt2 = mine.animClipIdleAlt2; cur.idleAltInterval = mine.idleAltInterval; cur.attackRepeats = mine.attackRepeats; cur.clearAimLayer = mine.clearAimLayer; cur.turretBone = mine.turretBone; cur.turretAxis = mine.turretAxis; cur.muzzleBone = mine.muzzleBone; cur.socketBones = mine.socketBones; cur.disabled = mine.disabled;
         cur.handPropName = mine.handPropName; cur.handPropGuid = mine.handPropGuid; cur.handPropMat = mine.handPropMat; cur.handPropBone = mine.handPropBone;
         cur.handPropAngles = mine.handPropAngles;   // Lab-owned again since the LIVE fit knob edits it ('Save rotation to game')
         cur.fireOnAttack = mine.fireOnAttack; cur.deployOnStop = mine.deployOnStop;
