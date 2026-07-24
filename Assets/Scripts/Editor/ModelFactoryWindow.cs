@@ -535,6 +535,13 @@ public class ModelFactoryWindow : EditorWindow
             "not animation). Static models only; animated models play their own baked clip. No re-bake, just rebuild the mod."),
             cur.freezeDonorAnim);
 
+        cur.silenceDonorVfx = EditorGUILayout.Toggle(new GUIContent("Silence donor VFX (flashes)",
+            "Suppress the DONOR's animation-driven VFX on this unit — muzzle flashes, animator smoke puffs. Those effects " +
+            "anchor to DONOR bone names that don't exist on your injected skeleton, so they render misplaced (the AA-gun " +
+            "flash floating in mid-air). VFX only: the donor's SOUNDS are untouched (use 'Silence donor sound' in the Sound " +
+            "Studio for those). Runtime-only — no re-bake, just rebuild the mod."),
+            cur.silenceDonorVfx);
+
         EditorGUILayout.Space();
         EditorGUILayout.LabelField("Texture / import", EditorStyles.miniBoldLabel);
         cur.reuseExtracted = EditorGUILayout.Toggle(new GUIContent("Keep extracted texture (hand-edits)",

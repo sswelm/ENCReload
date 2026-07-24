@@ -54,8 +54,8 @@ R=$(grep -oE 'Regex\.Matches\(text, "\\"[A-Za-z_][A-Za-z0-9_]*' "$PLUG" \
 ntype() {
   local K=$1 c
   case $K in skel|atlas|clip|clipMove|clipAfter|clipAttack|clipCombat|clipPreMove|clipIdle|clipIdleAlt|clipIdleAlt2) echo A; return;; position) echo V; return;; esac
-  c=$(grep -oE "\((string|bool\?|float|int)\)m\[\"$K\"\]" "$PLUG" | head -1 | sed -E 's/\(([a-z?]+)\).*/\1/')
-  case $c in string) echo S;; "bool?") echo B;; float) echo F;; int) echo I;; *) echo "?";; esac
+  c=$(grep -oE "\((string|bool\?|float|int\?|int)\)m\[\"$K\"\]" "$PLUG" | head -1 | sed -E 's/\(([a-z?]+)\).*/\1/')
+  case $c in string) echo S;; "bool?") echo B;; float) echo F;; "int?") echo I;; int) echo I;; *) echo "?";; esac
 }
 
 fail=0
