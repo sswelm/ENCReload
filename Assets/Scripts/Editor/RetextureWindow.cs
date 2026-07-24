@@ -34,8 +34,11 @@ public class RetextureWindow : EditorWindow
     string srcSig = null;                            // signature of the loaded source (path + timestamp)
     string previewSig = null;                        // signature of the built preview (source + adjustments)
 
-    // The game's BepInEx/config (auto-detected by ModelRegistry, same folder the plugin reads).
-    static string SkinsDir => Path.Combine(ModelRegistry.ConfigDir, "enc_skins");
+    // The pack's skins/ folder the running game reads (deployed under haf_packs/ENCReload/skins). Apply also mirrors each
+    // PNG into the git-tracked repo source (PackRepoDir/skins) so the pack ships self-contained. DumpDir stays a scratch
+    // folder in the game config (atlas dumps you paint from — not shipped).
+    static string SkinsDir => Path.Combine(ModelRegistry.PackLiveDir, "skins");
+    static string SkinsRepoDir => Path.Combine(ModelRegistry.PackRepoDir, "skins");
     static string DumpDir  => Path.Combine(ModelRegistry.ConfigDir, "enc_atlas_dump");
 
     void OnGUI()
@@ -100,7 +103,7 @@ public class RetextureWindow : EditorWindow
         {
             var curEntry = existing.FirstOrDefault(m => m.pawnDescription == pawn && !string.IsNullOrEmpty(m.textureFile));
             if (curEntry != null && !File.Exists(Path.Combine(SkinsDir, curEntry.textureFile)))
-                EditorGUILayout.HelpBox("Skin PNG missing from enc_skins/: " + curEntry.textureFile +
+                EditorGUILayout.HelpBox("Skin PNG missing from the pack's skins/: " + curEntry.textureFile +
                     "\nBrowse a replacement, or the unit falls back to its own atlas.", MessageType.Warning);
         }
         EditorGUILayout.LabelField("Adjustments — applied on top of the skin above (or the own atlas):", EditorStyles.miniLabel);
@@ -316,9 +319,10 @@ public class RetextureWindow : EditorWindow
             if (!string.IsNullOrEmpty(pngPath))   // a new PNG was picked -> copy it in and use it as the skin
             {
                 if (!File.Exists(pngPath)) { status = "PNG not found: " + pngPath; return; }
-                Directory.CreateDirectory(SkinsDir);
                 string file = Sanitize(resourceName) + ".png";
-                File.Copy(pngPath, Path.Combine(SkinsDir, file), true);   // into the game's config/enc_skins the plugin reads
+                Directory.CreateDirectory(SkinsDir);
+                File.Copy(pngPath, Path.Combine(SkinsDir, file), true);   // live deploy the plugin reads (pack skins/)
+                try { Directory.CreateDirectory(SkinsRepoDir); File.Copy(pngPath, Path.Combine(SkinsRepoDir, file), true); } catch (System.Exception e) { Debug.LogWarning("[Skin] repo mirror failed: " + e.Message); }
                 def.textureFile = file;
             }
             // else: keep def.textureFile as-is (an existing entry's PNG, or "" to adjust the unit's own atlas).

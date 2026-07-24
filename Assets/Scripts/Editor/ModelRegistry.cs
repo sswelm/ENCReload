@@ -166,7 +166,13 @@ public static class ModelRegistry
         get => EditorPrefs.GetString("ENC.bepinexConfig", "");
         set => EditorPrefs.SetString("ENC.bepinexConfig", value ?? "");
     }
-    public static string RegistryPath => Path.Combine(ConfigDir, "enc_models.json");
+    // ENC is now a self-contained HAF SUBDIR PACK (2026-07-24): it ships as ONE directory (pack.json + sounds/ + skins/)
+    // so its registry AND file-assets are publishable, instead of loose in the shared BepInEx/config. PackLiveDir = what
+    // the running game reads (deployed under haf_packs/); PackRepoDir = the git-tracked source of truth in this project.
+    // The editor dual-writes both, exactly as it used to dual-write the live registry + the project backup.
+    public static string PackLiveDir => Path.Combine(ConfigDir, "haf_packs", "ENCReload");
+    public static string PackRepoDir => Path.Combine(Application.dataPath, "Pack", "ENCReload");
+    public static string RegistryPath => Path.Combine(PackLiveDir, "pack.json");
 
     // ---- zero-config game-path discovery (mirrors the Blender/glbconv self-location) ----
 
@@ -224,10 +230,11 @@ public static class ModelRegistry
     // which would wipe every baked model's settings.
     static bool lastLoadCorrupt;
 
-    // A VERSIONED shadow copy of the registry, written into the mod repo on every Save (Assets/Databases is
-    // git-tracked). It survives a game reinstall / Steam "verify files" wiping BepInEx/config, gives version
-    // history in git, and Load() auto-restores from it if the game registry ever goes missing.
-    public static string ProjectBackupPath => Path.Combine(Application.dataPath, "Databases", "enc_models.backup.json");
+    // The git-tracked SOURCE OF TRUTH: the pack's pack.json in the repo (Assets/Pack/ENCReload). Written on every Save,
+    // it survives a game reinstall / Steam "verify files" wiping BepInEx/config, gives version history in git, and Load()
+    // auto-restores the live pack from it if the game copy ever goes missing. (Was Assets/Databases/enc_models.backup.json
+    // when ENC was the loose base pack — now the whole pack ships as one directory.)
+    public static string ProjectBackupPath => Path.Combine(PackRepoDir, "pack.json");
 
     // Keep the registry in a STABLE alphabetical order (by resourceName, case-insensitive) everywhere it's read or
     // written, so the Factory dropdown AND both config files (the live enc_models.json + the git-tracked backup) list

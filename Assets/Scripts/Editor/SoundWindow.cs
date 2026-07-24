@@ -31,23 +31,26 @@ public class SoundWindow : EditorWindow
     bool foldSilence = true, foldIdle = true, foldAttack = true, foldDeath = true, foldBattle = true, foldMove = false, foldWwise = false;
     Vector2 scroll; string status = "";
 
-    static string SoundsDir => Path.Combine(ModelRegistry.ConfigDir, "enc_sounds");
+    // The pack's sounds folder that the running game reads (deployed under haf_packs/ENCReload/sounds). Apply also mirrors
+    // each WAV into the git-tracked repo source (PackRepoDir/sounds) so the pack ships self-contained — see CopyWav.
+    static string SoundsDir => Path.Combine(ModelRegistry.PackLiveDir, "sounds");
+    static string SoundsRepoDir => Path.Combine(ModelRegistry.PackRepoDir, "sounds");
 
     void OnGUI()
     {
         EditorGUILayout.HelpBox(
             "Sound Studio — a unit's whole audio profile in one place. Silence an inherited donor sound, and add your own " +
             "idle growl, attack roar, and movement sounds (or a Wwise engine event). Custom WAVs: 16-bit PCM; mono = 3D.\n" +
-            "Replace… picks a WAV from ANYWHERE on disk; Apply then COPIES it into the game's enc_sounds/ folder (renamed per " +
-            "unit) — that's why a row shows enc_sounds/… but Replace opens wherever you last browsed. Relaunch to hear changes.",
-            MessageType.Info);
+            "Replace… picks a WAV from ANYWHERE on disk; Apply then COPIES it into the pack's sounds/ folder (renamed per " +
+            "unit) — so it ships with the mod. That's why a row shows sounds/… but Replace opens wherever you last browsed. " +
+            "Relaunch to hear changes.", MessageType.Info);
 
-        // Where the WAVs actually live (the folder the plugin reads). Button reveals it; the path is shown so "where is it?"
-        // is answerable at a glance.
+        // Where the WAVs actually live (the pack's sounds/ folder the game reads). Button reveals it; path shown so
+        // "where is it?" is answerable at a glance.
         using (new EditorGUILayout.HorizontalScope())
         {
-            if (GUILayout.Button(new GUIContent("Open enc_sounds folder",
-                "The game's BepInEx/config/enc_sounds/ — where Apply copies your WAVs and the plugin reads them at runtime."), GUILayout.Width(160), GUILayout.Height(20)))
+            if (GUILayout.Button(new GUIContent("Open pack sounds folder",
+                "The pack's deployed sounds/ (haf_packs/ENCReload/sounds) — where Apply copies your WAVs and the plugin reads them. Apply also mirrors into the repo source so the pack ships self-contained."), GUILayout.Width(170), GUILayout.Height(20)))
             {
                 Directory.CreateDirectory(SoundsDir);
                 EditorUtility.RevealInFinder(SoundsDir + Path.DirectorySeparatorChar);
@@ -207,7 +210,7 @@ public class SoundWindow : EditorWindow
             // shows "→ name" with its source path on hover.
             string playPath = !string.IsNullOrEmpty(path) ? path : (string.IsNullOrEmpty(current) ? "" : Path.Combine(SoundsDir, current));
             string shown = !string.IsNullOrEmpty(path) ? "→ " + Path.GetFileName(path)
-                         : (string.IsNullOrEmpty(current) ? "(none)" : "enc_sounds/" + current);
+                         : (string.IsNullOrEmpty(current) ? "(none)" : "sounds/" + current);
             string tip = string.IsNullOrEmpty(playPath) ? "" : Path.GetFullPath(playPath);
             EditorGUILayout.LabelField(new GUIContent(shown, tip), EditorStyles.textField, GUILayout.Height(EditorGUIUtility.singleLineHeight), GUILayout.MinWidth(0), GUILayout.ExpandWidth(true));
             using (new EditorGUI.DisabledScope(string.IsNullOrEmpty(playPath) || !File.Exists(playPath)))
@@ -231,7 +234,7 @@ public class SoundWindow : EditorWindow
         vol = perc * perc;
         // BROKEN-LINK REPORT: a filename is saved in the registry but the WAV isn't in enc_sounds/ (deleted/renamed).
         if (string.IsNullOrEmpty(path) && !string.IsNullOrEmpty(current) && !File.Exists(Path.Combine(SoundsDir, current)))
-            EditorGUILayout.HelpBox("Missing WAV in enc_sounds/: " + current + " — Browse… to re-point it.", MessageType.Warning);
+            EditorGUILayout.HelpBox("Missing WAV in the pack's sounds/: " + current + " — Browse… to re-point it.", MessageType.Warning);
     }
 
     void Apply(List<ModelDef> all)
@@ -279,14 +282,16 @@ public class SoundWindow : EditorWindow
         catch (Exception e) { status = "Failed: " + e.Message; }
     }
 
-    // Copy a browsed WAV into enc_sounds/<baseName>.wav and set `field`; keep the existing value if none browsed.
+    // Copy a browsed WAV into the pack's sounds/<baseName>.wav (BOTH the live deploy the game reads AND the git-tracked repo
+    // source, so the pack ships self-contained) and set `field`; keep the existing value if none browsed.
     bool CopyWav(string src, string baseName, ref string field)
     {
         if (string.IsNullOrEmpty(src)) return true;
         if (!File.Exists(src)) { status = "WAV not found: " + src; return false; }
-        Directory.CreateDirectory(SoundsDir);
         string f = Sanitize(baseName) + ".wav";
+        Directory.CreateDirectory(SoundsDir);
         File.Copy(src, Path.Combine(SoundsDir, f), true);
+        try { Directory.CreateDirectory(SoundsRepoDir); File.Copy(src, Path.Combine(SoundsRepoDir, f), true); } catch (Exception e) { Debug.LogWarning("[Sound] repo mirror failed: " + e.Message); }
         field = f;
         return true;
     }
