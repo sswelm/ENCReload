@@ -461,6 +461,16 @@ public class AnimationLabWindow : EditorWindow
                 EditorGUILayout.HelpBox("Model file not found on disk:\n" + cur.modelFile +
                     "\nThe source was moved or renamed. Fix it with Browse… (or press ⟳ Reload if the registry was already corrected outside this window).", MessageType.Warning);
         }
+        // --- Disable override (debug: fall back to the original vanilla unit) ---
+        EditorGUILayout.Space();
+        bool wasDisabled = cur.disabled;
+        cur.disabled = EditorGUILayout.ToggleLeft(new GUIContent("● Disable override — show the ORIGINAL unit",
+            "DEBUG: when ticked, this model override is skipped entirely and the game's ORIGINAL vanilla unit renders — " +
+            "to compare against your custom model or watch the donor's own animation. RUNTIME-ONLY: Save (no bake) + relaunch."),
+            cur.disabled);
+        if (cur.disabled != wasDisabled) formDiffersFromRegistry = true;
+        if (cur.disabled) EditorGUILayout.HelpBox("Override DISABLED — this entry is ignored at load; the original unit shows in-game. Untick + Save (no bake) + relaunch to restore your model.", MessageType.Warning);
+
         // --- Deploy conversion (raw rigid-parts source → bone-per-part rig, part of the recipe) ---
         EditorGUILayout.Space();
         cur.deployConvert = EditorGUILayout.Toggle(new GUIContent("Deploy conversion (rigid-parts source)",
@@ -814,7 +824,7 @@ public class AnimationLabWindow : EditorWindow
         cur.deployConvert = mine.deployConvert; cur.deployStart = mine.deployStart; cur.deployEnd = mine.deployEnd;
         cur.deployStrip = mine.deployStrip; cur.deployReadyFrame = mine.deployReadyFrame; cur.deployLegScale = mine.deployLegScale; cur.deployBarrelScale = mine.deployBarrelScale;
         cur.deployRecoil = mine.deployRecoil; cur.deployRecoilStep = mine.deployRecoilStep; cur.deployRecoilMag = mine.deployRecoilMag; cur.deployArcR = mine.deployArcR; cur.deployRecoilReturn = mine.deployRecoilReturn; cur.deploySlamDeg = mine.deploySlamDeg; cur.deploySlamSettle = mine.deploySlamSettle;
-        cur.animStateDriven = mine.animStateDriven; cur.animClipMove = mine.animClipMove; cur.animClipAfter = mine.animClipAfter; cur.animClipAttack = mine.animClipAttack; cur.animClipCombat = mine.animClipCombat; cur.animClipPreMove = mine.animClipPreMove; cur.animClipIdle = mine.animClipIdle; cur.animClipIdleAlt = mine.animClipIdleAlt; cur.animClipIdleAlt2 = mine.animClipIdleAlt2; cur.idleAltInterval = mine.idleAltInterval; cur.attackRepeats = mine.attackRepeats; cur.clearAimLayer = mine.clearAimLayer; cur.turretBone = mine.turretBone; cur.turretAxis = mine.turretAxis;
+        cur.animStateDriven = mine.animStateDriven; cur.animClipMove = mine.animClipMove; cur.animClipAfter = mine.animClipAfter; cur.animClipAttack = mine.animClipAttack; cur.animClipCombat = mine.animClipCombat; cur.animClipPreMove = mine.animClipPreMove; cur.animClipIdle = mine.animClipIdle; cur.animClipIdleAlt = mine.animClipIdleAlt; cur.animClipIdleAlt2 = mine.animClipIdleAlt2; cur.idleAltInterval = mine.idleAltInterval; cur.attackRepeats = mine.attackRepeats; cur.clearAimLayer = mine.clearAimLayer; cur.turretBone = mine.turretBone; cur.turretAxis = mine.turretAxis; cur.disabled = mine.disabled;
         cur.handPropName = mine.handPropName; cur.handPropGuid = mine.handPropGuid; cur.handPropMat = mine.handPropMat; cur.handPropBone = mine.handPropBone;
         cur.handPropAngles = mine.handPropAngles;   // Lab-owned again since the LIVE fit knob edits it ('Save rotation to game')
         cur.fireOnAttack = mine.fireOnAttack; cur.deployOnStop = mine.deployOnStop;
