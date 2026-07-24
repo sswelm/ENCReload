@@ -687,11 +687,11 @@ public class AnimationLabWindow : EditorWindow
             "Tick it when a rig plays fine in the preview but tears apart / displaces in-game; usually paired with " +
             "Fix 100× OFF. Re-bake after changing."),
             cur.convertRig);
-        cur.autoGroundWheels = EditorGUILayout.Toggle(new GUIContent("Auto-ground wheels (vehicles)",
-            "Sit a rigged VEHICLE on the terrain automatically — no manual Position-offset dial. The bake measures how " +
-            "far the ROTATING (wheel) bones stick out below the static body and lifts the rig by exactly that. Tick it " +
-            "for a car/tank with spinning wheels. Leave OFF for a full-body rig (mech/soldier) or a deploy rig " +
-            "(howitzer) — their moving parts aren't wheels and would be mis-measured. Re-bake after changing."),
+        cur.autoGroundWheels = EditorGUILayout.Toggle(new GUIContent("Auto-ground (sit on terrain)",
+            "Sit a rigged VEHICLE on the terrain automatically — no manual Position-offset dial. The bake drops the " +
+            "model's LOWEST point (the tyre contact) to the skeleton origin (the same keel→ground the static bake does). " +
+            "Self-correcting, so re-baking never floats it. Tick it for a car/tank. Leave OFF for a flyer/hover model " +
+            "(it would be pinned to the ground). Re-bake after changing."),
             cur.autoGroundWheels);
         if (!UniversalBaker.BlenderAvailable())
             EditorGUILayout.HelpBox("The animated bake needs Blender (to slim the rig + bake the clip) — it wasn't found. " +

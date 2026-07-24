@@ -687,49 +687,26 @@ if convert_rig:
     except Exception as e:
         print("RIGANIM WARN: transform_apply failed (%s) — rotation left object-level (may not survive the bake)" % e)
 
-# AUTO-GROUND (argv[11] == "1"): sit a rigged VEHICLE on the terrain with NO manual Position-offset dial. The
-# animated path has no keel->z=0 (only the static path does), so a model whose wheels stick out below the hull
-# sinks. Compute the drop from geometry — the "wheels" are the bones the clip actually ROTATES; the offset is how
-# far those parts protrude below the STATIC body: minZ(body) - minZ(all)  ("wheels-on minus wheels-off"). Lift the
-# whole rig (verts + bone rests together, so skin + rotation-only clips are untouched) by that. Runs after the
-# convert fold, so Z is world-vertical. OPT-IN (per-model toggle): a full-body rig (mech/soldier — every bone
-# varies) or a deploy rig (howitzer legs rotate AND swing down) would mis-detect, so it is OFF unless requested.
-if len(argv) > 10 and argv[10].strip() == "1" and arm is not None:
-    _act = arm.animation_data.action if arm.animation_data else None
-    _wheel_bones = set()
-    if _act:
-        # A "wheel" = a bone whose ROTATION actually VARIES across the clip. (The convert rebake keys EVERY bone,
-        # most with a constant rest rotation; only the truly-rotating parts have a real value range — so "has an
-        # fcurve" over-matches. Threshold ~3deg filters rebake noise on the static body.)
-        _rng = {}
-        for _coll, _fc in all_fcurve_owners(_act):
-            _dp = _fc.data_path
-            if _dp.startswith('pose.bones["') and '"]' in _dp and 'rotation' in _dp:
-                _vals = [kp.co[1] for kp in _fc.keyframe_points]
-                if _vals:
-                    _b = _dp.split('"')[1]
-                    _rng[_b] = max(_rng.get(_b, 0.0), max(_vals) - min(_vals))
-        _wheel_bones = {b for b, r in _rng.items() if r > 0.05}
-    _wgi = {joined.vertex_groups[b].index for b in _wheel_bones if b in joined.vertex_groups}
-    _vs = me.vertices
-    if _vs and _wgi:
-        _all_min = min(v.co.z for v in _vs)
-        _body = [v for v in _vs if not any(g.group in _wgi and g.weight > 0.5 for g in v.groups)]
-        _body_min = min((v.co.z for v in _body), default=_all_min)
-        _off = _body_min - _all_min                    # how far the wheels protrude below the hull (>= 0)
-        if _off > 1e-3:
-            for v in _vs: v.co.z += _off
-            me.update()
-            bpy.context.view_layer.objects.active = arm
-            bpy.ops.object.mode_set(mode='EDIT')
-            for _eb in arm.data.edit_bones: _eb.head.z += _off; _eb.tail.z += _off
-            bpy.ops.object.mode_set(mode='OBJECT')
-            print("RIGANIM auto-ground: lifted %.4f  (all minZ %.4f, body minZ %.4f; wheel bones: %s)"
-                  % (_off, _all_min, _body_min, ",".join(sorted(_wheel_bones))))
-        else:
-            print("RIGANIM auto-ground: no lift (wheels don't protrude below the body, off=%.4f)" % _off)
+# AUTO-GROUND (argv[10] == "1"): sit a rigged VEHICLE on the terrain with NO manual Position-offset dial — the
+# animated path has no keel->z=0 like the static path. Robust measure: drop the model's LOWEST point (the tyre
+# contact) to the skeleton origin — shift the whole rig up by -minZ. SELF-CORRECTING: a raw file lifts by its full
+# sink, an already-grounded file lifts by ~0, so it can NEVER double-apply (the earlier "wheels-on minus wheels-off"
+# protrusion measure did — a fixed lift that floated a pre-grounded file). Verts + bone rests move together (skin +
+# rotation-only clips untouched). Runs after the convert fold, so Z is world-vertical. OPT-IN: only sensible for a
+# vehicle whose lowest point IS its ground contact (a flyer/hover model would get pinned to the terrain).
+if len(argv) > 10 and argv[10].strip() == "1" and arm is not None and me.vertices:
+    _all_min = min(v.co.z for v in me.vertices)
+    _off = -_all_min
+    if abs(_off) > 1e-3:
+        for v in me.vertices: v.co.z += _off
+        me.update()
+        bpy.context.view_layer.objects.active = arm
+        bpy.ops.object.mode_set(mode='EDIT')
+        for _eb in arm.data.edit_bones: _eb.head.z += _off; _eb.tail.z += _off
+        bpy.ops.object.mode_set(mode='OBJECT')
+        print("RIGANIM auto-ground: lowest point %.4f -> origin (lifted %.4f)" % (_all_min, _off))
     else:
-        print("RIGANIM auto-ground: skipped — no rotating (wheel) bones or vertex groups found")
+        print("RIGANIM auto-ground: already grounded (minZ %.4f)" % _all_min)
 
 bpy.ops.object.select_all(action='SELECT')
 # EXPORT SCALE (raw-FBX-parse evidence, fbx_lclscale/fbx_binddump): Blender's exporter writes meters->cm by scaling
