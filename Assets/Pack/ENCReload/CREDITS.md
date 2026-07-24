@@ -22,9 +22,9 @@ Status: ✅ clear (credit as noted) · ⚠ needs its source/license found · ❌
 | Zeppelin / ReconZeppelin | **MMD_SonicNewYear** (sketchfab.com/MMD_SonicNewYear) | **CC‑BY‑4.0** | [Дирижабль HD](https://sketchfab.com/3d-models/hd-92734a2c283e4d889fecbb010aaf7822) | ✅ (credit) |
 | StealthHelicopter | **manilov.ap** (sketchfab.com/manilov.ap) | **CC‑BY‑4.0** | [Rah66](https://sketchfab.com/3d-models/rah66-f9f7a920d24b42c19d87a2d569e27436) | ✅ (credit) |
 | HandCrankedSubmarines | **Fareastern Loner** (Tucuru@3D) — Fab | **Fab Personal** (fab.com/eula) — OK incorporated in a Project | Fab, invoice A1122204036 (textures partly Texture.com, seller‑cleared) | ✅* (confirm EULA clause) |
-| **VolleyGun** | **Orpind** (sketchfab.com/leondp) | **CC‑BY‑NC‑ND‑4.0** ❌ | [Ozhiga organ gun 2](https://sketchfab.com/3d-models/ozhiga-organ-gun-2-caca104025c345aba8fb4c3a33ae8216) | ❌ **NoDerivatives — cannot ship the baked/modified model. REMOVE, or get the author's written permission.** |
+| **VolleyGun** (Era5) | **Orpind** — **"Ozhiga" organ gun (1)** | **Fab license** (repurchased 2026‑07‑24) — supersedes the earlier free CC‑BY‑NC‑ND Sketchfab download | Fab (fab.com), Personal license; invoice: __ | ✅* **RESOLVED by buying the Fab‑licensed version** (Fab permits incorporation into a distributed mod). TODO: re‑download from Fab, re‑point VolleyGun's modelFile at the Fab copy, record the invoice ID. *(Do NOT ship the old free Sketchfab CC‑BY‑NC‑ND copy.)* |
 | AttackHelicopter | ? (Cobra) — metadata stripped on Blender re‑export | ⚠ find in your Sketchfab library | `Cobra.glb` | ⚠ |
-| OrganGun | ? (Ribauldequin) — metadata stripped | ⚠ | `Ribauldequin_textured.glb` | ⚠ |
+| OrganGun (Era4) | **user‑textured from scratch**; base geometry from "Medieval Organ Gun / Ribauldequin" download (id 4905272) | ⚠ base‑model source/license TBD (STL‑style import — likely a 3D‑print model site) | `Ribauldequin_textured.glb` | ⚠ (separate unit from VolleyGun) |
 | ReconDrone | ? — metadata stripped | ⚠ | `drone_clean.glb` | ⚠ |
 | ReconHelicopter | ? (Bell H‑13) — metadata stripped | ⚠ | `Bel-H-13-Cleaned.glb` | ⚠ |
 | StealthCruiser | ? (Zumwalt) — metadata stripped | ⚠ | `zumwalt_clean.glb` | ⚠ |
