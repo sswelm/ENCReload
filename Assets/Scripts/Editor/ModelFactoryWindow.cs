@@ -32,6 +32,7 @@ public class ModelFactoryWindow : EditorWindow
     Bounds previewBounds;
     [SerializeField] Vector2 previewOrbit = new Vector2(135f, -20f);  // yaw/pitch (deg); survives domain reload
     [SerializeField] float previewZoom = 1.4f;                        // camera distance factor (scroll wheel)
+    [SerializeField] Vector2 previewPan;                              // camera-plane pan offset (middle/right-drag), in radius units
     static Material previewFallbackMat;
     string previewFor = "";
 
@@ -149,7 +150,7 @@ public class ModelFactoryWindow : EditorWindow
     {
         if (previewDraws == null) return;
         EditorGUILayout.Space();
-        EditorGUILayout.LabelField("Preview — " + previewFor + "   (drag to orbit, scroll to zoom)", EditorStyles.miniBoldLabel);
+        EditorGUILayout.LabelField("Preview — " + previewFor + "   (drag = orbit · middle-drag = pan · scroll = zoom)", EditorStyles.miniBoldLabel);
         var r = GUILayoutUtility.GetRect(200, 260, GUILayout.ExpandWidth(true));
         var e = Event.current;
         if (r.Contains(e.mousePosition))
@@ -167,6 +168,12 @@ public class ModelFactoryWindow : EditorWindow
                 previewOrbit.y = Mathf.Clamp(previewOrbit.y, -89f, 89f);
                 e.Use(); Repaint();
             }
+            else if (e.type == EventType.MouseDrag && (e.button == 1 || e.button == 2))
+            {
+                // middle- or right-drag pans in the camera plane; scaled by radius (below) so it tracks the cursor at any zoom
+                previewPan += new Vector2(-e.delta.x, e.delta.y) * 0.0035f;
+                e.Use(); Repaint();
+            }
         }
         if (e.type != EventType.Repaint) return;
         if (previewPRU == null) previewPRU = new PreviewRenderUtility();
@@ -181,8 +188,10 @@ public class ModelFactoryWindow : EditorWindow
             float radius = Mathf.Max(previewBounds.extents.magnitude, 0.1f);
             float dist = radius * 2.0f * previewZoom;
             var rot = Quaternion.Euler(-previewOrbit.y, previewOrbit.x, 0f);
-            cam.transform.position = previewBounds.center + rot * (Vector3.back * dist);
-            cam.transform.rotation = Quaternion.LookRotation(previewBounds.center - cam.transform.position);
+            // pan shifts the look target along the camera's right/up axes (× radius so it feels consistent at any size)
+            var center = previewBounds.center + rot * new Vector3(previewPan.x * radius, previewPan.y * radius, 0f);
+            cam.transform.position = center + rot * (Vector3.back * dist);
+            cam.transform.rotation = Quaternion.LookRotation(center - cam.transform.position);
             cam.nearClipPlane = 0.01f;
             cam.farClipPlane = dist + radius * 4f;
             cam.fieldOfView = 30f;
@@ -466,8 +475,9 @@ public class ModelFactoryWindow : EditorWindow
         cur.atlasMaxDim = EditorGUILayout.IntPopup(new GUIContent("Atlas size",
             "Longest side of the baked atlas, in pixels. The atlas is DXT1-compressed and saved to the shipped _Atlas.asset, " +
             "so SMALLER = smaller mod bundle. A unit is ~80px at map zoom (and its info card uses your 2D portrait, not the " +
-            "model), so 512-1024 is plenty; pick 2048 only for a unit you zoom in on closely. Re-bake to apply."),
-            cur.atlasMaxDim, new[] { new GUIContent("256"), new GUIContent("512"), new GUIContent("1024"), new GUIContent("2048") }, new[] { 256, 512, 1024, 2048 });
+            "model), so 512-1024 is plenty; pick 2048 for a unit you zoom in on closely, and 4096 only when the source " +
+            "texture is that large AND you really want to read fine detail (heaviest bundle + VRAM). Re-bake to apply."),
+            cur.atlasMaxDim, new[] { new GUIContent("256"), new GUIContent("512"), new GUIContent("1024"), new GUIContent("2048"), new GUIContent("4096") }, new[] { 256, 512, 1024, 2048, 4096 });
         cur.materialMode = (MaterialMode)EditorGUILayout.EnumPopup(new GUIContent("Material mode",
             "How the bake handles a model with MORE THAN ONE material. Auto = pack a multi-material atlas when the model has >1 " +
             "material, else a single texture (right for most). Single = force one texture — correct for CLOSED models (tanks, " +
