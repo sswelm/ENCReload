@@ -47,6 +47,12 @@ print("RIGANIM conversion path: %s" % ("ON (raw-rig convert)" if convert_rig els
 # clip's frame-0 pose) — converting roles in separate Blender runs would derive a DIFFERENT rest per clip and the
 # non-primary clips would play rigidly displaced on the primary-baked skeleton (the torn-head failure, reborn).
 role_specs = []   # ordered [(role, clipName)]
+# keepTranslations (argv[12], opt-in, 2026-07-25 — the caterpillar unlock): keep VARYING bone-location curves
+# through the strip below. The engine plays RotationTranslation curves (vanilla tank shuttle bones); the strip
+# exists for the native-scale trap + legacy hygiene, so translations stay opt-in per model.
+keep_translations = len(argv) > 12 and argv[12].strip() == "1"
+_KEEP_LOC_PATHS = set()   # filled by the conversion rebake with the paths of genuinely translation-animated bones
+
 if len(argv) > 9 and argv[9].strip():
     for _pair in argv[9].split(";"):
         _pair = _pair.strip()
@@ -424,8 +430,12 @@ try:
         # double-applied on the new rest). New local basis per frame, pure matrix math:
         #   local_f(bone)  = parentWorld_f^-1 @ world_f          (armature-space snapshots)
         #   basis_f(bone)  = newRestLocal^-1 @ local_f           (Blender: poseLocal = restLocal @ basis)
-        # Only the ROTATION of basis_f is written (Amplitude is rotation-only; the primary's frame-0 basis ==
-        # identity by construction, so the rest IS the primary's first frame). EVERY clip (primary + state roles)
+        # ROTATION of basis_f is always written. TRANSLATION (2026-07-25, the caterpillar unlock): the engine
+        # PLAYS RotationTranslation curves (the vanilla tank's tread shuttle bones prove it; the old "rotation-
+        # only" law described THIS loop's keying, not an engine wall) — so `location` is ALSO keyed, but ONLY for
+        # bones whose basis translation VARIES within the clip (> 1e-4). Constant offsets stay dropped exactly as
+        # before, so every existing rotation-only model rebakes identically. The primary's frame-0 basis ==
+        # identity by construction, so the rest IS the primary's first frame. EVERY clip (primary + state roles)
         # is rebaked against the SAME rest here — that shared reference is what lets all role ClipCollections play
         # on one baked skeleton.
         _parent_of = {b.name: (b.parent.name if b.parent else None) for b in arm.data.bones}
@@ -449,6 +459,27 @@ try:
                 _frames = [_frames[0], _frames[0] + 1]
                 _snaps[_oa][_frames[1]] = _snaps[_oa][_frames[0]]
                 print("RIGANIM single-frame clip '%s' padded to 2 identical frames (stance)" % _oa.name)
+            # pre-pass: which bones genuinely translate within THIS clip? (varying basis translation, not a
+            # constant offset — the gate that keeps all legacy models byte-identical)
+            _trans_bones = set()
+            for pb in arm.pose.bones:
+                _pn = _parent_of[pb.name]
+                _lo = None; _hi = None
+                for _f in _frames:
+                    _world = _snaps[_oa][_f]
+                    _localf = (_world[_pn].inverted() @ _world[pb.name]) if _pn else _world[pb.name]
+                    _t = (_rest_local[pb.name].inverted() @ _localf).to_translation()
+                    if _lo is None: _lo = _t.copy(); _hi = _t.copy()
+                    else:
+                        _lo = Vector((min(_lo.x, _t.x), min(_lo.y, _t.y), min(_lo.z, _t.z)))
+                        _hi = Vector((max(_hi.x, _t.x), max(_hi.y, _t.y), max(_hi.z, _t.z)))
+                if _lo is not None and (_hi - _lo).length > 1e-4:
+                    _trans_bones.add(pb.name)
+            if _trans_bones:
+                print("RIGANIM TRANSLATION-animated bone(s) in '%s': %s%s" % (_oa.name, sorted(_trans_bones),
+                      " (location keys KEPT — keepTranslations)" if keep_translations else " (location keys stripped below — set keepTranslations to keep)"))
+                for _tb in _trans_bones:
+                    _KEEP_LOC_PATHS.add('pose.bones["%s"].location' % _tb)
             for _f in _frames:
                 _world = _snaps[_oa][_f]
                 for pb in arm.pose.bones:
@@ -457,6 +488,9 @@ try:
                     _basis = _rest_local[pb.name].inverted() @ _localf
                     pb.rotation_quaternion = _basis.to_quaternion()
                     pb.keyframe_insert("rotation_quaternion", frame=_f)
+                    if pb.name in _trans_bones:
+                        pb.location = _basis.to_translation()
+                        pb.keyframe_insert("location", frame=_f)
             _rebaked[_oa] = _na
         act = _rebaked[all_acts[0]]
         role_acts = {r: _rebaked[a] for r, a in role_acts.items()}
@@ -489,13 +523,16 @@ except Exception as _e:
 # stripped to rotation-only 'prop' curves by hand.) DELIBERATELY UNGATED — runs on BOTH paths: every verified legacy
 # bake went through it, and Amplitude can't play the keys anyway (the 2026-07-19 gating decision moved only the
 # destructive rest-fold above behind the convert flag).
-_locs = 0
+_locs = 0; _kept = 0
 for _sa in all_acts:
     for coll, fc in all_fcurve_owners(_sa):
         if fc.data_path.startswith("pose.bones") and fc.data_path.endswith(".location"):
+            if keep_translations and fc.data_path in _KEEP_LOC_PATHS:
+                _kept += 1; continue   # opt-in: genuinely translation-animated bone (caterpillar shuttle etc.)
             coll.remove(fc); _locs += 1
-if _locs:
-    print("RIGANIM stripped %d bone-LOCATION fcurves across %d clip(s) (Amplitude clips are rotation-only; translations bake unscaled)" % (_locs, len(all_acts)))
+if _locs or _kept:
+    print("RIGANIM stripped %d bone-LOCATION fcurves across %d clip(s)%s" % (_locs, len(all_acts),
+          (", KEPT %d translation curve(s) (keepTranslations)" % _kept) if _kept else " (rotation-only; translations bake unscaled)"))
 
 # clamp scene frame range to the action's real range (else bake_anim pads a frozen tail -> ~1s stall per loop)
 fs, fe = [int(round(v)) for v in act.frame_range]
