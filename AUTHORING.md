@@ -47,7 +47,10 @@ More editor windows drive overrides and focused workflows alongside the Factory:
   clip + bone-filter pickers, fire-on-attack, deploy-on-stop + recoil sliders, and **Save (no bake)** for runtime
   flags. The Factory owns the model (file/transform/size), the Lab owns the animation — settings are mutually
   exclusive and **enforced at bake time** (each window rebases on the registry and writes only its own fields).
-  Bake from either window; the pipeline is identical.
+  Bake from either window; the pipeline is identical. Since 2026-07-26 the Lab's **Keep bone translations** flag
+  carries authored SLIDES through the bake (true `RotationTranslation` clips — the M114 howitzer's real recoil
+  kickback), and deploy recipes take **multi-segment recoil windows** with per-segment speed steps
+  (`442..530,305..441/2`).
 - **Tools ▸ HAF ▸ Vehicle Lab** — "vehicleize" a **static vehicle model** into the rigged, Spin-animated GLB the
   animated path consumes (wheels roll while driving, still when parked), no Blender knowledge needed: probe the
   parts, mark wheels & turret (keyboard-driven review, zoom-highlight preview, save/load **recipes**, a
