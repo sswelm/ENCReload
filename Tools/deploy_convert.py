@@ -521,6 +521,41 @@ if len(argv) >= 4:
     scene.frame_start, scene.frame_end = int(argv[2]), trim_end
     print("DEPLOY trim to frames %d..%d" % (scene.frame_start, scene.frame_end))
 bpy.ops.object.select_all(action='SELECT')
+# SANITIZE BEFORE EXPORT (2026-07-25, found via the howitzer kickback work): degenerate SOURCE nodes (zero-scale
+# ancestors — the m114's door/handle/barrel1 chain) decompose into garbage keys (locations ~1e11, scales 0..5e14,
+# NaN) that ride into the GLB, NaN the Unity import and explode skinned bounds. Any bone with a non-finite or
+# absurd key loses ALL its curves — it holds rest pose and rides its parent, which is visually what those broken
+# micro-parts did anyway (the old location-strip masked half of this for every previous bake).
+import math as _math
+_garbage_bones = set()
+for _act in bpy.data.actions:
+    try: _fcs = list(_act.fcurves)
+    except AttributeError:
+        _fcs = [fc for layer in _act.layers for strip in layer.strips for cb in strip.channelbags for fc in cb.fcurves]
+    for _fc in _fcs:
+        if not _fc.data_path.startswith('pose.bones["'):
+            continue
+        for _kp in _fc.keyframe_points:
+            _v = _kp.co[1]
+            if _v != _v or _math.isinf(_v) or abs(_v) > 1e6:
+                _garbage_bones.add(_fc.data_path.split('"')[1]); break
+if _garbage_bones:
+    _removed_fc = 0
+    for _act in bpy.data.actions:
+        try: _fcs = list(_act.fcurves); _coll = _act.fcurves
+        except AttributeError:
+            _fcs = [(cb, fc) for layer in _act.layers for strip in layer.strips for cb in strip.channelbags for fc in cb.fcurves]
+        if _fcs and isinstance(_fcs[0], tuple):
+            for _cb, _fc in list(_fcs):
+                if _fc.data_path.startswith('pose.bones["') and _fc.data_path.split('"')[1] in _garbage_bones:
+                    _cb.fcurves.remove(_fc); _removed_fc += 1
+        else:
+            for _fc in list(_fcs):
+                if _fc.data_path.startswith('pose.bones["') and _fc.data_path.split('"')[1] in _garbage_bones:
+                    _coll.remove(_fc); _removed_fc += 1
+print("DEPLOY sanitized: %d garbage bone(s) de-animated (%d curves) — rest-pose ride: %s"
+      % (len(_garbage_bones), _removed_fc if _garbage_bones else 0, sorted(_garbage_bones) if _garbage_bones else "none"))
+
 bpy.ops.export_scene.gltf(filepath=outp, export_format='GLB', export_animations=True,
                           export_frame_range=True, export_yup=True)
 print("DEPLOY wrote:", outp)
