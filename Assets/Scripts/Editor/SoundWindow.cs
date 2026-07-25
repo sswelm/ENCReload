@@ -9,6 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using UnityEditor;
+using UnityEditor.IMGUI.Controls;
 using UnityEngine;
 
 public class SoundWindow : EditorWindow
@@ -128,8 +129,20 @@ public class SoundWindow : EditorWindow
                 "The game's own per-ship sound. Get names from F8 ▸ Dump Sound Catalog (enc_sound_catalog.txt)."), engineSound);
             if (engineSound)
             {
-                engineStart = EditorGUILayout.TextField(new GUIContent("  Start event", "e.g. Play_UNIT_Vehicles_StealthCorvette_Start"), engineStart);
-                engineStop = EditorGUILayout.TextField(new GUIContent("  Stop event", "e.g. Play_UNIT_Vehicles_StealthCorvette_Stop"), engineStop);
+                WwiseEventRow("  Start event", "e.g. Play_UNIT_Vehicle_AntiAirGun_Movement_Start — Pick browses the game's full event catalog (searchable).",
+                    engineStart, s =>
+                    {
+                        engineStart = s;
+                        // convenience: picking a *_Start auto-fills the matching *_Stop when it exists and Stop is empty
+                        if (string.IsNullOrEmpty(engineStop))
+                        {
+                            var stop = s.Replace("_Start", "_Stop");
+                            var cat = LoadSoundCatalog();
+                            if (stop != s && cat != null && Array.IndexOf(cat, stop) >= 0) engineStop = stop;
+                        }
+                    });
+                WwiseEventRow("  Stop event", "e.g. Play_UNIT_Vehicle_AntiAirGun_Movement_Stop — auto-filled when you Pick a matching Start.",
+                    engineStop, s => engineStop = s);
             }        }
 
         EditorGUILayout.Space();
@@ -197,6 +210,44 @@ public class SoundWindow : EditorWindow
         }
         idlePath = attackPath = deathPath = battlePath = "";
         startPath = loopPath = stopPath = ""; status = "";
+    }
+
+    // ── Wwise event picker ────────────────────────────────────────────────────────────────────────────────────────
+    // A text field + a searchable Pick dropdown over the game's full event catalog (the F8 ▸ Dump Sound Catalog
+    // output, enc_sound_catalog.txt in BepInEx/config). No more hand-copying names out of a text file; the dropdown
+    // is disabled with a how-to tooltip until the catalog has been dumped once on this machine.
+    static string[] soundCatalog; static long soundCatalogStamp = -1;
+    static string[] LoadSoundCatalog()
+    {
+        try
+        {
+            var p = Path.Combine(ModelRegistry.ConfigDir, "enc_sound_catalog.txt");
+            if (!File.Exists(p)) { soundCatalog = null; return null; }
+            long stamp = File.GetLastWriteTimeUtc(p).Ticks;
+            if (soundCatalog != null && stamp == soundCatalogStamp) return soundCatalog;
+            soundCatalogStamp = stamp;
+            soundCatalog = File.ReadAllLines(p).Select(l => l.Trim()).Where(l => l.Length > 0 && !l.StartsWith("#")).Distinct().OrderBy(l => l, StringComparer.OrdinalIgnoreCase).ToArray();
+            return soundCatalog;
+        }
+        catch { return soundCatalog; }
+    }
+
+    void WwiseEventRow(string label, string tooltip, string current, Action<string> set)
+    {
+        using (new EditorGUILayout.HorizontalScope())
+        {
+            var typed = EditorGUILayout.TextField(new GUIContent(label, tooltip), current ?? "");
+            if (typed != (current ?? "")) set(typed);
+            var cat = LoadSoundCatalog();
+            using (new EditorGUI.DisabledScope(cat == null || cat.Length == 0))
+                if (GUILayout.Button(new GUIContent("Pick", cat == null
+                        ? "No sound catalog on this machine yet — in-game: F8 window ▸ Dump Sound Catalog (writes enc_sound_catalog.txt), then come back."
+                        : $"Pick from the game's {cat.Length} Wwise events (searchable)"), GUILayout.Width(50)))
+                {
+                    var r = GUILayoutUtility.GetLastRect();
+                    new StringDropdown(new AdvancedDropdownState(), cat, cat, label.Trim(), s => { set(s); Repaint(); }).Show(r);
+                }
+        }
     }
 
     void WavVolRow(string label, string current, ref string path, ref float vol, float previewOffset = 0f)
