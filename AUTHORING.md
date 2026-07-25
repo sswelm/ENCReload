@@ -48,6 +48,13 @@ More editor windows drive overrides and focused workflows alongside the Factory:
   flags. The Factory owns the model (file/transform/size), the Lab owns the animation — settings are mutually
   exclusive and **enforced at bake time** (each window rebases on the registry and writes only its own fields).
   Bake from either window; the pipeline is identical.
+- **Tools ▸ HAF ▸ Vehicle Lab** — "vehicleize" a **static vehicle model** into the rigged, Spin-animated GLB the
+  animated path consumes (wheels roll while driving, still when parked), no Blender knowledge needed: probe the
+  parts, mark wheels & turret (keyboard-driven review, zoom-highlight preview, save/load **recipes**, a
+  clustering-accurate **Verify** report), press Vehicleize. Fully-skinned rips (`SKM_` prefix) get a **fast path**
+  that reuses the artist skeleton — mark BONES instead of shards (inherits the artist's weighting, good and bad;
+  the shard path remains the quality reference). Verified in-game: the shipped ArmouredCar runs a Lab-generated
+  rig. See `HumankindAssetFramework/docs/Animated-Models.md`.
 - **Tools ▸ HAF ▸ Unit Retexture** — reskin an existing unit: a hot-loaded PNG, or a live **Desaturate + RGB** adjust of
   its own atlas. Isolated per unit (the original stays as-is), and free on the vertex budget.
 - **Tools ▸ HAF ▸ Unit Sound** — give a unit **movement audio**: the game's own engine event by name, or custom WAVs as
