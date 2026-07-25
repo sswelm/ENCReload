@@ -177,7 +177,13 @@ for wn in wheel_names:
     bpy.context.scene.frame_set(frames)
     pb.rotation_euler = (0, math.radians(degrees), 0)   # local Y = the axle (bone tail direction)
     pb.keyframe_insert("rotation_euler", frame=frames)
-for fc in act.fcurves:
+# Blender 5.x REMOVED Action.fcurves (slotted/layered actions): curves live under layers->strips->channelbags.
+try:
+    _fcs = list(act.fcurves)
+except AttributeError:
+    _fcs = [fc for layer in act.layers for strip in layer.strips
+            for cb in strip.channelbags for fc in cb.fcurves]
+for fc in _fcs:
     for kp in fc.keyframe_points:
         kp.interpolation = 'LINEAR'
 
