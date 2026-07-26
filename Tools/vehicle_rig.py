@@ -136,6 +136,10 @@ gun_names = namelist(argv[11]) if len(argv) > 11 and argv[11].strip() else []   
 axis_arg = argv[6].upper()
 frames = max(2, int(argv[7]))
 degrees = float(argv[8])
+# tread advance in QUARTER-LINK cells per loop (user speed dial): 4 = one full link (syncs the sprocket),
+# 3 = near-syncs the road wheels (their symmetry snap runs them slower), 2 = half speed (strong half-link
+# restart grid). Clamped 1..8.
+tread_adv_cells = max(1, min(8, int(float(argv[12])))) if len(argv) > 12 and argv[12].strip() else 3
 
 # ---- rigfast mode: the SKM fast path ----
 # The source already carries an artist skeleton with full weights (see rig_report) — REUSE it: author the Spin
@@ -732,19 +736,62 @@ for o in objs:
             # speed and exact restart. NOTE the Amplitude 256-bone budget: quarter-link = 216 link bones on the
             # Jagdpanzer — only affordable because link mode DELETES the unused legacy tread bones (18).
             _CPL = 4   # cells per link
+
+            def _project(_ptsP, _SP2):
+                # per-vert path parameter: nearest path sample (XZ plane)
+                _out = []
+                for _v in o.data.vertices:
+                    _vx, _vz = _v.co[0], _v.co[2]
+                    _bd, _bm = 1e18, 0
+                    for _m in range(len(_ptsP)):
+                        _pp = _ptsP[_m]
+                        _dd = (_pp.x - _vx) * (_pp.x - _vx) + (_pp.z - _vz) * (_pp.z - _vz)
+                        if _dd < _bd:
+                            _bd, _bm = _dd, _m
+                    _out.append(_SP2[_bm])
+                return _out
+            _s_of = _project(_pts, _S)
+            # REFIT the path through the MESH'S OWN CENTERLINE (user: "make the track tighter"): the analytic
+            # belt is idealized — real standoffs and top-run SAG deviate from it, and wherever they do the
+            # links drift off the modeled line mid-loop and snap back at restart (reads as slack). The belt's
+            # nearest-point projection is a concavity-safe parameterization, so refit: per-s-bin centroids of
+            # the tread verts = the artist's actual line (sag included), lightly smoothed, then re-project.
+            _cbx = [0.0] * _M; _cbz = [0.0] * _M; _cbc = [0] * _M
+            for _vi, _v in enumerate(o.data.vertices):
+                _bi = min(_M - 1, int(_s_of[_vi] / _L * _M))
+                _cbx[_bi] += _v.co[0]; _cbz[_bi] += _v.co[2]; _cbc[_bi] += 1
+            _ctr_pts = []
+            for _i in range(_M):
+                if _cbc[_i]:
+                    _ctr_pts.append(Vector((_cbx[_i] / _cbc[_i], 0.0, _cbz[_i] / _cbc[_i])))
+                else:
+                    _ctr_pts.append(None)
+            for _i in range(_M):   # fill gaps from circular neighbors
+                if _ctr_pts[_i] is None:
+                    _j = 1
+                    while _ctr_pts[(_i + _j) % _M] is None:
+                        _j += 1
+                    _k2 = 1
+                    while _ctr_pts[(_i - _k2) % _M] is None:
+                        _k2 += 1
+                    _pa, _pb = _ctr_pts[(_i - _k2) % _M], _ctr_pts[(_i + _j) % _M]
+                    _ctr_pts[_i] = _pa.lerp(_pb, _k2 / (_k2 + _j))
+            # DELTA formulation (narrow smoothing of the raw centerline crumpled the wraps — the per-bin
+            # centroids wiggle at cleat frequency): keep the belt's EXACT arc geometry and add only the
+            # WIDE-smoothed deviation of the mesh centerline from it. Sag/standoff corrections are long
+            # wavelength and survive; cleat noise cancels inside the window (~one full link).
+            _delta = [_ctr_pts[_m] - _pts[_m] for _m in range(_M)]
+            _hw2 = max(4, int(round(_fund_p / (_L / _M))))   # one link of samples each side
+            _dsm = [sum((_delta[(_m + _k) % _M] for _k in range(-_hw2, _hw2 + 1)), Vector((0, 0, 0))) / (2 * _hw2 + 1.0)
+                    for _m in range(_M)]
+            _pts = [_pts[_m] + _dsm[_m] for _m in range(_M)]
+            _S = [0.0] * (_M + 1)
+            for _i in range(_M):
+                _S[_i + 1] = _S[_i] + (_pts[(_i + 1) % _M] - _pts[_i]).length
+            _L = _S[_M]
+            _s_of = _project(_pts, _S)
             _NC = max(8, int(round(_L / (_fund_p / _CPL))))
             _cellL = _L / _NC
-            # per-vert path parameter: nearest belt sample (in the XZ plane)
-            _s_of = []
-            for _v in o.data.vertices:
-                _vx, _vz = _v.co[0], _v.co[2]
-                _bd, _bm = 1e18, 0
-                for _m in range(_M):
-                    _pp = _pts[_m]
-                    _dd = (_pp.x - _vx) * (_pp.x - _vx) + (_pp.z - _vz) * (_pp.z - _vz)
-                    if _dd < _bd:
-                        _bd, _bm = _dd, _m
-                _s_of.append(_S[_bm])
             # cut PHASE: try offsets and keep the one crossed by the fewest edges, so hinge cuts land in the
             # cleat GAPS instead of through cleats (the gamedev.tv seam lesson, applied to cells)
             _edges_ab = [(_e.vertices[0], _e.vertices[1]) for _e in o.data.edges]
@@ -766,6 +813,11 @@ for o in objs:
             _link_jobs[_tn] = {
                 "prefix": _botb[:-3], "NC": _NC, "cellL": _cellL, "L": _L, "S": _S, "pts": _pts,
                 "off": _best_off, "cell_of": _cell_of, "obj": o.name, "cpl": _CPL,
+                # advance in CELLS per loop (CLI-tweakable). 4 (= one link) synced the SPROCKET but visibly
+                # outran the eight ROAD WHEELS, whose symmetry snap (105.6 -> 90 deg) puts their rims at
+                # ~0.37/loop (user field report: "the belt should go slightly slower"). Default 3 = 0.373
+                # near-syncs the road wheels — the dominant visual — restarting on the quarter-link cleat grid.
+                "adv_cells": tread_adv_cells,
                 "aux": list(_tnames),   # legacy carrier bones — unused in link mode, deleted to fit the bone cap
                 "s_rest": [((_ci + 0.5) * _cellL - _best_off) % _L for _ci in range(_NC)],
             }
@@ -978,7 +1030,7 @@ if track_infos and clusters:
             # restart maps link-onto-link exactly. s increases CCW (bottom of the ring runs +X), so a
             # forward-rolling tread (degrees>0, bottom must run -X) advances with NEGATIVE s.
             _job = _link_jobs[_tn]
-            _adv_link = -_job["cpl"] * _job["cellL"] * (1.0 if degrees >= 0 else -1.0)   # cpl cells = 1 link/loop
+            _adv_link = -_job["adv_cells"] * _job["cellL"] * (1.0 if degrees >= 0 else -1.0)
             _restM, _P0s, _t0s = {}, {}, {}
             for _ci in range(_job["NC"]):
                 _bn = "%sL%02d" % (_job["prefix"], _ci)
