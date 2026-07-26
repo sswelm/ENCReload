@@ -343,6 +343,19 @@ for i, tn in enumerate(track_names):
         eb.tail = c + Vector((0, 0, max(0.05, max(s) * 0.25)))
         eb.parent = eb_root
         names.append(eb.name)
+    # DEDICATED wrap bones co-located with the sprocket/idler (copied head/tail/roll = same axle axis).
+    # The tread system runs its OWN smaller quantum than the visible wheels (fold-finder verdict: at 60 deg
+    # the 0.42 advance exceeded the front ramp's ~0.34 span — ramp verts overshot their slope and folded the
+    # panel inside-out). Wheels keep the user's spoke-symmetric degrees; wraps+shuttles run degrees/3.
+    for suffix, wcl in (("WrapF", front_cl), ("WrapR", rear_cl)):
+        eb = arm_data.edit_bones.new("Track_%02d_%s_%s" % (i, side, suffix))
+        if wcl is not None:
+            wb = arm_data.edit_bones[cluster_bones[clusters.index(wcl)]]
+            eb.head = wb.head.copy(); eb.tail = wb.tail.copy(); eb.roll = wb.roll
+        else:
+            eb.head = c; eb.tail = c + Vector((0, 0, max(0.05, max(s) * 0.25)))
+        eb.parent = eb_root
+        names.append(eb.name)
     track_infos.append((tn, names, front_cl, rear_cl, c.copy()))
 bpy.ops.object.mode_set(mode='OBJECT')
 
@@ -354,7 +367,7 @@ _tread_dirs = {}   # part -> (frontRampFlowDir, rearRampFlowDir) for degrees>0, 
 for o in objs:
     if o.name in _track_by_name:
         _tn, _tnames, _fcl, _rcl, _tc = _track_by_name[o.name]
-        _botb, _topb, _rampfb, _ramprb, _ramprtb = _tnames
+        _botb, _topb, _rampfb, _ramprb, _ramprtb, _wrapfb, _wraprb = _tnames
         for g in list(o.vertex_groups):
             o.vertex_groups.remove(g)
         # SUBDIVIDE long tread edges first (tear-finder verdict on the low-poly Jagdpanzer tread: one edge
@@ -379,8 +392,9 @@ for o in objs:
         # the first/last ROAD wheel slide along their own slope; top/bottom straights shuttle horizontally.
         # (v3's every-wheel carriers created shear boundaries mid-run — reverted.)
         _side_cls = [cl for cl in clusters if (cl["c"].y >= 0) == (_tc.y >= 0)] or clusters
-        _sprb = cluster_bones[clusters.index(_fcl)] if _fcl is not None else _botb
-        _idlb = cluster_bones[clusters.index(_rcl)] if _rcl is not None else _botb
+        # wrap arcs ride the DEDICATED wrap bones (small tread quantum), never the visible wheel bones
+        _sprb = _wrapfb if _fcl is not None else _botb
+        _idlb = _wraprb if _rcl is not None else _botb
         _low_cls = [cl for cl in _side_cls if cl["c"].z <= _tc.z and cl is not _fcl and cl is not _rcl]
         _roadF = max(_low_cls, key=lambda cl: cl["c"].x) if _low_cls else _fcl
         _roadR = min(_low_cls, key=lambda cl: cl["c"].x) if _low_cls else _rcl
@@ -516,17 +530,6 @@ except Exception:
     pass
 bpy.context.scene.frame_start = 0
 bpy.context.scene.frame_end = frames
-# Tread wrap carriers must match the conveyor's surface speed: a smaller idler rotating the drive
-# sprocket's <degrees> moves its wrap arc slower than the tread advance (tear-finder measured the gap
-# as a 0.20 stretch at the idler boundary). Scale each carrier's rotation by drive_d/own_d — the drive
-# sprocket (largest) keeps <degrees> exactly, so the user's spoke-symmetry choice is preserved.
-_wheel_deg = {}
-if track_infos and clusters:
-    _dd0 = max(cl["m"] for cl in clusters)
-    for _tn, _tnames, _fcl, _rcl, _tc in track_infos:
-        for _cl in (_fcl, _rcl):
-            if _cl is not None and _cl.get("m", 0.0) > 1e-6:
-                _wheel_deg[cluster_bones[clusters.index(_cl)]] = degrees * (_dd0 / _cl["m"])
 for bname in cluster_bones:
     pb = arm.pose.bones[bname]
     pb.rotation_mode = 'XYZ'
@@ -534,21 +537,35 @@ for bname in cluster_bones:
     pb.rotation_euler = (0, 0, 0)
     pb.keyframe_insert("rotation_euler", frame=0)
     bpy.context.scene.frame_set(frames)
-    pb.rotation_euler = (0, math.radians(_wheel_deg.get(bname, degrees)), 0)   # local Y = the axle
+    pb.rotation_euler = (0, math.radians(degrees), 0)   # local Y = the axle (bone tail direction)
     pb.keyframe_insert("rotation_euler", frame=frames)
-if _wheel_deg:
-    print("VEHICLE wrap-carrier speed match: " + ", ".join(
-        "%s=%.1f deg" % (b, d) for b, d in sorted(_wheel_deg.items())))
 
 # TREAD CONVEYOR v2: bottom run slides opposite the roll, top run WITH it, both by one drive-wheel surface
 # distance per loop (the wrap arcs need no keys — they're skinned to the rotating sprocket/idler bones). Use
 # small Spin degrees (~one sprocket tooth, 30°) so the advance ≈ one link pitch and the loop snap is invisible.
 if track_infos and clusters:
     _drive_d = max(cl["m"] for cl in clusters)                     # largest wheel = drive sprocket diameter
-    _advance = math.pi * _drive_d * (abs(degrees) / 360.0)
+    # The tread system runs its OWN quantum, decoupled from the visible wheels (fold-finder verdict: the 60 deg
+    # wheel quantum gave a 0.42 advance that OVERSHOT the ~0.34 front ramp — panels folded inside-out). Wheels
+    # keep the user's spoke-symmetric <degrees>; wraps+shuttles run a third of it, so the advance stays inside
+    # every ramp span and the loop-restart tread snap shrinks to ~a link pitch.
+    _conv_deg = degrees / 3.0
+    _advance = math.pi * _drive_d * (abs(_conv_deg) / 360.0)
     _flow = 1.0 if degrees >= 0 else -1.0                          # circulation sense follows the roll direction
     for _tn, _tnames, _fcl, _rcl, _tc in track_infos:
-        _botb, _topb, _rampfb, _ramprb, _ramprtb = _tnames
+        _botb, _topb, _rampfb, _ramprb, _ramprtb, _wrapfb, _wraprb = _tnames
+        # wrap bones rotate at the tread quantum, speed-matched to their own diameter (a smaller idler must
+        # spin proportionally faster than the drive sprocket for its surface to keep conveyor pace)
+        for _wbn, _wcl in ((_wrapfb, _fcl), (_wraprb, _rcl)):
+            _d_own = _wcl["m"] if (_wcl is not None and _wcl.get("m", 0.0) > 1e-6) else _drive_d
+            pb = arm.pose.bones[_wbn]
+            pb.rotation_mode = 'XYZ'
+            bpy.context.scene.frame_set(0)
+            pb.rotation_euler = (0, 0, 0)
+            pb.keyframe_insert("rotation_euler", frame=0)
+            bpy.context.scene.frame_set(frames)
+            pb.rotation_euler = (0, math.radians(_conv_deg * (_drive_d / _d_own)), 0)
+            pb.keyframe_insert("rotation_euler", frame=frames)
         _fdir, _rdir, _rtdir = _tread_dirs.get(_tn, (Vector((-1, 0, 0)), Vector((-1, 0, 0)), Vector((1, 0, 0))))
         _moves = ((_botb, Vector((-1.0, 0.0, 0.0)) * _flow),       # bottom runs backward
                   (_topb, Vector((1.0, 0.0, 0.0)) * _flow),        # top runs forward
@@ -566,8 +583,8 @@ if track_infos and clusters:
             bpy.context.scene.frame_set(frames)
             pb.location = _local
             pb.keyframe_insert("location", frame=frames)
-    print("VEHICLE tread conveyor v4: %d tread(s), advance %.3f/loop (drive d=%.2f): wraps ride wheels, ramps slide their slope, straights shuttle"
-          % (len(track_infos), _advance, _drive_d))
+    print("VEHICLE tread conveyor v5: %d tread(s), tread quantum %.1f deg (wheels %.1f), advance %.3f/loop (drive d=%.2f): wraps ride DEDICATED wrap bones, ramps slide their slope, straights shuttle"
+          % (len(track_infos), _conv_deg, degrees, _advance, _drive_d))
 # Blender 5.x REMOVED Action.fcurves (slotted/layered actions): curves live under layers->strips->channelbags.
 try:
     _fcs = list(act.fcurves)
