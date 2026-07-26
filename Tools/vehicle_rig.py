@@ -370,6 +370,7 @@ bpy.ops.object.mode_set(mode='OBJECT')
 _track_by_name = {t[0]: t for t in track_infos}
 _tread_dirs = {}   # part -> (frontRampFlowDir, rearRampFlowDir) for degrees>0, filled at skinning
 _band_rot = {}     # wrap bone -> radius the tread band rides at (for conveyor-pace rotation keying)
+_link_pitch = {}   # part -> measured track-link pitch (conveyor advance = one pitch -> invisible restart)
 for o in objs:
     if o.name in _track_by_name:
         _tn, _tnames, _fcl, _rcl, _tc, _rfcl, _rrcl = _track_by_name[o.name]
@@ -380,6 +381,39 @@ for o in objs:
         # spanned ~70 deg of idler wrap arc, so wrap/shuttle boundaries jumped across a single edge no matter
         # where they were placed). Midpoint cuts are shape-preserving; target edge <= ~1/3 wrap radius so the
         # blend annulus actually contains vertices.
+        # MEASURE THE LINK PITCH before subdividing (midpoint verts would pollute the period): the tread teeth
+        # repeat along the bottom run — circular autocorrelation of vert x's finds the period. The conveyor
+        # advance is then set to EXACTLY one link pitch, so the loop-restart snap maps the pattern onto itself
+        # (the vanilla recipe) instead of jerking by a fraction of a link.
+        _zs = [_v.co.z for _v in o.data.vertices]
+        _xs_all = [_v.co.x for _v in o.data.vertices]
+        _zlo, _zhi = min(_zs), max(_zs)
+        _xlo, _xhi = min(_xs_all), max(_xs_all)
+        _xspan = _xhi - _xlo
+        _xs = [_v.co.x for _v in o.data.vertices
+               if _v.co.z < _zlo + 0.12 * (_zhi - _zlo)
+               and _xlo + 0.25 * _xspan < _v.co.x < _xhi - 0.25 * _xspan]
+        _pitch = 0.0
+        if len(_xs) >= 24:
+            _best, _scores = 0.0, []
+            _pc = 0.04
+            while _pc <= 0.5:
+                _sr = sum(math.cos(2 * math.pi * _x / _pc) for _x in _xs)
+                _si = sum(math.sin(2 * math.pi * _x / _pc) for _x in _xs)
+                _R = math.sqrt(_sr * _sr + _si * _si) / len(_xs)
+                _scores.append((_pc, _R))
+                _best = max(_best, _R)
+                _pc += 0.002
+            # take the SMALLEST period still scoring near the max: sub-harmonics of the link (cleat+gap
+            # features) map the pattern almost onto itself at a fraction of the motion — the Jagdpanzer's
+            # 0.512 link has a near-perfect 0.256 half-repeat (R=0.976), which halves the loop deformation
+            # vs full-pitch while keeping the restart invisible
+            if _best > 0.3:
+                _cands = [_pc for _pc, _R in _scores if _R >= 0.95 * _best]
+                if _cands:
+                    _pitch = min(_cands)
+        _link_pitch[_tn] = _pitch
+        print("VEHICLE tread '%s' link pitch: %.3f (from %d bottom-run verts)" % (o.name, _pitch, len(_xs)))
         import bmesh
         _wrap_rs = [(_c["m"] * 0.5) for _c in (_fcl, _rcl) if _c is not None and _c.get("m", 0.0) > 1e-6]
         _thr = max(0.06, 0.35 * min(_wrap_rs)) if _wrap_rs else 0.15
@@ -505,6 +539,7 @@ for o in objs:
         # full wheel; an annulus out to 1.6 r fades wheel -> shuttle linearly, so the wrap-to-run transition
         # interpolates smoothly instead of folding at a hard cut (real-rig smooth skinning, minimal form).
         _stats = {}
+        _wmap = [dict() for _ in range(len(o.data.vertices))]
         for _v in o.data.vertices:   # transforms were applied — local == world
             _p = Vector(_v.co)
             _caps = []
@@ -577,14 +612,37 @@ for o in objs:
                     _pairs = [(_b, _w / _tot) for _b, _w in _caps]
                 else:
                     _pairs = _caps + [(_shuttle_region(_p), 1.0 - _tot)]
-            for _gn, _w in _pairs:
-                if _w > 0.001:
-                    _vgs[_gn].add([_v.index], _w, 'REPLACE')
-                    _stats[_gn] = _stats.get(_gn, 0) + 1
+            _wmap[_v.index] = {_gn: _w for _gn, _w in _pairs if _w > 0.001}
+        # LAPLACIAN WEIGHT SMOOTHING (field finding: the sprocket-to-road-wheel valley deformed in lumpy
+        # facets — the analytic weight field has plateau edges the low-poly mesh shows as bumps). A few
+        # neighbor-averaging passes turn the seams into gradients, like real smooth-skinned rigs.
+        _nbr = [[] for _ in range(len(o.data.vertices))]
+        for _e in o.data.edges:
+            _a, _b = _e.vertices
+            _nbr[_a].append(_b); _nbr[_b].append(_a)
+        for _it in range(3):
+            _new = []
+            for _vi in range(len(_wmap)):
+                if not _nbr[_vi]:
+                    _new.append(_wmap[_vi]); continue
+                _acc = {}
+                for _g, _w in _wmap[_vi].items():
+                    _acc[_g] = _acc.get(_g, 0.0) + 0.5 * _w
+                _sh = 0.5 / len(_nbr[_vi])
+                for _nb in _nbr[_vi]:
+                    for _g, _w in _wmap[_nb].items():
+                        _acc[_g] = _acc.get(_g, 0.0) + _sh * _w
+                _tt = sum(_acc.values()) or 1.0
+                _new.append({_g: _w / _tt for _g, _w in _acc.items() if _w / _tt > 0.005})
+            _wmap = _new
+        for _vi, _ws in enumerate(_wmap):
+            for _gn, _w in _ws.items():
+                _vgs[_gn].add([_vi], _w, 'REPLACE')
+                _stats[_gn] = _stats.get(_gn, 0) + 1
         _byg = {k: [0] * v for k, v in _stats.items()}   # counts only, for the report line
         md = o.modifiers.new("Armature", 'ARMATURE'); md.object = arm
         o.parent = arm
-        print("VEHICLE tread '%s' skinned: %s" % (o.name, ", ".join("%s=%d" % (g, len(ix)) for g, ix in sorted(_byg.items()))))
+        print("VEHICLE tread '%s' skinned (3x weight-smoothed): %s" % (o.name, ", ".join("%s=%d" % (g, len(ix)) for g, ix in sorted(_byg.items()))))
         continue
     bname = bone_of.get(o.name, "Root")
     for g in list(o.vertex_groups):
@@ -656,6 +714,12 @@ if track_infos and clusters:
     _flow = 1.0 if degrees >= 0 else -1.0                          # circulation sense follows the roll direction
     for _tn, _tnames, _fcl, _rcl, _tc, _rfcl, _rrcl in track_infos:
         _botb, _topb, _rampfb, _ramprb, _ramprtb, _wrapfb, _wraprb, _wrapgfb, _wrapgrb = _tnames
+        # snap the advance to ONE MEASURED LINK PITCH when plausible — the loop restart then maps the tread
+        # pattern onto itself (invisible), instead of jerking by a fraction of a link every loop
+        _p_meas = _link_pitch.get(_tn, 0.0)
+        _adv = _p_meas if 0.04 <= _p_meas <= 0.3 else _advance
+        print("VEHICLE tread '%s' advance: %.3f/loop (%s)" % (_tn, _adv,
+              "= measured link pitch" if _adv == _p_meas else "quantum fallback, pitch %.3f rejected" % _p_meas))
         # wrap bones rotate so the surface AT THE MEASURED TREAD-BAND RADIUS moves exactly one conveyor
         # advance per loop (rim-based speed match ran wraps 20-60% fast — road wheels/idler stand well off
         # their rims). theta = advance / band_radius.
@@ -664,7 +728,7 @@ if track_infos and clusters:
             if _R <= 1e-6:
                 _d_own = _wcl["m"] if (_wcl is not None and _wcl.get("m", 0.0) > 1e-6) else _drive_d
                 _R = _d_own * 0.5
-            _theta = math.degrees(_advance / _R) * (1.0 if degrees >= 0 else -1.0)
+            _theta = math.degrees(_adv / _R) * (1.0 if degrees >= 0 else -1.0)
             pb = arm.pose.bones[_wbn]
             pb.rotation_mode = 'XYZ'
             bpy.context.scene.frame_set(0)
@@ -682,7 +746,7 @@ if track_infos and clusters:
         for _bname, _dir in _moves:
             pb = arm.pose.bones[_bname]
             db = arm.data.bones[_bname]
-            _local = ((arm.matrix_world @ db.matrix_local).to_3x3().inverted() @ _dir).normalized() * _advance
+            _local = ((arm.matrix_world @ db.matrix_local).to_3x3().inverted() @ _dir).normalized() * _adv
             pb.rotation_mode = 'XYZ'
             bpy.context.scene.frame_set(0)
             pb.location = (0.0, 0.0, 0.0)
