@@ -725,7 +725,11 @@ for o in objs:
             for _i in range(_M):
                 _S[_i + 1] = _S[_i] + (_pts[(_i + 1) % _M] - _pts[_i]).length
             _L = _S[_M]
-            _NC = max(8, int(round(_L / _fund_p)))
+            # HALF-LINK cells: wraps around small wheels render as polygons with one facet per cell — full-link
+            # cells made the sprocket wrap read chunky (user field report). Half-link doubles the facets there;
+            # straight runs are unaffected (rigid transport shows no cell boundaries on a straight). The
+            # conveyor then advances TWO cells per loop = one full link, keeping speed and exact restart.
+            _NC = max(8, int(round(_L / (_fund_p * 0.5))))
             _cellL = _L / _NC
             # per-vert path parameter: nearest belt sample (in the XZ plane)
             _s_of = []
@@ -892,7 +896,7 @@ if track_infos and clusters:
             # restart maps link-onto-link exactly. s increases CCW (bottom of the ring runs +X), so a
             # forward-rolling tread (degrees>0, bottom must run -X) advances with NEGATIVE s.
             _job = _link_jobs[_tn]
-            _adv_link = -_job["cellL"] * (1.0 if degrees >= 0 else -1.0)
+            _adv_link = -2.0 * _job["cellL"] * (1.0 if degrees >= 0 else -1.0)   # 2 half-link cells = 1 link/loop
             _restM, _P0s, _t0s = {}, {}, {}
             for _ci in range(_job["NC"]):
                 _bn = "%sL%02d" % (_job["prefix"], _ci)
