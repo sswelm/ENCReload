@@ -1013,6 +1013,20 @@ for _bi2, bname in enumerate(cluster_bones):
     _deg_i = degrees
     if _bi2 in _idler_idx:
         _deg_i = degrees * idler_speed_mul
+        # once-per-loop POP diagnosis (user: "interaction causing it to jerk"): the idler's spoke ring only
+        # maps onto itself at multiples of its OWN symmetry step — at the sprocket-matched speed it restarts
+        # mid-pattern and visibly pops. Snap to the idler's grid when the dialed speed is within 6% of a
+        # grid point; print the pop-free dial values so the user can aim for them.
+        _nsym = _wheel_symmetry(bname)
+        if _nsym > 0:
+            _stepd = 360.0 / _nsym
+            _snap = round(_deg_i / _stepd) * _stepd
+            if abs(_snap) > 1e-6 and abs(_snap - _deg_i) <= 0.06 * max(abs(_deg_i), 1.0):
+                _deg_i = _snap
+            _lo_m = math.floor(abs(degrees) / _stepd) * _stepd / max(abs(degrees), 1e-6)
+            print("VEHICLE idler %s: symmetry %d-fold (%.1f deg steps) -> pop-free dial values x%.3f / x%.3f (current %.1f deg%s)"
+                  % (bname, _nsym, _stepd, _lo_m, _lo_m + _stepd / max(abs(degrees), 1e-6), _deg_i,
+                     ", ON grid - no pop" if abs(round(_deg_i / _stepd) * _stepd - _deg_i) < 0.01 else ", OFF grid - pops each loop"))
     elif (_dd_ref > 1e-6 and _bi2 < len(clusters) and clusters[_bi2].get("m", 0.0) > 1e-6
             and _bi2 not in _wrap_carrier_idx):
         _r_i = clusters[_bi2]["m"] * 0.5
