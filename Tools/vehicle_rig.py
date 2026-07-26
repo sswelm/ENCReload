@@ -806,6 +806,16 @@ for o in objs:
             _L = _S[_M]
             _s_of = _project(_pts, _S)
             _NC = max(8, int(round(_L / (_fund_p / _CPL))))
+            # HARD BONE-BUDGET CLAMP (the Bradley incident: its finely-molded links at detail 2 exploded to
+            # 278 bones — past the 256 GPU vertex-format wall, guaranteed spikes — and the rig let it happen
+            # silently). Links get whatever remains of 240 after wheels/Root/Turret/Gun, split evenly across
+            # tracks; cells grow to fit. 240 keeps headroom under the 256 wall.
+            _non_link = len(cluster_bones) + 1 + (1 if turret_names else 0) + (1 if gun_names else 0)
+            _link_budget = max(8, (240 - _non_link) // max(1, len(track_names)))
+            if _NC > _link_budget:
+                print("VEHICLE tread '%s' BONE BUDGET CLAMP: %d cells -> %d (%d wheels+aux leave %d links/track under the 256-bone wall) — cells grow accordingly; lower Tread detail to regain smoothness headroom"
+                      % (o.name, _NC, _link_budget, len(cluster_bones), _link_budget))
+                _NC = _link_budget
             _cellL = _L / _NC
             # cut PHASE: try offsets and keep the one crossed by the fewest edges, so hinge cuts land in the
             # cleat GAPS instead of through cleats (the gamedev.tv seam lesson, applied to cells)
