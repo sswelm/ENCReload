@@ -144,6 +144,8 @@ tread_adv_cells = max(1, min(8, int(float(argv[12])))) if len(argv) > 12 and arg
 # At exactly 1.0 speeds snap to each wheel's spoke-symmetry grid (invisible restarts); any other value is
 # applied RAW so the dial always visibly responds (restart pops accepted while tuning).
 road_speed_mul = max(0.1, min(4.0, float(argv[13]))) if len(argv) > 13 and argv[13].strip() else 1.0
+# rear-idler speed multiplier over the user's Spin degrees (x1.0 = exactly the drive sprocket's speed)
+idler_speed_mul = max(0.1, min(4.0, float(argv[14]))) if len(argv) > 14 and argv[14].strip() else 1.0
 
 # ---- rigfast mode: the SKM fast path ----
 # The source already carries an artist skeleton with full weights (see rig_report) — REUSE it: author the Spin
@@ -993,10 +995,13 @@ _dd_ref = max((cl["m"] for cl in clusters), default=0.0)
 # sprocket (user field report: "front upper and back upper wheel don't turn at the same speed"). Both get
 # the user's degrees; only true ground-rollers get rolling-contact scaling.
 _wrap_carrier_idx = set()
+_idler_idx = set()
 for _ti3 in track_infos:
     for _cl3 in (_ti3[2], _ti3[3]):
         if _cl3 is not None and _cl3 in clusters:
             _wrap_carrier_idx.add(clusters.index(_cl3))
+            if _cl3 is _ti3[3]:   # the REAR wrap carrier = the idler (user's per-wheel speed dial)
+                _idler_idx.add(clusters.index(_cl3))
 # reference surface speed for ground wheels/rollers: with a tread, the wheels visually roll AGAINST THE
 # BELT — surface speed = the belt's advance per loop (BELT-CONTINUITY; the old drive-wheel rim ratio is
 # only right for belt-less vehicles, where the shared surface is the ground).
@@ -1006,7 +1011,9 @@ for _j5 in _link_jobs.values():
 _wheel_final_deg = {}
 for _bi2, bname in enumerate(cluster_bones):
     _deg_i = degrees
-    if (_dd_ref > 1e-6 and _bi2 < len(clusters) and clusters[_bi2].get("m", 0.0) > 1e-6
+    if _bi2 in _idler_idx:
+        _deg_i = degrees * idler_speed_mul
+    elif (_dd_ref > 1e-6 and _bi2 < len(clusters) and clusters[_bi2].get("m", 0.0) > 1e-6
             and _bi2 not in _wrap_carrier_idx):
         _r_i = clusters[_bi2]["m"] * 0.5
         if _belt_adv > 1e-6:
