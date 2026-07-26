@@ -147,8 +147,9 @@ road_speed_mul = max(0.1, min(4.0, float(argv[13]))) if len(argv) > 13 and argv[
 # rear-idler speed multiplier over the user's Spin degrees (x1.0 = exactly the drive sprocket's speed)
 idler_speed_mul = max(0.1, min(4.0, float(argv[14]))) if len(argv) > 14 and argv[14].strip() else 1.0
 # tread cells PER LINK (the BONES dial): 4 = quarter-link (smoothest wraps, most bones), 2 = half-link,
-# 1 = one bone per molded link (coarsest, fewest bones). Bone count per track ≈ cells_per_link x link count.
-tread_cells_per_link = max(1, min(4, int(float(argv[15])))) if len(argv) > 15 and argv[15].strip() else 4
+# 1 = one bone per molded link, 0.5 = one bone per TWO links, 0.25 = one per FOUR (coarsest — for finely
+# molded tracks like the Bradley's 0.186 pitch, where even one-per-link is 75 bones a side).
+tread_cells_per_link = max(0.25, min(4.0, float(argv[15]))) if len(argv) > 15 and argv[15].strip() else 4.0
 # 1 = rig the tread loops STATIC (rigid with the hull, no link bones, no conveyor — the isolation switch:
 # wheels still spin, the tracks just don't run). Geometry stays visible.
 tracks_static = len(argv) > 16 and argv[16].strip() == "1"

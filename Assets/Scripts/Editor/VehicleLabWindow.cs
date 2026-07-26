@@ -50,7 +50,11 @@ public class VehicleLabWindow : EditorWindow
     List<Part> ActiveParts => useSourceRig && boneParts.Count > 0 ? boneParts : parts;
     [SerializeField] int frames = 15; [SerializeField] float degrees = -360f; [SerializeField] int axisChoice = 0;   // 0 = Auto (per wheel), 1..3 = X/Y/Z
     [SerializeField] int treadAdvCells = 3;   // tread advance per loop in cells
-    [SerializeField] int treadCellsPerLink = 4; // tread detail: cells per molded link = the BONES dial (4 = smoothest/most bones)
+    [SerializeField] float treadCellsPerLink = 4f; // tread detail: cells per molded link = the BONES dial (4 = smoothest; 0.25 = one bone per four links)
+    static readonly float[] TreadDetailValues = { 4f, 2f, 1f, 0.5f, 0.25f };
+    static readonly string[] TreadDetailLabels = {
+        "4 — quarter link (smoothest, most bones)", "2 — half link", "1 — one bone per link",
+        "0.5 — one bone per TWO links", "0.25 — one bone per FOUR links (coarsest)" };
     [SerializeField] bool tracksStatic = false; // isolation switch: rig tread loops rigid to the hull (no link bones, no conveyor)
     [SerializeField] int minVerts = 50;   // parts below this are COLLAPSED into Body (a triangle-soup FBX probes into thousands of shards)
     [SerializeField] float minPartSize = 0f;  // hide parts whose LARGEST bbox dimension is below this — drop minVerts + raise this to surface big-but-low-poly parts (flat discs, plates)
@@ -73,7 +77,7 @@ public class VehicleLabWindow : EditorWindow
 
     // ── Recipes: the whole vehicleize configuration as a JSON file — reload it after a restart, keep one per model,
     // ship it next to the model so a collaborator reproduces the exact rig. ──
-    [Serializable] class Recipe { public string srcFile, outGlb; public int frames, axisChoice, minVerts; public float degrees; public List<Part> parts; public List<Part> boneParts; public bool useSourceRig; public int treadAdvCells = 3; public int treadCellsPerLink = 4; }
+    [Serializable] class Recipe { public string srcFile, outGlb; public int frames, axisChoice, minVerts; public float degrees; public List<Part> parts; public List<Part> boneParts; public bool useSourceRig; public int treadAdvCells = 3; public float treadCellsPerLink = 4f; }
     const string RecipesDir = "Assets/FactorySource/VehicleLab/Recipes";
     static readonly string[] AxisOptions = { "Auto (thinnest extent = axle, per wheel)", "X", "Y", "Z" };
     string status = "";
@@ -230,7 +234,11 @@ public class VehicleLabWindow : EditorWindow
             if (list.Any(x => x.role == Role.Caterpillar))
             {
                 treadAdvCells = EditorGUILayout.IntSlider(new GUIContent("Tread speed (cells/loop)", "Belt advance per Spin loop, in cells (cell size set by Tread detail below). At detail 4: 4 cells = one full link — the belt matches the big wrap wheels exactly; 3 = slightly slower. Restarts stay invisible at any value (the pattern maps onto the cleat sub-grid)."), treadAdvCells, 1, 8);
-                treadCellsPerLink = EditorGUILayout.IntSlider(new GUIContent("Tread detail (cells/link)", "THE BONES DIAL: how many rigid pieces each molded track link is cut into. 4 = quarter-link (smoothest wheel wraps, ~108 bones per track on the Jagdpanzer), 2 = half-link (~54), 1 = one bone per link (~27, coarsest). Lower it if the total skeleton gets too heavy — remember Tread speed is in these cells (detail 2 + speed 2 = one link per loop)."), treadCellsPerLink, 1, 4);
+                {
+                    int di = System.Array.IndexOf(TreadDetailValues, treadCellsPerLink); if (di < 0) di = 0;
+                    di = EditorGUILayout.Popup(new GUIContent("Tread detail (cells/link)", "THE BONES DIAL: how many rigid tread pieces per molded track link. Above 1 splits links (smoother wheel wraps, more bones); below 1 MERGES links (one bone carries 2 or 4 links — the escape hatch for finely-molded tracks like the Bradley's 0.186 pitch, where even one-per-link is 75 bones a side). Tread speed is in these cells; the pattern still maps at every restart."), di, TreadDetailLabels);
+                    treadCellsPerLink = TreadDetailValues[di];
+                }
                 tracksStatic = EditorGUILayout.Toggle(new GUIContent("Static tracks (no movement)", "ISOLATION SWITCH: rig the tread loops rigid to the hull — no link bones, no conveyor animation. Wheels still spin; the track geometry stays but doesn't run. For debugging (or a cheap LOD-style rig)."), tracksStatic);
                 // road-wheel/roller and rear-idler speeds are AUTOMATIC: rims match the belt's advance
                 // (belt-continuity), each snapped to its own spoke-symmetry grid for pop-free loop restarts
@@ -471,7 +479,7 @@ public class VehicleLabWindow : EditorWindow
             DestroyPreview();
             srcFile = r.srcFile; outGlb = r.outGlb; frames = r.frames; axisChoice = r.axisChoice; minVerts = r.minVerts; degrees = r.degrees;
             treadAdvCells = r.treadAdvCells > 0 ? r.treadAdvCells : 3;   // pre-knob recipes default to road-wheel sync
-            treadCellsPerLink = r.treadCellsPerLink > 0 ? r.treadCellsPerLink : 4;
+            treadCellsPerLink = r.treadCellsPerLink > 0f ? r.treadCellsPerLink : 4f;
             parts = r.parts;
             boneParts = r.boneParts ?? new List<Part>();   // pre-fast-path recipes have no bone list
             useSourceRig = r.useSourceRig && boneParts.Count > 0;
@@ -538,7 +546,7 @@ public class VehicleLabWindow : EditorWindow
         File.WriteAllLines(gunsFile, src.Where(p => p.role == Role.Gun).Select(p => p.name).ToArray());
         string axis = axisChoice == 0 ? "AUTO" : AxisOptions[axisChoice];
         var inv = System.Globalization.CultureInfo.InvariantCulture;
-        if (!RunBlender($"{(fast ? "rigfast" : "rig")} \"{srcFile}\" \"{lastOutGlb}\" \"{prevFull}\" \"@{wheelsFile}\" \"@{turretsFile}\" {axis} {frames} {degrees.ToString("0.#", inv)} \"@{ignoreFile}\" \"@{tracksFile}\" \"@{gunsFile}\" {treadAdvCells} 1 1 {treadCellsPerLink} {(tracksStatic ? "1" : "0")}", out string stdout)) return;
+        if (!RunBlender($"{(fast ? "rigfast" : "rig")} \"{srcFile}\" \"{lastOutGlb}\" \"{prevFull}\" \"@{wheelsFile}\" \"@{turretsFile}\" {axis} {frames} {degrees.ToString("0.#", inv)} \"@{ignoreFile}\" \"@{tracksFile}\" \"@{gunsFile}\" {treadAdvCells} 1 1 {treadCellsPerLink.ToString("0.##", inv)} {(tracksStatic ? "1" : "0")}", out string stdout)) return;
         // SUCCESS = THE SCRIPT'S OWN FINAL MARKER (the documented Blender trap: it exits 0 even when the python
         // script crashes mid-way — without this gate a half-run printed a fake "DONE" with no file on disk).
         string done = stdout.Split('\n').FirstOrDefault(l => l.Contains("VEHICLE RIG DONE"));
