@@ -511,6 +511,11 @@ for o in objs:
             return (_c, _r, _hi * 1.02, _hi * 1.02 + 0.7 * _r, 0.5 * (_lo + _hi))
         _rf_c, _rf_r, _full_gf, _fade_gf, _rot_gf = _under_band(_roadF)
         _rr_c, _rr_r, _full_gr, _fade_gr, _rot_gr = _under_band(_roadR)
+        # the advance this loop will use (pitch-matched when plausible) — exit fades must complete one
+        # advance-length UPSTREAM of the exit tangent, or rotating verts get carried PAST the exit during
+        # the loop (the tread visibly drooped BELOW the front road wheel and slacked off the idler top)
+        _pm = _link_pitch.get(_tn, 0.0)
+        _adv_est = _pm if 0.04 <= _pm <= 0.3 else math.pi * max(cl["m"] for cl in clusters) * (abs(degrees) / 3.0) / 360.0
         # speed match must use the radius the TREAD RIDES AT (the measured band), not the wheel rim — road
         # wheels/idler stand well off their rims, so rim-based rotation ran the wrap 20-60% faster than the
         # conveyor. Stored per wrap bone for the keying pass.
@@ -567,12 +572,18 @@ for o in objs:
                         continue
                     if _p.z > _wc.z:
                         _fa *= 1.0 - (_p.z - _wc.z) / (0.4 * _r0)
-                    # ...and only on the wheel's BEND side (toward its ramp). Past bottom-dead-center the tread
-                    # is flat ground run — rotating it lifts it out of the ground plane (the 0.10 tear behind
-                    # the front road wheel). Fade over 0.6 r beyond BDC.
-                    _ex2 = -(_sd * (_p.x - _wc.x))
-                    if _ex2 > 0.0:
-                        _fa *= 1.0 - _ex2 / (0.6 * _r0)
+                    # ...and only on the wheel's BEND side (toward its ramp). FLOW-AWARE exit (user: "make the
+                    # track tighter"): the front road wheel RELEASES tread at bottom-dead-center — a vert still
+                    # wheel-weighted there gets rotated PAST BDC and dips BELOW the ground line (the droop under
+                    # the wheels). Hard-cut at BDC, ramp the weight in over one advance-length upstream so every
+                    # vert has handed off to Bot by the time the loop carries it to the exit. The rear road
+                    # wheel's BDC is an ENTRY (flow runs backward into its bend) — no dip there, same gate is
+                    # safe.
+                    _s = _sd * (_p.x - _wc.x)
+                    if _s <= 0.0:
+                        continue
+                    if _s < _adv_est:
+                        _fa *= _s / _adv_est
                     if _fa <= 0.0:
                         continue
                 elif _p.z > _wc.z:
@@ -581,8 +592,12 @@ for o in objs:
                     # against RampRT's forward-up flow). The wrap tops out at the sprocket's FRONT half / the
                     # idler's REAR half; only ABOVE center (below, both sides legitimately hold the bottom/ramp
                     # tangents). Fade over 0.5 r rather than hard-cut — a binary gate left 1.00<->1.00 crisp
-                    # boundaries that tore.
-                    _ex = -(_sd * (_p.x - _wc.x)) - 0.35 * _r0
+                    # boundaries that tore. The IDLER's top boundary is an EXIT (its top surface moves forward,
+                    # INTO the feather) — retreat its margin one advance-length upstream so verts hand off
+                    # before the loop carries them past (the slack off the idler top). The sprocket's top
+                    # boundary is an ENTRY (surface moves forward, AWAY from its rear feather) — full margin.
+                    _mrg = 0.35 * _r0 if _sd > 0 else max(-0.4 * _r0, 0.35 * _r0 - _adv_est)
+                    _ex = -(_sd * (_p.x - _wc.x)) - _mrg
                     if _ex > 0.0:
                         _fa *= 1.0 - _ex / (0.5 * _r0)
                         if _fa <= 0.0:
