@@ -146,6 +146,9 @@ tread_adv_cells = max(1, min(8, int(float(argv[12])))) if len(argv) > 12 and arg
 road_speed_mul = max(0.1, min(4.0, float(argv[13]))) if len(argv) > 13 and argv[13].strip() else 1.0
 # rear-idler speed multiplier over the user's Spin degrees (x1.0 = exactly the drive sprocket's speed)
 idler_speed_mul = max(0.1, min(4.0, float(argv[14]))) if len(argv) > 14 and argv[14].strip() else 1.0
+# tread cells PER LINK (the BONES dial): 4 = quarter-link (smoothest wraps, most bones), 2 = half-link,
+# 1 = one bone per molded link (coarsest, fewest bones). Bone count per track ≈ cells_per_link x link count.
+tread_cells_per_link = max(1, min(4, int(float(argv[15])))) if len(argv) > 15 and argv[15].strip() else 4
 
 # ---- rigfast mode: the SKM fast path ----
 # The source already carries an artist skeleton with full weights (see rig_report) — REUSE it: author the Spin
@@ -741,7 +744,7 @@ for o in objs:
             # on a straight). The conveyor advances CELLS_PER_LINK cells per loop = one full link, keeping
             # speed and exact restart. NOTE the Amplitude 256-bone budget: quarter-link = 216 link bones on the
             # Jagdpanzer — only affordable because link mode DELETES the unused legacy tread bones (18).
-            _CPL = 4   # cells per link
+            _CPL = tread_cells_per_link   # cells per link — the Lab's "Tread detail" bones dial
 
             def _project(_ptsP, _SP2):
                 # per-vert path parameter: nearest path sample (XZ plane)
