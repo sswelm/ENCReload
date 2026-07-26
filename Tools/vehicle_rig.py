@@ -357,6 +357,23 @@ for o in objs:
         _botb, _topb, _rampfb, _ramprb, _ramprtb = _tnames
         for g in list(o.vertex_groups):
             o.vertex_groups.remove(g)
+        # SUBDIVIDE long tread edges first (tear-finder verdict on the low-poly Jagdpanzer tread: one edge
+        # spanned ~70 deg of idler wrap arc, so wrap/shuttle boundaries jumped across a single edge no matter
+        # where they were placed). Midpoint cuts are shape-preserving; target edge <= ~1/3 wrap radius so the
+        # blend annulus actually contains vertices.
+        import bmesh
+        _wrap_rs = [(_c["m"] * 0.5) for _c in (_fcl, _rcl) if _c is not None and _c.get("m", 0.0) > 1e-6]
+        _thr = max(0.06, 0.35 * min(_wrap_rs)) if _wrap_rs else 0.15
+        _nv0 = len(o.data.vertices)
+        _bm = bmesh.new(); _bm.from_mesh(o.data)
+        for _pass in range(3):
+            _long = [e for e in _bm.edges if (e.verts[0].co - e.verts[1].co).length > _thr]
+            if not _long:
+                break
+            bmesh.ops.subdivide_edges(_bm, edges=_long, cuts=1, use_grid_fill=True)
+        _bm.to_mesh(o.data); _bm.free()
+        print("VEHICLE tread '%s' subdivided: %d -> %d verts (edge target %.3f)"
+              % (o.name, _nv0, len(o.data.vertices), _thr))
         # v4 (field-tuned): SIX regions with boundaries at the wheel TANGENT points, where surface velocities
         # naturally match — sprocket/idler wraps rotate with those wheels; the DIAGONAL RAMPS between them and
         # the first/last ROAD wheel slide along their own slope; top/bottom straights shuttle horizontally.
@@ -383,7 +400,11 @@ for o in objs:
         _idl_c, _idl_r = (_rcl["c"], _rcl["m"] * 0.5) if _rcl else (Vector((1e9,) * 3), 0.0)
 
         def _shuttle_region(_p):
-            if _roadF is not None and _p.x > _roadF["c"].x and _p.z > _roadF["c"].z:
+            # RampF = ONLY the descending front ramp, BELOW the sprocket center (tear-finder verdict: the old
+            # condition also swallowed the TOP RUN's front end, flowing it down-back against the sprocket's
+            # forward top — 0.43-unit tears). Above the sprocket center the front column belongs to Top.
+            if (_roadF is not None and _p.x > _roadF["c"].x and _p.z > _roadF["c"].z
+                    and (_fcl is None or _p.z < _fcl["c"].z)):
                 return _rampfb
             if _roadR is not None and _p.x < _roadR["c"].x and _rcl is not None and _p.z > _rcl["c"].z:
                 return _ramprtb   # upper-rear slope: above the IDLER's center — flows forward with the top run
@@ -398,27 +419,45 @@ for o in objs:
         for _v in o.data.vertices:   # transforms were applied — local == world
             _p = Vector(_v.co)
             _pairs = None
-            for _wc, _d0, _r0, _wb in ((_spr_c, (_p - _spr_c).length, _spr_r, _sprb), (_idl_c, (_p - _idl_c).length, _idl_r, _idlb)):
+            for _wc, _d0, _r0, _wb, _sd in ((_spr_c, (_p - _spr_c).length, _spr_r, _sprb, 1.0),
+                                            (_idl_c, (_p - _idl_c).length, _idl_r, _idlb, -1.0)):
                 if _r0 <= 0.0:
                     continue
                 # tread that merely PASSES UNDER a raised wrap wheel is straight-run material, not wrap — radial
                 # capture alone grabbed it (within 1.6 r by distance) and rotated it into a tear. A wheel only
-                # carries verts at wrap height: above its lower rim minus a small margin.
-                if _p.z < _wc.z - _r0 * 1.15:
+                # carries verts at wrap height: above its lower rim minus a small margin. FEATHERED over 0.2 r
+                # (a binary cut landed mid-tread-thickness under the sprocket: bottom face Bot 1.00, top face
+                # wheel 1.00 — crisp tear between the tread's own faces).
+                _hz = (_p.z - (_wc.z - _r0 * 1.15)) / (0.2 * _r0)
+                if _hz <= 0.0:
                     continue
+                _fh = min(1.0, _hz)
+                # ANGULAR feather (tear-finder: the idler kept grabbing its upper-FRONT quadrant — tread that
+                # has already exited the wrap toward the return roller — and rotated it forward-DOWN against
+                # RampRT's forward-up flow). The wrap tops out at the sprocket's FRONT half / the idler's REAR
+                # half; only ABOVE center (below, both sides legitimately hold the bottom/ramp tangents). Fade
+                # over 0.5 r rather than hard-cut — a binary gate left 1.00<->1.00 crisp boundaries that tore.
+                _fa = _fh
+                if _p.z > _wc.z:
+                    _ex = -(_sd * (_p.x - _wc.x)) - 0.35 * _r0
+                    if _ex > 0.0:
+                        _fa *= 1.0 - _ex / (0.5 * _r0)
+                        if _fa <= 0.0:
+                            continue
                 # the tread's wrap ARC lies just OUTSIDE the wheel surface (wheel + track thickness) — it must
                 # be FULL wheel weight or the rotating wheel penetrates it (the v6 regression). Full out to
-                # 1.25 r, fade 1.25 r -> 1.7 r into the shuttle region.
+                # 1.25 r, fade 1.25 r -> 1.6 r into the shuttle region.
+                _w = None
                 if _d0 <= _r0 * 1.25:
-                    _pairs = [(_wb, 1.0)]
-                    break
-                if _d0 <= _r0 * 1.6:
+                    _w = _fa
+                elif _d0 <= _r0 * 1.6:
                     # WHEEL-BIASED fade (v8: penetration at the bottom wrap): a linear rotation/translation blend
                     # takes the CHORD and dips INSIDE the wheel rim — quadratic falloff keeps blend verts hugging
                     # the arc longer (a slight outward bulge reads fine; an inward dip through the rim does not).
                     _t = (_d0 - _r0 * 1.25) / (0.35 * _r0)
-                    _t = _t * _t
-                    _pairs = [(_wb, 1.0 - _t), (_shuttle_region(_p), _t)]
+                    _w = (1.0 - _t * _t) * _fa
+                if _w is not None:
+                    _pairs = [(_wb, 1.0)] if _w >= 0.999 else [(_wb, _w), (_shuttle_region(_p), 1.0 - _w)]
                     break
             if _pairs is None:
                 _pairs = [(_shuttle_region(_p), 1.0)]
@@ -477,6 +516,17 @@ except Exception:
     pass
 bpy.context.scene.frame_start = 0
 bpy.context.scene.frame_end = frames
+# Tread wrap carriers must match the conveyor's surface speed: a smaller idler rotating the drive
+# sprocket's <degrees> moves its wrap arc slower than the tread advance (tear-finder measured the gap
+# as a 0.20 stretch at the idler boundary). Scale each carrier's rotation by drive_d/own_d — the drive
+# sprocket (largest) keeps <degrees> exactly, so the user's spoke-symmetry choice is preserved.
+_wheel_deg = {}
+if track_infos and clusters:
+    _dd0 = max(cl["m"] for cl in clusters)
+    for _tn, _tnames, _fcl, _rcl, _tc in track_infos:
+        for _cl in (_fcl, _rcl):
+            if _cl is not None and _cl.get("m", 0.0) > 1e-6:
+                _wheel_deg[cluster_bones[clusters.index(_cl)]] = degrees * (_dd0 / _cl["m"])
 for bname in cluster_bones:
     pb = arm.pose.bones[bname]
     pb.rotation_mode = 'XYZ'
@@ -484,8 +534,11 @@ for bname in cluster_bones:
     pb.rotation_euler = (0, 0, 0)
     pb.keyframe_insert("rotation_euler", frame=0)
     bpy.context.scene.frame_set(frames)
-    pb.rotation_euler = (0, math.radians(degrees), 0)   # local Y = the axle (bone tail direction)
+    pb.rotation_euler = (0, math.radians(_wheel_deg.get(bname, degrees)), 0)   # local Y = the axle
     pb.keyframe_insert("rotation_euler", frame=frames)
+if _wheel_deg:
+    print("VEHICLE wrap-carrier speed match: " + ", ".join(
+        "%s=%.1f deg" % (b, d) for b, d in sorted(_wheel_deg.items())))
 
 # TREAD CONVEYOR v2: bottom run slides opposite the roll, top run WITH it, both by one drive-wheel surface
 # distance per loop (the wrap arcs need no keys — they're skinned to the rotating sprocket/idler bones). Use
