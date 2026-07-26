@@ -1091,7 +1091,7 @@ public class ModelFactoryWindow : EditorWindow
         cur.clip = new int[4]; cur.clipMove = new int[4]; cur.clipAfter = new int[4]; cur.clipAttack = new int[4];
         cur.clipCombat = new int[4]; cur.clipPreMove = new int[4]; cur.clipIdle = new int[4]; cur.clipIdleAlt = new int[4]; cur.clipIdleAlt2 = new int[4];
         cur.idleAltInterval = 0; cur.attackRepeats = 0; cur.clearAimLayer = false;
-        cur.turretBone = ""; cur.turretAxis = 0; cur.muzzleBone = ""; cur.muzzleOffset = Vector3.zero; cur.socketBones = "";
+        cur.turretBone = ""; cur.turretAxis = -1; cur.muzzleBone = ""; cur.muzzleOffset = ""; cur.socketBones = "";
         cur.handPropName = ""; cur.handPropGuid = ""; cur.handPropMat = ""; cur.handPropBone = ""; cur.handPropAngles = "";
         cur.fireOnAttack = false; cur.deployOnStop = false;
         cur.deployPoseTime = 0f; cur.deploySpeed = 0f; cur.recoilSpeed = 0f;
