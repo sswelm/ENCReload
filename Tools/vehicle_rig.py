@@ -371,6 +371,7 @@ _track_by_name = {t[0]: t for t in track_infos}
 _tread_dirs = {}   # part -> (frontRampFlowDir, rearRampFlowDir) for degrees>0, filled at skinning
 _band_rot = {}     # wrap bone -> radius the tread band rides at (for conveyor-pace rotation keying)
 _link_pitch = {}   # part -> measured track-link pitch (conveyor advance = one pitch -> invisible restart)
+_link_fund = {}    # part -> physical link length (autocorrelation fundamental) for rigid link cells
 for o in objs:
     if o.name in _track_by_name:
         _tn, _tnames, _fcl, _rcl, _tc, _rfcl, _rrcl = _track_by_name[o.name]
@@ -393,7 +394,7 @@ for o in objs:
         _xs = [_v.co.x for _v in o.data.vertices
                if _v.co.z < _zlo + 0.12 * (_zhi - _zlo)
                and _xlo + 0.25 * _xspan < _v.co.x < _xhi - 0.25 * _xspan]
-        _pitch = 0.0
+        _pitch, _fund, _best = 0.0, 0.0, 0.0
         if len(_xs) >= 24:
             _best, _scores = 0.0, []
             _pc = 0.04
@@ -412,8 +413,16 @@ for o in objs:
                 _cands = [_pc for _pc, _R in _scores if _R >= 0.95 * _best]
                 if _cands:
                     _pitch = min(_cands)
+                # the FUNDAMENTAL (largest strong period) = the physical link length, used to cut the mesh
+                # into rigid link cells; the advance uses the smallest sub-grid (least motion) instead
+                for _pc, _R in reversed(_scores):
+                    if _R >= 0.85 * _best:
+                        _fund = _pc
+                        break
         _link_pitch[_tn] = _pitch
-        print("VEHICLE tread '%s' link pitch: %.3f (from %d bottom-run verts)" % (o.name, _pitch, len(_xs)))
+        _link_fund[_tn] = _fund
+        print("VEHICLE tread '%s' link pitch: %.3f, physical link %.3f (from %d bottom-run verts)"
+              % (o.name, _pitch, _fund, len(_xs)))
         import bmesh
         _wrap_rs = [(_c["m"] * 0.5) for _c in (_fcl, _rcl) if _c is not None and _c.get("m", 0.0) > 1e-6]
         _thr = max(0.06, 0.35 * min(_wrap_rs)) if _wrap_rs else 0.15
@@ -628,14 +637,12 @@ for o in objs:
                 else:
                     _pairs = _caps + [(_shuttle_region(_p), 1.0 - _tot)]
             _wmap[_v.index] = {_gn: _w for _gn, _w in _pairs if _w > 0.001}
-        # LAPLACIAN WEIGHT SMOOTHING (field finding: the sprocket-to-road-wheel valley deformed in lumpy
-        # facets — the analytic weight field has plateau edges the low-poly mesh shows as bumps). A few
-        # neighbor-averaging passes turn the seams into gradients, like real smooth-skinned rigs.
+        # LAPLACIAN WEIGHT SMOOTHING — one gentle pass to iron capture noise before the cells lock in
         _nbr = [[] for _ in range(len(o.data.vertices))]
         for _e in o.data.edges:
             _a, _b = _e.vertices
             _nbr[_a].append(_b); _nbr[_b].append(_a)
-        for _it in range(3):
+        for _it in range(1):
             _new = []
             for _vi in range(len(_wmap)):
                 if not _nbr[_vi]:
@@ -650,6 +657,57 @@ for o in objs:
                 _tt = sum(_acc.values()) or 1.0
                 _new.append({_g: _w / _tt for _g, _w in _acc.items() if _w / _tt > 0.005})
             _wmap = _new
+        # LINK-RIGID CELLS (user verdict: continuous-band deformation reads as a LOOSE track no matter how
+        # smooth). Real (and vanilla) tracks are RIGID LINKS articulating at pins: cut the loop into
+        # link-length cells along its path and give every vert in a cell the cell's AVERAGE weights — each
+        # molded link then moves rigidly (tight), and all deformation concentrates into the recessed gaps
+        # between cleats where a real track hinges anyway.
+        _fund_p = _link_fund.get(_tn, 0.0)
+        if _fund_p > 0.03:
+            _cxr = sum(_v.co[0] for _v in o.data.vertices) / len(o.data.vertices)
+            _czr = sum(_v.co[2] for _v in o.data.vertices) / len(o.data.vertices)
+            _NB = 720
+            _rads = [[] for _ in range(_NB)]
+            _angs = []
+            for _v in o.data.vertices:
+                _dx, _dz = _v.co[0] - _cxr, _v.co[2] - _czr
+                _a0 = math.atan2(_dz, _dx) % (2 * math.pi)
+                _angs.append(_a0)
+                _rads[min(_NB - 1, int(_a0 / (2 * math.pi) * _NB))].append(math.hypot(_dx, _dz))
+            _rmed = []
+            _last = 1.0
+            for _bin in _rads:
+                if _bin:
+                    _bin.sort(); _last = _bin[len(_bin) // 2]
+                _rmed.append(_last)
+            # SMOOTH the radius profile (moving average) — raw per-bin medians zigzag between the band's
+            # inner/outer faces and cleat bumps, inflating the measured loop length ~3x
+            _rsm = [sum(_rmed[(_i + _k) % _NB] for _k in range(-6, 7)) / 13.0 for _i in range(_NB)]
+            # cumulative arc length around the ring at the smoothed radius
+            _S = [0.0] * (_NB + 1)
+            for _i in range(_NB):
+                _r0b, _r1b = _rsm[_i], _rsm[(_i + 1) % _NB]
+                _a0b, _a1b = 2 * math.pi * _i / _NB, 2 * math.pi * (_i + 1) / _NB
+                _p0 = (_r0b * math.cos(_a0b), _r0b * math.sin(_a0b))
+                _p1 = (_r1b * math.cos(_a1b), _r1b * math.sin(_a1b))
+                _S[_i + 1] = _S[_i] + math.hypot(_p1[0] - _p0[0], _p1[1] - _p0[1])
+            _L = _S[_NB]
+            _NC = max(8, int(round(_L / _fund_p)))
+            _cells = {}
+            _cell_of = []
+            for _vi in range(len(_wmap)):
+                _bi = min(_NB - 1, int(_angs[_vi] / (2 * math.pi) * _NB))
+                _ci = min(_NC - 1, int(_S[_bi] / _L * _NC))
+                _cell_of.append(_ci)
+                _cw = _cells.setdefault(_ci, {})
+                for _g, _w in _wmap[_vi].items():
+                    _cw[_g] = _cw.get(_g, 0.0) + _w
+            for _ci, _cw in _cells.items():
+                _tt = sum(_cw.values()) or 1.0
+                for _g in list(_cw):
+                    _cw[_g] /= _tt
+            _wmap = [{_g: _w for _g, _w in _cells[_cell_of[_vi]].items() if _w > 0.01} for _vi in range(len(_wmap))]
+            print("VEHICLE tread '%s' link-rigid: %d cells of %.3f over loop length %.2f" % (o.name, _NC, _fund_p, _L))
         for _vi, _ws in enumerate(_wmap):
             for _gn, _w in _ws.items():
                 _vgs[_gn].add([_vi], _w, 'REPLACE')
@@ -657,7 +715,7 @@ for o in objs:
         _byg = {k: [0] * v for k, v in _stats.items()}   # counts only, for the report line
         md = o.modifiers.new("Armature", 'ARMATURE'); md.object = arm
         o.parent = arm
-        print("VEHICLE tread '%s' skinned (3x weight-smoothed): %s" % (o.name, ", ".join("%s=%d" % (g, len(ix)) for g, ix in sorted(_byg.items()))))
+        print("VEHICLE tread '%s' skinned (link-rigid cells): %s" % (o.name, ", ".join("%s=%d" % (g, len(ix)) for g, ix in sorted(_byg.items()))))
         continue
     bname = bone_of.get(o.name, "Root")
     for g in list(o.vertex_groups):
