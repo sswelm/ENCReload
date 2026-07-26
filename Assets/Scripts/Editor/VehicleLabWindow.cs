@@ -231,7 +231,8 @@ public class VehicleLabWindow : EditorWindow
             {
                 treadAdvCells = EditorGUILayout.IntSlider(new GUIContent("Tread speed (cells/loop)", "Belt advance per Spin loop, in quarter-link cells. 4 = one full link — the belt matches the big wrap wheels (Spin degrees) exactly; 3 = slightly slower. Restarts stay invisible at any value (the pattern maps onto the cleat sub-grid)."), treadAdvCells, 1, 8);
                 roadSpeedMul = EditorGUILayout.Slider(new GUIContent("Road-wheel speed ×", "Multiplier over the automatic road-wheel/roller speed (their rims match the belt's speed). Exactly 1.0 also snaps each wheel to its own spoke-symmetry grid for invisible loop restarts; any other value plays raw so the dial always responds — settle back on 1.0 (or a value you like) when done tuning."), roadSpeedMul, 0.25f, 2f);
-                idlerSpeedMul = EditorGUILayout.Slider(new GUIContent("Rear wheel speed ×", "The rear upper wheel (idler, furthest back): multiplier over Spin degrees. 1.0 = exactly the front sprocket's speed."), idlerSpeedMul, 0.25f, 2f);
+                // rear idler speed is AUTOMATIC: nearest pop-free multiple of its own spoke symmetry to the
+                // sprocket's speed (proven manually via a dial first — 0.857 on the Jagdpanzer — then automated)
             }
 
             int wheels = list.Count(x => x.role == Role.Wheel);
