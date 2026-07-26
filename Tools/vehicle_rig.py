@@ -347,7 +347,12 @@ for i, tn in enumerate(track_names):
     # The tread system runs its OWN smaller quantum than the visible wheels (fold-finder verdict: at 60 deg
     # the 0.42 advance exceeded the front ramp's ~0.34 span — ramp verts overshot their slope and folded the
     # panel inside-out). Wheels keep the user's spoke-symmetric degrees; wraps+shuttles run degrees/3.
-    for suffix, wcl in (("WrapF", front_cl), ("WrapR", rear_cl)):
+    # The FIRST/LAST ROAD WHEEL get wrap bones too (user field finding: the ramp bends AROUND the first road
+    # wheel — a straight ramp translation must cut into it; give it the sprocket treatment).
+    low_cls = [cl for cl in side_cls if cl["c"].z <= c.z and cl is not front_cl and cl is not rear_cl]
+    roadF_cl = max(low_cls, key=lambda cl: cl["c"].x) if low_cls else front_cl
+    roadR_cl = min(low_cls, key=lambda cl: cl["c"].x) if low_cls else rear_cl
+    for suffix, wcl in (("WrapF", front_cl), ("WrapR", rear_cl), ("WrapGF", roadF_cl), ("WrapGR", roadR_cl)):
         eb = arm_data.edit_bones.new("Track_%02d_%s_%s" % (i, side, suffix))
         if wcl is not None:
             wb = arm_data.edit_bones[cluster_bones[clusters.index(wcl)]]
@@ -356,7 +361,7 @@ for i, tn in enumerate(track_names):
             eb.head = c; eb.tail = c + Vector((0, 0, max(0.05, max(s) * 0.25)))
         eb.parent = eb_root
         names.append(eb.name)
-    track_infos.append((tn, names, front_cl, rear_cl, c.copy()))
+    track_infos.append((tn, names, front_cl, rear_cl, c.copy(), roadF_cl, roadR_cl))
 bpy.ops.object.mode_set(mode='OBJECT')
 
 # rigid skinning: each part full-weight on its bone (wheels/turret) or Root (body). TREAD parts skin
@@ -364,10 +369,11 @@ bpy.ops.object.mode_set(mode='OBJECT')
 # with the wheel — no spoke penetration, wrapping for free), else top half -> Top bone, bottom half -> Bot bone.
 _track_by_name = {t[0]: t for t in track_infos}
 _tread_dirs = {}   # part -> (frontRampFlowDir, rearRampFlowDir) for degrees>0, filled at skinning
+_band_rot = {}     # wrap bone -> radius the tread band rides at (for conveyor-pace rotation keying)
 for o in objs:
     if o.name in _track_by_name:
-        _tn, _tnames, _fcl, _rcl, _tc = _track_by_name[o.name]
-        _botb, _topb, _rampfb, _ramprb, _ramprtb, _wrapfb, _wraprb = _tnames
+        _tn, _tnames, _fcl, _rcl, _tc, _rfcl, _rrcl = _track_by_name[o.name]
+        _botb, _topb, _rampfb, _ramprb, _ramprtb, _wrapfb, _wraprb, _wrapgfb, _wrapgrb = _tnames
         for g in list(o.vertex_groups):
             o.vertex_groups.remove(g)
         # SUBDIVIDE long tread edges first (tear-finder verdict on the low-poly Jagdpanzer tread: one edge
@@ -395,9 +401,8 @@ for o in objs:
         # wrap arcs ride the DEDICATED wrap bones (small tread quantum), never the visible wheel bones
         _sprb = _wrapfb if _fcl is not None else _botb
         _idlb = _wraprb if _rcl is not None else _botb
-        _low_cls = [cl for cl in _side_cls if cl["c"].z <= _tc.z and cl is not _fcl and cl is not _rcl]
-        _roadF = max(_low_cls, key=lambda cl: cl["c"].x) if _low_cls else _fcl
-        _roadR = min(_low_cls, key=lambda cl: cl["c"].x) if _low_cls else _rcl
+        # first/last road wheel: the SAME clusters the wrap bones were created against (stored at bone time)
+        _roadF, _roadR = _rfcl, _rrcl
         # flow directions for degrees>0 (bottom runs backward): front ramp = sprocket -> first road wheel,
         # rear ramp = last road wheel -> idler (continuing the backward+up circulation). RIM-TO-RIM, not
         # center-to-center (fold-finder: center-based dirs made the front ramp flow 39 deg downhill when the
@@ -417,7 +422,7 @@ for o in objs:
         _rollR = min(_high_cls, key=lambda cl: cl["c"].x) if _high_cls else None
         _rtdir = (_rim_dir(_rcl, _rollR, 1, 1) if (_rcl and _rollR) else Vector((1, 0, 0)))
         _tread_dirs[_tn] = (_fdir, _rdir, _rtdir)
-        _names = {_botb, _topb, _rampfb, _ramprb, _ramprtb, _sprb, _idlb}
+        _names = {_botb, _topb, _rampfb, _ramprb, _ramprtb, _sprb, _idlb, _wrapgfb, _wrapgrb}
         _vgs = {n: o.vertex_groups.new(name=n) for n in _names}
         _spr_c, _spr_r = (_fcl["c"], _fcl["m"] * 0.5) if _fcl else (Vector((1e9,) * 3), 0.0)
         _idl_c, _idl_r = (_rcl["c"], _rcl["m"] * 0.5) if _rcl else (Vector((1e9,) * 3), 0.0)
@@ -441,14 +446,47 @@ for o in objs:
                 if _d < 2.4 * _r0:
                     _ds.append(_d)
             if len(_ds) < 8:
-                return (_r0 * 1.15, _r0 * 1.4)
+                return (_r0 * 1.15, _r0 * 1.4, _r0 * 1.1)
             _ds.sort()
+            _lo = _ds[int(0.05 * (len(_ds) - 1))]   # inner face of the tread band
             _hi = _ds[int(0.95 * (len(_ds) - 1))]   # outer face of the tread band
-            return (_hi * 1.02, _hi * 1.02 + 0.25 * _r0)
-        _full_f, _fade_f = _wrap_band(_spr_c, _spr_r, 1.0)
-        _full_r, _fade_r = _wrap_band(_idl_c, _idl_r, -1.0)
-        print("VEHICLE tread '%s' wrap bands: sprocket full<=%.2f fade<=%.2f (r=%.2f), idler full<=%.2f fade<=%.2f (r=%.2f)"
-              % (o.name, _full_f, _fade_f, _spr_r, _full_r, _fade_r, _idl_r))
+            return (_hi * 1.02, _hi * 1.02 + 0.4 * _r0, 0.5 * (_lo + _hi))
+        _full_f, _fade_f, _rot_f = _wrap_band(_spr_c, _spr_r, 1.0)
+        _full_r, _fade_r, _rot_r = _wrap_band(_idl_c, _idl_r, -1.0)
+
+        # road-wheel bend bands: measured DIRECTLY UNDER the wheel (its wrap is the bottom contact arc where
+        # the ramp folds around it; the side-sector sampler would sweep up the ramp and overestimate)
+        def _under_band(_cl):
+            if _cl is None or _cl is _fcl or _cl is _rcl:
+                return (Vector((1e9,) * 3), 0.0, 0.0, 0.0, 0.0)
+            _c = _cl["c"]; _r = _cl["m"] * 0.5
+            _ds = []
+            for _v in o.data.vertices:
+                _p = Vector(_v.co)
+                if abs(_p.x - _c.x) < 0.6 * _r and _p.z < _c.z:
+                    _d = (_p - _c).length
+                    if _d < 2.4 * _r:
+                        _ds.append(_d)
+            if len(_ds) < 8:
+                return (_c, _r, _r * 1.15, _r * 1.5, _r * 1.1)
+            _ds.sort()
+            _lo = _ds[int(0.05 * (len(_ds) - 1))]
+            _hi = _ds[int(0.95 * (len(_ds) - 1))]
+            # fade width must span MULTIPLE mesh edges (0.3 r was narrower than one edge — the blend corridor
+            # between this wheel and the idler was jumped entirely by a single edge: 1.00<->1.00 seam)
+            return (_c, _r, _hi * 1.02, _hi * 1.02 + 0.7 * _r, 0.5 * (_lo + _hi))
+        _rf_c, _rf_r, _full_gf, _fade_gf, _rot_gf = _under_band(_roadF)
+        _rr_c, _rr_r, _full_gr, _fade_gr, _rot_gr = _under_band(_roadR)
+        # speed match must use the radius the TREAD RIDES AT (the measured band), not the wheel rim — road
+        # wheels/idler stand well off their rims, so rim-based rotation ran the wrap 20-60% faster than the
+        # conveyor. Stored per wrap bone for the keying pass.
+        _band_rot[_wrapfb] = _rot_f
+        _band_rot[_wraprb] = _rot_r
+        _band_rot[_wrapgfb] = _rot_gf
+        _band_rot[_wrapgrb] = _rot_gr
+        print("VEHICLE tread '%s' wrap bands: sprocket %.2f/%.2f (r=%.2f), idler %.2f/%.2f (r=%.2f), roadF %.2f/%.2f (r=%.2f), roadR %.2f/%.2f (r=%.2f)"
+              % (o.name, _full_f, _fade_f, _spr_r, _full_r, _fade_r, _idl_r,
+                 _full_gf, _fade_gf, _rf_r, _full_gr, _fade_gr, _rr_r))
 
         def _shuttle_region(_p):
             # RampF = ONLY the descending front ramp, BELOW the sprocket center (tear-finder verdict: the old
@@ -469,11 +507,13 @@ for o in objs:
         _stats = {}
         for _v in o.data.vertices:   # transforms were applied — local == world
             _p = Vector(_v.co)
-            _pairs = None
-            for _wc, _d0, _r0, _wb, _sd, _full, _fade in (
-                    (_spr_c, (_p - _spr_c).length, _spr_r, _sprb, 1.0, _full_f, _fade_f),
-                    (_idl_c, (_p - _idl_c).length, _idl_r, _idlb, -1.0, _full_r, _fade_r)):
-                if _r0 <= 0.0:
+            _caps = []
+            for _wc, _d0, _r0, _wb, _sd, _full, _fade, _road in (
+                    (_spr_c, (_p - _spr_c).length, _spr_r, _sprb, 1.0, _full_f, _fade_f, False),
+                    (_idl_c, (_p - _idl_c).length, _idl_r, _idlb, -1.0, _full_r, _fade_r, False),
+                    (_rf_c, (_p - _rf_c).length, _rf_r, _wrapgfb, 1.0, _full_gf, _fade_gf, True),
+                    (_rr_c, (_p - _rr_c).length, _rr_r, _wrapgrb, -1.0, _full_gr, _fade_gr, True)):
+                if _r0 <= 0.0 or _full <= 0.0:
                     continue
                 # tread that merely PASSES UNDER a raised wrap wheel is straight-run material, not wrap — radial
                 # capture alone grabbed it and rotated it into a tear. A wheel only carries verts at wrap
@@ -484,13 +524,29 @@ for o in objs:
                 if _hz <= 0.0:
                     continue
                 _fh = min(1.0, _hz)
-                # ANGULAR feather (tear-finder: the idler kept grabbing its upper-FRONT quadrant — tread that
-                # has already exited the wrap toward the return roller — and rotated it forward-DOWN against
-                # RampRT's forward-up flow). The wrap tops out at the sprocket's FRONT half / the idler's REAR
-                # half; only ABOVE center (below, both sides legitimately hold the bottom/ramp tangents). Fade
-                # over 0.5 r rather than hard-cut — a binary gate left 1.00<->1.00 crisp boundaries that tore.
                 _fa = _fh
-                if _p.z > _wc.z:
+                if _road:
+                    # road-wheel bend: wrap only the BOTTOM contact arc — fade out above axle height where the
+                    # tread is ramp/straight-run material
+                    if _p.z > _wc.z + 0.4 * _r0:
+                        continue
+                    if _p.z > _wc.z:
+                        _fa *= 1.0 - (_p.z - _wc.z) / (0.4 * _r0)
+                    # ...and only on the wheel's BEND side (toward its ramp). Past bottom-dead-center the tread
+                    # is flat ground run — rotating it lifts it out of the ground plane (the 0.10 tear behind
+                    # the front road wheel). Fade over 0.6 r beyond BDC.
+                    _ex2 = -(_sd * (_p.x - _wc.x))
+                    if _ex2 > 0.0:
+                        _fa *= 1.0 - _ex2 / (0.6 * _r0)
+                    if _fa <= 0.0:
+                        continue
+                elif _p.z > _wc.z:
+                    # ANGULAR feather (tear-finder: the idler kept grabbing its upper-FRONT quadrant — tread
+                    # that has already exited the wrap toward the return roller — and rotated it forward-DOWN
+                    # against RampRT's forward-up flow). The wrap tops out at the sprocket's FRONT half / the
+                    # idler's REAR half; only ABOVE center (below, both sides legitimately hold the bottom/ramp
+                    # tangents). Fade over 0.5 r rather than hard-cut — a binary gate left 1.00<->1.00 crisp
+                    # boundaries that tore.
                     _ex = -(_sd * (_p.x - _wc.x)) - 0.35 * _r0
                     if _ex > 0.0:
                         _fa *= 1.0 - _ex / (0.5 * _r0)
@@ -507,11 +563,20 @@ for o in objs:
                     # the arc longer (a slight outward bulge reads fine; an inward dip through the rim does not).
                     _t = (_d0 - _full) / max(1e-6, _fade - _full)
                     _w = (1.0 - _t * _t) * _fa
-                if _w is not None:
-                    _pairs = [(_wb, 1.0)] if _w >= 0.999 else [(_wb, _w), (_shuttle_region(_p), 1.0 - _w)]
-                    break
-            if _pairs is None:
+                if _w is not None and _w > 0.001:
+                    _caps.append((_wb, _w))
+            # COMBINE overlapping wheel claims instead of first-wins (tear-finder: the idler and the rear road
+            # wheel both fully claimed adjacent verts in their overlap corridor — two different rotations met
+            # at a hard 1.00<->1.00 handoff). Both are speed-matched, so an LBS average transitions smoothly
+            # along the corridor; any weight left over goes to the shuttle region.
+            if not _caps:
                 _pairs = [(_shuttle_region(_p), 1.0)]
+            else:
+                _tot = sum(_w for _, _w in _caps)
+                if _tot >= 0.999:
+                    _pairs = [(_b, _w / _tot) for _b, _w in _caps]
+                else:
+                    _pairs = _caps + [(_shuttle_region(_p), 1.0 - _tot)]
             for _gn, _w in _pairs:
                 if _w > 0.001:
                     _vgs[_gn].add([_v.index], _w, 'REPLACE')
@@ -589,19 +654,24 @@ if track_infos and clusters:
     _conv_deg = degrees / 3.0
     _advance = math.pi * _drive_d * (abs(_conv_deg) / 360.0)
     _flow = 1.0 if degrees >= 0 else -1.0                          # circulation sense follows the roll direction
-    for _tn, _tnames, _fcl, _rcl, _tc in track_infos:
-        _botb, _topb, _rampfb, _ramprb, _ramprtb, _wrapfb, _wraprb = _tnames
-        # wrap bones rotate at the tread quantum, speed-matched to their own diameter (a smaller idler must
-        # spin proportionally faster than the drive sprocket for its surface to keep conveyor pace)
-        for _wbn, _wcl in ((_wrapfb, _fcl), (_wraprb, _rcl)):
-            _d_own = _wcl["m"] if (_wcl is not None and _wcl.get("m", 0.0) > 1e-6) else _drive_d
+    for _tn, _tnames, _fcl, _rcl, _tc, _rfcl, _rrcl in track_infos:
+        _botb, _topb, _rampfb, _ramprb, _ramprtb, _wrapfb, _wraprb, _wrapgfb, _wrapgrb = _tnames
+        # wrap bones rotate so the surface AT THE MEASURED TREAD-BAND RADIUS moves exactly one conveyor
+        # advance per loop (rim-based speed match ran wraps 20-60% fast — road wheels/idler stand well off
+        # their rims). theta = advance / band_radius.
+        for _wbn, _wcl in ((_wrapfb, _fcl), (_wraprb, _rcl), (_wrapgfb, _rfcl), (_wrapgrb, _rrcl)):
+            _R = _band_rot.get(_wbn, 0.0)
+            if _R <= 1e-6:
+                _d_own = _wcl["m"] if (_wcl is not None and _wcl.get("m", 0.0) > 1e-6) else _drive_d
+                _R = _d_own * 0.5
+            _theta = math.degrees(_advance / _R) * (1.0 if degrees >= 0 else -1.0)
             pb = arm.pose.bones[_wbn]
             pb.rotation_mode = 'XYZ'
             bpy.context.scene.frame_set(0)
             pb.rotation_euler = (0, 0, 0)
             pb.keyframe_insert("rotation_euler", frame=0)
             bpy.context.scene.frame_set(frames)
-            pb.rotation_euler = (0, math.radians(_conv_deg * (_drive_d / _d_own)), 0)
+            pb.rotation_euler = (0, math.radians(_theta), 0)
             pb.keyframe_insert("rotation_euler", frame=frames)
         _fdir, _rdir, _rtdir = _tread_dirs.get(_tn, (Vector((-1, 0, 0)), Vector((-1, 0, 0)), Vector((1, 0, 0))))
         _moves = ((_botb, Vector((-1.0, 0.0, 0.0)) * _flow),       # bottom runs backward
