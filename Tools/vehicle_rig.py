@@ -399,19 +399,56 @@ for o in objs:
         _roadF = max(_low_cls, key=lambda cl: cl["c"].x) if _low_cls else _fcl
         _roadR = min(_low_cls, key=lambda cl: cl["c"].x) if _low_cls else _rcl
         # flow directions for degrees>0 (bottom runs backward): front ramp = sprocket -> first road wheel,
-        # rear ramp = last road wheel -> idler (continuing the backward+up circulation)
-        _fdir = ((_roadF["c"] - _fcl["c"]).normalized() if (_fcl and _roadF and _roadF is not _fcl) else Vector((-1, 0, 0)))
-        _rdir = ((_rcl["c"] - _roadR["c"]).normalized() if (_rcl and _roadR and _roadR is not _rcl) else Vector((-1, 0, 0)))
+        # rear ramp = last road wheel -> idler (continuing the backward+up circulation). RIM-TO-RIM, not
+        # center-to-center (fold-finder: center-based dirs made the front ramp flow 39 deg downhill when the
+        # tread's actual slope — sprocket bottom rim to road-wheel ground rim — is ~24 deg; the spurious
+        # vertical component stepped/folded the ramp<->bottom seam).
+        def _rim_dir(_a, _b, _asign, _bsign):
+            # direction from wheel _a's rim to wheel _b's rim (+1 = top rim, -1 = bottom rim), y flattened
+            _az = _a["c"].z + _asign * _a["m"] * 0.5
+            _bz = _b["c"].z + _bsign * _b["m"] * 0.5
+            _v = Vector((_b["c"].x - _a["c"].x, 0.0, _bz - _az))
+            return _v.normalized() if _v.length > 1e-6 else Vector((-1, 0, 0))
+        _fdir = (_rim_dir(_fcl, _roadF, -1, -1) if (_fcl and _roadF and _roadF is not _fcl) else Vector((-1, 0, 0)))
+        _rdir = (_rim_dir(_roadR, _rcl, -1, -1) if (_rcl and _roadR and _roadR is not _rcl) else Vector((-1, 0, 0)))
         # UPPER-REAR slope (field finding: "the track runs off at the upper back"): from the idler UP-FORWARD to
         # the rearmost return roller — part of the TOP circulation (flows forward), not the rear ramp's backward.
         _high_cls = [cl for cl in _side_cls if cl["c"].z > _tc.z and cl is not _fcl and cl is not _rcl]
         _rollR = min(_high_cls, key=lambda cl: cl["c"].x) if _high_cls else None
-        _rtdir = ((_rollR["c"] - _rcl["c"]).normalized() if (_rcl and _rollR) else Vector((1, 0, 0)))
+        _rtdir = (_rim_dir(_rcl, _rollR, 1, 1) if (_rcl and _rollR) else Vector((1, 0, 0)))
         _tread_dirs[_tn] = (_fdir, _rdir, _rtdir)
         _names = {_botb, _topb, _rampfb, _ramprb, _ramprtb, _sprb, _idlb}
         _vgs = {n: o.vertex_groups.new(name=n) for n in _names}
         _spr_c, _spr_r = (_fcl["c"], _fcl["m"] * 0.5) if _fcl else (Vector((1e9,) * 3), 0.0)
         _idl_c, _idl_r = (_rcl["c"], _rcl["m"] * 0.5) if _rcl else (Vector((1e9,) * 3), 0.0)
+
+        # SELF-CALIBRATED wrap band (the idler crumple, seen in renders): the capture radii were expressed in
+        # WHEEL radii, assuming the tread hugs the rim like it hugs the sprocket teeth — but the Jagdpanzer
+        # idler is a small wheel with the track standing ~1.7 r off its rim, so most of its real wrap arc never
+        # got wheel weight and was shredded between shuttle regions. Measure the tread's OWN radial band in the
+        # wheel's pure-wrap sector (front half for the sprocket, rear half for the idler) and capture to that.
+        def _wrap_band(_wc, _r0, _sgn):
+            if _r0 <= 0.0:
+                return (0.0, 0.0)
+            _ds = []
+            for _v in o.data.vertices:
+                _p = Vector(_v.co)
+                if _sgn * (_p.x - _wc.x) < 0.3 * _r0:
+                    continue   # only the unambiguous wrap half — nothing else lives there
+                if _p.z < _wc.z - _r0 * 2.2 or _p.z > _wc.z + _r0 * 2.2:
+                    continue
+                _d = (_p - _wc).length
+                if _d < 2.4 * _r0:
+                    _ds.append(_d)
+            if len(_ds) < 8:
+                return (_r0 * 1.15, _r0 * 1.4)
+            _ds.sort()
+            _hi = _ds[int(0.95 * (len(_ds) - 1))]   # outer face of the tread band
+            return (_hi * 1.02, _hi * 1.02 + 0.25 * _r0)
+        _full_f, _fade_f = _wrap_band(_spr_c, _spr_r, 1.0)
+        _full_r, _fade_r = _wrap_band(_idl_c, _idl_r, -1.0)
+        print("VEHICLE tread '%s' wrap bands: sprocket full<=%.2f fade<=%.2f (r=%.2f), idler full<=%.2f fade<=%.2f (r=%.2f)"
+              % (o.name, _full_f, _fade_f, _spr_r, _full_r, _fade_r, _idl_r))
 
         def _shuttle_region(_p):
             # RampF = ONLY the descending front ramp, BELOW the sprocket center (tear-finder verdict: the old
@@ -433,16 +470,17 @@ for o in objs:
         for _v in o.data.vertices:   # transforms were applied — local == world
             _p = Vector(_v.co)
             _pairs = None
-            for _wc, _d0, _r0, _wb, _sd in ((_spr_c, (_p - _spr_c).length, _spr_r, _sprb, 1.0),
-                                            (_idl_c, (_p - _idl_c).length, _idl_r, _idlb, -1.0)):
+            for _wc, _d0, _r0, _wb, _sd, _full, _fade in (
+                    (_spr_c, (_p - _spr_c).length, _spr_r, _sprb, 1.0, _full_f, _fade_f),
+                    (_idl_c, (_p - _idl_c).length, _idl_r, _idlb, -1.0, _full_r, _fade_r)):
                 if _r0 <= 0.0:
                     continue
                 # tread that merely PASSES UNDER a raised wrap wheel is straight-run material, not wrap — radial
-                # capture alone grabbed it (within 1.6 r by distance) and rotated it into a tear. A wheel only
-                # carries verts at wrap height: above its lower rim minus a small margin. FEATHERED over 0.2 r
-                # (a binary cut landed mid-tread-thickness under the sprocket: bottom face Bot 1.00, top face
-                # wheel 1.00 — crisp tear between the tread's own faces).
-                _hz = (_p.z - (_wc.z - _r0 * 1.15)) / (0.2 * _r0)
+                # capture alone grabbed it and rotated it into a tear. A wheel only carries verts at wrap
+                # height: above its band's lower edge minus a small margin. FEATHERED over 0.2 r (a binary cut
+                # landed mid-tread-thickness under the sprocket: bottom face Bot 1.00, top face wheel 1.00 —
+                # crisp tear between the tread's own faces).
+                _hz = (_p.z - (_wc.z - _fade)) / (0.2 * _r0)
                 if _hz <= 0.0:
                     continue
                 _fh = min(1.0, _hz)
@@ -458,17 +496,16 @@ for o in objs:
                         _fa *= 1.0 - _ex / (0.5 * _r0)
                         if _fa <= 0.0:
                             continue
-                # the tread's wrap ARC lies just OUTSIDE the wheel surface (wheel + track thickness) — it must
-                # be FULL wheel weight or the rotating wheel penetrates it (the v6 regression). Full out to
-                # 1.25 r, fade 1.25 r -> 1.6 r into the shuttle region.
+                # the tread's wrap ARC must be FULL wheel weight or the rotating wheel penetrates it (the v6
+                # regression). Full out to the MEASURED band's outer face, then fade into the shuttle region.
                 _w = None
-                if _d0 <= _r0 * 1.25:
+                if _d0 <= _full:
                     _w = _fa
-                elif _d0 <= _r0 * 1.6:
+                elif _d0 <= _fade:
                     # WHEEL-BIASED fade (v8: penetration at the bottom wrap): a linear rotation/translation blend
                     # takes the CHORD and dips INSIDE the wheel rim — quadratic falloff keeps blend verts hugging
                     # the arc longer (a slight outward bulge reads fine; an inward dip through the rim does not).
-                    _t = (_d0 - _r0 * 1.25) / (0.35 * _r0)
+                    _t = (_d0 - _full) / max(1e-6, _fade - _full)
                     _w = (1.0 - _t * _t) * _fa
                 if _w is not None:
                     _pairs = [(_wb, 1.0)] if _w >= 0.999 else [(_wb, _w), (_shuttle_region(_p), 1.0 - _w)]
