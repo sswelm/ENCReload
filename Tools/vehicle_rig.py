@@ -372,6 +372,7 @@ _tread_dirs = {}   # part -> (frontRampFlowDir, rearRampFlowDir) for degrees>0, 
 _band_rot = {}     # wrap bone -> radius the tread band rides at (for conveyor-pace rotation keying)
 _link_pitch = {}   # part -> measured track-link pitch (conveyor advance = one pitch -> invisible restart)
 _link_fund = {}    # part -> physical link length (autocorrelation fundamental) for rigid link cells
+_link_jobs = {}    # part -> path-instanced rigid-link job (cells, ring path, rest transforms)
 for o in objs:
     if o.name in _track_by_name:
         _tn, _tnames, _fcl, _rcl, _tc, _rfcl, _rrcl = _track_by_name[o.name]
@@ -664,58 +665,113 @@ for o in objs:
         # between cleats where a real track hinges anyway.
         _fund_p = _link_fund.get(_tn, 0.0)
         if _fund_p > 0.03:
-            _cxr = sum(_v.co[0] for _v in o.data.vertices) / len(o.data.vertices)
-            _czr = sum(_v.co[2] for _v in o.data.vertices) / len(o.data.vertices)
-            _NB = 720
-            _rads = [[] for _ in range(_NB)]
-            _angs = []
-            for _v in o.data.vertices:
-                _dx, _dz = _v.co[0] - _cxr, _v.co[2] - _czr
-                _a0 = math.atan2(_dz, _dx) % (2 * math.pi)
-                _angs.append(_a0)
-                _rads[min(_NB - 1, int(_a0 / (2 * math.pi) * _NB))].append(math.hypot(_dx, _dz))
-            _rmed = []
-            _last = 1.0
-            for _bin in _rads:
-                if _bin:
-                    _bin.sort(); _last = _bin[len(_bin) // 2]
-                _rmed.append(_last)
-            # SMOOTH the radius profile (moving average) — raw per-bin medians zigzag between the band's
-            # inner/outer faces and cleat bumps, inflating the measured loop length ~3x
-            _rsm = [sum(_rmed[(_i + _k) % _NB] for _k in range(-6, 7)) / 13.0 for _i in range(_NB)]
-            # cumulative arc length around the ring at the smoothed radius
-            _S = [0.0] * (_NB + 1)
-            for _i in range(_NB):
-                _r0b, _r1b = _rsm[_i], _rsm[(_i + 1) % _NB]
-                _a0b, _a1b = 2 * math.pi * _i / _NB, 2 * math.pi * (_i + 1) / _NB
-                _p0 = (_r0b * math.cos(_a0b), _r0b * math.sin(_a0b))
-                _p1 = (_r1b * math.cos(_a1b), _r1b * math.sin(_a1b))
-                _S[_i + 1] = _S[_i] + math.hypot(_p1[0] - _p0[0], _p1[1] - _p0[1])
-            _L = _S[_NB]
+            import bisect as _bs
+            # BELT-AROUND-PULLEYS path (link-probe verdict: the theta-around-centroid parameterization merges
+            # distinct path sections at the CONCAVE rear — a radial ray crosses the band twice near the raised
+            # idler — scattering links). We know every wheel center AND the tread-band radius at each; the true
+            # path is the classic belt construction: CCW-ordered circles joined by external tangents + wrap
+            # arcs. Exact straights, exact arcs, immune to concavity.
+            _sto = max(0.03, (_rot_r - _idl_r) if (_idl_r > 0.0 and _rot_r > _idl_r) else 0.08)
+            _circ = []
+            if _fcl is not None and _rot_f > 0.02:
+                _circ.append((_spr_c.x, _spr_c.z, _rot_f))
+            for _cl2 in sorted(_high_cls, key=lambda _c2: -_c2["c"].x):   # top rollers, front -> rear
+                _circ.append((_cl2["c"].x, _cl2["c"].z, _cl2["m"] * 0.5 + _sto))
+            if _rcl is not None and _rot_r > 0.02:
+                _circ.append((_idl_c.x, _idl_c.z, _rot_r))
+            if _rr_r > 0.0 and _rot_gr > 0.02:
+                _circ.append((_rr_c.x, _rr_c.z, _rot_gr))
+            if _rf_r > 0.0 and _rot_gf > 0.02:
+                _circ.append((_rf_c.x, _rf_c.z, _rot_gf))
+            _ncr = len(_circ)
+            _norms = []
+            for _i in range(_ncr):
+                _x1, _z1, _r1 = _circ[_i]; _x2, _z2, _r2 = _circ[(_i + 1) % _ncr]
+                _dxb, _dzb = _x2 - _x1, _z2 - _z1
+                _db = math.hypot(_dxb, _dzb) or 1e-9
+                _exb, _ezb = _dxb / _db, _dzb / _db
+                _cpb = max(-1.0, min(1.0, (_r1 - _r2) / _db))
+                _spb = math.sqrt(1.0 - _cpb * _cpb)
+                # unit normal to the external tangent, pointing outward (right of CCW travel)
+                _norms.append((_exb * _cpb + _ezb * _spb, _ezb * _cpb - _exb * _spb))
+            _raw = []
+            for _i in range(_ncr):
+                _xc, _zc, _rc2 = _circ[_i]
+                _na = _norms[(_i - 1) % _ncr]   # arrival normal
+                _nd = _norms[_i]                # departure normal
+                _a0b = math.atan2(_na[1], _na[0])
+                _a1b = math.atan2(_nd[1], _nd[0])
+                while _a1b < _a0b - 1e-9:
+                    _a1b += 2 * math.pi
+                _steps = max(1, int((_a1b - _a0b) * _rc2 / 0.02))
+                for _k in range(_steps):
+                    _ab = _a0b + (_a1b - _a0b) * _k / _steps
+                    _raw.append(Vector((_xc + _rc2 * math.cos(_ab), 0.0, _zc + _rc2 * math.sin(_ab))))
+                _raw.append(Vector((_xc + _rc2 * _nd[0], 0.0, _zc + _rc2 * _nd[1])))
+            _SP = [0.0]
+            for _k in range(len(_raw)):
+                _SP.append(_SP[-1] + (_raw[(_k + 1) % len(_raw)] - _raw[_k]).length)
+            _LP = _SP[-1]
+            # uniform arc-length resample (no smoothing needed — the belt is already exact)
+            _M = 512
+            _pts = []
+            for _m in range(_M):
+                _sT = _m / _M * _LP
+                _k = min(len(_raw) - 1, max(0, _bs.bisect_right(_SP, _sT) - 1))
+                _seg = _SP[_k + 1] - _SP[_k]
+                _fr = ((_sT - _SP[_k]) / _seg) if _seg > 1e-9 else 0.0
+                _pts.append(_raw[_k].lerp(_raw[(_k + 1) % len(_raw)], _fr))
+            _S = [0.0] * (_M + 1)
+            for _i in range(_M):
+                _S[_i + 1] = _S[_i] + (_pts[(_i + 1) % _M] - _pts[_i]).length
+            _L = _S[_M]
             _NC = max(8, int(round(_L / _fund_p)))
-            _cells = {}
-            _cell_of = []
-            for _vi in range(len(_wmap)):
-                _bi = min(_NB - 1, int(_angs[_vi] / (2 * math.pi) * _NB))
-                _ci = min(_NC - 1, int(_S[_bi] / _L * _NC))
-                _cell_of.append(_ci)
-                _cw = _cells.setdefault(_ci, {})
-                for _g, _w in _wmap[_vi].items():
-                    _cw[_g] = _cw.get(_g, 0.0) + _w
-            for _ci, _cw in _cells.items():
-                _tt = sum(_cw.values()) or 1.0
-                for _g in list(_cw):
-                    _cw[_g] /= _tt
-            _wmap = [{_g: _w for _g, _w in _cells[_cell_of[_vi]].items() if _w > 0.01} for _vi in range(len(_wmap))]
-            print("VEHICLE tread '%s' link-rigid: %d cells of %.3f over loop length %.2f" % (o.name, _NC, _fund_p, _L))
-        for _vi, _ws in enumerate(_wmap):
-            for _gn, _w in _ws.items():
-                _vgs[_gn].add([_vi], _w, 'REPLACE')
-                _stats[_gn] = _stats.get(_gn, 0) + 1
-        _byg = {k: [0] * v for k, v in _stats.items()}   # counts only, for the report line
+            _cellL = _L / _NC
+            # per-vert path parameter: nearest belt sample (in the XZ plane)
+            _s_of = []
+            for _v in o.data.vertices:
+                _vx, _vz = _v.co[0], _v.co[2]
+                _bd, _bm = 1e18, 0
+                for _m in range(_M):
+                    _pp = _pts[_m]
+                    _dd = (_pp.x - _vx) * (_pp.x - _vx) + (_pp.z - _vz) * (_pp.z - _vz)
+                    if _dd < _bd:
+                        _bd, _bm = _dd, _m
+                _s_of.append(_S[_bm])
+            # cut PHASE: try offsets and keep the one crossed by the fewest edges, so hinge cuts land in the
+            # cleat GAPS instead of through cleats (the gamedev.tv seam lesson, applied to cells)
+            _edges_ab = [(_e.vertices[0], _e.vertices[1]) for _e in o.data.edges]
+            _best_off, _best_cross = 0.0, None
+            for _k in range(24):
+                _off = _k / 24.0 * _cellL
+                _cross = 0
+                for _a, _b in _edges_ab:
+                    if int(((_s_of[_a] + _off) % _L) / _cellL) != int(((_s_of[_b] + _off) % _L) / _cellL):
+                        _cross += 1
+                if _best_cross is None or _cross < _best_cross:
+                    _best_off, _best_cross = _off, _cross
+            _cell_of = [min(_NC - 1, int(((_s_of[_vi] + _best_off) % _L) / _cellL)) for _vi in range(len(_wmap))]
+            # PATH-INSTANCED RIGID LINKS (the industry recipe the user's modeling guide points at — curve/path
+            # instancing — translated to bakeable skeletal form): every link cell gets its OWN BONE, keyed every
+            # frame to ride the measured ring path. No skin blending at all: each molded link is transported
+            # rigidly, the tread hugs the path by construction, and advance = exactly one cell period so the
+            # loop restart maps link-onto-link.
+            _link_jobs[_tn] = {
+                "prefix": _botb[:-3], "NC": _NC, "cellL": _cellL, "L": _L, "S": _S, "pts": _pts,
+                "off": _best_off, "cell_of": _cell_of, "obj": o.name,
+                "s_rest": [((_ci + 0.5) * _cellL - _best_off) % _L for _ci in range(_NC)],
+            }
+            print("VEHICLE tread '%s' path-instanced: %d rigid links (cell %.3f, loop %.2f, cut phase %.3f, %d edges cross)"
+                  % (o.name, _NC, _cellL, _L, _best_off, _best_cross))
+        if _tn not in _link_jobs:
+            for _vi, _ws in enumerate(_wmap):
+                for _gn, _w in _ws.items():
+                    _vgs[_gn].add([_vi], _w, 'REPLACE')
+                    _stats[_gn] = _stats.get(_gn, 0) + 1
+            _byg = {k: [0] * v for k, v in _stats.items()}   # counts only, for the report line
+            print("VEHICLE tread '%s' skinned (carrier blend fallback): %s" % (o.name, ", ".join("%s=%d" % (g, len(ix)) for g, ix in sorted(_byg.items()))))
         md = o.modifiers.new("Armature", 'ARMATURE'); md.object = arm
         o.parent = arm
-        print("VEHICLE tread '%s' skinned (link-rigid cells): %s" % (o.name, ", ".join("%s=%d" % (g, len(ix)) for g, ix in sorted(_byg.items()))))
         continue
     bname = bone_of.get(o.name, "Root")
     for g in list(o.vertex_groups):
@@ -724,6 +780,50 @@ for o in objs:
     vg.add(list(range(len(o.data.vertices))), 1.0, 'REPLACE')
     md = o.modifiers.new("Armature", 'ARMATURE'); md.object = arm
     o.parent = arm
+
+# ---- path-instanced link bones (deferred: cells were only known after tread analysis) ----
+import bisect
+from mathutils import Matrix
+
+
+def _path_eval(_job, _s):
+    _S, _pts, _L = _job["S"], _job["pts"], _job["L"]
+    _s = _s % _L
+    _b = min(len(_pts) - 1, max(0, bisect.bisect_right(_S, _s) - 1))
+    _b2 = (_b + 1) % len(_pts)
+    _seg = _S[_b + 1] - _S[_b]
+    _f = ((_s - _S[_b]) / _seg) if _seg > 1e-9 else 0.0
+    _p = _pts[_b].lerp(_pts[_b2], _f)
+    _t = _pts[_b2] - _pts[_b]
+    if _t.length < 1e-9:
+        _t = _pts[(_b2 + 1) % len(_pts)] - _pts[_b]
+    return _p, _t.normalized()
+
+
+if _link_jobs:
+    bpy.ops.object.select_all(action='DESELECT')
+    bpy.context.view_layer.objects.active = arm
+    arm.select_set(True)
+    bpy.ops.object.mode_set(mode='EDIT')
+    for _tn, _job in _link_jobs.items():
+        for _ci in range(_job["NC"]):
+            eb = arm_data.edit_bones.new("%sL%02d" % (_job["prefix"], _ci))
+            _P0, _ = _path_eval(_job, _job["s_rest"][_ci])
+            eb.head = _P0
+            eb.tail = _P0 + Vector((0, 0, 0.1))
+            eb.parent = arm_data.edit_bones["Root"]
+    bpy.ops.object.mode_set(mode='OBJECT')
+    for _tn, _job in _link_jobs.items():
+        _o = bpy.data.objects[_job["obj"]]
+        for _g in list(_o.vertex_groups):   # carrier groups stayed empty in link mode — drop them
+            _o.vertex_groups.remove(_g)
+        _by_cell = {}
+        for _vi, _ci in enumerate(_job["cell_of"]):
+            _by_cell.setdefault(_ci, []).append(_vi)
+        for _ci, _vis in _by_cell.items():
+            _vg = _o.vertex_groups.new(name="%sL%02d" % (_job["prefix"], _ci))
+            _vg.add(_vis, 1.0, 'REPLACE')
+    print("VEHICLE link bones: %s" % ", ".join("%s x%d" % (_j["prefix"], _j["NC"]) for _j in _link_jobs.values()))
 
 # ---- join shards per bone ----
 # 3,350 tiny objects make every downstream step crawl (the animated bake's Blender sub-process TIMED OUT on
@@ -787,6 +887,33 @@ if track_infos and clusters:
     _flow = 1.0 if degrees >= 0 else -1.0                          # circulation sense follows the roll direction
     for _tn, _tnames, _fcl, _rcl, _tc, _rfcl, _rrcl in track_infos:
         _botb, _topb, _rampfb, _ramprb, _ramprtb, _wrapfb, _wraprb, _wrapgfb, _wrapgrb = _tnames
+        if _tn in _link_jobs:
+            # PATH-INSTANCED LINKS: key every link bone riding the ring path, one cell period per loop —
+            # restart maps link-onto-link exactly. s increases CCW (bottom of the ring runs +X), so a
+            # forward-rolling tread (degrees>0, bottom must run -X) advances with NEGATIVE s.
+            _job = _link_jobs[_tn]
+            _adv_link = -_job["cellL"] * (1.0 if degrees >= 0 else -1.0)
+            _restM, _P0s, _t0s = {}, {}, {}
+            for _ci in range(_job["NC"]):
+                _bn = "%sL%02d" % (_job["prefix"], _ci)
+                pb = arm.pose.bones[_bn]
+                pb.rotation_mode = 'XYZ'
+                _restM[_ci] = arm.data.bones[_bn].matrix_local.copy()
+                _P0s[_ci], _t0s[_ci] = _path_eval(_job, _job["s_rest"][_ci])
+            for _f in range(frames + 1):
+                bpy.context.scene.frame_set(_f)
+                for _ci in range(_job["NC"]):
+                    _bn = "%sL%02d" % (_job["prefix"], _ci)
+                    pb = arm.pose.bones[_bn]
+                    _P1, _t1 = _path_eval(_job, _job["s_rest"][_ci] + _adv_link * _f / frames)
+                    _q = _t0s[_ci].rotation_difference(_t1)
+                    _M = Matrix.Translation(_P1) @ _q.to_matrix().to_4x4() @ Matrix.Translation(-_P0s[_ci])
+                    pb.matrix = _M @ _restM[_ci]
+                    pb.keyframe_insert("location", frame=_f)
+                    pb.keyframe_insert("rotation_euler", frame=_f)
+            print("VEHICLE tread '%s' link conveyor: %d links keyed along the path, advance %.3f/loop"
+                  % (_tn, _job["NC"], abs(_adv_link)))
+            continue
         # snap the advance to ONE MEASURED LINK PITCH when plausible — the loop restart then maps the tread
         # pattern onto itself (invisible), instead of jerking by a fraction of a link every loop
         _p_meas = _link_pitch.get(_tn, 0.0)
