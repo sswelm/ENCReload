@@ -189,13 +189,20 @@ if len(parts) > _PART_BUDGET:
     for p in parts:
         _groups[p.name.split('.')[0]].append(p)
     _excess = len(parts) - _PART_BUDGET
-    for _base, _members in sorted(_groups.items(), key=lambda kv: -len(kv[1])):
+    # SPREAD the merges evenly across ALL instanced chains (2026-07-26 v2): taking them in numeric order
+    # clustered every merge on the first half of ONE chain — that whole half-run rode neighbor bones and
+    # visibly failed together in-game ("half the tracks don't move", links diving into wheels). Distributed
+    # proportionally with a wide stride, each rider is an isolated link whose wrap-transit swing is brief
+    # and local instead of a solid failing run.
+    _big = [(b, sorted(m, key=lambda o: o.name)) for b, m in _groups.items() if len(m) >= 8]
+    _total_big = sum(len(m) for _b, m in _big)
+    for _gi, (_base, _members) in enumerate(sorted(_big, key=lambda kv: -len(kv[1]))):
         if _excess <= 0:
             break
-        if len(_members) < 8:
-            continue   # only instanced chains — never merge unique parts
-        _members.sort(key=lambda o: o.name)
-        _drops = _members[1::2][:_excess]
+        _quota = min(_excess, max(1, round(_excess * len(_members) / max(1, _total_big))) if _gi < len(_big) - 1 else _excess)
+        _cand = _members[1::2]                      # odd members: every rider has an even predecessor
+        _k = max(1, len(_cand) // max(1, _quota))
+        _drops = _cand[::_k][:_quota]
         for _d in _drops:
             _alias_pairs.append((_d, _members[_members.index(_d) - 1]))
         _excess -= len(_drops)

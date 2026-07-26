@@ -188,8 +188,8 @@
             "pawnDescription": "Era6_Common_AntiTankHalftrack_01",
             "modelFile": "D:/3DModels/T-62/tank_1animation.glb",
             "rotation": {
-                "x": 180.0,
-                "y": 50.0,
+                "x": 0.0,
+                "y": -90.0,
                 "z": 0.0
             },
             "position": {
@@ -197,7 +197,7 @@
                 "y": 0.0,
                 "z": 0.0
             },
-            "size": 5.0,
+            "size": 10.0,
             "normalsMode": 1,
             "smoothingAngle": 20.0,
             "convertGrid": 0,
@@ -237,7 +237,7 @@
             "animUnitFix": false,
             "convertRig": false,
             "autoGroundWheels": false,
-            "keepTranslations": false,
+            "keepTranslations": true,
             "deployConvert": true,
             "deployStart": 0,
             "deployEnd": 377,
