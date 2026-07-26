@@ -561,9 +561,13 @@ public class VehicleLabWindow : EditorWindow
         if (imp != null && (imp.animationType != ModelImporterAnimationType.Generic || !imp.importAnimation))
         { imp.animationType = ModelImporterAnimationType.Generic; imp.importAnimation = true; imp.SaveAndReimport(); }
         BuildPreview(prevRel);
-        status = $"DONE → {lastOutGlb}\n{done}\n\nNext: Factory ▸ Browse this GLB, Size as usual; Animation Lab ▸ State-driven, " +
-                 $"Idle/reference = Spin[0..0], Movement = Spin[1..{frames}] (add /2 etc. to taste), Convert raw rig ON, " +
-                 "Fix 100× OFF, Auto-ground ON. Bake.";
+        // surface the BONE TOTAL prominently (user request): the budget lines are the difference between a
+        // clean unit and the 256-wall / twitch-ceiling diseases — they were buried in the Console until now
+        string bones = stdout.Split('\n').FirstOrDefault(l => l.Contains("VEHICLE armature:"))?.Trim() ?? "";
+        string hybrid = string.Join("\n", stdout.Split('\n').Where(l => l.Contains("HYBRID v2") || l.Contains("BONE BUDGET CLAMP")).Select(l => l.Trim()));
+        status = $"DONE → {lastOutGlb}\n{bones}\n{hybrid}\n{done}\n\nNext: Factory ▸ Browse this GLB, Size as usual; Animation Lab ▸ State-driven, " +
+                 $"Idle/reference = Spin[0..0], Movement = Spin (full), Convert raw rig ON, " +
+                 "Fix 100× OFF, Auto-ground ON, Keep bone translations ✓. Bake.";
         EditorGUIUtility.systemCopyBuffer = lastOutGlb;   // ready to paste into the Factory's Browse field
     }
 

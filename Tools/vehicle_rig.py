@@ -715,6 +715,13 @@ for o in objs:
                 # unit normal to the external tangent, pointing outward (right of CCW travel)
                 _norms.append((_exb * _cpb + _ezb * _spb, _ezb * _cpb - _exb * _spb))
             _raw = []
+            _arc_ranges_raw = []   # (s_start, s_end) of each wheel-wrap ARC in raw path length (v2 hybrid)
+            _cum = [0.0]
+
+            def _rawadd(_p):
+                if _raw:
+                    _cum.append(_cum[-1] + (_p - _raw[-1]).length)
+                _raw.append(_p)
             for _i in range(_ncr):
                 _xc, _zc, _rc2 = _circ[_i]
                 _na = _norms[(_i - 1) % _ncr]   # arrival normal
@@ -724,10 +731,14 @@ for o in objs:
                 while _a1b < _a0b - 1e-9:
                     _a1b += 2 * math.pi
                 _steps = max(1, int((_a1b - _a0b) * _rc2 / 0.02))
+                _arc_s0 = None
                 for _k in range(_steps):
                     _ab = _a0b + (_a1b - _a0b) * _k / _steps
-                    _raw.append(Vector((_xc + _rc2 * math.cos(_ab), 0.0, _zc + _rc2 * math.sin(_ab))))
-                _raw.append(Vector((_xc + _rc2 * _nd[0], 0.0, _zc + _rc2 * _nd[1])))
+                    _rawadd(Vector((_xc + _rc2 * math.cos(_ab), 0.0, _zc + _rc2 * math.sin(_ab))))
+                    if _arc_s0 is None:
+                        _arc_s0 = _cum[-1]   # AFTER the first sample: the preceding segment jump stays OUTSIDE the arc range
+                _rawadd(Vector((_xc + _rc2 * _nd[0], 0.0, _zc + _rc2 * _nd[1])))
+                _arc_ranges_raw.append((_arc_s0, _cum[-1]))
             _SP = [0.0]
             for _k in range(len(_raw)):
                 _SP.append(_SP[-1] + (_raw[(_k + 1) % len(_raw)] - _raw[_k]).length)
@@ -831,6 +842,43 @@ for o in objs:
                 if _best_cross is None or _cross < _best_cross:
                     _best_off, _best_cross = _off, _cross
             _cell_of = [min(_NC - 1, int(((_s_of[_vi] + _best_off) % _L) / _cellL)) for _vi in range(len(_wmap))]
+            # HYBRID LINK/SHUTTLE SPLIT (treadize v2, the user's "smart chains" design): on a STRAIGHT segment
+            # every link moves identically, so ONE translating shuttle bone carries the whole run — per-link
+            # bones only on the wheel-wrap ARCS plus a one-advance TRANSITION margin on each side (so links
+            # hand over at the tangent points, where a wrap link's velocity equals the run direction). Cuts
+            # the bone count ~3x at equal wrap smoothness.
+            _arc_rngs = [((_a * _L / _LP), (_b * _L / _LP)) for _a, _b in _arc_ranges_raw]
+            # tiny arcs (a return roller the belt merely grazes — span under one cell) ride the straights:
+            # per-link treatment there wastes bones and needlessly fragments the shuttle runs
+            _arc_rngs = [_r for _r in _arc_rngs if _r[1] - _r[0] >= _cellL]
+            _margin = tread_adv_cells * _cellL
+
+            def _in_arcs(_sq):
+                for _a0r, _a1r in _arc_rngs:
+                    _lo2, _hi2 = _a0r - _margin, _a1r + _margin
+                    _sw = _sq
+                    if _lo2 < 0 and _sw > _L + _lo2:
+                        _sw -= _L
+                    if _hi2 > _L and _sw < _hi2 - _L:
+                        _sw += _L
+                    if _lo2 <= _sw <= _hi2:
+                        return True
+                return False
+            _link_cells, _shuttle_cells = [], []
+            for _ci in sorted(set(_cell_of)):
+                _sc = ((_ci + 0.5) * _cellL - _best_off) % _L
+                (_link_cells if _in_arcs(_sc) else _shuttle_cells).append(_ci)
+            # group shuttle cells into contiguous RUNS (each run = one straight stretch = one bone); cells of
+            # one run share a single translation, so contiguity in cell index is the right grouping (arc cells
+            # break the sequence). Handle the wrap-around join (last..first).
+            _runs = []
+            for _ci in _shuttle_cells:
+                if _runs and _ci == _runs[-1][-1] + 1:
+                    _runs[-1].append(_ci)
+                else:
+                    _runs.append([_ci])
+            if len(_runs) > 1 and _runs[0][0] == 0 and _runs[-1][-1] == _NC - 1:
+                _runs[0] = _runs[-1] + _runs[0]; _runs.pop()
             # PATH-INSTANCED RIGID LINKS (the industry recipe the user's modeling guide points at — curve/path
             # instancing — translated to bakeable skeletal form): every link cell gets its OWN BONE, keyed every
             # frame to ride the measured ring path. No skin blending at all: each molded link is transported
@@ -841,7 +889,8 @@ for o in objs:
                 # ONLY cells that actually own vertices get bones (the side-skirt-hidden tread stretch has NO
                 # modeled geometry -> its cells were ZERO-WEIGHT bones, silently dropped between Blender and
                 # the Amplitude bake -> every bone index above the drop shifted -> the in-game scramble/spikes)
-                "cells": sorted(set(_cell_of)),
+                "cells": _link_cells,          # per-link bones: wrap arcs + transition margin only (v2 hybrid)
+                "runs": _runs,                 # straight runs: one shuttle bone each, cells listed per run
                 "off": _best_off, "cell_of": _cell_of, "obj": o.name, "cpl": _CPL,
                 # advance in CELLS per loop (CLI-tweakable). 4 (= one link) synced the SPROCKET but visibly
                 # outran the eight ROAD WHEELS, whose symmetry snap (105.6 -> 90 deg) puts their rims at
@@ -851,8 +900,8 @@ for o in objs:
                 "aux": list(_tnames),   # legacy carrier bones — unused in link mode, deleted to fit the bone cap
                 "s_rest": [((_ci + 0.5) * _cellL - _best_off) % _L for _ci in range(_NC)],
             }
-            print("VEHICLE tread '%s' path-instanced: %d rigid links (cell %.3f, loop %.2f, cut phase %.3f, %d edges cross)"
-                  % (o.name, _NC, _cellL, _L, _best_off, _best_cross))
+            print("VEHICLE tread '%s' HYBRID v2: %d link bones on wraps + %d shuttle run(s) covering %d cells (cell %.3f, loop %.2f, cut phase %.3f)"
+                  % (o.name, len(_link_cells), len(_runs), len(_shuttle_cells), _cellL, _L, _best_off))
         if _tn not in _link_jobs:
             for _vi, _ws in enumerate(_wmap):
                 for _gn, _w in _ws.items():
@@ -908,19 +957,31 @@ if _link_jobs:
             eb.head = _P0
             eb.tail = _P0 + Vector((0, 0, 0.1))
             eb.parent = arm_data.edit_bones["Root"]
+        # v2 hybrid: ONE shuttle bone per straight run, at the run's midpoint cell
+        for _ri, _run in enumerate(_job["runs"]):
+            eb = arm_data.edit_bones.new("%sS%02d" % (_job["prefix"], _ri))
+            _P0, _ = _path_eval(_job, _job["s_rest"][_run[len(_run) // 2]])
+            eb.head = _P0
+            eb.tail = _P0 + Vector((0, 0, 0.1))
+            eb.parent = arm_data.edit_bones["Root"]
     bpy.ops.object.mode_set(mode='OBJECT')
     print("VEHICLE armature: %d bones total (Amplitude cap 256)" % len(arm_data.bones))
     for _tn, _job in _link_jobs.items():
         _o = bpy.data.objects[_job["obj"]]
         for _g in list(_o.vertex_groups):   # carrier groups stayed empty in link mode — drop them
             _o.vertex_groups.remove(_g)
-        _by_cell = {}
+        _run_of = {}
+        for _ri, _run in enumerate(_job["runs"]):
+            for _ci in _run:
+                _run_of[_ci] = _ri
+        _by_bone = {}
         for _vi, _ci in enumerate(_job["cell_of"]):
-            _by_cell.setdefault(_ci, []).append(_vi)
-        for _ci, _vis in _by_cell.items():
-            _vg = _o.vertex_groups.new(name="%sL%02d" % (_job["prefix"], _ci))
+            _bn = ("%sS%02d" % (_job["prefix"], _run_of[_ci])) if _ci in _run_of else ("%sL%02d" % (_job["prefix"], _ci))
+            _by_bone.setdefault(_bn, []).append(_vi)
+        for _bn, _vis in _by_bone.items():
+            _vg = _o.vertex_groups.new(name=_bn)
             _vg.add(_vis, 1.0, 'REPLACE')
-    print("VEHICLE link bones: %s" % ", ".join("%s x%d" % (_j["prefix"], _j["NC"]) for _j in _link_jobs.values()))
+    print("VEHICLE hybrid bones: %s" % ", ".join("%s links x%d + shuttles x%d" % (_j["prefix"], len(_j["cells"]), len(_j["runs"])) for _j in _link_jobs.values()))
 
 # ---- join shards per bone ----
 # 3,350 tiny objects make every downstream step crawl (the animated bake's Blender sub-process TIMED OUT on
@@ -1121,8 +1182,25 @@ if track_infos and clusters:
                     pb.matrix = _M @ _restM[_ci]
                     pb.keyframe_insert("location", frame=_f)
                     pb.keyframe_insert("rotation_euler", frame=_f)
-            print("VEHICLE tread '%s' link conveyor: %d links keyed along the path, advance %.3f/loop"
-                  % (_tn, _job["NC"], abs(_adv_link)))
+            # v2 shuttles: each straight run's bone translates by the SAME advance along the run direction
+            # (linear keys; restart maps the molded pattern like every other carrier)
+            for _ri, _run in enumerate(_job["runs"]):
+                _bn = "%sS%02d" % (_job["prefix"], _ri)
+                _smid = _job["s_rest"][_run[len(_run) // 2]]
+                _Pm, _tm = _path_eval(_job, _smid)
+                _world_vec = _tm * _adv_link
+                pb = arm.pose.bones[_bn]
+                db = arm.data.bones[_bn]
+                _local = ((arm.matrix_world @ db.matrix_local).to_3x3().inverted() @ _world_vec)
+                pb.rotation_mode = 'XYZ'
+                bpy.context.scene.frame_set(0)
+                pb.location = (0.0, 0.0, 0.0)
+                pb.keyframe_insert("location", frame=0)
+                bpy.context.scene.frame_set(frames)
+                pb.location = _local
+                pb.keyframe_insert("location", frame=frames)
+            print("VEHICLE tread '%s' HYBRID conveyor: %d link bones on wraps + %d shuttle(s), advance %.3f/loop"
+                  % (_tn, len(_job["cells"]), len(_job["runs"]), abs(_adv_link)))
             continue
         # snap the advance to ONE MEASURED LINK PITCH when plausible — the loop restart then maps the tread
         # pattern onto itself (invisible), instead of jerking by a fraction of a link every loop
