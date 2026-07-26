@@ -149,6 +149,12 @@ idler_speed_mul = max(0.1, min(4.0, float(argv[14]))) if len(argv) > 14 and argv
 # tread cells PER LINK (the BONES dial): 4 = quarter-link (smoothest wraps, most bones), 2 = half-link,
 # 1 = one bone per molded link (coarsest, fewest bones). Bone count per track ≈ cells_per_link x link count.
 tread_cells_per_link = max(1, min(4, int(float(argv[15])))) if len(argv) > 15 and argv[15].strip() else 4
+# 1 = rig the tread loops STATIC (rigid with the hull, no link bones, no conveyor — the isolation switch:
+# wheels still spin, the tracks just don't run). Geometry stays visible.
+tracks_static = len(argv) > 16 and argv[16].strip() == "1"
+if tracks_static and track_names:
+    print("VEHICLE tracks STATIC (isolation): %d tread part(s) rigged rigid to Root, no link bones" % len(track_names))
+    track_names = []
 
 # ---- rigfast mode: the SKM fast path ----
 # The source already carries an artist skeleton with full weights (see rig_report) — REUSE it: author the Spin
