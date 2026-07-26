@@ -818,6 +818,10 @@ for o in objs:
             # loop restart maps link-onto-link.
             _link_jobs[_tn] = {
                 "prefix": _botb[:-3], "NC": _NC, "cellL": _cellL, "L": _L, "S": _S, "pts": _pts,
+                # ONLY cells that actually own vertices get bones (the side-skirt-hidden tread stretch has NO
+                # modeled geometry -> its cells were ZERO-WEIGHT bones, silently dropped between Blender and
+                # the Amplitude bake -> every bone index above the drop shifted -> the in-game scramble/spikes)
+                "cells": sorted(set(_cell_of)),
                 "off": _best_off, "cell_of": _cell_of, "obj": o.name, "cpl": _CPL,
                 # advance in CELLS per loop (CLI-tweakable). 4 (= one link) synced the SPROCKET but visibly
                 # outran the eight ROAD WHEELS, whose symmetry snap (105.6 -> 90 deg) puts their rims at
@@ -878,7 +882,7 @@ if _link_jobs:
             _ab = arm_data.edit_bones.get(_an)
             if _ab is not None:
                 arm_data.edit_bones.remove(_ab)
-        for _ci in range(_job["NC"]):
+        for _ci in _job["cells"]:   # only vert-owning cells — a zero-weight bone gets DROPPED downstream, shifting every index above it
             eb = arm_data.edit_bones.new("%sL%02d" % (_job["prefix"], _ci))
             _P0, _ = _path_eval(_job, _job["s_rest"][_ci])
             eb.head = _P0
@@ -1080,7 +1084,7 @@ if track_infos and clusters:
             _job = _link_jobs[_tn]
             _adv_link = -_job["adv_cells"] * _job["cellL"] * (1.0 if degrees >= 0 else -1.0)
             _restM, _P0s, _t0s = {}, {}, {}
-            for _ci in range(_job["NC"]):
+            for _ci in _job["cells"]:
                 _bn = "%sL%02d" % (_job["prefix"], _ci)
                 pb = arm.pose.bones[_bn]
                 pb.rotation_mode = 'XYZ'
@@ -1088,7 +1092,7 @@ if track_infos and clusters:
                 _P0s[_ci], _t0s[_ci] = _path_eval(_job, _job["s_rest"][_ci])
             for _f in range(frames + 1):
                 bpy.context.scene.frame_set(_f)
-                for _ci in range(_job["NC"]):
+                for _ci in _job["cells"]:
                     _bn = "%sL%02d" % (_job["prefix"], _ci)
                     pb = arm.pose.bones[_bn]
                     _P1, _t1 = _path_eval(_job, _job["s_rest"][_ci] + _adv_link * _f / frames)
