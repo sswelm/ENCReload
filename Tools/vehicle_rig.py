@@ -867,6 +867,72 @@ except Exception:
     pass
 bpy.context.scene.frame_start = 0
 bpy.context.scene.frame_end = frames
+
+
+# ROLLING-CONTACT wheel speeds (user field report: the small road wheels looked draggy — "they should be
+# turning faster compared to the big wheel"): every wheel rolls on the same tread/ground, so angular speed
+# scales as 1/diameter. The LARGEST wheel (drive sprocket) keeps the user's <degrees> exactly. To keep the
+# loop restart invisible on the faster wheels, each wheel's SPOKE SYMMETRY is detected from its own mesh
+# (angular autocorrelation of rim verts around the axle) and its rotation snapped to the nearest multiple of
+# its symmetry angle.
+def _wheel_symmetry(_bname):
+    _o2 = bpy.data.objects.get("Mesh_" + _bname)
+    if _o2 is None or _o2.type != 'MESH' or not _o2.data.vertices:
+        return 0
+    _db2 = arm.data.bones[_bname]
+    _ctr = (arm.matrix_world @ _db2.matrix_local).translation
+    _ax = ((arm.matrix_world @ _db2.matrix_local).to_3x3() @ Vector((0, 1, 0))).normalized()
+    _u = _ax.cross(Vector((0, 0, 1)))
+    if _u.length < 1e-3:
+        _u = _ax.cross(Vector((1, 0, 0)))
+    _u.normalize()
+    _w2 = _ax.cross(_u)
+    _vs2 = _o2.data.vertices
+    _stp = max(1, len(_vs2) // 1500)
+    _pts2 = []
+    _rmax = 0.0
+    _tmp = []
+    for _i2 in range(0, len(_vs2), _stp):
+        _rel = (_o2.matrix_world @ _vs2[_i2].co) - _ctr
+        _xr, _yr = _rel.dot(_u), _rel.dot(_w2)
+        _rr = math.hypot(_xr, _yr)
+        _rmax = max(_rmax, _rr)
+        _tmp.append((math.atan2(_yr, _xr), _rr))
+    _pts2 = [_t2 for _t2, _r2 in _tmp if _r2 > 0.45 * _rmax]
+    if len(_pts2) < 24:
+        return 0
+    _bestn, _bestR = 0, 0.0
+    _scoresn = []
+    for _n in range(2, 25):
+        _sr2 = sum(math.cos(_n * _t2) for _t2 in _pts2)
+        _si2 = sum(math.sin(_n * _t2) for _t2 in _pts2)
+        _Rn = math.hypot(_sr2, _si2) / len(_pts2)
+        _scoresn.append((_n, _Rn))
+        _bestR = max(_bestR, _Rn)
+    if _bestR < 0.4:
+        return 0
+    # the FUNDAMENTAL symmetry = the smallest strong n (higher strong n's are its harmonics — rotating by
+    # THEIR step does not map the pattern onto itself)
+    for _n, _Rn in _scoresn:
+        if _Rn >= 0.8 * _bestR:
+            return _n
+    return 0
+
+
+_dd_ref = max((cl["m"] for cl in clusters), default=0.0)
+_wheel_final_deg = {}
+for _bi2, bname in enumerate(cluster_bones):
+    _deg_i = degrees
+    if _dd_ref > 1e-6 and _bi2 < len(clusters) and clusters[_bi2].get("m", 0.0) > 1e-6:
+        _deg_i = degrees * (_dd_ref / clusters[_bi2]["m"])
+        _nsym = _wheel_symmetry(bname)
+        if _nsym > 0:
+            _stepd = 360.0 / _nsym
+            _snap = round(_deg_i / _stepd) * _stepd
+            if abs(_snap) < 1e-6:
+                _snap = _stepd * (1.0 if _deg_i >= 0 else -1.0)
+            _deg_i = _snap
+    _wheel_final_deg[bname] = _deg_i
 for bname in cluster_bones:
     pb = arm.pose.bones[bname]
     pb.rotation_mode = 'XYZ'
@@ -874,8 +940,13 @@ for bname in cluster_bones:
     pb.rotation_euler = (0, 0, 0)
     pb.keyframe_insert("rotation_euler", frame=0)
     bpy.context.scene.frame_set(frames)
-    pb.rotation_euler = (0, math.radians(degrees), 0)   # local Y = the axle (bone tail direction)
+    pb.rotation_euler = (0, math.radians(_wheel_final_deg.get(bname, degrees)), 0)   # local Y = the axle
     pb.keyframe_insert("rotation_euler", frame=frames)
+if _wheel_final_deg:
+    _chg = {b: d for b, d in _wheel_final_deg.items() if abs(d - degrees) > 0.5}
+    if _chg:
+        print("VEHICLE rolling-contact speeds (largest wheel keeps %.0f deg): %s"
+              % (degrees, ", ".join("%s=%.1f" % (b, d) for b, d in sorted(_chg.items()))))
 
 # TREAD CONVEYOR v2: bottom run slides opposite the roll, top run WITH it, both by one drive-wheel surface
 # distance per loop (the wrap arcs need no keys — they're skinned to the rotating sprocket/idler bones). Use
