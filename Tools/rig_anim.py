@@ -688,12 +688,17 @@ if not keep_materials:                       # SINGLE-material path: collapse to
 else:
     print("RIGANIM keeping %d material slots (multi-material)" % len(me.materials))
 total = sum(len(p.vertices) - 2 for p in me.polygons)
-ratio = min(1.0, max(0.02, target / max(1, total)))
-mdec = joined.modifiers.new("dec", 'DECIMATE')
-mdec.decimate_type = 'COLLAPSE'; mdec.ratio = ratio; mdec.use_collapse_triangulate = True
-bpy.ops.object.select_all(action='DESELECT'); joined.select_set(True); bpy.context.view_layer.objects.active = joined
-bpy.ops.object.modifier_apply(modifier=mdec.name)
-print("RIGANIM decimate %d -> %d tris (ratio %.3f)" % (total, sum(len(p.vertices) - 2 for p in me.polygons), ratio))
+# target <= 0 = decimation OFF (the Factory's "0 = off" promise — decimation shreds link-cell tread meshes by
+# collapsing verts ACROSS cell boundaries, blending weights between distant link bones = spike ribbons in-game)
+if target <= 0 or total <= target:
+    print("RIGANIM decimate SKIPPED (%d tris, target %s)" % (total, "OFF" if target <= 0 else target))
+else:
+    ratio = min(1.0, max(0.02, target / max(1, total)))
+    mdec = joined.modifiers.new("dec", 'DECIMATE')
+    mdec.decimate_type = 'COLLAPSE'; mdec.ratio = ratio; mdec.use_collapse_triangulate = True
+    bpy.ops.object.select_all(action='DESELECT'); joined.select_set(True); bpy.context.view_layer.objects.active = joined
+    bpy.ops.object.modifier_apply(modifier=mdec.name)
+    print("RIGANIM decimate %d -> %d tris (ratio %.3f)" % (total, sum(len(p.vertices) - 2 for p in me.polygons), ratio))
 
 # GUARANTEE the skin binding: whichever object won the join, the joined mesh keeps every source mesh's vertex groups
 # (weights) regardless — so if the join dropped the armature modifier, re-adding one bound to `arm` fully restores
