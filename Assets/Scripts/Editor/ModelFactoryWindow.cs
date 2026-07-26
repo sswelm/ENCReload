@@ -332,6 +332,8 @@ public class ModelFactoryWindow : EditorWindow
                     "\nAnimation settings are edited in the Animation Lab; Bake here uses them as saved.", MessageType.None);
                 if (GUILayout.Button("Edit in\nAnimation Lab", GUILayout.Width(110), GUILayout.Height(38)))
                     AnimationLabWindow.OpenFor(cur.resourceName, cur.modelFile, cur.pawnDescription);
+                if (GUILayout.Button(new GUIContent("Make\nstatic…", "Deletes this entry's ANIMATION configuration from the saved registry (clip, state roles, behaviors, turret/muzzle) so the next Bake takes the static path. Removal STICKS — nothing rebases it back."), GUILayout.Width(70), GUILayout.Height(38)))
+                    MakeStatic();
             }
             if (!UniversalBaker.BlenderAvailable())
                 EditorGUILayout.HelpBox("The animated path needs Blender (to slim the rig + bake the clip) — it wasn't found. " +
@@ -1034,6 +1036,107 @@ public class ModelFactoryWindow : EditorWindow
         keepTexture = cur.reuseExtracted   // on the ANIMATED path the checkbox's ONLY meaning is 'protect the hand-edited extracted texture'
     };
 
+    // ENFORCED OWNERSHIP: the ANIMATION / retexture / sound fields belong to the Animation Lab and their own
+    // windows — whenever this window WRITES the registry (Bake or Save), take their freshest saved values so a
+    // stale Factory copy can't clobber them (a Factory bake once silently dropped the Lab's Fix-100×).
+    void RebaseLabOwnedOnRegistry()
+    {
+        var regE = ModelRegistry.Load().FirstOrDefault(x => x.resourceName == cur.resourceName);
+        if (regE == null) return;
+        cur.animClip = regE.animClip; cur.animateBones = regE.animateBones; cur.animUnitFix = regE.animUnitFix;
+        cur.convertRig = regE.convertRig; cur.autoGroundWheels = regE.autoGroundWheels;
+        cur.deployConvert = regE.deployConvert; cur.deployStart = regE.deployStart; cur.deployEnd = regE.deployEnd;
+        cur.deployStrip = regE.deployStrip; cur.deployReadyFrame = regE.deployReadyFrame; cur.deployLegScale = regE.deployLegScale; cur.deployBarrelScale = regE.deployBarrelScale;
+        cur.deployRecoil = regE.deployRecoil; cur.deployRecoilStep = regE.deployRecoilStep; cur.deployRecoilMag = regE.deployRecoilMag; cur.deployArcR = regE.deployArcR; cur.deployRecoilReturn = regE.deployRecoilReturn; cur.deploySlamDeg = regE.deploySlamDeg; cur.deploySlamSettle = regE.deploySlamSettle;
+        cur.animStateDriven = regE.animStateDriven; cur.animClipMove = regE.animClipMove; cur.animClipAfter = regE.animClipAfter; cur.animClipAttack = regE.animClipAttack; cur.animClipCombat = regE.animClipCombat; cur.animClipPreMove = regE.animClipPreMove; cur.animClipIdle = regE.animClipIdle; cur.animClipIdleAlt = regE.animClipIdleAlt; cur.animClipIdleAlt2 = regE.animClipIdleAlt2;
+        cur.clipMove = regE.clipMove; cur.clipAfter = regE.clipAfter; cur.clipAttack = regE.clipAttack; cur.clipCombat = regE.clipCombat; cur.clipPreMove = regE.clipPreMove; cur.clipIdle = regE.clipIdle; cur.clipIdleAlt = regE.clipIdleAlt; cur.clipIdleAlt2 = regE.clipIdleAlt2; cur.idleAltInterval = regE.idleAltInterval;
+        cur.attackRepeats = regE.attackRepeats; cur.clearAimLayer = regE.clearAimLayer;
+        cur.turretBone = regE.turretBone; cur.turretAxis = regE.turretAxis; cur.muzzleBone = regE.muzzleBone; cur.muzzleOffset = regE.muzzleOffset; cur.socketBones = regE.socketBones;
+        cur.handPropName = regE.handPropName; cur.handPropGuid = regE.handPropGuid; cur.handPropMat = regE.handPropMat; cur.handPropBone = regE.handPropBone; cur.handPropAngles = regE.handPropAngles;
+        cur.fireOnAttack = regE.fireOnAttack; cur.deployOnStop = regE.deployOnStop;
+        cur.deployPoseTime = regE.deployPoseTime; cur.deploySpeed = regE.deploySpeed; cur.recoilSpeed = regE.recoilSpeed;
+        // Unit Retexture / Unit Sound ownership — same rule as the Lab fields: this window can't even display
+        // these, so it must never write its stale clone of them. Without this, a Factory re-bake silently
+        // reverted a skin/tint/engine-sound configured after the entry was loaded here (review 2026-07-19).
+        cur.desaturate = regE.desaturate; cur.tintR = regE.tintR; cur.tintG = regE.tintG; cur.tintB = regE.tintB;
+        cur.textureFile = regE.textureFile;
+        cur.engineSound = regE.engineSound; cur.engineStartEvent = regE.engineStartEvent; cur.engineStopEvent = regE.engineStopEvent;
+        cur.soundFile = regE.soundFile; cur.soundStartFile = regE.soundStartFile; cur.soundStopFile = regE.soundStopFile;
+        cur.soundVolume = regE.soundVolume; cur.soundStartVolume = regE.soundStartVolume; cur.soundStopVolume = regE.soundStopVolume;
+        if (regE.animated) cur.animated = true;
+    }
+
+    // ANIMATED -> STATIC downgrade that STICKS (user verdict 2026-07-26: "when I removed the animation
+    // configuration I expect it to be removed, not get cursed"). The bake-time ownership rebase pulls the SAVED
+    // animation config back before the static guard runs, so any in-window untick was silently resurrected and
+    // deleting the whole entry was the only escape. This clears the animation-owned fields IN THE SAVED REGISTRY
+    // (immediately, registry-only) — after which the rebase pulls cleared values and the static path is native.
+    void MakeStatic()
+    {
+        if (!EditorUtility.DisplayDialog("Make static?",
+            $"Delete '{cur.resourceName}' animation configuration from the saved registry?\n\n" +
+            "Removed: clip + state roles, deploy conversion, behaviors (fire/deploy), turret/muzzle/sockets, " +
+            "hand prop, Convert-rig/Keep-translations flags. Baked clip assets on disk stay until the next Bake " +
+            "(which will be STATIC).\n\nThe model file, transform, size and shading settings are kept.",
+            "Make static", "Cancel")) return;
+        cur.animated = false;
+        cur.animClip = ""; cur.animateBones = ""; cur.animUnitFix = false;
+        cur.convertRig = false; cur.autoGroundWheels = false; cur.keepTranslations = false;
+        cur.deployConvert = false; cur.deployStart = 0; cur.deployEnd = 0; cur.deployStrip = "";
+        cur.deployReadyFrame = ""; cur.deployLegScale = ""; cur.deployBarrelScale = "";
+        cur.deployRecoil = ""; cur.deployRecoilStep = ""; cur.deployRecoilMag = ""; cur.deployArcR = "";
+        cur.deployRecoilReturn = ""; cur.deploySlamDeg = ""; cur.deploySlamSettle = "";
+        cur.animStateDriven = false; cur.animClipMove = ""; cur.animClipAfter = ""; cur.animClipAttack = "";
+        cur.animClipCombat = ""; cur.animClipPreMove = ""; cur.animClipIdle = ""; cur.animClipIdleAlt = ""; cur.animClipIdleAlt2 = "";
+        cur.clip = new int[4]; cur.clipMove = new int[4]; cur.clipAfter = new int[4]; cur.clipAttack = new int[4];
+        cur.clipCombat = new int[4]; cur.clipPreMove = new int[4]; cur.clipIdle = new int[4]; cur.clipIdleAlt = new int[4]; cur.clipIdleAlt2 = new int[4];
+        cur.idleAltInterval = 0; cur.attackRepeats = 0; cur.clearAimLayer = false;
+        cur.turretBone = ""; cur.turretAxis = 0; cur.muzzleBone = ""; cur.muzzleOffset = Vector3.zero; cur.socketBones = "";
+        cur.handPropName = ""; cur.handPropGuid = ""; cur.handPropMat = ""; cur.handPropBone = ""; cur.handPropAngles = "";
+        cur.fireOnAttack = false; cur.deployOnStop = false;
+        cur.deployPoseTime = 0f; cur.deploySpeed = 0f; cur.recoilSpeed = 0f;
+        bool saved = ModelRegistry.Upsert(cur);
+        RefreshList();
+        status = saved
+            ? $"'{cur.resourceName}' animation configuration DELETED from the registry — the next Bake is static. (Relaunch also stops the animated override.)"
+            : "REGISTRY SAVE FAILED (see Console) — the animation config was NOT removed.";
+        Debug.Log("[Factory] " + status);
+    }
+
+    // Registry-only save — the button the runtime section deserved all along (user request, 2026-07-26, after
+    // the hideMeshes spike-fix had no way to save without a full re-bake): writes the entry with the current
+    // Factory-owned fields, Lab-owned fields rebased from the registry, and the BAKED GUIDs taken from the
+    // registry too (assets are untouched, so this window's possibly-stale GUID copies must never be written).
+    void SaveOnly()
+    {
+        cur.resourceName = (cur.resourceName ?? "").Trim();
+        cur.pawnDescription = (cur.pawnDescription ?? "").Trim();
+        cur.modelFile = (cur.modelFile ?? "").Trim();
+        cur.stripParts = (cur.stripParts ?? "").Trim();
+        cur.hideMeshes = (cur.hideMeshes ?? "").Trim();
+        var regE = ModelRegistry.Load().FirstOrDefault(x => x.resourceName == cur.resourceName);
+        RebaseLabOwnedOnRegistry();
+        bool modelFileChanged = false;
+        if (regE != null)
+        {
+            cur.skel = regE.skel; cur.atlas = regE.atlas; cur.clip = regE.clip;
+            cur.clipMove = regE.clipMove; cur.clipAfter = regE.clipAfter; cur.clipAttack = regE.clipAttack;
+            cur.clipCombat = regE.clipCombat; cur.clipPreMove = regE.clipPreMove; cur.clipIdle = regE.clipIdle;
+            cur.clipIdleAlt = regE.clipIdleAlt; cur.clipIdleAlt2 = regE.clipIdleAlt2;
+            if (regE.animated) cur.animated = true;
+            modelFileChanged = !string.Equals(regE.modelFile ?? "", cur.modelFile, StringComparison.OrdinalIgnoreCase);
+        }
+        bool saved = ModelRegistry.Upsert(cur);
+        RefreshList();
+        selected = System.Array.IndexOf(existing, cur.resourceName); if (selected < 0) selected = 0;
+        status = saved
+            ? $"Saved '{cur.resourceName}' (registry only, baked assets untouched). Relaunch the game — runtime fields " +
+              "(Hide donor meshes, Freeze/Silence, Position offset, Size) apply on load; bake-time fields still need a Bake." +
+              (modelFileChanged ? "  NOTE: the Model file differs from what was last baked — the assets on disk are still the old bake." : "")
+            : "REGISTRY SAVE FAILED (see Console). Close whatever's locking the registry and retry.";
+        Debug.Log("[Factory] " + status);
+    }
+
     void DoBake()
     {
         // Tear down the preview editor BEFORE baking. The baked prefab has an Animator, so the preview is a GameObjectInspector
@@ -1057,33 +1160,7 @@ public class ModelFactoryWindow : EditorWindow
         // Animation Lab — before baking, always take their freshest saved values from the registry so a stale Factory
         // copy can't clobber what the Lab configured (a Factory bake once silently dropped the Lab's Fix-100×,
         // shipping a 100×-giant soldier). This window contributes everything else (model file, transform, size, …).
-        {
-            var regE = ModelRegistry.Load().FirstOrDefault(x => x.resourceName == cur.resourceName);
-            if (regE != null)
-            {
-                cur.animClip = regE.animClip; cur.animateBones = regE.animateBones; cur.animUnitFix = regE.animUnitFix;
-                cur.convertRig = regE.convertRig; cur.autoGroundWheels = regE.autoGroundWheels;
-                cur.deployConvert = regE.deployConvert; cur.deployStart = regE.deployStart; cur.deployEnd = regE.deployEnd;
-                cur.deployStrip = regE.deployStrip; cur.deployReadyFrame = regE.deployReadyFrame; cur.deployLegScale = regE.deployLegScale; cur.deployBarrelScale = regE.deployBarrelScale;
-                cur.deployRecoil = regE.deployRecoil; cur.deployRecoilStep = regE.deployRecoilStep; cur.deployRecoilMag = regE.deployRecoilMag; cur.deployArcR = regE.deployArcR; cur.deployRecoilReturn = regE.deployRecoilReturn; cur.deploySlamDeg = regE.deploySlamDeg; cur.deploySlamSettle = regE.deploySlamSettle;
-                cur.animStateDriven = regE.animStateDriven; cur.animClipMove = regE.animClipMove; cur.animClipAfter = regE.animClipAfter; cur.animClipAttack = regE.animClipAttack; cur.animClipCombat = regE.animClipCombat; cur.animClipPreMove = regE.animClipPreMove; cur.animClipIdle = regE.animClipIdle; cur.animClipIdleAlt = regE.animClipIdleAlt; cur.animClipIdleAlt2 = regE.animClipIdleAlt2;
-                cur.clipMove = regE.clipMove; cur.clipAfter = regE.clipAfter; cur.clipAttack = regE.clipAttack; cur.clipCombat = regE.clipCombat; cur.clipPreMove = regE.clipPreMove; cur.clipIdle = regE.clipIdle; cur.clipIdleAlt = regE.clipIdleAlt; cur.clipIdleAlt2 = regE.clipIdleAlt2; cur.idleAltInterval = regE.idleAltInterval;
-                cur.attackRepeats = regE.attackRepeats; cur.clearAimLayer = regE.clearAimLayer;
-                cur.turretBone = regE.turretBone; cur.turretAxis = regE.turretAxis; cur.muzzleBone = regE.muzzleBone; cur.muzzleOffset = regE.muzzleOffset; cur.socketBones = regE.socketBones;
-                cur.handPropName = regE.handPropName; cur.handPropGuid = regE.handPropGuid; cur.handPropMat = regE.handPropMat; cur.handPropBone = regE.handPropBone; cur.handPropAngles = regE.handPropAngles;
-                cur.fireOnAttack = regE.fireOnAttack; cur.deployOnStop = regE.deployOnStop;
-                cur.deployPoseTime = regE.deployPoseTime; cur.deploySpeed = regE.deploySpeed; cur.recoilSpeed = regE.recoilSpeed;
-                // Unit Retexture / Unit Sound ownership — same rule as the Lab fields: this window can't even display
-                // these, so it must never write its stale clone of them. Without this, a Factory re-bake silently
-                // reverted a skin/tint/engine-sound configured after the entry was loaded here (review 2026-07-19).
-                cur.desaturate = regE.desaturate; cur.tintR = regE.tintR; cur.tintG = regE.tintG; cur.tintB = regE.tintB;
-                cur.textureFile = regE.textureFile;
-                cur.engineSound = regE.engineSound; cur.engineStartEvent = regE.engineStartEvent; cur.engineStopEvent = regE.engineStopEvent;
-                cur.soundFile = regE.soundFile; cur.soundStartFile = regE.soundStartFile; cur.soundStopFile = regE.soundStopFile;
-                cur.soundVolume = regE.soundVolume; cur.soundStartVolume = regE.soundStartVolume; cur.soundStopVolume = regE.soundStopVolume;
-                if (regE.animated) cur.animated = true;
-            }
-        }
+        RebaseLabOwnedOnRegistry();
         // GUARD against a silent animated->static downgrade (the "howitzers on their side" incident). Two layers:
         // (1) the ENTRY carries animation config (clip/behaviors) -> it IS animated; self-heal the flag, no dialog.
         // (2) only the FILE has animation (a fresh rigged model, no config yet) -> unticked may be deliberate; ask.
