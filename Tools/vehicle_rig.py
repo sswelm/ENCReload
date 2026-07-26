@@ -140,6 +140,10 @@ degrees = float(argv[8])
 # 3 = near-syncs the road wheels (their symmetry snap runs them slower), 2 = half speed (strong half-link
 # restart grid). Clamped 1..8.
 tread_adv_cells = max(1, min(8, int(float(argv[12])))) if len(argv) > 12 and argv[12].strip() else 3
+# road-wheel/roller speed multiplier over the automatic belt-continuity speed (user eye-tuning dial).
+# At exactly 1.0 speeds snap to each wheel's spoke-symmetry grid (invisible restarts); any other value is
+# applied RAW so the dial always visibly responds (restart pops accepted while tuning).
+road_speed_mul = max(0.1, min(4.0, float(argv[13]))) if len(argv) > 13 and argv[13].strip() else 1.0
 
 # ---- rigfast mode: the SKM fast path ----
 # The source already carries an artist skeleton with full weights (see rig_report) — REUSE it: author the Spin
@@ -993,19 +997,31 @@ for _ti3 in track_infos:
     for _cl3 in (_ti3[2], _ti3[3]):
         if _cl3 is not None and _cl3 in clusters:
             _wrap_carrier_idx.add(clusters.index(_cl3))
+# reference surface speed for ground wheels/rollers: with a tread, the wheels visually roll AGAINST THE
+# BELT — surface speed = the belt's advance per loop (BELT-CONTINUITY; the old drive-wheel rim ratio is
+# only right for belt-less vehicles, where the shared surface is the ground).
+_belt_adv = 0.0
+for _j5 in _link_jobs.values():
+    _belt_adv = max(_belt_adv, _j5["adv_cells"] * _j5["cellL"])
 _wheel_final_deg = {}
 for _bi2, bname in enumerate(cluster_bones):
     _deg_i = degrees
     if (_dd_ref > 1e-6 and _bi2 < len(clusters) and clusters[_bi2].get("m", 0.0) > 1e-6
             and _bi2 not in _wrap_carrier_idx):
-        _deg_i = degrees * (_dd_ref / clusters[_bi2]["m"])
-        _nsym = _wheel_symmetry(bname)
-        if _nsym > 0:
-            _stepd = 360.0 / _nsym
-            _snap = round(_deg_i / _stepd) * _stepd
-            if abs(_snap) < 1e-6:
-                _snap = _stepd * (1.0 if _deg_i >= 0 else -1.0)
-            _deg_i = _snap
+        _r_i = clusters[_bi2]["m"] * 0.5
+        if _belt_adv > 1e-6:
+            _deg_i = math.degrees(_belt_adv / _r_i) * (1.0 if degrees >= 0 else -1.0)
+        else:
+            _deg_i = degrees * (_dd_ref / clusters[_bi2]["m"])
+        _deg_i *= road_speed_mul
+        if abs(road_speed_mul - 1.0) < 1e-6:   # snapping would eat small dial changes — only snap at x1.0
+            _nsym = _wheel_symmetry(bname)
+            if _nsym > 0:
+                _stepd = 360.0 / _nsym
+                _snap = round(_deg_i / _stepd) * _stepd
+                if abs(_snap) < 1e-6:
+                    _snap = _stepd * (1.0 if _deg_i >= 0 else -1.0)
+                _deg_i = _snap
     _wheel_final_deg[bname] = _deg_i
 for bname in cluster_bones:
     pb = arm.pose.bones[bname]

@@ -50,6 +50,7 @@ public class VehicleLabWindow : EditorWindow
     List<Part> ActiveParts => useSourceRig && boneParts.Count > 0 ? boneParts : parts;
     [SerializeField] int frames = 15; [SerializeField] float degrees = -360f; [SerializeField] int axisChoice = 0;   // 0 = Auto (per wheel), 1..3 = X/Y/Z
     [SerializeField] int treadAdvCells = 3;   // tread advance per loop in quarter-link cells (3 ≈ road-wheel sync)
+    [SerializeField] float roadSpeedMul = 1f; // road-wheel/roller speed multiplier over automatic belt sync
     [SerializeField] int minVerts = 50;   // parts below this are COLLAPSED into Body (a triangle-soup FBX probes into thousands of shards)
     [SerializeField] float minPartSize = 0f;  // hide parts whose LARGEST bbox dimension is below this — drop minVerts + raise this to surface big-but-low-poly parts (flat discs, plates)
     [SerializeField] float minHeight = -999f; // hide parts whose CENTER height is below this (clamped to the model's span, so the default means "off") — slide up to isolate turret-level parts
@@ -71,7 +72,7 @@ public class VehicleLabWindow : EditorWindow
 
     // ── Recipes: the whole vehicleize configuration as a JSON file — reload it after a restart, keep one per model,
     // ship it next to the model so a collaborator reproduces the exact rig. ──
-    [Serializable] class Recipe { public string srcFile, outGlb; public int frames, axisChoice, minVerts; public float degrees; public List<Part> parts; public List<Part> boneParts; public bool useSourceRig; public int treadAdvCells = 3; }
+    [Serializable] class Recipe { public string srcFile, outGlb; public int frames, axisChoice, minVerts; public float degrees; public List<Part> parts; public List<Part> boneParts; public bool useSourceRig; public int treadAdvCells = 3; public float roadSpeedMul = 1f; }
     const string RecipesDir = "Assets/FactorySource/VehicleLab/Recipes";
     static readonly string[] AxisOptions = { "Auto (thinnest extent = axle, per wheel)", "X", "Y", "Z" };
     string status = "";
@@ -226,7 +227,10 @@ public class VehicleLabWindow : EditorWindow
             frames = EditorGUILayout.IntSlider(new GUIContent("Spin frames", "Length of the generated Spin action. Apparent speed is tuned later with slice steps (Spin[1..N/2]) — this just needs to be a smooth loop."), frames, 5, 60);
             degrees = EditorGUILayout.Slider(new GUIContent("Spin degrees", "Wheel rotation over the clip (one full turn = 360). Which SIGN rolls forward depends on the model's nose direction — check the preview and negate if the wheels roll backward. For a +X-facing model (like the Ehrhardt), +360 is forward."), degrees, -720f, 720f);
             if (list.Any(x => x.role == Role.Caterpillar))
-                treadAdvCells = EditorGUILayout.IntSlider(new GUIContent("Tread speed (cells/loop)", "Tread advance per Spin loop, in quarter-link cells. 4 = one full link (syncs the drive sprocket exactly); 3 = slightly slower, near-syncing the road wheels (their spoke-symmetry snap runs them below true rolling speed); 2 = half speed on the strongest restart grid. Restarts stay invisible at any value — the pattern maps onto the cleat sub-grid."), treadAdvCells, 1, 8);
+            {
+                treadAdvCells = EditorGUILayout.IntSlider(new GUIContent("Tread speed (cells/loop)", "Belt advance per Spin loop, in quarter-link cells. 4 = one full link — the belt matches the big wrap wheels (Spin degrees) exactly; 3 = slightly slower. Restarts stay invisible at any value (the pattern maps onto the cleat sub-grid)."), treadAdvCells, 1, 8);
+                roadSpeedMul = EditorGUILayout.Slider(new GUIContent("Road-wheel speed ×", "Multiplier over the automatic road-wheel/roller speed (their rims match the belt's speed). Exactly 1.0 also snaps each wheel to its own spoke-symmetry grid for invisible loop restarts; any other value plays raw so the dial always responds — settle back on 1.0 (or a value you like) when done tuning."), roadSpeedMul, 0.25f, 2f);
+            }
 
             int wheels = list.Count(x => x.role == Role.Wheel);
             using (new EditorGUI.DisabledScope(wheels == 0 || string.IsNullOrEmpty(outGlb)))
@@ -443,7 +447,7 @@ public class VehicleLabWindow : EditorWindow
         string def = Path.GetFileNameWithoutExtension(string.IsNullOrEmpty(srcFile) ? "vehicle" : srcFile);
         string p = EditorUtility.SaveFilePanel("Save vehicleize recipe", Path.Combine(projRoot, RecipesDir), def, "json");
         if (string.IsNullOrEmpty(p)) return;
-        var r = new Recipe { srcFile = srcFile, outGlb = outGlb, frames = frames, axisChoice = axisChoice, minVerts = minVerts, degrees = degrees, parts = parts, boneParts = boneParts, useSourceRig = useSourceRig, treadAdvCells = treadAdvCells };
+        var r = new Recipe { srcFile = srcFile, outGlb = outGlb, frames = frames, axisChoice = axisChoice, minVerts = minVerts, degrees = degrees, parts = parts, boneParts = boneParts, useSourceRig = useSourceRig, treadAdvCells = treadAdvCells, roadSpeedMul = roadSpeedMul };
         File.WriteAllText(p, JsonUtility.ToJson(r, true));
         AssetDatabase.Refresh();
         status = "Recipe saved: " + p;
@@ -462,6 +466,7 @@ public class VehicleLabWindow : EditorWindow
             DestroyPreview();
             srcFile = r.srcFile; outGlb = r.outGlb; frames = r.frames; axisChoice = r.axisChoice; minVerts = r.minVerts; degrees = r.degrees;
             treadAdvCells = r.treadAdvCells > 0 ? r.treadAdvCells : 3;   // pre-knob recipes default to road-wheel sync
+            roadSpeedMul = r.roadSpeedMul > 0f ? r.roadSpeedMul : 1f;
             parts = r.parts;
             boneParts = r.boneParts ?? new List<Part>();   // pre-fast-path recipes have no bone list
             useSourceRig = r.useSourceRig && boneParts.Count > 0;
@@ -528,7 +533,7 @@ public class VehicleLabWindow : EditorWindow
         File.WriteAllLines(gunsFile, src.Where(p => p.role == Role.Gun).Select(p => p.name).ToArray());
         string axis = axisChoice == 0 ? "AUTO" : AxisOptions[axisChoice];
         var inv = System.Globalization.CultureInfo.InvariantCulture;
-        if (!RunBlender($"{(fast ? "rigfast" : "rig")} \"{srcFile}\" \"{lastOutGlb}\" \"{prevFull}\" \"@{wheelsFile}\" \"@{turretsFile}\" {axis} {frames} {degrees.ToString("0.#", inv)} \"@{ignoreFile}\" \"@{tracksFile}\" \"@{gunsFile}\" {treadAdvCells}", out string stdout)) return;
+        if (!RunBlender($"{(fast ? "rigfast" : "rig")} \"{srcFile}\" \"{lastOutGlb}\" \"{prevFull}\" \"@{wheelsFile}\" \"@{turretsFile}\" {axis} {frames} {degrees.ToString("0.#", inv)} \"@{ignoreFile}\" \"@{tracksFile}\" \"@{gunsFile}\" {treadAdvCells} {roadSpeedMul.ToString("0.###", inv)}", out string stdout)) return;
         // SUCCESS = THE SCRIPT'S OWN FINAL MARKER (the documented Blender trap: it exits 0 even when the python
         // script crashes mid-way — without this gate a half-run printed a fake "DONE" with no file on disk).
         string done = stdout.Split('\n').FirstOrDefault(l => l.Contains("VEHICLE RIG DONE"));
