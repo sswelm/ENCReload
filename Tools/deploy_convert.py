@@ -24,7 +24,7 @@
 # Checks BOTH the object name AND the mesh-data name (glTF import can name an object 'Object_NNN' while its mesh keeps
 # the real name, so an object-name-only filter misses them). Node `matrix` transforms aren't handled (TRS only).
 import bpy, sys
-from mathutils import Vector, Quaternion
+from mathutils import Vector, Quaternion, Matrix
 
 argv = sys.argv[sys.argv.index("--") + 1:]
 inp, outp = argv[0], argv[1]
@@ -71,10 +71,67 @@ scene.frame_start, scene.frame_end = fmin, fmax
 scene.frame_set(fmin)   # rest = deploy-start pose, so the bind is consistent
 print("DEPLOY frame range: %d..%d" % (fmin, fmax))
 
+# --- 2b. UNIT NORMALIZATION (2026-07-26, the T-62 finding): a source authored in cm-class units (whole tank
+# ~0.07 units) breaks EVERYTHING downstream at once — the giant/invisible animUnitFix coin-flip, mixed node
+# scales binding some part groups 100x off (hull renders, wheels vanish — the AW101 disease), and part
+# translations so small the rotation-only strip / quantizer erases the track motion. Fix it HERE, once: wrap
+# the scene in a x100 root so the converted GLB is honest meter scale. Gated on "tiny" so every existing
+# model (m114 etc.) reconverts byte-identically. ---
+import mathutils as _mu
+_nrm_mn = _mu.Vector((1e18,) * 3); _nrm_mx = _mu.Vector((-1e18,) * 3)
+for _o in bpy.data.objects:
+    if _o.type == 'MESH':
+        for _c in _o.bound_box:
+            _w = _o.matrix_world @ _mu.Vector(_c)
+            _nrm_mn = _mu.Vector(map(min, _nrm_mn, _w)); _nrm_mx = _mu.Vector(map(max, _nrm_mx, _w))
+_nrm_dim = max(_nrm_mx - _nrm_mn) if _nrm_mx.x > _nrm_mn.x else 0.0
+_nrm_scale = 100.0 if (0.0 < _nrm_dim < 0.5) else 1.0
+# recenter gate (independent of the scale gate): the source assembly may park far from scene zero (the T-62
+# sits ~11 units out at rest) — the rest pose IS the bind, so an off-origin assembly renders offset from its
+# pawn. Fires only when the offset is material (>15% of the model), so a near-origin source (m114) is a no-op.
+_c = (_nrm_mn + _nrm_mx) * 0.5
+_off_h = Vector((_c.x, _c.y, 0.0)).length * _nrm_scale
+_off_v = abs(_nrm_mn.z) * _nrm_scale
+_dim_scaled = _nrm_dim * _nrm_scale
+_recenter = _dim_scaled > 0.0 and (_off_h > 0.15 * _dim_scaled or _off_v > 0.15 * _dim_scaled)
+if _nrm_scale != 1.0 or _recenter:
+    _nrm_root = bpy.data.objects.new("UnitNormalize", None)
+    scene.collection.objects.link(_nrm_root)
+    for _o in [o for o in bpy.data.objects if o.parent is None and o is not _nrm_root]:
+        _keep = _o.matrix_world.copy()
+        _o.parent = _nrm_root
+        _o.matrix_world = _keep
+    _nrm_root.scale = (_nrm_scale,) * 3
+    if _recenter:
+        _nrm_root.location = (-_c.x * _nrm_scale, -_c.y * _nrm_scale, -_nrm_mn.z * _nrm_scale)
+    bpy.context.view_layer.update()
+    print("DEPLOY normalization: dim %.3f -> x%.0f scale%s" % (_nrm_dim, _nrm_scale,
+          (", recentered (offset was h=%.2f v=%.2f)" % (_off_h, _off_v)) if _recenter else ""))
+
 # --- 3. which objects are ANIMATED parts (get a bone) vs plain meshes (get bound to a bone) ---
 parts = [o for o in bpy.data.objects if o.animation_data and o.animation_data.action]
 meshes = [o for o in bpy.data.objects if o.type == 'MESH']
 print("DEPLOY animated parts: %d, meshes: %d" % (len(parts), len(meshes)))
+
+# --- KEEP ONLY BINDING TARGETS (2026-07-26, the T-62 finding): bones are keyed in WORLD space (COPY_TRANSFORMS
+# + visual bake), so every ancestor's motion is already composed into each bone's keys — a bone is only needed
+# where a mesh will BIND: the nearest animated node (self-or-ancestor) of each mesh. Deep wrapper-empty rigs
+# (the T-62: 140 meshes nested in ~900 animated empties) otherwise explode the armature past the 256-bone GPU
+# wall (1033 bones, 576 surviving the zero-weight leaf cull because ancestors aren't leaves). ---
+_part_names = {p.name for p in parts}
+_needed = set()
+for _m in meshes:
+    _o = _m
+    while _o is not None:
+        if _o.name in _part_names:
+            _needed.add(_o.name)
+            break
+        _o = _o.parent
+_dropped = len(parts) - len(_needed)
+if _dropped > 0:
+    parts = [p for p in parts if p.name in _needed]
+    print("DEPLOY bone slimming: kept %d binding-target node(s), skipped %d wrapper/ancestor node(s) (world-space keys already carry their motion)" % (len(parts), _dropped))
+
 for p in parts:
     print("   part: %-40s parent=%s" % (p.name, p.parent.name if p.parent else None))
 
@@ -117,6 +174,39 @@ if _bad_names:
     for _o in _victims:
         bpy.data.objects.remove(_o, do_unlink=True)
 
+# --- 3b. BONE BUDGET: the 128-INDEX GPU WALL (2026-07-26, the T-62 finding): per-vertex bone indices break
+# past 127 — bones 128+ render collapsed/invisible (the T-62's turret+wheels [bones 128-140] vanished while
+# links [1-120] animated; retroactively also the Jagd's 241-bone spikes and the mech's wing bug at 222).
+# Keep the armature under 128 total: pair-merge the INSTANCED part classes (link chains — many same-prefix
+# members) onto shared bones. A dropped member binds to its numeric neighbor's bone: rigid delta-form keys
+# move both meshes from their own bind positions, so a two-link segment crawls as one — visually chunkier on
+# wrap arcs, invisible on straights. Small/unique parts (turret, wheels, hull) are never merged. ---
+_PART_BUDGET = 124   # + StaticRoot + armature root = 126 bones, max vert index 125 — margin under the wall
+_alias_pairs = []    # (dropped part, kept part) — resolved into bone_of after bone creation
+if len(parts) > _PART_BUDGET:
+    from collections import defaultdict as _dd
+    _groups = _dd(list)
+    for p in parts:
+        _groups[p.name.split('.')[0]].append(p)
+    _excess = len(parts) - _PART_BUDGET
+    for _base, _members in sorted(_groups.items(), key=lambda kv: -len(kv[1])):
+        if _excess <= 0:
+            break
+        if len(_members) < 8:
+            continue   # only instanced chains — never merge unique parts
+        _members.sort(key=lambda o: o.name)
+        _drops = _members[1::2][:_excess]
+        for _d in _drops:
+            _alias_pairs.append((_d, _members[_members.index(_d) - 1]))
+        _excess -= len(_drops)
+    if _alias_pairs:
+        _dropset = {d.name for d, k in _alias_pairs}
+        parts = [p for p in parts if p.name not in _dropset]
+        print("DEPLOY bone budget: %d instanced part(s) pair-merged onto neighbor bones (parts -> %d; the 128-index GPU wall)"
+              % (len(_alias_pairs), len(parts)))
+    if len(parts) > _PART_BUDGET:
+        print("DEPLOY bone budget WARNING: still %d parts after pair-merge — expect missing geometry past bone 127" % len(parts))
+
 # --- 4. armature: one bone per animated part at its current (fmin) world pos, hierarchy mirrored ---
 arm_data = bpy.data.armatures.new("DeployArm")
 arm = bpy.data.objects.new("DeployArm", arm_data)
@@ -126,6 +216,11 @@ bpy.ops.object.mode_set(mode='EDIT')
 bone_of = {}
 for p in parts:
     b = arm_data.edit_bones.new(p.name)
+    # TRANSLATION-ONLY REST + DELTA-FORM POSE (the engine contract, decoded 2026-07-26 via [AnimDiag]): verts
+    # are folded to their full frame-0 WORLD state (bind == f0), bones stay axis-aligned at the part position
+    # (safe through the Blender->FBX bone-axis conversions), and the pose keys are rebased to pure deltas
+    # (identity at f0) after the bake — Amplitude's encoder normalizes clips against the bind rest and
+    # discards any constant f0 offset, so the delta form is the only shape that survives the chain.
     head = p.matrix_world.translation.copy()
     b.head = head
     b.tail = head + Vector((0, 0, 0.1))
@@ -133,6 +228,9 @@ for p in parts:
 for p in parts:   # mirror object parenting onto the bones
     if p.parent and p.parent.name in bone_of:
         arm_data.edit_bones[bone_of[p.name]].parent = arm_data.edit_bones[bone_of[p.parent.name]]
+for _d, _k in _alias_pairs:   # budget pair-merge: dropped instanced parts bind to their neighbor's bone
+    if _k.name in bone_of:
+        bone_of[_d.name] = bone_of[_k.name]
 # STATIC ROOT (helicopter finding, 2026-07-19): a model whose BODY is unanimated (only rotors move) has meshes
 # with NO animated ancestor — they'd bind to nothing and render garbage. Give them a root bone — and BAKE it
 # like a real part (constrained to a static mesh's topmost ancestor node): a naked synthetic bone skipped the
@@ -168,9 +266,132 @@ if _static_anchor is not None:
     c = arm.pose.bones[static_root].constraints.new('COPY_TRANSFORMS')
     c.target = _static_anchor
     print("DEPLOY StaticRoot baked against '%s' (static geometry scale anchor)" % _static_anchor.name)
+
+# --- ROOT-MOTION ANCHOR (2026-07-26, the T-62 finding): a driving-vehicle source animates the WHOLE tank
+# travelling across the scene. Game clips must be IN-PLACE (the pawn's map position is the engine's job), so
+# when the biggest part demonstrably travels, parent the armature to that node for the bake — visual keying
+# then stores every bone RELATIVE to the hull's displacement-since-rest (matrix_parent_inverse pins frame
+# fmin to identity, so rest==bind is untouched). Track links keep crawling, wheels keep spinning, the hull
+# holds still. Static sources (the m114: hull never moves) fail the travel gate and bake exactly as before. ---
+bpy.ops.object.mode_set(mode='OBJECT')
+_hull = None
+_big_vol = -1.0
+for _m in [o for o in bpy.data.objects if o.type == 'MESH']:
+    _d = _m.dimensions
+    _v = _d.x * _d.y * _d.z
+    if _v > _big_vol:
+        _o = _m
+        while _o is not None and _o.name not in bone_of:
+            _o = _o.parent
+        if _o is not None:
+            _big_vol = _v; _hull = _o
+if _hull is not None:
+    _lo = None; _hi = None
+    for _f in list(range(fmin, fmax + 1, 7)) + [fmax]:
+        scene.frame_set(_f)
+        _t = _hull.matrix_world.translation
+        if _lo is None:
+            _lo = _t.copy(); _hi = _t.copy()
+        else:
+            _lo = Vector((min(_lo.x, _t.x), min(_lo.y, _t.y), min(_lo.z, _t.z)))
+            _hi = Vector((max(_hi.x, _t.x), max(_hi.y, _t.y), max(_hi.z, _t.z)))
+    scene.frame_set(fmin)
+    _travel = (_hi - _lo).length
+    _dim_now = max((_nrm_mx - _nrm_mn)) * _nrm_scale
+    if _travel > 0.10 * max(_dim_now, 1e-6):
+        arm.parent = _hull
+        arm.matrix_parent_inverse = _hull.matrix_world.inverted()
+        print("DEPLOY root-motion anchor: '%s' travels %.2f units (model %.2f) -> clip baked hull-relative (in-place)"
+              % (_hull.name, _travel, _dim_now))
+    else:
+        _hull = None   # static source — bake exactly as before
+bpy.context.view_layer.objects.active = arm
+bpy.ops.object.mode_set(mode='POSE')
+
 bpy.ops.nla.bake(frame_start=fmin, frame_end=fmax, only_selected=False,
                  visual_keying=True, clear_constraints=True, bake_types={'POSE'})
 bpy.ops.object.mode_set(mode='OBJECT')
+if _hull is not None:
+    arm.parent = None
+    arm.matrix_world = Matrix.Identity(4)
+
+# --- SCALE-FREE RIG (2026-07-26, the T-62 finding): COPY_TRANSFORMS baked each part's WORLD scale into pose
+# SCALE keys (a Sketchfab cm-source carries 0.01 on every part). The old invariant — raw cm verts x 0.01 pose
+# scale — is self-consistent in Blender but the engine does not play per-bone scale faithfully (the AW101
+# missing-fuselage / T-62 missing-parts class). Verts are baked to world/meter space at bind now, so the pose
+# scale must GO: strip every scale fcurve and pin pose scales to 1. ---
+_scale_fcs = 0
+for _act in bpy.data.actions:
+    _bags = ([_act] if hasattr(_act, "fcurves") else []) + \
+            [cb for layer in getattr(_act, "layers", []) for strip in layer.strips for cb in getattr(strip, "channelbags", [])]
+    for _cb in _bags:
+        for _fc in list(_cb.fcurves):
+            if _fc.data_path.startswith("pose.bones") and _fc.data_path.endswith(".scale"):
+                _cb.fcurves.remove(_fc); _scale_fcs += 1
+for _pb in arm.pose.bones:
+    _pb.scale = (1.0, 1.0, 1.0)
+print("DEPLOY scale-free rig: %d pose-scale fcurve(s) stripped (verts carry the unit scale)" % _scale_fcs)
+
+# --- DELTA-FORM REBASE (2026-07-26, the ENGINE-CONTRACT finding): Amplitude's clip encoder normalizes every
+# clip against the skeleton's BIND rest — any constant offset between animation frame 0 and the bind is
+# encoded away (the T-62 rendered its bind: scattered unrotated parts, while the engine's decoded clip showed
+# identity deltas at f0 exactly like every working vanilla-contract unit). The contract is BIND == FRAME 0.
+# With translation-only rests + full-world-folded verts, that means pose keys must be pure DELTAS:
+# basis_f' = basis_f @ basis_0^-1 (identity at f0). Rotation deltas turn about the bone head; translation
+# deltas come out T0-conjugated — exactly what the engine's TRS.Mul(rest, pose) composes back. ---
+import re as _re
+_act = arm.animation_data.action if arm.animation_data else None
+if _act is not None:
+    _bags = ([_act] if hasattr(_act, "fcurves") else []) + \
+            [cb for layer in getattr(_act, "layers", []) for strip in layer.strips for cb in getattr(strip, "channelbags", [])]
+    _curves = {}
+    for _cb in _bags:
+        for _fc in _cb.fcurves:
+            _m = _re.match(r'pose\.bones\["(.+?)"\]\.(location|rotation_quaternion)$', _fc.data_path)
+            if _m:
+                _curves.setdefault(_m.group(1), {}).setdefault(_m.group(2), {})[_fc.array_index] = _fc
+    _rebased = 0
+    for _bn, _ch in _curves.items():
+        _lc = _ch.get('location', {}); _qc = _ch.get('rotation_quaternion', {})
+        if len(_lc) < 3 or len(_qc) < 4:
+            continue
+        _l0 = Vector((_lc[0].evaluate(fmin), _lc[1].evaluate(fmin), _lc[2].evaluate(fmin)))
+        _q0 = Quaternion((_qc[0].evaluate(fmin), _qc[1].evaluate(fmin), _qc[2].evaluate(fmin), _qc[3].evaluate(fmin)))
+        if _q0.magnitude < 1e-6:
+            continue
+        _M0i = Matrix.LocRotScale(_l0, _q0.normalized(), None).inverted()
+        _kpmap = {}   # (channel-kind, axis) -> {frame -> keyframe point}
+        for _i in range(3):
+            _kpmap[('l', _i)] = {int(round(kp.co[0])): kp for kp in _lc[_i].keyframe_points}
+        for _i in range(4):
+            _kpmap[('q', _i)] = {int(round(kp.co[0])): kp for kp in _qc[_i].keyframe_points}
+        # read ALL raw values BEFORE mutating: Bezier evaluation reads neighbor keys, so writing earlier
+        # frames first would contaminate later reads
+        _rawl = {_f: Vector((_lc[0].evaluate(_f), _lc[1].evaluate(_f), _lc[2].evaluate(_f))) for _f in range(fmin, fmax + 1)}
+        _rawq = {_f: Quaternion((_qc[0].evaluate(_f), _qc[1].evaluate(_f), _qc[2].evaluate(_f), _qc[3].evaluate(_f))) for _f in range(fmin, fmax + 1)}
+        _prev = None
+        for _f in range(fmin, fmax + 1):
+            _lf = _rawl[_f]
+            _qf = _rawq[_f]
+            if _qf.magnitude < 1e-6:
+                _qf = Quaternion((1, 0, 0, 0))
+            _Mn = Matrix.LocRotScale(_lf, _qf.normalized(), None) @ _M0i
+            _ln, _qn, _sn = _Mn.decompose()
+            if _prev is not None and _prev.dot(_qn) < 0.0:
+                _qn = -_qn   # hemisphere continuity — a sign flip lerps through zero and jitters
+            _prev = _qn
+            for _i in range(3):
+                _kp = _kpmap[('l', _i)].get(_f)
+                if _kp is not None:
+                    _d = _ln[_i] - _kp.co[1]
+                    _kp.co[1] += _d; _kp.handle_left[1] += _d; _kp.handle_right[1] += _d
+            for _i in range(4):
+                _kp = _kpmap[('q', _i)].get(_f)
+                if _kp is not None:
+                    _d = _qn[_i] - _kp.co[1]
+                    _kp.co[1] += _d; _kp.handle_left[1] += _d; _kp.handle_right[1] += _d
+        _rebased += 1
+    print("DEPLOY delta-form rebase: %d bone(s) rebased to identity-at-f0 deltas (bind == frame 0)" % _rebased)
 print("DEPLOY baked %d bones" % len(bone_of))
 
 # --- 5a. PRISTINE FIRE-WINDOW SNAPSHOT (2026-07-19): capture the recoil range NOW, BEFORE 5b/5c clear and re-key
@@ -470,6 +691,17 @@ for m in meshes:
     mw = m.matrix_world.copy()
     m.parent = None
     m.matrix_world = mw
+    # ALWAYS bake the FULL world transform into the vertex data (2026-07-26, the engine-contract finding):
+    # the engine encodes clips as deltas against the BIND rest, so the bind must equal the animation's frame-0
+    # WORLD state — rotation included (a T+S-only fold left the parts unrotated at bind, and the encoder then
+    # discarded the constant f0 rotations as "rest offset": the tank rendered as its scattered bind). Full
+    # fold + the delta-form pose rebase below make bind == frame 0 by construction. Identity objects also
+    # survive the glTF skinned-export chain (nothing to apply, drop, or double-apply). Shared datablocks
+    # (the ~120 instanced track links) are made single-user first or the transform stacks per instance.
+    if m.data.users > 1:
+        m.data = m.data.copy()
+    m.data.transform(mw)
+    m.matrix_world = Matrix.Identity(4)
     # one vertex group = the bone, all verts at weight 1 (rigid)
     for vg in list(m.vertex_groups):
         m.vertex_groups.remove(vg)
@@ -480,7 +712,9 @@ for m in meshes:
     am = m.modifiers.new("arm", 'ARMATURE')
     am.object = arm
     m.parent = arm   # object-parent to the armature (standard skinned setup)
-    m.matrix_world = mw
+    m.matrix_world = Matrix.Identity(4)   # verts carry mw already (baked above) — restoring mw here applied
+                                          # the source's unit-fix node scale TWICE at export (the T-62's cm-data
+                                          # under a Sketchfab 0.01 wrapper came out 1/100 scattered)
     bound += 1
 print("DEPLOY bound %d meshes" % bound)
 

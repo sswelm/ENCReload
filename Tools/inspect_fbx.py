@@ -33,6 +33,12 @@ elif ext == ".blend":
 else:
     bpy.ops.import_scene.gltf(filepath=inp)
 
+# purge the Blender glTF importer's bone-shape placeholder (materializes as a real unskinned "Icosphere"
+# mesh on armature-bearing files; it is NOT in the .glb itself and must not reach the exported FBX)
+for _ico in [o for o in bpy.data.objects if o.type == 'MESH' and o.name.startswith('Icosphere') and not o.vertex_groups]:
+    print("INSPECT purged glTF importer bone-shape artifact: %s" % _ico.name)
+    bpy.data.objects.remove(_ico, do_unlink=True)
+
 os.makedirs(outdir, exist_ok=True)
 manifest = []
 

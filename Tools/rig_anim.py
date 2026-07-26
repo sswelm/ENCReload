@@ -51,6 +51,11 @@ role_specs = []   # ordered [(role, clipName)]
 # through the strip below. The engine plays RotationTranslation curves (vanilla tank shuttle bones); the strip
 # exists for the native-scale trap + legacy hygiene, so translations stay opt-in per model.
 keep_translations = len(argv) > 12 and argv[12].strip() == "1"
+# CLEAN-UNIT sources export with global_scale=0.01 (net node scale 1) — deploy_convert output qualifies since
+# the 2026-07-26 identity-node/meter-vert/delta-form rework. Decided EARLY: gates both the legacy x100
+# translation amplify (whose compensation the clean export does NOT need — the exporter's global_scale never
+# touches ANIMATION curves, so amplified link crawls rendered 100x away, ~300-unit clip bboxes) and the export.
+clean_units_input = os.path.basename(inp).lower().startswith("deploy_converted")
 _KEEP_LOC_PATHS = set()   # filled by the conversion rebake with the paths of genuinely translation-animated bones
 
 if len(argv) > 9 and argv[9].strip():
@@ -279,6 +284,17 @@ def resolve_clip(spec, tag):
             pb.rotation_quaternion = rot
             pb.keyframe_insert('location', frame=i)
             pb.keyframe_insert('rotation_quaternion', frame=i)
+    if len(frames) >= 2 and len(set(frames)) == 1:
+        # HELD-STANCE EPSILON (2026-07-26, the T-62 idle finding): two IDENTICAL padded frames collapse back
+        # to FrameCount 1 in Unity's constant-curve dedupe, and the engine sampler's Clamp(f, 0, FrameCount-2)
+        # wraps to frame 4-billion on a 1-frame clip — a constant garbage pose (the scattered-at-idle tank).
+        # A ~0.03deg nudge on the first bone at the pad frame keeps the second frame alive; invisible in-game.
+        pb0 = arm.pose.bones[0]
+        _l0, _r0, _s0 = snap[frames[0]][pb0.name]
+        _r2 = _r0.copy(); _r2.w += 3e-4; _r2.normalize()
+        pb0.rotation_quaternion = _r2
+        pb0.keyframe_insert('rotation_quaternion', frame=len(frames) - 1)
+        print("RIGANIM held-stance pad: epsilon nudge on '%s' frame %d (defeats Unity's constant-curve collapse)" % (pb0.name, len(frames) - 1))
     for pb in arm.pose.bones:                            # restore the found pose exactly (mode LAST-set wins, so set it first)
         if pb.name in saved:
             l, q, s, mode = saved[pb.name]
@@ -528,13 +544,24 @@ except Exception as _e:
 # location channel that VARIES (>1e-4) is a genuine authored slide (deploy_convert's Phase B keys the tube's
 # true recoil translation; only this strip ever removed it).
 if keep_translations and not convert_rig:
-    # SCOPE: translations are kept ONLY in the ATTACK-role clip (the recoil). The deploy/stance/move clips
-    # rendered correctly rotation-only for weeks — keeping their translations displaced the assembly (the
-    # hovering-gun incident): deployed-pose basis offsets that rotations already cover got double-rendered.
-    _attack_names = {cn.split('[')[0].strip() for r, cn in role_specs if r == 'attack' and cn.strip()}
-    _keep_acts = [a for a in all_acts if a.name.split('_rebaked')[0] in _attack_names or a.name in _attack_names]
+    # SCOPE: translations are kept in the ATTACK-role clip (the recoil) and — since 2026-07-26, the T-62
+    # finding — the MOVE-role clip (a driving vehicle's track links crawl by TRANSLATION; deploy_convert now
+    # bakes them hull-relative/in-place so they are safe to keep). Deploy/stance clips stay rotation-only:
+    # keeping their translations displaced the assembly (the hovering-gun incident) — deployed-pose basis
+    # offsets that rotations already cover got double-rendered.
+    # per-role RANGE FLOORS (2026-07-26, the T-62 wheel-wiggle finding): the MOVE role keeps only LARGE slides
+    # (track links crawl ~6 units around the loop) and drops small ones (suspension bob 0.02-0.04 units — the
+    # source tank rides bumpy terrain; replayed on flat game ground the wheels wiggle in the air). The ATTACK
+    # role keeps its historical 1e-4 floor: the m114's recoil slide is only ~0.1 raw units.
+    _role_floor = {}
+    for _r, _cn in role_specs:
+        if _r in ('attack', 'move') and _cn.strip():
+            _bn = _cn.split('[')[0].strip()
+            _fl = 1e-4 if _r == 'attack' else 0.5
+            _role_floor[_bn] = min(_role_floor.get(_bn, 1e9), _fl)
+    _keep_acts = [a for a in all_acts if a.name.split('_rebaked')[0] in _role_floor or a.name in _role_floor]
     if not _keep_acts:
-        print("RIGANIM legacy keepTranslations: no attack-role clip found — nothing kept (translations live in the fire cycle)")
+        print("RIGANIM legacy keepTranslations: no attack/move-role clip found — nothing kept (translations live in the fire cycle / drive cycle)")
     _poison = set()   # any channel with NaN/absurd values poisons the whole bone path — decomposition garbage
     for _sa in _keep_acts:
         for coll, fc in all_fcurve_owners(_sa):
@@ -547,7 +574,8 @@ if keep_translations and not convert_rig:
             # those explodes mesh bounds (1e28) and NaNs the import. Only finite, model-scale slides pass.
             if any(v != v or abs(v) > 1e5 for v in _vals):
                 _poison.add(_dp); continue
-            if 1e-4 < (max(_vals) - min(_vals)) < 1e4:
+            _floor = _role_floor.get(_sa.name.split('_rebaked')[0], _role_floor.get(_sa.name, 1e-4))
+            if _floor < (max(_vals) - min(_vals)) < 1e4:
                 _KEEP_LOC_PATHS.add(_dp)
     _KEEP_LOC_PATHS -= _poison
     if _poison:
@@ -574,7 +602,7 @@ if _locs or _kept:
 # at 1/100 amplitude (the howitzer's ~10-unit slam baked to a 0.0115 bbox). Pre-amplify the kept location keys
 # x100 so the baked curve lands at render scale. Conversion-path exports (global_scale 0.01, net scale 1) need
 # no compensation — the translation-test cube rendered at correct amplitude there.
-if keep_translations and not convert_rig and _KEEP_LOC_PATHS:
+if keep_translations and not convert_rig and not clean_units_input and _KEEP_LOC_PATHS:
     # DELTA-REBASE + AMPLIFY: each kept curve is rebased to ZERO at its first frame before the x100 — the clip
     # carries pure MOTION (the slam's full travel), never constant pose offsets. Tiny basis residues (a 3.5 cm
     # rest mismatch) otherwise amplify into multi-unit displacements (the reared-up-gun incident): pose HOLDING
@@ -885,8 +913,13 @@ bpy.ops.object.select_all(action='SELECT')
 # tiny-authored 0.01 object scale exactly cancels the exporter's x100.
 # - CONVERSION path: transform_apply normalized objects to scale 1, so pre-divide with
 #   global_scale=0.01 -> net node scale 1, UnitScaleFactor 1, bind clusters 1 — the clean drone profile, by design.
-# - LEGACY path: keep the exporter untouched, byte-identical output (the working models' contract).
-gscale = 0.01 if convert_rig else 1.0
+# - DEPLOY-CONVERTED sources (2026-07-26, the T-62 finding): deploy_convert now guarantees identity nodes +
+#   meter verts + a scale-free rig, so they get the SAME clean-unit export. The legacy sandwich (0.01 bindpose
+#   + x100 root) tolerated rotation-only clips (the m114) but mangles the TRANSLATION curves a driving vehicle
+#   needs — the T-62 rendered ~x100 giant off the sandwiched skeleton root.
+# - LEGACY path (everything else): keep the exporter untouched, byte-identical output (the working models' contract).
+clean_units = convert_rig or clean_units_input
+gscale = 0.01 if clean_units else 1.0
 if gscale != 1.0:
     print("RIGANIM export global_scale=0.01 (cancels the exporter's m->cm x100 root scaling)")
 # EXPORT — the primary clip to outp, then each STATE ROLE'S clip to a sibling anim_<role>/ folder (same prepared

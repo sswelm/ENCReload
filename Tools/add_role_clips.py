@@ -19,6 +19,11 @@ outp = argv[2] if len(argv) > 2 else inp
 bpy.ops.wm.read_factory_settings(use_empty=True)
 bpy.ops.import_scene.gltf(filepath=inp)
 
+# purge the Blender glTF importer's bone-shape placeholder (unskinned "Icosphere" mesh, not in the .glb itself)
+for _ico in [o for o in bpy.data.objects if o.type == 'MESH' and o.name.startswith('Icosphere') and not o.vertex_groups]:
+    print("ROLES purged glTF importer bone-shape artifact: %s" % _ico.name)
+    bpy.data.objects.remove(_ico, do_unlink=True)
+
 arm = next((o for o in bpy.data.objects if o.type == 'ARMATURE'), None)
 if arm is None:
     print("ROLES ERROR: no armature in %s" % inp); sys.exit(1)

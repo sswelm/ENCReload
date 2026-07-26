@@ -34,6 +34,11 @@ elif ext == ".obj":
 else:
     print("PREP_ERR unsupported input extension '%s'" % ext); sys.exit(1)
 
+# purge the Blender glTF importer's bone-shape placeholder (unskinned "Icosphere" mesh, not in the file itself)
+for _ico in [o for o in bpy.data.objects if o.type == 'MESH' and o.name.startswith('Icosphere') and not o.vertex_groups]:
+    print("PREP purged glTF importer bone-shape artifact: %s" % _ico.name)
+    bpy.data.objects.remove(_ico, do_unlink=True)
+
 # --- STRIP: remove matched objects + all descendants (so stripping a group empty takes the whole sub-tree) ---
 if subs:
     victims = set()

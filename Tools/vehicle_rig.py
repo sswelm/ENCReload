@@ -32,6 +32,10 @@ def imp(path):
         bpy.ops.wm.open_mainfile(filepath=path)
     else:
         print("VEHICLE ERROR: unsupported extension .%s" % ext); sys.exit(1)
+    # purge the Blender glTF importer's bone-shape placeholder (unskinned "Icosphere" mesh, not in the file itself)
+    for _ico in [o for o in bpy.data.objects if o.type == 'MESH' and o.name.startswith('Icosphere') and not o.vertex_groups]:
+        print("VEHICLE purged glTF importer bone-shape artifact: %s" % _ico.name)
+        bpy.data.objects.remove(_ico, do_unlink=True)
 
 def mesh_objects():
     return [o for o in bpy.context.scene.objects if o.type == 'MESH' and len(o.data.vertices) > 0]
