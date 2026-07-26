@@ -725,11 +725,14 @@ for o in objs:
             for _i in range(_M):
                 _S[_i + 1] = _S[_i] + (_pts[(_i + 1) % _M] - _pts[_i]).length
             _L = _S[_M]
-            # HALF-LINK cells: wraps around small wheels render as polygons with one facet per cell — full-link
-            # cells made the sprocket wrap read chunky (user field report). Half-link doubles the facets there;
-            # straight runs are unaffected (rigid transport shows no cell boundaries on a straight). The
-            # conveyor then advances TWO cells per loop = one full link, keeping speed and exact restart.
-            _NC = max(8, int(round(_L / (_fund_p * 0.5))))
+            # QUARTER-LINK cells: wraps around wheels render as polygons with one facet per cell — full-link
+            # cells made the sprocket wrap read chunky, half-link was better, quarter-link (user request) makes
+            # the wrap facets ~15 deg. Straight runs are unaffected (rigid transport shows no cell boundaries
+            # on a straight). The conveyor advances CELLS_PER_LINK cells per loop = one full link, keeping
+            # speed and exact restart. NOTE the Amplitude 256-bone budget: quarter-link = 216 link bones on the
+            # Jagdpanzer — only affordable because link mode DELETES the unused legacy tread bones (18).
+            _CPL = 4   # cells per link
+            _NC = max(8, int(round(_L / (_fund_p / _CPL))))
             _cellL = _L / _NC
             # per-vert path parameter: nearest belt sample (in the XZ plane)
             _s_of = []
@@ -762,7 +765,8 @@ for o in objs:
             # loop restart maps link-onto-link.
             _link_jobs[_tn] = {
                 "prefix": _botb[:-3], "NC": _NC, "cellL": _cellL, "L": _L, "S": _S, "pts": _pts,
-                "off": _best_off, "cell_of": _cell_of, "obj": o.name,
+                "off": _best_off, "cell_of": _cell_of, "obj": o.name, "cpl": _CPL,
+                "aux": list(_tnames),   # legacy carrier bones — unused in link mode, deleted to fit the bone cap
                 "s_rest": [((_ci + 0.5) * _cellL - _best_off) % _L for _ci in range(_NC)],
             }
             print("VEHICLE tread '%s' path-instanced: %d rigid links (cell %.3f, loop %.2f, cut phase %.3f, %d edges cross)"
@@ -810,6 +814,12 @@ if _link_jobs:
     arm.select_set(True)
     bpy.ops.object.mode_set(mode='EDIT')
     for _tn, _job in _link_jobs.items():
+        # the legacy carrier bones carry no weights in link mode — delete them (quarter-link cells need the
+        # bone budget: Amplitude caps skeletons at 256 bones)
+        for _an in _job["aux"]:
+            _ab = arm_data.edit_bones.get(_an)
+            if _ab is not None:
+                arm_data.edit_bones.remove(_ab)
         for _ci in range(_job["NC"]):
             eb = arm_data.edit_bones.new("%sL%02d" % (_job["prefix"], _ci))
             _P0, _ = _path_eval(_job, _job["s_rest"][_ci])
@@ -817,6 +827,7 @@ if _link_jobs:
             eb.tail = _P0 + Vector((0, 0, 0.1))
             eb.parent = arm_data.edit_bones["Root"]
     bpy.ops.object.mode_set(mode='OBJECT')
+    print("VEHICLE armature: %d bones total (Amplitude cap 256)" % len(arm_data.bones))
     for _tn, _job in _link_jobs.items():
         _o = bpy.data.objects[_job["obj"]]
         for _g in list(_o.vertex_groups):   # carrier groups stayed empty in link mode — drop them
@@ -967,7 +978,7 @@ if track_infos and clusters:
             # restart maps link-onto-link exactly. s increases CCW (bottom of the ring runs +X), so a
             # forward-rolling tread (degrees>0, bottom must run -X) advances with NEGATIVE s.
             _job = _link_jobs[_tn]
-            _adv_link = -2.0 * _job["cellL"] * (1.0 if degrees >= 0 else -1.0)   # 2 half-link cells = 1 link/loop
+            _adv_link = -_job["cpl"] * _job["cellL"] * (1.0 if degrees >= 0 else -1.0)   # cpl cells = 1 link/loop
             _restM, _P0s, _t0s = {}, {}, {}
             for _ci in range(_job["NC"]):
                 _bn = "%sL%02d" % (_job["prefix"], _ci)
