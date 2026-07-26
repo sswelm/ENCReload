@@ -857,7 +857,10 @@ if socket_specs and arm is not None:
 # fcurves (a glTF often keys the armature NODE itself — they block transform_apply and re-assert the old orientation
 # each frame), then transform_apply INTO THE DATA (vertices + bone rests, identity nodes) — object-level rotation
 # alone is dropped downstream (proven in-game on the Combine soldier).
-if convert_rig:
+# ALSO on deploy-converted sources (2026-07-26): they are identity-node/clean-unit by construction — exactly
+# the precondition the fold wants — and the Rotation knob was otherwise silently ignored on the deploy path
+# (bone basis keys are rest-relative, so rotating rests + verts together keeps the delta-form clips coherent).
+if convert_rig or clean_units_input:
     rot = (Matrix.Rotation(radians(rig_rot[1]), 4, 'Z') @
            Matrix.Rotation(radians(rig_rot[0]), 4, 'X') @
            Matrix.Rotation(radians(rig_rot[2]), 4, 'Y'))
