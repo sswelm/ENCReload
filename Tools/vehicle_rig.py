@@ -983,10 +983,21 @@ def _wheel_symmetry(_bname):
 
 
 _dd_ref = max((cl["m"] for cl in clusters), default=0.0)
+# WRAP CARRIERS (sprocket + idler) are NOT ground-rollers: they carry the belt wrapping them at nearly the
+# SAME band radius (the track stands far off the small idler's rim), so a wrap-driven wheel turns at the
+# wrap's angular speed — near-identical for both. Rim-ratio scaling made the idler visibly outpace the
+# sprocket (user field report: "front upper and back upper wheel don't turn at the same speed"). Both get
+# the user's degrees; only true ground-rollers get rolling-contact scaling.
+_wrap_carrier_idx = set()
+for _ti3 in track_infos:
+    for _cl3 in (_ti3[2], _ti3[3]):
+        if _cl3 is not None and _cl3 in clusters:
+            _wrap_carrier_idx.add(clusters.index(_cl3))
 _wheel_final_deg = {}
 for _bi2, bname in enumerate(cluster_bones):
     _deg_i = degrees
-    if _dd_ref > 1e-6 and _bi2 < len(clusters) and clusters[_bi2].get("m", 0.0) > 1e-6:
+    if (_dd_ref > 1e-6 and _bi2 < len(clusters) and clusters[_bi2].get("m", 0.0) > 1e-6
+            and _bi2 not in _wrap_carrier_idx):
         _deg_i = degrees * (_dd_ref / clusters[_bi2]["m"])
         _nsym = _wheel_symmetry(bname)
         if _nsym > 0:
