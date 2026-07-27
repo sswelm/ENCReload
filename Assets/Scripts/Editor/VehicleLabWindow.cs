@@ -635,6 +635,10 @@ public class VehicleLabWindow : EditorWindow
         inst = Instantiate(prefab);
         pru.AddSingleGO(inst);
         boundsValid = false; spinT = 0f;
+        // REFRAME on every fresh preview (2026-07-27 user request): a leftover pan/zoom from inspecting the
+        // previous rig can frame empty space ("I lost the item from view" after re-Vehicleize). Orbit angle is
+        // kept — it's a viewing preference, not a framing offset.
+        previewPan = Vector2.zero; zoom = 1.5f;
     }
     void DestroyPreview()
     {
