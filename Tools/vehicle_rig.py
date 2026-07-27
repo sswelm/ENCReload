@@ -157,9 +157,11 @@ tread_cells_per_link = max(0.25, min(4.0, float(argv[15]))) if len(argv) > 15 an
 # 1 = rig the tread loops STATIC (rigid with the hull, no link bones, no conveyor — the isolation switch:
 # wheels still spin, the tracks just don't run). Geometry stays visible.
 tracks_static = len(argv) > 16 and argv[16].strip() == "1"
+had_static_tracks = False   # remembers this IS a tracked vehicle even though the tread pipeline is skipped
 if tracks_static and track_names:
     print("VEHICLE tracks STATIC (isolation): %d tread part(s) rigged rigid to Root, no link bones" % len(track_names))
     track_names = []
+    had_static_tracks = True
 
 # ---- rigfast mode: the SKM fast path ----
 # The source already carries an artist skeleton with full weights (see rig_report) — REUSE it: author the Spin
@@ -1097,6 +1099,23 @@ for _ti3 in track_infos:
 _belt_adv = 0.0
 for _j5 in _link_jobs.values():
     _belt_adv = max(_belt_adv, _j5["adv_cells"] * _j5["cellL"])
+# STATIC-TRACKS fallback (2026-07-27, the returning idler skip): with the tread pipeline skipped there are no
+# track_infos, so the sprocket/idler were never classified — the idler fell into the rolling-contact branch,
+# ran at drive-wheel speed and popped once per loop again. The classification is purely GEOMETRIC (frontmost/
+# rearmost wheel cluster per side — same rule the tread path uses), so restore it belt-free. Gated to vehicles
+# that actually HAVE (static) tracks: a wheeled car's front/rear wheels are ordinary rollers, not carriers.
+if had_static_tracks and not _wrap_carrier_idx and clusters:
+    for _side_pos in (True, False):
+        _scls = [cl for cl in clusters if (cl["c"].y >= 0) == _side_pos]
+        if not _scls:
+            continue
+        _fcl = max(_scls, key=lambda cl: cl["c"].x)
+        _rcl = min(_scls, key=lambda cl: cl["c"].x)
+        _wrap_carrier_idx.add(clusters.index(_fcl))
+        _wrap_carrier_idx.add(clusters.index(_rcl))
+        _idler_idx.add(clusters.index(_rcl))
+    print("VEHICLE wrap carriers classified geometrically (static tracks): %d carrier(s), %d idler(s)"
+          % (len(_wrap_carrier_idx), len(_idler_idx)))
 _wheel_final_deg = {}
 for _bi2, bname in enumerate(cluster_bones):
     _deg_i = degrees
