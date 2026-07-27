@@ -117,6 +117,19 @@ public class FormationOverrideWindow : EditorWindow
                         : $"Could not re-read '{cur.formation}' from '{cur.sourceAsset}' — pick it again.";
         }
 
+        // ---- packing: override the unit's random per-model jitter (tighter block, no rebuild) ----
+        using (new EditorGUILayout.HorizontalScope())
+        {
+            bool over = cur.dummyOffset >= 0f;
+            bool newOver = EditorGUILayout.ToggleLeft(new GUIContent("Override packing jitter",
+                "The game scatters each model by a small random offset (the unit's DummyOffsetPosition), so formations read " +
+                "loose. Tick to override it — 0 sits models perfectly on the dummy grid, a small value packs them tightly. " +
+                "RUNTIME-ONLY: Save + relaunch, no rebuild."), over, GUILayout.Width(180));
+            if (newOver != over) cur.dummyOffset = newOver ? 0.05f : -1f;
+            if (newOver)
+                cur.dummyOffset = EditorGUILayout.Slider(Mathf.Max(0f, cur.dummyOffset), 0f, 0.5f);
+        }
+
         // ---- captured data summary + validation ----
         EditorGUILayout.Space();
         string error = Validate(cur);
