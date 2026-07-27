@@ -7,6 +7,7 @@ Much of this was recovered from the **embedded glTF `asset.extras`** metadata in
 **License quick‑guide** (all obligations assume you *distribute* the mod):
 - **CC‑BY** → OK to ship + modify + commercial; **must credit** author + license + link, and note you modified it.
 - **CC‑BY‑SA** → same as BY, **plus** your modified/baked version must carry CC‑BY‑SA too.
+- **CC‑BY‑NC** → OK to modify + ship **only in a free / non‑commercial** mod; **must credit** author + license + link. Derivatives (baking/converting) ARE allowed. **Never** bundle in a commercial or permissively‑relicensed release (e.g. a distributed HAF package).
 - **CC‑BY‑NC‑ND** → **NoDerivatives = you may NOT distribute a modified version. Baking/converting IS a modification. Do not ship.**
 - **Fab / paid** → per the Fab EULA: OK when *incorporated into a Project* (a mod), not standalone.
 
@@ -24,6 +25,7 @@ Status: ✅ clear (credit as noted) · ⚠ needs its source/license found · ❌
 | HandCrankedSubmarines | **Fareastern Loner** (Tucuru@3D) — Fab | **Fab Personal** (fab.com/eula) — OK incorporated in a Project | Fab, invoice A1122204036 (textures partly Texture.com, seller‑cleared) | ✅* (confirm EULA clause) |
 | **VolleyGun** (Era5) | **Orpind** — **"Ozhiga" organ gun (1)** | **Fab license** (Personal, purchased 2026‑07‑24) — permits incorporation into a distributed mod | Fab (fab.com); file: `D:/3DModels/Ozhiga Organ Gun/ozhiga_organ_gun_1.glb` (invoice: __) | ✅ licensed — ⚠ **MUST RE‑BAKE:** the currently‑baked asset is still the free NC‑ND *variant 2*; the Fab purchase is *variant 1*. modelFile is now re‑pointed at the Fab file → **re‑bake VolleyGun from it** so the shipped asset derives from the licensed copy (look changes slightly to variant 1). |
 | **ArmouredCar** (Era5) | **Red Blue Pixel Studio** — "Ehrhardt E V" | **Fab (Personal)** (fab.com/eula) — OK incorporated in a Project | Fab, UE "Game Template"; extracted from Unreal → `D:/3DModels/Armored Car Ehnhardt/Ehrhardt_Spin.glb` (rigged, spinning wheels; bakes with convertRig ON) | ✅ (Fab license — record invoice ID) |
+| **Tank_1** (T‑62 style — unit TBD) | **KapI777** (sketchfab.com/KapI777) — credit line: *"Tank_1+Animation by KapI777"* | **CC‑BY‑NC‑4.0** (Attribution‑NonCommercial; derivatives OK, credit + **non‑commercial only**) | [Tank_1+Animation](https://sketchfab.com/3d-models/tank-1animation-337e338947e540c7b2417b6c7fb0f986) — 23.8k tris / 13.8k verts, rigged + animated; downloaded **GLB** (88 MB, 1k tex) → `D:/Downloads/` then `D:/3DModels/Tank_1/` | ✅ (free mod: credit) — ⚠ **NC:** never in a commercial / permissive HAF‑package release |
 | AttackHelicopter | ? (Cobra) — metadata stripped on Blender re‑export | ⚠ find in your Sketchfab library | `Cobra.glb` | ⚠ |
 | OrganGun (Era4) | **user‑textured from scratch**; base geometry from "Medieval Organ Gun / Ribauldequin" download (id 4905272) | ⚠ base‑model source/license TBD (STL‑style import — likely a 3D‑print model site) | `Ribauldequin_textured.glb` | ⚠ (separate unit from VolleyGun) |
 | ReconDrone | ? — metadata stripped | ⚠ | `drone_clean.glb` | ⚠ |
