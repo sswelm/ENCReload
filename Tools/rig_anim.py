@@ -55,7 +55,7 @@ keep_translations = len(argv) > 12 and argv[12].strip() == "1"
 # the 2026-07-26 identity-node/meter-vert/delta-form rework. Decided EARLY: gates both the legacy x100
 # translation amplify (whose compensation the clean export does NOT need — the exporter's global_scale never
 # touches ANIMATION curves, so amplified link crawls rendered 100x away, ~300-unit clip bboxes) and the export.
-clean_units_input = os.path.basename(inp).lower().startswith("deploy_converted")
+clean_units_input = False   # decided AFTER import from the armature's contract marker (see below)
 _KEEP_LOC_PATHS = set()   # filled by the conversion rebake with the paths of genuinely translation-animated bones
 
 if len(argv) > 9 and argv[9].strip():
@@ -114,6 +114,14 @@ arm = next((o for o in bpy.context.scene.objects if o.type == 'ARMATURE'), None)
 if arm is None:
     print("RIGANIM ERROR: no armature found — the model is not rigged, use the normal (static) bake instead")
     sys.exit(1)
+# CONTRACT MARKER (2026-07-27): deploy_convert names NEW-contract armatures "DeployArmV2" (identity nodes,
+# meter verts, delta-form clips) — those get the clean-unit export + no legacy amplify. A plain "DeployArm"
+# is a PRE-rework conversion (the m114's cached one): it gets the EXACT legacy handling its shipped, in-game-
+# verified bake was produced with. Keyed off the FILE CONTENT, not the filename, so cached old conversions
+# stay safe no matter what path they live at.
+clean_units_input = arm.name.startswith("DeployArmV2")
+if clean_units_input:
+    print("RIGANIM contract: V2 (clean-unit deploy conversion)")
 
 # BONE-PARENT -> SKIN-WEIGHT CONVERSION (mech finding 2026-07-20): many downloaded mech/vehicle rigs never SKIN their
 # meshes (vertex weights); they RIGIDLY HANG each part off a bone via Blender bone-parenting (parent_type='BONE'),

@@ -215,8 +215,11 @@ if len(parts) > _PART_BUDGET:
         print("DEPLOY bone budget WARNING: still %d parts after pair-merge — expect missing geometry past bone 127" % len(parts))
 
 # --- 4. armature: one bone per animated part at its current (fmin) world pos, hierarchy mirrored ---
-arm_data = bpy.data.armatures.new("DeployArm")
-arm = bpy.data.objects.new("DeployArm", arm_data)
+# "DeployArmV2" = the CONTRACT MARKER (2026-07-27): rig_anim keys its clean-unit handling (global_scale 0.01,
+# amplify skip) off this armature name. Conversions named plain "DeployArm" predate the engine-contract rework
+# and get the exact legacy export path their shipped bakes were verified with (the m114 guard).
+arm_data = bpy.data.armatures.new("DeployArmV2")
+arm = bpy.data.objects.new("DeployArmV2", arm_data)
 scene.collection.objects.link(arm)
 bpy.context.view_layer.objects.active = arm
 bpy.ops.object.mode_set(mode='EDIT')

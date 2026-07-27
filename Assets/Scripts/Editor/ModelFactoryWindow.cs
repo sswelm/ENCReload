@@ -569,8 +569,12 @@ public class ModelFactoryWindow : EditorWindow
                     && (!isNew || !string.IsNullOrWhiteSpace(cur.modelFile));
         using (new EditorGUILayout.HorizontalScope())
         {
-            using (new EditorGUI.DisabledScope(!canBake))
-                if (GUILayout.Button("Bake", GUILayout.Height(34))) DoBake();
+            // BAKE LOCK (mirrors the Animation Lab's checkbox): a bake-locked entry can't be regenerated from
+            // EITHER window — its baked assets are in-game verified and the shared tooling may have moved on
+            // underneath it (the m114 after the engine-contract rework). Untick in the Lab to deliberately rebake.
+            using (new EditorGUI.DisabledScope(!canBake || cur.bakeLocked))
+                if (GUILayout.Button(new GUIContent(cur.bakeLocked ? "Bake (locked)" : "Bake",
+                    cur.bakeLocked ? "This entry is bake-locked (verified assets). Untick 'Lock bake' in the Animation Lab to deliberately rebake — then re-verify in-game." : ""), GUILayout.Height(34))) DoBake();
             if (GUILayout.Button("Reset", GUILayout.Height(34), GUILayout.Width(72))) { cur = new ModelDef(); selected = 0; status = ""; GUI.FocusControl(null); }
         }
         if (!canBake)
@@ -1045,6 +1049,8 @@ public class ModelFactoryWindow : EditorWindow
         if (regE == null) return;
         cur.animClip = regE.animClip; cur.animateBones = regE.animateBones; cur.animUnitFix = regE.animUnitFix;
         cur.convertRig = regE.convertRig; cur.autoGroundWheels = regE.autoGroundWheels;
+        cur.keepTranslations = regE.keepTranslations;   // was MISSING from this list — the Factory's stale false clobbered the Lab's tick on every Factory bake (burned three T-62 bakes, 2026-07-26)
+        cur.bakeLocked = regE.bakeLocked;               // Lab-owned; the Factory only READS it (disables its Bake button)
         cur.deployConvert = regE.deployConvert; cur.deployStart = regE.deployStart; cur.deployEnd = regE.deployEnd;
         cur.deployStrip = regE.deployStrip; cur.deployReadyFrame = regE.deployReadyFrame; cur.deployLegScale = regE.deployLegScale; cur.deployBarrelScale = regE.deployBarrelScale;
         cur.deployRecoil = regE.deployRecoil; cur.deployRecoilStep = regE.deployRecoilStep; cur.deployRecoilMag = regE.deployRecoilMag; cur.deployArcR = regE.deployArcR; cur.deployRecoilReturn = regE.deployRecoilReturn; cur.deploySlamDeg = regE.deploySlamDeg; cur.deploySlamSettle = regE.deploySlamSettle;

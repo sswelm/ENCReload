@@ -827,13 +827,22 @@ public class AnimationLabWindow : EditorWindow
 
         // --- Bake / Save ---
         EditorGUILayout.Space();
+        // BAKE LOCK: protects an in-game-VERIFIED bake from accidental regeneration when the shared tooling has
+        // moved on underneath it (the m114 after the 2026-07-26 engine-contract rework). While locked, Bake is
+        // disabled in BOTH windows; unlocking is deliberate: untick -> bake -> RE-VERIFY IN-GAME.
+        cur.bakeLocked = EditorGUILayout.ToggleLeft(new GUIContent("Lock bake (verified entry — protect from rebake)",
+            "While ticked, the Bake button is disabled for this entry. Use for entries whose baked assets are in-game " +
+            "verified and must not be regenerated casually (tool changes can alter the output). Save (no bake) records the lock."),
+            cur.bakeLocked);
         bool hasBaked = cur.skel != null && cur.skel.Length == 4 && !(cur.skel[0] == 0 && cur.skel[1] == 0 && cur.skel[2] == 0 && cur.skel[3] == 0);
         bool canBake = hasModel && !string.IsNullOrWhiteSpace(cur.pawnDescription)
                     && (hasBaked || !string.IsNullOrWhiteSpace(cur.modelFile));
         using (new EditorGUILayout.HorizontalScope())
         {
-            using (new EditorGUI.DisabledScope(!canBake))
-                if (GUILayout.Button(new GUIContent("Bake", "Re-run the animated pipeline (Blender slim + skeleton + clip + atlas) with the settings above, then save the registry entry."), GUILayout.Height(34))) DoBake();
+            using (new EditorGUI.DisabledScope(!canBake || cur.bakeLocked))
+                if (GUILayout.Button(new GUIContent(cur.bakeLocked ? "Bake (locked)" : "Bake",
+                    cur.bakeLocked ? "This entry is bake-locked (verified assets). Untick 'Lock bake' above to deliberately rebake — then re-verify in-game."
+                                   : "Re-run the animated pipeline (Blender slim + skeleton + clip + atlas) with the settings above, then save the registry entry."), GUILayout.Height(34))) DoBake();
             using (new EditorGUI.DisabledScope(!hasBaked || !hasModel))
                 if (GUILayout.Button(new GUIContent("Save (no bake)",
                     "Write the registry entry with the current settings WITHOUT re-baking assets — enough for the runtime " +
@@ -885,7 +894,7 @@ public class AnimationLabWindow : EditorWindow
         cur.deployConvert = mine.deployConvert; cur.deployStart = mine.deployStart; cur.deployEnd = mine.deployEnd;
         cur.deployStrip = mine.deployStrip; cur.deployReadyFrame = mine.deployReadyFrame; cur.deployLegScale = mine.deployLegScale; cur.deployBarrelScale = mine.deployBarrelScale;
         cur.deployRecoil = mine.deployRecoil; cur.deployRecoilStep = mine.deployRecoilStep; cur.deployRecoilMag = mine.deployRecoilMag; cur.deployArcR = mine.deployArcR; cur.deployRecoilReturn = mine.deployRecoilReturn; cur.deploySlamDeg = mine.deploySlamDeg; cur.deploySlamSettle = mine.deploySlamSettle;
-        cur.animStateDriven = mine.animStateDriven; cur.animClipMove = mine.animClipMove; cur.animClipAfter = mine.animClipAfter; cur.animClipAttack = mine.animClipAttack; cur.animClipCombat = mine.animClipCombat; cur.animClipPreMove = mine.animClipPreMove; cur.animClipIdle = mine.animClipIdle; cur.animClipIdleAlt = mine.animClipIdleAlt; cur.animClipIdleAlt2 = mine.animClipIdleAlt2; cur.idleAltInterval = mine.idleAltInterval; cur.attackRepeats = mine.attackRepeats; cur.clearAimLayer = mine.clearAimLayer; cur.turretBone = mine.turretBone; cur.turretAxis = mine.turretAxis; cur.muzzleBone = mine.muzzleBone; cur.muzzleOffset = mine.muzzleOffset; cur.socketBones = mine.socketBones; cur.disabled = mine.disabled;
+        cur.animStateDriven = mine.animStateDriven; cur.animClipMove = mine.animClipMove; cur.animClipAfter = mine.animClipAfter; cur.animClipAttack = mine.animClipAttack; cur.animClipCombat = mine.animClipCombat; cur.animClipPreMove = mine.animClipPreMove; cur.animClipIdle = mine.animClipIdle; cur.animClipIdleAlt = mine.animClipIdleAlt; cur.animClipIdleAlt2 = mine.animClipIdleAlt2; cur.idleAltInterval = mine.idleAltInterval; cur.attackRepeats = mine.attackRepeats; cur.clearAimLayer = mine.clearAimLayer; cur.turretBone = mine.turretBone; cur.turretAxis = mine.turretAxis; cur.muzzleBone = mine.muzzleBone; cur.muzzleOffset = mine.muzzleOffset; cur.socketBones = mine.socketBones; cur.disabled = mine.disabled; cur.bakeLocked = mine.bakeLocked;
         cur.handPropName = mine.handPropName; cur.handPropGuid = mine.handPropGuid; cur.handPropMat = mine.handPropMat; cur.handPropBone = mine.handPropBone;
         cur.handPropAngles = mine.handPropAngles;   // Lab-owned again since the LIVE fit knob edits it ('Save rotation to game')
         cur.fireOnAttack = mine.fireOnAttack; cur.deployOnStop = mine.deployOnStop;
