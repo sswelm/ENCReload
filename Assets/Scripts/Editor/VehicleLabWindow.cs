@@ -148,6 +148,17 @@ public class VehicleLabWindow : EditorWindow
                     SaveRecipe();
             if (GUILayout.Button(new GUIContent("Load recipe…", "Restore a saved configuration."), GUILayout.Width(100), GUILayout.Height(24)))
                 LoadRecipe();
+            // QUICK RECIPE SWITCH (2026-07-27, user request): the saved recipes as a one-click dropdown — e.g.
+            // flip from the Bradley to the Jagd to regenerate its Spin GLB with Static tracks without a file dialog.
+            {
+                string rdirFull = Path.Combine(Directory.GetParent(Application.dataPath).FullName, RecipesDir);
+                string[] rfiles = Directory.Exists(rdirFull) ? Directory.GetFiles(rdirFull, "*.json") : new string[0];
+                var names = new string[rfiles.Length + 1];
+                names[0] = "Recipes…";
+                for (int i = 0; i < rfiles.Length; i++) names[i + 1] = Path.GetFileNameWithoutExtension(rfiles[i]);
+                int rsel = EditorGUILayout.Popup(0, names, GUILayout.Width(150), GUILayout.Height(24));
+                if (rsel > 0) { LoadRecipeFromPath(rfiles[rsel - 1]); GUI.FocusControl(null); }
+            }
             using (new EditorGUI.DisabledScope(parts.Count == 0 && boneParts.Count == 0))
                 if (GUILayout.Button(new GUIContent("Verify", "Sanity-check the classification: shows the wheel bones Vehicleize would build (clustering preview) and flags stray clusters, axle disagreement, unpaired wheels, turret outliers and undecided leftovers."), GUILayout.Width(56), GUILayout.Height(24)))
                     VerifySelection();
@@ -471,6 +482,11 @@ public class VehicleLabWindow : EditorWindow
         string projRoot = Directory.GetParent(Application.dataPath).FullName;
         string dir = Path.Combine(projRoot, RecipesDir);
         string p = EditorUtility.OpenFilePanel("Load vehicleize recipe", Directory.Exists(dir) ? dir : projRoot, "json");
+        LoadRecipeFromPath(p);
+    }
+
+    void LoadRecipeFromPath(string p)
+    {
         if (string.IsNullOrEmpty(p) || !File.Exists(p)) return;
         try
         {
