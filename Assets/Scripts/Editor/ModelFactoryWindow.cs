@@ -251,14 +251,14 @@ public class ModelFactoryWindow : EditorWindow
                 if (GUILayout.Button(new GUIContent("Clone", "Copy the loaded entry into a NEW unsaved entry: same recipe, blank Pawn description, name + 'Clone', no baked assets, no bake lock. Nothing is written until you Bake or Save."), GUILayout.Width(60)))
                 {
                     var clone = JsonUtility.FromJson<ModelDef>(JsonUtility.ToJson(cur));
-                    clone.resourceName = (cur.resourceName ?? "").Trim() + "Clone";
+                    clone.resourceName = "";     // name the clone yourself — and an unnamed clone can't Bake/Save, so the source can never be overwritten by accident
                     clone.pawnDescription = "";
                     clone.skel = new int[4]; clone.atlas = new int[4]; clone.clip = new int[4];
                     clone.clipMove = new int[4]; clone.clipAfter = new int[4]; clone.clipAttack = new int[4]; clone.clipCombat = new int[4];
                     clone.clipPreMove = new int[4]; clone.clipIdle = new int[4]; clone.clipIdleAlt = new int[4]; clone.clipIdleAlt2 = new int[4];
                     clone.bakeLocked = false; clone.disabled = false;
                     cur = clone; selected = 0; sel = 0; GUI.FocusControl(null);   // sel too — else the popup-apply below reads the stale index as a "selection change" and reloads the source entry right over the clone
-                    status = "Cloned — set the Pawn description (and adjust the name), then Bake. Nothing saved yet.";
+                    status = "Cloned — set a Resource name and Pawn description, then Bake. Nothing saved yet.";
                 }
             // Remove the selected registry entry (disabled on <New>). Prompts, then drops it from enc_models.json.
             using (new EditorGUI.DisabledScope(selected <= 0))
