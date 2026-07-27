@@ -460,7 +460,7 @@ public class AnimationLabWindow : EditorWindow
                         "Play the RAW model file's ENTIRE source animation (every take, full length — no conversion, no " +
                         "slicing): play, scrub, analyze. Frame numbers found here feed the recipe (Deploy frames, Recoil " +
                         "a..b). Confirm copies the picked a..b range to the clipboard; Cancel just closes."), GUILayout.Width(80)))
-                        ClipRangeDialog.Open(cur.modelFile, (cur.resourceName ?? "").Trim() + "/raw", "", s =>   // raw-source previews nest INSIDE the model's folder (was a sibling "<name>_raw" — doubled the FactorySource listing)
+                        ClipRangeDialog.Open(cur.modelFile, "raw/" + (cur.resourceName ?? "").Trim(), "", s =>   // ONE shared FactorySource/raw/<name>/ tree: outside every model folder (raw FBXs INSIDE a model's subtree hijacked the anim FBX's by-name texture search — greyed/scrambled previews), and one folder in the listing instead of seven "_raw" siblings
                         {
                             var m = System.Text.RegularExpressions.Regex.Match(s ?? "", @"\[(\d+)\.\.(\d+)\]");
                             string range = m.Success ? (m.Groups[1].Value + ".." + m.Groups[2].Value) : (s ?? "");
