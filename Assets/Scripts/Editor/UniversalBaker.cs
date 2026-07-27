@@ -1384,7 +1384,11 @@ public static class UniversalBaker
         Debug.Log($"[Factory] {name} ANIMATED MULTI-MATERIAL: {albs.Length} materials [{string.Join(", ", orderedAlb.Select(kv => kv.Key))}] -> packed atlas {atlas.width}x{atlas.height}");
         foreach (var a in albs) if (a != null) UnityEngine.Object.DestroyImmediate(a);   // E8: free the packed source albedos (packing copied them into the atlas); only orderedAlb's KEYS are used below
 
-        var baseNames = orderedAlb.Select(kv => SimplifyMat(kv.Key)).ToArray();
+        // Strip the extraction's "matNN_" prefix BEFORE simplifying (2026-07-27, the Universal Tank's silver
+        // wheels): with the prefix, SimplifyMat left a leading index digit ('mat81_tank_tracks_13' ->
+        // '81tanktracks13') so the EXACT match below could never fire for ANY material — everything fell to
+        // the Contains fallback, where prefix families collide ('tank_tracks' matched 'tank_tracks_13' first).
+        var baseNames = orderedAlb.Select(kv => SimplifyMat(System.Text.RegularExpressions.Regex.Replace(kv.Key ?? "", @"^mat\d+_", ""))).ToArray();
         foreach (var smr in fbxGo.GetComponentsInChildren<SkinnedMeshRenderer>())
         {
             var srcMesh = smr.sharedMesh;
@@ -1405,6 +1409,9 @@ public static class UniversalBaker
                     // mapping the wrong texture onto that submesh. Try exact, then substring, else the index below.
                     string bn = SimplifyMat(sm.name);
                     ri = System.Array.FindIndex(baseNames, b => b.Length > 0 && b == bn);
+                    // duplicate material NAMES exist in the wild (two 'german_gear_8' entries with different
+                    // textures) — among exact ties, prefer the rect at the submesh's own index (order-consistent)
+                    if (ri >= 0 && s < baseNames.Length && baseNames[s] == bn) ri = s;
                     if (ri < 0) ri = System.Array.FindIndex(baseNames, b => b.Length > 0 && (bn.Contains(b) || b.Contains(bn)));
                 }
                 if (ri < 0) ri = s;   // fall back to index (submesh order == MTL order)
