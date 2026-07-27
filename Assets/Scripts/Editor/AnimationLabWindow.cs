@@ -34,6 +34,7 @@ public class AnimationLabWindow : EditorWindow
     [SerializeField] string previewPath = "";       // the combined prefab shown (survives domain reloads)
     [SerializeField] Vector2 fitOrbit = new Vector2(150f, -15f);    // yaw/pitch (deg)
     [SerializeField] float fitZoom = 1.4f;                          // camera distance factor (scroll wheel)
+    [SerializeField] Vector2 fitPan;                                // camera-plane pan (middle/right-drag), in dist units
     [SerializeField] Vector3 fitAngles;             // LIVE prop rotation: applied to the previewed prop instantly (no bake) and saved to the registry (the plugin stamps the same value in-game)
     static Material fitFallbackMat;
 
@@ -116,6 +117,7 @@ public class AnimationLabWindow : EditorWindow
     {
         previewPath = prefabPath ?? "";
         fitDraws = null;
+        fitPan = Vector2.zero;   // fresh preview reframes centered (same rule as the Vehicle Lab) — orbit/zoom kept
         var go = string.IsNullOrEmpty(previewPath) ? null : AssetDatabase.LoadAssetAtPath<GameObject>(previewPath);
         if (go == null) return;
         fitDraws = new List<(Mesh, Material[], Matrix4x4)>();
@@ -161,6 +163,13 @@ public class AnimationLabWindow : EditorWindow
                 fitOrbit.y = Mathf.Clamp(fitOrbit.y, -89f, 89f);
                 e.Use(); Repaint();
             }
+            else if (e.type == EventType.MouseDrag && (e.button == 1 || e.button == 2))
+            {
+                // middle/right-drag pan in the camera plane (2026-07-27 user request — same control as the
+                // Factory and Vehicle Lab previews); scaled by view distance at render time
+                fitPan += new Vector2(-e.delta.x, e.delta.y) * 0.0035f;
+                e.Use(); Repaint();
+            }
         }
         if (e.type != EventType.Repaint || fitDraws == null) return;
         if (fitPRU == null) fitPRU = new PreviewRenderUtility();
@@ -175,8 +184,9 @@ public class AnimationLabWindow : EditorWindow
             float radius = Mathf.Max(fitBounds.extents.magnitude, 0.1f);
             float dist = radius * 2.0f * fitZoom;
             var rot = Quaternion.Euler(-fitOrbit.y, fitOrbit.x, 0f);
-            cam.transform.position = fitBounds.center + rot * (Vector3.back * dist);
-            cam.transform.rotation = Quaternion.LookRotation(fitBounds.center - cam.transform.position);
+            var lookAt = fitBounds.center + rot * new Vector3(fitPan.x, fitPan.y, 0f) * dist;   // pan shifts the look target in the camera plane
+            cam.transform.position = lookAt + rot * (Vector3.back * dist);
+            cam.transform.rotation = Quaternion.LookRotation(lookAt - cam.transform.position);
             cam.nearClipPlane = 0.01f;
             cam.farClipPlane = dist + radius * 4f;
             cam.fieldOfView = 30f;
@@ -876,8 +886,8 @@ public class AnimationLabWindow : EditorWindow
             EditorGUILayout.Space();
             EditorGUILayout.LabelField(
                 string.IsNullOrEmpty((cur.handPropGuid ?? "").Trim())
-                    ? "Model preview  (drag to orbit, scroll to zoom)"
-                    : "Fit preview — model + hand prop  (drag to orbit, scroll to zoom)",
+                    ? "Model preview  (drag = orbit · middle/right-drag = pan · scroll = zoom)"
+                    : "Fit preview — model + hand prop  (drag = orbit · middle/right-drag = pan · scroll = zoom)",
                 EditorStyles.miniBoldLabel);
             var rect = GUILayoutUtility.GetRect(200, 360, GUILayout.ExpandWidth(true));
             DrawFitPreview(rect);
