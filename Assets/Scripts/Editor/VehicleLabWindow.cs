@@ -88,6 +88,7 @@ public class VehicleLabWindow : EditorWindow
     Bounds bounds; bool boundsValid; float spinT; double lastTick;
     float fullRadius;   // whole-model radius — far-plane margin must NOT shrink to a focused part's bounds
     Vector2 orbit = new Vector2(140f, -18f); float zoom = 1.5f;
+    [SerializeField] Vector2 previewPan;   // camera-plane pan (middle/right-drag), in dist units — ported from the Factory preview
     // part focus/highlight: clicking a row zooms onto that part and tints it — the "which shard is the wheel?" x-ray
     string selectedPart = "";
     Renderer highlightedRenderer; Material[] highlightedOriginals;
@@ -513,6 +514,7 @@ public class VehicleLabWindow : EditorWindow
         highlightedRenderer = null; highlightedOriginals = null;
         selectedPart = name;
         boundsValid = false;   // re-derive (full model or the part) on next render
+        previewPan = Vector2.zero;   // a part focus should CENTER the part — a leftover pan would frame empty space
         if (inst == null || string.IsNullOrEmpty(name)) return;
         var r = inst.GetComponentsInChildren<Renderer>()
                     .FirstOrDefault(x => x != null && (x.gameObject.name == name || x.gameObject.name.StartsWith(name)));
@@ -647,6 +649,13 @@ public class VehicleLabWindow : EditorWindow
         // in the context of the whole vehicle needs an order of magnitude more headroom.
         if (e.type == EventType.ScrollWheel) { zoom = Mathf.Clamp(zoom * Mathf.Pow(1.12f, e.delta.y > 0 ? 1f : -1f), 0.2f, 50f); e.Use(); }
         else if (e.type == EventType.MouseDrag && e.button == 0) { orbit += new Vector2(e.delta.x, -e.delta.y) * 0.7f; orbit.y = Mathf.Clamp(orbit.y, -89f, 89f); e.Use(); }
+        else if (e.type == EventType.MouseDrag && (e.button == 1 || e.button == 2))
+        {
+            // middle/right-drag pans in the camera plane (ported from the Factory preview, 2026-07-27 user
+            // request — inspecting corner details like the spoke wheels); scaled by radius at render time
+            previewPan += new Vector2(-e.delta.x, e.delta.y) * 0.0035f;
+            e.Use();
+        }
     }
     void RenderPreview(Rect rect)
     {
@@ -667,8 +676,10 @@ public class VehicleLabWindow : EditorWindow
         float radius = Mathf.Max(bounds.extents.magnitude, 0.1f);
         float dist = radius * 2f * zoom;
         var rot = Quaternion.Euler(-orbit.y, orbit.x, 0f);
-        cam.transform.position = bounds.center + rot * (Vector3.back * dist);
-        cam.transform.rotation = Quaternion.LookRotation(bounds.center - cam.transform.position);
+        // pan shifts the look target along the camera's right/up axes (× dist so it tracks the cursor at any zoom)
+        var lookAt = bounds.center + rot * new Vector3(previewPan.x, previewPan.y, 0f) * dist;
+        cam.transform.position = lookAt + rot * (Vector3.back * dist);
+        cam.transform.rotation = Quaternion.LookRotation(lookAt - cam.transform.position);
         // far-plane margin uses the WHOLE model's radius: with a tiny part focused, `radius` is that part's — a
         // part-scaled margin put the far plane just behind the shard and visibly carved the vehicle away on zoom-out.
         cam.nearClipPlane = 0.01f; cam.farClipPlane = dist + Mathf.Max(radius, fullRadius) * 4f; cam.fieldOfView = 30f;
