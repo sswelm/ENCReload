@@ -110,14 +110,18 @@ public static class UniversalBaker
                                                 "_ClipsCombat.asset", "_ClipsCombatPoseData.bytes",
                                                 "_ClipsPreMove.asset", "_ClipsPreMovePoseData.bytes",
                                                 "_ClipsIdleAlt.asset", "_ClipsIdleAltPoseData.bytes",
-                                                "_ClipsIdleAlt2.asset", "_ClipsIdleAlt2PoseData.bytes" };   // state-driven role collections
+                                                "_ClipsIdleAlt2.asset", "_ClipsIdleAlt2PoseData.bytes",
+                                                "_ClipsIdle.asset", "_ClipsIdlePoseData.bytes" };   // state-driven role collections
 
     // CROSS-PATH SWEEP: each bake path deletes-then-recreates only its OWN assets, so re-baking a model on the OTHER
     // path (animated <-> static) used to orphan the previous path's outputs in shipped Resources — Unity force-ships
     // everything there (multi-MB bundle bloat), and a stale ClipCollection kept referencing a dead skeleton GUID.
     // Sweeping the full union up front makes a path flip clean; the E5 backup (taken before this) still restores
     // everything on a failed bake.
-    static void SweepAllOutputs(string name)
+    // internal: the Factory's Remove flow offers this as the ONLY sanctioned baked-asset cleanup — an exact
+    // whitelist of bake outputs, NEVER a name wildcard. Unit-side files share the model's prefix (the AntiTank
+    // Halftrack's card portrait '<name>512.png' died to a manual 'rm <name>*' on 2026-07-27 — magenta unit card).
+    internal static void SweepAllOutputs(string name)
     {
         foreach (var s in OutputSuffixes)
             AssetDatabase.DeleteAsset("Assets/Resources/" + name + s);

@@ -277,6 +277,20 @@ public class ModelFactoryWindow : EditorWindow
                         selected = 0; cur = new ModelDef(); RefreshList(); GUI.FocusControl(null);
                         status = removed ? $"Removed '{name}' from the registry."
                                          : $"'{name}' was not in the registry — nothing removed.";
+                        // OPTIONAL curated asset cleanup (2026-07-27, the lost-portrait lesson): offer deletion of
+                        // the BAKED outputs via the exact whitelist ONLY — never a name wildcard, because unit-side
+                        // files share the prefix (a manual 'rm <name>*' deleted the AntiTank Halftrack's card
+                        // portrait '<name>512.png' — magenta unit card). Portraits/UI images are never touched.
+                        if (removed && EditorUtility.DisplayDialog("Delete baked assets?",
+                                $"Also delete '{name}'s BAKED assets from Assets/Resources (skeleton, atlas, clips, pose data, mesh, prefab)?\n\n" +
+                                "Only the baker's own outputs are deleted — unit portraits and other unit-side files are never touched. " +
+                                "The FactorySource working folder is left alone (delete it by hand if wanted).",
+                                "Delete baked assets", "Keep them"))
+                        {
+                            UniversalBaker.SweepAllOutputs(name);
+                            AssetDatabase.Refresh();
+                            status += " Baked assets deleted (whitelisted outputs only).";
+                        }
                     }
                 }
             if (sel != selected) { selected = sel; OnSelectResource(); GUI.FocusControl(null); }
