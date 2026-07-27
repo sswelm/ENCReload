@@ -349,7 +349,7 @@ public class ModelFactoryWindow : EditorWindow
                 EditorGUILayout.HelpBox("ANIMATED — " + (beh.Count > 0 ? string.Join(", ", beh) : "no clip/behaviors configured yet") +
                     "\nAnimation settings are edited in the Animation Lab; Bake here uses them as saved.", MessageType.None);
                 if (GUILayout.Button("Edit in\nAnimation Lab", GUILayout.Width(110), GUILayout.Height(38)))
-                    AnimationLabWindow.OpenFor(cur.resourceName, cur.modelFile, cur.pawnDescription);
+                    AnimationLabWindow.OpenFor(cur.resourceName, cur.modelFile, cur.pawnDescription, cur);
                 if (GUILayout.Button(new GUIContent("Make\nstatic…", "Deletes this entry's ANIMATION configuration from the saved registry (clip, state roles, behaviors, turret/muzzle) so the next Bake takes the static path. Removal STICKS — nothing rebases it back."), GUILayout.Width(70), GUILayout.Height(38)))
                     MakeStatic();
             }
@@ -366,7 +366,7 @@ public class ModelFactoryWindow : EditorWindow
                 EditorGUILayout.HelpBox("Animation detected in this model — configure its clip + behaviors in the " +
                     "Animation Lab (it will bake as ANIMATED from then on).", MessageType.Info);
                 if (GUILayout.Button("Open\nAnimation Lab", GUILayout.Width(110), GUILayout.Height(38)))
-                    AnimationLabWindow.OpenFor(cur.resourceName, cur.modelFile, cur.pawnDescription);
+                    AnimationLabWindow.OpenFor(cur.resourceName, cur.modelFile, cur.pawnDescription, cur);
             }
         }
 

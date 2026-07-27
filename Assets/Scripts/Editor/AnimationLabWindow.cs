@@ -284,7 +284,7 @@ public class AnimationLabWindow : EditorWindow
     // Context handoff from the Model Factory ("Edit in Animation Lab"): land on the RIGHT entry. Match an
     // existing animated entry by resource name, then by model file; otherwise pre-fill a NEW animated entry from the
     // Factory's current form (a fresh rigged model getting its animation configured for the first time).
-    internal static void OpenFor(string resourceName, string modelFile, string pawnDescription)
+    internal static void OpenFor(string resourceName, string modelFile, string pawnDescription, ModelDef fullForm = null)
     {
         Open();
         var w = GetWindow<AnimationLabWindow>();
@@ -300,6 +300,15 @@ public class AnimationLabWindow : EditorWindow
             w.cur = JsonUtility.FromJson<ModelDef>(JsonUtility.ToJson(e));   // clone, as OnSelectResource does
             w.cur.animated = true;
             w.status = "Loaded '" + e.resourceName + "' (handed over from the Model Factory).";
+        }
+        else if (fullForm != null)
+        {
+            // UNSAVED entry handed over WHOLE (2026-07-27, the Clone flow): the Factory's in-memory form — a
+            // clone carrying a full animation recipe — isn't in the registry yet, but "not saved" must not mean
+            // "starts from scratch": the entire point of Clone is arriving here with the recipe intact.
+            w.cur = JsonUtility.FromJson<ModelDef>(JsonUtility.ToJson(fullForm));
+            w.cur.animated = true;
+            w.status = "Unsaved entry handed over from the Model Factory (full settings — e.g. a Clone). Bake to create it.";
         }
         else
         {
