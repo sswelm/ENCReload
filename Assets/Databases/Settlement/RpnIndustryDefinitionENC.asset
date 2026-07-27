@@ -12118,6 +12118,81 @@ MonoBehaviour:
   DefinedVariables: []
   targetTypeName: Amplitude.Mercury.Simulation.Settlement, Amplitude.Mercury.Firstpass
   sourceTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
+--- !u!114 &7128497111070335006
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -433072232, guid: 783efdfc86c10be41b33bb17a2a60f5c, type: 3}
+  m_Name: ProductionCost_Unit_Era6_Tier6_Iron_Oil_Alum_Heavy
+  m_EditorClassIdentifier: 
+  RpnOperationStack: 0a0000000a00000009000000090000000a000000060000000a000000000000000a000000050000000a00000009000000000000000a00000005000000020000000a0000000a0000000900000000000000020000000a00000009000000000000000a0000000500000002000000070000000a0000000a0000000900000000000000020000000a00000009000000000000000a0000000500000002000000070000000a0000000a0000000900000000000000020000000a00000009000000000000000a000000050000000200000007000000030000000a00000009000000090000000a000000060000000a000000000000000a000000050000000a00000009000000000000000a00000005000000020000000a0000000a0000000900000000000000020000000a00000009000000000000000a0000000500000002000000070000000a0000000a0000000900000000000000020000000a00000009000000000000000a0000000500000002000000070000000a0000000a0000000900000000000000020000000a00000009000000000000000a0000000500000002000000070000000300000000000000030000000000000002000000
+  ConstantStack:
+  - RawValue: 22277000
+  - RawValue: 500
+  - RawValue: 1000
+  - RawValue: 5000
+  - RawValue: 750
+  - RawValue: 1000
+  - RawValue: 750
+  - RawValue: 249
+  - RawValue: 1000
+  - RawValue: 1000
+  - RawValue: 750
+  - RawValue: 249
+  - RawValue: 1000
+  - RawValue: 1000
+  - RawValue: 750
+  - RawValue: 249
+  - RawValue: 1000
+  - RawValue: 1000
+  - RawValue: 750
+  - RawValue: 1000
+  - RawValue: 1000
+  - RawValue: 5000
+  - RawValue: 750
+  - RawValue: 1000
+  - RawValue: 750
+  - RawValue: 249
+  - RawValue: 1000
+  - RawValue: 1000
+  - RawValue: 750
+  - RawValue: 249
+  - RawValue: 1000
+  - RawValue: 1000
+  - RawValue: 750
+  - RawValue: 249
+  - RawValue: 1000
+  - RawValue: 1000
+  - RawValue: 750
+  Note: 
+  PropertyLocalNameStack:
+  - MilitaryPopulationCount
+  - SumOfPopulation
+  - EraLevel
+  - Resource03AccessCount
+  - EraLevel
+  - Resource06AccessCount
+  - EraLevel
+  - Resource07AccessCount
+  - EraLevel
+  - MilitaryPopulationCount
+  - SumOfPopulation
+  - EraLevel
+  - Resource03AccessCount
+  - EraLevel
+  - Resource06AccessCount
+  - EraLevel
+  - Resource07AccessCount
+  - EraLevel
+  VariableNameStack: []
+  DefinedVariables: []
+  targetTypeName: Amplitude.Mercury.Simulation.Settlement, Amplitude.Mercury.Firstpass
+  sourceTypeName: Amplitude.Mercury.Simulation.MajorEmpire, Amplitude.Mercury.Firstpass
 --- !u!114 &7175479617603601963
 MonoBehaviour:
   m_ObjectHideFlags: 0
