@@ -242,6 +242,24 @@ public class ModelFactoryWindow : EditorWindow
         {
             int sel = EditorGUILayout.Popup("3D resource", selected, existing);
             if (GUILayout.Button("Refresh", GUILayout.Width(70))) RefreshList();
+            // CLONE (2026-07-27, user-designed): duplicate the ACTIVE entry into an UNSAVED new one — the fast
+            // path for re-pointing a proven recipe at another unit (the T-62 -> MediumTanks "universal tank").
+            // Pawn description is deliberately BLANK (pick the new target), the name gets a Clone suffix (so a
+            // save can't overwrite the source), the baked GUIDs are cleared (a clone owns no assets until its
+            // own bake) and the bake lock never travels (a clone is unbaked by definition).
+            using (new EditorGUI.DisabledScope(string.IsNullOrWhiteSpace(cur.resourceName)))
+                if (GUILayout.Button(new GUIContent("Clone", "Copy the loaded entry into a NEW unsaved entry: same recipe, blank Pawn description, name + 'Clone', no baked assets, no bake lock. Nothing is written until you Bake or Save."), GUILayout.Width(60)))
+                {
+                    var clone = JsonUtility.FromJson<ModelDef>(JsonUtility.ToJson(cur));
+                    clone.resourceName = (cur.resourceName ?? "").Trim() + "Clone";
+                    clone.pawnDescription = "";
+                    clone.skel = new int[4]; clone.atlas = new int[4]; clone.clip = new int[4];
+                    clone.clipMove = new int[4]; clone.clipAfter = new int[4]; clone.clipAttack = new int[4]; clone.clipCombat = new int[4];
+                    clone.clipPreMove = new int[4]; clone.clipIdle = new int[4]; clone.clipIdleAlt = new int[4]; clone.clipIdleAlt2 = new int[4];
+                    clone.bakeLocked = false; clone.disabled = false;
+                    cur = clone; selected = 0; GUI.FocusControl(null);
+                    status = "Cloned — set the Pawn description (and adjust the name), then Bake. Nothing saved yet.";
+                }
             // Remove the selected registry entry (disabled on <New>). Prompts, then drops it from enc_models.json.
             using (new EditorGUI.DisabledScope(selected <= 0))
                 if (GUILayout.Button("Remove", GUILayout.Width(70)))
