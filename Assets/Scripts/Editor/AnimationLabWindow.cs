@@ -387,12 +387,17 @@ public class AnimationLabWindow : EditorWindow
     void OnSelectResource()
     {
         formDiffersFromRegistry = false;   // loading fresh = in sync by definition
-        if (selected <= 0) { cur = new ModelDef { animated = true }; status = ""; return; }
+        if (selected <= 0) { cur = new ModelDef { animated = true }; status = ""; DestroyFitPreview(); previewPath = ""; return; }
         var e = ModelRegistry.Load().FirstOrDefault(x => x.resourceName == existing[selected]);
         if (e == null) return;
         cur = JsonUtility.FromJson<ModelDef>(JsonUtility.ToJson(e));   // clone so edits don't mutate the stored copy
         cur.animated = true;
         status = "Loaded '" + e.resourceName + "'.";
+        // PREVIEW FOLLOWS THE SELECTION (2026-07-27): switching entries used to keep the PREVIOUS model's
+        // preview on screen (the T-62 grinning under the m114's settings). Rebuild for the new entry; if it
+        // has no preview assets yet, clear the pane rather than show a stale model.
+        DestroyFitPreview(); previewPath = "";
+        BuildFitPreview();
     }
 
     void OnGUI()
