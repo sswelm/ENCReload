@@ -1,9 +1,18 @@
 // ResizeLabWindow.cs — the RESIZE LAB (2026-07-28, user-designed): runtime unit scaling, NO bake, no assets.
 //
-// v1 (this window): INDIVIDUAL unit rescaling — rules {match, scale} applied by the plugin at pawn spawn
-// (ObjectSpace.Scale) to ANY unit whose presentation definition name contains `match` (vanilla units included),
-// plus the per-entry runtime multiplier for our own baked models. Save writes the registry; relaunch to see it.
-// All matching rules MULTIPLY (a unit-specific correction can ride on top of a broader rule).
+// v1 (this window): INDIVIDUAL unit rescaling — rules {match, scale} applied by the plugin to ANY unit whose
+// presentation definition name contains `match` (vanilla units included). Save writes the registry; relaunch to
+// see it. All matching rules MULTIPLY (a unit-specific correction can ride on top of a broader rule).
+//
+// HOW THE RUNTIME APPLIES IT (verified in-game 2026-07-29, Bireme x2): two halves, because the game's shaders were
+// disassembled and NO instruction scales geometry by a transform (the animation pass writes bone scale as a literal
+// 1.0; the draw VS applies scale only to bind-pose offsets):
+//   1. GEOMETRY — the unit's mesh vertices are multiplied by s in the live Fx content-layer vertex buffer (once per
+//      unit type per session; positions are raw floats in the pawn layer's format), bboxes included.
+//   2. PLACEMENT — ObjectSpace.Scale *= s per pawn per frame, which spreads bone positions and bind offsets so the
+//      parts stay attached to the grown geometry.
+// Consequences: free on the vertex budget (no clone), but the mesh is SHARED — a rule resizes every unit of that
+// type. Full write-up: ENCAccessProof/docs/Unit-Size.md.
 //
 // v2 (designed, not built): TRUE-SIZE + CURRENT-ERA anchoring — each rule carries the unit's real-world size
 // (trueSize, meters); the plugin reads the CURRENT game era and computes scale = trueSize / reference(era),
@@ -112,7 +121,11 @@ public class ResizeLabWindow : EditorWindow
         EditorGUILayout.Space();
 
         // ── Section 2: our own model entries (runtime multiplier on top of their baked size) ────────────
-        GUILayout.Label("Custom model entries (runtime multiplier — bake-time Size stays in the Factory)", EditorStyles.boldLabel);
+        GUILayout.Label("Custom model entries — PLACEMENT ONLY (scale your model with the Factory's Size instead)", EditorStyles.boldLabel);
+        EditorGUILayout.HelpBox(
+            "This multiplier writes the pawn's ObjectSpace.Scale, which the GPU honours for part PLACEMENT only — it " +
+            "spreads a multi-part model apart without resizing the geometry (shader-verified 2026-07-29). To resize " +
+            "your own model, re-bake it with the Factory's Size field.", MessageType.Warning);
         foreach (var m in models)
         {
             using (new EditorGUILayout.HorizontalScope())
