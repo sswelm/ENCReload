@@ -94,7 +94,7 @@ public class ResizeLabWindow : EditorWindow
                     new PawnDropdown(new AdvancedDropdownState(), GatherScalablePawnNames(), n =>
                     { rules[idx].match = n; dirty = true; Repaint(); }).Show(rect);
                 }
-                float sc = EditorGUILayout.Slider(r.scale, 0.1f, 4f, GUILayout.MinWidth(160));
+                float sc = EditorGUILayout.Slider(r.scale, 0.1f, 10f, GUILayout.MinWidth(160));
                 if (!Mathf.Approximately(sc, r.scale)) { r.scale = sc; dirty = true; }
                 var note = EditorGUILayout.TextField(r.note, GUILayout.Width(120));
                 if (note != r.note) { r.note = note; dirty = true; }
@@ -118,7 +118,7 @@ public class ResizeLabWindow : EditorWindow
             using (new EditorGUILayout.HorizontalScope())
             {
                 EditorGUILayout.LabelField(m.resourceName, GUILayout.MinWidth(200));
-                float sc = EditorGUILayout.Slider(m.scale <= 0f ? 1f : m.scale, 0.1f, 4f);
+                float sc = EditorGUILayout.Slider(m.scale <= 0f ? 1f : m.scale, 0.1f, 10f);
                 if (!Mathf.Approximately(sc, m.scale)) { m.scale = sc; dirty = true; }
                 if (!Mathf.Approximately(m.scale, 1f) && GUILayout.Button("reset", GUILayout.Width(46)))
                 { m.scale = 1f; dirty = true; }
