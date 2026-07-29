@@ -70,7 +70,7 @@ public class ResizeLabWindow : EditorWindow
     void Reload()
     {
         models = ModelRegistry.Load();                       // also (re)fills ModelRegistry.UnitScales
-        rules = ModelRegistry.UnitScales.Select(r => new UnitScaleRule { match = r.match, scale = r.scale, trueSize = r.trueSize, note = r.note }).ToList();
+        rules = ModelRegistry.UnitScales.Select(r => new UnitScaleRule { match = r.match, scale = r.scale, era = r.era, trueSize = r.trueSize, note = r.note }).ToList();
         dirty = false;
         status = $"Loaded {rules.Count} rule(s), {models.Count} model entr{(models.Count == 1 ? "y" : "ies")}.";
     }
@@ -84,13 +84,22 @@ public class ResizeLabWindow : EditorWindow
             "All matching rules MULTIPLY. Save writes the registry; RELAUNCH the game to see changes.\n" +
             "HUMAN presentation (soldiers, riders, mounts, chariot crews) is EXCLUDED automatically — scaled humans " +
             "read as absurd. Animals (cave bears!), ships, planes and vehicles scale freely.\n" +
-            "ERA ANCHORING IS ON: the runtime divides your scale by the CURRENT GAME ERA, so authoring is 'how big " +
-            "in era 1' — a rule of 4 renders x4 in era 1, x0.8 in era 5, and shrinks live when the era turns.", MessageType.None);
+            "SCALE = the unit's size IN ITS OWN ERA. How it then ages as the world advances is authored in the " +
+            "GLOBAL ERA LAB grid (Tools ▸ HAF ▸ Global Era Lab) — untouched, that grid is all 1.0, so your scale " +
+            "applies in every era. The unit's era is read from its name (Era4_… → 4); set Era to override it.", MessageType.None);
 
         scroll = EditorGUILayout.BeginScrollView(scroll);
 
         // ── Section 1: per-unit rules (vanilla or any pawn) ─────────────────────────────────────────────
         GUILayout.Label("Unit scale rules (any unit, by pawn-name match)", EditorStyles.boldLabel);
+        using (new EditorGUILayout.HorizontalScope())
+        {
+            EditorGUILayout.LabelField("Pawn definition contains", EditorStyles.miniBoldLabel, GUILayout.MinWidth(220));
+            EditorGUILayout.LabelField("", GUILayout.Width(44));
+            EditorGUILayout.LabelField("Scale in its own era", EditorStyles.miniBoldLabel, GUILayout.MinWidth(160));
+            EditorGUILayout.LabelField("Era", EditorStyles.miniBoldLabel, GUILayout.Width(30));
+            EditorGUILayout.LabelField("Note", EditorStyles.miniBoldLabel, GUILayout.Width(120));
+        }
         int removeAt = -1;
         for (int i = 0; i < rules.Count; i++)
         {
@@ -108,6 +117,11 @@ public class ResizeLabWindow : EditorWindow
                 }
                 float sc = EditorGUILayout.Slider(r.scale, 0.1f, 10f, GUILayout.MinWidth(160));
                 if (!Mathf.Approximately(sc, r.scale)) { r.scale = sc; dirty = true; }
+                // The unit's OWN era — what the Global Era Lab grid ages it from. 0 = read it off the name.
+                int era = EditorGUILayout.IntField(new GUIContent("", "The unit's own era (row in the Global Era Lab grid). 0 = auto-detect from the name, e.g. Era4_… → 4."), r.era, GUILayout.Width(30));
+                if (era < 0) era = 0;
+                if (era > 6) era = 6;
+                if (era != r.era) { r.era = era; dirty = true; }
                 var note = EditorGUILayout.TextField(r.note, GUILayout.Width(120));
                 if (note != r.note) { r.note = note; dirty = true; }
                 if (GUILayout.Button("X", GUILayout.Width(22))) removeAt = i;

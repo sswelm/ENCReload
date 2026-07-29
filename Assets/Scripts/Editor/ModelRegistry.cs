@@ -154,6 +154,29 @@ class RegistryFile
     public List<OverrideRef> overrides = new List<OverrideRef>();  // RESERVED: explicit cross-pack replacements (no implicit overrides)
     public List<ModelDef> models = new List<ModelDef>();           // the Factory-generated model entries (unchanged)
     public List<UnitScaleRule> unitScales = new List<UnitScaleRule>();   // Resize Lab: runtime scale rules for ANY unit (vanilla included) — no bake, no assets
+    public List<EraScaleRow> eraGrid = new List<EraScaleRow>();          // Global Era Lab: unit-era × current-era modifier grid
+}
+
+// GLOBAL ERA LAB row (2026-07-29, user-designed): ONE row per unit era, holding that unit's rescale modifier for
+// EVERY current global era — together the rows form a grid, `modifier[unitEra][currentEra]`.
+//
+// Why a grid and not one value per era: how much a unit should shrink depends on BOTH how old it is and how far
+// the world has moved. An Ancient hull in the Contemporary age may want 0.15 while a Medieval one wants 0.4 — a
+// single per-era curve can't express that, a grid can. The diagonal (unit era == current era) is a unit rendering
+// at exactly its authored size, which is why it defaults to 1.
+//
+// The grid is 6x6: eras 1..6 (Ancient, Classical, Medieval, Early Modern, Industrial, Contemporary). The engine's
+// index has Neolithic at 0 (verified in-game: the index equals the era number players see), but nothing is authored
+// for the Neolithic, so era 0 is folded into era 1 on lookup rather than given a row.
+//
+// SCOPE (user rule): these modifiers only ever multiply a unit that ALREADY has a Resize Lab rule. Nothing else is
+// resized. A missing row/cell is 1.0 — the runtime invents no curve, so an unauthored grid changes nothing.
+[Serializable]
+public class EraScaleRow
+{
+    public int unitEra = 0;                           // the era the unit belongs to (row)
+    public List<float> scales = new List<float>();    // rescale modifier per CURRENT era (column), index = era index
+    public string note = "";                          // free label for the Lab only
 }
 
 // RESIZE LAB rule (2026-07-28, user-designed): a runtime scale applied to every pawn whose PRESENTATION
@@ -164,11 +187,12 @@ class RegistryFile
 public class UnitScaleRule
 {
     public string match = "";     // substring of the pawn definition name (e.g. "Era4_Common_ManOWar_01")
-    public float scale = 1f;      // v1: direct runtime multiplier; 1 = no change
-    public float trueSize = 0f;   // v2 (reserved, 0 = unused): the unit's REAL-WORLD size in meters. The planned
-                                  // era-relative system computes the multiplier as trueSize / reference(currentEra)
-                                  // — the plugin reads the CURRENT game era and re-anchors, so older units render
-                                  // honestly smaller next to current-era ones (the Man O' War vs Battleship fix).
+    public float scale = 1f;      // the unit's size IN ITS OWN ERA; 1 = no change
+    public int era = 0;           // the unit's own era, which the Global Era Lab grid ages it from. 0 = auto-detect
+                                  // from the definition name ("Era4_Common_ManOWar_01" -> 4); set it explicitly for
+                                  // a unit whose name carries no era token (a custom/modded definition).
+    public float trueSize = 0f;   // reserved (0 = unused): the unit's REAL-WORLD size in metres, for a future
+                                  // reference-size version of era anchoring (enter dimensions instead of factors).
     public string note = "";      // free label for the Lab list only
 }
 
@@ -262,6 +286,9 @@ public static class ModelRegistry
     // every Save (same session-static pattern as the pack header fields). The Lab edits this list directly.
     public static List<UnitScaleRule> UnitScales = new List<UnitScaleRule>();
 
+    // GLOBAL ERA LAB grid — the registry file's `eraGrid` array, same capture-on-Load / write-on-Save pattern.
+    public static List<EraScaleRow> EraGrid = new List<EraScaleRow>();
+
     // The git-tracked SOURCE OF TRUTH: the pack's pack.json in the repo (Assets/Pack/ENCReload). Written on every Save,
     // it survives a game reinstall / Steam "verify files" wiping BepInEx/config, gives version history in git, and Load()
     // auto-restores the live pack from it if the game copy ever goes missing. (Was Assets/Databases/enc_models.backup.json
@@ -315,6 +342,7 @@ public static class ModelRegistry
                     var retry = JsonUtility.FromJson<RegistryFile>(retryJson);
                     lastLoadCorrupt = false;
                     UnitScales = retry?.unitScales ?? new List<UnitScaleRule>();
+                    EraGrid = retry?.eraGrid ?? new List<EraScaleRow>();
                     return Migrate(SortByName(retry?.models ?? new List<ModelDef>()), retryJson);
                 }
                 lastLoadCorrupt = false;
@@ -350,6 +378,7 @@ public static class ModelRegistry
             var data = JsonUtility.FromJson<RegistryFile>(liveJson);
             lastLoadCorrupt = false;
             UnitScales = data?.unitScales ?? new List<UnitScaleRule>();
+            EraGrid = data?.eraGrid ?? new List<EraScaleRow>();
             return Migrate(SortByName(data?.models ?? new List<ModelDef>()), liveJson);
         }
         catch (Exception e)
@@ -376,7 +405,12 @@ public static class ModelRegistry
             return false;
         }
         SortByName(models);   // write BOTH the live registry and the backup alphabetically, so the order is stable across bakes
-        var json = JsonUtility.ToJson(new RegistryFile { models = models, unitScales = UnitScales ?? new List<UnitScaleRule>() }, true);
+        var json = JsonUtility.ToJson(new RegistryFile
+        {
+            models = models,
+            unitScales = UnitScales ?? new List<UnitScaleRule>(),
+            eraGrid = EraGrid ?? new List<EraScaleRow>(),
+        }, true);
         // 1) Atomic write to the live game target (what the plugin reads): fill a temp file, then swap it in, so an
         //    interrupted or locked write can never leave a truncated registry. GUARDED — File.Replace/Move throws on a
         //    transient lock (AV, search indexer, the running game holding the file). Without this, a bake that succeeds
