@@ -28,6 +28,32 @@ public class ResizeLabWindow : EditorWindow
     string status = "";
     bool dirty;
 
+    // SCALABLE pawn names only (2026-07-28, user rule): the pick list must not even OFFER human-presentation
+    // definitions — the runtime skips them anyway, but offering them invites the disappointment the exclusion
+    // exists to prevent. Same structural check as the plugin: PresentationPawnDefinition.AnimationCapabilityProfile
+    // against the human-carrying family (Human, mounted fighter/driver, servant, chariot crew, Mount, Chariot).
+    static string[] scalableCache;
+    static readonly HashSet<int> HumanProfiles = new HashSet<int> { 1, 2, 4, 6, 9, 10, 12, 13, 16 };
+    static string[] GatherScalablePawnNames()
+    {
+        if (scalableCache != null) return scalableCache;
+        var names = new SortedSet<string>(StringComparer.OrdinalIgnoreCase);
+        foreach (var guid in AssetDatabase.FindAssets("PresentationPawnDefinition"))
+        {
+            var path = AssetDatabase.GUIDToAssetPath(guid);
+            if (!path.EndsWith(".asset")) continue;
+            foreach (var o in AssetDatabase.LoadAllAssetsAtPath(path))
+            {
+                if (o == null || o.GetType().Name != "PresentationPawnDefinition" || string.IsNullOrEmpty(o.name)) continue;
+                var prop = new SerializedObject(o).FindProperty("AnimationCapabilityProfile");
+                if (prop != null && HumanProfiles.Contains(prop.intValue)) continue;
+                names.Add(o.name);
+            }
+        }
+        scalableCache = names.ToArray();
+        return scalableCache;
+    }
+
     void OnEnable() { Reload(); }
 
     void Reload()
@@ -65,7 +91,7 @@ public class ResizeLabWindow : EditorWindow
                 {
                     int idx = i;   // capture
                     var rect = GUILayoutUtility.GetLastRect();
-                    new PawnDropdown(new AdvancedDropdownState(), ModelFactoryWindow.GatherPawnNames(), n =>
+                    new PawnDropdown(new AdvancedDropdownState(), GatherScalablePawnNames(), n =>
                     { rules[idx].match = n; dirty = true; Repaint(); }).Show(rect);
                 }
                 float sc = EditorGUILayout.Slider(r.scale, 0.1f, 4f, GUILayout.MinWidth(160));
