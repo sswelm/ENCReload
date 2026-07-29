@@ -6,8 +6,10 @@
 // beside Industrial battleships, and a toy next to a Contemporary carrier. One value per era can't express that,
 // because how much a unit shrinks depends on BOTH how old it is and how far the world has moved — hence a grid.
 //
-// SCOPE (user rule): the grid only ever multiplies units that ALREADY have a Resize Lab rule. It never resizes
-// anything the modder hasn't opted in.
+// SCOPE (user rules): the grid only ever multiplies units that ALREADY have a Resize Lab rule — it never resizes
+// anything the modder hasn't opted in — and for now it applies to NAVAL units only. Land and air keep their
+// authored size in every era, which also keeps the cave-bear case intact (an animal is a land unit: still
+// scalable via the Resize Lab, just not aged by this grid).
 //
 // WHY 5x5 (user): the trivial cases don't need cells. A unit from the LAST era has no later age to recede into
 // (its row would be all 1.0), and in the FIRST era nothing has aged yet (that column would be all 1.0). So rows are
@@ -78,6 +80,8 @@ public class GlobalEraLabWindow : EditorWindow
             "the cell multiplies that unit's Resize Lab scale.\n\n" +
             "Only units with a Resize Lab rule are affected — this grid never resizes anything else. A unit in its " +
             "own era always renders at its authored size (1.0), which is why the grid starts one era later.\n\n" +
+            "NAVAL ONLY for now: ships age, land and air units keep their authored size in every era (animals like " +
+            "cave bears still scale — they just don't drift with the eras).\n\n" +
             "The era is the GLOBAL era (computed from all empires' research, identical for everyone). Runtime-only: " +
             "nothing is baked, and a unit re-scales LIVE when the era turns mid-game.", MessageType.None);
 
