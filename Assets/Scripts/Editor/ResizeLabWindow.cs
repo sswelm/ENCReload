@@ -14,10 +14,12 @@
 // Consequences: free on the vertex budget (no clone), but the mesh is SHARED — a rule resizes every unit of that
 // type. Full write-up: ENCAccessProof/docs/Unit-Size.md.
 //
-// v2 (designed, not built): TRUE-SIZE + CURRENT-ERA anchoring — each rule carries the unit's real-world size
-// (trueSize, meters); the plugin reads the CURRENT game era and computes scale = trueSize / reference(era),
-// re-anchoring as ages advance so a Man O' War renders honestly small next to an era-6 battleship.
-// The registry field is already reserved; this window will grow the column when the runtime lands.
+// ERA ANCHORING (WORKING since 2026-07-29, crude PoC): the plugin divides the rule's scale by the CURRENT GAME ERA
+// (Sandbox.Timeline.GetGlobalEraIndex() — game-wide, across all empires), so a hull authored x4 for era 1 renders
+// x0.8 in era 5: epic in its own age, a toy beside a modern cruiser. Because the runtime re-scales by RATIOS, the
+// size also changes LIVE when the era turns. VERIFIED in-game (x4 bireme rule -> x0.8 at era 5).
+// Refinement still open: divide trueSize (metres, field already reserved) by a per-era REFERENCE size table, so
+// each era's jump is authored rather than an artifact of dividing by the era number.
 
 using System;
 using System.Collections.Generic;
@@ -82,7 +84,8 @@ public class ResizeLabWindow : EditorWindow
             "All matching rules MULTIPLY. Save writes the registry; RELAUNCH the game to see changes.\n" +
             "HUMAN presentation (soldiers, riders, mounts, chariot crews) is EXCLUDED automatically — scaled humans " +
             "read as absurd. Animals (cave bears!), ships, planes and vehicles scale freely.\n" +
-            "Planned v2: true-size + current-era anchoring (rules already reserve a trueSize field).", MessageType.None);
+            "ERA ANCHORING IS ON: the runtime divides your scale by the CURRENT GAME ERA, so authoring is 'how big " +
+            "in era 1' — a rule of 4 renders x4 in era 1, x0.8 in era 5, and shrinks live when the era turns.", MessageType.None);
 
         scroll = EditorGUILayout.BeginScrollView(scroll);
 
