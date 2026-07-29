@@ -1,0 +1,118 @@
+// ResizeLabWindow.cs — the RESIZE LAB (2026-07-28, user-designed): runtime unit scaling, NO bake, no assets.
+//
+// v1 (this window): INDIVIDUAL unit rescaling — rules {match, scale} applied by the plugin at pawn spawn
+// (ObjectSpace.Scale) to ANY unit whose presentation definition name contains `match` (vanilla units included),
+// plus the per-entry runtime multiplier for our own baked models. Save writes the registry; relaunch to see it.
+// All matching rules MULTIPLY (a unit-specific correction can ride on top of a broader rule).
+//
+// v2 (designed, not built): TRUE-SIZE + CURRENT-ERA anchoring — each rule carries the unit's real-world size
+// (trueSize, meters); the plugin reads the CURRENT game era and computes scale = trueSize / reference(era),
+// re-anchoring as ages advance so a Man O' War renders honestly small next to an era-6 battleship.
+// The registry field is already reserved; this window will grow the column when the runtime lands.
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEditor;
+using UnityEditor.IMGUI.Controls;
+using UnityEngine;
+
+public class ResizeLabWindow : EditorWindow
+{
+    [MenuItem("Tools/HAF/Resize Lab")]
+    public static void Open() => GetWindow<ResizeLabWindow>("Resize Lab");
+
+    Vector2 scroll;
+    List<UnitScaleRule> rules;          // working copy of ModelRegistry.UnitScales
+    List<ModelDef> models;              // working copy of the model entries (for their runtime `scale`)
+    string status = "";
+    bool dirty;
+
+    void OnEnable() { Reload(); }
+
+    void Reload()
+    {
+        models = ModelRegistry.Load();                       // also (re)fills ModelRegistry.UnitScales
+        rules = ModelRegistry.UnitScales.Select(r => new UnitScaleRule { match = r.match, scale = r.scale, trueSize = r.trueSize, note = r.note }).ToList();
+        dirty = false;
+        status = $"Loaded {rules.Count} rule(s), {models.Count} model entr{(models.Count == 1 ? "y" : "ies")}.";
+    }
+
+    void OnGUI()
+    {
+        EditorGUILayout.LabelField("Resize Lab", EditorStyles.boldLabel);
+        EditorGUILayout.HelpBox(
+            "Runtime unit scaling — NO bake, no assets touched. Rules apply to ANY unit (vanilla included) whose " +
+            "pawn definition name CONTAINS the match text; our own model entries have their own multiplier below. " +
+            "All matching rules MULTIPLY. Save writes the registry; RELAUNCH the game to see changes.\n" +
+            "Planned v2: true-size + current-era anchoring (rules already reserve a trueSize field).", MessageType.None);
+
+        scroll = EditorGUILayout.BeginScrollView(scroll);
+
+        // ── Section 1: per-unit rules (vanilla or any pawn) ─────────────────────────────────────────────
+        GUILayout.Label("Unit scale rules (any unit, by pawn-name match)", EditorStyles.boldLabel);
+        int removeAt = -1;
+        for (int i = 0; i < rules.Count; i++)
+        {
+            var r = rules[i];
+            using (new EditorGUILayout.HorizontalScope())
+            {
+                var nm = EditorGUILayout.TextField(r.match, GUILayout.MinWidth(220));
+                if (nm != r.match) { r.match = nm; dirty = true; }
+                if (GUILayout.Button("Pick", GUILayout.Width(44)))
+                {
+                    int idx = i;   // capture
+                    var rect = GUILayoutUtility.GetLastRect();
+                    new PawnDropdown(new AdvancedDropdownState(), ModelFactoryWindow.GatherPawnNames(), n =>
+                    { rules[idx].match = n; dirty = true; Repaint(); }).Show(rect);
+                }
+                float sc = EditorGUILayout.Slider(r.scale, 0.1f, 4f, GUILayout.MinWidth(160));
+                if (!Mathf.Approximately(sc, r.scale)) { r.scale = sc; dirty = true; }
+                var note = EditorGUILayout.TextField(r.note, GUILayout.Width(120));
+                if (note != r.note) { r.note = note; dirty = true; }
+                if (GUILayout.Button("X", GUILayout.Width(22))) removeAt = i;
+            }
+        }
+        if (removeAt >= 0) { rules.RemoveAt(removeAt); dirty = true; }
+        using (new EditorGUILayout.HorizontalScope())
+        {
+            if (GUILayout.Button("+ Add rule", GUILayout.Width(90)))
+            { rules.Add(new UnitScaleRule()); dirty = true; }
+            GUILayout.FlexibleSpace();
+        }
+
+        EditorGUILayout.Space();
+
+        // ── Section 2: our own model entries (runtime multiplier on top of their baked size) ────────────
+        GUILayout.Label("Custom model entries (runtime multiplier — bake-time Size stays in the Factory)", EditorStyles.boldLabel);
+        foreach (var m in models)
+        {
+            using (new EditorGUILayout.HorizontalScope())
+            {
+                EditorGUILayout.LabelField(m.resourceName, GUILayout.MinWidth(200));
+                float sc = EditorGUILayout.Slider(m.scale <= 0f ? 1f : m.scale, 0.1f, 4f);
+                if (!Mathf.Approximately(sc, m.scale)) { m.scale = sc; dirty = true; }
+                if (!Mathf.Approximately(m.scale, 1f) && GUILayout.Button("reset", GUILayout.Width(46)))
+                { m.scale = 1f; dirty = true; }
+            }
+        }
+
+        EditorGUILayout.EndScrollView();
+        EditorGUILayout.Space();
+
+        using (new EditorGUILayout.HorizontalScope())
+        {
+            using (new EditorGUI.DisabledScope(!dirty))
+                if (GUILayout.Button("Save (runtime-only — relaunch the game)", GUILayout.Height(30)))
+                {
+                    ModelRegistry.UnitScales = rules.Where(r => !string.IsNullOrWhiteSpace(r.match)).ToList();
+                    bool ok = ModelRegistry.Save(models);
+                    status = ok ? $"Saved {ModelRegistry.UnitScales.Count} rule(s) + {models.Count} entr{(models.Count == 1 ? "y" : "ies")}. Relaunch the game to apply."
+                                : "Save FAILED — see the Console (registry locked or corrupt).";
+                    dirty = !ok;
+                }
+            if (GUILayout.Button("Reload", GUILayout.Width(70), GUILayout.Height(30))) Reload();
+        }
+        if (!string.IsNullOrEmpty(status)) EditorGUILayout.HelpBox(status, MessageType.None);
+    }
+}

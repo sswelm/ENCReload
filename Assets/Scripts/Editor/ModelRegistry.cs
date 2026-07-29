@@ -25,6 +25,7 @@ public class ModelDef
     public Vector3 rotation;            // rotation offset (deg)
     public Vector3 position;            // position offset (z = waterline)
     public float size = 5f;             // world length of the model's longest axis
+    public float scale = 1f;            // RUNTIME multiplier on the pawn's ObjectSpace.Scale (Resize Lab; no re-bake). The plugin already parsed this config-only field — now surfaced. 1 = unchanged.
     public int normalsMode = 1;         // 0 KeepModel, 1 Recalculate, 2 Faceted
     public float smoothingAngle = 20f;
     public int convertGrid = 0;         // GLB->OBJ: 0 = faithful (preserve UV seams), >0 = decimate
@@ -152,6 +153,23 @@ class RegistryFile
     public List<string> loadAfter = new List<string>();            // RESERVED: modIds this pack must load after (deterministic ordering, not yet enforced)
     public List<OverrideRef> overrides = new List<OverrideRef>();  // RESERVED: explicit cross-pack replacements (no implicit overrides)
     public List<ModelDef> models = new List<ModelDef>();           // the Factory-generated model entries (unchanged)
+    public List<UnitScaleRule> unitScales = new List<UnitScaleRule>();   // Resize Lab: runtime scale rules for ANY unit (vanilla included) — no bake, no assets
+}
+
+// RESIZE LAB rule (2026-07-28, user-designed): a runtime scale applied to every pawn whose PRESENTATION
+// DEFINITION name CONTAINS `match` (case-insensitive). All matching rules MULTIPLY — the two-stage model:
+// a unit's TRUE-SIZE correction ("ManOWar" -> 0.7) times its ERA modifier ("Era4_" -> 0.9). Runtime-only:
+// the plugin applies it at pawn spawn (ObjectSpace.Scale); relaunch to see changes, nothing is baked.
+[Serializable]
+public class UnitScaleRule
+{
+    public string match = "";     // substring of the pawn definition name (e.g. "Era4_Common_ManOWar_01")
+    public float scale = 1f;      // v1: direct runtime multiplier; 1 = no change
+    public float trueSize = 0f;   // v2 (reserved, 0 = unused): the unit's REAL-WORLD size in meters. The planned
+                                  // era-relative system computes the multiplier as trueSize / reference(currentEra)
+                                  // — the plugin reads the CURRENT game era and re-anchors, so older units render
+                                  // honestly smaller next to current-era ones (the Man O' War vs Battleship fix).
+    public string note = "";      // free label for the Lab list only
 }
 
 public static class ModelRegistry
@@ -240,6 +258,10 @@ public static class ModelRegistry
     // which would wipe every baked model's settings.
     static bool lastLoadCorrupt;
 
+    // RESIZE LAB rules — the registry file's `unitScales` array, captured at every Load and written back on
+    // every Save (same session-static pattern as the pack header fields). The Lab edits this list directly.
+    public static List<UnitScaleRule> UnitScales = new List<UnitScaleRule>();
+
     // The git-tracked SOURCE OF TRUTH: the pack's pack.json in the repo (Assets/Pack/ENCReload). Written on every Save,
     // it survives a game reinstall / Steam "verify files" wiping BepInEx/config, gives version history in git, and Load()
     // auto-restores the live pack from it if the game copy ever goes missing. (Was Assets/Databases/enc_models.backup.json
@@ -292,6 +314,7 @@ public static class ModelRegistry
                     var retryJson = File.ReadAllText(RegistryPath);
                     var retry = JsonUtility.FromJson<RegistryFile>(retryJson);
                     lastLoadCorrupt = false;
+                    UnitScales = retry?.unitScales ?? new List<UnitScaleRule>();
                     return Migrate(SortByName(retry?.models ?? new List<ModelDef>()), retryJson);
                 }
                 lastLoadCorrupt = false;
@@ -326,6 +349,7 @@ public static class ModelRegistry
             var liveJson = File.ReadAllText(RegistryPath);
             var data = JsonUtility.FromJson<RegistryFile>(liveJson);
             lastLoadCorrupt = false;
+            UnitScales = data?.unitScales ?? new List<UnitScaleRule>();
             return Migrate(SortByName(data?.models ?? new List<ModelDef>()), liveJson);
         }
         catch (Exception e)
@@ -352,7 +376,7 @@ public static class ModelRegistry
             return false;
         }
         SortByName(models);   // write BOTH the live registry and the backup alphabetically, so the order is stable across bakes
-        var json = JsonUtility.ToJson(new RegistryFile { models = models }, true);
+        var json = JsonUtility.ToJson(new RegistryFile { models = models, unitScales = UnitScales ?? new List<UnitScaleRule>() }, true);
         // 1) Atomic write to the live game target (what the plugin reads): fill a temp file, then swap it in, so an
         //    interrupted or locked write can never leave a truncated registry. GUARDED — File.Replace/Move throws on a
         //    transient lock (AV, search indexer, the running game holding the file). Without this, a bake that succeeds

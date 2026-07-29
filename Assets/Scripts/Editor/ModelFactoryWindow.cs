@@ -1083,6 +1083,7 @@ public class ModelFactoryWindow : EditorWindow
         cur.convertRig = regE.convertRig; cur.autoGroundWheels = regE.autoGroundWheels;
         cur.keepTranslations = regE.keepTranslations;   // was MISSING from this list — the Factory's stale false clobbered the Lab's tick on every Factory bake (burned three T-62 bakes, 2026-07-26)
         cur.bakeLocked = regE.bakeLocked;               // Lab-owned; the Factory only READS it (disables its Bake button)
+        cur.scale = regE.scale;                          // Resize-Lab-owned runtime multiplier — neither Factory nor Lab may write its stale copy
         cur.deployConvert = regE.deployConvert; cur.deployStart = regE.deployStart; cur.deployEnd = regE.deployEnd;
         cur.deployStrip = regE.deployStrip; cur.deployReadyFrame = regE.deployReadyFrame; cur.deployLegScale = regE.deployLegScale; cur.deployBarrelScale = regE.deployBarrelScale;
         cur.deployRecoil = regE.deployRecoil; cur.deployRecoilStep = regE.deployRecoilStep; cur.deployRecoilMag = regE.deployRecoilMag; cur.deployArcR = regE.deployArcR; cur.deployRecoilReturn = regE.deployRecoilReturn; cur.deploySlamDeg = regE.deploySlamDeg; cur.deploySlamSettle = regE.deploySlamSettle;
