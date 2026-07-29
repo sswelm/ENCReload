@@ -45,6 +45,8 @@ public class ResizeLabWindow : EditorWindow
             "Runtime unit scaling — NO bake, no assets touched. Rules apply to ANY unit (vanilla included) whose " +
             "pawn definition name CONTAINS the match text; our own model entries have their own multiplier below. " +
             "All matching rules MULTIPLY. Save writes the registry; RELAUNCH the game to see changes.\n" +
+            "HUMAN presentation (soldiers, riders, mounts, chariot crews) is EXCLUDED automatically — scaled humans " +
+            "read as absurd. Animals (cave bears!), ships, planes and vehicles scale freely.\n" +
             "Planned v2: true-size + current-era anchoring (rules already reserve a trueSize field).", MessageType.None);
 
         scroll = EditorGUILayout.BeginScrollView(scroll);
