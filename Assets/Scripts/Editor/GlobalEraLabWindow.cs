@@ -19,14 +19,21 @@
 // DEFAULTS ARE 1.0 (user rule): the Lab ships neutral and the runtime invents nothing. Every number that changes a
 // unit's size is authored here, so an untouched grid means units render exactly at their Resize Lab size.
 //
-// The runtime era is Humankind's GLOBAL era — Sandbox.Timeline.GetGlobalEraIndex(), computed from every major
-// empire's research — so it is identical for everyone on the map, which is what a shared presentation needs.
+// The world's era comes from what has actually been BUILT (the max era among existing units of the unit's own
+// domain), combined with Humankind's global era as a floor — see ENCAccessProof/docs/Unit-Size.md.
 // Engine index: 0 = Neolithic, 1 = Ancient ... 6 = Contemporary (verified in-game).
+//
+// SECOND TABLE — FORMATION BY SIZE (2026-07-29, user-designed): as an aged unit shrinks, swap its formation, so a
+// tiny lone hull becomes a squadron of small hulls. Rows are {threshold, formation} with INCREASING thresholds and
+// the first row whose threshold >= the effective scale wins. Editor side only for now: the runtime still needs the
+// formation swap + a re-form (the Formation axis already owns both moves — repoint the definition's formation
+// reference, then re-run the game's UpdatePawns on live units).
 
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
+using UnityEditor.IMGUI.Controls;   // AdvancedDropdownState, for the formation Pick
 using UnityEngine;
 
 public class GlobalEraLabWindow : EditorWindow
@@ -46,8 +53,36 @@ public class GlobalEraLabWindow : EditorWindow
     Vector2 scroll;
     List<ModelDef> models;                 // carried through Save (the registry writes models + rules + this grid)
     float[,] grid;                         // [unitEra, nowEra], absolute indices
+    List<FormationThreshold> thresholds;    // second table: swap formation as an aged unit shrinks
+    string[] formationNames;                // Pick list: ENC formation entries + vanilla names
     bool dirty;
     string status = "";
+
+    // Vanilla formation names worth offering (mirrors the Formation Override window's list), union'd with the
+    // formations authored in the ENC formation registry — those are the interesting ones here, since a "3 hulls"
+    // naval formation is something you build there and then select in this table.
+    static readonly string[] KnownVanillaFormations =
+    {
+        "Formation_1", "Formation_Close_5", "Formation_Close_9",
+        "Formation_Line_2_1R2C", "Formation_Line_Front_9", "Formation_Line_Spaced_9",
+        "Formation_Scatter_Organized_9", "Formation_Scatter_Spaced_5", "Formation_Scatter_Spaced_9",
+        "Formation_Wedge_3", "Formation_Wedge_Spaced_9", "Formation_VIP_5",
+    };
+
+    string[] GatherFormationNames()
+    {
+        if (formationNames != null) return formationNames;
+        var names = new SortedSet<string>(StringComparer.OrdinalIgnoreCase);
+        foreach (var n in KnownVanillaFormations) names.Add(n);
+        try
+        {
+            foreach (var link in FormationRegistry.Load())
+                if (link != null && !string.IsNullOrWhiteSpace(link.formation)) names.Add(link.formation);
+        }
+        catch { }   // the formation registry is optional — vanilla names alone are still useful
+        formationNames = names.ToArray();
+        return formationNames;
+    }
 
     void OnEnable() { Reload(); }
 
@@ -66,9 +101,13 @@ public class GlobalEraLabWindow : EditorWindow
             for (int c = FirstNowEra; c <= LastNowEra && c < row.scales.Count; c++)
                 if (row.scales[c] > 0f) { grid[row.unitEra, c] = row.scales[c]; loaded++; }
         }
+        thresholds = (ModelRegistry.FormationThresholds ?? new List<FormationThreshold>())
+            .Select(t => new FormationThreshold { threshold = t.threshold, formation = t.formation, note = t.note })
+            .OrderBy(t => t.threshold).ToList();
+        formationNames = null;   // re-gather (the formation registry may have changed since last open)
         dirty = false;
         status = loaded > 0
-            ? $"Loaded {loaded} grid cell(s)."
+            ? $"Loaded {loaded} grid cell(s), {thresholds.Count} formation threshold(s)."
             : "No grid saved yet — every cell is 1.0, so units keep their Resize Lab size in every era. Author the ageing you want, then Save.";
     }
 
@@ -126,11 +165,74 @@ public class GlobalEraLabWindow : EditorWindow
             GUILayout.FlexibleSpace();
         }
 
+        // ── Second table: formation by size threshold ───────────────────────────────────────────────────────────
+        EditorGUILayout.Space();
+        GUILayout.Label("Formation as the unit shrinks", EditorStyles.boldLabel);
+        EditorGUILayout.HelpBox(
+            "As an aged unit gets smaller, swap its formation — a lone trireme at x0.8 reads as a lost dinghy beside " +
+            "a carrier, while three or five small hulls read as a squadron.\n" +
+            "The FIRST row whose threshold is >= the unit's effective scale wins, so keep thresholds INCREASING " +
+            "(they are sorted on Save). A unit larger than every threshold keeps its own formation.", MessageType.None);
+
+        using (new EditorGUILayout.HorizontalScope())
+        {
+            EditorGUILayout.LabelField("Scale up to", EditorStyles.miniBoldLabel, GUILayout.Width(80));
+            EditorGUILayout.LabelField("Formation", EditorStyles.miniBoldLabel, GUILayout.MinWidth(220));
+            EditorGUILayout.LabelField("Note", EditorStyles.miniBoldLabel, GUILayout.Width(120));
+        }
+
+        int removeRow = -1;
+        for (int i = 0; i < thresholds.Count; i++)
+        {
+            var t = thresholds[i];
+            using (new EditorGUILayout.HorizontalScope())
+            {
+                float th = EditorGUILayout.FloatField(t.threshold, GUILayout.Width(80));
+                if (th <= 0f) th = 0.01f;
+                if (!Mathf.Approximately(th, t.threshold)) { t.threshold = th; dirty = true; }
+
+                var fn = EditorGUILayout.TextField(t.formation, GUILayout.MinWidth(180));
+                if (fn != t.formation) { t.formation = fn; dirty = true; }
+                if (GUILayout.Button("Pick", GUILayout.Width(44)))
+                {
+                    int idx = i;
+                    var rect = GUILayoutUtility.GetLastRect();
+                    var opts = GatherFormationNames();
+                    new StringDropdown(new AdvancedDropdownState(), opts, opts, "Formations",
+                        n => { thresholds[idx].formation = n; dirty = true; Repaint(); }).Show(rect);
+                }
+                var nt = EditorGUILayout.TextField(t.note ?? "", GUILayout.Width(120));
+                if (nt != t.note) { t.note = nt; dirty = true; }
+                if (GUILayout.Button("X", GUILayout.Width(22))) removeRow = i;
+            }
+            // flag a non-increasing threshold where it happens, rather than silently reordering under the user
+            if (i > 0 && thresholds[i].threshold <= thresholds[i - 1].threshold)
+                EditorGUILayout.HelpBox($"Row {i + 1}'s threshold ({thresholds[i].threshold:0.###}) is not above row {i}'s " +
+                                        $"({thresholds[i - 1].threshold:0.###}) — Save will sort them; the smaller one wins first.", MessageType.Warning);
+        }
+        if (removeRow >= 0) { thresholds.RemoveAt(removeRow); dirty = true; }
+        using (new EditorGUILayout.HorizontalScope())
+        {
+            if (GUILayout.Button("+ Add threshold", GUILayout.Width(120)))
+            {
+                float next = thresholds.Count > 0 ? thresholds.Max(t => t.threshold) * 2f : 0.3f;
+                thresholds.Add(new FormationThreshold { threshold = Mathf.Min(next, 10f), formation = "" });
+                dirty = true;
+            }
+            GUILayout.FlexibleSpace();
+        }
+
         EditorGUILayout.Space();
         EditorGUILayout.LabelField("Preview — an Ancient unit whose Resize Lab rule is x4", EditorStyles.boldLabel);
         EditorGUILayout.HelpBox(
             "Anc x4   " + string.Join("   ", Enumerable.Range(FirstNowEra, LastNowEra - FirstNowEra + 1)
-                .Select(c => $"{Short(c)} x{4f * grid[FirstUnitEra, c]:0.##}").ToArray()),
+                .Select(c =>
+                {
+                    float s = 4f * grid[FirstUnitEra, c];
+                    var f = thresholds.Where(t => !string.IsNullOrWhiteSpace(t.formation))
+                                      .OrderBy(t => t.threshold).FirstOrDefault(t => s <= t.threshold);
+                    return $"{Short(c)} x{s:0.##}{(f != null ? " " + f.formation : "")}";
+                }).ToArray()),
             MessageType.None);
 
         EditorGUILayout.EndScrollView();
@@ -150,8 +252,11 @@ public class GlobalEraLabWindow : EditorWindow
                         rows.Add(row);
                     }
                     ModelRegistry.EraGrid = rows;
+                    // thresholds are stored ASCENDING so the runtime can take the first match without sorting
+                    thresholds = thresholds.Where(t => !string.IsNullOrWhiteSpace(t.formation)).OrderBy(t => t.threshold).ToList();
+                    ModelRegistry.FormationThresholds = thresholds;
                     bool ok = ModelRegistry.Save(models);
-                    status = ok ? $"Saved a {LastUnitEra - FirstUnitEra + 1}x{LastNowEra - FirstNowEra + 1} grid. Relaunch the game to apply."
+                    status = ok ? $"Saved a {LastUnitEra - FirstUnitEra + 1}x{LastNowEra - FirstNowEra + 1} grid + {thresholds.Count} formation threshold(s). Relaunch the game to apply."
                                 : "Save FAILED — see the Console (registry locked or corrupt).";
                     dirty = !ok;
                 }

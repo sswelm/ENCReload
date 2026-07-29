@@ -155,6 +155,26 @@ class RegistryFile
     public List<ModelDef> models = new List<ModelDef>();           // the Factory-generated model entries (unchanged)
     public List<UnitScaleRule> unitScales = new List<UnitScaleRule>();   // Resize Lab: runtime scale rules for ANY unit (vanilla included) — no bake, no assets
     public List<EraScaleRow> eraGrid = new List<EraScaleRow>();          // Global Era Lab: unit-era × current-era modifier grid
+    public List<FormationThreshold> formationThresholds = new List<FormationThreshold>();   // Global Era Lab: swap formation as a unit shrinks
+}
+
+// GLOBAL ERA LAB, second table (2026-07-29, user-designed): as an aged unit gets SMALLER, swap its formation — a
+// lone Ancient trireme at x0.8 reads as a lost dinghy beside a carrier, while three or five small hulls read as a
+// squadron. Rows are {threshold, formation}, ordered by INCREASING threshold, and the FIRST row whose threshold is
+// >= the unit's effective scale wins:
+//
+//   0.3 -> Formation_5   |   0.6 -> Formation_3   |   1.0 -> Formation_1
+//   a unit at x0.25 fields 5 hulls, at x0.5 fields 3, at x0.9 stays single.
+//
+// A unit whose scale is above every threshold keeps its own formation (no row matches = no change). The formation
+// name is anything the game or an ENC formation entry defines — the same namespace the Formation Override window
+// works in, so a custom 3-hull naval formation authored there can be selected here.
+[Serializable]
+public class FormationThreshold
+{
+    public float threshold = 1f;     // effective scale at or below which this formation applies
+    public string formation = "";    // formation name (vanilla, or one injected by an ENC formation entry)
+    public string note = "";         // free label for the Lab only
 }
 
 // GLOBAL ERA LAB row (2026-07-29, user-designed): ONE row per unit era, holding that unit's rescale modifier for
@@ -289,6 +309,9 @@ public static class ModelRegistry
     // GLOBAL ERA LAB grid — the registry file's `eraGrid` array, same capture-on-Load / write-on-Save pattern.
     public static List<EraScaleRow> EraGrid = new List<EraScaleRow>();
 
+    // GLOBAL ERA LAB formation thresholds — same capture-on-Load / write-on-Save pattern.
+    public static List<FormationThreshold> FormationThresholds = new List<FormationThreshold>();
+
     // The git-tracked SOURCE OF TRUTH: the pack's pack.json in the repo (Assets/Pack/ENCReload). Written on every Save,
     // it survives a game reinstall / Steam "verify files" wiping BepInEx/config, gives version history in git, and Load()
     // auto-restores the live pack from it if the game copy ever goes missing. (Was Assets/Databases/enc_models.backup.json
@@ -343,6 +366,7 @@ public static class ModelRegistry
                     lastLoadCorrupt = false;
                     UnitScales = retry?.unitScales ?? new List<UnitScaleRule>();
                     EraGrid = retry?.eraGrid ?? new List<EraScaleRow>();
+                    FormationThresholds = retry?.formationThresholds ?? new List<FormationThreshold>();
                     return Migrate(SortByName(retry?.models ?? new List<ModelDef>()), retryJson);
                 }
                 lastLoadCorrupt = false;
@@ -379,6 +403,7 @@ public static class ModelRegistry
             lastLoadCorrupt = false;
             UnitScales = data?.unitScales ?? new List<UnitScaleRule>();
             EraGrid = data?.eraGrid ?? new List<EraScaleRow>();
+            FormationThresholds = data?.formationThresholds ?? new List<FormationThreshold>();
             return Migrate(SortByName(data?.models ?? new List<ModelDef>()), liveJson);
         }
         catch (Exception e)
@@ -410,6 +435,7 @@ public static class ModelRegistry
             models = models,
             unitScales = UnitScales ?? new List<UnitScaleRule>(),
             eraGrid = EraGrid ?? new List<EraScaleRow>(),
+            formationThresholds = FormationThresholds ?? new List<FormationThreshold>(),
         }, true);
         // 1) Atomic write to the live game target (what the plugin reads): fill a temp file, then swap it in, so an
         //    interrupted or locked write can never leave a truncated registry. GUARDED — File.Replace/Move throws on a
