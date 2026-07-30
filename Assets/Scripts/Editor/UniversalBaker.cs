@@ -39,6 +39,8 @@ public struct BakeConfig
     public bool    animated;        // true = ANIMATED path: bake from the model's OWN armature + clip (Skeleton + ClipCollection), not the procedural vehicle rig
     public string  animClip;        // ANIMATED only: name of the clip to bake when the model has several (e.g. "hover"); empty = the assigned/first action
     public string  animateBones;    // ANIMATED only: comma-separated bone-name prefixes to keep animation on (e.g. "prop,rotor"); empty = keep the whole clip
+    public string  staticParts;     // ANIMATED only (conversion path): mesh/material-name substrings kept WEIGHTLESS (static, root-bone) instead of bone-bound — rigid decor whose animated skeleton frame disagrees with the static layout (the canoe sail). rig_anim argv[13].
+    public bool    localNodeAnim;   // ANIMATED only (conversion path): transplant object-level node animation into local-delta bones (one bone per animated node at its static placement, own-wiggle keys only) — node-animated models that scatter under full-hierarchy replay (the canoe). rig_anim argv[14].
     public bool    animUnitFix;     // ANIMATED only: if the model bakes ~100x too big & floats (a metre->cm FBX unit scale), tick this — the baker measures the FBX at its true scale (useFileScale off) then bakes with the unit scale on, so Size = in-game units. Per-model because different rig exports embed different unit scales (some need it, some break with it).
     public bool    convertRig;      // ANIMATED only: route the Blender step through the RAW-RIG CONVERSION (rest-normalize + rebake, root collapse, topological rename, rotation/scale fold, clean-unit export). THE pipeline switch — rotationEuler is just a rotation again (applied only on this path; the legacy path stays byte-identical).
     public bool    autoGroundWheels;// ANIMATED only: auto-sit a rigged VEHICLE on the terrain — drop the model's lowest point (tyre contact) to the skeleton origin (keel→z=0), so no manual Position-offset dial. Self-correcting; opt-in (a flyer/hover model would be pinned down).
@@ -374,7 +376,7 @@ public static class UniversalBaker
                 if (wantIdleAlt) stateRoles += ";idlealt=" + cfg.animClipIdleAlt.Trim();
                 if (wantIdleAlt2) stateRoles += ";idlealt2=" + cfg.animClipIdleAlt2.Trim();
             }
-            if (!RigAnimViaBlender(cfg.modelFile, fbxFull, target, cfg.animateBones ?? "", cfg.animClip ?? "", albedoOut, keepMats, cfg.rotationEuler, cfg.convertRig, stateRoles, cfg.autoGroundWheels, cfg.socketBones, cfg.keepTranslations))
+            if (!RigAnimViaBlender(cfg.modelFile, fbxFull, target, cfg.animateBones ?? "", cfg.animClip ?? "", albedoOut, keepMats, cfg.rotationEuler, cfg.convertRig, stateRoles, cfg.autoGroundWheels, cfg.socketBones, cfg.keepTranslations, cfg.staticParts ?? "", cfg.localNodeAnim))
                 return Fail(LastRigAnimError.Length > 0
                     ? "Blender animated slim failed: " + LastRigAnimError
                     : "Blender animated slim failed (see console). Is the model rigged with the named animation clip(s)?");
@@ -438,12 +440,22 @@ public static class UniversalBaker
             && (cfg.modelFile.EndsWith(".glb", StringComparison.OrdinalIgnoreCase) || cfg.modelFile.EndsWith(".gltf", StringComparison.OrdinalIgnoreCase)))
         {
             string mtlPath = Path.Combine(fsResDir, name + ".mtl");
-            bool mtlFresh = File.Exists(mtlPath) && File.GetLastWriteTimeUtc(cfg.modelFile) <= File.GetLastWriteTimeUtc(mtlPath);
+            // SOURCE-IDENTITY CACHE-BUSTER (canoe finding 2026-07-30, same trap class as the slim-FBX busters):
+            // mtime alone can't tell WHICH model file produced the extraction — toggling deployConvert OFF left the
+            // deploy_converted.glb's 3-material MTL (written later) looking "fresh" for the raw 4-material GLB, so
+            // the Cloth submesh never got an atlas rect (sail sampled Bark / unmapped grey). Stamp the extraction
+            // with its source path+mtime and re-extract on any mismatch.
+            string stampPath = mtlPath + ".src";
+            string stamp = cfg.modelFile.Replace('\\', '/') + "|" + File.GetLastWriteTimeUtc(cfg.modelFile).Ticks;
+            bool mtlFresh = File.Exists(mtlPath) && File.GetLastWriteTimeUtc(cfg.modelFile) <= File.GetLastWriteTimeUtc(mtlPath)
+                            && File.Exists(stampPath) && File.ReadAllText(stampPath).Trim() == stamp;
             if (!mtlFresh && !(cfg.keepTexture && File.Exists(mtlPath)))
             {
                 Debug.Log($"[Factory] {name}: extracting per-material albedos (glbconv) for the multi-material animated atlas…");
                 if (!ConvertGlb(cfg.modelFile, fsResDir, name, 0))
                     Debug.LogWarning($"[Factory] {name}: glbconv extraction FAILED — a multi-material model will fall back to a SINGLE atlas (every part samples material 0). See the [glbconv] Console error.");
+                else
+                    File.WriteAllText(stampPath, stamp);
             }
         }
         var orderedAlb = LoadOrderedAlbedos(fsResDir, name);   // MTL-ordered (materialName -> albedo texture)
@@ -750,7 +762,7 @@ public static class UniversalBaker
     // scale fold, clean-unit export) — it used to be inferred from rotation != 0, which made Rotation a landmine.
     static string LastRigAnimError = "";   // the last RIGANIM ERROR line — so failure summaries can name the real cause
 
-    static bool RigAnimViaBlender(string src, string outFbx, int targetTris, string bonePrefixes, string clipName, string albedoOut, bool keepMaterials, Vector3 rotation, bool convertRig, string stateRoles = "", bool autoGround = false, string socketBones = "", bool keepTranslations = false)
+    static bool RigAnimViaBlender(string src, string outFbx, int targetTris, string bonePrefixes, string clipName, string albedoOut, bool keepMaterials, Vector3 rotation, bool convertRig, string stateRoles = "", bool autoGround = false, string socketBones = "", bool keepTranslations = false, string staticParts = "", bool localNodeAnim = false)
     {
         string proj = Directory.GetParent(Application.dataPath).FullName;
         string script = Path.Combine(proj, "Tools", "rig_anim.py");
@@ -758,7 +770,7 @@ public static class UniversalBaker
         string blender = FindBlender();
         var inv = System.Globalization.CultureInfo.InvariantCulture;   // never the OS locale — a Dutch comma-decimal would corrupt the arg
         string rotArg = string.Format(inv, "{0:0.###},{1:0.###},{2:0.###}", rotation.x, rotation.y, rotation.z);
-        string args = $"--background --python \"{script}\" -- \"{src}\" \"{outFbx}\" {Mathf.Max(0, targetTris)} \"{bonePrefixes ?? ""}\" \"{clipName ?? ""}\" \"{albedoOut ?? ""}\" {(keepMaterials ? "1" : "0")} \"{rotArg}\" {(convertRig ? "1" : "0")} \"{stateRoles ?? ""}\" {(autoGround ? "1" : "0")} \"{socketBones ?? ""}\" {(keepTranslations ? "1" : "0")}";   // argv[10]: auto-ground; argv[11]: donor sockets; argv[12]: keep translations
+        string args = $"--background --python \"{script}\" -- \"{src}\" \"{outFbx}\" {Mathf.Max(0, targetTris)} \"{bonePrefixes ?? ""}\" \"{clipName ?? ""}\" \"{albedoOut ?? ""}\" {(keepMaterials ? "1" : "0")} \"{rotArg}\" {(convertRig ? "1" : "0")} \"{stateRoles ?? ""}\" {(autoGround ? "1" : "0")} \"{socketBones ?? ""}\" {(keepTranslations ? "1" : "0")} \"{staticParts ?? ""}\" {(localNodeAnim ? "1" : "0")}";   // argv[10]: auto-ground; argv[11]: donor sockets; argv[12]: keep translations; argv[13]: static (weightless) parts; argv[14]: local-delta node animation
         var psi = new System.Diagnostics.ProcessStartInfo(blender, args)
         { UseShellExecute = false, RedirectStandardOutput = true, RedirectStandardError = true, CreateNoWindow = true };
         try

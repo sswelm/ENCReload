@@ -789,6 +789,20 @@ public class AnimationLabWindow : EditorWindow
                     }).Show(r);
                 }
         }
+        cur.staticParts = EditorGUILayout.TextField(new GUIContent("Static parts (no bone-bind)",
+            "Optional, conversion path only. Comma-separated MESH- or MATERIAL-name substrings kept WEIGHTLESS — they ride " +
+            "the root bone statically at their authored position instead of being bone-bound. For rigid decor hung off a " +
+            "skeleton whose ANIMATED pose sits far from its static layout: the canoe's sail slats ('Cloth') bound to rib " +
+            "bones 100+ units from rest, dragging the sail off the mast — static keeps it ON the mast (like the mast " +
+            "itself, which is never bound). Empty = bind every rigidly-hung part (mech behaviour). Re-bake after changing."),
+            cur.staticParts ?? "");
+        cur.localNodeAnim = EditorGUILayout.Toggle(new GUIContent("Node animation → bones (local delta)",
+            "Bake-time, conversion path only. Transplant OBJECT-level node animation (motion keyed on nodes, not " +
+            "bones: a canoe's hull rock, log bob, paddle strokes, sail sway) into LOCAL-DELTA bones — one bone per " +
+            "animated node at its STATIC placement, keyed with only that node's own wiggle. For models that fall " +
+            "APART when the full hierarchy replays (animated pose frame ≠ static layout: the plain path freezes " +
+            "them, deploy conversion disassembles them). Off = node animation is dropped (default). Re-bake after changing."),
+            cur.localNodeAnim);
         cur.animUnitFix = EditorGUILayout.Toggle(new GUIContent("Fix 100× oversize (FBX unit scale)",
             "Bake-time scale fix for rigged exports that embed a metre→centimetre unit scale (bake ~100× too big, float " +
             "in the sky). PER-MODEL: if the model bakes huge/floating, tick it; if ticking makes it vanish, untick (the " +
@@ -913,7 +927,7 @@ public class AnimationLabWindow : EditorWindow
         // so Browsing to the animated GLB looked like it worked (the clip picker reads the live field) but the bake fed
         // Blender the OLD file and failed with "no clip". Keep the Lab's chosen file so Browse actually sticks.
         if (!string.IsNullOrWhiteSpace(mine.modelFile)) cur.modelFile = mine.modelFile;
-        cur.animClip = mine.animClip; cur.animateBones = mine.animateBones; cur.animUnitFix = mine.animUnitFix;
+        cur.animClip = mine.animClip; cur.animateBones = mine.animateBones; cur.staticParts = mine.staticParts; cur.localNodeAnim = mine.localNodeAnim; cur.animUnitFix = mine.animUnitFix;
         cur.convertRig = mine.convertRig; cur.autoGroundWheels = mine.autoGroundWheels; cur.keepTranslations = mine.keepTranslations;
         cur.deployConvert = mine.deployConvert; cur.deployStart = mine.deployStart; cur.deployEnd = mine.deployEnd;
         cur.deployStrip = mine.deployStrip; cur.deployReadyFrame = mine.deployReadyFrame; cur.deployLegScale = mine.deployLegScale; cur.deployBarrelScale = mine.deployBarrelScale;
@@ -955,6 +969,7 @@ public class AnimationLabWindow : EditorWindow
         cur.modelFile = (cur.modelFile ?? "").Trim();
         cur.animClip = (cur.animClip ?? "").Trim();
         cur.animateBones = (cur.animateBones ?? "").Trim();
+        cur.staticParts = (cur.staticParts ?? "").Trim();
         cur.animClipMove = (cur.animClipMove ?? "").Trim();
         cur.animClipAfter = (cur.animClipAfter ?? "").Trim();
         cur.animClipAttack = (cur.animClipAttack ?? "").Trim();

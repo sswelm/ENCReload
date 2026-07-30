@@ -51,6 +51,21 @@ role_specs = []   # ordered [(role, clipName)]
 # through the strip below. The engine plays RotationTranslation curves (vanilla tank shuttle bones); the strip
 # exists for the native-scale trap + legacy hygiene, so translations stay opt-in per model.
 keep_translations = len(argv) > 12 and argv[12].strip() == "1"
+# staticParts (argv[13], canoe finding 2026-07-30): comma-separated MESH/MATERIAL-name substrings the bone-parent->skin
+# conversion must SKIP — the parts stay weightless (root-bone, static at their authored position) instead of being
+# bound to a governing bone. For rigid decor whose skeleton's ANIMATED pose frame disagrees with the static node
+# layout: the canoe's sail slats bound to rib bones that sit 100+ units from rest at EVERY frame (they ride the
+# animated joint chain), so the rest-normalize frame-0 fold dragged the sail off its (static, never-bound) mast.
+static_parts = [p.strip().lower() for p in (argv[13] if len(argv) > 13 else "").split(",") if p.strip()]
+# localNodeAnim (argv[14], canoe finding 2026-07-30): TRANSPLANT object-level node animation into LOCAL-DELTA bones
+# instead of clearing it. For models whose motion lives on NODES (a canoe's hull rock / log bob / paddle strokes /
+# sail sway), where Blender's re-composition of the full hierarchy SCATTERS the parts (the animated pose frame
+# disagrees with the static layout — the same defect that displaced the sail; a world-space visual bake, i.e.
+# deploy_convert, faithfully bakes the scattering). Local-delta sidesteps the composition entirely: one bone per
+# animated node AT ITS STATIC PLACEMENT, keyed with only that node's OWN wiggle relative to its own static TRS —
+# parts stay assembled by construction and move the way the author keyed them locally. Off = the plain clear
+# (existing models bake byte-identically).
+local_node_anim = len(argv) > 14 and argv[14].strip() == "1"
 # CLEAN-UNIT sources export with global_scale=0.01 (net node scale 1) — deploy_convert output qualifies since
 # the 2026-07-26 identity-node/meter-vert/delta-form rework. Decided EARLY: gates both the legacy x100
 # translation amplify (whose compensation the clean export does NOT need — the exporter's global_scale never
@@ -123,6 +138,80 @@ clean_units_input = arm.name.startswith("DeployArmV2")
 if clean_units_input:
     print("RIGANIM contract: V2 (clean-unit deploy conversion)")
 
+# HOLD REST THROUGH THE CAPTURE STAGES (canoe finding 2026-07-30): every capture below (bone-parent re-home,
+# wrapper flatten) must see the AUTHORED rest layout — but with the armature's action assigned, bone-parented
+# wrappers evaluate at the CURRENT FRAME's pose and the captures pin parts at scrambled animated positions.
+# This was masked by the multi-slot bug (assign_action bound a mesh's slot, so the rig played statues); both the
+# slot fix and this hold are GATED to localNodeAnim — the legacy static path's captures depend on the frozen-rig
+# import state (holding REST instead collapsed the canoe's weightless sail onto the rib bones' rest cluster).
+if local_node_anim:
+    arm.data.pose_position = 'REST'
+    bpy.context.view_layer.update()
+
+# OBJECT-ANIMATION CLEAR (canoe finding 2026-07-30): rigid-hung parts often dangle from wrapper nodes carrying
+# OBJECT-level animation (the dug-out canoe's 19 sail panels flap via rotation curves on their wrapper empties).
+# That animation can never survive this pipeline (the wrappers are flattened below and every mesh is joined), but
+# while it stays ASSIGNED it poisons both matrix_world captures below: the parts get pinned at the CURRENT FRAME's
+# animated pose (the canoe's sail draped over the hull) instead of the authored rest TRS that Unity's importer
+# preview shows. Clear object-level animation on every non-armature object FIRST so the captures see the authored
+# rest. Bone animation lives on the ARMATURE object and is untouched. Gated to convertRig (legacy path unchanged);
+# a no-op for rigs that animate bones only (soldier / mech / Ehrhardt — those have no object-level curves).
+if convert_rig:
+    _objanim = [o for o in bpy.context.scene.objects if o.type != 'ARMATURE' and o.animation_data is not None]
+    # localNodeAnim v2 (clip-picker finding 2026-07-30): SAMPLE the EVALUATED per-frame world matrix of every mesh
+    # BEFORE clearing — Blender's own depsgraph composition plays the take correctly (the inspection FBX the clip
+    # picker shows is exactly this evaluation, and it plays assembled); it's only surgical re-derivations (per-node
+    # deltas, world-space constraint bakes) that scatter a pathological hierarchy. The sampled worlds are sane at
+    # every frame, so flat bones keyed from them can't inherit any far-out wrapper pivot.
+    _mesh_track = {}
+    _fr0 = _fr1 = 0
+    if local_node_anim and any(_o.animation_data.action is not None for _o in _objanim):
+        _fr0, _fr1 = 1e9, -1e9
+        _acts0 = [arm.animation_data.action] if (arm.animation_data and arm.animation_data.action) else                  [_o.animation_data.action for _o in _objanim if _o.animation_data.action]
+        for _a0 in _acts0:
+            _fr0 = min(_fr0, _a0.frame_range[0]); _fr1 = max(_fr1, _a0.frame_range[1])
+        _fr0, _fr1 = int(_fr0), int(_fr1)
+        # ROUND-TRIP SAMPLING (the clip-picker finding, final form): Blender's LIVE evaluation of a pathological
+        # glTF hierarchy is itself scrambled (bone-parented far-out wrappers) — but the inspection-FBX round-trip
+        # (bake per-object local curves -> clean transform hierarchy) re-composes the SAME take correctly; that is
+        # the file the clip picker demonstrably plays right. So: export the scene exactly the way inspect_fbx.py
+        # does, re-import, and sample the mesh worlds THERE — then restore the original scene and continue.
+        _rt_fbx = outp + ".nodeanim_roundtrip.fbx"
+        bpy.context.scene.frame_start, bpy.context.scene.frame_end = _fr0, _fr1
+        bpy.ops.export_scene.fbx(filepath=_rt_fbx, use_selection=False, add_leaf_bones=False,
+                                 bake_anim=True, bake_anim_use_all_actions=False,
+                                 bake_anim_use_nla_strips=False, object_types={'EMPTY', 'ARMATURE', 'MESH'})
+        bpy.ops.wm.read_factory_settings(use_empty=True)
+        bpy.ops.import_scene.fbx(filepath=_rt_fbx)
+        _smeshes = [o for o in bpy.context.scene.objects if o.type == 'MESH']
+        for _f in range(_fr0, _fr1 + 1):
+            bpy.context.scene.frame_set(_f)
+            bpy.context.view_layer.update()
+            for _m in _smeshes:
+                _l1, _r1, _s1 = _m.matrix_world.decompose()
+                _mesh_track.setdefault(_m.name, []).append(Matrix.Translation(_l1) @ _r1.to_matrix().to_4x4())
+        print("RIGANIM localNodeAnim: sampled %d mesh world track(s) over frames %d..%d from the inspection ROUND-TRIP (the composition the clip picker plays)" % (len(_mesh_track), _fr0, _fr1))
+        # restore the ORIGINAL scene for the rest of the pipeline
+        bpy.ops.wm.read_factory_settings(use_empty=True)
+        if ext == ".fbx":
+            bpy.ops.import_scene.fbx(filepath=inp)
+        elif ext == ".blend":
+            bpy.ops.wm.open_mainfile(filepath=inp)
+        else:
+            bpy.ops.import_scene.gltf(filepath=inp)
+        for o in [o for o in bpy.context.scene.objects if o.type == 'MESH' and len(o.data.materials) == 0]:
+            bpy.data.objects.remove(o, do_unlink=True)
+        arm = next((o for o in bpy.context.scene.objects if o.type == 'ARMATURE'), None)
+        _objanim = [o for o in bpy.context.scene.objects if o.type != 'ARMATURE' and o.animation_data is not None]
+        try: os.remove(_rt_fbx)
+        except Exception: pass
+    for _o in _objanim:
+        _o.animation_data_clear()
+    if _objanim:
+        bpy.context.view_layer.update()
+        print("RIGANIM cleared object-level animation on %d non-armature node(s) — rigid-part captures use the authored rest TRS" % len(_objanim))
+
+
 # BONE-PARENT -> SKIN-WEIGHT CONVERSION (mech finding 2026-07-20): many downloaded mech/vehicle rigs never SKIN their
 # meshes (vertex weights); they RIGIDLY HANG each part off a bone via Blender bone-parenting (parent_type='BONE'),
 # often through intermediate empties or parent meshes (bone -> empty -> mesh, or bone -> mesh -> child mesh). Blender
@@ -142,7 +231,18 @@ if convert_rig:
                 return cur.parent_bone
             cur = cur.parent
         return None
-    _bp = [o for o in bpy.context.scene.objects if o.type == 'MESH' and _governing_bone(o) is not None]
+    def _is_static_part(o):
+        if not static_parts:
+            return False
+        _names = [o.name.lower()] + [m.name.lower() for m in o.data.materials if m]
+        return any(sp in n for sp in static_parts for n in _names)
+    # localNodeAnim supersedes this block entirely: every mesh gets its own evaluated-world bone downstream, and a
+    # rib-bone bind left here would double-weight the part 50/50 onto the scrambled joint frame (the crossed-mast bake).
+    _bp = [] if (local_node_anim and _mesh_track) else \
+          [o for o in bpy.context.scene.objects if o.type == 'MESH' and _governing_bone(o) is not None and not _is_static_part(o)]
+    _skipped = [o.name for o in bpy.context.scene.objects if o.type == 'MESH' and _governing_bone(o) is not None and _is_static_part(o)]
+    if _skipped:
+        print("RIGANIM staticParts: %d bone-parented mesh(es) kept WEIGHTLESS (authored position, no bind): %s" % (len(_skipped), ", ".join(sorted(_skipped)[:8]) + ("…" if len(_skipped) > 8 else "")))
     if _bp:
         _root_bone = next((b.name for b in arm.data.bones if b.parent is None), None)
         _prev_pp = arm.data.pose_position
@@ -188,13 +288,103 @@ if convert_rig:
     if _empties:
         print("RIGANIM flattened %d wrapper empt%s; rig reparented to root for identity export nodes" % (len(_empties), "y" if len(_empties) == 1 else "ies"))
 
+# EVALUATED-WORLD TRANSPLANT (localNodeAnim v2, clip-picker finding 2026-07-30). One FLAT bone per mesh, rest =
+# the mesh's frame-0 EVALUATED world (rot+trans), keys = rest^-1 @ sampledWorld(f) — straight from the depsgraph
+# composition the clip picker demonstrably plays correctly. No node-chain math, no wrapper pivots, no hierarchy:
+# each part carries its own fully-composed motion. staticParts still excludes by mesh/material name.
+if convert_rig and local_node_anim and _mesh_track:
+    def _is_static_part2(o):
+        if not static_parts:
+            return False
+        _names = [o.name.lower()] + [m.name.lower() for m in o.data.materials if m]
+        return any(sp in n for sp in static_parts for n in _names)
+    if not arm.animation_data:
+        arm.animation_data_create()
+    if arm.animation_data.action is None:
+        _na0 = bpy.data.actions.new("NodeAnim")
+        arm.animation_data.action = _na0
+        try: arm.animation_data.action_slot = _na0.slots.new(id_type='OBJECT', name=arm.name)
+        except Exception: pass
+    _tmeshes = [o for o in bpy.context.scene.objects if o.type == 'MESH' and o.name in _mesh_track and not _is_static_part2(o)]
+    # edit_bone.matrix lives in ARMATURE-LOCAL space — map the sampled worlds through the armature's inverse.
+    # This block runs AFTER the wrapper flatten on purpose: that's when the armature has absorbed its wrapper's
+    # transform (the glTF's ~0.01 unit wrapper), so armature space here matches the original bones' units.
+    _armInv = arm.matrix_world.inverted()
+    def _ortho(_M):
+        _l2, _r2, _s2 = _M.decompose()
+        return Matrix.Translation(_l2) @ _r2.to_matrix().to_4x4()
+    bpy.ops.object.select_all(action='DESELECT')
+    arm.select_set(True); bpy.context.view_layer.objects.active = arm
+    bpy.ops.object.mode_set(mode='EDIT')
+    _blen = 0.05 * max((arm.dimensions.length, 1.0))
+    _rest0 = {}
+    for _m in _tmeshes:
+        _w0 = _ortho(_armInv @ _mesh_track[_m.name][0])
+        _rest0[_m.name] = _w0
+        _eb = arm.data.edit_bones.new("nd_" + _m.name)
+        _eb.matrix = _w0.copy()
+        _eb.length = _blen
+    bpy.ops.object.mode_set(mode='OBJECT')
+    # key via keyframe_insert on the ACTIVE action (the RNA path the proven rebake loop uses — manually built
+    # channelbag fcurves existed in the file but never evaluated in the depsgraph, so the snapshots saw statues)
+    for _m in _tmeshes:
+        _pb = arm.pose.bones["nd_" + _m.name]
+        _pb.rotation_mode = 'QUATERNION'
+    _w0i = {_m.name: _rest0[_m.name].inverted() for _m in _tmeshes}
+    _qprev = {}
+    for _fi in range(_fr1 - _fr0 + 1):
+        _f = _fr0 + _fi
+        for _m in _tmeshes:
+            _pb = arm.pose.bones["nd_" + _m.name]
+            _d = _w0i[_m.name] @ _ortho(_armInv @ _mesh_track[_m.name][_fi])
+            _dq = _d.to_quaternion()
+            _qp = _qprev.get(_m.name)
+            if _qp is not None and _qp.dot(_dq) < 0.0:
+                _dq.negate()
+            _qprev[_m.name] = _dq.copy()
+            _pb.rotation_quaternion = _dq
+            _pb.keyframe_insert("rotation_quaternion", frame=_f)
+            _pb.location = _d.to_translation()
+            _pb.keyframe_insert("location", frame=_f)
+    # bind each mesh AT its frame-0 world (the pose the bone rest represents; deform = identity there)
+    for _m in _tmeshes:
+        _m.parent = arm; _m.parent_type = 'OBJECT'; _m.parent_bone = ''
+        _m.matrix_parent_inverse = Matrix()
+        _m.matrix_world = _mesh_track[_m.name][0].copy()
+        _m.vertex_groups.clear()   # imported skin weights would split influence 50/50 with the nd_ bone — full ownership
+        _vg = _m.vertex_groups.get("nd_" + _m.name) or _m.vertex_groups.new(name="nd_" + _m.name)
+        _vg.add(list(range(len(_m.data.vertices))), 1.0, 'REPLACE')
+        if not any(md.type == 'ARMATURE' for md in _m.modifiers):
+            _am = _m.modifiers.new("Armature", 'ARMATURE'); _am.object = arm
+    bpy.context.view_layer.update()
+    print("RIGANIM localNodeAnim v2: %d mesh bone(s) keyed from EVALUATED per-frame worlds (frames %d..%d)" % (len(_tmeshes), _fr0, _fr1))
+
 if not arm.animation_data:
     arm.animation_data_create()
 def assign_action(a):
     arm.animation_data.action = a
     try:
-        if getattr(a, "slots", None):
-            arm.animation_data.action_slot = a.slots[0]   # Blender 5.x slotted actions
+        _slots = list(getattr(a, "slots", []) or [])
+        if _slots and local_node_anim:
+            # MULTI-SLOT TRAP (canoe finding 2026-07-30): a glTF import can pack EVERY object's animation into ONE
+            # action with one slot per object — slots[0] is then some mesh/empty's slot, and evaluating the armature
+            # against it plays STATUES. localNodeAnim needs real evaluation, so pick the slot whose channelbag
+            # carries pose.bones curves. GATED to that mode: the legacy static path's captures DEPEND on the frozen
+            # rig (fixing the slot for everyone moved the canoe's weightless sail — the un-frozen ribs relocated the
+            # flatten captures), and FBX imports are single-slot so nothing else ever hit this.
+            _best = None
+            for _s in _slots:
+                for _ly in getattr(a, "layers", []):
+                    for _st in _ly.strips:
+                        _cb = _st.channelbag(_s) if hasattr(_st, "channelbag") else None
+                        if _cb is not None and any(fc.data_path.startswith("pose.bones") for fc in _cb.fcurves):
+                            _best = _s
+                            break
+                    if _best is not None: break
+                if _best is not None: break
+            arm.animation_data.action_slot = _best if _best is not None else _slots[0]
+        elif _slots:
+            arm.animation_data.action_slot = _slots[0]   # legacy: byte-faithful to every proven bake
     except Exception as e:
         print("RIGANIM slot warn:", e)
 
@@ -310,6 +500,11 @@ def resolve_clip(spec, tag):
             pb.location = l; pb.rotation_quaternion = q; pb.scale = s
     print("RIGANIM sliced '%s' -> '%s' (%d frames%s)" % (spec, new_name, len(frames), ", reversed" if f1 < f0 else ""))
     return a
+
+# release the REST hold from the capture stages — clip resolution/slicing/rest-normalize need real evaluation
+if local_node_anim:
+    arm.data.pose_position = 'POSE'
+    bpy.context.view_layer.update()
 
 # pick an action: the named clip (slice-aware) if given, else the one already on the armature, else the first
 act = None

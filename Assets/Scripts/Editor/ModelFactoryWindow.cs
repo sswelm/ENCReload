@@ -1064,7 +1064,7 @@ public class ModelFactoryWindow : EditorWindow
         albedoBrightness = cur.albedoBrightness, albedoSaturation = cur.albedoSaturation, keepBlack = cur.keepBlack, materialMode = cur.materialMode,
         atlasMaxDim = cur.atlasMaxDim <= 0 ? 512 : cur.atlasMaxDim,
         stripParts = cur.stripParts,
-        animated = cur.animated, animClip = (cur.animClip ?? "").Trim(), animateBones = (cur.animateBones ?? "").Trim(), animUnitFix = cur.animUnitFix, convertRig = cur.convertRig, autoGroundWheels = cur.autoGroundWheels, keepTranslations = cur.keepTranslations, socketBones = (cur.socketBones ?? "").Trim(),
+        animated = cur.animated, animClip = (cur.animClip ?? "").Trim(), animateBones = (cur.animateBones ?? "").Trim(), staticParts = (cur.staticParts ?? "").Trim(), localNodeAnim = cur.localNodeAnim, animUnitFix = cur.animUnitFix, convertRig = cur.convertRig, autoGroundWheels = cur.autoGroundWheels, keepTranslations = cur.keepTranslations, socketBones = (cur.socketBones ?? "").Trim(),
         deployConvert = cur.deployConvert, deployStart = cur.deployStart, deployEnd = cur.deployEnd,
         deployStrip = (cur.deployStrip ?? "").Trim(), deployReadyFrame = (cur.deployReadyFrame ?? "").Trim(), deployLegScale = (cur.deployLegScale ?? "").Trim(), deployBarrelScale = (cur.deployBarrelScale ?? "").Trim(),
         deployRecoil = (cur.deployRecoil ?? "").Trim(), deployRecoilStep = (cur.deployRecoilStep ?? "").Trim(), deployRecoilMag = (cur.deployRecoilMag ?? "").Trim(), deployArcR = (cur.deployArcR ?? "").Trim(), deployRecoilReturn = (cur.deployRecoilReturn ?? "").Trim(), deploySlamDeg = (cur.deploySlamDeg ?? "").Trim(), deploySlamSettle = (cur.deploySlamSettle ?? "").Trim(),
@@ -1079,7 +1079,7 @@ public class ModelFactoryWindow : EditorWindow
     {
         var regE = ModelRegistry.Load().FirstOrDefault(x => x.resourceName == cur.resourceName);
         if (regE == null) return;
-        cur.animClip = regE.animClip; cur.animateBones = regE.animateBones; cur.animUnitFix = regE.animUnitFix;
+        cur.animClip = regE.animClip; cur.animateBones = regE.animateBones; cur.staticParts = regE.staticParts; cur.localNodeAnim = regE.localNodeAnim; cur.animUnitFix = regE.animUnitFix;
         cur.convertRig = regE.convertRig; cur.autoGroundWheels = regE.autoGroundWheels;
         cur.keepTranslations = regE.keepTranslations;   // was MISSING from this list — the Factory's stale false clobbered the Lab's tick on every Factory bake (burned three T-62 bakes, 2026-07-26)
         cur.bakeLocked = regE.bakeLocked;               // Lab-owned; the Factory only READS it (disables its Bake button)
@@ -1119,7 +1119,7 @@ public class ModelFactoryWindow : EditorWindow
             "(which will be STATIC).\n\nThe model file, transform, size and shading settings are kept.",
             "Make static", "Cancel")) return;
         cur.animated = false;
-        cur.animClip = ""; cur.animateBones = ""; cur.animUnitFix = false;
+        cur.animClip = ""; cur.animateBones = ""; cur.staticParts = ""; cur.localNodeAnim = false; cur.animUnitFix = false;
         cur.convertRig = false; cur.autoGroundWheels = false; cur.keepTranslations = false;
         cur.deployConvert = false; cur.deployStart = 0; cur.deployEnd = 0; cur.deployStrip = "";
         cur.deployReadyFrame = ""; cur.deployLegScale = ""; cur.deployBarrelScale = "";
@@ -1195,6 +1195,7 @@ public class ModelFactoryWindow : EditorWindow
         cur.hideMeshes = (cur.hideMeshes ?? "").Trim();
         cur.animClip = (cur.animClip ?? "").Trim();
         cur.animateBones = (cur.animateBones ?? "").Trim();
+        cur.staticParts = (cur.staticParts ?? "").Trim();
         // ENFORCED OWNERSHIP (mirror of AnimationLabWindow.RebaseOnRegistry): the ANIMATION fields belong to the
         // Animation Lab — before baking, always take their freshest saved values from the registry so a stale Factory
         // copy can't clobber what the Lab configured (a Factory bake once silently dropped the Lab's Fix-100×,
