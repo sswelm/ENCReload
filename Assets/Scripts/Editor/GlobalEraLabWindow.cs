@@ -165,74 +165,27 @@ public class GlobalEraLabWindow : EditorWindow
             GUILayout.FlexibleSpace();
         }
 
-        // ── Second table: formation by size threshold ───────────────────────────────────────────────────────────
-        EditorGUILayout.Space();
-        GUILayout.Label("Formation as the unit shrinks", EditorStyles.boldLabel);
-        EditorGUILayout.HelpBox(
-            "As an aged unit gets smaller, swap its formation — a lone trireme at x0.8 reads as a lost dinghy beside " +
-            "a carrier, while three or five small hulls read as a squadron.\n" +
-            "The FIRST row whose threshold is >= the unit's effective scale wins, so keep thresholds INCREASING " +
-            "(they are sorted on Save). A unit larger than every threshold keeps its own formation.", MessageType.None);
-
-        using (new EditorGUILayout.HorizontalScope())
+        // ── Formation-by-size MOVED (2026-07-30, user ruling): thresholds are configured PER UNIT in the
+        //    Formation Override window ("Formation by size" section of a unit link). This lab keeps only the
+        //    ageing grid. Legacy GLOBAL thresholds saved here earlier still work as a runtime fallback — shown
+        //    below with a Clear button so they can be dropped once migrated.
+        if (thresholds.Count > 0)
         {
-            EditorGUILayout.LabelField("Scale up to", EditorStyles.miniBoldLabel, GUILayout.Width(80));
-            EditorGUILayout.LabelField("Formation", EditorStyles.miniBoldLabel, GUILayout.MinWidth(220));
-            EditorGUILayout.LabelField("Note", EditorStyles.miniBoldLabel, GUILayout.Width(120));
-        }
-
-        int removeRow = -1;
-        for (int i = 0; i < thresholds.Count; i++)
-        {
-            var t = thresholds[i];
-            using (new EditorGUILayout.HorizontalScope())
-            {
-                float th = EditorGUILayout.FloatField(t.threshold, GUILayout.Width(80));
-                if (th <= 0f) th = 0.01f;
-                if (!Mathf.Approximately(th, t.threshold)) { t.threshold = th; dirty = true; }
-
-                var fn = EditorGUILayout.TextField(t.formation, GUILayout.MinWidth(180));
-                if (fn != t.formation) { t.formation = fn; dirty = true; }
-                if (GUILayout.Button("Pick", GUILayout.Width(44)))
-                {
-                    int idx = i;
-                    var rect = GUILayoutUtility.GetLastRect();
-                    var opts = GatherFormationNames();
-                    new StringDropdown(new AdvancedDropdownState(), opts, opts, "Formations",
-                        n => { thresholds[idx].formation = n; dirty = true; Repaint(); }).Show(rect);
-                }
-                var nt = EditorGUILayout.TextField(t.note ?? "", GUILayout.Width(120));
-                if (nt != t.note) { t.note = nt; dirty = true; }
-                if (GUILayout.Button("X", GUILayout.Width(22))) removeRow = i;
-            }
-            // flag a non-increasing threshold where it happens, rather than silently reordering under the user
-            if (i > 0 && thresholds[i].threshold <= thresholds[i - 1].threshold)
-                EditorGUILayout.HelpBox($"Row {i + 1}'s threshold ({thresholds[i].threshold:0.###}) is not above row {i}'s " +
-                                        $"({thresholds[i - 1].threshold:0.###}) — Save will sort them; the smaller one wins first.", MessageType.Warning);
-        }
-        if (removeRow >= 0) { thresholds.RemoveAt(removeRow); dirty = true; }
-        using (new EditorGUILayout.HorizontalScope())
-        {
-            if (GUILayout.Button("+ Add threshold", GUILayout.Width(120)))
-            {
-                float next = thresholds.Count > 0 ? thresholds.Max(t => t.threshold) * 2f : 0.3f;
-                thresholds.Add(new FormationThreshold { threshold = Mathf.Min(next, 10f), formation = "" });
-                dirty = true;
-            }
-            GUILayout.FlexibleSpace();
+            EditorGUILayout.Space();
+            EditorGUILayout.HelpBox(
+                $"{thresholds.Count} LEGACY global formation threshold(s) still saved here ({string.Join(", ", thresholds.Select(t => $"<= x{t.threshold:0.###} -> {t.formation}"))}).\n" +
+                "Formation-by-size now lives in the FORMATION OVERRIDE window, per unit (a unit link's 'Formation by size' " +
+                "section). The runtime keeps honoring these global rows as a fallback for units without per-unit thresholds — " +
+                "re-author them on the units you care about, then Clear.", MessageType.Warning);
+            if (GUILayout.Button("Clear legacy global thresholds", GUILayout.Width(230)))
+            { thresholds.Clear(); dirty = true; }
         }
 
         EditorGUILayout.Space();
         EditorGUILayout.LabelField("Preview — an Ancient unit whose Resize Lab rule is x4", EditorStyles.boldLabel);
         EditorGUILayout.HelpBox(
             "Anc x4   " + string.Join("   ", Enumerable.Range(FirstNowEra, LastNowEra - FirstNowEra + 1)
-                .Select(c =>
-                {
-                    float s = 4f * grid[FirstUnitEra, c];
-                    var f = thresholds.Where(t => !string.IsNullOrWhiteSpace(t.formation))
-                                      .OrderBy(t => t.threshold).FirstOrDefault(t => s <= t.threshold);
-                    return $"{Short(c)} x{s:0.##}{(f != null ? " " + f.formation : "")}";
-                }).ToArray()),
+                .Select(c => $"{Short(c)} x{4f * grid[FirstUnitEra, c]:0.##}").ToArray()),
             MessageType.None);
 
         EditorGUILayout.EndScrollView();

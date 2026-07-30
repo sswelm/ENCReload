@@ -1,0 +1,1846 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-9140077079516434161
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -368647753, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Formation_Wedge_3
+  m_EditorClassIdentifier: 
+  LowSpecFormationDefinition:
+    serializableElementName: Formation_1
+  Dummies:
+  - Position: {x: 0.024316046, y: 0, z: 1.1020943}
+    CoordinatePerDirection:
+    - {x: 0, y: 0}
+    - {x: 0, y: 0}
+    - {x: 1, y: 0}
+    - {x: 1, y: 0}
+    - {x: 1, y: 1}
+    - {x: 0, y: 1}
+  - Position: {x: -1.1878421, y: 0, z: -0.5706806}
+    CoordinatePerDirection:
+    - {x: 1, y: 0}
+    - {x: 1, y: 0}
+    - {x: 1, y: 1}
+    - {x: 0, y: 1}
+    - {x: 0, y: 0}
+    - {x: 0, y: 0}
+  - Position: {x: 1.3580549, y: 0, z: -0.5497382}
+    CoordinatePerDirection:
+    - {x: 1, y: 1}
+    - {x: 0, y: 1}
+    - {x: 0, y: 0}
+    - {x: 0, y: 0}
+    - {x: 1, y: 0}
+    - {x: 1, y: 0}
+  ColumnsCountPerRow0: 0100000002000000
+  ColumnsCountPerRow1: 0200000001000000
+  ColumnsCountPerRow2: 0100000002000000
+  ColumnsCountPerRow3: 0200000001000000
+  ColumnsCountPerRow4: 0100000002000000
+  ColumnsCountPerRow5: 0200000001000000
+--- !u!114 &-5961480734780273545
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -368647753, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Formation_Close_11
+  m_EditorClassIdentifier: 
+  LowSpecFormationDefinition:
+    serializableElementName: Formation_1
+  Dummies:
+  - Position: {x: -0.8, y: 0, z: 0.8}
+    CoordinatePerDirection:
+    - {x: 0, y: 1}
+    - {x: 2, y: 0}
+    - {x: 3, y: 0}
+    - {x: 2, y: 2}
+    - {x: 2, y: 2}
+    - {x: 1, y: 2}
+  - Position: {x: 0.8, y: 0, z: 0.8}
+    CoordinatePerDirection:
+    - {x: 0, y: 2}
+    - {x: 1, y: 0}
+    - {x: 2, y: 0}
+    - {x: 2, y: 1}
+    - {x: 3, y: 2}
+    - {x: 2, y: 2}
+  - Position: {x: 0.009016052, y: 0, z: 0.015564202}
+    CoordinatePerDirection:
+    - {x: 1, y: 1}
+    - {x: 2, y: 1}
+    - {x: 2, y: 1}
+    - {x: 1, y: 1}
+    - {x: 2, y: 1}
+    - {x: 2, y: 1}
+  - Position: {x: -0.8, y: 0, z: -0.8}
+    CoordinatePerDirection:
+    - {x: 2, y: 1}
+    - {x: 3, y: 2}
+    - {x: 2, y: 2}
+    - {x: 0, y: 2}
+    - {x: 1, y: 0}
+    - {x: 2, y: 0}
+  - Position: {x: 0.66476333, y: 0, z: -0.73774356}
+    CoordinatePerDirection:
+    - {x: 2, y: 2}
+    - {x: 2, y: 2}
+    - {x: 1, y: 2}
+    - {x: 0, y: 1}
+    - {x: 2, y: 0}
+    - {x: 3, y: 0}
+  - Position: {x: 1.4583025, y: 0, z: 0.023346303}
+    CoordinatePerDirection:
+    - {x: 1, y: 2}
+    - {x: 1, y: 1}
+    - {x: 1, y: 1}
+    - {x: 1, y: 0}
+    - {x: 3, y: 1}
+    - {x: 3, y: 1}
+  - Position: {x: -1.5800152, y: 0, z: 0.046692606}
+    CoordinatePerDirection:
+    - {x: 1, y: 0}
+    - {x: 3, y: 1}
+    - {x: 3, y: 1}
+    - {x: 1, y: 2}
+    - {x: 1, y: 1}
+    - {x: 1, y: 1}
+  - Position: {x: 2.170549, y: 0, z: 0.8249027}
+    CoordinatePerDirection:
+    - {x: 0, y: 3}
+    - {x: 0, y: 0}
+    - {x: 1, y: 0}
+    - {x: 2, y: 0}
+    - {x: 4, y: 0}
+    - {x: 3, y: 2}
+  - Position: {x: 2.2314048, y: 0, z: -0.7392996}
+    CoordinatePerDirection:
+    - {x: 2, y: 3}
+    - {x: 1, y: 2}
+    - {x: 0, y: 0}
+    - {x: 0, y: 0}
+    - {x: 3, y: 0}
+    - {x: 4, y: 0}
+  - Position: {x: -2.2877533, y: 0, z: 0.7470817}
+    CoordinatePerDirection:
+    - {x: 0, y: 0}
+    - {x: 3, y: 0}
+    - {x: 4, y: 0}
+    - {x: 2, y: 3}
+    - {x: 1, y: 2}
+    - {x: 0, y: 0}
+  - Position: {x: -2.3102927, y: 0, z: -0.7626459}
+    CoordinatePerDirection:
+    - {x: 2, y: 0}
+    - {x: 4, y: 0}
+    - {x: 3, y: 2}
+    - {x: 0, y: 3}
+    - {x: 0, y: 0}
+    - {x: 1, y: 0}
+  ColumnsCountPerRow0: 040000000300000004000000
+  ColumnsCountPerRow1: 0100000003000000030000000300000001000000
+  ColumnsCountPerRow2: 0100000003000000030000000300000001000000
+  ColumnsCountPerRow3: 040000000300000004000000
+  ColumnsCountPerRow4: 0100000003000000030000000300000001000000
+  ColumnsCountPerRow5: 0100000003000000030000000300000001000000
+--- !u!114 &-4845335862666906741
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -368647753, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Formation_Scatter_Spaced_5
+  m_EditorClassIdentifier: 
+  LowSpecFormationDefinition:
+    serializableElementName: Formation_1
+  Dummies:
+  - Position: {x: -1.4, y: 0, z: 1.4}
+    CoordinatePerDirection:
+    - {x: 0, y: 0}
+    - {x: 3, y: 0}
+    - {x: 4, y: 0}
+    - {x: 2, y: 1}
+    - {x: 1, y: 0}
+    - {x: 0, y: 0}
+  - Position: {x: 1.4, y: 0, z: 1.4}
+    CoordinatePerDirection:
+    - {x: 0, y: 1}
+    - {x: 0, y: 0}
+    - {x: 1, y: 0}
+    - {x: 2, y: 0}
+    - {x: 4, y: 0}
+    - {x: 3, y: 0}
+  - Position: {x: 0, y: 0, z: 0}
+    CoordinatePerDirection:
+    - {x: 1, y: 0}
+    - {x: 2, y: 0}
+    - {x: 2, y: 0}
+    - {x: 1, y: 0}
+    - {x: 2, y: 0}
+    - {x: 2, y: 0}
+  - Position: {x: -1.4, y: 0, z: -1.4}
+    CoordinatePerDirection:
+    - {x: 2, y: 0}
+    - {x: 4, y: 0}
+    - {x: 3, y: 0}
+    - {x: 0, y: 1}
+    - {x: 0, y: 0}
+    - {x: 1, y: 0}
+  - Position: {x: 1.4, y: 0, z: -1.4}
+    CoordinatePerDirection:
+    - {x: 2, y: 1}
+    - {x: 1, y: 0}
+    - {x: 0, y: 0}
+    - {x: 0, y: 0}
+    - {x: 3, y: 0}
+    - {x: 4, y: 0}
+  ColumnsCountPerRow0: 020000000100000002000000
+  ColumnsCountPerRow1: 0100000001000000010000000100000001000000
+  ColumnsCountPerRow2: 0100000001000000010000000100000001000000
+  ColumnsCountPerRow3: 020000000100000002000000
+  ColumnsCountPerRow4: 0100000001000000010000000100000001000000
+  ColumnsCountPerRow5: 0100000001000000010000000100000001000000
+--- !u!114 &-3121457718198638583
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -368647753, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Formation_Close_19
+  m_EditorClassIdentifier: 
+  LowSpecFormationDefinition:
+    serializableElementName: Formation_1
+  Dummies:
+  - Position: {x: 0.009347267, y: 0, z: -0.049602576}
+    CoordinatePerDirection:
+    - {x: 2, y: 2}
+    - {x: 2, y: 2}
+    - {x: 2, y: 2}
+    - {x: 2, y: 2}
+    - {x: 2, y: 2}
+    - {x: 2, y: 2}
+  - Position: {x: 1.2802058, y: 0, z: -0.073329076}
+    CoordinatePerDirection:
+    - {x: 2, y: 3}
+    - {x: 1, y: 2}
+    - {x: 1, y: 1}
+    - {x: 2, y: 1}
+    - {x: 3, y: 1}
+    - {x: 3, y: 2}
+  - Position: {x: 0.6733963, y: 0, z: -0.93078876}
+    CoordinatePerDirection:
+    - {x: 3, y: 2}
+    - {x: 2, y: 3}
+    - {x: 1, y: 2}
+    - {x: 1, y: 1}
+    - {x: 2, y: 1}
+    - {x: 3, y: 1}
+  - Position: {x: -0.6976846, y: 0, z: -0.8742747}
+    CoordinatePerDirection:
+    - {x: 3, y: 1}
+    - {x: 3, y: 2}
+    - {x: 2, y: 3}
+    - {x: 1, y: 2}
+    - {x: 1, y: 1}
+    - {x: 2, y: 1}
+  - Position: {x: -1.2979122, y: 0, z: -0.040726624}
+    CoordinatePerDirection:
+    - {x: 2, y: 1}
+    - {x: 3, y: 1}
+    - {x: 3, y: 2}
+    - {x: 2, y: 3}
+    - {x: 1, y: 2}
+    - {x: 1, y: 1}
+  - Position: {x: -0.63086027, y: 0, z: 0.9002074}
+    CoordinatePerDirection:
+    - {x: 1, y: 1}
+    - {x: 2, y: 1}
+    - {x: 3, y: 1}
+    - {x: 3, y: 2}
+    - {x: 2, y: 3}
+    - {x: 1, y: 2}
+  - Position: {x: 0.67552626, y: 0, z: 0.8529716}
+    CoordinatePerDirection:
+    - {x: 1, y: 2}
+    - {x: 1, y: 1}
+    - {x: 2, y: 1}
+    - {x: 3, y: 1}
+    - {x: 3, y: 2}
+    - {x: 2, y: 3}
+  - Position: {x: 2.0135124, y: 0, z: 0.96027774}
+    CoordinatePerDirection:
+    - {x: 1, y: 3}
+    - {x: 0, y: 1}
+    - {x: 1, y: 0}
+    - {x: 3, y: 0}
+    - {x: 4, y: 1}
+    - {x: 3, y: 3}
+  - Position: {x: 2.5101764, y: 0, z: -0.00044458293}
+    CoordinatePerDirection:
+    - {x: 2, y: 4}
+    - {x: 0, y: 2}
+    - {x: 0, y: 0}
+    - {x: 2, y: 0}
+    - {x: 4, y: 0}
+    - {x: 4, y: 2}
+  - Position: {x: 2.0327523, y: 0, z: -0.94395214}
+    CoordinatePerDirection:
+    - {x: 3, y: 3}
+    - {x: 1, y: 3}
+    - {x: 0, y: 1}
+    - {x: 1, y: 0}
+    - {x: 3, y: 0}
+    - {x: 4, y: 1}
+  - Position: {x: 1.3472742, y: 0, z: -1.8027079}
+    CoordinatePerDirection:
+    - {x: 4, y: 2}
+    - {x: 2, y: 4}
+    - {x: 0, y: 2}
+    - {x: 0, y: 0}
+    - {x: 2, y: 0}
+    - {x: 4, y: 0}
+  - Position: {x: 0.018670468, y: 0, z: -1.8181819}
+    CoordinatePerDirection:
+    - {x: 4, y: 1}
+    - {x: 3, y: 3}
+    - {x: 1, y: 3}
+    - {x: 0, y: 1}
+    - {x: 1, y: 0}
+    - {x: 3, y: 0}
+  - Position: {x: -1.3726658, y: 0, z: -1.7872341}
+    CoordinatePerDirection:
+    - {x: 4, y: 0}
+    - {x: 4, y: 2}
+    - {x: 2, y: 4}
+    - {x: 0, y: 2}
+    - {x: 0, y: 0}
+    - {x: 2, y: 0}
+  - Position: {x: -2.0179234, y: 0, z: -0.9206963}
+    CoordinatePerDirection:
+    - {x: 3, y: 0}
+    - {x: 4, y: 1}
+    - {x: 3, y: 3}
+    - {x: 1, y: 3}
+    - {x: 0, y: 1}
+    - {x: 1, y: 0}
+  - Position: {x: -2.6268487, y: 0, z: 0.046918698}
+    CoordinatePerDirection:
+    - {x: 2, y: 0}
+    - {x: 4, y: 0}
+    - {x: 4, y: 2}
+    - {x: 2, y: 4}
+    - {x: 0, y: 2}
+    - {x: 0, y: 0}
+  - Position: {x: -2.0067215, y: 0, z: 0.95938104}
+    CoordinatePerDirection:
+    - {x: 1, y: 0}
+    - {x: 3, y: 0}
+    - {x: 4, y: 1}
+    - {x: 3, y: 3}
+    - {x: 1, y: 3}
+    - {x: 0, y: 1}
+  - Position: {x: -1.3233758, y: 0, z: 1.8491296}
+    CoordinatePerDirection:
+    - {x: 0, y: 0}
+    - {x: 2, y: 0}
+    - {x: 4, y: 0}
+    - {x: 4, y: 2}
+    - {x: 2, y: 4}
+    - {x: 0, y: 2}
+  - Position: {x: 0.09260678, y: 0, z: 1.8568665}
+    CoordinatePerDirection:
+    - {x: 0, y: 1}
+    - {x: 1, y: 0}
+    - {x: 3, y: 0}
+    - {x: 4, y: 1}
+    - {x: 3, y: 3}
+    - {x: 1, y: 3}
+  - Position: {x: 1.4010462, y: 0, z: 1.8336557}
+    CoordinatePerDirection:
+    - {x: 0, y: 2}
+    - {x: 0, y: 0}
+    - {x: 2, y: 0}
+    - {x: 4, y: 0}
+    - {x: 4, y: 2}
+    - {x: 2, y: 4}
+  ColumnsCountPerRow0: 0300000004000000050000000400000003000000
+  ColumnsCountPerRow1: 0300000004000000050000000400000003000000
+  ColumnsCountPerRow2: 0300000004000000050000000400000003000000
+  ColumnsCountPerRow3: 0300000004000000050000000400000003000000
+  ColumnsCountPerRow4: 0300000004000000050000000400000003000000
+  ColumnsCountPerRow5: 0300000004000000050000000400000003000000
+--- !u!114 &-2329951595495257881
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -368647753, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Formation_Turtle_25
+  m_EditorClassIdentifier: 
+  LowSpecFormationDefinition:
+    serializableElementName: Formation_1
+  Dummies:
+  - Position: {x: -1.6, y: 0, z: 1.6}
+    CoordinatePerDirection:
+    - {x: 0, y: 0}
+    - {x: 2, y: 0}
+    - {x: 4, y: 0}
+    - {x: 4, y: 4}
+    - {x: 1, y: 6}
+    - {x: 0, y: 2}
+  - Position: {x: -0.8, y: 0, z: 1.6}
+    CoordinatePerDirection:
+    - {x: 0, y: 1}
+    - {x: 2, y: 1}
+    - {x: 3, y: 1}
+    - {x: 4, y: 3}
+    - {x: 2, y: 6}
+    - {x: 0, y: 3}
+  - Position: {x: 0, y: 0, z: 1.6}
+    CoordinatePerDirection:
+    - {x: 0, y: 2}
+    - {x: 1, y: 0}
+    - {x: 3, y: 0}
+    - {x: 4, y: 2}
+    - {x: 3, y: 4}
+    - {x: 1, y: 6}
+  - Position: {x: 0.8, y: 0, z: 1.6}
+    CoordinatePerDirection:
+    - {x: 0, y: 3}
+    - {x: 0, y: 0}
+    - {x: 2, y: 0}
+    - {x: 4, y: 1}
+    - {x: 3, y: 3}
+    - {x: 2, y: 5}
+  - Position: {x: 1.6, y: 0, z: 1.6}
+    CoordinatePerDirection:
+    - {x: 0, y: 4}
+    - {x: 0, y: 1}
+    - {x: 1, y: 0}
+    - {x: 4, y: 0}
+    - {x: 4, y: 1}
+    - {x: 2, y: 6}
+  - Position: {x: -1.6, y: 0, z: 0.8}
+    CoordinatePerDirection:
+    - {x: 1, y: 0}
+    - {x: 3, y: 0}
+    - {x: 4, y: 1}
+    - {x: 3, y: 4}
+    - {x: 1, y: 5}
+    - {x: 0, y: 1}
+  - Position: {x: -0.8000001, y: 0, z: 0.8}
+    CoordinatePerDirection:
+    - {x: 1, y: 1}
+    - {x: 2, y: 2}
+    - {x: 3, y: 2}
+    - {x: 3, y: 3}
+    - {x: 1, y: 4}
+    - {x: 1, y: 4}
+  - Position: {x: 0, y: 0, z: 0.8}
+    CoordinatePerDirection:
+    - {x: 1, y: 2}
+    - {x: 1, y: 1}
+    - {x: 2, y: 1}
+    - {x: 3, y: 2}
+    - {x: 2, y: 5}
+    - {x: 1, y: 5}
+  - Position: {x: 0.79999995, y: 0, z: 0.8}
+    CoordinatePerDirection:
+    - {x: 1, y: 3}
+    - {x: 1, y: 2}
+    - {x: 1, y: 2}
+    - {x: 3, y: 1}
+    - {x: 3, y: 2}
+    - {x: 2, y: 4}
+  - Position: {x: 1.6, y: 0, z: 0.8}
+    CoordinatePerDirection:
+    - {x: 1, y: 4}
+    - {x: 0, y: 2}
+    - {x: 1, y: 1}
+    - {x: 3, y: 0}
+    - {x: 4, y: 0}
+    - {x: 3, y: 4}
+  - Position: {x: -1.6, y: 0, z: 0}
+    CoordinatePerDirection:
+    - {x: 2, y: 0}
+    - {x: 3, y: 1}
+    - {x: 3, y: 3}
+    - {x: 2, y: 4}
+    - {x: 0, y: 3}
+    - {x: 0, y: 0}
+  - Position: {x: -0.8, y: 0, z: 0}
+    CoordinatePerDirection:
+    - {x: 2, y: 1}
+    - {x: 2, y: 3}
+    - {x: 2, y: 3}
+    - {x: 2, y: 3}
+    - {x: 1, y: 3}
+    - {x: 1, y: 3}
+  - Position: {x: 0, y: 0, z: 0}
+    CoordinatePerDirection:
+    - {x: 2, y: 2}
+    - {x: 2, y: 4}
+    - {x: 2, y: 2}
+    - {x: 2, y: 2}
+    - {x: 2, y: 4}
+    - {x: 2, y: 2}
+  - Position: {x: 0.8000002, y: 0, z: 0}
+    CoordinatePerDirection:
+    - {x: 2, y: 3}
+    - {x: 1, y: 3}
+    - {x: 1, y: 3}
+    - {x: 2, y: 1}
+    - {x: 2, y: 3}
+    - {x: 2, y: 3}
+  - Position: {x: 1.6, y: 0, z: 0}
+    CoordinatePerDirection:
+    - {x: 2, y: 4}
+    - {x: 0, y: 3}
+    - {x: 0, y: 0}
+    - {x: 2, y: 0}
+    - {x: 3, y: 1}
+    - {x: 3, y: 3}
+  - Position: {x: -1.6, y: 0, z: -0.8}
+    CoordinatePerDirection:
+    - {x: 3, y: 0}
+    - {x: 4, y: 0}
+    - {x: 3, y: 4}
+    - {x: 1, y: 4}
+    - {x: 0, y: 2}
+    - {x: 1, y: 1}
+  - Position: {x: -0.8, y: 0, z: -0.8}
+    CoordinatePerDirection:
+    - {x: 3, y: 1}
+    - {x: 3, y: 2}
+    - {x: 2, y: 4}
+    - {x: 1, y: 3}
+    - {x: 1, y: 2}
+    - {x: 1, y: 2}
+  - Position: {x: 0, y: 0, z: -0.8}
+    CoordinatePerDirection:
+    - {x: 3, y: 2}
+    - {x: 2, y: 5}
+    - {x: 1, y: 5}
+    - {x: 1, y: 2}
+    - {x: 1, y: 1}
+    - {x: 2, y: 1}
+  - Position: {x: 0.8, y: 0, z: -0.8}
+    CoordinatePerDirection:
+    - {x: 3, y: 3}
+    - {x: 1, y: 4}
+    - {x: 1, y: 4}
+    - {x: 1, y: 1}
+    - {x: 2, y: 2}
+    - {x: 3, y: 2}
+  - Position: {x: 1.6, y: 0, z: -0.8}
+    CoordinatePerDirection:
+    - {x: 3, y: 4}
+    - {x: 1, y: 5}
+    - {x: 0, y: 1}
+    - {x: 1, y: 0}
+    - {x: 3, y: 0}
+    - {x: 4, y: 1}
+  - Position: {x: -1.6, y: 0, z: -1.6}
+    CoordinatePerDirection:
+    - {x: 4, y: 0}
+    - {x: 4, y: 1}
+    - {x: 2, y: 6}
+    - {x: 0, y: 4}
+    - {x: 0, y: 1}
+    - {x: 1, y: 0}
+  - Position: {x: -0.8, y: 0, z: -1.6}
+    CoordinatePerDirection:
+    - {x: 4, y: 1}
+    - {x: 3, y: 3}
+    - {x: 2, y: 5}
+    - {x: 0, y: 3}
+    - {x: 0, y: 0}
+    - {x: 2, y: 0}
+  - Position: {x: 0, y: 0, z: -1.6}
+    CoordinatePerDirection:
+    - {x: 4, y: 2}
+    - {x: 3, y: 4}
+    - {x: 1, y: 6}
+    - {x: 0, y: 2}
+    - {x: 1, y: 0}
+    - {x: 3, y: 0}
+  - Position: {x: 0.8, y: 0, z: -1.6}
+    CoordinatePerDirection:
+    - {x: 4, y: 3}
+    - {x: 2, y: 6}
+    - {x: 0, y: 3}
+    - {x: 0, y: 1}
+    - {x: 2, y: 1}
+    - {x: 3, y: 1}
+  - Position: {x: 1.6, y: 0, z: -1.6}
+    CoordinatePerDirection:
+    - {x: 4, y: 4}
+    - {x: 1, y: 6}
+    - {x: 0, y: 2}
+    - {x: 0, y: 0}
+    - {x: 2, y: 0}
+    - {x: 4, y: 0}
+  ColumnsCountPerRow0: 0500000005000000050000000500000005000000
+  ColumnsCountPerRow1: 0400000007000000070000000500000002000000
+  ColumnsCountPerRow2: 0400000007000000070000000500000002000000
+  ColumnsCountPerRow3: 0500000005000000050000000500000005000000
+  ColumnsCountPerRow4: 0400000007000000070000000500000002000000
+  ColumnsCountPerRow5: 0400000007000000070000000500000002000000
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1532519503, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: PresentationFormationDefinition
+  m_EditorClassIdentifier: 
+--- !u!114 &377597210344845849
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -368647753, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Formation_Turtle_9
+  m_EditorClassIdentifier: 
+  LowSpecFormationDefinition:
+    serializableElementName: Formation_1
+  Dummies:
+  - Position: {x: -0.8, y: 0, z: 0.8}
+    CoordinatePerDirection:
+    - {x: 0, y: 0}
+    - {x: 1, y: 0}
+    - {x: 2, y: 0}
+    - {x: 2, y: 2}
+    - {x: 0, y: 3}
+    - {x: 0, y: 2}
+  - Position: {x: 0, y: 0, z: 0.8}
+    CoordinatePerDirection:
+    - {x: 0, y: 1}
+    - {x: 0, y: 0}
+    - {x: 1, y: 0}
+    - {x: 2, y: 1}
+    - {x: 1, y: 3}
+    - {x: 0, y: 3}
+  - Position: {x: 0.8, y: 0, z: 0.8}
+    CoordinatePerDirection:
+    - {x: 0, y: 2}
+    - {x: 0, y: 1}
+    - {x: 0, y: 0}
+    - {x: 2, y: 0}
+    - {x: 2, y: 0}
+    - {x: 1, y: 3}
+  - Position: {x: -0.8, y: 0, z: 0}
+    CoordinatePerDirection:
+    - {x: 1, y: 0}
+    - {x: 1, y: 1}
+    - {x: 1, y: 2}
+    - {x: 1, y: 2}
+    - {x: 0, y: 2}
+    - {x: 0, y: 1}
+  - Position: {x: 0, y: 0, z: 0}
+    CoordinatePerDirection:
+    - {x: 1, y: 1}
+    - {x: 1, y: 2}
+    - {x: 1, y: 1}
+    - {x: 1, y: 1}
+    - {x: 1, y: 2}
+    - {x: 1, y: 1}
+  - Position: {x: 0.8, y: 0, z: 0}
+    CoordinatePerDirection:
+    - {x: 1, y: 2}
+    - {x: 0, y: 2}
+    - {x: 0, y: 1}
+    - {x: 1, y: 0}
+    - {x: 1, y: 1}
+    - {x: 1, y: 2}
+  - Position: {x: -0.8, y: 0, z: -0.8}
+    CoordinatePerDirection:
+    - {x: 2, y: 0}
+    - {x: 2, y: 0}
+    - {x: 1, y: 3}
+    - {x: 0, y: 2}
+    - {x: 0, y: 1}
+    - {x: 0, y: 0}
+  - Position: {x: 0, y: 0, z: -0.8}
+    CoordinatePerDirection:
+    - {x: 2, y: 1}
+    - {x: 1, y: 3}
+    - {x: 0, y: 3}
+    - {x: 0, y: 1}
+    - {x: 0, y: 0}
+    - {x: 1, y: 0}
+  - Position: {x: 0.8, y: 0, z: -0.8}
+    CoordinatePerDirection:
+    - {x: 2, y: 2}
+    - {x: 0, y: 3}
+    - {x: 0, y: 2}
+    - {x: 0, y: 0}
+    - {x: 1, y: 0}
+    - {x: 2, y: 0}
+  ColumnsCountPerRow0: 030000000300000003000000
+  ColumnsCountPerRow1: 040000000400000001000000
+  ColumnsCountPerRow2: 040000000400000001000000
+  ColumnsCountPerRow3: 030000000300000003000000
+  ColumnsCountPerRow4: 040000000400000001000000
+  ColumnsCountPerRow5: 040000000400000001000000
+--- !u!114 &422470690328123436
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -368647753, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Formation_Close_5
+  m_EditorClassIdentifier: 
+  LowSpecFormationDefinition:
+    serializableElementName: Formation_1
+  Dummies:
+  - Position: {x: -0.8, y: 0, z: 0.8}
+    CoordinatePerDirection:
+    - {x: 0, y: 0}
+    - {x: 1, y: 0}
+    - {x: 2, y: 0}
+    - {x: 2, y: 1}
+    - {x: 1, y: 2}
+    - {x: 0, y: 0}
+  - Position: {x: 0.8, y: 0, z: 0.8}
+    CoordinatePerDirection:
+    - {x: 0, y: 1}
+    - {x: 0, y: 0}
+    - {x: 1, y: 0}
+    - {x: 2, y: 0}
+    - {x: 2, y: 0}
+    - {x: 1, y: 2}
+  - Position: {x: 0, y: 0, z: 0}
+    CoordinatePerDirection:
+    - {x: 1, y: 0}
+    - {x: 1, y: 1}
+    - {x: 1, y: 1}
+    - {x: 1, y: 0}
+    - {x: 1, y: 1}
+    - {x: 1, y: 1}
+  - Position: {x: -0.8, y: 0, z: -0.8}
+    CoordinatePerDirection:
+    - {x: 2, y: 0}
+    - {x: 2, y: 0}
+    - {x: 1, y: 2}
+    - {x: 0, y: 1}
+    - {x: 0, y: 0}
+    - {x: 1, y: 0}
+  - Position: {x: 0.8, y: 0, z: -0.8}
+    CoordinatePerDirection:
+    - {x: 2, y: 1}
+    - {x: 1, y: 2}
+    - {x: 0, y: 0}
+    - {x: 0, y: 0}
+    - {x: 1, y: 0}
+    - {x: 2, y: 0}
+  ColumnsCountPerRow0: 020000000100000002000000
+  ColumnsCountPerRow1: 010000000300000001000000
+  ColumnsCountPerRow2: 010000000300000001000000
+  ColumnsCountPerRow3: 020000000100000002000000
+  ColumnsCountPerRow4: 010000000300000001000000
+  ColumnsCountPerRow5: 010000000300000001000000
+--- !u!114 &1789272346554348197
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -368647753, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Formation_Line_2_1R2C
+  m_EditorClassIdentifier: 
+  LowSpecFormationDefinition:
+    serializableElementName: Formation_1
+  Dummies:
+  - Position: {x: -1.6, y: 0, z: 1}
+    CoordinatePerDirection:
+    - {x: 0, y: 0}
+    - {x: 1, y: 0}
+    - {x: 1, y: 0}
+    - {x: 0, y: 1}
+    - {x: 0, y: 0}
+    - {x: 0, y: 0}
+  - Position: {x: 1.6, y: 0, z: 1}
+    CoordinatePerDirection:
+    - {x: 0, y: 1}
+    - {x: 0, y: 0}
+    - {x: 0, y: 0}
+    - {x: 0, y: 0}
+    - {x: 1, y: 0}
+    - {x: 1, y: 0}
+  ColumnsCountPerRow0: 02000000
+  ColumnsCountPerRow1: 0100000001000000
+  ColumnsCountPerRow2: 0100000001000000
+  ColumnsCountPerRow3: 02000000
+  ColumnsCountPerRow4: 0100000001000000
+  ColumnsCountPerRow5: 0100000001000000
+--- !u!114 &2468213674695534635
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -368647753, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Formation_Close_12
+  m_EditorClassIdentifier: 
+  LowSpecFormationDefinition:
+    serializableElementName: Formation_1
+  Dummies:
+  - Position: {x: -1.7113398, y: 0, z: 1.389469}
+    CoordinatePerDirection:
+    - {x: 0, y: 0}
+    - {x: 2, y: 0}
+    - {x: 3, y: 0}
+    - {x: 3, y: 2}
+    - {x: 1, y: 3}
+    - {x: 0, y: 1}
+  - Position: {x: -0.34189987, y: 0, z: 1.4663228}
+    CoordinatePerDirection:
+    - {x: 0, y: 1}
+    - {x: 1, y: 0}
+    - {x: 2, y: 0}
+    - {x: 3, y: 1}
+    - {x: 2, y: 2}
+    - {x: 1, y: 2}
+  - Position: {x: 1.1125299, y: 0, z: 1.4057683}
+    CoordinatePerDirection:
+    - {x: 0, y: 2}
+    - {x: 0, y: 0}
+    - {x: 1, y: 0}
+    - {x: 3, y: 0}
+    - {x: 3, y: 1}
+    - {x: 2, y: 3}
+  - Position: {x: 0.27020213, y: 0, z: 0.58027077}
+    CoordinatePerDirection:
+    - {x: 1, y: 2}
+    - {x: 1, y: 1}
+    - {x: 1, y: 1}
+    - {x: 2, y: 1}
+    - {x: 2, y: 1}
+    - {x: 2, y: 2}
+  - Position: {x: -0.4913402, y: 0, z: -0.30378366}
+    CoordinatePerDirection:
+    - {x: 2, y: 1}
+    - {x: 2, y: 2}
+    - {x: 1, y: 2}
+    - {x: 1, y: 1}
+    - {x: 1, y: 1}
+    - {x: 2, y: 1}
+  - Position: {x: -0.8907557, y: 0, z: 0.5675193}
+    CoordinatePerDirection:
+    - {x: 1, y: 1}
+    - {x: 2, y: 1}
+    - {x: 2, y: 1}
+    - {x: 2, y: 2}
+    - {x: 1, y: 2}
+    - {x: 1, y: 1}
+  - Position: {x: 1.5269078, y: 0, z: 0.5434934}
+    CoordinatePerDirection:
+    - {x: 1, y: 3}
+    - {x: 0, y: 1}
+    - {x: 0, y: 0}
+    - {x: 2, y: 0}
+    - {x: 3, y: 0}
+    - {x: 3, y: 2}
+  - Position: {x: -1.059993, y: 0, z: -1.3229787}
+    CoordinatePerDirection:
+    - {x: 3, y: 0}
+    - {x: 3, y: 2}
+    - {x: 1, y: 3}
+    - {x: 0, y: 1}
+    - {x: 0, y: 0}
+    - {x: 2, y: 0}
+  - Position: {x: 0.35116345, y: 0, z: -1.3087572}
+    CoordinatePerDirection:
+    - {x: 3, y: 1}
+    - {x: 2, y: 3}
+    - {x: 0, y: 2}
+    - {x: 0, y: 0}
+    - {x: 1, y: 0}
+    - {x: 3, y: 0}
+  - Position: {x: -1.7401044, y: 0, z: -0.4564797}
+    CoordinatePerDirection:
+    - {x: 2, y: 0}
+    - {x: 3, y: 1}
+    - {x: 2, y: 2}
+    - {x: 1, y: 2}
+    - {x: 0, y: 1}
+    - {x: 1, y: 0}
+  - Position: {x: -2.300224, y: 0, z: 0.5647969}
+    CoordinatePerDirection:
+    - {x: 1, y: 0}
+    - {x: 3, y: 0}
+    - {x: 3, y: 1}
+    - {x: 2, y: 3}
+    - {x: 0, y: 2}
+    - {x: 0, y: 0}
+  - Position: {x: 0.8252428, y: 0, z: -0.27852997}
+    CoordinatePerDirection:
+    - {x: 2, y: 2}
+    - {x: 1, y: 2}
+    - {x: 0, y: 1}
+    - {x: 1, y: 0}
+    - {x: 2, y: 0}
+    - {x: 3, y: 1}
+  ColumnsCountPerRow0: 03000000040000000300000002000000
+  ColumnsCountPerRow1: 02000000030000000400000003000000
+  ColumnsCountPerRow2: 03000000040000000300000002000000
+  ColumnsCountPerRow3: 02000000030000000400000003000000
+  ColumnsCountPerRow4: 03000000040000000300000002000000
+  ColumnsCountPerRow5: 02000000030000000400000003000000
+--- !u!114 &4425262490358885717
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -368647753, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Formation_Scatter_Spaced_7
+  m_EditorClassIdentifier: 
+  LowSpecFormationDefinition:
+    serializableElementName: Formation_1
+  Dummies:
+  - Position: {x: -1.4, y: 0, z: 1.4}
+    CoordinatePerDirection:
+    - {x: 0, y: 0}
+    - {x: 3, y: 0}
+    - {x: 3, y: 0}
+    - {x: 2, y: 1}
+    - {x: 1, y: 0}
+    - {x: 1, y: 0}
+  - Position: {x: 1.2287, y: 0, z: 1.4544749}
+    CoordinatePerDirection:
+    - {x: 0, y: 1}
+    - {x: 1, y: 0}
+    - {x: 1, y: 0}
+    - {x: 2, y: 0}
+    - {x: 3, y: 0}
+    - {x: 3, y: 0}
+  - Position: {x: 0.027047332, y: 0, z: 0.108949415}
+    CoordinatePerDirection:
+    - {x: 1, y: 1}
+    - {x: 2, y: 0}
+    - {x: 1, y: 1}
+    - {x: 1, y: 1}
+    - {x: 2, y: 1}
+    - {x: 2, y: 1}
+  - Position: {x: -1.4, y: 0, z: -1.4}
+    CoordinatePerDirection:
+    - {x: 2, y: 0}
+    - {x: 4, y: 1}
+    - {x: 2, y: 0}
+    - {x: 0, y: 1}
+    - {x: 0, y: 0}
+    - {x: 2, y: 0}
+  - Position: {x: 1.3999999, y: 0, z: -1.3922181}
+    CoordinatePerDirection:
+    - {x: 2, y: 1}
+    - {x: 2, y: 1}
+    - {x: 0, y: 1}
+    - {x: 0, y: 0}
+    - {x: 2, y: 0}
+    - {x: 4, y: 0}
+  - Position: {x: 2.7137494, y: 0, z: 0.16342412}
+    CoordinatePerDirection:
+    - {x: 1, y: 2}
+    - {x: 0, y: 0}
+    - {x: 0, y: 0}
+    - {x: 1, y: 0}
+    - {x: 4, y: 0}
+    - {x: 4, y: 1}
+  - Position: {x: -2.781367, y: 0, z: 0.22568093}
+    CoordinatePerDirection:
+    - {x: 1, y: 0}
+    - {x: 4, y: 0}
+    - {x: 4, y: 0}
+    - {x: 1, y: 2}
+    - {x: 0, y: 1}
+    - {x: 0, y: 0}
+  ColumnsCountPerRow0: 020000000300000002000000
+  ColumnsCountPerRow1: 0100000001000000020000000100000002000000
+  ColumnsCountPerRow2: 0200000002000000010000000100000001000000
+  ColumnsCountPerRow3: 020000000300000002000000
+  ColumnsCountPerRow4: 0200000001000000020000000100000001000000
+  ColumnsCountPerRow5: 0100000001000000020000000100000002000000
+--- !u!114 &4810631020336523562
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -368647753, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Formation_Line_32
+  m_EditorClassIdentifier: 
+  LowSpecFormationDefinition:
+    serializableElementName: Formation_1
+  Dummies:
+  - Position: {x: -2.8, y: 0, z: 1.2}
+    CoordinatePerDirection:
+    - {x: 0, y: 0}
+    - {x: 5, y: 0}
+    - {x: 6, y: 0}
+    - {x: 3, y: 7}
+    - {x: 1, y: 4}
+    - {x: 0, y: 2}
+  - Position: {x: -2, y: 0, z: 1.2}
+    CoordinatePerDirection:
+    - {x: 0, y: 1}
+    - {x: 4, y: 0}
+    - {x: 5, y: 1}
+    - {x: 3, y: 6}
+    - {x: 2, y: 4}
+    - {x: 0, y: 3}
+  - Position: {x: -1.2, y: 0, z: 1.2}
+    CoordinatePerDirection:
+    - {x: 0, y: 2}
+    - {x: 3, y: 0}
+    - {x: 5, y: 0}
+    - {x: 3, y: 5}
+    - {x: 2, y: 3}
+    - {x: 1, y: 4}
+  - Position: {x: -0.4, y: 0, z: 1.2}
+    CoordinatePerDirection:
+    - {x: 0, y: 3}
+    - {x: 3, y: 1}
+    - {x: 4, y: 0}
+    - {x: 3, y: 4}
+    - {x: 3, y: 5}
+    - {x: 2, y: 4}
+  - Position: {x: 0.4, y: 0, z: 1.2}
+    CoordinatePerDirection:
+    - {x: 0, y: 4}
+    - {x: 2, y: 0}
+    - {x: 3, y: 0}
+    - {x: 3, y: 3}
+    - {x: 4, y: 4}
+    - {x: 3, y: 4}
+  - Position: {x: 1.2, y: 0, z: 1.2}
+    CoordinatePerDirection:
+    - {x: 0, y: 5}
+    - {x: 1, y: 0}
+    - {x: 2, y: 1}
+    - {x: 3, y: 2}
+    - {x: 5, y: 4}
+    - {x: 3, y: 5}
+  - Position: {x: 2, y: 0, z: 1.2}
+    CoordinatePerDirection:
+    - {x: 0, y: 6}
+    - {x: 0, y: 0}
+    - {x: 2, y: 0}
+    - {x: 3, y: 1}
+    - {x: 5, y: 3}
+    - {x: 4, y: 4}
+  - Position: {x: 2.8, y: 0, z: 1.2}
+    CoordinatePerDirection:
+    - {x: 0, y: 7}
+    - {x: 0, y: 1}
+    - {x: 1, y: 0}
+    - {x: 3, y: 0}
+    - {x: 6, y: 1}
+    - {x: 5, y: 4}
+  - Position: {x: -2.8, y: 0, z: 0.4}
+    CoordinatePerDirection:
+    - {x: 1, y: 0}
+    - {x: 5, y: 1}
+    - {x: 6, y: 1}
+    - {x: 2, y: 7}
+    - {x: 0, y: 3}
+    - {x: 0, y: 1}
+  - Position: {x: -2, y: 0, z: 0.4}
+    CoordinatePerDirection:
+    - {x: 1, y: 1}
+    - {x: 4, y: 1}
+    - {x: 5, y: 2}
+    - {x: 2, y: 6}
+    - {x: 1, y: 3}
+    - {x: 1, y: 2}
+  - Position: {x: -1.2, y: 0, z: 0.4}
+    CoordinatePerDirection:
+    - {x: 1, y: 2}
+    - {x: 4, y: 2}
+    - {x: 4, y: 1}
+    - {x: 2, y: 5}
+    - {x: 2, y: 2}
+    - {x: 1, y: 3}
+  - Position: {x: -0.4, y: 0, z: 0.4}
+    CoordinatePerDirection:
+    - {x: 1, y: 3}
+    - {x: 3, y: 2}
+    - {x: 3, y: 2}
+    - {x: 2, y: 4}
+    - {x: 3, y: 4}
+    - {x: 2, y: 3}
+  - Position: {x: 0.4, y: 0, z: 0.4}
+    CoordinatePerDirection:
+    - {x: 1, y: 4}
+    - {x: 2, y: 1}
+    - {x: 3, y: 1}
+    - {x: 2, y: 3}
+    - {x: 3, y: 3}
+    - {x: 3, y: 3}
+  - Position: {x: 1.2, y: 0, z: 0.4}
+    CoordinatePerDirection:
+    - {x: 1, y: 5}
+    - {x: 1, y: 1}
+    - {x: 2, y: 2}
+    - {x: 2, y: 2}
+    - {x: 4, y: 3}
+    - {x: 4, y: 2}
+  - Position: {x: 2, y: 0, z: 0.4}
+    CoordinatePerDirection:
+    - {x: 1, y: 6}
+    - {x: 1, y: 2}
+    - {x: 1, y: 1}
+    - {x: 2, y: 1}
+    - {x: 5, y: 2}
+    - {x: 4, y: 3}
+  - Position: {x: 2.8, y: 0, z: 0.4}
+    CoordinatePerDirection:
+    - {x: 1, y: 7}
+    - {x: 0, y: 2}
+    - {x: 0, y: 0}
+    - {x: 2, y: 0}
+    - {x: 6, y: 0}
+    - {x: 5, y: 3}
+  - Position: {x: -2.8, y: 0, z: -0.4}
+    CoordinatePerDirection:
+    - {x: 2, y: 0}
+    - {x: 6, y: 0}
+    - {x: 5, y: 3}
+    - {x: 1, y: 7}
+    - {x: 0, y: 2}
+    - {x: 0, y: 0}
+  - Position: {x: -2, y: 0, z: -0.4}
+    CoordinatePerDirection:
+    - {x: 2, y: 1}
+    - {x: 5, y: 2}
+    - {x: 4, y: 3}
+    - {x: 1, y: 6}
+    - {x: 1, y: 2}
+    - {x: 1, y: 1}
+  - Position: {x: -1.2, y: 0, z: -0.4}
+    CoordinatePerDirection:
+    - {x: 2, y: 2}
+    - {x: 4, y: 3}
+    - {x: 4, y: 2}
+    - {x: 1, y: 5}
+    - {x: 1, y: 1}
+    - {x: 2, y: 2}
+  - Position: {x: -0.4, y: 0, z: -0.4}
+    CoordinatePerDirection:
+    - {x: 2, y: 3}
+    - {x: 3, y: 3}
+    - {x: 3, y: 3}
+    - {x: 1, y: 4}
+    - {x: 2, y: 1}
+    - {x: 3, y: 1}
+  - Position: {x: 0.4, y: 0, z: -0.4}
+    CoordinatePerDirection:
+    - {x: 2, y: 4}
+    - {x: 3, y: 4}
+    - {x: 2, y: 3}
+    - {x: 1, y: 3}
+    - {x: 3, y: 2}
+    - {x: 3, y: 2}
+  - Position: {x: 1.2, y: 0, z: -0.4}
+    CoordinatePerDirection:
+    - {x: 2, y: 5}
+    - {x: 2, y: 2}
+    - {x: 1, y: 3}
+    - {x: 1, y: 2}
+    - {x: 4, y: 2}
+    - {x: 4, y: 1}
+  - Position: {x: 2, y: 0, z: -0.4}
+    CoordinatePerDirection:
+    - {x: 2, y: 6}
+    - {x: 1, y: 3}
+    - {x: 1, y: 2}
+    - {x: 1, y: 1}
+    - {x: 4, y: 1}
+    - {x: 5, y: 2}
+  - Position: {x: 2.8, y: 0, z: -0.4}
+    CoordinatePerDirection:
+    - {x: 2, y: 7}
+    - {x: 0, y: 3}
+    - {x: 0, y: 1}
+    - {x: 1, y: 0}
+    - {x: 5, y: 1}
+    - {x: 6, y: 1}
+  - Position: {x: -2.8, y: 0, z: -1.2}
+    CoordinatePerDirection:
+    - {x: 3, y: 0}
+    - {x: 6, y: 1}
+    - {x: 5, y: 4}
+    - {x: 0, y: 7}
+    - {x: 0, y: 1}
+    - {x: 1, y: 0}
+  - Position: {x: -2, y: 0, z: -1.2}
+    CoordinatePerDirection:
+    - {x: 3, y: 1}
+    - {x: 5, y: 3}
+    - {x: 4, y: 4}
+    - {x: 0, y: 6}
+    - {x: 0, y: 0}
+    - {x: 2, y: 0}
+  - Position: {x: -1.2, y: 0, z: -1.2}
+    CoordinatePerDirection:
+    - {x: 3, y: 2}
+    - {x: 5, y: 4}
+    - {x: 3, y: 5}
+    - {x: 0, y: 5}
+    - {x: 1, y: 0}
+    - {x: 2, y: 1}
+  - Position: {x: -0.4, y: 0, z: -1.2}
+    CoordinatePerDirection:
+    - {x: 3, y: 3}
+    - {x: 4, y: 4}
+    - {x: 3, y: 4}
+    - {x: 0, y: 4}
+    - {x: 2, y: 0}
+    - {x: 3, y: 0}
+  - Position: {x: 0.4, y: 0, z: -1.2}
+    CoordinatePerDirection:
+    - {x: 3, y: 4}
+    - {x: 3, y: 5}
+    - {x: 2, y: 4}
+    - {x: 0, y: 3}
+    - {x: 3, y: 1}
+    - {x: 4, y: 0}
+  - Position: {x: 1.2, y: 0, z: -1.2}
+    CoordinatePerDirection:
+    - {x: 3, y: 5}
+    - {x: 2, y: 3}
+    - {x: 1, y: 4}
+    - {x: 0, y: 2}
+    - {x: 3, y: 0}
+    - {x: 5, y: 0}
+  - Position: {x: 2, y: 0, z: -1.2}
+    CoordinatePerDirection:
+    - {x: 3, y: 6}
+    - {x: 2, y: 4}
+    - {x: 0, y: 3}
+    - {x: 0, y: 1}
+    - {x: 4, y: 0}
+    - {x: 5, y: 1}
+  - Position: {x: 2.8, y: 0, z: -1.2}
+    CoordinatePerDirection:
+    - {x: 3, y: 7}
+    - {x: 1, y: 4}
+    - {x: 0, y: 2}
+    - {x: 0, y: 0}
+    - {x: 5, y: 0}
+    - {x: 6, y: 0}
+  ColumnsCountPerRow0: 08000000080000000800000008000000
+  ColumnsCountPerRow1: 04000000050000000500000006000000050000000500000002000000
+  ColumnsCountPerRow2: 04000000050000000500000006000000050000000500000002000000
+  ColumnsCountPerRow3: 08000000080000000800000008000000
+  ColumnsCountPerRow4: 04000000050000000500000006000000050000000500000002000000
+  ColumnsCountPerRow5: 04000000050000000500000006000000050000000500000002000000
+--- !u!114 &5612289359904269219
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -368647753, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Formation_Scatter_Spaced_9
+  m_EditorClassIdentifier: 
+  LowSpecFormationDefinition:
+    serializableElementName: Formation_1
+  Dummies:
+  - Position: {x: -1.7113402, y: 0, z: 1.2888889}
+    CoordinatePerDirection:
+    - {x: 1, y: 0}
+    - {x: 3, y: 0}
+    - {x: 4, y: 0}
+    - {x: 3, y: 1}
+    - {x: 1, y: 1}
+    - {x: 0, y: 1}
+  - Position: {x: 0.08886434, y: 0, z: 1.8611329}
+    CoordinatePerDirection:
+    - {x: 0, y: 0}
+    - {x: 1, y: 0}
+    - {x: 3, y: 0}
+    - {x: 4, y: 0}
+    - {x: 3, y: 1}
+    - {x: 1, y: 1}
+  - Position: {x: 1.838445, y: 0, z: 1.2355555}
+    CoordinatePerDirection:
+    - {x: 1, y: 1}
+    - {x: 0, y: 0}
+    - {x: 1, y: 0}
+    - {x: 3, y: 0}
+    - {x: 4, y: 1}
+    - {x: 3, y: 1}
+  - Position: {x: -2.160631, y: 0, z: 0}
+    CoordinatePerDirection:
+    - {x: 2, y: 0}
+    - {x: 4, y: 0}
+    - {x: 4, y: 1}
+    - {x: 2, y: 2}
+    - {x: 0, y: 1}
+    - {x: 0, y: 0}
+  - Position: {x: 0.12703177, y: 0, z: -0.032990452}
+    CoordinatePerDirection:
+    - {x: 2, y: 1}
+    - {x: 2, y: 0}
+    - {x: 2, y: 0}
+    - {x: 2, y: 1}
+    - {x: 2, y: 0}
+    - {x: 2, y: 0}
+  - Position: {x: 2.2479606, y: 0, z: -0.043564375}
+    CoordinatePerDirection:
+    - {x: 2, y: 2}
+    - {x: 0, y: 1}
+    - {x: 0, y: 0}
+    - {x: 2, y: 0}
+    - {x: 4, y: 0}
+    - {x: 4, y: 1}
+  - Position: {x: -1.6904187, y: 0, z: -1.5222706}
+    CoordinatePerDirection:
+    - {x: 3, y: 0}
+    - {x: 4, y: 1}
+    - {x: 3, y: 1}
+    - {x: 1, y: 1}
+    - {x: 0, y: 0}
+    - {x: 1, y: 0}
+  - Position: {x: 0.1582884, y: 0, z: -2.0345967}
+    CoordinatePerDirection:
+    - {x: 4, y: 0}
+    - {x: 3, y: 1}
+    - {x: 1, y: 1}
+    - {x: 0, y: 0}
+    - {x: 1, y: 0}
+    - {x: 3, y: 0}
+  - Position: {x: 1.9553462, y: 0, z: -1.4480225}
+    CoordinatePerDirection:
+    - {x: 3, y: 1}
+    - {x: 1, y: 1}
+    - {x: 0, y: 1}
+    - {x: 1, y: 0}
+    - {x: 3, y: 0}
+    - {x: 4, y: 0}
+  ColumnsCountPerRow0: 0100000002000000030000000200000001000000
+  ColumnsCountPerRow1: 0200000002000000010000000200000002000000
+  ColumnsCountPerRow2: 0200000002000000010000000200000002000000
+  ColumnsCountPerRow3: 0100000002000000030000000200000001000000
+  ColumnsCountPerRow4: 0200000002000000010000000200000002000000
+  ColumnsCountPerRow5: 0200000002000000010000000200000002000000
+--- !u!114 &6144876496279308428
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -368647753, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Formation_Turtle_16
+  m_EditorClassIdentifier: 
+  LowSpecFormationDefinition:
+    serializableElementName: Formation_1
+  Dummies:
+  - Position: {x: -1.2, y: 0, z: 0.8}
+    CoordinatePerDirection:
+    - {x: 0, y: 0}
+    - {x: 2, y: 0}
+    - {x: 3, y: 0}
+    - {x: 3, y: 3}
+    - {x: 1, y: 4}
+    - {x: 0, y: 2}
+  - Position: {x: -0.4, y: 0, z: 0.8}
+    CoordinatePerDirection:
+    - {x: 0, y: 1}
+    - {x: 1, y: 0}
+    - {x: 2, y: 1}
+    - {x: 3, y: 2}
+    - {x: 2, y: 4}
+    - {x: 0, y: 3}
+  - Position: {x: 0.4, y: 0, z: 0.8}
+    CoordinatePerDirection:
+    - {x: 0, y: 2}
+    - {x: 0, y: 0}
+    - {x: 2, y: 0}
+    - {x: 3, y: 1}
+    - {x: 2, y: 3}
+    - {x: 1, y: 4}
+  - Position: {x: 1.2, y: 0, z: 0.8}
+    CoordinatePerDirection:
+    - {x: 0, y: 3}
+    - {x: 0, y: 1}
+    - {x: 1, y: 0}
+    - {x: 3, y: 0}
+    - {x: 3, y: 1}
+    - {x: 2, y: 4}
+  - Position: {x: -1.2, y: 0, z: 0}
+    CoordinatePerDirection:
+    - {x: 1, y: 0}
+    - {x: 2, y: 1}
+    - {x: 3, y: 1}
+    - {x: 2, y: 3}
+    - {x: 0, y: 3}
+    - {x: 0, y: 1}
+  - Position: {x: -0.4, y: 0, z: 0}
+    CoordinatePerDirection:
+    - {x: 1, y: 1}
+    - {x: 1, y: 1}
+    - {x: 2, y: 2}
+    - {x: 2, y: 2}
+    - {x: 1, y: 3}
+    - {x: 1, y: 2}
+  - Position: {x: 0.4, y: 0, z: 0}
+    CoordinatePerDirection:
+    - {x: 1, y: 2}
+    - {x: 1, y: 2}
+    - {x: 1, y: 1}
+    - {x: 2, y: 1}
+    - {x: 2, y: 2}
+    - {x: 1, y: 3}
+  - Position: {x: 1.2, y: 0, z: 0}
+    CoordinatePerDirection:
+    - {x: 1, y: 3}
+    - {x: 0, y: 2}
+    - {x: 0, y: 0}
+    - {x: 2, y: 0}
+    - {x: 3, y: 0}
+    - {x: 2, y: 3}
+  - Position: {x: -1.2, y: 0, z: -0.8}
+    CoordinatePerDirection:
+    - {x: 2, y: 0}
+    - {x: 3, y: 0}
+    - {x: 2, y: 3}
+    - {x: 1, y: 3}
+    - {x: 0, y: 2}
+    - {x: 0, y: 0}
+  - Position: {x: -0.4, y: 0, z: -0.8}
+    CoordinatePerDirection:
+    - {x: 2, y: 1}
+    - {x: 2, y: 2}
+    - {x: 1, y: 3}
+    - {x: 1, y: 2}
+    - {x: 1, y: 2}
+    - {x: 1, y: 1}
+  - Position: {x: 0.4, y: 0, z: -0.8}
+    CoordinatePerDirection:
+    - {x: 2, y: 2}
+    - {x: 1, y: 3}
+    - {x: 1, y: 2}
+    - {x: 1, y: 1}
+    - {x: 1, y: 1}
+    - {x: 2, y: 2}
+  - Position: {x: 1.2, y: 0, z: -0.8}
+    CoordinatePerDirection:
+    - {x: 2, y: 3}
+    - {x: 0, y: 3}
+    - {x: 0, y: 1}
+    - {x: 1, y: 0}
+    - {x: 2, y: 1}
+    - {x: 3, y: 1}
+  - Position: {x: -1.2, y: 0, z: -1.6}
+    CoordinatePerDirection:
+    - {x: 3, y: 0}
+    - {x: 3, y: 1}
+    - {x: 2, y: 4}
+    - {x: 0, y: 3}
+    - {x: 0, y: 1}
+    - {x: 1, y: 0}
+  - Position: {x: -0.4, y: 0, z: -1.6}
+    CoordinatePerDirection:
+    - {x: 3, y: 1}
+    - {x: 2, y: 3}
+    - {x: 1, y: 4}
+    - {x: 0, y: 2}
+    - {x: 0, y: 0}
+    - {x: 2, y: 0}
+  - Position: {x: 0.4, y: 0, z: -1.6}
+    CoordinatePerDirection:
+    - {x: 3, y: 2}
+    - {x: 2, y: 4}
+    - {x: 0, y: 3}
+    - {x: 0, y: 1}
+    - {x: 1, y: 0}
+    - {x: 2, y: 1}
+  - Position: {x: 1.2, y: 0, z: -1.6}
+    CoordinatePerDirection:
+    - {x: 3, y: 3}
+    - {x: 1, y: 4}
+    - {x: 0, y: 2}
+    - {x: 0, y: 0}
+    - {x: 2, y: 0}
+    - {x: 3, y: 0}
+  ColumnsCountPerRow0: 04000000040000000400000004000000
+  ColumnsCountPerRow1: 04000000050000000500000002000000
+  ColumnsCountPerRow2: 04000000050000000500000002000000
+  ColumnsCountPerRow3: 04000000040000000400000004000000
+  ColumnsCountPerRow4: 04000000050000000500000002000000
+  ColumnsCountPerRow5: 04000000050000000500000002000000
+--- !u!114 &6592521926040856735
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -368647753, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Formation_Close_7
+  m_EditorClassIdentifier: 
+  LowSpecFormationDefinition:
+    serializableElementName: Formation_1
+  Dummies:
+  - Position: {x: -0.8, y: 0, z: 0.8}
+    CoordinatePerDirection:
+    - {x: 0, y: 0}
+    - {x: 1, y: 0}
+    - {x: 2, y: 0}
+    - {x: 2, y: 1}
+    - {x: 1, y: 2}
+    - {x: 0, y: 1}
+  - Position: {x: 0.8, y: 0, z: 0.8}
+    CoordinatePerDirection:
+    - {x: 0, y: 1}
+    - {x: 0, y: 0}
+    - {x: 1, y: 0}
+    - {x: 2, y: 0}
+    - {x: 2, y: 1}
+    - {x: 1, y: 2}
+  - Position: {x: 0, y: 0, z: 0}
+    CoordinatePerDirection:
+    - {x: 1, y: 1}
+    - {x: 1, y: 1}
+    - {x: 1, y: 1}
+    - {x: 1, y: 1}
+    - {x: 1, y: 1}
+    - {x: 1, y: 1}
+  - Position: {x: -0.8, y: 0, z: -0.8}
+    CoordinatePerDirection:
+    - {x: 2, y: 0}
+    - {x: 2, y: 1}
+    - {x: 1, y: 2}
+    - {x: 0, y: 1}
+    - {x: 0, y: 0}
+    - {x: 1, y: 0}
+  - Position: {x: 0.8, y: 0, z: -0.8}
+    CoordinatePerDirection:
+    - {x: 2, y: 1}
+    - {x: 1, y: 2}
+    - {x: 0, y: 1}
+    - {x: 0, y: 0}
+    - {x: 1, y: 0}
+    - {x: 2, y: 0}
+  - Position: {x: 1.6386181, y: 0, z: -0.023346303}
+    CoordinatePerDirection:
+    - {x: 1, y: 2}
+    - {x: 0, y: 1}
+    - {x: 0, y: 0}
+    - {x: 1, y: 0}
+    - {x: 2, y: 0}
+    - {x: 2, y: 1}
+  - Position: {x: -1.751315, y: 0, z: 0.12451362}
+    CoordinatePerDirection:
+    - {x: 1, y: 0}
+    - {x: 2, y: 0}
+    - {x: 2, y: 1}
+    - {x: 1, y: 2}
+    - {x: 0, y: 1}
+    - {x: 0, y: 0}
+  ColumnsCountPerRow0: 020000000300000002000000
+  ColumnsCountPerRow1: 020000000300000002000000
+  ColumnsCountPerRow2: 020000000300000002000000
+  ColumnsCountPerRow3: 020000000300000002000000
+  ColumnsCountPerRow4: 020000000300000002000000
+  ColumnsCountPerRow5: 020000000300000002000000
+--- !u!114 &7855859261169691059
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -368647753, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Formation_Close_16
+  m_EditorClassIdentifier: 
+  LowSpecFormationDefinition:
+    serializableElementName: Formation_1
+  Dummies:
+  - Position: {x: 0.036233, y: 0, z: 1.6834731}
+    CoordinatePerDirection:
+    - {x: 0, y: 1}
+    - {x: 1, y: 0}
+    - {x: 3, y: 0}
+    - {x: 3, y: 1}
+    - {x: 3, y: 3}
+    - {x: 1, y: 3}
+  - Position: {x: -1.3008248, y: 0, z: 1.75259}
+    CoordinatePerDirection:
+    - {x: 0, y: 0}
+    - {x: 2, y: 0}
+    - {x: 4, y: 0}
+    - {x: 3, y: 2}
+    - {x: 2, y: 3}
+    - {x: 0, y: 2}
+  - Position: {x: 1.3455397, y: 0, z: 1.6688249}
+    CoordinatePerDirection:
+    - {x: 0, y: 2}
+    - {x: 0, y: 0}
+    - {x: 2, y: 0}
+    - {x: 3, y: 0}
+    - {x: 4, y: 2}
+    - {x: 2, y: 3}
+  - Position: {x: -2.0150855, y: 0, z: 0.85106385}
+    CoordinatePerDirection:
+    - {x: 1, y: 0}
+    - {x: 3, y: 0}
+    - {x: 4, y: 1}
+    - {x: 2, y: 3}
+    - {x: 1, y: 2}
+    - {x: 0, y: 1}
+  - Position: {x: 0.7633277, y: 0, z: 0.6865456}
+    CoordinatePerDirection:
+    - {x: 1, y: 2}
+    - {x: 1, y: 1}
+    - {x: 2, y: 1}
+    - {x: 2, y: 1}
+    - {x: 3, y: 2}
+    - {x: 2, y: 2}
+  - Position: {x: -0.71151745, y: 0, z: 0.7841537}
+    CoordinatePerDirection:
+    - {x: 1, y: 1}
+    - {x: 2, y: 1}
+    - {x: 3, y: 1}
+    - {x: 2, y: 2}
+    - {x: 2, y: 2}
+    - {x: 1, y: 2}
+  - Position: {x: 2.1183941, y: 0, z: 0.75239086}
+    CoordinatePerDirection:
+    - {x: 1, y: 3}
+    - {x: 0, y: 1}
+    - {x: 1, y: 0}
+    - {x: 2, y: 0}
+    - {x: 4, y: 1}
+    - {x: 3, y: 2}
+  - Position: {x: -1.3915838, y: 0, z: -0.13148932}
+    CoordinatePerDirection:
+    - {x: 2, y: 1}
+    - {x: 3, y: 1}
+    - {x: 3, y: 2}
+    - {x: 1, y: 3}
+    - {x: 1, y: 1}
+    - {x: 1, y: 1}
+  - Position: {x: 2.7171082, y: 0, z: -0.20237368}
+    CoordinatePerDirection:
+    - {x: 2, y: 4}
+    - {x: 0, y: 2}
+    - {x: 0, y: 0}
+    - {x: 1, y: 0}
+    - {x: 4, y: 0}
+    - {x: 4, y: 1}
+  - Position: {x: 0.68857306, y: 0, z: -1.098646}
+    CoordinatePerDirection:
+    - {x: 3, y: 2}
+    - {x: 2, y: 3}
+    - {x: 1, y: 2}
+    - {x: 0, y: 1}
+    - {x: 2, y: 0}
+    - {x: 3, y: 0}
+  - Position: {x: -2.0941002, y: 0, z: -1.0522244}
+    CoordinatePerDirection:
+    - {x: 3, y: 0}
+    - {x: 4, y: 1}
+    - {x: 3, y: 3}
+    - {x: 0, y: 3}
+    - {x: 0, y: 0}
+    - {x: 1, y: 0}
+  - Position: {x: 1.9544437, y: 0, z: -1.106383}
+    CoordinatePerDirection:
+    - {x: 3, y: 3}
+    - {x: 1, y: 3}
+    - {x: 0, y: 1}
+    - {x: 0, y: 0}
+    - {x: 3, y: 0}
+    - {x: 4, y: 0}
+  - Position: {x: -2.7528005, y: 0, z: -0.030947777}
+    CoordinatePerDirection:
+    - {x: 2, y: 0}
+    - {x: 4, y: 0}
+    - {x: 4, y: 2}
+    - {x: 1, y: 4}
+    - {x: 0, y: 1}
+    - {x: 0, y: 0}
+  - Position: {x: 1.414489, y: 0, z: -0.16247582}
+    CoordinatePerDirection:
+    - {x: 2, y: 3}
+    - {x: 1, y: 2}
+    - {x: 1, y: 1}
+    - {x: 1, y: 1}
+    - {x: 3, y: 1}
+    - {x: 3, y: 1}
+  - Position: {x: -0.79014176, y: 0, z: -1.1450677}
+    CoordinatePerDirection:
+    - {x: 3, y: 1}
+    - {x: 3, y: 2}
+    - {x: 2, y: 3}
+    - {x: 0, y: 2}
+    - {x: 1, y: 0}
+    - {x: 2, y: 0}
+  - Position: {x: -0.061986737, y: 0, z: -0.15473887}
+    CoordinatePerDirection:
+    - {x: 2, y: 2}
+    - {x: 2, y: 2}
+    - {x: 2, y: 2}
+    - {x: 1, y: 2}
+    - {x: 2, y: 1}
+    - {x: 2, y: 1}
+  ColumnsCountPerRow0: 03000000040000000500000004000000
+  ColumnsCountPerRow1: 0300000004000000040000000300000002000000
+  ColumnsCountPerRow2: 0200000003000000040000000400000003000000
+  ColumnsCountPerRow3: 04000000050000000400000003000000
+  ColumnsCountPerRow4: 0200000003000000040000000400000003000000
+  ColumnsCountPerRow5: 0300000004000000040000000300000002000000
+--- !u!114 &8309363282457307398
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -368647753, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Formation_Close_9
+  m_EditorClassIdentifier: 
+  LowSpecFormationDefinition:
+    serializableElementName: Formation_1
+  Dummies:
+  - Position: {x: -1.2, y: 0, z: 1.2}
+    CoordinatePerDirection:
+    - {x: 0, y: 0}
+    - {x: 2, y: 0}
+    - {x: 3, y: 0}
+    - {x: 2, y: 2}
+    - {x: 1, y: 1}
+    - {x: 0, y: 1}
+  - Position: {x: 0, y: 0, z: 1.4}
+    CoordinatePerDirection:
+    - {x: 0, y: 1}
+    - {x: 1, y: 0}
+    - {x: 2, y: 0}
+    - {x: 2, y: 1}
+    - {x: 2, y: 2}
+    - {x: 1, y: 1}
+  - Position: {x: 1.2, y: 0, z: 1.2}
+    CoordinatePerDirection:
+    - {x: 0, y: 2}
+    - {x: 0, y: 0}
+    - {x: 1, y: 0}
+    - {x: 2, y: 0}
+    - {x: 3, y: 1}
+    - {x: 2, y: 2}
+  - Position: {x: -1.4, y: 0, z: 0}
+    CoordinatePerDirection:
+    - {x: 1, y: 0}
+    - {x: 3, y: 0}
+    - {x: 3, y: 1}
+    - {x: 1, y: 2}
+    - {x: 0, y: 1}
+    - {x: 0, y: 0}
+  - Position: {x: 0, y: 0, z: 0}
+    CoordinatePerDirection:
+    - {x: 1, y: 1}
+    - {x: 2, y: 1}
+    - {x: 2, y: 1}
+    - {x: 1, y: 1}
+    - {x: 2, y: 1}
+    - {x: 2, y: 1}
+  - Position: {x: 1.4, y: 0, z: 0}
+    CoordinatePerDirection:
+    - {x: 1, y: 2}
+    - {x: 0, y: 1}
+    - {x: 0, y: 0}
+    - {x: 1, y: 0}
+    - {x: 3, y: 0}
+    - {x: 3, y: 1}
+  - Position: {x: -1.2, y: 0, z: -1.2}
+    CoordinatePerDirection:
+    - {x: 2, y: 0}
+    - {x: 3, y: 1}
+    - {x: 2, y: 2}
+    - {x: 0, y: 2}
+    - {x: 0, y: 0}
+    - {x: 1, y: 0}
+  - Position: {x: 0, y: 0, z: -1.4}
+    CoordinatePerDirection:
+    - {x: 2, y: 1}
+    - {x: 2, y: 2}
+    - {x: 1, y: 1}
+    - {x: 0, y: 1}
+    - {x: 1, y: 0}
+    - {x: 2, y: 0}
+  - Position: {x: 1.2, y: 0, z: -1.2}
+    CoordinatePerDirection:
+    - {x: 2, y: 2}
+    - {x: 1, y: 1}
+    - {x: 0, y: 1}
+    - {x: 0, y: 0}
+    - {x: 2, y: 0}
+    - {x: 3, y: 0}
+  ColumnsCountPerRow0: 030000000300000003000000
+  ColumnsCountPerRow1: 02000000020000000300000002000000
+  ColumnsCountPerRow2: 02000000020000000300000002000000
+  ColumnsCountPerRow3: 030000000300000003000000
+  ColumnsCountPerRow4: 02000000020000000300000002000000
+  ColumnsCountPerRow5: 02000000020000000300000002000000

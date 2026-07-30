@@ -28,14 +28,29 @@ public class FormationDummy
     public List<GridCell> coords = new List<GridCell>();  // CoordinatePerDirection: exactly 6 entries (row=x, column=y)
 }
 
-// One unit -> formation link. `unit` is the key (a unit shows exactly one formation).
+// Formation-by-size row (unit links only): when the unit's EFFECTIVE scale (Resize Lab rule x Global Era Lab cell)
+// drops to <= threshold, the unit swaps to `formation`. First matching row wins (sorted ascending on Save).
+[Serializable]
+public class SizeFormation
+{
+    public float threshold = 0.3f;
+    public string formation = "";
+}
+
+// One entry = either a unit LINK (`unit` set: repoint that unit to `formation`) or a MACRO REPLACEMENT
+// (`unit` EMPTY: overwrite the formation named `formation` in the live database with this data — every unit of
+// every mod that references that name inherits the new layout; per-unit links still overrule it).
 [Serializable]
 public class FormationLink
 {
-    public string unit = "";        // PresentationUnitDefinition name to repoint (e.g. Era5_Common_Riflemen) — RUNTIME
+    public string unit = "";        // PresentationUnitDefinition name to repoint (e.g. Era5_Common_Riflemen) — RUNTIME. EMPTY = macro replacement entry.
     public string formation = "";   // formation name injected into the live database (must be unique vs vanilla) — RUNTIME
     public string lowSpec = "Formation_1";   // low-spec graphics fallback formation (vanilla default) — RUNTIME
     public float dummyOffset = -1f;   // RUNTIME: override the unit's random per-model jitter (CoordinationValues.DummyOffsetPosition). -1 = leave vanilla; 0 = perfectly on the grid; small (e.g. 0.05) = tightly packed. No rebuild.
+    public float scale = -1f;         // RUNTIME: formation scale multiplier — scales the MODELS (pawn root localScale) AND the dummy spacing together (the natural reading). -1 or 1 = vanilla; 0.7 = smaller+tighter; >1 = larger. Uniform only. No rebuild.
+    public float layoutScale = -1f;   // RUNTIME: optional FOOTPRINT-only multiplier on the dummy positions. -1 = follow `scale`; set explicitly to decouple spacing from model size (e.g. small men on a wide skirmish line). No rebuild.
+    public string scaleMode = "transform";   // RUNTIME: how `scale` is applied. "transform" = pawn root localScale (simple, decent on bodies/vehicles; rigid gear mis-anchors on humans). "data" = cloned skeleton with scaled binds + meshes (deep path; humans still WIP — procedural bone layers ignore it).
+    public List<SizeFormation> sizeFormations = new List<SizeFormation>();   // RUNTIME (unit links only): era-ageing formation swaps — first row with threshold >= effective scale wins; empty = never swap
     public List<FormationDummy> dummies = new List<FormationDummy>();   // dummy count = pawn count at full health — RUNTIME
     public List<int> columns0 = new List<int>();   // ColumnsCountPerRow0..5: columns per row, one array per orientation — RUNTIME
     public List<int> columns1 = new List<int>();
@@ -45,7 +60,8 @@ public class FormationLink
     public List<int> columns5 = new List<int>();
 
     // ---- editor-only (runtime ignores) ----
-    public string sourceAsset = "";  // project path of the formation asset this data was read from (re-read after edits)
+    public string sourceAsset = "";      // project path of the formation asset this data was read from (re-read after edits)
+    public string sourceFormation = "";  // sub-asset name the data came from — may differ from `formation` on a macro replacement (data from your _19 asset, target name a vanilla one)
 }
 
 [Serializable]
@@ -137,19 +153,27 @@ public static class FormationRegistry
         return true;
     }
 
+    // Entry identity: unit links key on the unit (one formation per unit); macro replacements key on the
+    // TARGET formation name (one macro per formation). Without this, saving a second macro would
+    // wipe every other replacement (all sharing unit == "").
+    public static string KeyOf(FormationLink l) =>
+        string.IsNullOrEmpty(l?.unit) ? "formation:" + (l?.formation ?? "") : "unit:" + l.unit;
+
     public static bool Upsert(FormationLink link)
     {
         var list = Load();
-        list.RemoveAll(l => l.unit == link.unit);
+        var key = KeyOf(link);
+        list.RemoveAll(l => KeyOf(l) == key);
         list.Add(link);
         return Save(list);
     }
 
-    public static bool Remove(string unit)
+    public static bool Remove(FormationLink link)
     {
         var list = Load();
+        var key = KeyOf(link);
         int before = list.Count;
-        list.RemoveAll(l => l.unit == unit);
+        list.RemoveAll(l => KeyOf(l) == key);
         if (list.Count == before) return false;
         return Save(list);
     }
