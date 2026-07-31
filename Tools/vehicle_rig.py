@@ -13,7 +13,7 @@
 #       mirrored side wheels resolve independently.
 # Frame 0 deliberately equals the rest pose: `Spin[0..0]` is the motionless Idle (see Factory-Manual / Law 2 notes).
 import bpy, sys, math
-from mathutils import Vector, Quaternion
+from mathutils import Vector, Quaternion, Matrix
 
 argv = sys.argv[sys.argv.index("--") + 1:]
 mode = argv[0]
@@ -180,6 +180,17 @@ rock_heading = float(argv[20]) if len(argv) > 20 and argv[20].strip() else 0.0
 # (0.4 at 2x) are what make the motion read as riding swells; 0 pitch = a pure beam roll, 1x = a rocking-horse see-saw.
 rock_pitch_ratio = max(0.0, min(2.0, float(argv[21]))) if len(argv) > 21 and argv[21].strip() else 0.4
 rock_pitch_freq = max(0.5, min(4.0, float(argv[22]))) if len(argv) > 22 and argv[22].strip() else 2.0
+# MODEL ORIENTATION (argv[23] "rx,ry,rz" degrees): straighten a source that imports crooked, on its side or
+# facing the wrong way. Applied to the DATA before anything measures the model, so every downstream inference
+# reads the corrected pose — wheel axle axes, tread side/front detection, and the rock's auto hull-length axis.
+# Distinct from the Factory's Rotation knob, which turns the finished bake; this makes the RIG itself straight.
+model_rot = [0.0, 0.0, 0.0]
+if len(argv) > 23 and argv[23].strip():
+    try:
+        _mr = [float(v) for v in argv[23].split(",")]
+        model_rot = (_mr + [0.0, 0.0, 0.0])[:3]
+    except ValueError:
+        print("VEHICLE WARN: bad orientation arg '%s' — ignoring" % argv[23])
 had_static_tracks = False   # remembers this IS a tracked vehicle even though the tread pipeline is skipped
 if tracks_static and track_names:
     print("VEHICLE tracks STATIC (isolation): %d tread part(s) rigged rigid to Root, no link bones" % len(track_names))
@@ -271,6 +282,18 @@ if ignore_names:
     for _o in _rem:
         bpy.data.objects.remove(_o, do_unlink=True)
     print("VEHICLE ignored: %d part(s) deleted from the output" % len(_rem))
+
+# STRAIGHTEN (before anything measures the model): rotate every parent-less object in world space; the
+# transform_apply below then bakes it into the vertex data, so the rig is built on the corrected pose.
+if any(abs(v) > 1e-6 for v in model_rot):
+    _orient = (Matrix.Rotation(math.radians(model_rot[2]), 4, 'Z') @
+               Matrix.Rotation(math.radians(model_rot[1]), 4, 'Y') @
+               Matrix.Rotation(math.radians(model_rot[0]), 4, 'X'))
+    for _oo in bpy.context.scene.objects:
+        if _oo.parent is None:
+            _oo.matrix_world = _orient @ _oo.matrix_world
+    bpy.context.view_layer.update()
+    print("VEHICLE orientation: straightened by (%.1f, %.1f, %.1f) deg before rigging" % tuple(model_rot))
 
 # clean object transforms so bbox centers/axes are honest model-space.
 # transform_apply REFUSES multi-user mesh data (instanced shards are common in game-rip FBX) — make every mesh

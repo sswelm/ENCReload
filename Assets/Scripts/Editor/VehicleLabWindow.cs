@@ -68,7 +68,11 @@ public class VehicleLabWindow : EditorWindow
     const int RockFps = 24;                       // Blender's scene fps — the clip's real-time length
     // The two motion sections fold independently (Sound Studio pattern): a model is almost always EITHER a wheeled
     // vehicle OR a floating one, so ~10 permanently-irrelevant rows were on screen at all times.
-    [SerializeField] bool foldSpin = true, foldWave = false;
+    [SerializeField] bool foldSpin = true, foldWave = false, foldOrient = false;
+    // Straighten a source that imports crooked / on its side. Baked into the vertex data BEFORE the rig is built,
+    // so wheel axles, tread side detection and the rock's auto hull-length axis all read the corrected pose.
+    [SerializeField] Vector3 modelRot = Vector3.zero;
+    [SerializeField] bool showWaterline = true;   // level reference grid in the preview
     [SerializeField] int minVerts = 50;   // parts below this are COLLAPSED into Body (a triangle-soup FBX probes into thousands of shards)
     [SerializeField] float minPartSize = 0f;  // hide parts whose LARGEST bbox dimension is below this — drop minVerts + raise this to surface big-but-low-poly parts (flat discs, plates)
     [SerializeField] float minHeight = -999f; // hide parts whose CENTER height is below this (clamped to the model's span, so the default means "off") — slide up to isolate turret-level parts
@@ -268,6 +272,23 @@ public class VehicleLabWindow : EditorWindow
                 EditorGUILayout.LabelField("  (probe preview unavailable — part focus needs the probe's preview FBX; re-Probe after recompiling)", EditorStyles.miniLabel);
             else
                 EditorGUILayout.LabelField("  Click a row to zoom + highlight it in the preview below; click again for the full view.", EditorStyles.miniLabel);
+            // ORIENTATION first: it changes what every measurement below sees, so it reads as step one.
+            if (Section(ref foldOrient, "Orientation — straighten the model",
+                    modelRot == Vector3.zero ? "as imported" : $"{modelRot.x:0}° / {modelRot.y:0}° / {modelRot.z:0}°"))
+            {
+                EditorGUILayout.LabelField("  Rotates the model BEFORE rigging, baked into the mesh — so the axle, tread and hull-length inferences all read the straightened pose. (The Factory's own Rotation turns the finished bake instead.)", EditorStyles.miniLabel);
+                modelRot.x = EditorGUILayout.Slider(new GUIContent("Roll X (deg)", "Rotate about X. Use to stand up a model that imports lying on its side."), modelRot.x, -180f, 180f);
+                modelRot.y = EditorGUILayout.Slider(new GUIContent("Pitch Y (deg)", "Rotate about Y. Use to level a model that imports nose-up or nose-down."), modelRot.y, -180f, 180f);
+                modelRot.z = EditorGUILayout.Slider(new GUIContent("Yaw Z (deg)", "Rotate about the vertical. Use to point the model along the axis the rig expects (vehicles here run along X)."), modelRot.z, -180f, 180f);
+                using (new EditorGUILayout.HorizontalScope())
+                {
+                    GUILayout.Space(EditorGUIUtility.labelWidth);
+                    if (GUILayout.Button("Reset to as-imported", GUILayout.Width(160))) modelRot = Vector3.zero;
+                    foreach (var q in new[] { 90f, -90f, 180f })
+                        if (GUILayout.Button($"Z {q:+0;-0}°", GUILayout.Width(58))) modelRot.z = Mathf.Repeat(modelRot.z + q + 180f, 360f) - 180f;
+                }
+            }
+
             // TWO MOTION SECTIONS, collapsible (2026-07-31): a model is almost always EITHER a wheeled vehicle OR a
             // floating one, so showing both knob sets at once was ~10 permanently-irrelevant rows. Each header
             // summarises its state while collapsed, so nothing is hidden — only folded away.
@@ -343,7 +364,14 @@ public class VehicleLabWindow : EditorWindow
         // turntable preview (the real imported preview FBX playing its Spin clip)
         if (inst != null)
         {
-            EditorGUILayout.LabelField("Preview   (drag = orbit · middle/right-drag = pan · scroll = zoom · click a part row to focus)", EditorStyles.miniBoldLabel);
+            using (new EditorGUILayout.HorizontalScope())
+            {
+                EditorGUILayout.LabelField("Preview   (drag = orbit · middle/right-drag = pan · scroll = zoom · click a part row to focus)", EditorStyles.miniBoldLabel);
+                showWaterline = GUILayout.Toggle(showWaterline, new GUIContent("Waterline grid",
+                    "A level grid at the model's lowest point — the reference to straighten against. The brighter " +
+                    "centre line runs along +X (the axis the rig treats as forward), so heading is readable too."),
+                    EditorStyles.miniButton, GUILayout.Width(100));
+            }
             // min 400 tall and greedy: the inspection view claims all leftover window height (was fixed 260,
             // leaving dead grey space below in a tall window).
             var rect = GUILayoutUtility.GetRect(200f, 4000f, 400f, 4000f, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
@@ -548,13 +576,52 @@ public class VehicleLabWindow : EditorWindow
         parts.Clear(); boneParts.Clear(); useSourceRig = false;
         frames = 15; degrees = -360f; axisChoice = 0;
         treadAdvCells = 3; treadCellsPerLink = 4f; tracksStatic = false;
-        rockDegrees = 0f; rockFrames = 120; rockAxisChoice = 0; rockHeading = 0f; rockPitchRatio = 0.4f; rockPitchFreq = 2f; foldSpin = true; foldWave = false;
+        rockDegrees = 0f; rockFrames = 120; rockAxisChoice = 0; rockHeading = 0f; rockPitchRatio = 0.4f; rockPitchFreq = 2f; foldSpin = true; foldWave = false; foldOrient = false; modelRot = Vector3.zero;
         minVerts = 50; minPartSize = 0f; minHeight = -999f; maxHeight = 999f;
         partFilter = 0; selectedPart = ""; partsScroll = Vector2.zero; previewPan = Vector2.zero;
         DestroyPreview();
         status = "New model: pick a Raw model, then Probe parts. (Wheels optional — a floating unit just needs a Wave rock amplitude.)";
         GUI.FocusControl(null);
         Repaint();
+    }
+
+    // WATERLINE / HORIZON GRID: a level reference at the model's base so "is it straight?" is answerable by eye —
+    // straightening has nothing to judge against otherwise. Drawn with GL lines directly into the preview's render
+    // target, AFTER cam.Render() and BEFORE EndPreview(), so it needs no scene objects or materials of its own.
+    // The centre line runs along +X (the axis the rig treats as forward) and is brighter, so yaw is readable too.
+    static Material lineMat;
+    void DrawWaterline(float radius)
+    {
+        if (!showWaterline) return;
+        if (lineMat == null)
+        {
+            var sh = Shader.Find("Hidden/Internal-Colored");
+            if (sh == null) return;
+            lineMat = new Material(sh) { hideFlags = HideFlags.HideAndDontSave };
+            lineMat.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.SrcAlpha);
+            lineMat.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
+            lineMat.SetInt("_Cull", (int)UnityEngine.Rendering.CullMode.Off);
+            lineMat.SetInt("_ZWrite", 0);
+        }
+        float half = Mathf.Max(radius * 1.8f, 0.5f);
+        float step = half / 6f;
+        float y = bounds.center.y - bounds.extents.y;   // the model's lowest point = where it meets the water
+        var c = bounds.center;
+        lineMat.SetPass(0);
+        GL.PushMatrix();
+        GL.MultMatrix(Matrix4x4.identity);
+        GL.Begin(GL.LINES);
+        var faint = new Color(0.45f, 0.62f, 0.75f, 0.35f);
+        for (float o = -half; o <= half + 0.001f; o += step)
+        {
+            bool axis = Mathf.Abs(o) < step * 0.5f;
+            GL.Color(axis ? new Color(0.55f, 0.85f, 1f, 0.9f) : faint);
+            GL.Vertex(new Vector3(c.x - half, y, c.z + o)); GL.Vertex(new Vector3(c.x + half, y, c.z + o));
+            GL.Color(axis ? new Color(0.55f, 0.85f, 1f, 0.55f) : faint);
+            GL.Vertex(new Vector3(c.x + o, y, c.z - half)); GL.Vertex(new Vector3(c.x + o, y, c.z + half));
+        }
+        GL.End();
+        GL.PopMatrix();
     }
 
     // A collapsible section header — the Sound Studio's, so both windows read the same. Uses Foldout (not
@@ -675,7 +742,7 @@ public class VehicleLabWindow : EditorWindow
         File.WriteAllLines(gunsFile, src.Where(p => p.role == Role.Gun).Select(p => p.name).ToArray());
         string axis = axisChoice == 0 ? "AUTO" : AxisOptions[axisChoice];
         var inv = System.Globalization.CultureInfo.InvariantCulture;
-        if (!RunBlender($"{(fast ? "rigfast" : "rig")} \"{srcFile}\" \"{lastOutGlb}\" \"{prevFull}\" \"@{wheelsFile}\" \"@{turretsFile}\" {axis} {frames} {degrees.ToString("0.#", inv)} \"@{ignoreFile}\" \"@{tracksFile}\" \"@{gunsFile}\" {treadAdvCells} 1 1 {treadCellsPerLink.ToString("0.##", inv)} {(tracksStatic ? "1" : "0")} {rockDegrees.ToString("0.##", inv)} {rockFrames} {(rockAxisChoice == 1 ? "X" : rockAxisChoice == 2 ? "Y" : "AUTO")} {rockHeading.ToString("0.##", inv)} {rockPitchRatio.ToString("0.###", inv)} {rockPitchFreq.ToString("0.##", inv)}", out string stdout)) return;
+        if (!RunBlender($"{(fast ? "rigfast" : "rig")} \"{srcFile}\" \"{lastOutGlb}\" \"{prevFull}\" \"@{wheelsFile}\" \"@{turretsFile}\" {axis} {frames} {degrees.ToString("0.#", inv)} \"@{ignoreFile}\" \"@{tracksFile}\" \"@{gunsFile}\" {treadAdvCells} 1 1 {treadCellsPerLink.ToString("0.##", inv)} {(tracksStatic ? "1" : "0")} {rockDegrees.ToString("0.##", inv)} {rockFrames} {(rockAxisChoice == 1 ? "X" : rockAxisChoice == 2 ? "Y" : "AUTO")} {rockHeading.ToString("0.##", inv)} {rockPitchRatio.ToString("0.###", inv)} {rockPitchFreq.ToString("0.##", inv)} \"{modelRot.x.ToString("0.##", inv)},{modelRot.y.ToString("0.##", inv)},{modelRot.z.ToString("0.##", inv)}\"", out string stdout)) return;
         // SUCCESS = THE SCRIPT'S OWN FINAL MARKER (the documented Blender trap: it exits 0 even when the python
         // script crashes mid-way — without this gate a half-run printed a fake "DONE" with no file on disk).
         string done = stdout.Split('\n').FirstOrDefault(l => l.Contains("VEHICLE RIG DONE"));
@@ -803,6 +870,7 @@ public class VehicleLabWindow : EditorWindow
         if (pru.lights.Length > 1) pru.lights[1].intensity = 0.6f;
         pru.ambientColor = new Color(0.3f, 0.3f, 0.3f);
         cam.Render();
+        DrawWaterline(radius);
         GUI.DrawTexture(rect, pru.EndPreview(), ScaleMode.StretchToFill, false);
     }
 }
