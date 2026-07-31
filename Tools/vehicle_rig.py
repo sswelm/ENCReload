@@ -176,10 +176,16 @@ rock_axis_arg = argv[19].strip().upper() if len(argv) > 19 and argv[19].strip() 
 # Heading OFFSET from that base axis, in degrees, about the vertical — for a hull that isn't axis-aligned, or to
 # angle the swell so the vessel takes it on the quarter rather than square on the beam. 0 = the base axis exactly.
 rock_heading = float(argv[20]) if len(argv) > 20 and argv[20].strip() else 0.0
-# Pitch (bow rise/fall) as a FRACTION of the roll amplitude, and its frequency relative to the roll. The defaults
-# (0.4 at 2x) are what make the motion read as riding swells; 0 pitch = a pure beam roll, 1x = a rocking-horse see-saw.
-rock_pitch_ratio = max(0.0, min(2.0, float(argv[21]))) if len(argv) > 21 and argv[21].strip() else 0.4
-rock_pitch_freq = max(0.5, min(4.0, float(argv[22]))) if len(argv) > 22 and argv[22].strip() else 1.0
+# The two swings are fully INDEPENDENT (2026-07-31, user request): each has its own amplitude in DEGREES and its
+# own whole number of cycles per clip. Ratios/multipliers coupled them and made the result hard to predict — this
+# is just two sine waves, stated plainly. Cycle counts are integers so the clip always loops without a pop.
+rock_pitch_deg = max(0.0, min(45.0, float(argv[21]))) if len(argv) > 21 and argv[21].strip() else 2.4
+rock_pitch_cycles = max(1, int(float(argv[22]))) if len(argv) > 22 and argv[22].strip() else 1
+rock_roll_cycles = max(1, int(float(argv[25]))) if len(argv) > 25 and argv[25].strip() else 1
+# re-decide now that BOTH amplitudes are known: a pitch-only rock (roll 0) is legitimate
+if rock_pitch_deg > 0.0 and rock_frames <= 0:
+    rock_frames = frames
+rock_on = (rock_deg > 0.0 or rock_pitch_deg > 0.0) and rock_frames >= 2
 # PHASE between roll and pitch, degrees. At EQUAL speed (freq 1) this is what keeps the motion two-dimensional:
 # in phase (0) the two swings stay in lockstep and the hull just tilts along one fixed diagonal — visually a single
 # axis again. At 90 the hull traces an ELLIPSE, both axes moving at the same rate, which is the natural buoy-like
@@ -1122,20 +1128,22 @@ if rock_on:
     _pb_hull.rotation_mode = 'XYZ'
     # sample density scales with the pitch frequency — the fastest component needs the keys, and the pipeline
     # keys LINEAR (a sparse sine reads as a triangle wave)
-    _steps = max(24, int(12 * rock_pitch_freq * 2))
-    _amp = math.radians(rock_deg)
+    _steps = max(24, 16 * max(rock_roll_cycles, rock_pitch_cycles))   # keys enough for the FASTEST wave (LINEAR keying)
+    _roll_amp = math.radians(rock_deg)
+    _pitch_amp = math.radians(rock_pitch_deg)
+    _phase = math.radians(rock_pitch_phase)
     for _i in range(_steps + 1):
         _t = _i / float(_steps)
         _f = int(round(_t * rock_frames))
         bpy.context.scene.frame_set(_f)
-        _q = (Quaternion(_roll_ax, _amp * math.sin(2.0 * math.pi * _t)) @
-              Quaternion(_pitch_ax, _amp * rock_pitch_ratio *
-                         math.sin(2.0 * math.pi * rock_pitch_freq * _t + math.radians(rock_pitch_phase))))
+        _q = (Quaternion(_roll_ax, _roll_amp * math.sin(2.0 * math.pi * rock_roll_cycles * _t)) @
+              Quaternion(_pitch_ax, _pitch_amp * math.sin(2.0 * math.pi * rock_pitch_cycles * _t + _phase)))
         _pb_hull.rotation_euler = _q.to_euler('XYZ')
         _pb_hull.keyframe_insert("rotation_euler", frame=_f)
-    print("VEHICLE wave rock: %.1f deg roll about (%.2f,%.2f,%.2f) / %.1f deg pitch at %.2fx about (%.2f,%.2f,%.2f), %d frames on '%s' (%d keys, rotation-only) — %s%s"
-          % (rock_deg, _roll_ax.x, _roll_ax.y, _roll_ax.z, rock_deg * rock_pitch_ratio, rock_pitch_freq,
-             _pitch_ax.x, _pitch_ax.y, _pitch_ax.z, rock_frames, body_bone, _steps + 1, _axis_why,
+    print("VEHICLE wave rock: roll %.1f deg x%d about (%.2f,%.2f,%.2f) | pitch %.1f deg x%d phase %.0f about (%.2f,%.2f,%.2f) | %d frames, %d keys on '%s' — %s%s"
+          % (rock_deg, rock_roll_cycles, _roll_ax.x, _roll_ax.y, _roll_ax.z,
+             rock_pitch_deg, rock_pitch_cycles, rock_pitch_phase, _pitch_ax.x, _pitch_ax.y, _pitch_ax.z,
+             rock_frames, _steps + 1, body_bone, _axis_why,
              (", heading %+.0f deg" % rock_heading) if abs(rock_heading) > 1e-6 else ""))
 
 

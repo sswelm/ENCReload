@@ -63,9 +63,10 @@ public class VehicleLabWindow : EditorWindow
     [SerializeField] int rockAxisChoice = 0;   // 0 = Auto (longer horizontal extent = the hull's length), 1 = X, 2 = Y
     static readonly string[] RockAxisOptions = { "Auto (longest horizontal extent = hull length)", "X (hull runs along X)", "Y (hull runs along Y)" };
     [SerializeField] float rockHeading = 0f;      // heading OFFSET from that axis, degrees about vertical
-    [SerializeField] float rockPitchRatio = 0.4f; // pitch amplitude as a fraction of roll (0 = pure beam roll)
-    [SerializeField] float rockPitchFreq = 1f;     // pitch speed relative to roll — 1 = same speed as the roll
-    [SerializeField] float rockPitchPhase = 90f;  // degrees; at equal speed this is what keeps the motion 2D (ellipse, not one diagonal)
+    [SerializeField] float rockPitchDeg = 2.4f;   // pitch amplitude in DEGREES (absolute, not a ratio)
+    [SerializeField] int rockRollCycles = 1;      // full roll swings per clip (integer = seamless loop)
+    [SerializeField] int rockPitchCycles = 1;     // full pitch swings per clip
+        [SerializeField] float rockPitchPhase = 90f;  // degrees; at equal speed this is what keeps the motion 2D (ellipse, not one diagonal)
     const int RockFps = 24;                       // Blender's scene fps — the clip's real-time length
     // The two motion sections fold independently (Sound Studio pattern): a model is almost always EITHER a wheeled
     // vehicle OR a floating one, so ~10 permanently-irrelevant rows were on screen at all times.
@@ -324,47 +325,44 @@ public class VehicleLabWindow : EditorWindow
             // WAVE ROCK — a FLOATING unit's idle sway. Independent of wheels: a boat marks nothing but Ignore
             // (to strip parts) and rocks. Rotation-only on a Hull bone, so no Keep-translations needed downstream.
             if (Section(ref foldWave, "Wave rock — floating units",
-                    rockDegrees > 0f ? $"{rockDegrees:0.#}° every {rockFrames / (float)RockFps:0.0}s" : "off"))
+                    rockDegrees > 0f || rockPitchDeg > 0f ? $"roll {rockDegrees:0.#}°×{rockRollCycles} · pitch {rockPitchDeg:0.#}°×{rockPitchCycles} · {rockFrames / (float)RockFps:0.0}s" : "off"))
             {
-                rockDegrees = EditorGUILayout.Slider(new GUIContent("Rock amplitude (deg)",
-                    "Roll amplitude of the idle sway, in degrees (0 = off). Pitch is authored at 40% of this and DOUBLE " +
-                    "the frequency, so the motion reads as riding swells rather than a metronome. 3-8 deg suits a small " +
-                    "boat; higher looks stormy. Authored on a 'RootHull' bone that carries the whole vessel, so Root " +
-                    "(the engine's anchor) stays identity and the clip is rotation-only."), rockDegrees, 0f, 20f);
-                using (new EditorGUI.DisabledScope(rockDegrees <= 0f))
-                {
-                    rockFrames = EditorGUILayout.IntSlider(new GUIContent($"Rock speed — cycle ({rockFrames / (float)RockFps:0.0}s)",
-                        "THE SPEED KNOB: how many frames ONE full wave takes. FEWER frames = faster rocking; more = a " +
-                        "slower, heavier vessel. This is also the clip's length, and frame 0 equals the rest pose so " +
-                        "the loop restart is seamless. (You can also halve it at bake time without re-rigging: a clip " +
-                        "slice like Spin[0..120/2] plays every 2nd frame = twice as fast.)"), rockFrames, 20, 600);
-                    rockAxisChoice = EditorGUILayout.Popup(new GUIContent("Rock axis (hull length)",
-                        "Which axis the hull RUNS ALONG — the vessel rolls about it, and pitches about the other " +
-                        "horizontal axis. Auto picks the longer horizontal extent, which is a boat's length. Override " +
-                        "when the rock looks like it is pivoting the wrong way: a model authored Y-up in glTF lands " +
-                        "with its length on Y, while models built here run along X."), rockAxisChoice, RockAxisOptions);
-                    rockHeading = EditorGUILayout.Slider(new GUIContent("Axis heading (deg)",
-                        "Swings the roll axis around the vertical, away from the axis above. 0 = square on the beam. " +
-                        "Use it for a hull that isn't axis-aligned, or to angle the swell so the vessel takes it on " +
-                        "the quarter — the motion then mixes roll and pitch instead of being purely one or the other."), rockHeading, -90f, 90f);
-                    rockPitchRatio = EditorGUILayout.Slider(new GUIContent("Pitch amount (× roll)",
-                        "How much the bow rises and falls, as a fraction of the roll. 0 = a pure beam roll (no " +
-                        "pitching); 0.4 (default) reads as riding swells; 1 gives equal roll and pitch."), rockPitchRatio, 0f, 1.5f);
-                    rockPitchFreq = EditorGUILayout.Slider(new GUIContent("Pitch speed (× roll)",
-                        "How fast the bow bobs RELATIVE to the roll. 1 (default) = both axes move at the SAME rate, " +
-                        "the natural buoy-like bob. 2 drops the bow twice per roll (a choppier swell). Anything other " +
-                        "than 1 makes the two motions visibly different speeds."), rockPitchFreq, 0.5f, 4f);
-                    rockPitchPhase = EditorGUILayout.Slider(new GUIContent("Pitch phase (deg)",
-                        "How far the bow motion LAGS the roll — this is what keeps an equal-speed rock two-dimensional. " +
-                        "At 0 the two swings stay in lockstep and the hull just tilts along one fixed diagonal, which " +
-                        "reads as a single axis again. 90 (default) traces an ellipse, the hull circling as it bobs; " +
-                        "180 mirrors that the other way round."), rockPitchPhase, 0f, 180f);
-                }
+                // TWO INDEPENDENT WAVES, stated plainly (2026-07-31): each swing owns its amplitude in DEGREES and
+                // its own whole cycle count. Ratios and multipliers coupled them and made the outcome unpredictable.
+                EditorGUILayout.LabelField("  Two independent sine waves on the hull. Each: how far (degrees) and how many full swings per clip.", EditorStyles.miniLabel);
+                rockFrames = EditorGUILayout.IntSlider(new GUIContent($"Clip length ({rockFrames / (float)RockFps:0.0}s)",
+                    "How long the whole looping clip is, in frames (24 = 1 second). The cycle counts below are per " +
+                    "THIS clip, so a longer clip at the same cycle count means slower motion."), rockFrames, 20, 600);
+
+                EditorGUILayout.LabelField("  Roll — side to side, about the hull's length", EditorStyles.miniBoldLabel);
+                rockDegrees = EditorGUILayout.Slider(new GUIContent("   Roll amount (deg)",
+                    "How far the vessel heels each way. 0 turns the whole wave rock OFF. 3-8 suits a small boat."), rockDegrees, 0f, 30f);
+                rockRollCycles = EditorGUILayout.IntSlider(new GUIContent("   Roll swings per clip",
+                    "How many full roll cycles fit in the clip. Whole numbers only, so the loop never pops."), rockRollCycles, 1, 8);
+
+                EditorGUILayout.LabelField("  Pitch — bow up and down, across the hull", EditorStyles.miniBoldLabel);
+                rockPitchDeg = EditorGUILayout.Slider(new GUIContent("   Pitch amount (deg)",
+                    "How far the bow rises and falls. 0 = a pure beam roll with no pitching at all."), rockPitchDeg, 0f, 30f);
+                rockPitchCycles = EditorGUILayout.IntSlider(new GUIContent("   Pitch swings per clip",
+                    "How many full pitch cycles fit in the clip. Set it EQUAL to the roll count for both axes at the " +
+                    "same speed; higher makes the bow bob faster than the vessel heels."), rockPitchCycles, 1, 8);
+                rockPitchPhase = EditorGUILayout.Slider(new GUIContent("   Pitch offset (deg)",
+                    "How far the pitch wave is shifted against the roll. At EQUAL swing counts this decides the shape: " +
+                    "0 keeps them in lockstep so the hull tilts along one fixed diagonal (reads as a single axis), " +
+                    "90 traces an ellipse — the hull circling as it bobs — and 180 mirrors that."), rockPitchPhase, 0f, 360f);
+
+                EditorGUILayout.LabelField("  Axis", EditorStyles.miniBoldLabel);
+                rockAxisChoice = EditorGUILayout.Popup(new GUIContent("   Hull length axis",
+                    "Which axis the hull RUNS ALONG — it rolls about this one and pitches about the other horizontal " +
+                    "axis. Auto picks the longer horizontal extent. Override if roll and pitch appear swapped."), rockAxisChoice, RockAxisOptions);
+                rockHeading = EditorGUILayout.Slider(new GUIContent("   Axis heading (deg)",
+                    "Swings both axes around the vertical together. For a hull that isn't axis-aligned, or to take " +
+                    "the swell on the quarter."), rockHeading, -90f, 90f);
             }
             EditorGUILayout.Space(4);
 
             int wheels = list.Count(x => x.role == Role.Wheel);
-            bool canRig = wheels > 0 || rockDegrees > 0f;
+            bool canRig = wheels > 0 || rockDegrees > 0f || rockPitchDeg > 0f;
             using (new EditorGUI.DisabledScope(!canRig || string.IsNullOrEmpty(outGlb)))
                 if (GUILayout.Button(new GUIContent($"Generate rig{(useSourceRig && boneParts.Count > 0 ? " (fast path)" : "")}  →  {(string.IsNullOrEmpty(outGlb) ? "(set the Output GLB)" : Path.GetFileName(outGlb))}",
                         !canRig ? "Mark at least one entry as Wheel — or set a Wave rock amplitude (a floating unit needs no wheels)." : "Runs Blender: rig + Spin action + GLB export + preview."), GUILayout.Height(28)))
@@ -590,7 +588,7 @@ public class VehicleLabWindow : EditorWindow
         parts.Clear(); boneParts.Clear(); useSourceRig = false;
         frames = 15; degrees = -360f; axisChoice = 0;
         treadAdvCells = 3; treadCellsPerLink = 4f; tracksStatic = false;
-        rockDegrees = 0f; rockFrames = 120; rockAxisChoice = 0; rockHeading = 0f; rockPitchRatio = 0.4f; rockPitchFreq = 1f; rockPitchPhase = 90f; foldSpin = true; foldWave = false; foldOrient = false; modelRot = Vector3.zero;
+        rockDegrees = 0f; rockFrames = 120; rockAxisChoice = 0; rockHeading = 0f; rockPitchDeg = 2.4f; rockRollCycles = 1; rockPitchCycles = 1; rockPitchPhase = 90f; foldSpin = true; foldWave = false; foldOrient = false; modelRot = Vector3.zero;
         minVerts = 50; minPartSize = 0f; minHeight = -999f; maxHeight = 999f;
         partFilter = 0; selectedPart = ""; partsScroll = Vector2.zero; previewPan = Vector2.zero;
         DestroyPreview();
@@ -771,7 +769,7 @@ public class VehicleLabWindow : EditorWindow
         File.WriteAllLines(gunsFile, src.Where(p => p.role == Role.Gun).Select(p => p.name).ToArray());
         string axis = axisChoice == 0 ? "AUTO" : AxisOptions[axisChoice];
         var inv = System.Globalization.CultureInfo.InvariantCulture;
-        if (!RunBlender($"{(fast ? "rigfast" : "rig")} \"{srcFile}\" \"{lastOutGlb}\" \"{prevFull}\" \"@{wheelsFile}\" \"@{turretsFile}\" {axis} {frames} {degrees.ToString("0.#", inv)} \"@{ignoreFile}\" \"@{tracksFile}\" \"@{gunsFile}\" {treadAdvCells} 1 1 {treadCellsPerLink.ToString("0.##", inv)} {(tracksStatic ? "1" : "0")} {rockDegrees.ToString("0.##", inv)} {rockFrames} {(rockAxisChoice == 1 ? "X" : rockAxisChoice == 2 ? "Y" : "AUTO")} {rockHeading.ToString("0.##", inv)} {rockPitchRatio.ToString("0.###", inv)} {rockPitchFreq.ToString("0.##", inv)} \"{modelRot.x.ToString("0.##", inv)},{modelRot.y.ToString("0.##", inv)},{modelRot.z.ToString("0.##", inv)}\" {rockPitchPhase.ToString("0.##", inv)}", out string stdout)) return;
+        if (!RunBlender($"{(fast ? "rigfast" : "rig")} \"{srcFile}\" \"{lastOutGlb}\" \"{prevFull}\" \"@{wheelsFile}\" \"@{turretsFile}\" {axis} {frames} {degrees.ToString("0.#", inv)} \"@{ignoreFile}\" \"@{tracksFile}\" \"@{gunsFile}\" {treadAdvCells} 1 1 {treadCellsPerLink.ToString("0.##", inv)} {(tracksStatic ? "1" : "0")} {rockDegrees.ToString("0.##", inv)} {rockFrames} {(rockAxisChoice == 1 ? "X" : rockAxisChoice == 2 ? "Y" : "AUTO")} {rockHeading.ToString("0.##", inv)} {rockPitchDeg.ToString("0.##", inv)} {rockPitchCycles} \"{modelRot.x.ToString("0.##", inv)},{modelRot.y.ToString("0.##", inv)},{modelRot.z.ToString("0.##", inv)}\" {rockPitchPhase.ToString("0.##", inv)} {rockRollCycles}", out string stdout)) return;
         // SUCCESS = THE SCRIPT'S OWN FINAL MARKER (the documented Blender trap: it exits 0 even when the python
         // script crashes mid-way — without this gate a half-run printed a fake "DONE" with no file on disk).
         string done = stdout.Split('\n').FirstOrDefault(l => l.Contains("VEHICLE RIG DONE"));
