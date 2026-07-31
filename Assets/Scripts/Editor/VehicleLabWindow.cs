@@ -144,6 +144,21 @@ public class VehicleLabWindow : EditorWindow
 
         using (new EditorGUILayout.HorizontalScope())
         {
+            // NEW MODEL (2026-07-31, user request): the Lab had no way to START one — it stayed on the last
+            // session/recipe, and merely Browsing a new source left boneParts, the fast-path flag, every knob and
+            // the list filters carrying the previous model's state (a Jagdpanzer's tread dials on a canoe).
+            if (GUILayout.Button(new GUIContent("New model",
+                    "Clear the session and start a fresh model: source, output, probed parts/bones, roles, all rig knobs and the list filters return to defaults. Save a recipe first if the current marking is worth keeping."),
+                    GUILayout.Width(90), GUILayout.Height(24)))
+            {
+                bool dirty = parts.Count > 0 || boneParts.Count > 0;
+                int marked = ActiveParts.Count(x => x.role != Role.Default);
+                if (!dirty || EditorUtility.DisplayDialog("Vehicle Lab — new model",
+                        "Discard the current session?\n\n" +
+                        (marked > 0 ? marked + " marked part(s) will be lost unless you saved a recipe.\n\n" : "") +
+                        "The generated GLB on disk is not touched.", "Start new", "Cancel"))
+                    NewModel();
+            }
             using (new EditorGUI.DisabledScope(string.IsNullOrEmpty(srcFile) || !File.Exists(srcFile)))
                 if (GUILayout.Button(new GUIContent("Probe parts", "Headless Blender lists the model's mesh parts (a single combined mesh is split into loose parts). Roles are auto-guessed from names."), GUILayout.Height(24)))
                     Probe();
@@ -482,6 +497,23 @@ public class VehicleLabWindow : EditorWindow
             }
             EditorGUILayout.EndScrollView();
         }
+    }
+
+    // Reset EVERY piece of session state to its declared default. Deliberately exhaustive: a half-reset is the
+    // bug this button exists to kill (stale bone rows silently kept the SKM fast path on for an unrigged model).
+    void NewModel()
+    {
+        srcFile = ""; outGlb = ""; lastOutGlb = "";
+        parts.Clear(); boneParts.Clear(); useSourceRig = false;
+        frames = 15; degrees = -360f; axisChoice = 0;
+        treadAdvCells = 3; treadCellsPerLink = 4f; tracksStatic = false;
+        rockDegrees = 0f; rockFrames = 120;
+        minVerts = 50; minPartSize = 0f; minHeight = -999f; maxHeight = 999f;
+        partFilter = 0; selectedPart = ""; partsScroll = Vector2.zero; previewPan = Vector2.zero;
+        DestroyPreview();
+        status = "New model: pick a Raw model, then Probe parts. (Wheels optional — a floating unit just needs a Wave rock amplitude.)";
+        GUI.FocusControl(null);
+        Repaint();
     }
 
     void SaveRecipe()
