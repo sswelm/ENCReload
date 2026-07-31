@@ -179,7 +179,13 @@ rock_heading = float(argv[20]) if len(argv) > 20 and argv[20].strip() else 0.0
 # Pitch (bow rise/fall) as a FRACTION of the roll amplitude, and its frequency relative to the roll. The defaults
 # (0.4 at 2x) are what make the motion read as riding swells; 0 pitch = a pure beam roll, 1x = a rocking-horse see-saw.
 rock_pitch_ratio = max(0.0, min(2.0, float(argv[21]))) if len(argv) > 21 and argv[21].strip() else 0.4
-rock_pitch_freq = max(0.5, min(4.0, float(argv[22]))) if len(argv) > 22 and argv[22].strip() else 2.0
+rock_pitch_freq = max(0.5, min(4.0, float(argv[22]))) if len(argv) > 22 and argv[22].strip() else 1.0
+# PHASE between roll and pitch, degrees. At EQUAL speed (freq 1) this is what keeps the motion two-dimensional:
+# in phase (0) the two swings stay in lockstep and the hull just tilts along one fixed diagonal — visually a single
+# axis again. At 90 the hull traces an ELLIPSE, both axes moving at the same rate, which is the natural buoy-like
+# bob. Frame 0 is then a slightly heeled pose rather than dead level; the loop still closes exactly (t=0 and t=1
+# evaluate identically) and the bake's rest-normalize adopts frame 0 as the rest, so the contract still holds.
+rock_pitch_phase = float(argv[24]) if len(argv) > 24 and argv[24].strip() else 90.0
 # MODEL ORIENTATION (argv[23] "rx,ry,rz" degrees): straighten a source that imports crooked, on its side or
 # facing the wrong way. Applied to the DATA before anything measures the model, so every downstream inference
 # reads the corrected pose — wheel axle axes, tread side/front detection, and the rock's auto hull-length axis.
@@ -1123,7 +1129,8 @@ if rock_on:
         _f = int(round(_t * rock_frames))
         bpy.context.scene.frame_set(_f)
         _q = (Quaternion(_roll_ax, _amp * math.sin(2.0 * math.pi * _t)) @
-              Quaternion(_pitch_ax, _amp * rock_pitch_ratio * math.sin(2.0 * math.pi * rock_pitch_freq * _t)))
+              Quaternion(_pitch_ax, _amp * rock_pitch_ratio *
+                         math.sin(2.0 * math.pi * rock_pitch_freq * _t + math.radians(rock_pitch_phase))))
         _pb_hull.rotation_euler = _q.to_euler('XYZ')
         _pb_hull.keyframe_insert("rotation_euler", frame=_f)
     print("VEHICLE wave rock: %.1f deg roll about (%.2f,%.2f,%.2f) / %.1f deg pitch at %.2fx about (%.2f,%.2f,%.2f), %d frames on '%s' (%d keys, rotation-only) — %s%s"
