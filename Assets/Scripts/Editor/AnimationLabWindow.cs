@@ -828,11 +828,12 @@ public class AnimationLabWindow : EditorWindow
             "with deliberate translating bones (tread shuttles, sliding parts). Re-bake after changing."),
             cur.keepTranslations);
         cur.animPhaseSpread = EditorGUILayout.Slider(new GUIContent("Per-instance offset",
-            "Stops a multi-pawn unit moving as ONE BODY. Every pawn is fed the same clip time by default, so twelve " +
-            "canoes rock in perfect lockstep and read as a single rigid raft. This offsets each pawn by a share of " +
-            "the clip: 1 = spread across the whole clip, 0.5 = across half, 0 = lockstep (the old behaviour). " +
-            "Deterministic per pawn slot, so the look is stable frame to frame. Applies to LOOPING animation only — " +
-            "attack/deploy/fire one-shots stay tied to their trigger. RUNTIME-ONLY: Save (no bake) + relaunch."),
+            "Stops a multi-pawn unit moving as ONE BODY. Fed the same clip time, every pawn animates in lockstep — " +
+            "twelve canoes rocking as a rigid raft, eight monsters swinging their heads in unison. This offsets each " +
+            "pawn by a share of the clip. DEFAULT 0.5 (half the clip) desynchronises convincingly while the unit " +
+            "still reads as one group; 1 spreads them over the whole clip; 0 restores lockstep. Each pawn keeps its " +
+            "phase across LOD rebuilds, so zooming can't reset it. LOOPING animation only — attack/deploy/fire " +
+            "one-shots stay tied to their trigger. RUNTIME-ONLY: Save (no bake) + relaunch, no re-bake."),
             cur.animPhaseSpread, 0f, 1f);
         if (!UniversalBaker.BlenderAvailable())
             EditorGUILayout.HelpBox("The animated bake needs Blender (to slim the rig + bake the clip) — it wasn't found. " +
