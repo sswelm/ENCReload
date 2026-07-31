@@ -1,6 +1,7 @@
-// VehicleLabWindow.cs — "Vehicle Lab" (Tools ▸ HAF ▸ Vehicle Lab, 2026-07-25): VEHICLEIZE a raw STATIC vehicle
-// model into the rigged, Spin-animated GLB the animated bake path consumes — the hand-made Ehrhardt recipe
-// (Animated-Models.md) as a dialog:
+// VehicleLabWindow.cs — "Vehicle Lab" (Tools ▸ HAF ▸ Vehicle Lab, 2026-07-25): turn a raw STATIC model into the
+// rigged, animated GLB the animated bake path consumes — the hand-made Ehrhardt recipe (Animated-Models.md) as a
+// dialog. Despite the name it is no longer wheels-only: the button is "Generate rig", and a FLOATING unit (the
+// dug-out canoe) rigs with no wheels at all — parts marked Ignore are stripped and Wave rock authors the sway.
 //   1. Browse a raw model (glb/gltf/fbx/obj/blend) and PROBE it (headless Blender lists the mesh parts).
 //   2. Assign roles per part — Wheel / Turret / Body — auto-guessed from names (wheel|tyre|tire / turret); the
 //      axle axis per wheel is inferred geometrically in the tool (a wheel is THIN along its axle), overridable.
@@ -114,7 +115,7 @@ public class VehicleLabWindow : EditorWindow
     void OnGUI()
     {
         EditorGUILayout.HelpBox(
-            "Vehicleize a STATIC vehicle: probe its parts, mark the wheels (and turret), and generate the rigged " +
+            "Rig a STATIC model for the animated bake: probe its parts, mark what moves (wheels, turret) or what to strip, and generate the rigged " +
             "Spin GLB the animated bake consumes — no Blender knowledge needed. The preview below plays the result. " +
             "Then bake it in the Factory/Animation Lab (settings printed on success).", MessageType.Info);
 
@@ -179,7 +180,7 @@ public class VehicleLabWindow : EditorWindow
                 if (rsel > 0) { LoadRecipeFromPath(rfiles[rsel - 1]); GUI.FocusControl(null); }
             }
             using (new EditorGUI.DisabledScope(parts.Count == 0 && boneParts.Count == 0))
-                if (GUILayout.Button(new GUIContent("Verify", "Sanity-check the classification: shows the wheel bones Vehicleize would build (clustering preview) and flags stray clusters, axle disagreement, unpaired wheels, turret outliers and undecided leftovers."), GUILayout.Width(56), GUILayout.Height(24)))
+                if (GUILayout.Button(new GUIContent("Verify", "Sanity-check the classification: shows the wheel bones the rig step would build (clustering preview) and flags stray clusters, axle disagreement, unpaired wheels, turret outliers and undecided leftovers."), GUILayout.Width(56), GUILayout.Height(24)))
                     VerifySelection();
         }
 
@@ -187,7 +188,7 @@ public class VehicleLabWindow : EditorWindow
         {
             if (boneParts.Count > 0)
                 useSourceRig = EditorGUILayout.ToggleLeft(new GUIContent($"Use source skeleton (fast path) — the model ships fully rigged ({boneParts.Count} bones)",
-                    "The probe found an artist skeleton with full vertex weights. ON: mark which BONES spin and Vehicleize reuses that skeleton unchanged (artist axle pivots, weapon/socket bones kept). OFF: the static shard-marking flow."), useSourceRig);
+                    "The probe found an artist skeleton with full vertex weights. ON: mark which BONES spin and the rig step reuses that skeleton unchanged (artist axle pivots, weapon/socket bones kept). OFF: the static shard-marking flow."), useSourceRig);
             var list = ActiveParts;
             // Tiny-fragment collapse: a triangle-soup FBX probes into THOUSANDS of 3-4-vert shards — they all belong
             // to Body anyway (anything not marked wheel/turret skins to Root). Only substantial parts are listed.
@@ -292,7 +293,7 @@ public class VehicleLabWindow : EditorWindow
             int wheels = list.Count(x => x.role == Role.Wheel);
             bool canRig = wheels > 0 || rockDegrees > 0f;
             using (new EditorGUI.DisabledScope(!canRig || string.IsNullOrEmpty(outGlb)))
-                if (GUILayout.Button(new GUIContent($"Vehicleize{(useSourceRig && boneParts.Count > 0 ? " (fast path)" : "")}  →  {(string.IsNullOrEmpty(outGlb) ? "(set the Output GLB)" : Path.GetFileName(outGlb))}",
+                if (GUILayout.Button(new GUIContent($"Generate rig{(useSourceRig && boneParts.Count > 0 ? " (fast path)" : "")}  →  {(string.IsNullOrEmpty(outGlb) ? "(set the Output GLB)" : Path.GetFileName(outGlb))}",
                         !canRig ? "Mark at least one entry as Wheel — or set a Wave rock amplitude (a floating unit needs no wheels)." : "Runs Blender: rig + Spin action + GLB export + preview."), GUILayout.Height(28)))
                     Vehicleize();
         }
@@ -361,12 +362,12 @@ public class VehicleLabWindow : EditorWindow
         status = parts.Count == 0
             ? "Probe found no mesh parts — is this a mesh model? (See the Console for Blender output.)"
             : (boneParts.Count > 0
-                ? $"SOURCE IS RIGGED: {boneParts.Count} skinned bones found ({boneParts.Count(x => x.role == Role.Wheel)} auto-guessed as wheels) — fast path ON: mark the bones that spin and Vehicleize. " +
+                ? $"SOURCE IS RIGGED: {boneParts.Count} skinned bones found ({boneParts.Count(x => x.role == Role.Wheel)} auto-guessed as wheels) — fast path ON: mark the bones that spin and Generate rig. " +
                   "Toggle it off for the static shard flow. "
                 : "") +
               $"Probed {parts.Count} part(s); {parts.Count(x => x.role == Role.Wheel)} wheel(s), {parts.Count(x => x.role == Role.Turret)} turret(s)" +
               (kept.Count > 0 ? $" ({parts.Count(x => kept.ContainsKey(x.name) && x.role == kept[x.name])} of {kept.Count} earlier markings kept)" : " (auto-guessed)") +
-              ". Click a row to see WHICH part it is (zoom + yellow highlight), assign roles, then Vehicleize.";
+              ". Click a row to see WHICH part it is (zoom + yellow highlight), assign roles, then Generate rig.";
     }
 
     // Sanity report on the current classification — mirrors the rig script's wheel clustering so the numbers
@@ -441,7 +442,7 @@ public class VehicleLabWindow : EditorWindow
         int edge = vlist.Count(p => p.role == Role.Edgecase);
         if (undecided > 0) { report.Add(($"⚠ {undecided} part(s) still undecided (Default).", null)); warn = true; }
         if (edge > 0) report.Add(($"• {edge} Edgecase part(s) — rig static (like Body), safe.", null));
-        if (!warn) report.Add(("Looks sane — ready to Vehicleize.", null));
+        if (!warn) report.Add(("Looks sane — ready to generate the rig.", null));
 
         Debug.Log("[VehicleLab] Verify:\n" + string.Join("\n", report.Select(r => r.text)));
         VerifyReportWindow.Open(this, report, warn);
@@ -552,7 +553,7 @@ public class VehicleLabWindow : EditorWindow
             boneParts = r.boneParts ?? new List<Part>();   // pre-fast-path recipes have no bone list
             useSourceRig = r.useSourceRig && boneParts.Count > 0;
             status = $"Recipe loaded ({parts.Count} parts{(boneParts.Count > 0 ? $", {boneParts.Count} source bones, fast path {(useSourceRig ? "ON" : "off")}" : "")}, {ActiveParts.Count(x => x.role == Role.Wheel)} wheels). " +
-                     "Vehicleize directly — or press Probe to list ALL parts for review (your marked roles are kept, plus the preview returns for click-to-highlight).";
+                     "generate the rig directly — or press Probe to list ALL parts for review (your marked roles are kept, plus the preview returns for click-to-highlight).";
         }
         catch (Exception e) { status = "Recipe load failed: " + e.Message; }
     }

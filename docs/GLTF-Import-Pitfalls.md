@@ -54,8 +54,12 @@ Rather than keep fighting the source's take, the Vehicle Lab now covers this who
   pitch = `0.4A·sin(4πt)` — a figure-8 that reads as riding swells, not a metronome. **Rotation-only**
   (no Keep-translations needed) and **frame 0 is the rest pose**, so it satisfies bind==frame0 and loops
   seamlessly. Sampled at 24 steps because the pipeline keys LINEAR.
-- Vehicleize no longer requires a Wheel: `wheels > 0 || rockDegrees > 0`, so a floating unit can mark
-  nothing but Ignore and still rig.
+- The rig step no longer requires a Wheel: `wheels > 0 || rockDegrees > 0`, so a floating unit can mark
+  nothing but Ignore and still rig. (The button is now **Generate rig** — it was "Vehicleize", which stopped
+  being true once boats used it. "Transform" was considered and rejected: in a 3D tool that word already
+  means position/rotation/scale.)
+- **New model** clears the whole session — the Lab previously had no way to *start* one, and Browsing a new
+  source left the probed bone rows, the fast-path flag and every knob carrying the last model's state.
 
 **Flow for a floating unit**: Vehicle Lab → Probe parts → mark unwanted parts `Ignore` → set Rock
 amplitude (3–8° for a small boat) and cycle (~120 frames) → Vehicleize → point the Model Factory entry's
