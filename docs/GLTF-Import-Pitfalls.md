@@ -51,7 +51,10 @@ Rather than keep fighting the source's take, the Vehicle Lab now covers this who
 - **Wave rock** (new): `Rock amplitude (deg)` + `Rock cycle (frames)`. Authors a slow idle sway on a
   **`RootHull`** bone inserted between Root and everything else, so the engine's root anchor stays
   identity and the whole vessel rocks as one rigid unit. Roll = `A·sin(2πt)` about the longitudinal axis;
-  pitch = `0.4A·sin(4πt)` — a figure-8 that reads as riding swells, not a metronome. **Rotation-only**
+  pitch = `0.4A·sin(4πt)` — a figure-8 that reads as riding swells, not a metronome.
+  All four shape knobs are exposed: **amplitude**, **cycle** (= the speed; fewer frames = faster), **axis**
+  (Auto/X/Y) with a continuous **heading** offset for a hull that is not axis-aligned or a swell taken on the
+  quarter, **pitch amount** (0 = pure beam roll) and **pitch rhythm** (2x = swells, 1x = rocking horse). **Rotation-only**
   (no Keep-translations needed) and **frame 0 is the rest pose**, so it satisfies bind==frame0 and loops
   seamlessly. Sampled at 24 steps because the pipeline keys LINEAR.
 - The rig step no longer requires a Wheel: `wheels > 0 || rockDegrees > 0`, so a floating unit can mark

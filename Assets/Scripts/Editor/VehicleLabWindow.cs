@@ -62,6 +62,10 @@ public class VehicleLabWindow : EditorWindow
     [SerializeField] int rockFrames = 120;
     [SerializeField] int rockAxisChoice = 0;   // 0 = Auto (longer horizontal extent = the hull's length), 1 = X, 2 = Y
     static readonly string[] RockAxisOptions = { "Auto (longest horizontal extent = hull length)", "X (hull runs along X)", "Y (hull runs along Y)" };
+    [SerializeField] float rockHeading = 0f;      // heading OFFSET from that axis, degrees about vertical
+    [SerializeField] float rockPitchRatio = 0.4f; // pitch amplitude as a fraction of roll (0 = pure beam roll)
+    [SerializeField] float rockPitchFreq = 2f;    // pitch frequency relative to roll (1 = see-saw, 2 = riding swells)
+    const int RockFps = 24;                       // Blender's scene fps — the clip's real-time length
     [SerializeField] int minVerts = 50;   // parts below this are COLLAPSED into Body (a triangle-soup FBX probes into thousands of shards)
     [SerializeField] float minPartSize = 0f;  // hide parts whose LARGEST bbox dimension is below this — drop minVerts + raise this to surface big-but-low-poly parts (flat discs, plates)
     [SerializeField] float minHeight = -999f; // hide parts whose CENTER height is below this (clamped to the model's span, so the default means "off") — slide up to isolate turret-level parts
@@ -289,14 +293,27 @@ public class VehicleLabWindow : EditorWindow
                 "(the engine's anchor) stays identity and the clip is rotation-only."), rockDegrees, 0f, 20f);
             using (new EditorGUI.DisabledScope(rockDegrees <= 0f))
             {
-                rockFrames = EditorGUILayout.IntSlider(new GUIContent("Rock cycle (frames)",
-                    "Length of ONE full wave cycle. Longer = slower, heavier vessel. The exported clip is at least " +
-                    "this long, and frame 0 equals the rest pose so the loop restart is seamless."), rockFrames, 20, 600);
+                rockFrames = EditorGUILayout.IntSlider(new GUIContent($"Rock speed — cycle ({rockFrames / (float)RockFps:0.0}s)",
+                    "THE SPEED KNOB: how many frames ONE full wave takes. FEWER frames = faster rocking; more = a " +
+                    "slower, heavier vessel. This is also the clip's length, and frame 0 equals the rest pose so " +
+                    "the loop restart is seamless. (You can also halve it at bake time without re-rigging: a clip " +
+                    "slice like Spin[0..120/2] plays every 2nd frame = twice as fast.)"), rockFrames, 20, 600);
                 rockAxisChoice = EditorGUILayout.Popup(new GUIContent("Rock axis (hull length)",
                     "Which axis the hull RUNS ALONG — the vessel rolls about it, and pitches about the other " +
                     "horizontal axis. Auto picks the longer horizontal extent, which is a boat's length. Override " +
                     "when the rock looks like it is pivoting the wrong way: a model authored Y-up in glTF lands " +
                     "with its length on Y, while models built here run along X."), rockAxisChoice, RockAxisOptions);
+                rockHeading = EditorGUILayout.Slider(new GUIContent("Axis heading (deg)",
+                    "Swings the roll axis around the vertical, away from the axis above. 0 = square on the beam. " +
+                    "Use it for a hull that isn't axis-aligned, or to angle the swell so the vessel takes it on " +
+                    "the quarter — the motion then mixes roll and pitch instead of being purely one or the other."), rockHeading, -90f, 90f);
+                rockPitchRatio = EditorGUILayout.Slider(new GUIContent("Pitch amount (× roll)",
+                    "How much the bow rises and falls, as a fraction of the roll. 0 = a pure beam roll (no " +
+                    "pitching); 0.4 (default) reads as riding swells; 1 gives equal roll and pitch."), rockPitchRatio, 0f, 1.5f);
+                rockPitchFreq = EditorGUILayout.Slider(new GUIContent("Pitch rhythm (× roll)",
+                    "Pitch frequency relative to the roll — the CHARACTER of the motion. 2 (default) drops the bow " +
+                    "twice per roll, the natural swell feel. 1 makes pitch and roll swing together like a rocking " +
+                    "horse. Fractional values give a long, wandering rhythm."), rockPitchFreq, 0.5f, 4f);
             }
 
             int wheels = list.Count(x => x.role == Role.Wheel);
@@ -517,7 +534,7 @@ public class VehicleLabWindow : EditorWindow
         parts.Clear(); boneParts.Clear(); useSourceRig = false;
         frames = 15; degrees = -360f; axisChoice = 0;
         treadAdvCells = 3; treadCellsPerLink = 4f; tracksStatic = false;
-        rockDegrees = 0f; rockFrames = 120; rockAxisChoice = 0;
+        rockDegrees = 0f; rockFrames = 120; rockAxisChoice = 0; rockHeading = 0f; rockPitchRatio = 0.4f; rockPitchFreq = 2f;
         minVerts = 50; minPartSize = 0f; minHeight = -999f; maxHeight = 999f;
         partFilter = 0; selectedPart = ""; partsScroll = Vector2.zero; previewPan = Vector2.zero;
         DestroyPreview();
@@ -625,7 +642,7 @@ public class VehicleLabWindow : EditorWindow
         File.WriteAllLines(gunsFile, src.Where(p => p.role == Role.Gun).Select(p => p.name).ToArray());
         string axis = axisChoice == 0 ? "AUTO" : AxisOptions[axisChoice];
         var inv = System.Globalization.CultureInfo.InvariantCulture;
-        if (!RunBlender($"{(fast ? "rigfast" : "rig")} \"{srcFile}\" \"{lastOutGlb}\" \"{prevFull}\" \"@{wheelsFile}\" \"@{turretsFile}\" {axis} {frames} {degrees.ToString("0.#", inv)} \"@{ignoreFile}\" \"@{tracksFile}\" \"@{gunsFile}\" {treadAdvCells} 1 1 {treadCellsPerLink.ToString("0.##", inv)} {(tracksStatic ? "1" : "0")} {rockDegrees.ToString("0.##", inv)} {rockFrames} {(rockAxisChoice == 1 ? "X" : rockAxisChoice == 2 ? "Y" : "AUTO")}", out string stdout)) return;
+        if (!RunBlender($"{(fast ? "rigfast" : "rig")} \"{srcFile}\" \"{lastOutGlb}\" \"{prevFull}\" \"@{wheelsFile}\" \"@{turretsFile}\" {axis} {frames} {degrees.ToString("0.#", inv)} \"@{ignoreFile}\" \"@{tracksFile}\" \"@{gunsFile}\" {treadAdvCells} 1 1 {treadCellsPerLink.ToString("0.##", inv)} {(tracksStatic ? "1" : "0")} {rockDegrees.ToString("0.##", inv)} {rockFrames} {(rockAxisChoice == 1 ? "X" : rockAxisChoice == 2 ? "Y" : "AUTO")} {rockHeading.ToString("0.##", inv)} {rockPitchRatio.ToString("0.###", inv)} {rockPitchFreq.ToString("0.##", inv)}", out string stdout)) return;
         // SUCCESS = THE SCRIPT'S OWN FINAL MARKER (the documented Blender trap: it exits 0 even when the python
         // script crashes mid-way — without this gate a half-run printed a fake "DONE" with no file on disk).
         string done = stdout.Split('\n').FirstOrDefault(l => l.Contains("VEHICLE RIG DONE"));

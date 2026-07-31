@@ -13,7 +13,7 @@
 #       mirrored side wheels resolve independently.
 # Frame 0 deliberately equals the rest pose: `Spin[0..0]` is the motionless Idle (see Factory-Manual / Law 2 notes).
 import bpy, sys, math
-from mathutils import Vector
+from mathutils import Vector, Quaternion
 
 argv = sys.argv[sys.argv.index("--") + 1:]
 mode = argv[0]
@@ -173,6 +173,13 @@ rock_on = rock_deg > 0.0 and rock_frames >= 2
 # wheel's thinness, and a hull has no wheels. Vehicles built here run along X, but a glTF authored Y-up lands
 # with its length on Blender's Y (the dug-out canoe) — hence the override.
 rock_axis_arg = argv[19].strip().upper() if len(argv) > 19 and argv[19].strip() else "AUTO"
+# Heading OFFSET from that base axis, in degrees, about the vertical — for a hull that isn't axis-aligned, or to
+# angle the swell so the vessel takes it on the quarter rather than square on the beam. 0 = the base axis exactly.
+rock_heading = float(argv[20]) if len(argv) > 20 and argv[20].strip() else 0.0
+# Pitch (bow rise/fall) as a FRACTION of the roll amplitude, and its frequency relative to the roll. The defaults
+# (0.4 at 2x) are what make the motion read as riding swells; 0 pitch = a pure beam roll, 1x = a rocking-horse see-saw.
+rock_pitch_ratio = max(0.0, min(2.0, float(argv[21]))) if len(argv) > 21 and argv[21].strip() else 0.4
+rock_pitch_freq = max(0.5, min(4.0, float(argv[22]))) if len(argv) > 22 and argv[22].strip() else 2.0
 had_static_tracks = False   # remembers this IS a tracked vehicle even though the tread pipeline is skipped
 if tracks_static and track_names:
     print("VEHICLE tracks STATIC (isolation): %d tread part(s) rigged rigid to Root, no link bones" % len(track_names))
@@ -1075,22 +1082,31 @@ if rock_on:
         _span = _rmx - _rmn
         _roll_i = 0 if _span.x >= _span.y else 1
         _axis_why = "auto (%s longer: %.2f vs %.2f)" % ("XYZ"[_roll_i], max(_span.x, _span.y), min(_span.x, _span.y))
-    _pitch_i = 1 - _roll_i
+    # Build the two swing axes as VECTORS (not euler components) so the heading offset can point them anywhere in
+    # the horizontal plane: roll about the hull's length, pitch about the perpendicular. Composed as quaternions and
+    # written back as euler, keeping the keying identical to the rest of the rig.
+    _roll_ax = Vector((0.0, 0.0, 0.0)); _roll_ax[_roll_i] = 1.0
+    if abs(rock_heading) > 1e-6:
+        _roll_ax.rotate(Quaternion(Vector((0.0, 0.0, 1.0)), math.radians(rock_heading)))
+    _pitch_ax = Vector((0.0, 0.0, 1.0)).cross(_roll_ax).normalized()
     _pb_hull = arm.pose.bones[body_bone]
     _pb_hull.rotation_mode = 'XYZ'
-    _steps = 24
+    # sample density scales with the pitch frequency — the fastest component needs the keys, and the pipeline
+    # keys LINEAR (a sparse sine reads as a triangle wave)
+    _steps = max(24, int(12 * rock_pitch_freq * 2))
     _amp = math.radians(rock_deg)
     for _i in range(_steps + 1):
         _t = _i / float(_steps)
         _f = int(round(_t * rock_frames))
         bpy.context.scene.frame_set(_f)
-        _eul = [0.0, 0.0, 0.0]
-        _eul[_roll_i] = _amp * math.sin(2.0 * math.pi * _t)
-        _eul[_pitch_i] = _amp * 0.4 * math.sin(4.0 * math.pi * _t)
-        _pb_hull.rotation_euler = tuple(_eul)
+        _q = (Quaternion(_roll_ax, _amp * math.sin(2.0 * math.pi * _t)) @
+              Quaternion(_pitch_ax, _amp * rock_pitch_ratio * math.sin(2.0 * math.pi * rock_pitch_freq * _t)))
+        _pb_hull.rotation_euler = _q.to_euler('XYZ')
         _pb_hull.keyframe_insert("rotation_euler", frame=_f)
-    print("VEHICLE wave rock: %.1f deg roll about %s / %.1f deg pitch about %s over %d frames on '%s' (%d keys, rotation-only) — %s"
-          % (rock_deg, "XYZ"[_roll_i], rock_deg * 0.4, "XYZ"[_pitch_i], rock_frames, body_bone, _steps + 1, _axis_why))
+    print("VEHICLE wave rock: %.1f deg roll about (%.2f,%.2f,%.2f) / %.1f deg pitch at %.2fx about (%.2f,%.2f,%.2f), %d frames on '%s' (%d keys, rotation-only) — %s%s"
+          % (rock_deg, _roll_ax.x, _roll_ax.y, _roll_ax.z, rock_deg * rock_pitch_ratio, rock_pitch_freq,
+             _pitch_ax.x, _pitch_ax.y, _pitch_ax.z, rock_frames, body_bone, _steps + 1, _axis_why,
+             (", heading %+.0f deg" % rock_heading) if abs(rock_heading) > 1e-6 else ""))
 
 
 # ROLLING-CONTACT wheel speeds (user field report: the small road wheels looked draggy — "they should be
