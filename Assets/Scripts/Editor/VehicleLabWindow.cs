@@ -66,6 +66,9 @@ public class VehicleLabWindow : EditorWindow
     [SerializeField] float rockPitchRatio = 0.4f; // pitch amplitude as a fraction of roll (0 = pure beam roll)
     [SerializeField] float rockPitchFreq = 2f;    // pitch frequency relative to roll (1 = see-saw, 2 = riding swells)
     const int RockFps = 24;                       // Blender's scene fps — the clip's real-time length
+    // The two motion sections fold independently (Sound Studio pattern): a model is almost always EITHER a wheeled
+    // vehicle OR a floating one, so ~10 permanently-irrelevant rows were on screen at all times.
+    [SerializeField] bool foldSpin = true, foldWave = false;
     [SerializeField] int minVerts = 50;   // parts below this are COLLAPSED into Body (a triangle-soup FBX probes into thousands of shards)
     [SerializeField] float minPartSize = 0f;  // hide parts whose LARGEST bbox dimension is below this — drop minVerts + raise this to surface big-but-low-poly parts (flat discs, plates)
     [SerializeField] float minHeight = -999f; // hide parts whose CENTER height is below this (clamped to the model's span, so the default means "off") — slide up to isolate turret-level parts
@@ -265,56 +268,67 @@ public class VehicleLabWindow : EditorWindow
                 EditorGUILayout.LabelField("  (probe preview unavailable — part focus needs the probe's preview FBX; re-Probe after recompiling)", EditorStyles.miniLabel);
             else
                 EditorGUILayout.LabelField("  Click a row to zoom + highlight it in the preview below; click again for the full view.", EditorStyles.miniLabel);
-            axisChoice = EditorGUILayout.Popup(new GUIContent("Axle axis", "Auto infers each wheel's axle as its thinnest bbox extent — right for normal wheels; override only if a wheel spins the wrong way around."), axisChoice, AxisOptions);
-            frames = EditorGUILayout.IntSlider(new GUIContent("Spin frames", "Length of the generated Spin action. Apparent speed is tuned later with slice steps (Spin[1..N/2]) — this just needs to be a smooth loop."), frames, 5, 60);
-            degrees = EditorGUILayout.Slider(new GUIContent("Spin degrees", "Wheel rotation over the clip (one full turn = 360). Which SIGN rolls forward depends on the model's nose direction — check the preview and negate if the wheels roll backward. For a +X-facing model (like the Ehrhardt), +360 is forward."), degrees, -720f, 720f);
-            if (list.Any(x => x.role == Role.Caterpillar))
+            // TWO MOTION SECTIONS, collapsible (2026-07-31): a model is almost always EITHER a wheeled vehicle OR a
+            // floating one, so showing both knob sets at once was ~10 permanently-irrelevant rows. Each header
+            // summarises its state while collapsed, so nothing is hidden — only folded away.
+            int wheelCount = list.Count(x => x.role == Role.Wheel);
+            if (Section(ref foldSpin, "Spin — wheels & tracks",
+                    wheelCount > 0 ? $"{wheelCount} wheel part(s) · {degrees:0}° / {frames} frames" : "no wheels marked"))
             {
-                treadAdvCells = EditorGUILayout.IntSlider(new GUIContent("Tread speed (cells/loop)", "Belt advance per Spin loop, in cells (cell size set by Tread detail below). At detail 4: 4 cells = one full link — the belt matches the big wrap wheels exactly; 3 = slightly slower. Restarts stay invisible at any value (the pattern maps onto the cleat sub-grid)."), treadAdvCells, 1, 8);
+                axisChoice = EditorGUILayout.Popup(new GUIContent("Axle axis", "Auto infers each wheel's axle as its thinnest bbox extent — right for normal wheels; override only if a wheel spins the wrong way around."), axisChoice, AxisOptions);
+                frames = EditorGUILayout.IntSlider(new GUIContent("Spin frames", "Length of the generated Spin action. Apparent speed is tuned later with slice steps (Spin[1..N/2]) — this just needs to be a smooth loop."), frames, 5, 60);
+                degrees = EditorGUILayout.Slider(new GUIContent("Spin degrees", "Wheel rotation over the clip (one full turn = 360). Which SIGN rolls forward depends on the model's nose direction — check the preview and negate if the wheels roll backward. For a +X-facing model (like the Ehrhardt), +360 is forward."), degrees, -720f, 720f);
+                if (list.Any(x => x.role == Role.Caterpillar))
                 {
-                    int di = System.Array.IndexOf(TreadDetailValues, treadCellsPerLink); if (di < 0) di = 0;
-                    di = EditorGUILayout.Popup(new GUIContent("Tread detail (cells/link)", "THE BONES DIAL: how many rigid tread pieces per molded track link. Above 1 splits links (smoother wheel wraps, more bones); below 1 MERGES links (one bone carries 2 or 4 links — the escape hatch for finely-molded tracks like the Bradley's 0.186 pitch, where even one-per-link is 75 bones a side). Tread speed is in these cells; the pattern still maps at every restart."), di, TreadDetailLabels);
-                    treadCellsPerLink = TreadDetailValues[di];
+                    treadAdvCells = EditorGUILayout.IntSlider(new GUIContent("Tread speed (cells/loop)", "Belt advance per Spin loop, in cells (cell size set by Tread detail below). At detail 4: 4 cells = one full link — the belt matches the big wrap wheels exactly; 3 = slightly slower. Restarts stay invisible at any value (the pattern maps onto the cleat sub-grid)."), treadAdvCells, 1, 8);
+                    {
+                        int di = System.Array.IndexOf(TreadDetailValues, treadCellsPerLink); if (di < 0) di = 0;
+                        di = EditorGUILayout.Popup(new GUIContent("Tread detail (cells/link)", "THE BONES DIAL: how many rigid tread pieces per molded track link. Above 1 splits links (smoother wheel wraps, more bones); below 1 MERGES links (one bone carries 2 or 4 links — the escape hatch for finely-molded tracks like the Bradley's 0.186 pitch, where even one-per-link is 75 bones a side). Tread speed is in these cells; the pattern still maps at every restart."), di, TreadDetailLabels);
+                        treadCellsPerLink = TreadDetailValues[di];
+                    }
+                    tracksStatic = EditorGUILayout.Toggle(new GUIContent("Static tracks (no movement)", "ISOLATION SWITCH: rig the tread loops rigid to the hull — no link bones, no conveyor animation. Wheels still spin; the track geometry stays but doesn't run. For debugging (or a cheap LOD-style rig)."), tracksStatic);
+                    // road-wheel/roller and rear-idler speeds are AUTOMATIC: rims match the belt's advance
+                    // (belt-continuity), each snapped to its own spoke-symmetry grid for pop-free loop restarts
+                    // (both proven manually via dials first, then automated at the user's request)
                 }
-                tracksStatic = EditorGUILayout.Toggle(new GUIContent("Static tracks (no movement)", "ISOLATION SWITCH: rig the tread loops rigid to the hull — no link bones, no conveyor animation. Wheels still spin; the track geometry stays but doesn't run. For debugging (or a cheap LOD-style rig)."), tracksStatic);
-                // road-wheel/roller and rear-idler speeds are AUTOMATIC: rims match the belt's advance
-                // (belt-continuity), each snapped to its own spoke-symmetry grid for pop-free loop restarts
-                // (both proven manually via dials first, then automated at the user's request)
             }
 
             // WAVE ROCK — a FLOATING unit's idle sway. Independent of wheels: a boat marks nothing but Ignore
             // (to strip parts) and rocks. Rotation-only on a Hull bone, so no Keep-translations needed downstream.
-            EditorGUILayout.Space(2);
-            EditorGUILayout.LabelField("Wave rock (floating units)", EditorStyles.boldLabel);
-            rockDegrees = EditorGUILayout.Slider(new GUIContent("Rock amplitude (deg)",
-                "Roll amplitude of the idle sway, in degrees (0 = off). Pitch is authored at 40% of this and DOUBLE " +
-                "the frequency, so the motion reads as riding swells rather than a metronome. 3-8 deg suits a small " +
-                "boat; higher looks stormy. Authored on a 'RootHull' bone that carries the whole vessel, so Root " +
-                "(the engine's anchor) stays identity and the clip is rotation-only."), rockDegrees, 0f, 20f);
-            using (new EditorGUI.DisabledScope(rockDegrees <= 0f))
+            if (Section(ref foldWave, "Wave rock — floating units",
+                    rockDegrees > 0f ? $"{rockDegrees:0.#}° every {rockFrames / (float)RockFps:0.0}s" : "off"))
             {
-                rockFrames = EditorGUILayout.IntSlider(new GUIContent($"Rock speed — cycle ({rockFrames / (float)RockFps:0.0}s)",
-                    "THE SPEED KNOB: how many frames ONE full wave takes. FEWER frames = faster rocking; more = a " +
-                    "slower, heavier vessel. This is also the clip's length, and frame 0 equals the rest pose so " +
-                    "the loop restart is seamless. (You can also halve it at bake time without re-rigging: a clip " +
-                    "slice like Spin[0..120/2] plays every 2nd frame = twice as fast.)"), rockFrames, 20, 600);
-                rockAxisChoice = EditorGUILayout.Popup(new GUIContent("Rock axis (hull length)",
-                    "Which axis the hull RUNS ALONG — the vessel rolls about it, and pitches about the other " +
-                    "horizontal axis. Auto picks the longer horizontal extent, which is a boat's length. Override " +
-                    "when the rock looks like it is pivoting the wrong way: a model authored Y-up in glTF lands " +
-                    "with its length on Y, while models built here run along X."), rockAxisChoice, RockAxisOptions);
-                rockHeading = EditorGUILayout.Slider(new GUIContent("Axis heading (deg)",
-                    "Swings the roll axis around the vertical, away from the axis above. 0 = square on the beam. " +
-                    "Use it for a hull that isn't axis-aligned, or to angle the swell so the vessel takes it on " +
-                    "the quarter — the motion then mixes roll and pitch instead of being purely one or the other."), rockHeading, -90f, 90f);
-                rockPitchRatio = EditorGUILayout.Slider(new GUIContent("Pitch amount (× roll)",
-                    "How much the bow rises and falls, as a fraction of the roll. 0 = a pure beam roll (no " +
-                    "pitching); 0.4 (default) reads as riding swells; 1 gives equal roll and pitch."), rockPitchRatio, 0f, 1.5f);
-                rockPitchFreq = EditorGUILayout.Slider(new GUIContent("Pitch rhythm (× roll)",
-                    "Pitch frequency relative to the roll — the CHARACTER of the motion. 2 (default) drops the bow " +
-                    "twice per roll, the natural swell feel. 1 makes pitch and roll swing together like a rocking " +
-                    "horse. Fractional values give a long, wandering rhythm."), rockPitchFreq, 0.5f, 4f);
+                rockDegrees = EditorGUILayout.Slider(new GUIContent("Rock amplitude (deg)",
+                    "Roll amplitude of the idle sway, in degrees (0 = off). Pitch is authored at 40% of this and DOUBLE " +
+                    "the frequency, so the motion reads as riding swells rather than a metronome. 3-8 deg suits a small " +
+                    "boat; higher looks stormy. Authored on a 'RootHull' bone that carries the whole vessel, so Root " +
+                    "(the engine's anchor) stays identity and the clip is rotation-only."), rockDegrees, 0f, 20f);
+                using (new EditorGUI.DisabledScope(rockDegrees <= 0f))
+                {
+                    rockFrames = EditorGUILayout.IntSlider(new GUIContent($"Rock speed — cycle ({rockFrames / (float)RockFps:0.0}s)",
+                        "THE SPEED KNOB: how many frames ONE full wave takes. FEWER frames = faster rocking; more = a " +
+                        "slower, heavier vessel. This is also the clip's length, and frame 0 equals the rest pose so " +
+                        "the loop restart is seamless. (You can also halve it at bake time without re-rigging: a clip " +
+                        "slice like Spin[0..120/2] plays every 2nd frame = twice as fast.)"), rockFrames, 20, 600);
+                    rockAxisChoice = EditorGUILayout.Popup(new GUIContent("Rock axis (hull length)",
+                        "Which axis the hull RUNS ALONG — the vessel rolls about it, and pitches about the other " +
+                        "horizontal axis. Auto picks the longer horizontal extent, which is a boat's length. Override " +
+                        "when the rock looks like it is pivoting the wrong way: a model authored Y-up in glTF lands " +
+                        "with its length on Y, while models built here run along X."), rockAxisChoice, RockAxisOptions);
+                    rockHeading = EditorGUILayout.Slider(new GUIContent("Axis heading (deg)",
+                        "Swings the roll axis around the vertical, away from the axis above. 0 = square on the beam. " +
+                        "Use it for a hull that isn't axis-aligned, or to angle the swell so the vessel takes it on " +
+                        "the quarter — the motion then mixes roll and pitch instead of being purely one or the other."), rockHeading, -90f, 90f);
+                    rockPitchRatio = EditorGUILayout.Slider(new GUIContent("Pitch amount (× roll)",
+                        "How much the bow rises and falls, as a fraction of the roll. 0 = a pure beam roll (no " +
+                        "pitching); 0.4 (default) reads as riding swells; 1 gives equal roll and pitch."), rockPitchRatio, 0f, 1.5f);
+                    rockPitchFreq = EditorGUILayout.Slider(new GUIContent("Pitch rhythm (× roll)",
+                        "Pitch frequency relative to the roll — the CHARACTER of the motion. 2 (default) drops the bow " +
+                        "twice per roll, the natural swell feel. 1 makes pitch and roll swing together like a rocking " +
+                        "horse. Fractional values give a long, wandering rhythm."), rockPitchFreq, 0.5f, 4f);
+                }
             }
+            EditorGUILayout.Space(4);
 
             int wheels = list.Count(x => x.role == Role.Wheel);
             bool canRig = wheels > 0 || rockDegrees > 0f;
@@ -534,13 +548,32 @@ public class VehicleLabWindow : EditorWindow
         parts.Clear(); boneParts.Clear(); useSourceRig = false;
         frames = 15; degrees = -360f; axisChoice = 0;
         treadAdvCells = 3; treadCellsPerLink = 4f; tracksStatic = false;
-        rockDegrees = 0f; rockFrames = 120; rockAxisChoice = 0; rockHeading = 0f; rockPitchRatio = 0.4f; rockPitchFreq = 2f;
+        rockDegrees = 0f; rockFrames = 120; rockAxisChoice = 0; rockHeading = 0f; rockPitchRatio = 0.4f; rockPitchFreq = 2f; foldSpin = true; foldWave = false;
         minVerts = 50; minPartSize = 0f; minHeight = -999f; maxHeight = 999f;
         partFilter = 0; selectedPart = ""; partsScroll = Vector2.zero; previewPan = Vector2.zero;
         DestroyPreview();
         status = "New model: pick a Raw model, then Probe parts. (Wheels optional — a floating unit just needs a Wave rock amplitude.)";
         GUI.FocusControl(null);
         Repaint();
+    }
+
+    // A collapsible section header — the Sound Studio's, so both windows read the same. Uses Foldout (not
+    // BeginFoldoutHeaderGroup) so there is no strict End pairing to balance, with a RIGHT-ALIGNED grey summary
+    // shown only WHILE FOLDED: a collapsed window still says at a glance which sections carry a configuration.
+    static GUIStyle sectionSummaryStyle;
+    static bool Section(ref bool state, string title, string summary = null)
+    {
+        EditorGUILayout.Space(4);
+        var rect = GUILayoutUtility.GetRect(1, EditorGUIUtility.singleLineHeight, GUILayout.ExpandWidth(true));
+        state = EditorGUI.Foldout(rect, state, title, true, EditorStyles.foldoutHeader);
+        if (!state && !string.IsNullOrEmpty(summary))
+        {
+            if (sectionSummaryStyle == null)
+                sectionSummaryStyle = new GUIStyle(EditorStyles.miniLabel) { alignment = TextAnchor.MiddleRight, normal = { textColor = new Color(0.55f, 0.75f, 0.55f) } };
+            var r2 = rect; r2.xMin = rect.xMin + rect.width * 0.35f;
+            GUI.Label(r2, summary, sectionSummaryStyle);
+        }
+        return state;
     }
 
     void SaveRecipe()
