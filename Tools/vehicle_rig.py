@@ -1404,6 +1404,17 @@ for o in list(bpy.data.objects):   # bpy.data, not scene.objects — helpers can
     if o not in keep:
         bpy.data.objects.remove(o, do_unlink=True)
 
+# PURGE THE SOURCE'S OWN ACTIONS before export (canoe finding 2026-07-31): the raw model's take (the canoe's
+# "Take 001") rides along into the GLB even though nothing here plays it — the meshes are skinned to OUR armature
+# now. It then shows up in the Factory's clip picker beside 'Spin', and picking it bakes a model that never moves.
+# The rig authors exactly one clip; anything else in the file is a leftover.
+for _oa2 in [a for a in bpy.data.actions if a.name != "Spin"]:
+    print("VEHICLE purged leftover source clip '%s' (only 'Spin' is authored here)" % _oa2.name)
+    bpy.data.actions.remove(_oa2)
+for _o2 in bpy.data.objects:
+    if _o2.type != 'ARMATURE' and _o2.animation_data is not None:
+        _o2.animation_data_clear()
+
 bpy.ops.export_scene.gltf(filepath=out_glb, export_animations=True)
 if preview_fbx:
     bpy.ops.export_scene.fbx(filepath=preview_fbx, add_leaf_bones=False, bake_anim=True)
