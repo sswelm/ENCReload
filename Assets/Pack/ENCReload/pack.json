@@ -918,7 +918,7 @@
         {
             "resourceName": "DugoutCanoe",
             "pawnDescription": "Era1_Common_DugoutCanoe_01",
-            "modelFile": "D:/3DModels/Dugout Canoe/dug-out_canoe.glb",
+            "modelFile": "D:/3DModels/Dugout Canoe/dug-out_canoe_Wave.glb",
             "rotation": {
                 "x": 0.0,
                 "y": 180.0,
@@ -965,9 +965,9 @@
                 1499877621
             ],
             "animated": true,
-            "animClip": "Take 001[120..360]",
+            "animClip": "Spin",
             "animateBones": "",
-            "staticParts": "Cloth",
+            "staticParts": "",
             "localNodeAnim": false,
             "animUnitFix": false,
             "convertRig": true,

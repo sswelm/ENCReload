@@ -64,10 +64,42 @@ Rather than keep fighting the source's take, the Vehicle Lab now covers this who
 - **New model** clears the whole session — the Lab previously had no way to *start* one, and Browsing a new
   source left the probed bone rows, the fast-path flag and every knob carrying the last model's state.
 
-**Flow for a floating unit**: Vehicle Lab → Probe parts → mark unwanted parts `Ignore` → set Rock
-amplitude (3–8° for a small boat) and cycle (~120 frames) → Vehicleize → point the Model Factory entry's
-**Model file** at the generated GLB with clip **`Spin`**, animated + Convert-raw-rig → Bake. This bypasses
-a broken source animation entirely: the motion is authored, not transplanted.
+### The wave rock, as shipped
+
+Two INDEPENDENT sine waves on the `RootHull` bone — no ratios or multipliers, each stated in its own
+terms, because coupling them made every adjustment move something unintended:
+
+```
+Clip length (frames)                  120  = 5.0s at 24fps
+Roll  — amount (deg) / swings per clip  6 / 1     side to side, about the hull's length
+Pitch — amount (deg) / swings per clip  2.4 / 1   bow up and down, across the hull
+      — offset (deg)                    90
+Axis  — hull length / heading          Auto / 0
+```
+
+Cycle counts are **integers** so the loop always closes without a pop. The **offset** is what keeps an
+equal-speed rock two-dimensional: at 0 the two swings stay in lockstep and the hull tilts along one fixed
+diagonal (reads as a single axis); at 90 it traces an ellipse, the hull circling as it bobs. Frame 0 is
+then a slightly heeled pose — the loop still closes exactly and the bake's rest-normalize adopts it, so
+`bind == frame 0` holds. Roll 0 with a pitch value is a valid pitch-only rock.
+
+Also in the Lab: **Orientation** (X/Y/Z straighten, applied to the DATA before anything measures the model,
+so axle/tread/hull-length inference all read the corrected pose), a **waterline grid** in the preview to
+judge it against, **New model** to clear a session, and a window scrollbar.
+
+**VERIFIED IN-GAME 2026-07-31** — the canoe floats and rocks. Registry: `modelFile` = the generated
+`_Wave.glb`, `animClip` = `Spin`, `staticParts` empty, `localNodeAnim` off.
+
+**Flow for a floating unit**: Vehicle Lab → **New model** → Browse + **Probe parts** → mark unwanted parts
+`Ignore` → set the rock → **Generate rig** → point the Model Factory entry's **Model file** at the
+generated GLB with clip **`Spin`**, animated + Convert-raw-rig → Bake. This bypasses a broken source
+animation entirely: the motion is authored, not transplanted.
+
+**Trap — a stale generated GLB.** The rig step is a separate button from the bake, so the GLB can lag the
+Lab's settings silently. `Spin`'s frame range should equal your Rock cycle exactly (120 → `Spin (0,120)`);
+if it reads anything else, the GLB predates the current settings — re-run Generate rig. Older files also
+carry the source's own clip (e.g. `Take 001`) beside `Spin`: picking it bakes a unit that never moves,
+with nothing in the logs to explain why. Newly generated rigs purge it.
 
 ## Debugging method that finally worked
 
