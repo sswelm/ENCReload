@@ -2028,6 +2028,213 @@
             ],
             "sourceAsset": "Assets/~References/UnitFormation/PresentationFormationDefinition.asset",
             "sourceFormation": "Formation_1"
+        },
+        {
+            "unit": "PresentationNavalTransport_Era1_Common_DugoutCanoe_Default",
+            "formation": "Formation_Wedge_3",
+            "lowSpec": "Formation_1",
+            "dummyOffset": -1.0,
+            "scale": -1.0,
+            "layoutScale": -1.0,
+            "scaleMode": "transform",
+            "sizeFormations": [],
+            "dummies": [
+                {
+                    "position": {
+                        "x": 0.02431604638695717,
+                        "y": 0.0,
+                        "z": 1.102094292640686
+                    },
+                    "coords": [
+                        {
+                            "x": 0,
+                            "y": 0
+                        },
+                        {
+                            "x": 0,
+                            "y": 0
+                        },
+                        {
+                            "x": 1,
+                            "y": 0
+                        },
+                        {
+                            "x": 1,
+                            "y": 0
+                        },
+                        {
+                            "x": 1,
+                            "y": 1
+                        },
+                        {
+                            "x": 0,
+                            "y": 1
+                        }
+                    ]
+                },
+                {
+                    "position": {
+                        "x": -1.1878421306610108,
+                        "y": 0.0,
+                        "z": -0.5706806182861328
+                    },
+                    "coords": [
+                        {
+                            "x": 1,
+                            "y": 0
+                        },
+                        {
+                            "x": 1,
+                            "y": 0
+                        },
+                        {
+                            "x": 1,
+                            "y": 1
+                        },
+                        {
+                            "x": 0,
+                            "y": 1
+                        },
+                        {
+                            "x": 0,
+                            "y": 0
+                        },
+                        {
+                            "x": 0,
+                            "y": 0
+                        }
+                    ]
+                },
+                {
+                    "position": {
+                        "x": 1.3580548763275147,
+                        "y": 0.0,
+                        "z": -0.5497382283210754
+                    },
+                    "coords": [
+                        {
+                            "x": 1,
+                            "y": 1
+                        },
+                        {
+                            "x": 0,
+                            "y": 1
+                        },
+                        {
+                            "x": 0,
+                            "y": 0
+                        },
+                        {
+                            "x": 0,
+                            "y": 0
+                        },
+                        {
+                            "x": 1,
+                            "y": 0
+                        },
+                        {
+                            "x": 1,
+                            "y": 0
+                        }
+                    ]
+                }
+            ],
+            "columns0": [
+                1,
+                2
+            ],
+            "columns1": [
+                2,
+                1
+            ],
+            "columns2": [
+                1,
+                2
+            ],
+            "columns3": [
+                2,
+                1
+            ],
+            "columns4": [
+                1,
+                2
+            ],
+            "columns5": [
+                2,
+                1
+            ],
+            "sourceAsset": "Assets/~References/UnitFormation/PresentationFormationDefinition.asset",
+            "sourceFormation": "Formation_Wedge_3"
+        },
+        {
+            "unit": "PresentationNavalUnit_Era1_Common_Biremes_Default",
+            "formation": "Formation_1",
+            "lowSpec": "",
+            "dummyOffset": -1.0,
+            "scale": -1.0,
+            "layoutScale": -1.0,
+            "scaleMode": "transform",
+            "sizeFormations": [
+                {
+                    "threshold": 0.699999988079071,
+                    "formation": "Formation_Wedge_3"
+                }
+            ],
+            "dummies": [
+                {
+                    "position": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "coords": [
+                        {
+                            "x": 0,
+                            "y": 0
+                        },
+                        {
+                            "x": 0,
+                            "y": 0
+                        },
+                        {
+                            "x": 0,
+                            "y": 0
+                        },
+                        {
+                            "x": 0,
+                            "y": 0
+                        },
+                        {
+                            "x": 0,
+                            "y": 0
+                        },
+                        {
+                            "x": 0,
+                            "y": 0
+                        }
+                    ]
+                }
+            ],
+            "columns0": [
+                1
+            ],
+            "columns1": [
+                1
+            ],
+            "columns2": [
+                1
+            ],
+            "columns3": [
+                1
+            ],
+            "columns4": [
+                1
+            ],
+            "columns5": [
+                1
+            ],
+            "sourceAsset": "Assets/~References/UnitFormation/PresentationFormationDefinition.asset",
+            "sourceFormation": "Formation_1"
         }
     ]
 }
