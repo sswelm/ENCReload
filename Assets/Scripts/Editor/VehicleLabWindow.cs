@@ -56,6 +56,9 @@ public class VehicleLabWindow : EditorWindow
         "4 — quarter link (smoothest, most bones)", "2 — half link", "1 — one bone per link",
         "0.5 — one bone per TWO links", "0.25 — one bone per FOUR links (coarsest)" };
     [SerializeField] bool tracksStatic = false; // isolation switch: rig tread loops rigid to the hull (no link bones, no conveyor)
+    // WAVE ROCK (2026-07-31): slow idle sway for FLOATING units, authored on a Hull bone under Root. 0 = off.
+    [SerializeField] float rockDegrees = 0f;
+    [SerializeField] int rockFrames = 120;
     [SerializeField] int minVerts = 50;   // parts below this are COLLAPSED into Body (a triangle-soup FBX probes into thousands of shards)
     [SerializeField] float minPartSize = 0f;  // hide parts whose LARGEST bbox dimension is below this — drop minVerts + raise this to surface big-but-low-poly parts (flat discs, plates)
     [SerializeField] float minHeight = -999f; // hide parts whose CENTER height is below this (clamped to the model's span, so the default means "off") — slide up to isolate turret-level parts
@@ -257,10 +260,25 @@ public class VehicleLabWindow : EditorWindow
                 // (both proven manually via dials first, then automated at the user's request)
             }
 
+            // WAVE ROCK — a FLOATING unit's idle sway. Independent of wheels: a boat marks nothing but Ignore
+            // (to strip parts) and rocks. Rotation-only on a Hull bone, so no Keep-translations needed downstream.
+            EditorGUILayout.Space(2);
+            EditorGUILayout.LabelField("Wave rock (floating units)", EditorStyles.boldLabel);
+            rockDegrees = EditorGUILayout.Slider(new GUIContent("Rock amplitude (deg)",
+                "Roll amplitude of the idle sway, in degrees (0 = off). Pitch is authored at 40% of this and DOUBLE " +
+                "the frequency, so the motion reads as riding swells rather than a metronome. 3-8 deg suits a small " +
+                "boat; higher looks stormy. Authored on a 'RootHull' bone that carries the whole vessel, so Root " +
+                "(the engine's anchor) stays identity and the clip is rotation-only."), rockDegrees, 0f, 20f);
+            using (new EditorGUI.DisabledScope(rockDegrees <= 0f))
+                rockFrames = EditorGUILayout.IntSlider(new GUIContent("Rock cycle (frames)",
+                    "Length of ONE full wave cycle. Longer = slower, heavier vessel. The exported clip is at least " +
+                    "this long, and frame 0 equals the rest pose so the loop restart is seamless."), rockFrames, 20, 600);
+
             int wheels = list.Count(x => x.role == Role.Wheel);
-            using (new EditorGUI.DisabledScope(wheels == 0 || string.IsNullOrEmpty(outGlb)))
+            bool canRig = wheels > 0 || rockDegrees > 0f;
+            using (new EditorGUI.DisabledScope(!canRig || string.IsNullOrEmpty(outGlb)))
                 if (GUILayout.Button(new GUIContent($"Vehicleize{(useSourceRig && boneParts.Count > 0 ? " (fast path)" : "")}  →  {(string.IsNullOrEmpty(outGlb) ? "(set the Output GLB)" : Path.GetFileName(outGlb))}",
-                        wheels == 0 ? "Mark at least one entry as Wheel." : "Runs Blender: rig + Spin action + GLB export + preview."), GUILayout.Height(28)))
+                        !canRig ? "Mark at least one entry as Wheel — or set a Wave rock amplitude (a floating unit needs no wheels)." : "Runs Blender: rig + Spin action + GLB export + preview."), GUILayout.Height(28)))
                     Vehicleize();
         }
 
@@ -565,7 +583,7 @@ public class VehicleLabWindow : EditorWindow
         File.WriteAllLines(gunsFile, src.Where(p => p.role == Role.Gun).Select(p => p.name).ToArray());
         string axis = axisChoice == 0 ? "AUTO" : AxisOptions[axisChoice];
         var inv = System.Globalization.CultureInfo.InvariantCulture;
-        if (!RunBlender($"{(fast ? "rigfast" : "rig")} \"{srcFile}\" \"{lastOutGlb}\" \"{prevFull}\" \"@{wheelsFile}\" \"@{turretsFile}\" {axis} {frames} {degrees.ToString("0.#", inv)} \"@{ignoreFile}\" \"@{tracksFile}\" \"@{gunsFile}\" {treadAdvCells} 1 1 {treadCellsPerLink.ToString("0.##", inv)} {(tracksStatic ? "1" : "0")}", out string stdout)) return;
+        if (!RunBlender($"{(fast ? "rigfast" : "rig")} \"{srcFile}\" \"{lastOutGlb}\" \"{prevFull}\" \"@{wheelsFile}\" \"@{turretsFile}\" {axis} {frames} {degrees.ToString("0.#", inv)} \"@{ignoreFile}\" \"@{tracksFile}\" \"@{gunsFile}\" {treadAdvCells} 1 1 {treadCellsPerLink.ToString("0.##", inv)} {(tracksStatic ? "1" : "0")} {rockDegrees.ToString("0.##", inv)} {rockFrames}", out string stdout)) return;
         // SUCCESS = THE SCRIPT'S OWN FINAL MARKER (the documented Blender trap: it exits 0 even when the python
         // script crashes mid-way — without this gate a half-run printed a fake "DONE" with no file on disk).
         string done = stdout.Split('\n').FirstOrDefault(l => l.Contains("VEHICLE RIG DONE"));

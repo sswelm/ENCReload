@@ -39,6 +39,29 @@ looks like from the outside, so the next node-animated Sketchfab model doesn't c
   keying, slot handling and double-bind guard all work; the bind/vert-fold arrangement is still wrong
   (parts collapse into the hull). Do not enable it on a shipping model yet.
 
+## The resolution: strip + synthesize instead of transplant (2026-07-31)
+
+Rather than keep fighting the source's take, the Vehicle Lab now covers this whole class of model:
+
+- **Strip parts** was already there — the **`Ignore` role** (`I` key) *deletes* parts from the output.
+  For the canoe: mark the outrigger logs, lashings, mast/spars and sail Ignore → 66 meshes / 21.7k tris
+  collapses to 10 meshes / 4.8k tris, 4 materials to 2 (sharper atlas at the same size), and the entire
+  sail problem class disappears. A bare dugout with paddles is also the better *historical* read for a
+  level-0 transport — the outrigger-and-sail rig is markedly later technology.
+- **Wave rock** (new): `Rock amplitude (deg)` + `Rock cycle (frames)`. Authors a slow idle sway on a
+  **`RootHull`** bone inserted between Root and everything else, so the engine's root anchor stays
+  identity and the whole vessel rocks as one rigid unit. Roll = `A·sin(2πt)` about the longitudinal axis;
+  pitch = `0.4A·sin(4πt)` — a figure-8 that reads as riding swells, not a metronome. **Rotation-only**
+  (no Keep-translations needed) and **frame 0 is the rest pose**, so it satisfies bind==frame0 and loops
+  seamlessly. Sampled at 24 steps because the pipeline keys LINEAR.
+- Vehicleize no longer requires a Wheel: `wheels > 0 || rockDegrees > 0`, so a floating unit can mark
+  nothing but Ignore and still rig.
+
+**Flow for a floating unit**: Vehicle Lab → Probe parts → mark unwanted parts `Ignore` → set Rock
+amplitude (3–8° for a small boat) and cycle (~120 frames) → Vehicleize → point the Model Factory entry's
+**Model file** at the generated GLB with clip **`Spin`**, animated + Convert-raw-rig → Bake. This bypasses
+a broken source animation entirely: the motion is authored, not transplanted.
+
 ## Debugging method that finally worked
 
 Iterate **headless, without Unity**, and *look at the result*:

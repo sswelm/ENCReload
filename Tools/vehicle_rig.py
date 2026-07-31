@@ -157,6 +157,17 @@ tread_cells_per_link = max(0.25, min(4.0, float(argv[15]))) if len(argv) > 15 an
 # 1 = rig the tread loops STATIC (rigid with the hull, no link bones, no conveyor — the isolation switch:
 # wheels still spin, the tracks just don't run). Geometry stays visible.
 tracks_static = len(argv) > 16 and argv[16].strip() == "1"
+# WAVE ROCK (argv[17] amplitude in degrees, argv[18] cycle length in frames; canoe finding 2026-07-31): a slow
+# idle sway for FLOATING units. Authored on a dedicated "Hull" bone (child of Root, carrying every part that
+# would otherwise skin to Root) so the engine's root anchor stays identity. Rotation-only by construction —
+# no keepTranslations needed, and it obeys the bind==frame0 contract (both endpoints are identity).
+# Roll about the LONGITUDINAL axis (X, the rig's forward) at the cycle frequency; pitch about Y at DOUBLE the
+# frequency and 40% of the amplitude — a figure-8 that reads as riding swells rather than a metronome.
+rock_deg = max(0.0, min(45.0, float(argv[17]))) if len(argv) > 17 and argv[17].strip() else 0.0
+rock_frames = max(0, int(float(argv[18]))) if len(argv) > 18 and argv[18].strip() else 0
+if rock_deg > 0.0 and rock_frames <= 0:
+    rock_frames = frames
+rock_on = rock_deg > 0.0 and rock_frames >= 2
 had_static_tracks = False   # remembers this IS a tracked vehicle even though the tread pipeline is skipped
 if tracks_static and track_names:
     print("VEHICLE tracks STATIC (isolation): %d tread part(s) rigged rigid to Root, no link bones" % len(track_names))
@@ -303,6 +314,18 @@ bpy.context.view_layer.objects.active = arm
 bpy.ops.object.mode_set(mode='EDIT')
 eb_root = arm_data.edit_bones.new("Root")
 eb_root.head = (0, 0, 0); eb_root.tail = (0, 0.25, 0)
+# WAVE ROCK: everything that would hang off Root hangs off Hull instead, and Hull carries the sway — so the
+# whole vessel (body, wheels, turret, gun, tracks) rocks as one rigid unit while Root stays identity.
+# Named to sort AFTER Root alphabetically (Amplitude needs parents-first ordering).
+if rock_on:
+    eb_hull = arm_data.edit_bones.new("RootHull")
+    eb_hull.head = (0, 0, 0); eb_hull.tail = (0, 0.2, 0)
+    eb_hull.parent = eb_root
+    eb_body = eb_hull
+    body_bone = "RootHull"
+else:
+    eb_body = eb_root
+    body_bone = "Root"
 bone_of = {}
 wheel_axes = {}
 cluster_bones = []
@@ -311,7 +334,7 @@ for i, cl in enumerate(clusters):
     eb = arm_data.edit_bones.new("Wheel_%02d" % i)
     eb.head = cl["c"]
     eb.tail = cl["c"] + ax * max(0.05, max(cl["s"]) * 0.25)
-    eb.parent = eb_root
+    eb.parent = eb_body
     cluster_bones.append(eb.name)
     wheel_axes[eb.name] = tuple(ax)
     for wn in cl["names"]:
@@ -329,7 +352,7 @@ if turret_names:
     eb = arm_data.edit_bones.new("Turret")
     eb.head = tc
     eb.tail = tc + Vector((0, 0, max(0.05, max(ts) * 0.25)))
-    eb.parent = eb_root
+    eb.parent = eb_body
     eb_turret = eb
     for tn in turret_names:
         bone_of[tn] = "Turret"
@@ -342,7 +365,7 @@ if gun_names:
     eb = arm_data.edit_bones.new("Gun")
     eb.head = gc
     eb.tail = gc + Vector((0, 0, max(0.05, max(gs) * 0.25)))
-    eb.parent = eb_turret if eb_turret is not None else eb_root
+    eb.parent = eb_turret if eb_turret is not None else eb_body
     for gn in gun_names:
         bone_of[gn] = "Gun"
 # Track bones — TREADIZE v2 (2026-07-26, user-designed surfaces): a tread loop is FOUR motion regions, each on
@@ -367,7 +390,7 @@ for i, tn in enumerate(track_names):
         eb = arm_data.edit_bones.new("Track_%02d_%s_%s" % (i, side, suffix))
         eb.head = c
         eb.tail = c + Vector((0, 0, max(0.05, max(s) * 0.25)))
-        eb.parent = eb_root
+        eb.parent = eb_body
         names.append(eb.name)
     # DEDICATED wrap bones co-located with the sprocket/idler (copied head/tail/roll = same axle axis).
     # The tread system runs its OWN smaller quantum than the visible wheels (fold-finder verdict: at 60 deg
@@ -385,7 +408,7 @@ for i, tn in enumerate(track_names):
             eb.head = wb.head.copy(); eb.tail = wb.tail.copy(); eb.roll = wb.roll
         else:
             eb.head = c; eb.tail = c + Vector((0, 0, max(0.05, max(s) * 0.25)))
-        eb.parent = eb_root
+        eb.parent = eb_body
         names.append(eb.name)
     track_infos.append((tn, names, front_cl, rear_cl, c.copy(), roadF_cl, roadR_cl))
 bpy.ops.object.mode_set(mode='OBJECT')
@@ -918,7 +941,7 @@ for o in objs:
         md = o.modifiers.new("Armature", 'ARMATURE'); md.object = arm
         o.parent = arm
         continue
-    bname = bone_of.get(o.name, "Root")
+    bname = bone_of.get(o.name, body_bone)
     for g in list(o.vertex_groups):
         o.vertex_groups.remove(g)
     vg = o.vertex_groups.new(name=bname)
@@ -962,14 +985,14 @@ if _link_jobs:
             _P0, _ = _path_eval(_job, _job["s_rest"][_ci])
             eb.head = _P0
             eb.tail = _P0 + Vector((0, 0, 0.1))
-            eb.parent = arm_data.edit_bones["Root"]
+            eb.parent = arm_data.edit_bones[body_bone]
         # v2 hybrid: ONE shuttle bone per straight run, at the run's midpoint cell
         for _ri, _run in enumerate(_job["runs"]):
             eb = arm_data.edit_bones.new("%sS%02d" % (_job["prefix"], _ri))
             _P0, _ = _path_eval(_job, _job["s_rest"][_run[len(_run) // 2]])
             eb.head = _P0
             eb.tail = _P0 + Vector((0, 0, 0.1))
-            eb.parent = arm_data.edit_bones["Root"]
+            eb.parent = arm_data.edit_bones[body_bone]
     bpy.ops.object.mode_set(mode='OBJECT')
     print("VEHICLE armature: %d bones total (Amplitude cap 256)" % len(arm_data.bones))
     for _tn, _job in _link_jobs.items():
@@ -999,7 +1022,7 @@ def _join_per_bone():
     groups = {}
     for o in objs:
         # tread parts are multi-bone-skinned (four regions) — each stays its OWN mesh, never merged
-        _k = ("__track__" + o.name) if o.name in _track_by_name else bone_of.get(o.name, "Root")
+        _k = ("__track__" + o.name) if o.name in _track_by_name else bone_of.get(o.name, body_bone)
         groups.setdefault(_k, []).append(o)
     joined = []
     for bname, members in groups.items():
@@ -1026,7 +1049,27 @@ try:
 except Exception:
     pass
 bpy.context.scene.frame_start = 0
-bpy.context.scene.frame_end = frames
+# the clip must cover the SLOWEST authored motion — a wave cycle is typically far longer than a wheel loop
+bpy.context.scene.frame_end = max(frames, rock_frames) if rock_on else frames
+
+# WAVE ROCK keys on the Hull bone: roll = A·sin(2πt) about X (longitudinal), pitch = 0.4A·sin(4πt) about Y.
+# Both vanish at t=0 and t=1, so frame 0 IS the rest pose (bind==frame0) and the loop restart is seamless.
+# Sampled densely (24 steps) because the pipeline keys LINEAR — a sparse sine would read as a triangle wave.
+if rock_on:
+    _pb_hull = arm.pose.bones[body_bone]
+    _pb_hull.rotation_mode = 'XYZ'
+    _steps = 24
+    _amp = math.radians(rock_deg)
+    for _i in range(_steps + 1):
+        _t = _i / float(_steps)
+        _f = int(round(_t * rock_frames))
+        bpy.context.scene.frame_set(_f)
+        _pb_hull.rotation_euler = (_amp * math.sin(2.0 * math.pi * _t),
+                                   _amp * 0.4 * math.sin(4.0 * math.pi * _t),
+                                   0.0)
+        _pb_hull.keyframe_insert("rotation_euler", frame=_f)
+    print("VEHICLE wave rock: %.1f deg roll / %.1f deg pitch over %d frames on '%s' (%d keys, rotation-only)"
+          % (rock_deg, rock_deg * 0.4, rock_frames, body_bone, _steps + 1))
 
 
 # ROLLING-CONTACT wheel speeds (user field report: the small road wheels looked draggy — "they should be
@@ -1289,6 +1332,7 @@ for o in list(bpy.data.objects):   # bpy.data, not scene.objects — helpers can
 bpy.ops.export_scene.gltf(filepath=out_glb, export_animations=True)
 if preview_fbx:
     bpy.ops.export_scene.fbx(filepath=preview_fbx, add_leaf_bones=False, bake_anim=True)
-print("VEHICLE RIG DONE: %d wheel part(s) clustered into %d wheel(s) %s, %d turret part(s) on one Turret bone, %d gun part(s) on one Gun bone%s, %d track loop(s) on own static bones, Spin 0..%d %.0f deg -> %s"
+print("VEHICLE RIG DONE: %d wheel part(s) clustered into %d wheel(s) %s, %d turret part(s) on one Turret bone, %d gun part(s) on one Gun bone%s, %d track loop(s) on own static bones, Spin 0..%d %.0f deg%s -> %s"
       % (len(wheel_names), len(clusters), {b: wheel_axes[b] for b in cluster_bones}, len(turret_names),
-         len(gun_names), " (child of Turret)" if (gun_names and turret_names) else "", len(track_names), frames, degrees, out_glb))
+         len(gun_names), " (child of Turret)" if (gun_names and turret_names) else "", len(track_names), frames, degrees,
+         (", wave rock %.1f deg over %d frames" % (rock_deg, rock_frames)) if rock_on else "", out_glb))
