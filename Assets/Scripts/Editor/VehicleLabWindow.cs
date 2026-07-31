@@ -60,6 +60,8 @@ public class VehicleLabWindow : EditorWindow
     // WAVE ROCK (2026-07-31): slow idle sway for FLOATING units, authored on a Hull bone under Root. 0 = off.
     [SerializeField] float rockDegrees = 0f;
     [SerializeField] int rockFrames = 120;
+    [SerializeField] int rockAxisChoice = 0;   // 0 = Auto (longer horizontal extent = the hull's length), 1 = X, 2 = Y
+    static readonly string[] RockAxisOptions = { "Auto (longest horizontal extent = hull length)", "X (hull runs along X)", "Y (hull runs along Y)" };
     [SerializeField] int minVerts = 50;   // parts below this are COLLAPSED into Body (a triangle-soup FBX probes into thousands of shards)
     [SerializeField] float minPartSize = 0f;  // hide parts whose LARGEST bbox dimension is below this — drop minVerts + raise this to surface big-but-low-poly parts (flat discs, plates)
     [SerializeField] float minHeight = -999f; // hide parts whose CENTER height is below this (clamped to the model's span, so the default means "off") — slide up to isolate turret-level parts
@@ -286,9 +288,16 @@ public class VehicleLabWindow : EditorWindow
                 "boat; higher looks stormy. Authored on a 'RootHull' bone that carries the whole vessel, so Root " +
                 "(the engine's anchor) stays identity and the clip is rotation-only."), rockDegrees, 0f, 20f);
             using (new EditorGUI.DisabledScope(rockDegrees <= 0f))
+            {
                 rockFrames = EditorGUILayout.IntSlider(new GUIContent("Rock cycle (frames)",
                     "Length of ONE full wave cycle. Longer = slower, heavier vessel. The exported clip is at least " +
                     "this long, and frame 0 equals the rest pose so the loop restart is seamless."), rockFrames, 20, 600);
+                rockAxisChoice = EditorGUILayout.Popup(new GUIContent("Rock axis (hull length)",
+                    "Which axis the hull RUNS ALONG — the vessel rolls about it, and pitches about the other " +
+                    "horizontal axis. Auto picks the longer horizontal extent, which is a boat's length. Override " +
+                    "when the rock looks like it is pivoting the wrong way: a model authored Y-up in glTF lands " +
+                    "with its length on Y, while models built here run along X."), rockAxisChoice, RockAxisOptions);
+            }
 
             int wheels = list.Count(x => x.role == Role.Wheel);
             bool canRig = wheels > 0 || rockDegrees > 0f;
@@ -508,7 +517,7 @@ public class VehicleLabWindow : EditorWindow
         parts.Clear(); boneParts.Clear(); useSourceRig = false;
         frames = 15; degrees = -360f; axisChoice = 0;
         treadAdvCells = 3; treadCellsPerLink = 4f; tracksStatic = false;
-        rockDegrees = 0f; rockFrames = 120;
+        rockDegrees = 0f; rockFrames = 120; rockAxisChoice = 0;
         minVerts = 50; minPartSize = 0f; minHeight = -999f; maxHeight = 999f;
         partFilter = 0; selectedPart = ""; partsScroll = Vector2.zero; previewPan = Vector2.zero;
         DestroyPreview();
@@ -616,7 +625,7 @@ public class VehicleLabWindow : EditorWindow
         File.WriteAllLines(gunsFile, src.Where(p => p.role == Role.Gun).Select(p => p.name).ToArray());
         string axis = axisChoice == 0 ? "AUTO" : AxisOptions[axisChoice];
         var inv = System.Globalization.CultureInfo.InvariantCulture;
-        if (!RunBlender($"{(fast ? "rigfast" : "rig")} \"{srcFile}\" \"{lastOutGlb}\" \"{prevFull}\" \"@{wheelsFile}\" \"@{turretsFile}\" {axis} {frames} {degrees.ToString("0.#", inv)} \"@{ignoreFile}\" \"@{tracksFile}\" \"@{gunsFile}\" {treadAdvCells} 1 1 {treadCellsPerLink.ToString("0.##", inv)} {(tracksStatic ? "1" : "0")} {rockDegrees.ToString("0.##", inv)} {rockFrames}", out string stdout)) return;
+        if (!RunBlender($"{(fast ? "rigfast" : "rig")} \"{srcFile}\" \"{lastOutGlb}\" \"{prevFull}\" \"@{wheelsFile}\" \"@{turretsFile}\" {axis} {frames} {degrees.ToString("0.#", inv)} \"@{ignoreFile}\" \"@{tracksFile}\" \"@{gunsFile}\" {treadAdvCells} 1 1 {treadCellsPerLink.ToString("0.##", inv)} {(tracksStatic ? "1" : "0")} {rockDegrees.ToString("0.##", inv)} {rockFrames} {(rockAxisChoice == 1 ? "X" : rockAxisChoice == 2 ? "Y" : "AUTO")}", out string stdout)) return;
         // SUCCESS = THE SCRIPT'S OWN FINAL MARKER (the documented Blender trap: it exits 0 even when the python
         // script crashes mid-way — without this gate a half-run printed a fake "DONE" with no file on disk).
         string done = stdout.Split('\n').FirstOrDefault(l => l.Contains("VEHICLE RIG DONE"));

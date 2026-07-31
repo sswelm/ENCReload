@@ -168,6 +168,11 @@ rock_frames = max(0, int(float(argv[18]))) if len(argv) > 18 and argv[18].strip(
 if rock_deg > 0.0 and rock_frames <= 0:
     rock_frames = frames
 rock_on = rock_deg > 0.0 and rock_frames >= 2
+# Which axis is the hull's LENGTH (= the roll axis; pitch is the other horizontal one). "AUTO" picks the longer
+# horizontal extent, which is a boat's length. Not inferable from the wheel Axle-axis knob: that describes a
+# wheel's thinness, and a hull has no wheels. Vehicles built here run along X, but a glTF authored Y-up lands
+# with its length on Blender's Y (the dug-out canoe) — hence the override.
+rock_axis_arg = argv[19].strip().upper() if len(argv) > 19 and argv[19].strip() else "AUTO"
 had_static_tracks = False   # remembers this IS a tracked vehicle even though the tread pipeline is skipped
 if tracks_static and track_names:
     print("VEHICLE tracks STATIC (isolation): %d tread part(s) rigged rigid to Root, no link bones" % len(track_names))
@@ -1056,6 +1061,21 @@ bpy.context.scene.frame_end = max(frames, rock_frames) if rock_on else frames
 # Both vanish at t=0 and t=1, so frame 0 IS the rest pose (bind==frame0) and the loop restart is seamless.
 # Sampled densely (24 steps) because the pipeline keys LINEAR — a sparse sine would read as a triangle wave.
 if rock_on:
+    # roll about the hull's LENGTH axis; pitch (bow up/down) about the other horizontal axis
+    if rock_axis_arg in ("X", "Y"):
+        _roll_i = 0 if rock_axis_arg == "X" else 1
+        _axis_why = "forced " + rock_axis_arg
+    else:
+        _rmn = Vector((1e18, 1e18, 1e18)); _rmx = Vector((-1e18, -1e18, -1e18))
+        for _ro in objs:
+            _rc, _rs = world_bbox(_ro)
+            for _k in range(3):
+                _rmn[_k] = min(_rmn[_k], _rc[_k] - _rs[_k] / 2.0)
+                _rmx[_k] = max(_rmx[_k], _rc[_k] + _rs[_k] / 2.0)
+        _span = _rmx - _rmn
+        _roll_i = 0 if _span.x >= _span.y else 1
+        _axis_why = "auto (%s longer: %.2f vs %.2f)" % ("XYZ"[_roll_i], max(_span.x, _span.y), min(_span.x, _span.y))
+    _pitch_i = 1 - _roll_i
     _pb_hull = arm.pose.bones[body_bone]
     _pb_hull.rotation_mode = 'XYZ'
     _steps = 24
@@ -1064,12 +1084,13 @@ if rock_on:
         _t = _i / float(_steps)
         _f = int(round(_t * rock_frames))
         bpy.context.scene.frame_set(_f)
-        _pb_hull.rotation_euler = (_amp * math.sin(2.0 * math.pi * _t),
-                                   _amp * 0.4 * math.sin(4.0 * math.pi * _t),
-                                   0.0)
+        _eul = [0.0, 0.0, 0.0]
+        _eul[_roll_i] = _amp * math.sin(2.0 * math.pi * _t)
+        _eul[_pitch_i] = _amp * 0.4 * math.sin(4.0 * math.pi * _t)
+        _pb_hull.rotation_euler = tuple(_eul)
         _pb_hull.keyframe_insert("rotation_euler", frame=_f)
-    print("VEHICLE wave rock: %.1f deg roll / %.1f deg pitch over %d frames on '%s' (%d keys, rotation-only)"
-          % (rock_deg, rock_deg * 0.4, rock_frames, body_bone, _steps + 1))
+    print("VEHICLE wave rock: %.1f deg roll about %s / %.1f deg pitch about %s over %d frames on '%s' (%d keys, rotation-only) — %s"
+          % (rock_deg, "XYZ"[_roll_i], rock_deg * 0.4, "XYZ"[_pitch_i], rock_frames, body_bone, _steps + 1, _axis_why))
 
 
 # ROLLING-CONTACT wheel speeds (user field report: the small road wheels looked draggy — "they should be
