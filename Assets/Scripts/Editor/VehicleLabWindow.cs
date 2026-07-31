@@ -91,6 +91,8 @@ public class VehicleLabWindow : EditorWindow
                                 : partFilter == 8 ? r == Role.Caterpillar
                                 : partFilter == 9 ? r == Role.Gun : true;
     Vector2 partsScroll;
+    Vector2 windowScroll;                        // the whole dialog scrolls — the knob sections outgrew a normal window
+    [SerializeField] int previewHeight = 400;    // fixed (not greedy): a scroll view needs a bounded child
 
     // ── Recipes: the whole vehicleize configuration as a JSON file — reload it after a restart, keep one per model,
     // ship it next to the model so a collaborator reproduces the exact rig. ──
@@ -127,6 +129,10 @@ public class VehicleLabWindow : EditorWindow
 
     void OnGUI()
     {
+        // WINDOW SCROLL: with Orientation + Spin + Wave rock the knobs outgrew a normal window height. Both the
+        // parts list and the preview below are given FIXED heights for this — a greedy (ExpandHeight) child inside
+        // a scroll view resolves against infinite space and the scrollbar never appears.
+        windowScroll = EditorGUILayout.BeginScrollView(windowScroll);
         EditorGUILayout.HelpBox(
             "Rig a STATIC model for the animated bake: probe its parts, mark what moves (wheels, turret) or what to strip, and generate the rigged " +
             "Spin GLB the animated bake consumes — no Blender knowledge needed. The preview below plays the result. " +
@@ -256,7 +262,7 @@ public class VehicleLabWindow : EditorWindow
                     ev.Use(); Repaint();
                 }
             }
-            partsScroll = EditorGUILayout.BeginScrollView(partsScroll, GUILayout.ExpandHeight(true), GUILayout.MinHeight(280));   // roomy by default (user request: double the original 120)
+            partsScroll = EditorGUILayout.BeginScrollView(partsScroll, GUILayout.Height(280));   // fixed: a greedy child inside the window scroll would never let it scroll
             foreach (var p in shown)
                 using (new EditorGUILayout.HorizontalScope())
                 {
@@ -374,10 +380,12 @@ public class VehicleLabWindow : EditorWindow
             }
             // min 400 tall and greedy: the inspection view claims all leftover window height (was fixed 260,
             // leaving dead grey space below in a tall window).
-            var rect = GUILayoutUtility.GetRect(200f, 4000f, 400f, 4000f, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
+            var rect = GUILayoutUtility.GetRect(200f, 4000f, previewHeight, previewHeight, GUILayout.ExpandWidth(true));
             HandlePreviewInput(rect);
             if (Event.current.type == EventType.Repaint) RenderPreview(rect);
+            previewHeight = EditorGUILayout.IntSlider(new GUIContent("Preview height", "Taller preview, or shorter to keep the knobs on screen. The window scrolls either way."), previewHeight, 220, 900);
         }
+        EditorGUILayout.EndScrollView();
     }
 
     void Probe()
@@ -586,13 +594,15 @@ public class VehicleLabWindow : EditorWindow
     }
 
     // WATERLINE / HORIZON GRID: a level reference at the model's base so "is it straight?" is answerable by eye —
-    // straightening has nothing to judge against otherwise. Drawn with GL lines directly into the preview's render
-    // target, AFTER cam.Render() and BEFORE EndPreview(), so it needs no scene objects or materials of its own.
-    // The centre line runs along +X (the axis the rig treats as forward) and is brighter, so yaw is readable too.
+    // straightening has nothing to judge against otherwise. Submitted as a LINE MESH through the preview camera
+    // (pru.DrawMesh before cam.Render()), NOT as immediate GL after it: raw GL there inherits the GUI matrices and
+    // the current render target, so the first attempt drew nothing visible. The centre line runs along +X — the
+    // axis the rig treats as forward — and is brighter, so heading reads as well as level.
     static Material lineMat;
-    void DrawWaterline(float radius)
+    Mesh waterMesh; Vector4 waterKey = Vector4.zero;
+    void SubmitWaterline(float radius)
     {
-        if (!showWaterline) return;
+        if (!showWaterline || pru == null) return;
         if (lineMat == null)
         {
             var sh = Shader.Find("Hidden/Internal-Colored");
@@ -604,24 +614,37 @@ public class VehicleLabWindow : EditorWindow
             lineMat.SetInt("_ZWrite", 0);
         }
         float half = Mathf.Max(radius * 1.8f, 0.5f);
-        float step = half / 6f;
         float y = bounds.center.y - bounds.extents.y;   // the model's lowest point = where it meets the water
         var c = bounds.center;
-        lineMat.SetPass(0);
-        GL.PushMatrix();
-        GL.MultMatrix(Matrix4x4.identity);
-        GL.Begin(GL.LINES);
-        var faint = new Color(0.45f, 0.62f, 0.75f, 0.35f);
-        for (float o = -half; o <= half + 0.001f; o += step)
+        var key = new Vector4(half, y, c.x, c.z);
+        if (waterMesh == null || key != waterKey)
         {
-            bool axis = Mathf.Abs(o) < step * 0.5f;
-            GL.Color(axis ? new Color(0.55f, 0.85f, 1f, 0.9f) : faint);
-            GL.Vertex(new Vector3(c.x - half, y, c.z + o)); GL.Vertex(new Vector3(c.x + half, y, c.z + o));
-            GL.Color(axis ? new Color(0.55f, 0.85f, 1f, 0.55f) : faint);
-            GL.Vertex(new Vector3(c.x + o, y, c.z - half)); GL.Vertex(new Vector3(c.x + o, y, c.z + half));
+            waterKey = key;
+            if (waterMesh == null) waterMesh = new Mesh { hideFlags = HideFlags.HideAndDontSave };
+            waterMesh.Clear();
+            const int Lines = 6;                       // per side of centre
+            float step = half / Lines;
+            var verts = new List<Vector3>(); var cols = new List<Color>(); var idx = new List<int>();
+            var faint = new Color(0.45f, 0.62f, 0.75f, 0.30f);
+            for (int i = -Lines; i <= Lines; i++)
+            {
+                float o = i * step;
+                bool axis = i == 0;
+                AddLine(verts, cols, idx, new Vector3(c.x - half, y, c.z + o), new Vector3(c.x + half, y, c.z + o),
+                        axis ? new Color(0.55f, 0.85f, 1f, 0.95f) : faint);
+                AddLine(verts, cols, idx, new Vector3(c.x + o, y, c.z - half), new Vector3(c.x + o, y, c.z + half),
+                        axis ? new Color(0.55f, 0.85f, 1f, 0.5f) : faint);
+            }
+            waterMesh.SetVertices(verts);
+            waterMesh.SetColors(cols);
+            waterMesh.SetIndices(idx.ToArray(), MeshTopology.Lines, 0);
         }
-        GL.End();
-        GL.PopMatrix();
+        pru.DrawMesh(waterMesh, Matrix4x4.identity, lineMat, 0);
+    }
+    static void AddLine(List<Vector3> v, List<Color> c, List<int> i, Vector3 a, Vector3 b, Color col)
+    {
+        i.Add(v.Count); i.Add(v.Count + 1);
+        v.Add(a); v.Add(b); c.Add(col); c.Add(col);
     }
 
     // A collapsible section header — the Sound Studio's, so both windows read the same. Uses Foldout (not
@@ -869,8 +892,8 @@ public class VehicleLabWindow : EditorWindow
         pru.lights[0].transform.rotation = Quaternion.Euler(45f, 45f, 0f);
         if (pru.lights.Length > 1) pru.lights[1].intensity = 0.6f;
         pru.ambientColor = new Color(0.3f, 0.3f, 0.3f);
+        SubmitWaterline(radius);   // queued for THIS render — DrawMesh must precede cam.Render()
         cam.Render();
-        DrawWaterline(radius);
         GUI.DrawTexture(rect, pru.EndPreview(), ScaleMode.StretchToFill, false);
     }
 }
