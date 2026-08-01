@@ -350,9 +350,30 @@ public static class UniversalBaker
         bool srcNewer = !string.IsNullOrEmpty(cfg.modelFile) && File.Exists(cfg.modelFile) && File.Exists(fbxFull) &&
                         File.GetLastWriteTimeUtc(cfg.modelFile) > File.GetLastWriteTimeUtc(fbxFull);
         if (srcNewer) Debug.Log($"[Factory] {name}: the source model file is newer than the cached slim FBX — re-slimming (source changed).");
+        // SETTINGS-FINGERPRINT CACHE-BUSTER (2026-08-01, review MED): the busters above catch a changed TOOL or SOURCE
+        // FILE, but the slim FBX was never keyed on the rig_anim ARGUMENTS — so with 'Reuse extracted' on, changing the
+        // clip / rotation / bone-strip / convert-rig / any state-role clip silently reused a slim baked with the OLD
+        // settings (baking the wrong clip or orientation). Mirror the deploy path's .args.txt sidecar: re-slim when the
+        // fingerprint differs — or is absent (a pre-fix FBX re-slims once, harmlessly identical when nothing changed).
+        var inv = System.Globalization.CultureInfo.InvariantCulture;
+        string slimArgsKey = string.Join("|",
+            cfg.modelFile ?? "",   // also catches a switch to a DIFFERENT source file whose mtime isn't newer than the cached FBX (srcNewer only sees a newer mtime)
+            cfg.targetTris > 0 ? cfg.targetTris.ToString() : "0",
+            (cfg.animateBones ?? "").Trim(), (cfg.animClip ?? "").Trim(),
+            cfg.materialMode != MaterialMode.Single ? "keepmats" : "single",
+            $"{cfg.rotationEuler.x.ToString("0.###", inv)},{cfg.rotationEuler.y.ToString("0.###", inv)},{cfg.rotationEuler.z.ToString("0.###", inv)}",
+            cfg.convertRig ? "1" : "0", cfg.autoGroundWheels ? "1" : "0", (cfg.socketBones ?? "").Trim(),
+            cfg.keepTranslations ? "1" : "0", (cfg.staticParts ?? "").Trim(), cfg.localNodeAnim ? "1" : "0",
+            cfg.animStateDriven ? "1" : "0",
+            (cfg.animClipMove ?? "").Trim(), (cfg.animClipAfter ?? "").Trim(), (cfg.animClipAttack ?? "").Trim(),
+            (cfg.animClipCombat ?? "").Trim(), (cfg.animClipPreMove ?? "").Trim(), (cfg.animClipIdle ?? "").Trim(),
+            (cfg.animClipIdleAlt ?? "").Trim(), (cfg.animClipIdleAlt2 ?? "").Trim());
+        string slimArgsFull = Path.Combine(fsDir, name + "_anim.args.txt");
+        bool argsChanged = File.Exists(fbxFull) && (!File.Exists(slimArgsFull) || File.ReadAllText(slimArgsFull) != slimArgsKey);
+        if (argsChanged) Debug.Log($"[Factory] {name}: a slim setting changed (clip/rotation/rig args) — re-slimming.");
 
         // --- 1) Blender: slim the rigged model (keep armature + clip, clamp frame range, optional bone strip, albedo) ---
-        if (!string.IsNullOrEmpty(cfg.modelFile) && (!cfg.reuseExtracted || !File.Exists(fbxFull) || roleFbxMissing || toolNewer || srcNewer))
+        if (!string.IsNullOrEmpty(cfg.modelFile) && (!cfg.reuseExtracted || !File.Exists(fbxFull) || roleFbxMissing || toolNewer || srcNewer || argsChanged))
         {
             // 0 = decimation OFF, honoring the Factory's "(0 = off)" label — it silently meant 12,000 here for
             // years, which shredded the tank's subdivided link-cell treads into cross-cell spikes (2026-07-26).
@@ -382,6 +403,7 @@ public static class UniversalBaker
                     ? "Blender animated slim failed: " + LastRigAnimError
                     : "Blender animated slim failed (see console). Is the model rigged with the named animation clip(s)?");
             AssetDatabase.Refresh();   // the role folders are new on disk — let Unity discover them before importing
+            try { File.WriteAllText(slimArgsFull, slimArgsKey); } catch { }   // record the fingerprint so the next 'Reuse extracted' knows whether a setting changed
         }
         if (!File.Exists(fbxFull)) return Fail("no slim FBX at " + fbxRel + " — bake with a Model file first (Reuse extracted needs an existing one).");
         AssetDatabase.ImportAsset(fbxRel, ImportAssetOptions.ForceUpdate);
