@@ -117,20 +117,30 @@ print("DEPLOY animated parts: %d, meshes: %d" % (len(parts), len(meshes)))
 # + visual bake), so every ancestor's motion is already composed into each bone's keys — a bone is only needed
 # where a mesh will BIND: the nearest animated node (self-or-ancestor) of each mesh. Deep wrapper-empty rigs
 # (the T-62: 140 meshes nested in ~900 animated empties) otherwise explode the armature past the 256-bone GPU
-# wall (1033 bones, 576 surviving the zero-weight leaf cull because ancestors aren't leaves). ---
-_part_names = {p.name for p in parts}
-_needed = set()
-for _m in meshes:
-    _o = _m
-    while _o is not None:
-        if _o.name in _part_names:
-            _needed.add(_o.name)
-            break
-        _o = _o.parent
-_dropped = len(parts) - len(_needed)
-if _dropped > 0:
-    parts = [p for p in parts if p.name in _needed]
-    print("DEPLOY bone slimming: kept %d binding-target node(s), skipped %d wrapper/ancestor node(s) (world-space keys already carry their motion)" % (len(parts), _dropped))
+# wall (1033 bones, 576 surviving the zero-weight leaf cull because ancestors aren't leaves).
+#   GATED (2026-08-01, the m114 regression): only slim when the rig would actually blow the bone wall. Rebinding
+# a mesh to its nearest animated ANCESTOR silently orphans geometry whose OWN part bone drives a deploy motion —
+# on a small rig (the m114: 27 parts -> 12) the barrel/legs collapsed to origin and the whole unit went invisible
+# (BonesCount 0, "bones past #FFFFFFFF skinned garbage"). Small rigs (< the wall) keep EVERY part bone, exactly as
+# their verified pre-contract bakes did (the Towed howitzer, 29 joints). Slimming is a wall-avoidance tool, not a
+# default. ---
+_BONE_WALL = 124   # bones = parts + armature-root + StaticRoot + RecoilArm must stay < 128 (per-vertex GPU index wall)
+if len(parts) > _BONE_WALL:
+    _part_names = {p.name for p in parts}
+    _needed = set()
+    for _m in meshes:
+        _o = _m
+        while _o is not None:
+            if _o.name in _part_names:
+                _needed.add(_o.name)
+                break
+            _o = _o.parent
+    _dropped = len(parts) - len(_needed)
+    if _dropped > 0:
+        parts = [p for p in parts if p.name in _needed]
+        print("DEPLOY bone slimming: kept %d binding-target node(s), skipped %d wrapper/ancestor node(s) — over the %d-bone wall (world-space keys carry the ancestors' motion)" % (len(parts), _dropped, _BONE_WALL))
+else:
+    print("DEPLOY bone slimming: SKIPPED — %d parts is under the %d-bone wall; keeping every part bone (small rigs need their own bones, e.g. the m114 barrel/legs)" % (len(parts), _BONE_WALL))
 
 for p in parts:
     print("   part: %-40s parent=%s" % (p.name, p.parent.name if p.parent else None))
