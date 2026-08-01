@@ -6,6 +6,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;                     // reflection-driven ownership rebase (FactoryOwnedFields)
 using Newtonsoft.Json.Linq;                 // SDK-provided (mod.io) — robust glTF parse for the Clip/Bone pickers
 using UnityEditor;
 using UnityEditor.IMGUI.Controls;
@@ -1081,39 +1082,47 @@ public class ModelFactoryWindow : EditorWindow
         keepTexture = cur.reuseExtracted   // on the ANIMATED path the checkbox's ONLY meaning is 'protect the hand-edited extracted texture'
     };
 
-    // ENFORCED OWNERSHIP: the ANIMATION / retexture / sound fields belong to the Animation Lab and their own
-    // windows — whenever this window WRITES the registry (Bake or Save), take their freshest saved values so a
-    // stale Factory copy can't clobber them (a Factory bake once silently dropped the Lab's Fix-100×).
+    // ENFORCED OWNERSHIP (2026-08-01, reflection-driven — replaces a hand-maintained DENYLIST that had drifted three
+    // times: keepTranslations burned three T-62 bakes, animPhaseSpread re-synced pawns, a Lab 'disable' was silently
+    // un-disabled — PLUS ~13 Sound fields it had simply never listed). The Model Factory OWNS exactly the fields in
+    // FactoryOwnedFields (model geometry / transform / shading / its own bake GUIDs + the runtime toggles this window
+    // actually shows). EVERYTHING ELSE belongs to another window (Animation Lab, Sound Studio, Unit Retexture, Resize
+    // Lab); RebaseLabOwnedOnRegistry re-pulls those from the saved entry whenever THIS window writes the registry, so
+    // a stale Factory copy can't clobber a value changed elsewhere since `cur` was loaded. An ALLOWLIST on purpose: a
+    // NEW ModelDef field is preserved BY DEFAULT (fail-safe), so the forgotten-a-field drift class is now impossible.
+    static readonly HashSet<string> FactoryOwnedFields = new HashSet<string>
+    {
+        "resourceName", "pawnDescription", "modelFile", "rotation", "position", "size",
+        "normalsMode", "smoothingAngle", "convertGrid", "reuseExtracted", "doubleSided", "windingFix", "heightUV",
+        "albedoBrightness", "albedoSaturation", "keepBlack", "materialMode", "atlasMaxDim", "targetTris",
+        "stripParts", "hideMeshes", "skel", "atlas", "clip",
+        "respawnAfterLoad", "freezeDonorAnim", "silenceDonorVfx",
+        // "animated" is deliberately NOT listed — a one-way OR below (a bake turns it on; a static Factory re-bake must never turn it off).
+    };
+
+    // Typo/rename guard: if the allowlist ever names a field ModelDef no longer has, that REAL field would be silently
+    // rebased away (the Factory couldn't save its own edit to it). Surface it the instant the editor domain-reloads.
+    [InitializeOnLoadMethod]
+    static void ValidateFactoryOwnedFields()
+    {
+        var real = new HashSet<string>(typeof(ModelDef).GetFields(BindingFlags.Public | BindingFlags.Instance).Select(f => f.Name));
+        foreach (var n in FactoryOwnedFields)
+            if (!real.Contains(n))
+                Debug.LogError($"[Factory] FactoryOwnedFields lists '{n}', which is not a ModelDef field — stale allowlist (rename/typo). That Factory field would wrongly revert to the registry value on bake.");
+    }
+
     void RebaseLabOwnedOnRegistry()
     {
         var regE = ModelRegistry.Load().FirstOrDefault(x => x.resourceName == cur.resourceName);
         if (regE == null) return;
-        cur.animClip = regE.animClip; cur.animateBones = regE.animateBones; cur.staticParts = regE.staticParts; cur.localNodeAnim = regE.localNodeAnim; cur.animUnitFix = regE.animUnitFix;
-        cur.convertRig = regE.convertRig; cur.autoGroundWheels = regE.autoGroundWheels;
-        cur.keepTranslations = regE.keepTranslations;   // was MISSING from this list — the Factory's stale false clobbered the Lab's tick on every Factory bake (burned three T-62 bakes, 2026-07-26)
-        cur.animPhaseSpread = regE.animPhaseSpread;     // same class of trap: Lab-owned, and a Factory bake's stale 0 would silently re-sync every pawn of the unit
-        cur.bakeLocked = regE.bakeLocked;               // Lab-owned; the Factory only READS it (disables its Bake button)
-        cur.disabled = regE.disabled;                   // Lab-owned (the Lab's "Disable override" toggle); the Factory can't display it, so it must not write its stale copy — without this a Factory bake silently UN-disabled an entry disabled in the Lab (review 2026-08-01)
-        cur.scale = regE.scale;                          // Resize-Lab-owned runtime multiplier — neither Factory nor Lab may write its stale copy
-        cur.deployConvert = regE.deployConvert; cur.deployStart = regE.deployStart; cur.deployEnd = regE.deployEnd;
-        cur.deployStrip = regE.deployStrip; cur.deployStripExtra = regE.deployStripExtra; cur.deployReadyFrame = regE.deployReadyFrame; cur.deployLegScale = regE.deployLegScale; cur.deployBarrelScale = regE.deployBarrelScale;
-        cur.deployRecoil = regE.deployRecoil; cur.deployRecoilStep = regE.deployRecoilStep; cur.deployRecoilMag = regE.deployRecoilMag; cur.deployArcR = regE.deployArcR; cur.deployRecoilReturn = regE.deployRecoilReturn; cur.deploySlamDeg = regE.deploySlamDeg; cur.deploySlamSettle = regE.deploySlamSettle;
-        cur.animStateDriven = regE.animStateDriven; cur.animClipMove = regE.animClipMove; cur.animClipAfter = regE.animClipAfter; cur.animClipAttack = regE.animClipAttack; cur.animClipCombat = regE.animClipCombat; cur.animClipPreMove = regE.animClipPreMove; cur.animClipIdle = regE.animClipIdle; cur.animClipIdleAlt = regE.animClipIdleAlt; cur.animClipIdleAlt2 = regE.animClipIdleAlt2;
-        cur.clipMove = regE.clipMove; cur.clipAfter = regE.clipAfter; cur.clipAttack = regE.clipAttack; cur.clipCombat = regE.clipCombat; cur.clipPreMove = regE.clipPreMove; cur.clipIdle = regE.clipIdle; cur.clipIdleAlt = regE.clipIdleAlt; cur.clipIdleAlt2 = regE.clipIdleAlt2; cur.idleAltInterval = regE.idleAltInterval;
-        cur.attackRepeats = regE.attackRepeats; cur.clearAimLayer = regE.clearAimLayer;
-        cur.turretBone = regE.turretBone; cur.turretAxis = regE.turretAxis; cur.muzzleBone = regE.muzzleBone; cur.muzzleOffset = regE.muzzleOffset; cur.socketBones = regE.socketBones;
-        cur.handPropName = regE.handPropName; cur.handPropGuid = regE.handPropGuid; cur.handPropMat = regE.handPropMat; cur.handPropBone = regE.handPropBone; cur.handPropAngles = regE.handPropAngles;
-        cur.fireOnAttack = regE.fireOnAttack; cur.deployOnStop = regE.deployOnStop;
-        cur.deployPoseTime = regE.deployPoseTime; cur.deploySpeed = regE.deploySpeed; cur.recoilSpeed = regE.recoilSpeed;
-        // Unit Retexture / Unit Sound ownership — same rule as the Lab fields: this window can't even display
-        // these, so it must never write its stale clone of them. Without this, a Factory re-bake silently
-        // reverted a skin/tint/engine-sound configured after the entry was loaded here (review 2026-07-19).
-        cur.desaturate = regE.desaturate; cur.tintR = regE.tintR; cur.tintG = regE.tintG; cur.tintB = regE.tintB;
-        cur.textureFile = regE.textureFile;
-        cur.engineSound = regE.engineSound; cur.engineStartEvent = regE.engineStartEvent; cur.engineStopEvent = regE.engineStopEvent;
-        cur.soundFile = regE.soundFile; cur.soundStartFile = regE.soundStartFile; cur.soundStopFile = regE.soundStopFile;
-        cur.soundVolume = regE.soundVolume; cur.soundStartVolume = regE.soundStartVolume; cur.soundStopVolume = regE.soundStopVolume;
-        if (regE.animated) cur.animated = true;
+        // Copy every NON-Factory-owned field from the saved entry onto cur, so the Animation Lab / Sound Studio / Unit
+        // Retexture / Resize Lab values (possibly changed since cur was loaded here) survive this window's write.
+        foreach (var f in typeof(ModelDef).GetFields(BindingFlags.Public | BindingFlags.Instance))
+        {
+            if (f.Name == "animated" || FactoryOwnedFields.Contains(f.Name)) continue;   // Factory-owned (or the special one-way flag) — keep cur's value
+            f.SetValue(cur, f.GetValue(regE));
+        }
+        if (regE.animated) cur.animated = true;   // a prior animated bake wins; a static Factory re-bake must not silently un-animate the entry
     }
 
     // ANIMATED -> STATIC downgrade that STICKS (user verdict 2026-07-26: "when I removed the animation
