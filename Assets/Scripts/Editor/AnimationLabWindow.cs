@@ -309,7 +309,14 @@ public class AnimationLabWindow : EditorWindow
         {
             w.cur = JsonUtility.FromJson<ModelDef>(JsonUtility.ToJson(e));   // clone, as OnSelectResource does
             w.cur.animated = true;
-            w.status = "Loaded '" + e.resourceName + "' (handed over from the Model Factory).";
+            // Carry the Factory form's CURRENT model file over the registry's (fix 2026-08-01): the user may have just
+            // Browsed to the rigged _Spin.glb in the Factory but not saved it — the registry entry still has the OLD/
+            // static file, so OpenFor was handing the Lab the static model → Auto-detect saw no Spin clip → nothing
+            // happened. The model file is Factory-owned and RebaseOnRegistry keeps the Lab's copy, so honoring the
+            // handed-over file is exactly what "Edit in Animation Lab" should do.
+            if (!string.IsNullOrWhiteSpace(modelFile)) w.cur.modelFile = modelFile.Replace('\\', '/');
+            w.status = "Loaded '" + e.resourceName + "' (handed over from the Model Factory"
+                     + (!string.IsNullOrWhiteSpace(modelFile) && modelFile.Replace('\\', '/') != (e.modelFile ?? "") ? ", using the Factory's current model file" : "") + ").";
         }
         else if (fullForm != null)
         {

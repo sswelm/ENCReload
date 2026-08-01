@@ -81,8 +81,10 @@ public class VehicleLabWindow : EditorWindow
     [SerializeField] float minPartSize = 0f;  // hide parts whose LARGEST bbox dimension is below this — drop minVerts + raise this to surface big-but-low-poly parts (flat discs, plates)
     [SerializeField] float minHeight = -999f; // hide parts whose CENTER height is below this (clamped to the model's span, so the default means "off") — slide up to isolate turret-level parts
     [SerializeField] float maxHeight = 999f;  // the reverse: hide parts whose CENTER height is ABOVE this — slide down to strip the superstructure and isolate wheel/chassis level
+    [SerializeField] float minWidth = -999f;  // LEFT/RIGHT slice (user request 2026-08-01): hide parts whose center is LEFT of this on the WIDTH axis (center.y — the axis the two wheels mirror across); bracket with maxWidth to isolate ONE side's wheel. Default span = off.
+    [SerializeField] float maxWidth = 999f;   // the reverse: hide parts whose center is RIGHT of this (center.y).
     static float MaxDim(Part p) => Mathf.Max(p.size.x, Mathf.Max(p.size.y, p.size.z));
-    bool VisiblePart(Part x) => x.verts >= minVerts && MaxDim(x) >= minPartSize && x.center.z >= minHeight && x.center.z <= maxHeight;
+    bool VisiblePart(Part x) => x.verts >= minVerts && MaxDim(x) >= minPartSize && x.center.z >= minHeight && x.center.z <= maxHeight && x.center.y >= minWidth && x.center.y <= maxWidth;
     [SerializeField] int partFilter;      // list filter: 0 = all; see FilterOptions (Unreviewed = Default + Edgecase)
     static readonly string[] FilterOptions = { "None (all parts)", "Undecided (Default + Edgecase)", "Default", "Wheel", "Turret", "Body", "Ignore", "Edgecase", "Caterpillar", "Gun" };
     bool MatchesFilter(Role r) => partFilter == 1 ? (r == Role.Default || r == Role.Edgecase)
@@ -229,11 +231,22 @@ public class VehicleLabWindow : EditorWindow
             minPartSize = EditorGUILayout.Slider(new GUIContent("Hide parts under (size)",
                 "Parts whose largest bbox dimension is below this are hidden (they stay on the hull, like the verts filter). Drop the verts slider and raise this to find LARGE parts with only a few vertices — flat discs and plates."), minPartSize, 0f, 2f);
             // Height filter: slider range auto-fits the model's actual vertical span (probe center heights, Z-up).
-            float zLo = list.Min(x => x.center.z), zHi = list.Max(x => x.center.z);
+            // PAD the ends a hair BEYOND the outermost part (user finding 2026-08-01): the default clamps to the exact
+            // min/max, but the slider rounds slightly inside, clipping the edge part ("1 hidden by the sliders" at rest).
+            // With the pad, "fully open" sits just past the parts, so nothing hides until you actually drag inward.
+            float zLo = list.Min(x => x.center.z), zHi = list.Max(x => x.center.z), zPad = Mathf.Max(0.02f, (zHi - zLo) * 0.02f);
             minHeight = EditorGUILayout.Slider(new GUIContent("Hide parts below (height)",
-                "Parts whose center height is below this are hidden. Slide up past the hull deck to isolate turret-level parts."), Mathf.Clamp(minHeight, zLo, zHi), zLo, zHi);
+                "Parts whose center height is below this are hidden. Slide up past the hull deck to isolate turret-level parts."), Mathf.Clamp(minHeight, zLo - zPad, zHi + zPad), zLo - zPad, zHi + zPad);
             maxHeight = EditorGUILayout.Slider(new GUIContent("Hide parts above (height)",
-                "Parts whose center height is above this are hidden. Slide down to strip the superstructure and isolate wheel/chassis-level parts."), Mathf.Clamp(maxHeight, zLo, zHi), zLo, zHi);
+                "Parts whose center height is above this are hidden. Slide down to strip the superstructure and isolate wheel/chassis-level parts."), Mathf.Clamp(maxHeight, zLo - zPad, zHi + zPad), zLo - zPad, zHi + zPad);
+            // Left/right (width) filter (user request 2026-08-01): the horizontal companion to the height bracket —
+            // slice along the WIDTH axis (center.y, where the two wheels mirror) to isolate ONE side's wheel. Same
+            // end-padding so a fresh model hides nothing until you drag.
+            float yLo = list.Min(x => x.center.y), yHi = list.Max(x => x.center.y), yPad = Mathf.Max(0.02f, (yHi - yLo) * 0.02f);
+            minWidth = EditorGUILayout.Slider(new GUIContent("Hide parts left of (side)",
+                "Parts whose center is LEFT of this on the width axis are hidden — bracket with the next slider to keep just one side's wheel. (Straighten the model in Orientation first so the two wheels split along this axis.)"), Mathf.Clamp(minWidth, yLo - yPad, yHi + yPad), yLo - yPad, yHi + yPad);
+            maxWidth = EditorGUILayout.Slider(new GUIContent("Hide parts right of (side)",
+                "Parts whose center is RIGHT of this on the width axis are hidden. Slide the two together onto one wheel to isolate it, then mark it Wheel."), Mathf.Clamp(maxWidth, yLo - yPad, yHi + yPad), yLo - yPad, yHi + yPad);
             partFilter = EditorGUILayout.Popup(new GUIContent("Show only",
                 "Filter the list to one classification. Marking a part out of the current filter removes it from the list and auto-advances to the next."), partFilter, FilterOptions);
             var shown = list.Where(x => VisiblePart(x) && MatchesFilter(x.role)).ToList();
@@ -561,6 +574,8 @@ public class VehicleLabWindow : EditorWindow
             if (MaxDim(p) < minPartSize) minPartSize = 0f;
             if (p.center.z < minHeight) minHeight = p.center.z;
             if (p.center.z > maxHeight) maxHeight = p.center.z;
+            if (p.center.y < minWidth) minWidth = p.center.y;
+            if (p.center.y > maxWidth) maxWidth = p.center.y;
             if (!MatchesFilter(p.role)) partFilter = 0;
             int idx = ActiveParts.Where(x => VisiblePart(x) && MatchesFilter(x.role)).ToList().FindIndex(x => x.name == name);
             if (idx >= 0) partsScroll.y = Mathf.Max(0f, idx * 20f - 120f);
@@ -609,7 +624,7 @@ public class VehicleLabWindow : EditorWindow
         frames = 15; degrees = -360f; axisChoice = 0;
         treadAdvCells = 3; treadCellsPerLink = 4f; tracksStatic = false;
         rockDegrees = 0f; rockFrames = 120; rockAxisChoice = 0; rockHeading = 0f; rockPitchDeg = 2.4f; rockRollCycles = 1; rockPitchCycles = 1; rockPitchPhase = 90f; waveEnabled = false; foldSpin = true; foldWave = false; foldOrient = false; modelRot = Vector3.zero;
-        minVerts = 50; minPartSize = 0f; minHeight = -999f; maxHeight = 999f;
+        minVerts = 50; minPartSize = 0f; minHeight = -999f; maxHeight = 999f; minWidth = -999f; maxWidth = 999f;
         partFilter = 0; selectedPart = ""; partsScroll = Vector2.zero; previewPan = Vector2.zero;
         DestroyPreview();
         status = "New model: pick a Raw model, then Probe parts. (Wheels optional — a floating unit just needs a Wave rock amplitude.)";
