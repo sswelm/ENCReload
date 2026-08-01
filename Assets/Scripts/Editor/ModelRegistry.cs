@@ -306,6 +306,12 @@ public static class ModelRegistry
     // which would wipe every baked model's settings.
     static bool lastLoadCorrupt;
 
+    // Set true once THIS session's Load() has observed the on-disk registry, so the session-static
+    // UnitScales/EraGrid/FormationThresholds below reflect reality. A domain reload (recompile) resets it to false
+    // AND empties those statics — so a Save() reached before a fresh Load() must NOT write the empty statics (that
+    // silently wiped all Resize-Lab / Era-Lab data). While false, Save() preserves those arrays from the on-disk file.
+    static bool loaded;
+
     // RESIZE LAB rules — the registry file's `unitScales` array, captured at every Load and written back on
     // every Save (same session-static pattern as the pack header fields). The Lab edits this list directly.
     public static List<UnitScaleRule> UnitScales = new List<UnitScaleRule>();
@@ -357,6 +363,7 @@ public static class ModelRegistry
     {
         try
         {
+            loaded = true;   // this session has now observed the on-disk registry (see the `loaded` field) — the corrupt path below leaves Save() guarded by lastLoadCorrupt regardless
             if (!File.Exists(RegistryPath))
             {
                 // Don't declare the registry dead on ONE glance: an external editor's save-by-rename (temp write →
@@ -434,13 +441,23 @@ public static class ModelRegistry
             return false;
         }
         SortByName(models);   // write BOTH the live registry and the backup alphabetically, so the order is stable across bakes
-        var json = JsonUtility.ToJson(new RegistryFile
+        // MERGE onto the current on-disk file instead of rebuilding from defaults: preserve the pack HEADER
+        // (schemaVersion/modId/dependsOn/loadAfter/overrides — no window edits these, so they must survive every Save),
+        // and preserve the scale/era/threshold arrays whenever this session hasn't Load()ed them (the session statics
+        // are empty right after a domain reload; writing them then would silently wipe Resize/Era-Lab data). A fresh /
+        // absent / unreadable file falls back to RegistryFile defaults, so a first-ever Save still writes a valid pack.
+        RegistryFile file = null;
+        try { if (File.Exists(RegistryPath)) file = JsonUtility.FromJson<RegistryFile>(File.ReadAllText(RegistryPath)); } catch { }
+        if (file == null) file = new RegistryFile();
+        file.models = models;
+        if (loaded)   // the statics reflect the on-disk state (+ any Lab edits this session) — authoritative
         {
-            models = models,
-            unitScales = UnitScales ?? new List<UnitScaleRule>(),
-            eraGrid = EraGrid ?? new List<EraScaleRow>(),
-            formationThresholds = FormationThresholds ?? new List<FormationThreshold>(),
-        }, true);
+            file.unitScales = UnitScales ?? new List<UnitScaleRule>();
+            file.eraGrid = EraGrid ?? new List<EraScaleRow>();
+            file.formationThresholds = FormationThresholds ?? new List<FormationThreshold>();
+        }
+        // else: keep file.unitScales/eraGrid/formationThresholds exactly as read from disk — never overwrite with the empty statics
+        var json = JsonUtility.ToJson(file, true);
         // 1) Atomic write to the live game target (what the plugin reads): fill a temp file, then swap it in, so an
         //    interrupted or locked write can never leave a truncated registry. GUARDED — File.Replace/Move throws on a
         //    transient lock (AV, search indexer, the running game holding the file). Without this, a bake that succeeds
@@ -465,6 +482,20 @@ public static class ModelRegistry
         AssetDatabase.Refresh();
         return true;
     }
+
+    // Read ONLY the models array from the on-disk file, WITHOUT touching the session statics — so a Lab that owns the
+    // statics (not the models) can save without clobbering a model edit made in another window with its own stale
+    // snapshot. Empty on a missing/unreadable file.
+    static List<ModelDef> LoadModelsOnly()
+    {
+        try { if (File.Exists(RegistryPath)) return JsonUtility.FromJson<RegistryFile>(File.ReadAllText(RegistryPath))?.models ?? new List<ModelDef>(); } catch { }
+        return new List<ModelDef>();
+    }
+
+    // Save the era/scale STATICS only, preserving the on-disk MODELS (re-read fresh so a concurrent model edit/bake in
+    // another window isn't reverted by a stale snapshot). For a Lab that owns only the statics (the Global Era Lab).
+    // The caller must have already assigned the current statics (ModelRegistry.EraGrid/UnitScales/…) before calling.
+    public static bool SaveStatics() => Save(LoadModelsOnly());
 
     public static bool Upsert(ModelDef def)
     {

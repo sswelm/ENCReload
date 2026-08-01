@@ -163,6 +163,12 @@ public class ResizeLabWindow : EditorWindow
             using (new EditorGUI.DisabledScope(!dirty))
                 if (GUILayout.Button("Save (runtime-only — relaunch the game)", GUILayout.Height(30)))
                 {
+                    // Merge our per-model `scale` edits onto the CURRENT on-disk models (re-read fresh) so a bake or
+                    // edit made in another window isn't reverted by this window's stale snapshot. Set the UnitScales
+                    // static AFTER Load (Load repopulates it from disk), then save the merged list.
+                    var fresh = ModelRegistry.Load();
+                    foreach (var f in fresh) { var mine = models.FirstOrDefault(x => x.resourceName == f.resourceName); if (mine != null) f.scale = mine.scale; }
+                    models = fresh;
                     ModelRegistry.UnitScales = rules.Where(r => !string.IsNullOrWhiteSpace(r.match)).ToList();
                     bool ok = ModelRegistry.Save(models);
                     status = ok ? $"Saved {ModelRegistry.UnitScales.Count} rule(s) + {models.Count} entr{(models.Count == 1 ? "y" : "ies")}. Relaunch the game to apply."

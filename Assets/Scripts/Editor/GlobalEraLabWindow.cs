@@ -204,11 +204,11 @@ public class GlobalEraLabWindow : EditorWindow
                             row.scales.Add(c >= FirstNowEra && c > r ? grid[r, c] : 1f);   // plugin can read cell[era] directly
                         rows.Add(row);
                     }
-                    ModelRegistry.EraGrid = rows;
+                    ModelRegistry.EraGrid = rows;   // (below) SaveStatics re-reads models from disk so this Lab's stale model snapshot can't revert a bake/edit made in another window
                     // thresholds are stored ASCENDING so the runtime can take the first match without sorting
                     thresholds = thresholds.Where(t => !string.IsNullOrWhiteSpace(t.formation)).OrderBy(t => t.threshold).ToList();
                     ModelRegistry.FormationThresholds = thresholds;
-                    bool ok = ModelRegistry.Save(models);
+                    bool ok = ModelRegistry.SaveStatics();   // era/threshold statics only — preserves the on-disk models (this Lab never edits them)
                     status = ok ? $"Saved a {LastUnitEra - FirstUnitEra + 1}x{LastNowEra - FirstNowEra + 1} grid + {thresholds.Count} formation threshold(s). Relaunch the game to apply."
                                 : "Save FAILED — see the Console (registry locked or corrupt).";
                     dirty = !ok;
