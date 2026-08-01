@@ -142,6 +142,16 @@ if len(parts) > _BONE_WALL:
 else:
     print("DEPLOY bone slimming: SKIPPED — %d parts is under the %d-bone wall; keeping every part bone (small rigs need their own bones, e.g. the m114 barrel/legs)" % (len(parts), _BONE_WALL))
 
+# LEGACY PATH for small rigs (2026-08-01): the m114 and every pre-contract deploy model were VERIFIED on the legacy
+# path (plain "DeployArm": no delta-form, no scale-free, cm verts + rig_anim's x100 amplify). The T-62 CONTRACT
+# (delta-form / meter verts / scale-free / DeployArmV2) exists only to fit HUGE rigs under the GPU bone wall — and on
+# a small rig it re-breaks things the legacy path had right: delta-form folds the legs' rest to the travel pose (they
+# cross), and meter verts flip the scale (needs Fix100x OFF, then the recipe drifts). So route rigs UNDER the wall
+# through the legacy path exactly as their shipped bakes were verified. Consequence: Fix100x / animUnitFix goes back
+# ON for these (legacy = cm verts). Big rigs keep the full contract.
+_LEGACY = len(parts) <= _BONE_WALL
+print("DEPLOY path: %s" % ("LEGACY (DeployArm — pre-contract, small rig e.g. m114: no delta-form/scale-free, Fix100x ON)" if _LEGACY else "CONTRACT (DeployArmV2)"))
+
 for p in parts:
     print("   part: %-40s parent=%s" % (p.name, p.parent.name if p.parent else None))
 
@@ -228,8 +238,9 @@ if len(parts) > _PART_BUDGET:
 # "DeployArmV2" = the CONTRACT MARKER (2026-07-27): rig_anim keys its clean-unit handling (global_scale 0.01,
 # amplify skip) off this armature name. Conversions named plain "DeployArm" predate the engine-contract rework
 # and get the exact legacy export path their shipped bakes were verified with (the m114 guard).
-arm_data = bpy.data.armatures.new("DeployArmV2")
-arm = bpy.data.objects.new("DeployArmV2", arm_data)
+_arm_name = "DeployArm" if _LEGACY else "DeployArmV2"   # DeployArm -> rig_anim's verified legacy path (x100 amplify, cm verts)
+arm_data = bpy.data.armatures.new(_arm_name)
+arm = bpy.data.objects.new(_arm_name, arm_data)
 scene.collection.objects.link(arm)
 bpy.context.view_layer.objects.active = arm
 bpy.ops.object.mode_set(mode='EDIT')
@@ -340,17 +351,20 @@ if _hull is not None:
 # scale — is self-consistent in Blender but the engine does not play per-bone scale faithfully (the AW101
 # missing-fuselage / T-62 missing-parts class). Verts are baked to world/meter space at bind now, so the pose
 # scale must GO: strip every scale fcurve and pin pose scales to 1. ---
-_scale_fcs = 0
-for _act in bpy.data.actions:
-    _bags = ([_act] if hasattr(_act, "fcurves") else []) + \
-            [cb for layer in getattr(_act, "layers", []) for strip in layer.strips for cb in getattr(strip, "channelbags", [])]
-    for _cb in _bags:
-        for _fc in list(_cb.fcurves):
-            if _fc.data_path.startswith("pose.bones") and _fc.data_path.endswith(".scale"):
-                _cb.fcurves.remove(_fc); _scale_fcs += 1
-for _pb in arm.pose.bones:
-    _pb.scale = (1.0, 1.0, 1.0)
-print("DEPLOY scale-free rig: %d pose-scale fcurve(s) stripped (verts carry the unit scale)" % _scale_fcs)
+if not _LEGACY:
+    _scale_fcs = 0
+    for _act in bpy.data.actions:
+        _bags = ([_act] if hasattr(_act, "fcurves") else []) + \
+                [cb for layer in getattr(_act, "layers", []) for strip in layer.strips for cb in getattr(strip, "channelbags", [])]
+        for _cb in _bags:
+            for _fc in list(_cb.fcurves):
+                if _fc.data_path.startswith("pose.bones") and _fc.data_path.endswith(".scale"):
+                    _cb.fcurves.remove(_fc); _scale_fcs += 1
+    for _pb in arm.pose.bones:
+        _pb.scale = (1.0, 1.0, 1.0)
+    print("DEPLOY scale-free rig: %d pose-scale fcurve(s) stripped (verts carry the unit scale)" % _scale_fcs)
+else:
+    print("DEPLOY scale-free rig: SKIPPED (legacy path keeps the cm-verts x0.01 pose scale)")
 
 # --- DELTA-FORM REBASE (2026-07-26, the ENGINE-CONTRACT finding): Amplitude's clip encoder normalizes every
 # clip against the skeleton's BIND rest — any constant offset between animation frame 0 and the bind is
@@ -361,7 +375,9 @@ print("DEPLOY scale-free rig: %d pose-scale fcurve(s) stripped (verts carry the 
 # deltas come out T0-conjugated — exactly what the engine's TRS.Mul(rest, pose) composes back. ---
 import re as _re
 _act = arm.animation_data.action if arm.animation_data else None
-if _act is not None:
+if _LEGACY:
+    print("DEPLOY delta-form rebase: SKIPPED (legacy path — pre-contract engine handling renders absolute poses correctly; bind==f0 would fold the legs' rest and cross them)")
+if _act is not None and not _LEGACY:
     _bags = ([_act] if hasattr(_act, "fcurves") else []) + \
             [cb for layer in getattr(_act, "layers", []) for strip in layer.strips for cb in getattr(strip, "channelbags", [])]
     _curves = {}
