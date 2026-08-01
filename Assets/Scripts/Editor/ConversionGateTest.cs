@@ -15,6 +15,10 @@
 //                         source model files on disk.
 // Both bake through the SAME ConfigFor route as the Bake button and clean up after themselves; the registry is
 // never touched. Slow (real Blender bakes) — pre-commit checks after touching rig_anim.py / UniversalBaker.
+//   (deploy golden diff) — the DEPLOY-CONVERT models (deployConvert, not convertRig — the two above SKIP them):
+//                         a golden-master diff of each model's converted rig vs Tools/deploy_golden/<res>.txt. This
+//                         is what catches a per-model regression an invariant pass can't (the m114 crossed legs are
+//                         still a "valid rotation-only clip"). Mirror of the CLI `bash Tools/deploy_regression.sh`.
 using System;
 using System.IO;
 using System.Linq;
@@ -76,6 +80,75 @@ public static class ConversionGateTest
         }
         Debug.Log($"[ConvGate] registry converted models: {tested} tested, {total} total failure(s).");
     }
+
+    // THE DEPLOY-CONVERT GATE (2026-08-01) — the two variants above test convertRig rigs and INVARIANTS; they skip
+    // deployConvert models (m114 howitzers, T-62) AND an invariant pass can't catch a per-model regression (the m114's
+    // crossed legs are still a "valid rotation-only clip"). This is a GOLDEN-MASTER diff: re-run deploy_convert on every
+    // model's recorded args (FactorySource/<res>/deploy_converted.args.txt) and compare a deterministic bone snapshot
+    // (deploy_bonedump.py: armature name = legacy/contract path, bone count, per-bone rot+loc) against the blessed
+    // Tools/deploy_golden/<res>.txt. A FAIL on a model you didn't mean to touch IS the regression (the T-62 contract that
+    // broke the m114). Shares scripts + goldens with the CLI form `bash Tools/deploy_regression.sh` (which prints the
+    // line-level diff and can (re)capture goldens with --capture).
+    [MenuItem("Tools/HAF/Tests/Bake Conversion Gate Test (deploy golden diff)")]
+    public static void RunDeployGolden()
+    {
+        string root = Directory.GetParent(Application.dataPath).FullName;
+        string blender = UniversalBaker.FindBlender();
+        if (string.IsNullOrEmpty(blender)) { Debug.LogError("[ConvGate] Blender not found — the deploy golden diff needs it"); return; }
+        string convert = Path.Combine(root, "Tools", "deploy_convert.py");
+        string dump = Path.Combine(root, "Tools", "deploy_bonedump.py");
+        string goldDir = Path.Combine(root, "Tools", "deploy_golden");
+        string fsRoot = Path.Combine(root, "Assets", "FactorySource");
+        if (!File.Exists(convert) || !File.Exists(dump)) { Debug.LogError("[ConvGate] Tools/deploy_convert.py or deploy_bonedump.py missing"); return; }
+        if (!Directory.Exists(fsRoot)) { Debug.LogWarning("[ConvGate] no Assets/FactorySource — no deploy-convert models to test"); return; }
+        var argFiles = Directory.GetFiles(fsRoot, "deploy_converted.args.txt", SearchOption.AllDirectories).OrderBy(x => x).ToArray();
+        if (argFiles.Length == 0) { Debug.LogWarning("[ConvGate] no deploy-convert models (FactorySource/*/deploy_converted.args.txt)"); return; }
+        int pass = 0, fail = 0, miss = 0;
+        foreach (var af in argFiles)
+        {
+            string res = new DirectoryInfo(Path.GetDirectoryName(af)).Name;
+            var fields = File.ReadAllText(af).Trim().Split('|');   // source | srcMtime | toolMtime | 14 args
+            if (fields.Length < 4) { Debug.LogWarning($"[ConvGate] SKIP {res} — malformed args.txt"); continue; }
+            string src = fields[0];
+            if (!File.Exists(src)) { Debug.LogWarning($"[ConvGate] SKIP {res} — source missing ({src})"); continue; }
+            string qargs = string.Join(" ", fields.Skip(3).Select(a => "\"" + a + "\""));
+            string outGlb = Path.Combine(Path.GetTempPath(), "convgate_" + res + ".glb");
+            try { if (File.Exists(outGlb)) File.Delete(outGlb); } catch { }
+            string convOut = RunBlenderCapture(blender, $"-b --python \"{convert}\" -- \"{src}\" \"{outGlb}\" {qargs}");
+            if (!File.Exists(outGlb) || !convOut.Contains("DEPLOY wrote:"))
+            { Debug.LogError($"[ConvGate] {res}: FAIL — deploy_convert did not complete (see the DEPLOY log)"); fail++; continue; }
+            string got = FilterDump(RunBlenderCapture(blender, $"-b --python \"{dump}\" -- \"{outGlb}\""));
+            try { File.Delete(outGlb); } catch { }
+            string goldFile = Path.Combine(goldDir, res + ".txt");
+            if (!File.Exists(goldFile)) { Debug.LogWarning($"[ConvGate] {res}: NO GOLDEN — run `bash Tools/deploy_regression.sh --capture` once"); miss++; continue; }
+            if (Norm(got) == Norm(File.ReadAllText(goldFile))) { Debug.Log($"[ConvGate] {res}: PASS (deploy golden match)"); pass++; }
+            else { Debug.LogError($"[ConvGate] {res}: FAIL — converted rig CHANGED vs golden. Run `bash Tools/deploy_regression.sh` for the line diff."); fail++; }
+        }
+        Debug.Log($"[ConvGate] deploy golden diff: {pass} pass, {fail} fail, {miss} missing golden (of {argFiles.Length} models).");
+    }
+
+    static string RunBlenderCapture(string blender, string args)
+    {
+        var psi = new System.Diagnostics.ProcessStartInfo(blender, args)
+        { UseShellExecute = false, CreateNoWindow = true, RedirectStandardOutput = true, RedirectStandardError = true };
+        using (var p = System.Diagnostics.Process.Start(psi))
+        { string so = p.StandardOutput.ReadToEnd(); p.StandardError.ReadToEnd(); p.WaitForExit(180000); return so; }
+    }
+
+    // Keep only the deterministic snapshot lines (same set the CLI greps), so C# and bash compare identically.
+    static string FilterDump(string s)
+    {
+        var keep = new System.Text.StringBuilder();
+        foreach (var line in s.Replace("\r\n", "\n").Split('\n'))
+        {
+            string t = line.TrimEnd();
+            if (t.StartsWith("ARMATURE") || t.StartsWith("BONES") || t.StartsWith("FRAMES") ||
+                (t.Length > 1 && t[0] == 'f' && char.IsDigit(t[1]))) keep.Append(t).Append('\n');
+        }
+        return keep.ToString();
+    }
+
+    static string Norm(string s) => s.Replace("\r\n", "\n").TrimEnd('\n', ' ', '\t') + "\n";
 
     // Bake `def` under a throwaway name via the SAME ConfigFor route as the Bake button, assert every conversion
     // invariant on the baked Amplitude assets (reflection — they're Amplitude's types), clean up. Returns failures.
