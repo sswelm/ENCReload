@@ -6,7 +6,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;                     // reflection-driven ownership rebase (FactoryOwnedFields)
 using Newtonsoft.Json.Linq;                 // SDK-provided (mod.io) — robust glTF parse for the Clip/Bone pickers
 using UnityEditor;
 using UnityEditor.IMGUI.Controls;
@@ -1082,47 +1081,35 @@ public class ModelFactoryWindow : EditorWindow
         keepTexture = cur.reuseExtracted   // on the ANIMATED path the checkbox's ONLY meaning is 'protect the hand-edited extracted texture'
     };
 
-    // ENFORCED OWNERSHIP (2026-08-01, reflection-driven — replaces a hand-maintained DENYLIST that had drifted three
-    // times: keepTranslations burned three T-62 bakes, animPhaseSpread re-synced pawns, a Lab 'disable' was silently
-    // un-disabled — PLUS ~13 Sound fields it had simply never listed). The Model Factory OWNS exactly the fields in
-    // FactoryOwnedFields (model geometry / transform / shading / its own bake GUIDs + the runtime toggles this window
-    // actually shows). EVERYTHING ELSE belongs to another window (Animation Lab, Sound Studio, Unit Retexture, Resize
-    // Lab); RebaseLabOwnedOnRegistry re-pulls those from the saved entry whenever THIS window writes the registry, so
-    // a stale Factory copy can't clobber a value changed elsewhere since `cur` was loaded. An ALLOWLIST on purpose: a
-    // NEW ModelDef field is preserved BY DEFAULT (fail-safe), so the forgotten-a-field drift class is now impossible.
-    static readonly HashSet<string> FactoryOwnedFields = new HashSet<string>
-    {
-        "resourceName", "pawnDescription", "modelFile", "rotation", "position", "size",
-        "normalsMode", "smoothingAngle", "convertGrid", "reuseExtracted", "doubleSided", "windingFix", "heightUV",
-        "albedoBrightness", "albedoSaturation", "keepBlack", "materialMode", "atlasMaxDim", "targetTris",
-        "stripParts", "hideMeshes", "skel", "atlas", "clip",
-        "respawnAfterLoad", "freezeDonorAnim", "silenceDonorVfx",
-        // "animated" is deliberately NOT listed — a one-way OR below (a bake turns it on; a static Factory re-bake must never turn it off).
-    };
-
-    // Typo/rename guard: if the allowlist ever names a field ModelDef no longer has, that REAL field would be silently
-    // rebased away (the Factory couldn't save its own edit to it). Surface it the instant the editor domain-reloads.
-    [InitializeOnLoadMethod]
-    static void ValidateFactoryOwnedFields()
-    {
-        var real = new HashSet<string>(typeof(ModelDef).GetFields(BindingFlags.Public | BindingFlags.Instance).Select(f => f.Name));
-        foreach (var n in FactoryOwnedFields)
-            if (!real.Contains(n))
-                Debug.LogError($"[Factory] FactoryOwnedFields lists '{n}', which is not a ModelDef field — stale allowlist (rename/typo). That Factory field would wrongly revert to the registry value on bake.");
-    }
-
+    // ENFORCED OWNERSHIP (2026-08-01, fail-safe AND fully type-safe). The Model Factory owns only the model geometry /
+    // transform / shading / its own bake GUIDs + the runtime toggles it actually shows; the ANIMATION / sound / skin /
+    // resize fields belong to their own windows. Whenever THIS window writes the registry, we must keep their freshest
+    // SAVED values so a stale Factory copy can't clobber a value changed elsewhere since `cur` was loaded here.
+    //
+    // Structure mirrors the Lab's already-fail-safe RebaseOnRegistry: START from the saved entry (so every field the
+    // Factory does NOT own is preserved), then OVERLAY only the Factory-owned fields from the form. Overwriting cur in
+    // place from the entry's JSON copies ALL fields — including any newly-added one — so the historical "forgot to add
+    // the field to the rebase list" drift (keepTranslations burned three T-62 bakes; animPhaseSpread re-synced pawns;
+    // 'disabled' silently un-disabled; ~13 Sound fields never listed) is structurally impossible: a new field is kept
+    // BY DEFAULT. And unlike a reflection loop, every overlay line below is a plain compile-checked assignment — a typo
+    // or a renamed field is a BUILD error, not a silent revert.
     void RebaseLabOwnedOnRegistry()
     {
         var regE = ModelRegistry.Load().FirstOrDefault(x => x.resourceName == cur.resourceName);
         if (regE == null) return;
-        // Copy every NON-Factory-owned field from the saved entry onto cur, so the Animation Lab / Sound Studio / Unit
-        // Retexture / Resize Lab values (possibly changed since cur was loaded here) survive this window's write.
-        foreach (var f in typeof(ModelDef).GetFields(BindingFlags.Public | BindingFlags.Instance))
-        {
-            if (f.Name == "animated" || FactoryOwnedFields.Contains(f.Name)) continue;   // Factory-owned (or the special one-way flag) — keep cur's value
-            f.SetValue(cur, f.GetValue(regE));
-        }
-        if (regE.animated) cur.animated = true;   // a prior animated bake wins; a static Factory re-bake must not silently un-animate the entry
+        var form = JsonUtility.FromJson<ModelDef>(JsonUtility.ToJson(cur));   // snapshot the form — the Factory-owned values live here
+        JsonUtility.FromJsonOverwrite(JsonUtility.ToJson(regE), cur);         // cur := the saved entry IN PLACE (every field preserved, no reference swap)
+        // …then re-apply ONLY the fields the Factory owns, from the form:
+        cur.resourceName = form.resourceName; cur.pawnDescription = form.pawnDescription; cur.modelFile = form.modelFile;
+        cur.rotation = form.rotation; cur.position = form.position; cur.size = form.size;
+        cur.normalsMode = form.normalsMode; cur.smoothingAngle = form.smoothingAngle; cur.convertGrid = form.convertGrid;
+        cur.reuseExtracted = form.reuseExtracted; cur.doubleSided = form.doubleSided; cur.windingFix = form.windingFix; cur.heightUV = form.heightUV;
+        cur.albedoBrightness = form.albedoBrightness; cur.albedoSaturation = form.albedoSaturation; cur.keepBlack = form.keepBlack;
+        cur.materialMode = form.materialMode; cur.atlasMaxDim = form.atlasMaxDim; cur.targetTris = form.targetTris;
+        cur.stripParts = form.stripParts; cur.hideMeshes = form.hideMeshes;
+        cur.skel = form.skel; cur.atlas = form.atlas; cur.clip = form.clip;
+        cur.respawnAfterLoad = form.respawnAfterLoad; cur.freezeDonorAnim = form.freezeDonorAnim; cur.silenceDonorVfx = form.silenceDonorVfx;
+        cur.animated = regE.animated || form.animated;   // one-way OR: a prior animated bake wins; a static Factory re-bake must not silently un-animate the entry
     }
 
     // ANIMATED -> STATIC downgrade that STICKS (user verdict 2026-07-26: "when I removed the animation
