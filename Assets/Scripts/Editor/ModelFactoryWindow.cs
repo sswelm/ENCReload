@@ -199,12 +199,21 @@ public class ModelFactoryWindow : EditorWindow
             previewPRU.lights[0].transform.rotation = Quaternion.Euler(45f, 45f, 0f);
             if (previewPRU.lights.Length > 1) previewPRU.lights[1].intensity = 0.6f;
             previewPRU.ambientColor = new Color(0.3f, 0.3f, 0.3f);
+            bool anyDead = false;
             foreach (var (mesh, mats, mtx) in previewDraws)
+            {
+                // A cached mesh can be DESTROYED under us (the baked prefab/FBX deleted or reimported outside the
+                // window — e.g. a re-bake or forced cache clear); Unity's fake-null catches it. Drop the stale cache
+                // instead of spamming MissingReferenceException on every repaint; the next Refresh/Bake rebuilds it.
+                // (Mirror of AnimationLabWindow.DrawFitPreview — this window lacked the guard.)
+                if (mesh == null) { anyDead = true; continue; }
                 for (int s = 0; s < mesh.subMeshCount; s++)
                 {
                     var mat = mats != null && mats.Length > 0 ? (mats[Mathf.Min(s, mats.Length - 1)] ?? previewFallbackMat) : previewFallbackMat;
                     previewPRU.DrawMesh(mesh, mtx, mat, s);
                 }
+            }
+            if (anyDead) previewDraws.Clear();
             cam.Render();
         }
         finally { tex = previewPRU.EndPreview(); }
@@ -1084,6 +1093,7 @@ public class ModelFactoryWindow : EditorWindow
         cur.keepTranslations = regE.keepTranslations;   // was MISSING from this list — the Factory's stale false clobbered the Lab's tick on every Factory bake (burned three T-62 bakes, 2026-07-26)
         cur.animPhaseSpread = regE.animPhaseSpread;     // same class of trap: Lab-owned, and a Factory bake's stale 0 would silently re-sync every pawn of the unit
         cur.bakeLocked = regE.bakeLocked;               // Lab-owned; the Factory only READS it (disables its Bake button)
+        cur.disabled = regE.disabled;                   // Lab-owned (the Lab's "Disable override" toggle); the Factory can't display it, so it must not write its stale copy — without this a Factory bake silently UN-disabled an entry disabled in the Lab (review 2026-08-01)
         cur.scale = regE.scale;                          // Resize-Lab-owned runtime multiplier — neither Factory nor Lab may write its stale copy
         cur.deployConvert = regE.deployConvert; cur.deployStart = regE.deployStart; cur.deployEnd = regE.deployEnd;
         cur.deployStrip = regE.deployStrip; cur.deployStripExtra = regE.deployStripExtra; cur.deployReadyFrame = regE.deployReadyFrame; cur.deployLegScale = regE.deployLegScale; cur.deployBarrelScale = regE.deployBarrelScale;

@@ -70,8 +70,17 @@ public class ProjectileBakerWindow : EditorWindow
     }
     void OnDisable() { SavePrefs(); }
 
-    static Type FindType(string full) =>
-        AppDomain.CurrentDomain.GetAssemblies().Select(a => a.GetType(full)).FirstOrDefault(t => t != null);
+    // CACHED (parity with PropBaker.FindType): MakeAmpliGuid runs on every repaint via canBake, and the uncached scan
+    // enumerated every loaded assembly each time — a per-mouse-move CPU/GC hit. Loaded types don't change outside a
+    // domain reload, which resets this static cache anyway (negative results cached too, same reload-scoped validity).
+    static readonly Dictionary<string, Type> typeCache = new Dictionary<string, Type>();
+    static Type FindType(string full)
+    {
+        if (typeCache.TryGetValue(full, out var cached)) return cached;
+        var t = AppDomain.CurrentDomain.GetAssemblies().Select(a => a.GetType(full)).FirstOrDefault(x => x != null);
+        typeCache[full] = t;
+        return t;
+    }
 
     // GetField can't see PRIVATE fields of BASE classes (AssetReference<T> hides its guid there) — walk the chain.
     static FieldInfo FindFieldDeep(Type t, params string[] names)
@@ -282,6 +291,11 @@ public class ProjectileBakerWindow : EditorWindow
         string fxGuidCsv = DistrictBaker.BakeFxMesh(mesh, resourceName, importAngles, out _, mergeSubMeshes: true);
         if (string.IsNullOrEmpty(fxGuidCsv)) { status = "FxMesh bake FAILED (see Console)."; return; }
         object fxGuid = MakeAmpliGuid(fxGuidCsv);
+        // GUARD (parity with PropBaker, review 2026-08-01): FieldInfo.SetValue(struct, null) silently writes
+        // default(Guid), so a null fxGuid here baked a ZERO-GUID trail drawer that reports success but shows an
+        // INVISIBLE munition (the FxMesh isn't in Amplitude's database until a Build runs). Fail loudly instead.
+        if (fxGuid == null)
+        { status = "Amplitude GUID missing for the baked FxMesh — the asset isn't in Amplitude's database yet. Run the mod Build once, then re-bake."; Debug.LogError("[Projectile] " + status); return; }
 
         // 2) clone the trail drawer, swap its mesh to our FxMesh (CopySerialized carries the HgFx property tables +
         //    output layer verbatim; we only re-point the leaf and clear the cached content so it re-resolves our mesh).
