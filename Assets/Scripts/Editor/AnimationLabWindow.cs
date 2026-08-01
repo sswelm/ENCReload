@@ -456,10 +456,10 @@ public class AnimationLabWindow : EditorWindow
         }
     }
 
-    void OnSelectResource()
+    void OnSelectResource(bool rebuildPreview = true)
     {
         formDiffersFromRegistry = false;   // loading fresh = in sync by definition
-        if (selected <= 0) { cur = new ModelDef { animated = true }; status = ""; DestroyFitPreview(); previewPath = ""; return; }
+        if (selected <= 0) { cur = new ModelDef { animated = true }; status = ""; if (rebuildPreview) { DestroyFitPreview(); previewPath = ""; } return; }
         var e = ModelRegistry.Load().FirstOrDefault(x => x.resourceName == existing[selected]);
         if (e == null) return;
         cur = JsonUtility.FromJson<ModelDef>(JsonUtility.ToJson(e));   // clone so edits don't mutate the stored copy
@@ -468,8 +468,10 @@ public class AnimationLabWindow : EditorWindow
         // PREVIEW FOLLOWS THE SELECTION (2026-07-27): switching entries used to keep the PREVIOUS model's
         // preview on screen (the T-62 grinning under the m114's settings). Rebuild for the new entry; if it
         // has no preview assets yet, clear the pane rather than show a stale model.
-        DestroyFitPreview(); previewPath = "";
-        BuildFitPreview();
+        // BUT ↻ Reload passes rebuildPreview=false (user request 2026-08-01): reloading the SAME entry must ONLY
+        // reload the data and NOT touch the preview — the rebuild path corrupts the texture on some models
+        // (tiling-UV rigs), whereas the existing correct preview is fine to keep for the same model.
+        if (rebuildPreview) { DestroyFitPreview(); previewPath = ""; BuildFitPreview(); }
     }
 
     void OnGUI()
@@ -494,7 +496,7 @@ public class AnimationLabWindow : EditorWindow
             using (new EditorGUI.DisabledScope(selected <= 0))
                 if (GUILayout.Button(new GUIContent("↻ Reload", "Discard the form and RE-LOAD this entry fresh from the registry file — " +
                     "the explicit escape from any stale window copy. (Selecting the same entry in the dropdown does NOT reload it.)"), GUILayout.Width(72)))
-                { RefreshList(); OnSelectResource(); GUI.FocusControl(null); }
+                { RefreshList(); OnSelectResource(rebuildPreview: false); GUI.FocusControl(null); }
             using (new EditorGUI.DisabledScope(selected <= 0))
                 if (GUILayout.Button("Remove", GUILayout.Width(72)))
                     if (EditorUtility.DisplayDialog("Remove entry",
