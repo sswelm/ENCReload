@@ -3688,10 +3688,10 @@
         {
             "resourceName": "VolleyGun",
             "pawnDescription": "Era5_Common_VolleyGun_01",
-            "modelFile": "D:/3DModels/Ozhiga Organ Gun/ozhiga_organ_gun_1.glb",
+            "modelFile": "D:/3DModels/Ozhiga Organ Gun/ozhiga_organ_gun_1_Spin.glb",
             "rotation": {
                 "x": 0.0,
-                "y": 90.0,
+                "y": -90.0,
                 "z": 0.0
             },
             "position": {
@@ -3699,7 +3699,7 @@
                 "y": 0.0,
                 "z": 0.0
             },
-            "size": 3.0,
+            "size": 2.799999952316284,
             "scale": 1.0,
             "normalsMode": 1,
             "smoothingAngle": 30.0,
@@ -3729,20 +3729,20 @@
                 -649946900
             ],
             "clip": [
-                0,
-                0,
-                0,
-                0
+                -843026262,
+                1229949548,
+                455315586,
+                -1684457973
             ],
-            "animated": false,
-            "animClip": "",
+            "animated": true,
+            "animClip": "Spin[0..0]",
             "animateBones": "",
             "staticParts": "",
             "localNodeAnim": false,
             "animUnitFix": false,
-            "convertRig": false,
-            "autoGroundWheels": false,
-            "keepTranslations": false,
+            "convertRig": true,
+            "autoGroundWheels": true,
+            "keepTranslations": true,
             "deployConvert": false,
             "deployStart": 0,
             "deployEnd": 0,
@@ -3758,8 +3758,8 @@
             "deploySlamDeg": "",
             "deploySlamSettle": "",
             "deployRecoilReturn": "",
-            "animStateDriven": false,
-            "animClipMove": "",
+            "animStateDriven": true,
+            "animClipMove": "Spin",
             "animClipAfter": "",
             "animClipAttack": "",
             "animClipCombat": "",
@@ -3782,10 +3782,10 @@
             "handPropBone": "",
             "handPropAngles": "",
             "clipMove": [
-                0,
-                0,
-                0,
-                0
+                -976240593,
+                1207238390,
+                89176202,
+                1450596520
             ],
             "clipAfter": [
                 0,
