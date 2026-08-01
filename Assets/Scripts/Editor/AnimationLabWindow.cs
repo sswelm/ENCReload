@@ -422,6 +422,11 @@ public class AnimationLabWindow : EditorWindow
     void OnGUI()
     {
         scroll = EditorGUILayout.BeginScrollView(scroll);
+        // Wider label column so the descriptive field labels ("Also remove (adds to defaults)", "Deploy
+        // conversion (rigid-parts source)", "Muzzle bone (flash fires from)"…) read in full instead of clipping
+        // at Unity's 150px EditorWindow default. Responsive: scales with the window, clamped 210–245px. The two
+        // local overrides below (deploy End = 40, recoil row = 88) save/restore against THIS value.
+        EditorGUIUtility.labelWidth = Mathf.Clamp(position.width * 0.35f, 210f, 245f);
         EditorGUILayout.LabelField("Animation Lab", EditorStyles.boldLabel);
         EditorGUILayout.HelpBox(
             "Configures the ANIMATION of a model: which clip plays and how (continuous loop, fire-on-attack, " +
