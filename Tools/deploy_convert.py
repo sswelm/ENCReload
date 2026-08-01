@@ -372,6 +372,13 @@ if _act is not None:
                 _curves.setdefault(_m.group(1), {}).setdefault(_m.group(2), {})[_fc.array_index] = _fc
     _rebased = 0
     for _bn, _ch in _curves.items():
+        # EXEMPT the leg bones (2026-08-01, the m114 crossed-legs regression): step 5c re-keys the legs from their
+        # ORIGINAL absolute poses (folded rotation at fmin -> full spread at mid). Rebasing them to bind==frame0 first
+        # folds their REST to the travel (legs-together) position and makes 5c capture the wrong DELTA rotation instead
+        # of the absolute — so the deployed legs spread from the centre and CROSS (verified: r_leg spread 0.351 -> 0.273,
+        # rest shifted off ±4.5 to ~0). The legs worked in every pre-contract bake WITHOUT bind==f0, so leave them alone.
+        if "leg" in _bn.lower():
+            continue
         _lc = _ch.get('location', {}); _qc = _ch.get('rotation_quaternion', {})
         if len(_lc) < 3 or len(_qc) < 4:
             continue
