@@ -1179,6 +1179,9 @@ public class ModelFactoryWindow : EditorWindow
 
     void DoBake()
     {
+        // Snapshot the form so a FAILED bake keeps every setting (mirror of AnimationLabWindow.DoBake — the ownership
+        // rebase + trims below mutate cur in place; a failure would otherwise revert the form and force re-entry).
+        string formSnapshot = JsonUtility.ToJson(cur);
         // Tear down the preview editor BEFORE baking. The baked prefab has an Animator, so the preview is a GameObjectInspector
         // with a live animator preview; the bake's delete-first (DeleteAsset _Model.prefab) would then null its target mid-bake,
         // and SaveAsPrefabAsset's OnPostprocessAllAssets fires InstantiateForAnimatorPreview(null) -> ArgumentException. Destroying
@@ -1230,7 +1233,7 @@ public class ModelFactoryWindow : EditorWindow
             if (!cfg.reuseExtracted) Debug.Log("[Factory] " + cur.resourceName + ": Blender-step settings changed — re-slimming (automatic).");
         }
         var r = cfg.animated ? UniversalBaker.BuildAnimated(cfg) : UniversalBaker.Build(cfg);
-        if (!r.ok) { status = "Bake FAILED: " + r.error; return; }
+        if (!r.ok) { cur = JsonUtility.FromJson<ModelDef>(formSnapshot); status = "Bake FAILED (settings kept): " + r.error; return; }
         cur.skel = ModelRegistry.ParseGuid(r.skeletonGuid);
         cur.atlas = ModelRegistry.ParseGuid(r.atlasGuid);
         cur.clip = cfg.animated ? ModelRegistry.ParseGuid(r.clipGuid) : new int[4];   // static models carry {0,0,0,0}

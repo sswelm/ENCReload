@@ -367,6 +367,59 @@ public class AnimationLabWindow : EditorWindow
         (animClips, animBonePrefixes, animBoneNames) = ModelFactoryWindow.InspectModelFull(f);
     }
 
+    // AUTO-DETECT: read the model's clip names + rig and fill the animation config with a best guess, explained in the
+    // status so it's always reviewable. Recognises (in order): a Vehicle Lab 'Spin' rig (wheels/tracks/floating — the
+    // exact recipe that window prints), a DEPLOY-conversion model (hint only — its frame ranges can't be inferred), a
+    // character idle/run, and a single continuous clip. Nothing here bakes; it only pre-fills the form.
+    void AutoDetect()
+    {
+        EnsureClips();
+        var clips = animClips;
+        if (clips == null || clips.Count == 0)
+        {
+            status = "Auto-detect: no clips readable from the model (glb/gltf inspection only). Set the Model file (or Browse the rigged GLB), then retry.";
+            return;
+        }
+        string spin   = clips.FirstOrDefault(c => c.Equals("Spin", StringComparison.OrdinalIgnoreCase));
+        string deploy = clips.FirstOrDefault(c => c.IndexOf("deploy", StringComparison.OrdinalIgnoreCase) >= 0);
+
+        if (spin != null)
+        {
+            // Vehicle Lab rig — the recipe that window prints on success: wheels/tracks roll on move, still when parked.
+            cur.animStateDriven = true;
+            cur.animClip = spin + "[0..0]";                                                   // Idle/reference = the motionless rest frame
+            cur.animClipMove = spin;                                                          // Movement = the full linear spin
+            cur.animClipAfter = ""; cur.animClipAttack = ""; cur.animClipCombat = ""; cur.animClipPreMove = ""; cur.animClipIdle = "";
+            cur.convertRig = true; cur.autoGroundWheels = true; cur.keepTranslations = true; cur.animUnitFix = false; cur.deployConvert = false;
+            status = $"Auto-detected a Vehicle Lab rig ('{spin}' clip):  State-driven ON · Idle/reference = {spin}[0..0] (still) · Movement = {spin} (rolls) · Convert raw rig ON · Auto-ground ON · Keep bone translations ON · Fix 100× OFF.  Review, set Size in the Model Factory if needed, then Bake.";
+            Repaint(); return;
+        }
+        if (deploy != null)
+        {
+            status = $"Auto-detect: looks like a DEPLOY-conversion model ('{deploy}' clip). Those need the Deploy-conversion flag + frame ranges (ready-frame, recoil…) that can't be read from the baked clip — configure it from the howitzer recipe in the docs. Auto-detect leaves deploy settings alone.";
+            return;
+        }
+        string idle = clips.FirstOrDefault(c => c.IndexOf("idle", StringComparison.OrdinalIgnoreCase) >= 0);
+        string move = clips.FirstOrDefault(c => c.IndexOf("run", StringComparison.OrdinalIgnoreCase) >= 0
+                                             || c.IndexOf("walk", StringComparison.OrdinalIgnoreCase) >= 0
+                                             || c.IndexOf("move", StringComparison.OrdinalIgnoreCase) >= 0);
+        if (idle != null && move != null)
+        {
+            cur.animStateDriven = true; cur.animClip = idle; cur.animClipMove = move;
+            status = $"Auto-detected a character rig:  State-driven ON · Idle = {idle} · Movement = {move}.  Check 'Convert raw rig' (ON for an auto-rigged download, OFF for a game-ready rig) + Size, then Bake.";
+            Repaint(); return;
+        }
+        if (clips.Count == 1)
+        {
+            cur.animStateDriven = false; cur.animClip = clips[0];
+            status = $"Auto-detected a single clip '{clips[0]}': continuous loop (State-driven OFF).  Check 'Convert raw rig' + Size, then Bake.";
+            Repaint(); return;
+        }
+        cur.animStateDriven = false; cur.animClip = clips[0];
+        status = $"Auto-detect: {clips.Count} clips found ({string.Join(", ", clips.Take(4))}{(clips.Count > 4 ? "…" : "")}) with no obvious Spin/idle-move pattern. Set a continuous loop of '{clips[0]}' (State-driven OFF) as a starting point — pick the right clip/roles, then Bake.";
+        Repaint();
+    }
+
     // One clip text field + Pick dropdown — shared by the single-clip field and the three state-role fields, so
     // every role gets the same pick-from-model UX.
     void ClipRow(string label, string tooltip, Func<string> get, Action<string> set)
@@ -584,6 +637,15 @@ public class AnimationLabWindow : EditorWindow
         // --- Clip(s) ---
         EditorGUILayout.Space();
         EditorGUILayout.LabelField("Clip", EditorStyles.miniBoldLabel);
+        // AUTO-DETECT (user request): inspect the model's clips + rig and fill the animation config so you don't
+        // re-enter the Vehicle Lab's recipe by hand. Fills a best guess + explains it in the status; always reviewable.
+        using (new EditorGUILayout.HorizontalScope())
+        {
+            using (new EditorGUI.DisabledScope(string.IsNullOrWhiteSpace(cur.modelFile)))
+                if (GUILayout.Button(new GUIContent("Auto-detect settings from the model",
+                    "Reads the model's clips + rig and configures the animation automatically: a Vehicle Lab 'Spin' rig (wheels/tracks), a character's idle/run, or a single continuous loop. Fills the fields + explains what it chose — review, then Bake."), GUILayout.Height(22)))
+                    AutoDetect();
+        }
         cur.animStateDriven = EditorGUILayout.Toggle(new GUIContent("State-driven (idle / move / after / attack)",
             "OFF = today's single-clip modes: one clip, played as a continuous loop or via the Behavior flags below " +
             "(the drone, the howitzer). ON = a STATE MACHINE for characters: the IDLE clip plays standing, the " +
@@ -985,6 +1047,10 @@ public class AnimationLabWindow : EditorWindow
     // capture the baked GUIDs onto the entry -> Upsert to the registry.
     void DoBake()
     {
+        // Snapshot the form FIRST so a FAILED bake leaves every setting exactly as you had it. RebaseOnRegistry + the
+        // trims below mutate cur in place (pulling model-owned fields back from the registry), so without this a bake
+        // that errors out reverts the form and you re-enter the whole config — the annoyance this fixes.
+        string formSnapshot = JsonUtility.ToJson(cur);
         ModelFactoryWindow.ReleasePreviews();   // the bake rewrites the preview prefab — a live Factory preview watching it throws from Unity internals
         InvalidateFitPreviews();                // the combined fit view would go stale (magenta) — retire it; Refresh rebuilds from fresh assets
         RebaseOnRegistry();   // bake with the freshest model-owned fields (rotation/size/…) — only animation fields are ours
@@ -1009,7 +1075,7 @@ public class AnimationLabWindow : EditorWindow
         cfg.reuseExtracted = !ModelFactoryWindow.AnimatedSlimInputsChanged(cur);
         if (!cfg.reuseExtracted) Debug.Log("[AnimLab] " + cur.resourceName + ": Blender-step settings changed — re-slimming (automatic).");
         var r = UniversalBaker.BuildAnimated(cfg);
-        if (!r.ok) { status = "Bake FAILED: " + r.error; Debug.LogError("[AnimLab] " + r.error); return; }
+        if (!r.ok) { cur = JsonUtility.FromJson<ModelDef>(formSnapshot); status = "Bake FAILED (settings kept): " + r.error; Debug.LogError("[AnimLab] " + r.error); return; }
         cur.skel = ModelRegistry.ParseGuid(r.skeletonGuid);
         cur.atlas = ModelRegistry.ParseGuid(r.atlasGuid);
         cur.clip = ModelRegistry.ParseGuid(r.clipGuid);
