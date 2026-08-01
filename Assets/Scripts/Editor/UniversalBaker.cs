@@ -49,6 +49,7 @@ public struct BakeConfig
     public bool    deployConvert;   // ANIMATED only: run Tools/deploy_convert.py on modelFile first (rigid-parts source -> bone-per-part rig) and bake the converted GLB. All knobs below mirror ModelDef.deploy* (see ModelRegistry.cs for semantics).
     public int     deployStart, deployEnd;
     public string  deployStrip, deployReadyFrame, deployLegScale, deployBarrelScale, deployRecoil, deployRecoilStep, deployRecoilMag, deployArcR, deployRecoilReturn, deploySlamDeg, deploySlamSettle;
+    public string  deployStripExtra;   // deployConvert: parts to remove ON TOP of the default kill-list (deploy_convert argv[16]) — the picked control wheels etc. Empty = defaults only.
     public bool    animStateDriven; // ANIMATED only (Phase 2): bake one ClipCollection PER ROLE (idle = animClip, move = animClipMove, optional after = animClipAfter), all sharing the ONE baked skeleton — the runtime picks per state.
     public string  animClipMove;    // STATE-DRIVEN only: the MOVEMENT clip name (required when animStateDriven)
     public string  animClipAfter;   // STATE-DRIVEN only: the optional AFTER-MOVEMENT one-shot clip name ("" = none)
@@ -232,7 +233,7 @@ public static class UniversalBaker
         string key = string.Join("|", cfg.modelFile, File.GetLastWriteTimeUtc(cfg.modelFile).Ticks.ToString(),
             File.GetLastWriteTimeUtc(script).Ticks.ToString(), cfg.deployStart.ToString(), cfg.deployEnd.ToString(),
             (cfg.deployStrip ?? "").Trim(), (cfg.deployReadyFrame ?? "").Trim(), (cfg.deployLegScale ?? "").Trim(),
-            (cfg.deployBarrelScale ?? "").Trim(), rs, re, (cfg.deployRecoilStep ?? "").Trim(), (cfg.deployRecoilMag ?? "").Trim(), (cfg.deployArcR ?? "").Trim(), (cfg.deployRecoilReturn ?? "").Trim(), (cfg.deploySlamDeg ?? "").Trim(), (cfg.deploySlamSettle ?? "").Trim());
+            (cfg.deployBarrelScale ?? "").Trim(), rs, re, (cfg.deployRecoilStep ?? "").Trim(), (cfg.deployRecoilMag ?? "").Trim(), (cfg.deployArcR ?? "").Trim(), (cfg.deployRecoilReturn ?? "").Trim(), (cfg.deploySlamDeg ?? "").Trim(), (cfg.deploySlamSettle ?? "").Trim(), (cfg.deployStripExtra ?? "").Trim());
         if (File.Exists(outFull) && File.Exists(sidecar) && File.ReadAllText(sidecar) == key)
             return outFull;   // unchanged inputs — reuse (the slim step's own source-newer buster keys off this file's mtime)
 
@@ -244,7 +245,7 @@ public static class UniversalBaker
             p.StartInfo.Arguments = $"--background --python \"{script}\" -- \"{cfg.modelFile}\" \"{outFull}\" " +
                 $"{cfg.deployStart} {cfg.deployEnd} \"{(cfg.deployStrip ?? "").Trim()}\" \"{(cfg.deployReadyFrame ?? "").Trim()}\" " +
                 $"\"{(cfg.deployLegScale ?? "").Trim()}\" \"{(cfg.deployBarrelScale ?? "").Trim()}\" " +
-                $"\"{rs}\" \"{re}\" \"{(cfg.deployRecoilStep ?? "").Trim()}\" \"{(cfg.deployRecoilMag ?? "").Trim()}\" \"{(cfg.deployArcR ?? "").Trim()}\" \"{(cfg.deployRecoilReturn ?? "").Trim()}\" \"{(cfg.deploySlamDeg ?? "").Trim()}\" \"{(cfg.deploySlamSettle ?? "").Trim()}\"";
+                $"\"{rs}\" \"{re}\" \"{(cfg.deployRecoilStep ?? "").Trim()}\" \"{(cfg.deployRecoilMag ?? "").Trim()}\" \"{(cfg.deployArcR ?? "").Trim()}\" \"{(cfg.deployRecoilReturn ?? "").Trim()}\" \"{(cfg.deploySlamDeg ?? "").Trim()}\" \"{(cfg.deploySlamSettle ?? "").Trim()}\" \"{(cfg.deployStripExtra ?? "").Trim()}\"";
             p.StartInfo.UseShellExecute = false; p.StartInfo.CreateNoWindow = true;
             p.StartInfo.RedirectStandardOutput = true; p.StartInfo.RedirectStandardError = true;
             p.Start();

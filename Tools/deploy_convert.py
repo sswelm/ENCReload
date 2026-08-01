@@ -44,9 +44,18 @@ bpy.ops.import_scene.gltf(filepath=inp)
 scene = bpy.context.scene
 
 # --- 1. strip crew + loose props (soft-skinned rigs = the bake-breakers; ammo/pole/string = loose firing props) ---
+# argv[4] (stripCsv) REPLACES this default set (the canoe's "camera" override relies on that — it must NOT inherit
+# the M114 crew/prop names, some of which are generic Maya defaults that would hit canoe geometry).
 KILL = tuple(k.strip().lower() for k in argv[4].split(",")) if len(argv) > 4 and argv[4].strip() else \
     ("solder", "soldier", "pole", "string", "shell", "dynam", "ammun", "pcylinder1", "pcylinder3", "icosphere", "basicgal",
      "polysurface")   # polySurface1/5 = a loose prop floating ~20u above the gun (a stray shell), not part of the howitzer
+# argv[16] (stripExtra): ALWAYS-appended extra kills (the Lab's picked parts). Added ON TOP of whatever KILL resolved
+# to above — so a model removes parts (the M114's control hand-wheels) WITHOUT re-typing the default set, and the
+# canoe's "camera" override stays intact (its stripExtra is empty). Backward-safe: old arg strings have no argv[16].
+_extra = tuple(k.strip().lower() for k in argv[16].split(",")) if len(argv) > 16 and argv[16].strip() else ()
+if _extra:
+    KILL = KILL + _extra
+    print("DEPLOY stripExtra: also removing parts matching %s" % ", ".join(_extra))
 def is_kill(o):
     names = [o.name.lower()]
     if getattr(o, "data", None) is not None and hasattr(o.data, "name"):

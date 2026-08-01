@@ -526,9 +526,21 @@ public class AnimationLabWindow : EditorWindow
                     "Source frame where the deploy COMPLETES (fully deployed). REQUIRED. Find it by scrubbing the raw file in the ▶ picker."), cur.deployEnd, flex);
                 EditorGUIUtility.labelWidth = lw;
             }
-            cur.deployStrip = EditorGUILayout.TextField(new GUIContent("Strip parts",
-                "Comma-separated name substrings to DELETE from the source (crew figures, loose shells/props — soft-skinned " +
-                "rigs break the rigid bake). Empty = the converter's proven defaults (crew/shell/prop names)."), cur.deployStrip, flex);
+            using (new EditorGUILayout.HorizontalScope())
+            {
+                cur.deployStripExtra = EditorGUILayout.TextField(new GUIContent("Also remove (adds to defaults)",
+                    "Extra parts to DELETE on top of the converter's default crew/prop kill-list — build it with the picker " +
+                    "so you never re-type the defaults. The M114's mis-animated control hand-wheels live here. A ticked name " +
+                    "also removes any sub-part whose name contains it."), cur.deployStripExtra, flex);
+                if (GUILayout.Button(new GUIContent("Pick parts…", "Tick parts of the SOURCE model to remove (defaults stay automatic)."), GUILayout.Width(84)))
+                {
+                    var (_, _, srcParts) = ModelFactoryWindow.InspectModelFull((cur.modelFile ?? "").Trim());
+                    StripPartsDialog.Open(cur.deployStripExtra, srcParts, s => { cur.deployStripExtra = s; Repaint(); });
+                }
+            }
+            cur.deployStrip = EditorGUILayout.TextField(new GUIContent("Strip parts (replace defaults)",
+                "ADVANCED — name substrings that REPLACE the default kill-list wholesale (usually leave EMPTY; the canoe's " +
+                "'camera' is the rare case). To ADD parts, use 'Also remove' above — it keeps the defaults."), cur.deployStrip, flex);
             cur.deployReadyFrame = EditorGUILayout.TextField(new GUIContent("Barrel ready frame",
                 "Source frame of the FULLY-ELEVATED barrel. Sources often pause at an aim angle and only rise much later; " +
                 "this re-keys barrel/cannon parts to rise over the deploy's back half instead. Empty = leave the barrel as authored."), cur.deployReadyFrame, flex);
@@ -938,7 +950,7 @@ public class AnimationLabWindow : EditorWindow
         cur.animClip = mine.animClip; cur.animateBones = mine.animateBones; cur.staticParts = mine.staticParts; cur.localNodeAnim = mine.localNodeAnim; cur.animUnitFix = mine.animUnitFix;
         cur.convertRig = mine.convertRig; cur.autoGroundWheels = mine.autoGroundWheels; cur.keepTranslations = mine.keepTranslations;
         cur.deployConvert = mine.deployConvert; cur.deployStart = mine.deployStart; cur.deployEnd = mine.deployEnd;
-        cur.deployStrip = mine.deployStrip; cur.deployReadyFrame = mine.deployReadyFrame; cur.deployLegScale = mine.deployLegScale; cur.deployBarrelScale = mine.deployBarrelScale;
+        cur.deployStrip = mine.deployStrip; cur.deployStripExtra = mine.deployStripExtra; cur.deployReadyFrame = mine.deployReadyFrame; cur.deployLegScale = mine.deployLegScale; cur.deployBarrelScale = mine.deployBarrelScale;
         cur.deployRecoil = mine.deployRecoil; cur.deployRecoilStep = mine.deployRecoilStep; cur.deployRecoilMag = mine.deployRecoilMag; cur.deployArcR = mine.deployArcR; cur.deployRecoilReturn = mine.deployRecoilReturn; cur.deploySlamDeg = mine.deploySlamDeg; cur.deploySlamSettle = mine.deploySlamSettle;
         cur.animStateDriven = mine.animStateDriven; cur.animClipMove = mine.animClipMove; cur.animClipAfter = mine.animClipAfter; cur.animClipAttack = mine.animClipAttack; cur.animClipCombat = mine.animClipCombat; cur.animClipPreMove = mine.animClipPreMove; cur.animClipIdle = mine.animClipIdle; cur.animClipIdleAlt = mine.animClipIdleAlt; cur.animClipIdleAlt2 = mine.animClipIdleAlt2; cur.idleAltInterval = mine.idleAltInterval; cur.animPhaseSpread = mine.animPhaseSpread; cur.attackRepeats = mine.attackRepeats; cur.clearAimLayer = mine.clearAimLayer; cur.turretBone = mine.turretBone; cur.turretAxis = mine.turretAxis; cur.muzzleBone = mine.muzzleBone; cur.muzzleOffset = mine.muzzleOffset; cur.socketBones = mine.socketBones; cur.disabled = mine.disabled; cur.bakeLocked = mine.bakeLocked;
         cur.handPropName = mine.handPropName; cur.handPropGuid = mine.handPropGuid; cur.handPropMat = mine.handPropMat; cur.handPropBone = mine.handPropBone;
