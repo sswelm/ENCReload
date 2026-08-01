@@ -102,7 +102,28 @@ public class VehicleLabWindow : EditorWindow
 
     // ── Recipes: the whole vehicleize configuration as a JSON file — reload it after a restart, keep one per model,
     // ship it next to the model so a collaborator reproduces the exact rig. ──
-    [Serializable] class Recipe { public string srcFile, outGlb; public int frames, axisChoice, minVerts; public float degrees; public List<Part> parts; public List<Part> boneParts; public bool useSourceRig; public int treadAdvCells = 3; public float treadCellsPerLink = 4f; }
+    [Serializable] class Recipe
+    {
+        public string srcFile, outGlb; public int frames, axisChoice, minVerts; public float degrees;
+        public List<Part> parts; public List<Part> boneParts; public bool useSourceRig;
+        public int treadAdvCells = 3; public float treadCellsPerLink = 4f;
+        // 2026-08-01: these ALSO drive the bake command (line ~800), but the DTO omitted them — so a saved recipe
+        // baked a DIFFERENT rig on reload (as-imported orientation, no wave rock, live tracks) and, worse, whatever
+        // rock/orientation was on screen LEAKED into the next model's bake because Load never reset them. Now stored.
+        // Defaults match the live field defaults so a PRE-2026-08-01 recipe (missing these keys) loads NEUTRALLY =
+        // wheeled / as-imported / no rock (waveEnabled false gates the rock params regardless).
+        public bool tracksStatic = false;
+        public Vector3 modelRot = Vector3.zero;
+        public bool waveEnabled = false;
+        public float rockDegrees = 0f;
+        public int rockFrames = 120;
+        public int rockAxisChoice = 0;
+        public float rockHeading = 0f;
+        public float rockPitchDeg = 2.4f;
+        public int rockRollCycles = 1;
+        public int rockPitchCycles = 1;
+        public float rockPitchPhase = 90f;
+    }
     const string RecipesDir = "Assets/FactorySource/VehicleLab/Recipes";
     static readonly string[] AxisOptions = { "Auto (thinnest extent = axle, per wheel)", "X", "Y", "Z" };
     string status = "";
@@ -712,19 +733,19 @@ public class VehicleLabWindow : EditorWindow
         string def = Path.GetFileNameWithoutExtension(string.IsNullOrEmpty(srcFile) ? "vehicle" : srcFile);
         string p = EditorUtility.SaveFilePanel("Save vehicleize recipe", Path.Combine(projRoot, RecipesDir), def, "json");
         if (string.IsNullOrEmpty(p)) return;
-        var r = new Recipe { srcFile = srcFile, outGlb = outGlb, frames = frames, axisChoice = axisChoice, minVerts = minVerts, degrees = degrees, parts = parts, boneParts = boneParts, useSourceRig = useSourceRig, treadAdvCells = treadAdvCells, treadCellsPerLink = treadCellsPerLink };
+        var r = new Recipe
+        {
+            srcFile = srcFile, outGlb = outGlb, frames = frames, axisChoice = axisChoice, minVerts = minVerts, degrees = degrees,
+            parts = parts, boneParts = boneParts, useSourceRig = useSourceRig, treadAdvCells = treadAdvCells, treadCellsPerLink = treadCellsPerLink,
+            // orientation + tread isolation + wave rock — the rest of what the bake command consumes
+            tracksStatic = tracksStatic, modelRot = modelRot, waveEnabled = waveEnabled,
+            rockDegrees = rockDegrees, rockFrames = rockFrames, rockAxisChoice = rockAxisChoice, rockHeading = rockHeading,
+            rockPitchDeg = rockPitchDeg, rockRollCycles = rockRollCycles, rockPitchCycles = rockPitchCycles, rockPitchPhase = rockPitchPhase,
+        };
         File.WriteAllText(p, JsonUtility.ToJson(r, true));
         AssetDatabase.Refresh();
         loadedRecipe = Path.GetFileNameWithoutExtension(p);   // reflect the just-saved recipe in the combobox
         status = "Recipe saved: " + p;
-    }
-
-    void LoadRecipe()
-    {
-        string projRoot = Directory.GetParent(Application.dataPath).FullName;
-        string dir = Path.Combine(projRoot, RecipesDir);
-        string p = EditorUtility.OpenFilePanel("Load vehicleize recipe", Directory.Exists(dir) ? dir : projRoot, "json");
-        LoadRecipeFromPath(p);
     }
 
     void LoadRecipeFromPath(string p)
@@ -738,6 +759,15 @@ public class VehicleLabWindow : EditorWindow
             srcFile = r.srcFile; outGlb = r.outGlb; frames = r.frames; axisChoice = r.axisChoice; minVerts = r.minVerts; degrees = r.degrees;
             treadAdvCells = r.treadAdvCells > 0 ? r.treadAdvCells : 3;   // pre-knob recipes default to road-wheel sync
             treadCellsPerLink = r.treadCellsPerLink > 0f ? r.treadCellsPerLink : 4f;
+            // orientation + tread isolation + wave rock: fully RESTORE them (so a wheeled recipe overwrites a boat's
+            // rock and vice-versa — no leak between models). off/zero is the safe neutral for a pre-2026-08-01 recipe;
+            // the counted fields guard against a missing-key 0 the way treadAdvCells does.
+            modelRot = r.modelRot; tracksStatic = r.tracksStatic;
+            waveEnabled = r.waveEnabled; rockDegrees = r.rockDegrees; rockAxisChoice = r.rockAxisChoice; rockHeading = r.rockHeading;
+            rockPitchDeg = r.rockPitchDeg; rockPitchPhase = r.rockPitchPhase;
+            rockFrames = r.rockFrames > 0 ? r.rockFrames : 120;
+            rockRollCycles = r.rockRollCycles > 0 ? r.rockRollCycles : 1;
+            rockPitchCycles = r.rockPitchCycles > 0 ? r.rockPitchCycles : 1;
             parts = r.parts;
             boneParts = r.boneParts ?? new List<Part>();   // pre-fast-path recipes have no bone list
             useSourceRig = r.useSourceRig && boneParts.Count > 0;
