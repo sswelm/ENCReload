@@ -56,6 +56,9 @@ public static class ConversionGateTest
         Debug.Log(fails == 0
             ? "[ConvGate] LITMUS PASS — conversion invariants hold (all scales 1, parents before children, rotation-only clip)."
             : $"[ConvGate] LITMUS: {fails} FAILURE(S) — the conversion pipeline regressed; see errors above.");
+        EditorUtility.DisplayDialog("Conversion Gate — litmus",
+            fails == 0 ? "PASS — conversion invariants hold (scales 1, parents before children, rotation-only clip)."
+                       : $"{fails} FAILURE(S) — the conversion pipeline regressed. See the Console for detail.", "OK");
     }
 
     [MenuItem("Tools/HAF/Tests/Bake Conversion Gate Test (registry converted models)")]
@@ -66,19 +69,24 @@ public static class ConversionGateTest
         var defs = ModelRegistry.Load().Where(d => d.animated && d.convertRig
                                                && !d.resourceName.StartsWith(PREFIX)).ToList();
         if (defs.Count == 0) { Debug.LogWarning("[ConvGate] no converted models in the registry (animated + 'Convert raw rig') — nothing to test."); return; }
-        int total = 0, tested = 0;
+        int total = 0, tested = 0, skipped = 0;
+        var failed = new System.Collections.Generic.List<string>();
         foreach (var src in defs)
         {
             if (string.IsNullOrWhiteSpace(src.modelFile) || !File.Exists(src.modelFile))
-            { Debug.LogWarning($"[ConvGate] SKIP {src.resourceName} — source model file not on disk ({src.modelFile})"); continue; }
+            { Debug.LogWarning($"[ConvGate] SKIP {src.resourceName} — source model file not on disk ({src.modelFile})"); skipped++; continue; }
             var clone = JsonUtility.FromJson<ModelDef>(JsonUtility.ToJson(src));   // never mutate the real entry
             int fails = BakeAndAssert(clone);
             Debug.Log(fails == 0
                 ? $"[ConvGate] {src.resourceName}: PASS (full conversion on the real rig)"
                 : $"[ConvGate] {src.resourceName}: {fails} FAILURE(S) — see errors above.");
+            if (fails > 0) failed.Add($"{src.resourceName} ({fails})");
             total += fails; tested++;
         }
         Debug.Log($"[ConvGate] registry converted models: {tested} tested, {total} total failure(s).");
+        EditorUtility.DisplayDialog("Conversion Gate — registry converted models",
+            total == 0 ? $"PASS — {tested} model(s) tested, no conversion-invariant failures{(skipped > 0 ? $" ({skipped} skipped: source not on disk)" : "")}."
+                       : $"{total} failure(s) across {failed.Count} model(s):\n  {string.Join("\n  ", failed)}\n\nSee the Console for the per-check detail.", "OK");
     }
 
     // THE DEPLOY-CONVERT GATE (2026-08-01) — the two variants above test convertRig rigs and INVARIANTS; they skip
@@ -125,6 +133,9 @@ public static class ConversionGateTest
             else { Debug.LogError($"[ConvGate] {res}: FAIL — converted rig CHANGED vs golden. Run `bash Tools/deploy_regression.sh` for the line diff."); fail++; }
         }
         Debug.Log($"[ConvGate] deploy golden diff: {pass} pass, {fail} fail, {miss} missing golden (of {argFiles.Length} models).");
+        EditorUtility.DisplayDialog("Conversion Gate — deploy golden diff",
+            (fail == 0 && miss == 0) ? $"PASS — {pass} deploy-convert model(s) match their golden."
+                                     : $"{pass} pass, {fail} FAIL, {miss} missing golden.\nSee the Console; run `bash Tools/deploy_regression.sh` for the line-level diff.", "OK");
     }
 
     static string RunBlenderCapture(string blender, string args)
@@ -206,20 +217,39 @@ public static class ConversionGateTest
                         { Debug.LogError($"[ConvGate] {testName}: bone {Member(e, "BoneIndex")} encoded as {fmt} (conversion must yield rotation-only clips)"); fails++; }
                     }
                 }
-                var entries = (Array)clips.GetType().GetProperty("AnimationClipEntries")?.GetValue(clips);
-                if (entries != null && entries.Length > 0)
+                // FrameCount — the animation must actually bake. BUT a STATE-DRIVEN model's PRIMARY clip is often a
+                // DELIBERATE single-frame held stance (a spin-vehicle's Spin[0..0] idle; the motion lives in the MOVE
+                // role) — so for those, frame-check the MOVE clip, not the intentional single-frame primary. (Without
+                // this, TankDestroyers / AntiTankIFV / ArmouredCar — all Spin[0..0] + Spin — cried wolf though they
+                // bake and run correctly in-game.)
+                string motionAsset = def.animStateDriven
+                    ? $"Assets/Resources/{testName}_ClipsMove.asset" : $"Assets/Resources/{testName}_Clips.asset";
+                string which = def.animStateDriven ? "MOVE" : "primary";
+                var motion = AssetDatabase.LoadAllAssetsAtPath(motionAsset).FirstOrDefault(o => o != null && o.GetType().Name == "ClipCollection");
+                if (motion == null) { Debug.LogError($"[ConvGate] {testName}: no {which} ClipCollection to frame-check ({motionAsset})"); fails++; }
+                else
                 {
-                    int frameCount = Convert.ToInt32(Member(entries.GetValue(0), "FrameCount"));
-                    if (frameCount < 2) { Debug.LogError($"[ConvGate] {testName}: clip FrameCount {frameCount} — the animation didn't bake"); fails++; }
+                    var entries = (Array)motion.GetType().GetProperty("AnimationClipEntries")?.GetValue(motion);
+                    if (entries != null && entries.Length > 0)
+                    {
+                        int frameCount = Convert.ToInt32(Member(entries.GetValue(0), "FrameCount"));
+                        if (frameCount < 2) { Debug.LogError($"[ConvGate] {testName}: {which} clip FrameCount {frameCount} — the animation didn't bake"); fails++; }
+                    }
+                    else { Debug.LogError($"[ConvGate] {testName}: no ClipEntry in the {which} clip (animation missing entirely)"); fails++; }
                 }
-                else { Debug.LogError($"[ConvGate] {testName}: no ClipEntry (the animation is missing entirely)"); fails++; }
             }
             return fails;
         }
         catch (Exception ex) { Debug.LogError($"[ConvGate] {testName}: exception {ex.GetType().Name}: {ex.Message}"); return fails + 1; }
         finally
         {
-            foreach (var suffix in new[] { "_Skeleton.asset", "_Clips.asset", "_ClipsPoseData.bytes", "_Atlas.asset" })
+            foreach (var suffix in new[] {
+                "_Skeleton.asset", "_Atlas.asset", "_PreviewMesh.asset",
+                "_Clips.asset", "_ClipsPoseData.bytes",
+                "_ClipsMove.asset", "_ClipsMovePoseData.bytes", "_ClipsAfter.asset", "_ClipsAfterPoseData.bytes",
+                "_ClipsAttack.asset", "_ClipsAttackPoseData.bytes", "_ClipsPreMove.asset", "_ClipsPreMovePoseData.bytes",
+                "_ClipsIdle.asset", "_ClipsIdlePoseData.bytes", "_ClipsCombat.asset", "_ClipsCombatPoseData.bytes",
+                "_ClipsIdleAlt.asset", "_ClipsIdleAltPoseData.bytes", "_ClipsIdleAlt2.asset", "_ClipsIdleAlt2PoseData.bytes" })
                 AssetDatabase.DeleteAsset($"Assets/Resources/{testName}{suffix}");
             AssetDatabase.DeleteAsset($"Assets/FactorySource/{testName}");
             AssetDatabase.Refresh();
