@@ -43,7 +43,11 @@ public static class ConversionGateTest
             if (string.IsNullOrEmpty(blender)) { Debug.LogError("[ConvGate] Blender not found — the gate needs it"); return; }
             var psi = new System.Diagnostics.ProcessStartInfo(blender, $"-b --python \"{script}\" -- \"{litmus}\"")
             { UseShellExecute = false, CreateNoWindow = true, RedirectStandardOutput = true, RedirectStandardError = true };
-            using (var p = System.Diagnostics.Process.Start(psi)) { p.StandardOutput.ReadToEnd(); p.StandardError.ReadToEnd(); p.WaitForExit(180000); }
+            // Drain BOTH pipes concurrently via RunBounded: the old sequential ReadToEnd(stdout) then ReadToEnd(stderr)
+            // deadlocks if Blender fills the stderr pipe buffer while we're blocked reading stdout (and the 180s
+            // WaitForExit came AFTER, so it never armed) → the gate-test menu could freeze the whole editor.
+            using (var p = System.Diagnostics.Process.Start(psi))
+                if (!UniversalBaker.RunBounded(p, 180000, out string _, out string _)) { Debug.LogError("[ConvGate] litmus synthesis: Blender timed out (3 min)"); return; }
             if (!File.Exists(litmus)) { Debug.LogError("[ConvGate] litmus synthesis produced no GLB"); return; }
         }
         var def = new ModelDef
@@ -142,8 +146,10 @@ public static class ConversionGateTest
     {
         var psi = new System.Diagnostics.ProcessStartInfo(blender, args)
         { UseShellExecute = false, CreateNoWindow = true, RedirectStandardOutput = true, RedirectStandardError = true };
+        // Concurrent pipe drain (RunBounded) — a sequential ReadToEnd(stdout)+ReadToEnd(stderr) deadlocks when Blender
+        // fills the stderr buffer while we're blocked on stdout; RunBounded reads both on background tasks + bounds the wait.
         using (var p = System.Diagnostics.Process.Start(psi))
-        { string so = p.StandardOutput.ReadToEnd(); p.StandardError.ReadToEnd(); p.WaitForExit(180000); return so; }
+        { UniversalBaker.RunBounded(p, 180000, out string so, out string _); return so; }
     }
 
     // Keep only the deterministic snapshot lines (same set the CLI greps), so C# and bash compare identically.

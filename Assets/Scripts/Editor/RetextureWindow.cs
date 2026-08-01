@@ -4,6 +4,7 @@
 // unit's output layer, so the emblematic original is untouched and the vanilla mesh is kept. It writes texture-only
 // entries (textureFile / desaturate) into the SAME registry the Factory uses — see ModelDef in ModelRegistry.cs.
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UnityEditor;
@@ -26,6 +27,12 @@ public class RetextureWindow : EditorWindow
     Vector2 scroll;
     string status = "";
     string editedEntry = "";                           // which entry the form was last LOADED from (Edit button) — Apply onto a different existing entry asks first
+    // Registry cached across repaints: ModelRegistry.Load() reads+parses pack.json (and 250ms-sleeps on a MISSING file),
+    // so calling it inside OnGUI dropped a new adopter's window to ~4fps. Refreshed on enable/focus and after each Apply,
+    // so a bake/edit made in another window is still picked up when this one regains focus.
+    List<ModelDef> registryCache;
+    void OnEnable()  => registryCache = ModelRegistry.Load();
+    void OnFocus()   => registryCache = ModelRegistry.Load();
 
     // --- live skin preview (mirrors the plugin's AdjustSkin pixel math so what you see == what gets injected) ---
     Texture2D previewTex;                              // the composited preview drawn in the window
@@ -50,7 +57,7 @@ public class RetextureWindow : EditorWindow
             "3) Replace with your PNG and/or adjust it (Desaturate + R/G/B ±255). Relaunch/reload the game to see it — the " +
             "plugin injects onto an isolated copy of the layer, so the original stays as-is.", MessageType.Info);
 
-        var existing = ModelRegistry.Load();
+        var existing = registryCache ?? (registryCache = ModelRegistry.Load());
 
         // --- 1) pawn ---
         EditorGUILayout.LabelField("1 · Pawn", EditorStyles.boldLabel);
@@ -188,6 +195,7 @@ public class RetextureWindow : EditorWindow
                             ? "Removed '" + m.resourceName + "'."
                             : "Remove FAILED — see the Console.";
                     }
+                    registryCache = null;   // an entry was cleared/removed — reload the cache next repaint
                     GUIUtility.ExitGUI();
                 }
             }
@@ -336,7 +344,7 @@ public class RetextureWindow : EditorWindow
                 return;
             }
             bool ok = ModelRegistry.Upsert(def);
-            if (ok) editedEntry = def.resourceName;   // the form now matches the entry — no dialog on a re-Apply
+            if (ok) { editedEntry = def.resourceName; registryCache = ModelRegistry.Load(); }   // the form now matches the entry — no dialog on a re-Apply; refresh the cached list so it shows the save
             status = ok
                 ? $"Saved '{def.resourceName}' → {def.pawnDescription}  ({Describe(def)}).\nRelaunch the game (or reload a save) to see it."
                 : "Registry save FAILED — see the Console.";

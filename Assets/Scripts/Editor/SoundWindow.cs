@@ -32,6 +32,13 @@ public class SoundWindow : EditorWindow
     bool foldSilence = true, foldIdle = true, foldAttack = true, foldDeath = true, foldBattle = true, foldMove = false, foldWwise = false;
     Vector2 scroll; string status = "";
 
+    // Registry cached across repaints: ModelRegistry.Load() reads+parses pack.json (and 250ms-sleeps on a MISSING file),
+    // so calling it inside OnGUI dropped a new adopter's window to ~4fps. Refreshed on enable/focus and after each save,
+    // so a bake/edit made in another window is still picked up when this one regains focus.
+    List<ModelDef> registryCache;
+    void OnEnable()  => registryCache = ModelRegistry.Load();
+    void OnFocus()   => registryCache = ModelRegistry.Load();
+
     // The pack's sounds folder that the running game reads (deployed under haf_packs/ENCReload/sounds). Apply also mirrors
     // each WAV into the git-tracked repo source (PackRepoDir/sounds) so the pack ships self-contained — see CopyWav.
     static string SoundsDir => Path.Combine(ModelRegistry.PackLiveDir, "sounds");
@@ -59,7 +66,7 @@ public class SoundWindow : EditorWindow
             EditorGUILayout.SelectableLabel(SoundsDir, EditorStyles.miniLabel, GUILayout.Height(EditorGUIUtility.singleLineHeight));
         }
 
-        var all = ModelRegistry.Load();
+        var all = registryCache ?? (registryCache = ModelRegistry.Load());
 
         // --- pawn ---
         EditorGUILayout.LabelField("Pawn", EditorStyles.boldLabel);
@@ -186,7 +193,7 @@ public class SoundWindow : EditorWindow
                 if (GUILayout.Button("Clear", GUILayout.Width(52)))
                 {
                     m.soundStartFile = m.soundFile = m.soundStopFile = m.soundIdleFile = m.soundAttackFile = m.soundDeathFile = m.soundBattleFile = ""; m.engineSound = false; m.engineStartEvent = m.engineStopEvent = ""; m.silenceDonorAudio = false;
-                    ModelRegistry.Upsert(m); status = "Cleared audio on '" + m.pawnDescription + "'."; GUIUtility.ExitGUI();
+                    ModelRegistry.Upsert(m); registryCache = null; status = "Cleared audio on '" + m.pawnDescription + "'."; GUIUtility.ExitGUI();
                 }
             }
         EditorGUILayout.EndScrollView();
@@ -486,6 +493,7 @@ public class SoundWindow : EditorWindow
             def.silenceDonorAudio = silenceDonor;
 
             bool ok = ModelRegistry.Upsert(def);
+            if (ok) registryCache = ModelRegistry.Load();   // refresh the cached list so the saved entry shows immediately
             status = ok ? $"Saved audio for '{def.pawnDescription}' ({DescribeAudio(def)}).\nRelaunch (or reload a save) to hear it."
                         : "Registry save FAILED — see the Console.";
         }
