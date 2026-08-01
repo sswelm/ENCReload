@@ -1664,9 +1664,9 @@
         {
             "resourceName": "OrganGun",
             "pawnDescription": "Era4_Common_OrganGun_01",
-            "modelFile": "D:/Downloads/Ribauldequin_textured.glb",
+            "modelFile": "D:/3DModels/Ribauldequin/Ribauldequin_textured_Spin.glb",
             "rotation": {
-                "x": 180.0,
+                "x": 0.0,
                 "y": 0.0,
                 "z": 0.0
             },
@@ -1689,7 +1689,7 @@
             "keepBlack": false,
             "materialMode": 0,
             "atlasMaxDim": 512,
-            "targetTris": 20000,
+            "targetTris": 0,
             "stripParts": "",
             "hideMeshes": "",
             "skel": [
@@ -1705,20 +1705,20 @@
                 -1246427753
             ],
             "clip": [
-                0,
-                0,
-                0,
-                0
+                1660916844,
+                1206090754,
+                727336104,
+                138164543
             ],
-            "animated": false,
-            "animClip": "",
+            "animated": true,
+            "animClip": "Spin[0..0]",
             "animateBones": "",
             "staticParts": "",
             "localNodeAnim": false,
-            "animUnitFix": true,
-            "convertRig": false,
-            "autoGroundWheels": false,
-            "keepTranslations": false,
+            "animUnitFix": false,
+            "convertRig": true,
+            "autoGroundWheels": true,
+            "keepTranslations": true,
             "deployConvert": false,
             "deployStart": 0,
             "deployEnd": 0,
@@ -1734,8 +1734,8 @@
             "deploySlamDeg": "",
             "deploySlamSettle": "",
             "deployRecoilReturn": "",
-            "animStateDriven": false,
-            "animClipMove": "",
+            "animStateDriven": true,
+            "animClipMove": "Spin",
             "animClipAfter": "",
             "animClipAttack": "",
             "animClipCombat": "",
@@ -1758,10 +1758,10 @@
             "handPropBone": "",
             "handPropAngles": "",
             "clipMove": [
-                0,
-                0,
-                0,
-                0
+                1357962909,
+                1208381837,
+                -1644689508,
+                987674098
             ],
             "clipAfter": [
                 0,
