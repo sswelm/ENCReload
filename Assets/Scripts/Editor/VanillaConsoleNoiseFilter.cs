@@ -34,6 +34,8 @@ internal static class VanillaConsoleNoiseFilter
         // pair on — so a genuine layout bug in OUR windows would be relocated too; acceptable because relocated ≠
         // lost (see the side-log), and ours would show up loudly in other ways (broken window layout on screen).
         "EndLayoutGroup: BeginLayoutGroup must be called first",
+        "Missing AssetBundleLoadingConfiguration",       // SDK asset-bundle config warning at editor load — harmless in a mod project
+        "Load AssetBundleLoadingConfiguration fail",      // the paired info line right after it
     };
 
     // Two-part exception rules: BOTH the message AND the stack trace must match. For Unity-internal noise whose
