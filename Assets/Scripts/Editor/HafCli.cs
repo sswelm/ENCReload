@@ -11,13 +11,14 @@ using UnityEngine;
 //   Unity.exe -batchmode -quit -projectPath <ENCReload> -logFile - -executeMethod HAF.Cli.RebuildModel -model <resourceName> [-fresh]
 //   Unity.exe -batchmode -quit -projectPath <ENCReload> -logFile - -executeMethod HAF.Cli.RebuildModel -all
 //   Unity.exe -batchmode -quit -projectPath <ENCReload> -logFile - -executeMethod HAF.Cli.CleanExport
+//   Unity.exe -batchmode -quit -projectPath <ENCReload> -logFile - -executeMethod HAF.Cli.BuildMod
 //
 // Each verb prints one JSON result line prefixed [HAF-CLI] and sets the process exit code:
 //   0 = ok, 2 = not found / bad arg, 3 = bake or save failed.
 // RebuildModel reuses the EXACT path the Model Factory's Bake button and BakeSmokeTest use
 // (ModelRegistry.Load -> ModelFactoryWindow.ConfigFor -> UniversalBaker.Build/BuildAnimated -> copy GUIDs -> Upsert),
-// so it cannot drift from the GUI. build-mod (the SDK asset-bundle/Community export) is intentionally NOT here yet —
-// its exact entry point is still being confirmed against the real build menu.
+// so it cannot drift from the GUI. BuildMod runs the game's own Mod Editor build+deploy headless (the three build
+// steps past the batch-hostile DB gate, plus the version stamping the GUI panel normally does) — see BuildMod below.
 namespace HAF
 {
     public static class Cli
@@ -109,11 +110,25 @@ namespace HAF
             catch (Exception ex) { Emit(3, "{\"ok\":false,\"error\":\"" + Esc(ex.ToString()) + "\"}"); }
         }
 
-        // -executeMethod HAF.Cli.BuildMod   FULL build + deploy — calls the game's own Mod Editor build:
-        // Amplitude.Mercury.Production.Modification.ModuleEditor.BuildModification(RuntimeModule, StandaloneWindows64, false),
-        // the private synchronous overload that builds the versioned runtime module AND copies it to the Community folder
-        // (CopyModification). It's batch-mode-aware (skips dialogs, returns false on DB errors). Called via reflection so
-        // the editor compile-check stays independent of the Mercury SDK DLL. This is the exact "Mercury ▸ Mod Editor" build.
+        // -executeMethod HAF.Cli.BuildMod   FULL build + deploy — the game's own Mod Editor build, headless.
+        //
+        // ModuleEditor.BuildModification runs a pre-build DatabaseChecker and, in BATCH MODE, HARD-ABORTS on any DB error
+        // — where the editor instead shows a "database has errors, build anyway?" dialog you click past. ENC trips a
+        // SPURIOUS validation error (the pre-build check can't resolve UnitClass_FighterAircraft yet, so it NREs on the
+        // first air unit, Biplanes — the data is actually fine; the real build resolves it). So we do exactly what
+        // clicking "Build" does: SKIP the DB gate and call the three build steps that sit past it —
+        // TryBuildModification -> DistributeModification -> CopyModification (the last copies the versioned module into
+        // the game's Community folder). All via reflection (compile-check stays independent of the Mercury SDK DLL).
+        //
+        // VERSION STAMPING: the editor's version PANEL (OnApplicationVersionGUI) pre-loads two statics before any build —
+        // targetMercuryApplicationVersion (the GAME exe's version, via LoadTargetMercuryApplicationVersionIFN) and
+        // nextModificationVersion (current mod version + 1, via TryResetNextModificationVersion). TryBuildModification's
+        // internal TryApplyNextModificationVersion then stamps runtimeModule.Version = nextModificationVersion and
+        // runtimeModule.GameVersion = targetMercuryApplicationVersion. A batch build never draws that panel, so both
+        // statics stay default(Version) = 0.0 and the module ships Version 0.0 / GameVersion 0.0 — which the game rejects
+        // as "built using another game version". We therefore run those two prep calls ourselves first. (nextModification
+        // Version is read from runtimeModule.Version — the asset is the source of truth, so the version self-increments
+        // across builds exactly like the GUI.) See docs/Headless-CLI.md.
         public static void BuildMod()
         {
             try
@@ -121,15 +136,62 @@ namespace HAF
                 var meType = ResolveType("Amplitude.Mercury.Production.Modification.ModuleEditor");
                 if (meType == null) { Emit(3, "{\"ok\":false,\"error\":\"ModuleEditor type not found\"}"); return; }
                 var rmProp = meType.GetProperty("RuntimeModule", BindingFlags.Public | BindingFlags.Static);
-                var runtimeModule = rmProp?.GetValue(null);
-                if (rmProp == null || runtimeModule == null) { Emit(3, "{\"ok\":false,\"error\":\"active RuntimeModule not found\"}"); return; }
-                var m = meType.GetMethod("BuildModification", BindingFlags.NonPublic | BindingFlags.Static, null,
-                            new[] { rmProp.PropertyType, typeof(BuildTarget), typeof(bool) }, null);
-                if (m == null) { Emit(3, "{\"ok\":false,\"error\":\"BuildModification(RuntimeModule,BuildTarget,bool) not found\"}"); return; }
-                bool ok = (bool)m.Invoke(null, new object[] { runtimeModule, BuildTarget.StandaloneWindows64, false });
-                Emit(ok ? 0 : 3, "{\"ok\":" + (ok ? "true" : "false") + ",\"note\":\"" + (ok ? "built + deployed to Community" : "build/deploy failed — see log") + "\"}");
+                var rt = rmProp?.GetValue(null);
+                if (rt == null) { Emit(3, "{\"ok\":false,\"error\":\"active RuntimeModule not found\"}"); return; }
+                var rtType = rmProp.PropertyType;
+                var tgt = BuildTarget.StandaloneWindows64;
+
+                // --- version prep the GUI does before every build (a batch run skips the panel that runs these) ---
+                InvokeStaticVoid(meType, "CheckMercuryFolderPath");                 // auto-locate the game folder (insurance)
+                InvokeStaticVoid(meType, "LoadTargetMercuryApplicationVersionIFN"); // read the game exe version -> GameVersion stamp
+                var mReset = meType.GetMethod("TryResetNextModificationVersion", BindingFlags.NonPublic | BindingFlags.Static, null, Type.EmptyTypes, null);
+                if (mReset == null || !(bool)mReset.Invoke(null, null)) { Emit(3, "{\"ok\":false,\"step\":\"version\",\"error\":\"could not compute next mod version (TryResetNextModificationVersion)\"}"); return; }
+
+                var mTry = meType.GetMethod("TryBuildModification", BindingFlags.NonPublic | BindingFlags.Static, null,
+                               new[] { rtType, typeof(BuildTarget), typeof(string).MakeByRefType() }, null);
+                var mDist = meType.GetMethod("DistributeModification", BindingFlags.NonPublic | BindingFlags.Static, null,
+                                new[] { rtType, typeof(BuildTarget), typeof(bool) }, null);
+                var mCopy = meType.GetMethod("CopyModification", BindingFlags.NonPublic | BindingFlags.Static, null,
+                                new[] { rtType, typeof(BuildTarget), typeof(bool) }, null);
+                if (mTry == null || mDist == null || mCopy == null) { Emit(3, "{\"ok\":false,\"error\":\"build steps not found (SDK changed?)\"}"); return; }
+
+                var buildArgs = new object[] { rt, tgt, null };            // 3rd = out string outputMessage
+                if (!(bool)mTry.Invoke(null, buildArgs)) { Emit(3, "{\"ok\":false,\"step\":\"build\",\"error\":\"" + Esc((buildArgs[2] as string) ?? "") + "\"}"); return; }
+                if (!(bool)mDist.Invoke(null, new object[] { rt, tgt, false })) { Emit(3, "{\"ok\":false,\"step\":\"distribute\"}"); return; }
+                if (!(bool)mCopy.Invoke(null, new object[] { rt, tgt, false })) { Emit(3, "{\"ok\":false,\"step\":\"deploy\"}"); return; }
+
+                // read back what got stamped so the exit line proves the version without launching the game
+                var ver = VerStr(GetMember(rt, "Version"));
+                var gver = VerStr(GetMember(rt, "GameVersion"));
+                Emit(0, "{\"ok\":true,\"version\":\"" + Esc(ver) + "\",\"gameVersion\":\"" + Esc(gver) + "\",\"note\":\"built + deployed to Community (DB gate bypassed; mod + game version stamped)\"}");
             }
             catch (Exception ex) { Emit(3, "{\"ok\":false,\"error\":\"" + Esc(ex.ToString()) + "\"}"); }
+        }
+
+        // Invoke a parameterless private static method by name (no-op if the SDK renamed it — prep is best-effort).
+        static void InvokeStaticVoid(Type t, string name)
+        {
+            var m = t.GetMethod(name, BindingFlags.NonPublic | BindingFlags.Static, null, Type.EmptyTypes, null);
+            if (m != null) m.Invoke(null, null);
+        }
+
+        // Read a public instance member (field OR property) by name — RuntimeModule exposes Version/GameVersion as fields.
+        static object GetMember(object obj, string name)
+        {
+            if (obj == null) return null;
+            var t = obj.GetType();
+            return t.GetField(name, BindingFlags.Public | BindingFlags.Instance)?.GetValue(obj)
+                ?? t.GetProperty(name, BindingFlags.Public | BindingFlags.Instance)?.GetValue(obj);
+        }
+
+        // "Major.Minor" out of a Mercury Version struct (Major/Minor are fields; fall back to properties).
+        static string VerStr(object v)
+        {
+            if (v == null) return "?";
+            var t = v.GetType();
+            object maj = t.GetField("Major")?.GetValue(v) ?? t.GetProperty("Major")?.GetValue(v);
+            object min = t.GetField("Minor")?.GetValue(v) ?? t.GetProperty("Minor")?.GetValue(v);
+            return maj + "." + min;
         }
 
         static Type ResolveType(string fullName)
