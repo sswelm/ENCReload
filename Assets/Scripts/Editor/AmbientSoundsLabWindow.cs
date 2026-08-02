@@ -26,6 +26,18 @@ public class AmbientSoundsLabWindow : EditorWindow
     string catalogFilter = "";
     bool showCatalog = true;
     Vector2 catScroll;
+    int catIdx = 1;   // default to Ambient (this IS the Ambient Sounds Lab)
+
+    // Category tabs over the flat catalog. A name matches a category if it contains ANY of the category's keywords
+    // (case-insensitive); "All" matches everything. Keywords track the game's event-name prefixes.
+    static readonly (string label, string[] keys)[] Cats =
+    {
+        ("All",     new string[0]),
+        ("Ambient", new[] { "ENV", "_Amb", "Ambient", "Atmo" }),
+        ("Units",   new[] { "UNIT" }),
+        ("Music",   new[] { "_SC_", "Raga", "Music", "Theme" }),
+        ("UI",      new[] { "_UI_", "Menu", "Button", "Click" }),
+    };
 
     static string CatalogPath => Path.Combine(ModelRegistry.ConfigDir, "enc_sound_catalog.txt");
 
@@ -112,15 +124,19 @@ public class AmbientSoundsLabWindow : EditorWindow
             return;
         }
 
+        catIdx = GUILayout.Toolbar(catIdx, Cats.Select(c => c.label).ToArray());
+
         EditorGUILayout.BeginHorizontal();
         EditorGUILayout.LabelField("Search", GUILayout.Width(50));
         catalogFilter = EditorGUILayout.TextField(catalogFilter);
         if (GUILayout.Button("Reload catalog", GUILayout.Width(110))) LoadCatalog();
         EditorGUILayout.EndHorizontal();
 
-        var matches = string.IsNullOrWhiteSpace(catalogFilter)
-            ? catalog
-            : catalog.Where(n => n.IndexOf(catalogFilter, System.StringComparison.OrdinalIgnoreCase) >= 0).ToArray();
+        var keys = Cats[catIdx].keys;
+        bool InCategory(string n) => keys.Length == 0 || keys.Any(k => n.IndexOf(k, System.StringComparison.OrdinalIgnoreCase) >= 0);
+        var matches = catalog.Where(n =>
+            InCategory(n) &&
+            (string.IsNullOrWhiteSpace(catalogFilter) || n.IndexOf(catalogFilter, System.StringComparison.OrdinalIgnoreCase) >= 0)).ToArray();
         EditorGUILayout.LabelField($"{matches.Length} match(es)" + (matches.Length > 200 ? " — showing first 200; refine the search" : "") +
                                    "  ·  click a name to add it as an override", EditorStyles.miniLabel);
 
