@@ -188,13 +188,13 @@ public class SoundWindow : EditorWindow
         foreach (var m in withAudio)
             using (new EditorGUILayout.HorizontalScope())
             {
-                EditorGUILayout.LabelField($"{m.pawnDescription}  [{DescribeAudio(m)}]");
                 if (GUILayout.Button("Edit", GUILayout.Width(46))) { LoadForPawn(m.pawnDescription, all); GUIUtility.ExitGUI(); }
                 if (GUILayout.Button("Clear", GUILayout.Width(52)))
                 {
                     m.soundStartFile = m.soundFile = m.soundStopFile = m.soundIdleFile = m.soundAttackFile = m.soundDeathFile = m.soundBattleFile = ""; m.engineSound = false; m.engineStartEvent = m.engineStopEvent = ""; m.silenceDonorAudio = false;
                     ModelRegistry.Upsert(m); registryCache = null; status = "Cleared audio on '" + m.pawnDescription + "'."; GUIUtility.ExitGUI();
                 }
+                EditorGUILayout.LabelField($"{m.pawnDescription}  [{DescribeAudio(m)}]");
             }
         EditorGUILayout.EndScrollView();
     }
