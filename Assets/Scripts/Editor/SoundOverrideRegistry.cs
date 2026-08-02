@@ -1,4 +1,4 @@
-// SoundOverrideRegistry.cs (HAF editor) — the Ambient Sounds Lab's config store: enc_sounds.json in the game's
+// SoundOverrideRegistry.cs (HAF editor) — the Game Sound Lab's config store: enc_sounds.json in the game's
 // BepInEx/config, read by the plugin's audio-override path (UniversalInject.EnsureSoundOverrides / ShouldSilenceEvent).
 // Mirrors DistrictRegistry (same target dir, corrupt-guard + atomic write + git-tracked project backup) but for global
 // AUDIO OVERRIDES: each entry silences a vanilla Wwise event by name-substring (and, later, substitutes a better one).

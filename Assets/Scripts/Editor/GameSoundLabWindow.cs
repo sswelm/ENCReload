@@ -1,8 +1,9 @@
-// AmbientSoundsLabWindow.cs (HAF editor) — authors enc_sounds.json: global audio overrides that silence vanilla Wwise
-// sounds by event-name substring. The plugin (UniversalInject.ShouldSilenceEvent) drops any posted event whose name
-// contains one of these substrings, at the AudioManager.PostEvent service sink. Relaunch the game to apply edits.
+// GameSoundLabWindow.cs (HAF editor) — authors enc_sounds.json: game-wide audio overrides that silence vanilla Wwise
+// sounds by event-name substring (any event — unit, ambient, music, UI). The plugin (UniversalInject.ShouldSilenceEvent)
+// drops any posted event whose name contains one of these substrings, at the AudioManager.PostEvent service sink.
+// Relaunch the game to apply edits.
 //
-// Distinct from the Sound Window (which edits PER-MODEL sounds in the unit registry): this is a GLOBAL override list,
+// Distinct from the Sound Studio (which edits PER-MODEL sounds in the unit registry): this is a GLOBAL override list,
 // not tied to any one model. `Replace with` is reserved for a future silence-then-substitute step (unused today).
 //
 // PICK LIST: the game's full Wwise event-name list is dumped by the plugin (F8 window -> Dump Sound Catalog) to
@@ -15,7 +16,7 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
-public class AmbientSoundsLabWindow : EditorWindow
+public class GameSoundLabWindow : EditorWindow
 {
     List<SoundOverrideDef> entries;
     string status = "";
@@ -26,7 +27,7 @@ public class AmbientSoundsLabWindow : EditorWindow
     string catalogFilter = "";
     bool showCatalog = true;
     Vector2 catScroll;
-    int catIdx = 1;   // default to Ambient (this IS the Ambient Sounds Lab)
+    int catIdx = 0;   // default to All — the Game Sound Lab spans every event family (units, ambient, music, UI)
 
     // Category tabs over the flat catalog. A name matches a category if it contains ANY of the category's keywords
     // (case-insensitive); "All" matches everything. Keywords track the game's event-name prefixes.
@@ -41,8 +42,8 @@ public class AmbientSoundsLabWindow : EditorWindow
 
     static string CatalogPath => Path.Combine(ModelRegistry.ConfigDir, "enc_sound_catalog.txt");
 
-    [MenuItem("Tools/HAF/Ambient Sounds Lab")]
-    static void Open() => GetWindow<AmbientSoundsLabWindow>("Ambient Sounds Lab").minSize = new Vector2(480, 420);
+    [MenuItem("Tools/HAF/Game Sound Lab")]
+    static void Open() => GetWindow<GameSoundLabWindow>("Game Sound Lab").minSize = new Vector2(480, 420);
 
     void OnEnable() { Reload(); LoadCatalog(); }
 
