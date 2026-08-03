@@ -100,9 +100,39 @@ if mode == "probe":
         bpy.ops.mesh.separate(type='LOOSE'); bpy.ops.object.mode_set(mode='OBJECT')
         objs = mesh_objects()
         print("VEHICLE note: single mesh split into %d loose parts (names are synthetic)" % len(objs))
+    # ---- visibility classification: EXTERNAL vs INTERIOR ----
+    # A part is EXTERNAL if any sampled surface point can shoot a straight "escape ray" to infinity without hitting
+    # other geometry; a part blocked from every sample in every direction is INTERIOR (cockpit gear, engine guts) —
+    # provably never visible, safe to strip for triangle budget. Directions: the vertex normal first (the likeliest
+    # escape), then 14 fixed dirs (axes + cube diagonals). Up to 30 samples/part, early-out on the first escape.
+    _dirs = [Vector(_v).normalized() for _v in ((1,0,0),(-1,0,0),(0,1,0),(0,-1,0),(0,0,1),(0,0,-1),
+             (1,1,1),(1,1,-1),(1,-1,1),(1,-1,-1),(-1,1,1),(-1,1,-1),(-1,-1,1),(-1,-1,-1))]
+    _dg = bpy.context.evaluated_depsgraph_get()
+    _mx_ext = 0.0
+    for _o in objs:
+        _c2, _s2 = world_bbox(_o)
+        _mx_ext = max(_mx_ext, _s2.x, _s2.y, _s2.z)
+    _eps = max(1e-4, _mx_ext * 1e-3)   # ray start offset so a point clears its own surface
+    _vis = {}
+    for _o in objs:
+        _vs = _o.data.vertices
+        _stp = max(1, len(_vs) // 30)
+        _nm = _o.matrix_world.to_3x3()
+        _seen = False
+        for _i in range(0, len(_vs), _stp):
+            _p = _o.matrix_world @ _vs[_i].co
+            for _d in [(_nm @ _vs[_i].normal).normalized()] + _dirs:
+                if _d.length < 0.5:
+                    continue
+                if not bpy.context.scene.ray_cast(_dg, _p + _d * _eps, _d)[0]:
+                    _seen = True; break
+            if _seen:
+                break
+        _vis[_o.name] = 1 if _seen else 0
+    print("VEHICLE visibility: %d external / %d interior part(s)" % (sum(_vis.values()), len(objs) - sum(_vis.values())))
     for o in objs:
         c, s = world_bbox(o)
-        print("PART|%s|%d|%.4f,%.4f,%.4f|%.4f,%.4f,%.4f" % (o.name, len(o.data.vertices), c.x, c.y, c.z, s.x, s.y, s.z))
+        print("PART|%s|%d|%.4f,%.4f,%.4f|%.4f,%.4f,%.4f|%d" % (o.name, len(o.data.vertices), c.x, c.y, c.z, s.x, s.y, s.z, _vis.get(o.name, 1)))
     # optional argv[2]: export the SPLIT scene as a preview FBX so the Lab can show/zoom/highlight each part by name
     if len(argv) > 2 and argv[2].strip():
         bpy.ops.export_scene.fbx(filepath=argv[2], add_leaf_bones=False, bake_anim=False)

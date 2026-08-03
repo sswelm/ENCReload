@@ -40,7 +40,8 @@ public class VehicleLabWindow : EditorWindow
     // main rotor (flat top disc → vertical mast axle) and a tail rotor (vertical tail disc → lateral axle). They differ
     // from Wheel only downstream: a rotorcraft bakes CONTINUOUS (always spins) with Auto-ground OFF (flyer).
     enum Role { Body, Wheel, Turret, Ignore, Default, Edgecase, Caterpillar, Gun, Rotor, TailRotor }
-    [Serializable] class Part { public string name; public int verts; public Vector3 center, size; public Role role; }
+    [Serializable] class Part { public string name; public int verts; public Vector3 center, size; public Role role;
+        public int vis = -1; }   // probe's escape-ray verdict: 1 = external (visible from outside), 0 = interior (never visible — strippable), -1 = unclassified (pre-visibility probe)
 
     // Everything an assignment session builds is [SerializeField]: a DOMAIN RELOAD (any recompile) must never eat
     // the marked roles again — the field incident that motivated recipes in the first place.
@@ -110,6 +111,11 @@ public class VehicleLabWindow : EditorWindow
     // Roles that SPIN (get a bone + the Spin action): wheels and both rotor kinds. Used for the Generate-enable gate,
     // the spin-section summary, Verify, and the "inside the wheel" test — so a rotorcraft with no Wheel parts still rigs.
     static bool IsSpinner(Role r) => r == Role.Wheel || r == Role.Rotor || r == Role.TailRotor;
+    // Visibility switch (probe's escape-ray verdict): All / External / Interior. Interior = never visible from any
+    // outside direction — the strip candidates (mark them Ignore to reclaim triangle budget for visible surfaces).
+    [SerializeField] int visFilter;
+    static readonly string[] VisFilterOptions = { "All parts", "External only", "Interior only" };
+    bool MatchesVis(Part p) => visFilter == 0 || (visFilter == 1 ? p.vis != 0 : p.vis == 0);   // unclassified (-1, old probe) counts as external
     Vector2 partsScroll;
     Vector2 windowScroll;                        // the whole dialog scrolls — the knob sections outgrew a normal window
     [SerializeField] int previewHeight = 400;    // fixed (not greedy): a scroll view needs a bounded child
@@ -284,7 +290,13 @@ public class VehicleLabWindow : EditorWindow
                 "Parts whose center is RIGHT of this on the width axis are hidden. Slide the two together onto one wheel to isolate it, then mark it Wheel."), Mathf.Clamp(maxWidth, yLo - yPad, yHi + yPad), yLo - yPad, yHi + yPad);
             partFilter = EditorGUILayout.Popup(new GUIContent("Show only",
                 "Filter the list to one classification. Marking a part out of the current filter removes it from the list and auto-advances to the next."), partFilter, FilterOptions);
-            var shown = list.Where(x => VisiblePart(x) && MatchesFilter(x.role)).ToList();
+            int interiorN = list.Count(x => x.vis == 0);
+            visFilter = EditorGUILayout.Popup(new GUIContent("Visibility",
+                "The probe's escape-ray verdict per part: External = some surface point can see out; Interior = provably " +
+                "never visible from outside (cockpit gear, engine guts) — mark those Ignore to reclaim triangle budget. " +
+                "Probed before this feature existed? Re-Probe to classify." + (interiorN > 0 ? $"  ({interiorN} interior found)" : "")),
+                visFilter, VisFilterOptions);
+            var shown = list.Where(x => VisiblePart(x) && MatchesFilter(x.role) && MatchesVis(x)).ToList();
             int hidden = list.Count(x => !VisiblePart(x));
             int unreviewed = list.Count(x => VisiblePart(x) && x.role == Role.Default);
             int edgecases = list.Count(x => VisiblePart(x) && x.role == Role.Edgecase);
@@ -515,7 +527,9 @@ public class VehicleLabWindow : EditorWindow
         foreach (var line in stdout.Split('\n'))
         {
             var t = line.Trim().Split('|');
-            if (t.Length != 5 || (t[0] != "PART" && t[0] != "RIGBONE")) continue;
+            // PART rows carry an optional 6th field: the escape-ray visibility verdict (1 external / 0 interior).
+            bool okLen = t.Length == 5 || (t.Length == 6 && t[0] == "PART");
+            if (!okLen || (t[0] != "PART" && t[0] != "RIGBONE")) continue;
             var c = t[3].Split(','); var s = t[4].Split(',');
             if (c.Length != 3 || s.Length != 3) continue;
             var p = new Part
@@ -524,6 +538,7 @@ public class VehicleLabWindow : EditorWindow
                 verts = int.TryParse(t[2], out var v) ? v : 0,
                 center = new Vector3(F(c[0]), F(c[1]), F(c[2])),
                 size = new Vector3(F(s[0]), F(s[1]), F(s[2])),
+                vis = t.Length == 6 && int.TryParse(t[5], out var vv) ? vv : -1,
             };
             var low = p.name.ToLowerInvariant();
             var keptMap = t[0] == "RIGBONE" ? keptBones : kept;
@@ -664,7 +679,7 @@ public class VehicleLabWindow : EditorWindow
             if (p.center.y < minWidth) minWidth = p.center.y;
             if (p.center.y > maxWidth) maxWidth = p.center.y;
             if (!MatchesFilter(p.role)) partFilter = 0;
-            int idx = ActiveParts.Where(x => VisiblePart(x) && MatchesFilter(x.role)).ToList().FindIndex(x => x.name == name);
+            int idx = ActiveParts.Where(x => VisiblePart(x) && MatchesFilter(x.role) && MatchesVis(x)).ToList().FindIndex(x => x.name == name);
             if (idx >= 0) partsScroll.y = Mathf.Max(0f, idx * 20f - 120f);
         }
         SelectPart(name);
