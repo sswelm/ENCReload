@@ -638,6 +638,19 @@ public class VehicleLabWindow : EditorWindow
             }
         }
 
+        // INTERIOR parts (probe's escape-ray verdict) still baked in: provably invisible from outside, so any that
+        // aren't Ignored are pure wasted vertex budget. Listed clickable, biggest waste first. Silent when the probe
+        // predates the visibility feature (vis == -1 everywhere) or on the fast path (bones carry no verdict).
+        var interiorKept = vlist.Where(p => p.vis == 0 && p.role != Role.Ignore).OrderByDescending(p => p.verts).ToList();
+        if (interiorKept.Count > 0)
+        {
+            warn = true;
+            report.Add(($"⚠ {interiorKept.Count} interior part(s) not Ignored — provably invisible, {interiorKept.Sum(p => p.verts)} verts still baked in:", null));
+            foreach (var p in interiorKept.Take(60))
+                report.Add(($"      {p.name}  [{p.role}]  {p.verts} verts", p.name));
+            if (interiorKept.Count > 60) report.Add(($"      … and {interiorKept.Count - 60} more", null));
+        }
+
         if (turrets.Count > 0)
         {
             var cen = turrets.Aggregate(Vector3.zero, (a, p) => a + p.center) / turrets.Count;
