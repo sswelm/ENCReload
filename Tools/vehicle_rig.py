@@ -137,6 +137,15 @@ turret_names = namelist(argv[5])
 ignore_names = set(namelist(argv[9])) if len(argv) > 9 and argv[9].strip() else set()   # parts to DELETE (unused option meshes etc.)
 track_names = namelist(argv[10]) if len(argv) > 10 and argv[10].strip() else []          # tread loops: static, but each on its OWN bone
 gun_names = namelist(argv[11]) if len(argv) > 11 and argv[11].strip() else []            # gun assembly: ONE Gun bone (muzzle/socket anchor), rides the Turret if present
+# ROTOR / TAIL ROTOR (helicopters): unlike wheels, every part of one rotor fuses into ONE hub bone at the group's
+# CENTROID (the mast) regardless of how far the blades spread — a rotor spins as a single disc, not per-blade.
+rotor_names = namelist(argv[26]) if len(argv) > 26 and argv[26].strip() else []
+tailrotor_names = namelist(argv[27]) if len(argv) > 27 and argv[27].strip() else []
+tail_axis_arg = argv[28].upper() if len(argv) > 28 and argv[28].strip() else "AUTO"   # tail fan spins on a DIFFERENT axis than the main rotor; own override
+# manual trim on the tail axle, degrees: yaw = swing about vertical, pitch = tilt up/down. Applied ON TOP of the
+# auto/forced axle, so the user can dial the last few degrees by eye when the heuristic is close but not exact.
+tail_yaw_adj = float(argv[29]) if len(argv) > 29 and argv[29].strip() else 0.0
+tail_pitch_adj = float(argv[30]) if len(argv) > 30 and argv[30].strip() else 0.0
 axis_arg = argv[6].upper()
 frames = max(2, int(argv[7]))
 degrees = float(argv[8])
@@ -353,6 +362,71 @@ for m, c, s, wn in wheel_info:
     else:
         home["names"].append(wn)
 
+# ROTOR / TAIL ROTOR: each group fuses to ONE hub bone at its COMBINED-bbox centre (the mast), NOT by proximity —
+# a rotor's blades are far apart but must revolve as one disc. Axle = the group's thinnest combined extent, which is
+# the vertical mast for a flat main rotor and the lateral axis for a tail-rotor disc (so AUTO axle is correct for both).
+def _pca_min_axis(pts):
+    # the smallest-variance direction of a point cloud = a flat disc's NORMAL (or a cylinder's axis). numpy required.
+    import numpy as np
+    P = np.array([[p[0], p[1], p[2]] for p in pts], dtype=float); P = P - P.mean(0)
+    _, vec = np.linalg.eigh(np.cov(P.T))
+    return Vector((float(vec[0, 0]), float(vec[1, 0]), float(vec[2, 0]))).normalized()
+for grp, is_tail in ((rotor_names, False), (tailrotor_names, True)):
+    if not grp:
+        continue
+    boxes = [world_bbox(find(n)) for n in grp]
+    centers = [c for c, s in boxes]
+    mean = sum(centers, Vector((0, 0, 0))) / len(centers)
+    override = tail_axis_arg if is_tail else axis_arg
+    if is_tail:
+        # TAIL: PIVOT = the fan blades' centroid (the fan centre — user-confirmed correct). AXLE (user's hint): the fan
+        # spins about the boom, ALIGNED WITH THE CENTRE OF THE HELICOPTER — so aim the axle from the fan centre straight
+        # at the whole model's centre (the body). Robust and unambiguous; no noisy plane-fit on the boxy blades.
+        hub_c = mean
+        # The duct RING around the fan lies in the vertical plane running ALONG the boom; the spin axis is 90° to that
+        # ring (user's correction — "toward the centre" pointed the axle ALONG the boom, parallel to the ring, exactly
+        # 90° off). So: boom direction (fan centre -> body centre), flattened to horizontal, rotated 90° about vertical.
+        model_c = sum((world_bbox(o)[0] for o in objs), Vector((0, 0, 0))) / max(1, len(objs))
+        _d = model_c - mean
+        _dxy = Vector((_d.x, _d.y, 0.0))
+        auto_axle = Vector((0, 0, 1)).cross(_dxy).normalized() if _dxy.length > 1e-6 else Vector((0, 1, 0))
+        axle_src = "90 deg to the boom ring (lateral)"
+    else:
+        # MAIN: the hub (Cylinder09) is a clean disc, so use ITS pole-to-pole axis: PIVOT = hub centre, AXLE = the hub
+        # cylinder's own symmetry axis from its vertices (tilts with the mast if it's "Earth-tilted").
+        hub_name = min(grp, key=lambda n: (world_bbox(find(n))[0] - mean).length)
+        hub_obj = find(hub_name)
+        hub_c = world_bbox(hub_obj)[0]
+        try:
+            auto_axle = _pca_min_axis([hub_obj.matrix_world @ v.co for v in hub_obj.data.vertices])
+            axle_src = "hub pole-to-pole"
+        except Exception:
+            var = [sum((c[i] - mean[i]) ** 2 for c in centers) for i in range(3)]
+            auto_axle = [Vector((1, 0, 0)), Vector((0, 1, 0)), Vector((0, 0, 1))][min(range(3), key=lambda i: var[i])]
+            axle_src = "least-spread (numpy missing)"
+    if override in ("X", "Y", "Z"):
+        axle = {"X": Vector((1, 0, 0)), "Y": Vector((0, 1, 0)), "Z": Vector((0, 0, 1))}[override]
+        axle_src = "forced " + override
+    else:
+        axle = auto_axle
+    # TAIL TRIM: user-dialled yaw (about vertical) then pitch (about the horizontal axis perpendicular to the axle),
+    # rotating the axle itself. Lets the last few degrees be set by eye when the heuristic is close but not exact.
+    if is_tail and (abs(tail_yaw_adj) > 1e-6 or abs(tail_pitch_adj) > 1e-6):
+        axle = axle.copy()
+        axle.rotate(Quaternion(Vector((0.0, 0.0, 1.0)), math.radians(tail_yaw_adj)))
+        _pax = Vector((0.0, 0.0, 1.0)).cross(axle)
+        if _pax.length > 1e-6:
+            axle.rotate(Quaternion(_pax.normalized(), math.radians(tail_pitch_adj)))
+        axle.normalize()
+        axle_src += " + trim yaw %.1f pitch %.1f" % (tail_yaw_adj, tail_pitch_adj)
+    mn = Vector(tuple(min(c[i] - s[i] / 2 for c, s in boxes) for i in range(3)))
+    mx = Vector(tuple(max(c[i] + s[i] / 2 for c, s in boxes) for i in range(3)))
+    gs = mx - mn
+    clusters.append({"m": max(gs), "c": hub_c, "s": gs, "axle": axle, "names": list(grp), "is_rotor": True})
+    print("VEHICLE %s rotor: %d part(s), pivot (%.2f,%.2f,%.2f), axle (%.3f,%.3f,%.3f) [%s]"
+          % ("tail" if is_tail else "main", len(grp), hub_c.x, hub_c.y, hub_c.z, axle.x, axle.y, axle.z, axle_src))
+    print("VEHICLE rotor hub: %d part(s) -> bone at hub (%.2f,%.2f,%.2f), axle=%s (least-spread of centres)" % (len(grp), hub_c.x, hub_c.y, hub_c.z, tuple(axle)))
+
 # armature: Root at origin + ONE bone per wheel cluster (tail along the axle => local Y IS the axle) + Turret
 arm_data = bpy.data.armatures.new("VehicleRig")
 arm = bpy.data.objects.new("VehicleRig", arm_data)
@@ -377,7 +451,7 @@ bone_of = {}
 wheel_axes = {}
 cluster_bones = []
 for i, cl in enumerate(clusters):
-    ax = axle_axis(cl["s"])
+    ax = cl["axle"] if "axle" in cl else axle_axis(cl["s"])   # rotors carry a precomputed disc-normal axle; wheels infer it
     eb = arm_data.edit_bones.new("Wheel_%02d" % i)
     eb.head = cl["c"]
     eb.tail = cl["c"] + ax * max(0.05, max(cl["s"]) * 0.25)
@@ -1254,7 +1328,9 @@ for _bi2, bname in enumerate(cluster_bones):
                   % (bname, _nsym, _stepd, _snap, _deg_i))
             _deg_i = _snap
     elif (_dd_ref > 1e-6 and _bi2 < len(clusters) and clusters[_bi2].get("m", 0.0) > 1e-6
-            and _bi2 not in _wrap_carrier_idx):
+            and _bi2 not in _wrap_carrier_idx and not clusters[_bi2].get("is_rotor")):
+        # (ROTORS excluded: rolling-contact size-scaling makes a smaller wheel spin faster to match ground speed —
+        #  right for wheels, wrong for a rotor. Rotors keep the base `degrees`, so main + tail spin at the SAME rate.)
         _r_i = clusters[_bi2]["m"] * 0.5
         if _belt_adv > 1e-6:
             _deg_i = math.degrees(_belt_adv / _r_i) * (1.0 if degrees >= 0 else -1.0)

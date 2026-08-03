@@ -35,7 +35,11 @@ public class VehicleLabWindow : EditorWindow
     // Track = a tread loop: rigs STATIC like Body but gets its OWN bone (Track_NN_L/R) and therefore its own
     // mesh through the per-bone join — never welded into the hull, so future tread-motion tricks (flipbook /
     // texture scroll) can target it. Appended (saved-recipe ints must keep meaning).
-    enum Role { Body, Wheel, Turret, Ignore, Default, Edgecase, Caterpillar, Gun }
+    // Rotor / TailRotor appended LAST so saved-recipe role ints stay valid (Body=0 … Gun=7). Both rig like a Wheel
+    // (proximity-cluster → one bone; axle = the cluster's thinnest extent) — which is geometrically correct for BOTH a
+    // main rotor (flat top disc → vertical mast axle) and a tail rotor (vertical tail disc → lateral axle). They differ
+    // from Wheel only downstream: a rotorcraft bakes CONTINUOUS (always spins) with Auto-ground OFF (flyer).
+    enum Role { Body, Wheel, Turret, Ignore, Default, Edgecase, Caterpillar, Gun, Rotor, TailRotor }
     [Serializable] class Part { public string name; public int verts; public Vector3 center, size; public Role role; }
 
     // Everything an assignment session builds is [SerializeField]: a DOMAIN RELOAD (any recompile) must never eat
@@ -50,6 +54,9 @@ public class VehicleLabWindow : EditorWindow
     [SerializeField] bool useSourceRig;
     List<Part> ActiveParts => useSourceRig && boneParts.Count > 0 ? boneParts : parts;
     [SerializeField] int frames = 15; [SerializeField] float degrees = -360f; [SerializeField] int axisChoice = 0;   // 0 = Auto (per wheel), 1..3 = X/Y/Z
+    [SerializeField] int tailAxisChoice = 0;   // a tail rotor spins on a different axis than the main rotor — its own Auto/X/Y/Z override
+    [SerializeField] float tailYawAdj = 0f;    // manual trim on the tail axle: swing about vertical, degrees
+    [SerializeField] float tailPitchAdj = 0f;  // manual trim on the tail axle: tilt up/down, degrees
     [SerializeField] string loadedRecipe = "";   // the recipe shown in the "Edit existing" combobox ("" = ＜new model＞); tracked by NAME so the frame-rebuilt file list can't desync it
     [SerializeField] int treadAdvCells = 3;   // tread advance per loop in cells
     [SerializeField] float treadCellsPerLink = 4f; // tread detail: cells per molded link = the BONES dial (4 = smoothest; 0.25 = one bone per four links)
@@ -77,6 +84,8 @@ public class VehicleLabWindow : EditorWindow
     // so wheel axles, tread side detection and the rock's auto hull-length axis all read the corrected pose.
     [SerializeField] Vector3 modelRot = Vector3.zero;
     [SerializeField] bool showWaterline = true;   // level reference grid in the preview
+    [SerializeField] bool previewPaused;           // freeze the turntable spin (to judge level / inspect a pose)
+    [SerializeField] bool showLevelLine = true;    // a horizontal reference cross at rotor height — align the rotor bar to it
     [SerializeField] int minVerts = 50;   // parts below this are COLLAPSED into Body (a triangle-soup FBX probes into thousands of shards)
     [SerializeField] float minPartSize = 0f;  // hide parts whose LARGEST bbox dimension is below this — drop minVerts + raise this to surface big-but-low-poly parts (flat discs, plates)
     [SerializeField] float minHeight = -999f; // hide parts whose CENTER height is below this (clamped to the model's span, so the default means "off") — slide up to isolate turret-level parts
@@ -86,7 +95,7 @@ public class VehicleLabWindow : EditorWindow
     static float MaxDim(Part p) => Mathf.Max(p.size.x, Mathf.Max(p.size.y, p.size.z));
     bool VisiblePart(Part x) => x.verts >= minVerts && MaxDim(x) >= minPartSize && x.center.z >= minHeight && x.center.z <= maxHeight && x.center.y >= minWidth && x.center.y <= maxWidth;
     [SerializeField] int partFilter;      // list filter: 0 = all; see FilterOptions (Unreviewed = Default + Edgecase)
-    static readonly string[] FilterOptions = { "None (all parts)", "Undecided (Default + Edgecase)", "Default", "Wheel", "Turret", "Body", "Ignore", "Edgecase", "Caterpillar", "Gun" };
+    static readonly string[] FilterOptions = { "None (all parts)", "Undecided (Default + Edgecase)", "Default", "Wheel", "Turret", "Body", "Ignore", "Edgecase", "Caterpillar", "Gun", "Rotor", "Tail rotor" };
     bool MatchesFilter(Role r) => partFilter == 1 ? (r == Role.Default || r == Role.Edgecase)
                                 : partFilter == 2 ? r == Role.Default
                                 : partFilter == 3 ? r == Role.Wheel
@@ -95,7 +104,12 @@ public class VehicleLabWindow : EditorWindow
                                 : partFilter == 6 ? r == Role.Ignore
                                 : partFilter == 7 ? r == Role.Edgecase
                                 : partFilter == 8 ? r == Role.Caterpillar
-                                : partFilter == 9 ? r == Role.Gun : true;
+                                : partFilter == 9 ? r == Role.Gun
+                                : partFilter == 10 ? r == Role.Rotor
+                                : partFilter == 11 ? r == Role.TailRotor : true;
+    // Roles that SPIN (get a bone + the Spin action): wheels and both rotor kinds. Used for the Generate-enable gate,
+    // the spin-section summary, Verify, and the "inside the wheel" test — so a rotorcraft with no Wheel parts still rigs.
+    static bool IsSpinner(Role r) => r == Role.Wheel || r == Role.Rotor || r == Role.TailRotor;
     Vector2 partsScroll;
     Vector2 windowScroll;                        // the whole dialog scrolls — the knob sections outgrew a normal window
     [SerializeField] int previewHeight = 400;    // fixed (not greedy): a scroll view needs a bounded child
@@ -150,7 +164,7 @@ public class VehicleLabWindow : EditorWindow
     void Tick()
     {
         double now = EditorApplication.timeSinceStartup;
-        if (inst != null) { spinT += (float)(now - lastTick); Repaint(); }
+        if (inst != null) { if (!previewPaused) spinT += (float)(now - lastTick); Repaint(); }
         lastTick = now;
     }
 
@@ -275,7 +289,7 @@ public class VehicleLabWindow : EditorWindow
             int unreviewed = list.Count(x => VisiblePart(x) && x.role == Role.Default);
             int edgecases = list.Count(x => VisiblePart(x) && x.role == Role.Edgecase);
             EditorGUILayout.LabelField($"{(useSourceRig && boneParts.Count > 0 ? "Source BONES" : "Parts")} ({shown.Count} shown{(hidden > 0 ? $", {hidden} hidden by the sliders" : "")}{(unreviewed > 0 ? $", {unreviewed} undecided" : ", all decided")}{(edgecases > 0 ? $", {edgecases} edge-case" : "")}) — mark {(useSourceRig && boneParts.Count > 0 ? "the bones that SPIN (Wheel)" : "the wheels & turret")}:", EditorStyles.boldLabel);
-            EditorGUILayout.LabelField("  Keys:  ↑/↓ = previous/next part   ·   W/T/B = Wheel/Turret/Body   ·   G = Gun (one Gun bone, rides the Turret if present — the muzzle/socket anchor)   ·   C = Caterpillar (tread loop: static, own bone)   ·   I = Ignore (DELETED)   ·   D = Default   ·   E = Edgecase", EditorStyles.miniLabel);
+            EditorGUILayout.LabelField("  Keys:  ↑/↓ = previous/next part   ·   W/T/B = Wheel/Turret/Body   ·   R = Rotor (main, spins about the mast)   ·   L = taiL rotor (spins about the lateral axis)   ·   G = Gun (rides the Turret; muzzle/socket anchor)   ·   C = Caterpillar (tread loop)   ·   I = Ignore (DELETED)   ·   D = Default   ·   E = Edgecase", EditorStyles.miniLabel);
             // Keyboard review loop: ↑/↓ step the selection (zoom+highlight follows), W/T/B/I mark the selected
             // part's role — the whole list can be reviewed without mousing between rows and dropdowns.
             var ev = Event.current;
@@ -290,7 +304,7 @@ public class VehicleLabWindow : EditorWindow
                     GUIUtility.keyboardControl = 0;                    // a focused slider/popup must not swallow the arrows
                     ev.Use(); Repaint();
                 }
-                else if (idx >= 0 && (ev.keyCode == KeyCode.W || ev.keyCode == KeyCode.T || ev.keyCode == KeyCode.B || ev.keyCode == KeyCode.I || ev.keyCode == KeyCode.D || ev.keyCode == KeyCode.E || ev.keyCode == KeyCode.C || ev.keyCode == KeyCode.G))
+                else if (idx >= 0 && (ev.keyCode == KeyCode.W || ev.keyCode == KeyCode.T || ev.keyCode == KeyCode.B || ev.keyCode == KeyCode.I || ev.keyCode == KeyCode.D || ev.keyCode == KeyCode.E || ev.keyCode == KeyCode.C || ev.keyCode == KeyCode.G || ev.keyCode == KeyCode.R || ev.keyCode == KeyCode.L))
                 {
                     shown[idx].role = ev.keyCode == KeyCode.W ? Role.Wheel
                                     : ev.keyCode == KeyCode.T ? Role.Turret
@@ -298,7 +312,9 @@ public class VehicleLabWindow : EditorWindow
                                     : ev.keyCode == KeyCode.D ? Role.Default
                                     : ev.keyCode == KeyCode.E ? Role.Edgecase
                                     : ev.keyCode == KeyCode.C ? Role.Caterpillar
-                                    : ev.keyCode == KeyCode.G ? Role.Gun : Role.Body;
+                                    : ev.keyCode == KeyCode.G ? Role.Gun
+                                    : ev.keyCode == KeyCode.R ? Role.Rotor
+                                    : ev.keyCode == KeyCode.L ? Role.TailRotor : Role.Body;
                     // If the new role falls outside the active filter, the part leaves the list — advance to the
                     // next one so the sweep continues instead of the selection dying with the removed row.
                     if (partFilter != 0 && !MatchesFilter(shown[idx].role))
@@ -345,11 +361,17 @@ public class VehicleLabWindow : EditorWindow
             // TWO MOTION SECTIONS, collapsible (2026-07-31): a model is almost always EITHER a wheeled vehicle OR a
             // floating one, so showing both knob sets at once was ~10 permanently-irrelevant rows. Each header
             // summarises its state while collapsed, so nothing is hidden — only folded away.
-            int wheelCount = list.Count(x => x.role == Role.Wheel);
+            int wheelCount = list.Count(x => IsSpinner(x.role));
             if (Section(ref foldSpin, "Spin — wheels & tracks",
-                    wheelCount > 0 ? $"{wheelCount} wheel part(s) · {degrees:0}° / {frames} frames" : "no wheels marked"))
+                    wheelCount > 0 ? $"{wheelCount} spinning part(s) · {degrees:0}° / {frames} frames" : "no wheels/rotors marked"))
             {
                 axisChoice = EditorGUILayout.Popup(new GUIContent("Axle axis", "Auto infers each wheel's axle as its thinnest bbox extent — right for normal wheels; override only if a wheel spins the wrong way around."), axisChoice, AxisOptions);
+                if (list.Any(x => x.role == Role.TailRotor))
+                {
+                    tailAxisChoice = EditorGUILayout.Popup(new GUIContent("Tail-rotor axle", "The tail fan spins about a DIFFERENT axis than the main rotor (lateral, not vertical). Auto reads it from the disc; if the fan spins wrong, pick X / Y / Z by eye in the preview — this affects ONLY the tail rotor, so the main rotor stays put."), tailAxisChoice, AxisOptions);
+                    tailYawAdj = EditorGUILayout.Slider(new GUIContent("Tail axle yaw trim", "Swing the tail axle left/right about vertical, degrees — on top of the Auto/forced axle. Dial by eye until the fan spins flat in its ring."), tailYawAdj, -90f, 90f);
+                    tailPitchAdj = EditorGUILayout.Slider(new GUIContent("Tail axle pitch trim", "Tilt the tail axle up/down, degrees — on top of the Auto/forced axle. Dial by eye until the fan spins flat in its ring."), tailPitchAdj, -90f, 90f);
+                }
                 frames = EditorGUILayout.IntSlider(new GUIContent("Spin frames", "Length of the generated Spin action. Apparent speed is tuned later with slice steps (Spin[1..N/2]) — this just needs to be a smooth loop."), frames, 5, 60);
                 degrees = EditorGUILayout.Slider(new GUIContent("Spin degrees", "Wheel rotation over the clip (one full turn = 360). Which SIGN rolls forward depends on the model's nose direction — check the preview and negate if the wheels roll backward. For a +X-facing model (like the Ehrhardt), +360 is forward."), degrees, -720f, 720f);
                 if (list.Any(x => x.role == Role.Caterpillar))
@@ -415,11 +437,11 @@ public class VehicleLabWindow : EditorWindow
             }
             EditorGUILayout.Space(4);
 
-            int wheels = list.Count(x => x.role == Role.Wheel);
+            int wheels = list.Count(x => IsSpinner(x.role));
             bool canRig = wheels > 0 || (waveEnabled && (rockDegrees > 0f || rockPitchDeg > 0f));
             using (new EditorGUI.DisabledScope(!canRig || string.IsNullOrEmpty(outGlb)))
                 if (GUILayout.Button(new GUIContent($"Generate rig{(useSourceRig && boneParts.Count > 0 ? " (fast path)" : "")}  →  {(string.IsNullOrEmpty(outGlb) ? "(set the Output GLB)" : Path.GetFileName(outGlb))}",
-                        !canRig ? "Mark at least one entry as Wheel — or set a Wave rock amplitude (a floating unit needs no wheels)." : "Runs Blender: rig + Spin action + GLB export + preview."), GUILayout.Height(28)))
+                        !canRig ? "Mark at least one entry as Wheel / Rotor / Tail rotor — or set a Wave rock amplitude (a floating unit needs no wheels)." : "Runs Blender: rig + Spin action + GLB export + preview."), GUILayout.Height(28)))
                     Vehicleize();
         }
 
@@ -431,6 +453,29 @@ public class VehicleLabWindow : EditorWindow
             using (new EditorGUILayout.HorizontalScope())
             {
                 EditorGUILayout.LabelField("Preview   (drag = orbit · middle/right-drag = pan · scroll = zoom · click a part row to focus)", EditorStyles.miniBoldLabel);
+                previewPaused = GUILayout.Toggle(previewPaused, new GUIContent(previewPaused ? "▶ Play" : "❚❚ Pause",
+                    "Freeze the spin so you can judge whether the rotor is level (or inspect a static pose)."),
+                    EditorStyles.miniButton, GUILayout.Width(70));
+                // FRAME STEP: nudge the sampled time by exactly one clip frame (and pause, so the pose holds). The
+                // close-inspection tool for judging an axle: step through a few frames and watch where each blade goes.
+                if (GUILayout.Button(new GUIContent("◀", "Step one animation frame BACK (pauses playback)."), EditorStyles.miniButtonLeft, GUILayout.Width(26)) && spinClip != null)
+                {
+                    previewPaused = true;
+                    float fr = spinClip.frameRate > 1f ? spinClip.frameRate : 30f;
+                    spinT -= 1f / fr;
+                    if (spinT < 0f) spinT += Mathf.Max(spinClip.length, 1f / fr);   // wrap so % never sees a negative
+                    Repaint();
+                }
+                if (GUILayout.Button(new GUIContent("▶", "Step one animation frame FORWARD (pauses playback)."), EditorStyles.miniButtonRight, GUILayout.Width(26)) && spinClip != null)
+                {
+                    previewPaused = true;
+                    float fr = spinClip.frameRate > 1f ? spinClip.frameRate : 30f;
+                    spinT += 1f / fr;
+                    Repaint();
+                }
+                showLevelLine = GUILayout.Toggle(showLevelLine, new GUIContent("Level line",
+                    "A world-horizontal cross at rotor height. The rotor is level when its blade bar runs PARALLEL to this line; if it slopes, adjust Orientation ▸ Roll X / Pitch Y until it matches."),
+                    EditorStyles.miniButton, GUILayout.Width(80));
                 showWaterline = GUILayout.Toggle(showWaterline, new GUIContent("Waterline grid",
                     "A level grid at the model's lowest point — the reference to straighten against. The brighter " +
                     "centre line runs along +X (the axis the rig treats as forward), so heading is readable too."),
@@ -483,6 +528,9 @@ public class VehicleLabWindow : EditorWindow
             var low = p.name.ToLowerInvariant();
             var keptMap = t[0] == "RIGBONE" ? keptBones : kept;
             p.role = keptMap.TryGetValue(p.name, out var kr) ? kr
+                   : low.Contains("tail") && (low.Contains("rotor") || low.Contains("prop")) ? Role.TailRotor  // "tail rotor" before the generic rotor guess
+                   : low.Contains("fantail") || low.Contains("fenestron") ? Role.TailRotor
+                   : low.Contains("rotor") || low.Contains("helix") || low.Contains("blade") || low.Contains("propeller") ? Role.Rotor
                    : low.Contains("wheel") || low.Contains("tyre") || low.Contains("tire") ? Role.Wheel
                    : low.Contains("turret") ? Role.Turret : Role.Default;
             (t[0] == "RIGBONE" ? boneParts : parts).Add(p);
@@ -511,40 +559,58 @@ public class VehicleLabWindow : EditorWindow
         var report = new List<(string text, string part)>();
         bool warn = false;
         var vlist = ActiveParts;   // fast path verifies the BONE marking (each wheel bone = its own cluster)
-        var wheels = vlist.Where(p => p.role == Role.Wheel).ToList();
+        var wheels = vlist.Where(p => IsSpinner(p.role)).ToList();   // Wheel + Rotor + Tail rotor all get a spin bone
         var turrets = vlist.Where(p => p.role == Role.Turret).ToList();
 
-        if (wheels.Count == 0) { report.Add(("✗ No parts marked Wheel — nothing will spin.", null)); warn = true; }
+        if (wheels.Count == 0) { report.Add(("✗ No parts marked Wheel / Rotor / Tail rotor — nothing will spin.", null)); warn = true; }
         else
         {
-            var clusters = new List<(Part anchor, List<Part> members)>();
-            foreach (var p in wheels.OrderByDescending(MaxDim))
+            // Wheels cluster by PROXIMITY (tire+rim+spokes near one hub). Rotors do NOT: each role fuses to ONE hub at
+            // its centroid — a rotor disc's blades are far apart but spin as one, exactly what the rig script builds.
+            var clusters = new List<(Part anchor, List<Part> members)>();   // wheel hubs only (proximity)
+            foreach (var p in wheels.Where(x => x.role == Role.Wheel).OrderByDescending(MaxDim))
             {
                 var home = clusters.FirstOrDefault(cl => (p.center - cl.anchor.center).magnitude <= 0.75f * MaxDim(cl.anchor));
                 if (home.anchor == null) clusters.Add((p, new List<Part> { p }));
                 else home.members.Add(p);
             }
-            report.Add(($"• {wheels.Count} wheel part(s) → {clusters.Count} wheel bone(s):", null));
-            float biggest = clusters.Max(c => MaxDim(c.anchor));
+            var rotorGroups = new List<(string label, List<Part> members)>();
+            var mains = wheels.Where(x => x.role == Role.Rotor).ToList();
+            var tails = wheels.Where(x => x.role == Role.TailRotor).ToList();
+            if (mains.Count > 0) rotorGroups.Add(("main rotor", mains));
+            if (tails.Count > 0) rotorGroups.Add(("tail rotor", tails));
+
+            report.Add(($"• {wheels.Count} spinning part(s) → {clusters.Count + rotorGroups.Count} spin bone(s):", null));
             int AxleIdx(Part a) => a.size.x <= a.size.y && a.size.x <= a.size.z ? 0 : a.size.y <= a.size.z ? 1 : 2;
-            foreach (var c in clusters.Take(12))
+            if (clusters.Count > 0)
             {
-                bool stray = MaxDim(c.anchor) < 0.5f * biggest;
-                if (stray) warn = true;
-                report.Add(($"    ⌀{MaxDim(c.anchor):0.00} at ({c.anchor.center.x:0.00}, {c.anchor.center.y:0.00}, {c.anchor.center.z:0.00}) — {c.members.Count} part(s)" +
-                            (stray ? "  ⚠ small anchor — stray shard far from every wheel? (becomes its own bone)" : ""), c.anchor.name));
+                float biggest = clusters.Max(c => MaxDim(c.anchor));
+                foreach (var c in clusters.Take(12))
+                {
+                    bool stray = MaxDim(c.anchor) < 0.5f * biggest;
+                    if (stray) warn = true;
+                    report.Add(($"    wheel ⌀{MaxDim(c.anchor):0.00} at ({c.anchor.center.x:0.00}, {c.anchor.center.y:0.00}, {c.anchor.center.z:0.00}) — {c.members.Count} part(s)" +
+                                (stray ? "  ⚠ small anchor — stray shard far from every wheel? (becomes its own bone)" : ""), c.anchor.name));
+                }
+                if (clusters.Count > 12) report.Add(($"    … and {clusters.Count - 12} more", null));
+                // axle-agreement + left/right-mirror are CAR geometry (paired wheels, one shared axle) — WHEELS ONLY.
+                if (clusters.Select(c => AxleIdx(c.anchor)).Distinct().Count() > 1)
+                { report.Add(("  ⚠ wheel anchors disagree on the axle axis — a stray cluster, or set the Axle axis override.", null)); warn = true; }
+                foreach (var c in clusters)
+                    if (Mathf.Abs(c.anchor.center.y) > 0.15f &&
+                        !clusters.Any(o => o.anchor != c.anchor && Mathf.Abs(o.anchor.center.x - c.anchor.center.x) < 0.2f
+                                                                && Mathf.Abs(o.anchor.center.y + c.anchor.center.y) < 0.2f))
+                    { report.Add(($"  ⚠ wheel at ({c.anchor.center.x:0.00}, {c.anchor.center.y:0.00}) has no mirrored partner — missed the other side?", c.anchor.name)); warn = true; }
             }
-            if (clusters.Count > 12) report.Add(($"    … and {clusters.Count - 12} more", null));
-            if (clusters.Select(c => AxleIdx(c.anchor)).Distinct().Count() > 1)
-            { report.Add(("  ⚠ wheel anchors disagree on the axle axis — a stray cluster, or set the Axle axis override.", null)); warn = true; }
-            foreach (var c in clusters)
-                if (Mathf.Abs(c.anchor.center.y) > 0.15f &&
-                    !clusters.Any(o => o.anchor != c.anchor && Mathf.Abs(o.anchor.center.x - c.anchor.center.x) < 0.2f
-                                                            && Mathf.Abs(o.anchor.center.y + c.anchor.center.y) < 0.2f))
-                { report.Add(($"  ⚠ wheel at ({c.anchor.center.x:0.00}, {c.anchor.center.y:0.00}) has no mirrored partner — missed the other side?", c.anchor.name)); warn = true; }
-            // center-in-sphere is a coarse test: a mudguard ARCS over the wheel and its bbox center lands near the
-            // hub. Anything as big as the wheel itself can't be "inside" it — size-gate to parts under 0.9×.
-            var insideParts = vlist.Where(p => p.role != Role.Wheel &&
+            foreach (var g in rotorGroups)
+            {
+                var ctr = g.members.Aggregate(Vector3.zero, (a, p) => a + p.center) / g.members.Count;
+                int ax = AxleIdx(g.members.OrderByDescending(MaxDim).First());
+                report.Add(($"    {g.label} → 1 hub · {g.members.Count} blade part(s) at ({ctr.x:0.00}, {ctr.y:0.00}, {ctr.z:0.00}) · axle {"XYZ"[ax]}", null));
+            }
+            // center-in-sphere is a coarse test — run it on WHEEL clusters only. A rotor's radius engulfs the fuselage,
+            // so testing "inside a rotor" would flag half the body (the earlier false 41-part warning).
+            var insideParts = vlist.Where(p => !IsSpinner(p.role) &&
                     clusters.Any(c => MaxDim(p) < 0.9f * MaxDim(c.anchor) &&
                                       (p.center - c.anchor.center).magnitude <= 0.5f * MaxDim(c.anchor)))
                 .OrderByDescending(MaxDim).ToList();
@@ -701,6 +767,40 @@ public class VehicleLabWindow : EditorWindow
         }
         pru.DrawMesh(waterMesh, Matrix4x4.identity, lineMat, 0);
     }
+    // A bright WORLD-HORIZONTAL cross at the model's top (rotor height): the rotor is level when its blade bar runs
+    // parallel to this line. Unlike the waterline grid (at the bottom), it sits right at the rotor for a direct compare.
+    Mesh levelMesh; Vector4 levelKey = Vector4.zero;
+    void SubmitLevelLine(float radius)
+    {
+        if (!showLevelLine || pru == null) return;
+        if (lineMat == null)
+        {
+            var sh = Shader.Find("Hidden/Internal-Colored");
+            if (sh == null) return;
+            lineMat = new Material(sh) { hideFlags = HideFlags.HideAndDontSave };
+            lineMat.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.SrcAlpha);
+            lineMat.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
+            lineMat.SetInt("_Cull", (int)UnityEngine.Rendering.CullMode.Off);
+            lineMat.SetInt("_ZWrite", 0);
+        }
+        float half = Mathf.Max(radius * 1.9f, 0.5f);
+        float y = bounds.center.y + bounds.extents.y * 0.92f;   // near the top = rotor height
+        var c = bounds.center;
+        var key = new Vector4(half, y, c.x, c.z);
+        if (levelMesh == null || key != levelKey)
+        {
+            levelKey = key;
+            if (levelMesh == null) levelMesh = new Mesh { hideFlags = HideFlags.HideAndDontSave };
+            levelMesh.Clear();
+            var verts = new List<Vector3>(); var cols = new List<Color>(); var idx = new List<int>();
+            var col = new Color(1f, 0.82f, 0.15f, 0.95f);   // bright amber, dead horizontal
+            AddLine(verts, cols, idx, new Vector3(c.x - half, y, c.z), new Vector3(c.x + half, y, c.z), col);
+            AddLine(verts, cols, idx, new Vector3(c.x, y, c.z - half), new Vector3(c.x, y, c.z + half), col);
+            levelMesh.SetVertices(verts); levelMesh.SetColors(cols);
+            levelMesh.SetIndices(idx.ToArray(), MeshTopology.Lines, 0);
+        }
+        pru.DrawMesh(levelMesh, Matrix4x4.identity, lineMat, 0);
+    }
     static void AddLine(List<Vector3> v, List<Color> c, List<int> i, Vector3 a, Vector3 b, Color col)
     {
         i.Add(v.Count); i.Add(v.Count + 1);
@@ -826,7 +926,16 @@ public class VehicleLabWindow : EditorWindow
         bool fast = useSourceRig && boneParts.Count > 0;   // fast path: spin the marked SOURCE BONES, reuse the artist skeleton
         var src = fast ? boneParts : parts;
         string ignoreFile = Path.Combine(projRoot, prevDir, baseName + "_ignore.txt").Replace('\\', '/');
+        // Rotor + TailRotor travel in their OWN lists (not the wheels file): the rig script fuses each group into ONE
+        // hub bone at its centroid so a wide rotor disc spins as one, instead of the wheel path's per-proximity bones
+        // that shred the blades into separate pinwheels. Their "rotorcraft-ness" (continuous spin + flyer) is conveyed
+        // to the bake step via the success message below.
+        bool hasRotor = src.Any(p => p.role == Role.Rotor || p.role == Role.TailRotor);
         File.WriteAllLines(wheelsFile, src.Where(p => p.role == Role.Wheel).Select(p => p.name).ToArray());
+        string rotorsFile = Path.Combine(projRoot, prevDir, baseName + "_rotors.txt").Replace('\\', '/');
+        string tailrotorsFile = Path.Combine(projRoot, prevDir, baseName + "_tailrotors.txt").Replace('\\', '/');
+        File.WriteAllLines(rotorsFile, src.Where(p => p.role == Role.Rotor).Select(p => p.name).ToArray());
+        File.WriteAllLines(tailrotorsFile, src.Where(p => p.role == Role.TailRotor).Select(p => p.name).ToArray());
         File.WriteAllLines(turretsFile, src.Where(p => p.role == Role.Turret).Select(p => p.name).ToArray());
         // Ignore = DELETED from the output (static path; unused Sketchfab option meshes). Fast path: bones can't be "deleted" — unused.
         File.WriteAllLines(ignoreFile, src.Where(p => p.role == Role.Ignore).Select(p => p.name).ToArray());
@@ -835,8 +944,9 @@ public class VehicleLabWindow : EditorWindow
         string gunsFile = Path.Combine(projRoot, prevDir, baseName + "_guns.txt").Replace('\\', '/');
         File.WriteAllLines(gunsFile, src.Where(p => p.role == Role.Gun).Select(p => p.name).ToArray());
         string axis = axisChoice == 0 ? "AUTO" : AxisOptions[axisChoice];
+        string tailAxis = tailAxisChoice == 0 ? "AUTO" : AxisOptions[tailAxisChoice];
         var inv = System.Globalization.CultureInfo.InvariantCulture;
-        if (!RunBlender($"{(fast ? "rigfast" : "rig")} \"{srcFile}\" \"{lastOutGlb}\" \"{prevFull}\" \"@{wheelsFile}\" \"@{turretsFile}\" {axis} {frames} {degrees.ToString("0.#", inv)} \"@{ignoreFile}\" \"@{tracksFile}\" \"@{gunsFile}\" {treadAdvCells} 1 1 {treadCellsPerLink.ToString("0.##", inv)} {(tracksStatic ? "1" : "0")} {(waveEnabled ? rockDegrees : 0f).ToString("0.##", inv)} {rockFrames} {(rockAxisChoice == 1 ? "X" : rockAxisChoice == 2 ? "Y" : "AUTO")} {rockHeading.ToString("0.##", inv)} {(waveEnabled ? rockPitchDeg : 0f).ToString("0.##", inv)} {rockPitchCycles} \"{modelRot.x.ToString("0.##", inv)},{modelRot.y.ToString("0.##", inv)},{modelRot.z.ToString("0.##", inv)}\" {rockPitchPhase.ToString("0.##", inv)} {rockRollCycles}", out string stdout)) return;
+        if (!RunBlender($"{(fast ? "rigfast" : "rig")} \"{srcFile}\" \"{lastOutGlb}\" \"{prevFull}\" \"@{wheelsFile}\" \"@{turretsFile}\" {axis} {frames} {degrees.ToString("0.#", inv)} \"@{ignoreFile}\" \"@{tracksFile}\" \"@{gunsFile}\" {treadAdvCells} 1 1 {treadCellsPerLink.ToString("0.##", inv)} {(tracksStatic ? "1" : "0")} {(waveEnabled ? rockDegrees : 0f).ToString("0.##", inv)} {rockFrames} {(rockAxisChoice == 1 ? "X" : rockAxisChoice == 2 ? "Y" : "AUTO")} {rockHeading.ToString("0.##", inv)} {(waveEnabled ? rockPitchDeg : 0f).ToString("0.##", inv)} {rockPitchCycles} \"{modelRot.x.ToString("0.##", inv)},{modelRot.y.ToString("0.##", inv)},{modelRot.z.ToString("0.##", inv)}\" {rockPitchPhase.ToString("0.##", inv)} {rockRollCycles} \"@{rotorsFile}\" \"@{tailrotorsFile}\" {tailAxis} {tailYawAdj.ToString("0.##", inv)} {tailPitchAdj.ToString("0.##", inv)}", out string stdout)) return;
         // SUCCESS = THE SCRIPT'S OWN FINAL MARKER (the documented Blender trap: it exits 0 even when the python
         // script crashes mid-way — without this gate a half-run printed a fake "DONE" with no file on disk).
         string done = stdout.Split('\n').FirstOrDefault(l => l.Contains("VEHICLE RIG DONE"));
@@ -855,9 +965,12 @@ public class VehicleLabWindow : EditorWindow
         // clean unit and the 256-wall / twitch-ceiling diseases — they were buried in the Console until now
         string bones = stdout.Split('\n').FirstOrDefault(l => l.Contains("VEHICLE armature:"))?.Trim() ?? "";
         string hybrid = string.Join("\n", stdout.Split('\n').Where(l => l.Contains("HYBRID v2") || l.Contains("BONE BUDGET CLAMP")).Select(l => l.Trim()));
-        status = $"DONE → {lastOutGlb}\n{bones}\n{hybrid}\n{done}\n\nNext: Factory ▸ Browse this GLB, Size as usual; Animation Lab ▸ State-driven, " +
-                 $"Idle/reference = Spin[0..0], Movement = Spin (full), Convert raw rig ON, " +
-                 "Fix 100× OFF, Auto-ground ON, Keep bone translations ✓. Bake.";
+        string bakeRecipe = hasRotor
+            ? "Animation Lab ▸ State-driven OFF (a rotor spins CONTINUOUSLY), Idle/reference = Spin (full), Convert raw rig ON, " +
+              "Fix 100× OFF, Auto-ground OFF (flyer), Keep bone translations ✓. Bake."
+            : "Animation Lab ▸ State-driven, Idle/reference = Spin[0..0], Movement = Spin (full), Convert raw rig ON, " +
+              "Fix 100× OFF, Auto-ground ON, Keep bone translations ✓. Bake.";
+        status = $"DONE → {lastOutGlb}\n{bones}\n{hybrid}\n{done}\n\nNext: Factory ▸ Browse this GLB, Size as usual; " + bakeRecipe;
         EditorGUIUtility.systemCopyBuffer = lastOutGlb;   // ready to paste into the Factory's Browse field
     }
 
@@ -964,6 +1077,7 @@ public class VehicleLabWindow : EditorWindow
         if (pru.lights.Length > 1) pru.lights[1].intensity = 0.6f;
         pru.ambientColor = new Color(0.3f, 0.3f, 0.3f);
         SubmitWaterline(radius);   // queued for THIS render — DrawMesh must precede cam.Render()
+        SubmitLevelLine(radius);   // the horizontal reference at rotor height
         cam.Render();
         GUI.DrawTexture(rect, pru.EndPreview(), ScaleMode.StretchToFill, false);
     }
