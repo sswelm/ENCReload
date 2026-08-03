@@ -2951,17 +2951,18 @@
         },
         {
             "resourceName": "StealthHelicopter",
+            "hideSubPawns": true,
             "pawnDescription": "Era6_Common_StealthHelicopters_01",
-            "modelFile": "D:/Downloads/rah66.glb",
+            "modelFile": "D:/3DModels/Rah66/rah66_Spin.glb",
             "rotation": {
-                "x": 141.0,
-                "y": 90.0,
-                "z": -7.0
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
             },
             "position": {
                 "x": 0.0,
-                "y": 1.25,
-                "z": 0.15000000596046449
+                "y": 0.0,
+                "z": 0.0
             },
             "size": 5.599999904632568,
             "scale": 1.0,
@@ -2978,7 +2979,7 @@
             "materialMode": 0,
             "atlasMaxDim": 512,
             "targetTris": 24000,
-            "stripParts": "Cylinder06,Cylinder07",
+            "stripParts": "",
             "hideMeshes": "",
             "skel": [
                 -2089899586,
@@ -2993,20 +2994,20 @@
                 -1593028268
             ],
             "clip": [
-                0,
-                0,
-                0,
-                0
+                1554162136,
+                1234873878,
+                -1463983444,
+                979929813
             ],
-            "animated": false,
-            "animClip": "",
+            "animated": true,
+            "animClip": "Spin",
             "animateBones": "",
             "staticParts": "",
             "localNodeAnim": false,
             "animUnitFix": false,
-            "convertRig": false,
+            "convertRig": true,
             "autoGroundWheels": false,
-            "keepTranslations": false,
+            "keepTranslations": true,
             "deployConvert": false,
             "deployStart": 0,
             "deployEnd": 0,
@@ -3023,7 +3024,7 @@
             "deploySlamSettle": "",
             "deployRecoilReturn": "",
             "animStateDriven": false,
-            "animClipMove": "",
+            "animClipMove": "Spin",
             "animClipAfter": "",
             "animClipAttack": "",
             "animClipCombat": "",
@@ -3095,7 +3096,7 @@
             ],
             "idleAltInterval": 25.0,
             "animPhaseSpread": 0.5,
-            "respawnAfterLoad": true,
+            "respawnAfterLoad": false,
             "freezeDonorAnim": false,
             "fireOnAttack": false,
             "deployOnStop": false,
@@ -3108,7 +3109,7 @@
             "tintG": 0.0,
             "tintB": 0.0,
             "textureFile": "",
-            "silenceDonorVfx": false,
+            "silenceDonorVfx": true,
             "silenceDonorAudio": false,
             "engineSound": true,
             "engineStartEvent": "Play_UNIT_Helicopter_Move",
