@@ -598,7 +598,9 @@ public class ModelFactoryWindow : EditorWindow
             "new direction at this rate instead of teleporting to it. 0 = off (vanilla snap), 180 = a 90-degree turn " +
             "takes half a second; lower is more majestic, higher more military. Every angle eases (180s included) " +
             "while teleports and battle placement still snap. Runtime-only — no re-bake."), cur.turnRate, 0f, 720f);
-        if (cur.turnRate > 0f)
+        // sub-knobs stay VISIBLE but greyed while their feature is off — hiding them made the Runtime section
+        // look like it only had two flight settings (user report), with no hint that more exist.
+        using (new EditorGUI.DisabledScope(cur.turnRate <= 0f))
             cur.turnBank = EditorGUILayout.Slider(new GUIContent("   Bank into turn (deg)",
                 "How far the model rolls INTO the turn while it swings around — a few degrees sells an aircraft, 0 " +
                 "keeps it flat for ground and naval units. Negative if the lean reads backwards."), cur.turnBank, -30f, 30f);
@@ -609,7 +611,7 @@ public class ModelFactoryWindow : EditorWindow
             "clear the skyline. This subtracts that lift again wherever no built district is under or ahead of the unit. " +
             "0 = off; -2 is a good start (negative = lower). Cultivated tiles don't count as city, so it stays low over " +
             "farmland. Runtime-only — no re-bake."), cur.hugDrop, -10f, 0f);
-        if (cur.hugDrop != 0f)
+        using (new EditorGUI.DisabledScope(cur.hugDrop == 0f))
             cur.hugLookahead = EditorGUILayout.Slider(new GUIContent("   Climb anticipation (units)",
                 "How far AHEAD of the model the district probe sits, so it starts climbing BEFORE it reaches the " +
                 "buildings — like a pilot — instead of reacting once it's inside them. 0 = purely reactive."),
