@@ -593,6 +593,10 @@ public class ModelFactoryWindow : EditorWindow
             "Runtime-only — no re-bake, just rebuild the mod."),
             cur.useDonorClip);
 
+        // FLIGHT CHARACTER: the family of knobs that decide how a unit CARRIES ITSELF while moving — whose
+        // animation plays (donor clip, above), how it changes heading (turn ease), how it holds altitude
+        // (terrain hug). Grouped so they read as one idea instead of four unrelated sliders.
+        EditorGUILayout.LabelField("Flight character — how the unit carries itself", EditorStyles.miniBoldLabel);
         cur.turnRate = EditorGUILayout.Slider(new GUIContent("Turn ease — rate (deg/s)",
             "Smooth the engine's instant facing SNAP when a move order changes heading: the model TURNS toward the " +
             "new direction at this rate instead of teleporting to it. 0 = off (vanilla snap), 180 = a 90-degree turn " +
