@@ -648,6 +648,17 @@ public class ModelFactoryWindow : EditorWindow
             using (new EditorGUI.DisabledScope(!canBake || cur.bakeLocked))
                 if (GUILayout.Button(new GUIContent(cur.bakeLocked ? "Bake (locked)" : "Bake",
                     cur.bakeLocked ? "This entry is bake-locked (verified assets). Untick 'Lock bake' in the Animation Lab to deliberately rebake — then re-verify in-game." : ""), GUILayout.Height(34))) DoBake();
+            // SAVE WITHOUT BAKING: the Runtime section (flight character, VFX/audio flags, donor clip, textures)
+            // is applied on load and needs no baked asset — yet Bake used to be the ONLY way to persist it, i.e.
+            // a full Blender round-trip to change one slider, and impossible at all on a bake-locked entry.
+            // Same ownership rebase as the bake path, so Lab-owned fields are still protected.
+            using (new EditorGUI.DisabledScope(string.IsNullOrWhiteSpace(cur.resourceName) || !nameValid
+                                               || string.IsNullOrWhiteSpace(cur.pawnDescription)))
+                if (GUILayout.Button(new GUIContent("Save settings",
+                    "Write this entry's settings to the registry WITHOUT re-baking — for the runtime knobs " +
+                    "(turn ease, terrain hug, donor clip, VFX/sound flags, rotation/position/textures). Rebuild " +
+                    "the mod afterwards; no relaunch of Blender, no new assets."), GUILayout.Height(34), GUILayout.Width(110)))
+                    SaveSettingsOnly();
             if (GUILayout.Button("Reset", GUILayout.Height(34), GUILayout.Width(72))) { cur = new ModelDef(); selected = 0; status = ""; GUI.FocusControl(null); }
         }
         if (!canBake)
@@ -1125,6 +1136,22 @@ public class ModelFactoryWindow : EditorWindow
     // 'disabled' silently un-disabled; ~13 Sound fields never listed) is structurally impossible: a new field is kept
     // BY DEFAULT. And unlike a reflection loop, every overlay line below is a plain compile-checked assignment — a typo
     // or a renamed field is a BUILD error, not a silent revert.
+    // Persist the form to the registry with NO bake — see the "Save settings" button. Runtime-only knobs take
+    // effect on the next mod rebuild; baked assets (skeleton/atlas/clips) are carried over untouched by the
+    // ownership rebase, so this can never orphan them.
+    void SaveSettingsOnly()
+    {
+        RebaseLabOwnedOnRegistry();
+        bool saved = ModelRegistry.Upsert(cur);
+        RefreshList();
+        selected = System.Array.IndexOf(existing, cur.resourceName); if (selected < 0) selected = 0;
+        status = saved
+            ? $"Saved '{cur.resourceName}' settings (no bake). Rebuild the mod to apply them in-game."
+            : "REGISTRY SAVE FAILED (see Console) — settings were NOT written.";
+        Debug.Log("[Factory] " + status);
+        GUI.FocusControl(null);
+    }
+
     void RebaseLabOwnedOnRegistry()
     {
         var regE = ModelRegistry.Load().FirstOrDefault(x => x.resourceName == cur.resourceName);
