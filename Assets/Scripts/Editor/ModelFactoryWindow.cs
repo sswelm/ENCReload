@@ -593,6 +593,28 @@ public class ModelFactoryWindow : EditorWindow
             "Runtime-only — no re-bake, just rebuild the mod."),
             cur.useDonorClip);
 
+        cur.turnRate = EditorGUILayout.Slider(new GUIContent("Turn ease — rate (deg/s)",
+            "Smooth the engine's instant facing SNAP when a move order changes heading: the model TURNS toward the " +
+            "new direction at this rate instead of teleporting to it. 0 = off (vanilla snap), 180 = a 90-degree turn " +
+            "takes half a second; lower is more majestic, higher more military. Every angle eases (180s included) " +
+            "while teleports and battle placement still snap. Runtime-only — no re-bake."), cur.turnRate, 0f, 720f);
+        if (cur.turnRate > 0f)
+            cur.turnBank = EditorGUILayout.Slider(new GUIContent("   Bank into turn (deg)",
+                "How far the model rolls INTO the turn while it swings around — a few degrees sells an aircraft, 0 " +
+                "keeps it flat for ground and naval units. Negative if the lean reads backwards."), cur.turnBank, -30f, 30f);
+
+        cur.hugDrop = EditorGUILayout.Slider(new GUIContent("Terrain hug — drop (units)",
+            "Fly LOWER over open country and climb only for built city districts. The game already flies air units at " +
+            "a terrain-relative altitude (they follow hills), but it ignores BUILDINGS — which is why Position Z has to " +
+            "clear the skyline. This subtracts that lift again wherever no built district is under or ahead of the unit. " +
+            "0 = off; -2 is a good start (negative = lower). Cultivated tiles don't count as city, so it stays low over " +
+            "farmland. Runtime-only — no re-bake."), cur.hugDrop, -10f, 0f);
+        if (cur.hugDrop != 0f)
+            cur.hugLookahead = EditorGUILayout.Slider(new GUIContent("   Climb anticipation (units)",
+                "How far AHEAD of the model the district probe sits, so it starts climbing BEFORE it reaches the " +
+                "buildings — like a pilot — instead of reacting once it's inside them. 0 = purely reactive."),
+                cur.hugLookahead, 0f, 8f);
+
         EditorGUILayout.Space();
         EditorGUILayout.LabelField("Texture / import", EditorStyles.miniBoldLabel);
         cur.reuseExtracted = EditorGUILayout.Toggle(new GUIContent("Keep extracted texture (hand-edits)",
@@ -1118,6 +1140,8 @@ public class ModelFactoryWindow : EditorWindow
         cur.skel = form.skel; cur.atlas = form.atlas; cur.clip = form.clip;
         cur.respawnAfterLoad = form.respawnAfterLoad; cur.freezeDonorAnim = form.freezeDonorAnim; cur.silenceDonorVfx = form.silenceDonorVfx;
         cur.useDonorClip = form.useDonorClip;
+        cur.turnRate = form.turnRate; cur.turnBank = form.turnBank;
+        cur.hugDrop = form.hugDrop; cur.hugLookahead = form.hugLookahead;
         cur.animated = regE.animated || form.animated;   // one-way OR: a prior animated bake wins; a static Factory re-bake must not silently un-animate the entry
     }
 

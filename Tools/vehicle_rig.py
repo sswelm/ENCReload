@@ -506,7 +506,11 @@ for i, cl in enumerate(clusters):
         # wheels AND the MAIN rotor: tail along the axle => local Y IS the axle. The donor's main-rotor channel
         # spins about LOCAL Y ([DonorAxis]), so with the leaf rest preserved the spin lands on the mast axis even
         # when the mast is not perfectly vertical — the lean wobble dies at the source.
-        eb.tail = cl["c"] + ax * max(0.05, max(cl["s"]) * 0.25)
+        # MAIN-ROTOR SIGN: the donor's Y-spin renders CLOCKWISE from above on a +axle bone; real (American)
+        # helicopters turn COUNTER-clockwise, so the main-rotor bone takes the NEGATED axle — flips the donor
+        # spin (and the own-clip spin with it). Statics unaffected (binds compensate). Wheels keep +axle.
+        _dirn = -1.0 if cl.get("is_rotor") else 1.0
+        eb.tail = cl["c"] + ax * _dirn * max(0.05, max(cl["s"]) * 0.25)
     eb.parent = eb_body
     cluster_bones.append(eb.name)
     wheel_axes[eb.name] = tuple(ax)
