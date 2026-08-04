@@ -585,6 +585,14 @@ public class ModelFactoryWindow : EditorWindow
             "Studio for those). Runtime-only — no re-bake, just rebuild the mod."),
             cur.silenceDonorVfx);
 
+        cur.useDonorClip = EditorGUILayout.Toggle(new GUIContent("Use donor animation clip",
+            "Keep the DONOR's own animation playing on your injected skeleton instead of your baked clip (helicopter " +
+            "flight motion: body bob + rotor spin from the donor). The donor's channels grab our bones BY INDEX, so the " +
+            "rig must be built to donor convention — same bone count/order (body, main rotor, tail rotor; no extra Gun " +
+            "bone) with identity rests (the Vehicle Lab's rotor bones + the plugin's root rebase handle this). " +
+            "Runtime-only — no re-bake, just rebuild the mod."),
+            cur.useDonorClip);
+
         EditorGUILayout.Space();
         EditorGUILayout.LabelField("Texture / import", EditorStyles.miniBoldLabel);
         cur.reuseExtracted = EditorGUILayout.Toggle(new GUIContent("Keep extracted texture (hand-edits)",
@@ -1109,6 +1117,7 @@ public class ModelFactoryWindow : EditorWindow
         cur.stripParts = form.stripParts; cur.hideMeshes = form.hideMeshes;
         cur.skel = form.skel; cur.atlas = form.atlas; cur.clip = form.clip;
         cur.respawnAfterLoad = form.respawnAfterLoad; cur.freezeDonorAnim = form.freezeDonorAnim; cur.silenceDonorVfx = form.silenceDonorVfx;
+        cur.useDonorClip = form.useDonorClip;
         cur.animated = regE.animated || form.animated;   // one-way OR: a prior animated bake wins; a static Factory re-bake must not silently un-animate the entry
     }
 

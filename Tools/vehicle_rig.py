@@ -337,9 +337,13 @@ if ignore_names:
 # STRAIGHTEN (before anything measures the model): rotate every parent-less object in world space; the
 # transform_apply below then bakes it into the vertex data, so the rig is built on the corrected pose.
 if any(abs(v) > 1e-6 for v in model_rot):
-    _orient = (Matrix.Rotation(math.radians(model_rot[2]), 4, 'Z') @
+    # ORDER: yaw Z first, THEN pitch Y, THEN roll X (Rx@Ry@Rz, world axes). The old Rz@Ry@Rx made pitch/roll
+    # act about the model's carried pre-yaw axes — on a model that needs yaw to face the grid (the helicopter's
+    # diagonal import), Roll X / Pitch Y then pulled DIAGONALLY. With yaw applied first, pitch and roll always
+    # act about the world/screen horizontals on the model as the user currently sees it.
+    _orient = (Matrix.Rotation(math.radians(model_rot[0]), 4, 'X') @
                Matrix.Rotation(math.radians(model_rot[1]), 4, 'Y') @
-               Matrix.Rotation(math.radians(model_rot[0]), 4, 'X'))
+               Matrix.Rotation(math.radians(model_rot[2]), 4, 'Z'))
     for _oo in bpy.context.scene.objects:
         if _oo.parent is None:
             _oo.matrix_world = _orient @ _oo.matrix_world
@@ -452,7 +456,7 @@ for grp, is_tail in ((rotor_names, False), (tailrotor_names, True)):
     mn = Vector(tuple(min(c[i] - s[i] / 2 for c, s in boxes) for i in range(3)))
     mx = Vector(tuple(max(c[i] + s[i] / 2 for c, s in boxes) for i in range(3)))
     gs = mx - mn
-    clusters.append({"m": max(gs), "c": hub_c, "s": gs, "axle": axle, "names": list(grp), "is_rotor": True})
+    clusters.append({"m": max(gs), "c": hub_c, "s": gs, "axle": axle, "names": list(grp), "is_rotor": True, "is_tail": is_tail})
     print("VEHICLE %s rotor: %d part(s), pivot (%.2f,%.2f,%.2f), axle (%.3f,%.3f,%.3f) [%s]"
           % ("tail" if is_tail else "main", len(grp), hub_c.x, hub_c.y, hub_c.z, axle.x, axle.y, axle.z, axle_src))
     print("VEHICLE rotor hub: %d part(s) -> bone at hub (%.2f,%.2f,%.2f), axle=%s (least-spread of centres)" % (len(grp), hub_c.x, hub_c.y, hub_c.z, tuple(axle)))
@@ -484,7 +488,25 @@ for i, cl in enumerate(clusters):
     ax = cl["axle"] if "axle" in cl else axle_axis(cl["s"])   # rotors carry a precomputed disc-normal axle; wheels infer it
     eb = arm_data.edit_bones.new("Wheel_%02d" % i)
     eb.head = cl["c"]
-    eb.tail = cl["c"] + ax * max(0.05, max(cl["s"]) * 0.25)
+    if cl.get("is_rotor") and cl.get("is_tail"):
+        # TAIL FAN (donor-clip contract, [DonorAxis]-measured 2026-08-04): the donor's tail channel spins about
+        # LOCAL X, so orient this bone's frame with X = the fan's (canted) axle: bone direction (local Y) = the
+        # in-disc direction closest to world-up, roll set so Z completes the right-handed frame (X = Y x Z = axle).
+        # The plugin's rebase preserves LEAF rest orientations (ancestors flatten to identity), so this frame
+        # survives into the game and CONJUGATES the donor's X-spin into the fan's real ring.
+        _ax = ax.normalized()
+        _yb = Vector((0, 0, 1)) - _ax * _ax.z
+        if _yb.length < 1e-3:
+            _yb = Vector((0, 1, 0)) - _ax * _ax.y
+        _yb.normalize()
+        _zb = _ax.cross(_yb).normalized()
+        eb.tail = cl["c"] + _yb * max(0.05, max(cl["s"]) * 0.25)
+        eb.align_roll(_zb)
+    else:
+        # wheels AND the MAIN rotor: tail along the axle => local Y IS the axle. The donor's main-rotor channel
+        # spins about LOCAL Y ([DonorAxis]), so with the leaf rest preserved the spin lands on the mast axis even
+        # when the mast is not perfectly vertical — the lean wobble dies at the source.
+        eb.tail = cl["c"] + ax * max(0.05, max(cl["s"]) * 0.25)
     eb.parent = eb_body
     cluster_bones.append(eb.name)
     wheel_axes[eb.name] = tuple(ax)
@@ -1378,6 +1400,19 @@ for _bi2, bname in enumerate(cluster_bones):
     _wheel_final_deg[bname] = _deg_i
 for bname in cluster_bones:
     pb = arm.pose.bones[bname]
+    _ci = int(bname.split("_")[1])
+    if _ci < len(clusters) and clusters[_ci].get("is_rotor"):
+        # ROTOR own-clip spin: the bone frame now embeds the axle (main: local Y = axle; tail: local X = axle,
+        # matching the donor channels' axes), so spin about that LOCAL axis. Keyed EVERY frame — a start/end
+        # quaternion pair slerps the short way and cannot represent >180 deg; per-frame keys are exact.
+        _tot = math.radians(_wheel_final_deg.get(bname, degrees))
+        _lax = Vector((1, 0, 0)) if clusters[_ci].get("is_tail") else Vector((0, 1, 0))
+        pb.rotation_mode = 'QUATERNION'
+        for _f in range(frames + 1):
+            bpy.context.scene.frame_set(_f)
+            pb.rotation_quaternion = Quaternion(_lax, _tot * (_f / float(frames)))
+            pb.keyframe_insert("rotation_quaternion", frame=_f)
+        continue
     pb.rotation_mode = 'XYZ'
     bpy.context.scene.frame_set(0)
     pb.rotation_euler = (0, 0, 0)
