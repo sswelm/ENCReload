@@ -3008,10 +3008,10 @@
             },
             "position": {
                 "x": 0.0,
-                "y": 0.0,
-                "z": 0.0
+                "y": 1.0,
+                "z": 1.5
             },
-            "size": 5.599999904632568,
+            "size": 5.0,
             "scale": 1.0,
             "normalsMode": 1,
             "smoothingAngle": 20.0,
@@ -3143,7 +3143,7 @@
             ],
             "idleAltInterval": 25.0,
             "animPhaseSpread": 0.0,
-            "respawnAfterLoad": false,
+            "respawnAfterLoad": true,
             "freezeDonorAnim": false,
             "fireOnAttack": false,
             "deployOnStop": false,
