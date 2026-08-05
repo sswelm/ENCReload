@@ -598,10 +598,12 @@ public class ModelFactoryWindow : EditorWindow
         // (terrain hug). Grouped so they read as one idea instead of four unrelated sliders.
         EditorGUILayout.LabelField("Flight character — how the unit carries itself", EditorStyles.miniBoldLabel);
         cur.turnRate = EditorGUILayout.Slider(new GUIContent("Turn ease — rate (deg/s)",
-            "Smooth the engine's instant facing SNAP when a move order changes heading: the model TURNS toward the " +
-            "new direction at this rate instead of teleporting to it. 0 = off (vanilla snap), 180 = a 90-degree turn " +
-            "takes half a second; lower is more majestic, higher more military. Every angle eases (180s included) " +
-            "while teleports and battle placement still snap. Runtime-only — no re-bake."), cur.turnRate, 0f, 720f);
+            "Smooth the engine's instant facing SNAP when a move order OR AN ATTACK changes heading: the model TURNS " +
+            "toward the new direction at this rate instead of teleporting to it — any model, not just flyers. A map " +
+            "bombard then also WAITS for the pivot: muzzle flash, shot sound, shell and the fire-on-attack clip all " +
+            "hold until the barrel faces the target. 0 = off (vanilla snap), 180 = a 90-degree turn in half a second; " +
+            "lower is more majestic, higher more military. Every angle eases (180s included) while teleports and " +
+            "battle placement still snap. Runtime-only — no re-bake. See docs/Turn-Ease.md."), cur.turnRate, 0f, 720f);
         // sub-knobs stay VISIBLE but greyed while their feature is off — hiding them made the Runtime section
         // look like it only had two flight settings (user report), with no hint that more exist.
         using (new EditorGUI.DisabledScope(cur.turnRate <= 0f))

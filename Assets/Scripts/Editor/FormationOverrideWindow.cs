@@ -150,7 +150,25 @@ public class FormationOverrideWindow : EditorWindow
                     if (GUILayout.Button(new GUIContent("Pick", units.Length == 0 ? "No PresentationUnitDefinition assets in the project — type the name" : null), GUILayout.Width(70)))
                     {
                         var r = GUILayoutUtility.GetLastRect();
-                        new StringDropdown(new AdvancedDropdownState(), units, units, "Units", n => { cur.unit = n; Repaint(); }).Show(r);
+                        new StringDropdown(new AdvancedDropdownState(), units, units, "Units", n =>
+                        {
+                            cur.unit = n;
+                            // PREFILL the Formation with the unit's CURRENT one (read off the definition asset), so
+                            // the link starts as a neutral no-op instead of leaving the player wondering what to type.
+                            // Any captured layout data is cleared with it — a stale capture under a vanilla formation
+                            // name would OVERWRITE that formation in the live database at load.
+                            var f = CurrentFormationOf(n);
+                            if (!string.IsNullOrEmpty(f))
+                            {
+                                cur.formation = f;
+                                cur.dummies = new List<FormationDummy>();
+                                cur.columns0 = new List<int>(); cur.columns1 = new List<int>(); cur.columns2 = new List<int>();
+                                cur.columns3 = new List<int>(); cur.columns4 = new List<int>(); cur.columns5 = new List<int>();
+                                cur.sourceAsset = ""; cur.sourceFormation = ""; cur.lowSpec = "Formation_1";
+                                status = $"Formation prefilled with the unit's current '{f}' (pure repoint — pick a different formation to change the layout).";
+                            }
+                            Repaint();
+                        }).Show(r);
                     }
             }
             using (new EditorGUILayout.HorizontalScope())
@@ -262,6 +280,24 @@ public class FormationOverrideWindow : EditorWindow
             if (fNew != fOver) cur.layoutScale = fNew ? (cur.scale > 0f ? cur.scale : 1f) : -1f;   // enable at current/neutral
             if (fNew)
                 cur.layoutScale = EditorGUILayout.Slider(Mathf.Clamp(cur.layoutScale, 0.2f, 2f), 0.2f, 2f);
+        }
+
+        // ---- turn ease (unit links only): eased facing + attack hold — the per-UNIT route to the battle-turn
+        // feature, and the ONLY route for VANILLA units (our own models set it in the Model Factory instead).
+        // Runtime reads `turnRate` straight off this link; a link may even be turn-ease-only (no formation data). ----
+        using (new EditorGUI.DisabledScope(isMacro))
+        using (new EditorGUILayout.HorizontalScope())
+        {
+            bool tOver = cur.turnRate > 0f;
+            bool tNew = EditorGUILayout.ToggleLeft(new GUIContent("Turn ease",
+                "Smooth the engine's instant facing SNAP for THIS unit — vanilla units included: it TURNS toward a new " +
+                "heading (move orders and attacks) at the set rate (deg/s) instead of teleporting, and its map bombard " +
+                "WAITS for the pivot — muzzle flash, shot sound, shell and recoil all hold until the barrel faces the " +
+                "target. 180 = a 90° turn in half a second; lower is more majestic. RUNTIME-ONLY: Save + relaunch, no " +
+                "rebuild. Untick = vanilla snap. See docs/Turn-Ease.md."), tOver, GUILayout.Width(180));
+            if (tNew != tOver) cur.turnRate = tNew ? 180f : 0f;
+            if (tNew)
+                cur.turnRate = EditorGUILayout.Slider(Mathf.Clamp(cur.turnRate, 30f, 720f), 30f, 720f);
         }
 
         // ---- formation by size (unit links only): era-ageing swaps, moved here from the Global Era Lab ----
@@ -468,6 +504,23 @@ public class FormationOverrideWindow : EditorWindow
             return true;
         }
         return false;
+    }
+
+    // The formation a unit CURRENTLY references, read off its PresentationUnitDefinition asset — the same
+    // "PresentationFormationDefinition" element reference the plugin repoints at load, via the same
+    // serializableElementName route ExtractFormation uses for the low-spec reference. "" = not found.
+    static string CurrentFormationOf(string unitName)
+    {
+        foreach (var guid in AssetDatabase.FindAssets("PresentationUnitDefinition"))
+        {
+            var path = AssetDatabase.GUIDToAssetPath(guid);
+            if (!path.EndsWith(".asset")) continue;
+            foreach (var o in AssetDatabase.LoadAllAssetsAtPath(path))
+                if (o != null && o.GetType().Name == "PresentationUnitDefinition" && o.name == unitName)
+                    return new SerializedObject(o).FindProperty("PresentationFormationDefinition")
+                               ?.FindPropertyRelative("serializableElementName")?.stringValue ?? "";
+        }
+        return "";
     }
 
     // Every PresentationUnitDefinition name found in the project databases (sub-assets of the collection assets).
