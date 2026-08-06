@@ -19,6 +19,7 @@ public class DistrictDef
 {
     public string district = "";       // ConstructibleDefinitionName to match (e.g. Extension_Base_BreederReactor) — RUNTIME
     public string fxMeshGuid = "";     // baked FxMesh Amplitude GUID "a,b,c,d" — RUNTIME
+    public string atlasGuid = "";      // baked albedo atlas Amplitude GUID "a,b,c,d" — RUNTIME (texture injection; empty = untextured legacy entry)
     public bool isolate = true;        // true = private per-instance leaf (this district's tiles only); false = global culture-wide swap — RUNTIME
 
     // ---- bake-time knobs (runtime ignores; kept so re-bakes reload the same settings) ----

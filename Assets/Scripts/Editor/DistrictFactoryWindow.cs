@@ -26,7 +26,29 @@ public class DistrictFactoryWindow : EditorWindow
     string status = "";
     Vector2 scroll;
 
+    // EMBEDDED PREVIEW — renders the entry's baked mesh exactly as the game draws it (the FxMesh path: the bone-free
+    // _DistrictMesh rotated by the draw-time import angles), standing on a district-tile ground square (~10 across) so
+    // the Size knob reads at a glance. Import angles come LIVE from the form field, so the model can be dialed upright
+    // in here; the Rotation offset is baked into the vertices and only shows after a re-Bake. Same PreviewRenderUtility
+    // owner-camera pattern as the Animation Lab (built-in previews have no zoom and the scroll view steals the wheel).
+    PreviewRenderUtility pru;                       // non-serializable; lazily created, cleaned in OnDisable
+    Material pvFallbackMat, pvTileMat;              // created on demand, HideAndDontSave, destroyed in OnDisable
+    Mesh pvTileMesh;
+    Mesh pvMesh; Material[] pvMats;                 // the baked district mesh + its atlas preview material
+    string pvLoadedFor;                             // resourceName the cache was built for (null = load on next paint)
+    [SerializeField] Vector2 pvOrbit = new Vector2(35f, -30f);
+    [SerializeField] float pvZoom = 1f;
+    [SerializeField] Vector2 pvPan;
+
     void OnEnable() => RefreshList();
+
+    void OnDisable()
+    {
+        if (pru != null) { pru.Cleanup(); pru = null; }
+        if (pvFallbackMat != null) DestroyImmediate(pvFallbackMat);
+        if (pvTileMat != null) DestroyImmediate(pvTileMat);
+        if (pvTileMesh != null) DestroyImmediate(pvTileMesh);
+    }
 
     void RefreshList()
     {
@@ -40,6 +62,7 @@ public class DistrictFactoryWindow : EditorWindow
             ? JsonUtility.FromJson<DistrictDef>(JsonUtility.ToJson(all[selected - 1]))   // edit a COPY so Cancel/Reset doesn't mutate the list
             : new DistrictDef();
         status = "";
+        LoadPreviewAssets(force: true);   // preview follows the selection — never show the previous entry's model
     }
 
     void OnGUI()
@@ -167,6 +190,9 @@ public class DistrictFactoryWindow : EditorWindow
                         : "Set District and Resource name to bake.", MessageType.Warning);
 
         if (!string.IsNullOrEmpty(status)) EditorGUILayout.HelpBox(status, MessageType.Info);
+
+        DrawPreviewPane();
+
         EditorGUILayout.HelpBox(
             "Bake imports the model, bakes a bone-free district FxMesh, and writes the enc_districts.json entry the plugin reads.\n" +
             "• Check the baked <name>_FxMesh Inspector preview — it predicts the in-game orientation. Tune Rotation / import angles until it stands.\n" +
@@ -207,9 +233,17 @@ public class DistrictFactoryWindow : EditorWindow
         // 2) wrap the baked mesh as the bone-free district FxMesh
         var mesh = AssetDatabase.LoadAssetAtPath<Mesh>("Assets/Resources/" + cur.resourceName + "_ModelMesh.asset");
         if (mesh == null) { status = $"Bake succeeded but '{cur.resourceName}_ModelMesh.asset' wasn't found — can't build the FxMesh."; return; }
-        string guid = DistrictBaker.BakeFxMesh(mesh, cur.resourceName, cur.importAngles, out _);
+        string guid = DistrictBaker.BakeFxMesh(mesh, cur.resourceName, cur.importAngles, out _, levelOnGround: true);
         if (string.IsNullOrEmpty(guid)) { status = "District FxMesh bake FAILED (see Console)."; return; }
         cur.fxMeshGuid = guid;
+
+        // the baked albedo atlas GUID — the plugin paints it into the district atlas page (texture injection)
+        var atlasTex = AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/Resources/" + cur.resourceName + "_Atlas.asset");
+        cur.atlasGuid = atlasTex != null ? DistrictBaker.AmplitudeGuid(atlasTex) ?? "" : "";
+        if (string.IsNullOrEmpty(cur.atlasGuid))
+            Debug.LogWarning($"[District] no baked atlas for '{cur.resourceName}' — the model will render untextured in-game (vanilla district shading).");
+
+        LoadPreviewAssets(force: true);   // fresh assets exist even if the registry save below fails
 
         // 3) registry entry
         bool saved = DistrictRegistry.Upsert(cur);
@@ -225,6 +259,145 @@ public class DistrictFactoryWindow : EditorWindow
                  "Check the FxMesh Inspector preview for orientation, then rebuild the mod + relaunch.";
         Debug.Log("[District] " + status);
         Selection.activeObject = AssetDatabase.LoadAssetAtPath<UnityEngine.Object>("Assets/Resources/" + cur.resourceName + "_FxMesh.asset");
+    }
+
+    // ---- embedded preview ----
+
+    void LoadPreviewAssets(bool force = false)
+    {
+        string res = (cur.resourceName ?? "").Trim();
+        if (!force && res == pvLoadedFor) return;
+        pvLoadedFor = res; pvMesh = null; pvMats = null; pvPan = Vector2.zero;
+        if (string.IsNullOrEmpty(res)) return;
+        // prefer the SHIPPED district mesh (bone-free, rotation offset baked in); fall back to the unit-style bake output
+        pvMesh = AssetDatabase.LoadAssetAtPath<Mesh>("Assets/Resources/" + res + "_DistrictMesh.asset")
+              ?? AssetDatabase.LoadAssetAtPath<Mesh>("Assets/Resources/" + res + "_ModelMesh.asset");
+        if (pvMesh == null) return;
+        // the static bake writes the atlased Standard material to Resources/<res>_Mat.mat — use it so the preview is
+        // textured; the FactorySource PreviewMat only exists for unit-path bakes of the same resource name
+        var mat = AssetDatabase.LoadAssetAtPath<Material>("Assets/Resources/" + res + "_Mat.mat")
+               ?? AssetDatabase.LoadAssetAtPath<Material>("Assets/FactorySource/" + res + "/" + res + "_PreviewMat.mat");
+        var mats = new Material[Mathf.Max(1, pvMesh.subMeshCount)];
+        for (int i = 0; i < mats.Length; i++) mats[i] = mat;   // null slots fall back at draw time (proper fake-null check there)
+        pvMats = mats;
+    }
+
+    void DrawPreviewPane()
+    {
+        EditorGUILayout.Space();
+        using (new EditorGUILayout.HorizontalScope())
+        {
+            EditorGUILayout.LabelField("Preview — predicts the in-game orientation", EditorStyles.miniBoldLabel);
+            if (GUILayout.Button("Refresh", GUILayout.Width(70))) LoadPreviewAssets(force: true);
+        }
+        LoadPreviewAssets();
+        if (pvMesh == null)
+        {
+            EditorGUILayout.HelpBox(string.IsNullOrWhiteSpace(cur.resourceName)
+                ? "Set a Resource name (or pick an existing entry) to preview its baked mesh."
+                : $"No baked mesh for '{cur.resourceName.Trim()}' yet — press Bake and the preview appears here.", MessageType.Info);
+            return;
+        }
+        // grow with the window: ~45% of its height so a tall dock gets a big viewport, never under 300px
+        var rect = GUILayoutUtility.GetRect(10f, Mathf.Max(300f, position.height * 0.45f), GUILayout.ExpandWidth(true));
+        DrawPreview(rect);
+        EditorGUILayout.LabelField($"{pvMesh.vertexCount} verts · ground square = one district tile (~10 across) at the in-game surface level · LMB orbit, wheel zoom, MMB/RMB pan", EditorStyles.miniLabel);
+        EditorGUILayout.LabelField("Import angles turn the preview LIVE (Bake writes them to the FxMesh). Rotation offset is baked into the mesh — re-Bake to see it.", EditorStyles.miniLabel);
+    }
+
+    void DrawPreview(Rect rect)
+    {
+        var e = Event.current;
+        if (rect.Contains(e.mousePosition))
+        {
+            if (e.type == EventType.ScrollWheel)
+            {
+                // consume the wheel HERE so the window's scroll view never sees it — this is the zoom
+                pvZoom = Mathf.Clamp(pvZoom * Mathf.Pow(1.12f, e.delta.y > 0 ? 1f : -1f), 0.2f, 5f);
+                e.Use(); Repaint();
+            }
+            else if (e.type == EventType.MouseDrag && e.button == 0)
+            {
+                pvOrbit += new Vector2(e.delta.x, -e.delta.y) * 0.7f;
+                pvOrbit.y = Mathf.Clamp(pvOrbit.y, -89f, 89f);
+                e.Use(); Repaint();
+            }
+            else if (e.type == EventType.MouseDrag && (e.button == 1 || e.button == 2))
+            {
+                pvPan += new Vector2(-e.delta.x, e.delta.y) * 0.0035f;   // pan in the camera plane, scaled by view distance at render time
+                e.Use(); Repaint();
+            }
+        }
+        if (e.type != EventType.Repaint) return;
+        if (pvMesh == null) { pvLoadedFor = null; return; }   // asset deleted under us (a re-bake) — reload on the next paint
+        if (pru == null) pru = new PreviewRenderUtility();
+        if (pvFallbackMat == null) pvFallbackMat = new Material(Shader.Find("Standard")) { hideFlags = HideFlags.HideAndDontSave };
+        if (pvTileMat == null)
+        {
+            pvTileMat = new Material(Shader.Find("Standard")) { hideFlags = HideFlags.HideAndDontSave, color = new Color(0.33f, 0.40f, 0.29f) };
+            pvTileMat.SetFloat("_Glossiness", 0f);
+        }
+        pru.BeginPreview(rect, GUIStyle.none);
+        // try/finally so a throw in DrawMesh/Render can never skip EndPreview (the "BeginPreview not closed" cascade)
+        Texture tex = null;
+        try
+        {
+            // the game's draw-time rotation, LIVE from the form field — dial the model upright right here
+            var mtx = Matrix4x4.Rotate(Quaternion.Euler(cur.importAngles));
+            var b = TransformBounds(mtx, pvMesh.bounds);
+            // the tile square is the TRUE in-game surface: the plane through the origin. It must NOT follow the model —
+            // anchoring it under the mesh's lowest point hid a half-sunk bake (the nuclear plant surfaced only its domes
+            // in-game while the preview looked grounded). A model below this plane previews sunk because it IS sunk.
+            var tileMtx = Matrix4x4.Translate(new Vector3(0f, -0.02f, 0f));
+            var frame = b; frame.Encapsulate(TransformBounds(tileMtx, TileMesh().bounds));
+
+            var cam = pru.camera;
+            float radius = Mathf.Max(frame.extents.magnitude, 0.1f);
+            float dist = radius * 2.0f * pvZoom;
+            var rot = Quaternion.Euler(-pvOrbit.y, pvOrbit.x, 0f);
+            var lookAt = frame.center + rot * new Vector3(pvPan.x, pvPan.y, 0f) * dist;
+            cam.transform.position = lookAt + rot * (Vector3.back * dist);
+            cam.transform.rotation = Quaternion.LookRotation(lookAt - cam.transform.position);
+            cam.nearClipPlane = 0.01f;
+            cam.farClipPlane = dist + radius * 4f;
+            cam.fieldOfView = 30f;
+            pru.lights[0].intensity = 1.3f;
+            pru.lights[0].transform.rotation = Quaternion.Euler(45f, 45f, 0f);
+            if (pru.lights.Length > 1) pru.lights[1].intensity = 0.6f;
+            pru.ambientColor = new Color(0.3f, 0.3f, 0.3f);
+
+            pru.DrawMesh(TileMesh(), tileMtx, pvTileMat, 0);
+            for (int s = 0; s < pvMesh.subMeshCount; s++)
+            {
+                var m = pvMats != null && pvMats.Length > 0 ? pvMats[Mathf.Min(s, pvMats.Length - 1)] : null;
+                if (m == null) m = pvFallbackMat;   // Unity fake-null too (the material asset dies on a re-bake)
+                pru.DrawMesh(pvMesh, mtx, m, s);
+            }
+            cam.Render();
+        }
+        finally { tex = pru.EndPreview(); }
+        if (tex != null) GUI.DrawTexture(rect, tex, ScaleMode.StretchToFill, false);
+    }
+
+    Mesh TileMesh()
+    {
+        if (pvTileMesh != null) return pvTileMesh;
+        pvTileMesh = new Mesh { name = "DistrictTilePreview", hideFlags = HideFlags.HideAndDontSave };
+        pvTileMesh.vertices = new[] { new Vector3(-5f, 0f, -5f), new Vector3(5f, 0f, -5f), new Vector3(5f, 0f, 5f), new Vector3(-5f, 0f, 5f) };
+        pvTileMesh.normals = new[] { Vector3.up, Vector3.up, Vector3.up, Vector3.up };
+        pvTileMesh.triangles = new[] { 0, 3, 2, 0, 2, 1 };
+        return pvTileMesh;
+    }
+
+    static Bounds TransformBounds(Matrix4x4 m, Bounds b)
+    {
+        var c = m.MultiplyPoint3x4(b.center);
+        var e = b.extents;
+        var ne = new Vector3(
+            Mathf.Abs(m.m00) * e.x + Mathf.Abs(m.m01) * e.y + Mathf.Abs(m.m02) * e.z,
+            Mathf.Abs(m.m10) * e.x + Mathf.Abs(m.m11) * e.y + Mathf.Abs(m.m12) * e.z,
+            Mathf.Abs(m.m20) * e.x + Mathf.Abs(m.m21) * e.y + Mathf.Abs(m.m22) * e.z);
+        return new Bounds(c, ne * 2f);
     }
 
     // Extension_Base_BreederReactor -> "BreederReactor". Suggested resource name.

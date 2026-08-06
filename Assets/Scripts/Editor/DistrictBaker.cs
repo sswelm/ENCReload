@@ -24,7 +24,8 @@ public static class DistrictBaker
     static Type[] SafeTypes(Assembly a) { try { return a.GetTypes(); } catch { return Array.Empty<Type>(); } }
 
     // "a,b,c,d" for an authored asset — same convention the unit registry uses (mirrors UniversalBaker.AmplitudeGuid).
-    static string AmplitudeGuid(UnityEngine.Object asset)
+    // Public: the District Factory also stamps the baked albedo atlas GUID into the registry (texture injection).
+    public static string AmplitudeGuid(UnityEngine.Object asset)
     {
         var adb = FindType("Amplitude.Framework.Asset.AssetDatabase");
         var g = adb?.GetMethod("GetAssetGUID", new[] { typeof(UnityEngine.Object) })?.Invoke(null, new object[] { asset });
@@ -37,7 +38,12 @@ public static class DistrictBaker
     // Prop Lab (pawn attachments), and the menu command below. Returns the FxMesh's Amplitude GUID "a,b,c,d", or null.
     // mergeSubMeshes: flatten a multi-material bake's submeshes into ONE — the pawn-fragment GPU encoder only draws
     // submesh 0 (a two-material sling rendered cords but no pouch). Safe post-atlas: all submeshes share the packed UVs.
-    public static string BakeFxMesh(Mesh mesh, string baseName, Vector3 importAngles, out string fxMeshPath, bool mergeSubMeshes = false)
+    // levelOnGround (DISTRICT paths only): the game plants the mesh by its ORIGIN at the tile surface and rotates it by
+    // importAngles at draw time — nothing re-grounds it, so a bake Rotation offset that changes which axis is "up" moves
+    // the model's bottom off the origin plane (the nuclear plant sank to its domes). Shift the vertices so that AFTER the
+    // importAngles rotation the lowest point sits at y=0 and the footprint is centered. NEVER for props/projectiles —
+    // their pivots are meaningful (props glue to hand bones; a projectile's mesh-Z welds to its velocity).
+    public static string BakeFxMesh(Mesh mesh, string baseName, Vector3 importAngles, out string fxMeshPath, bool mergeSubMeshes = false, bool levelOnGround = false)
     {
         fxMeshPath = null;
         if (mesh == null) { Debug.LogError("[District] BakeFxMesh: no mesh."); return null; }
@@ -47,8 +53,29 @@ public static class DistrictBaker
         // A unit static-bake rigs the mesh (boneWeights + bindposes) for its Skeleton. The DISTRICT path renders through a
         // STATIC shader that can't read a skinned vertex format — the mesh uploads but draws nothing. So build a bone-FREE
         // static copy (geometry only) and wrap THAT in the FxMesh. Keeps the original _ModelMesh intact for the unit path.
+        var verts = mesh.vertices;
+        if (levelOnGround && verts.Length > 0)
+        {
+            var R = Quaternion.Euler(importAngles);
+            var min = new Vector3(float.MaxValue, float.MaxValue, float.MaxValue);
+            var max = new Vector3(float.MinValue, float.MinValue, float.MinValue);
+            for (int i = 0; i < verts.Length; i++)
+            {
+                var w = R * verts[i];
+                min = Vector3.Min(min, w); max = Vector3.Max(max, w);
+            }
+            // desired shift in DRAWN space: footprint centered on the tile, bottom on the surface — applied to the
+            // stored vertices through the inverse rotation so the draw-time importAngles land it exactly there
+            var shift = new Vector3(-(min.x + max.x) * 0.5f, -min.y, -(min.z + max.z) * 0.5f);
+            if (shift.sqrMagnitude > 1e-10f)
+            {
+                var t = Quaternion.Inverse(R) * shift;
+                for (int i = 0; i < verts.Length; i++) verts[i] += t;
+                Debug.Log($"[District] {baseName}: leveled on the tile surface (drawn-space shift {shift})");
+            }
+        }
         var stat = new Mesh { name = baseName + "_DistrictMesh", indexFormat = mesh.indexFormat };
-        stat.SetVertices(mesh.vertices);
+        stat.SetVertices(verts);
         if (mesh.normals != null && mesh.normals.Length == mesh.vertexCount) stat.SetNormals(mesh.normals);
         if (mesh.uv != null && mesh.uv.Length == mesh.vertexCount) stat.SetUVs(0, mesh.uv);
         if (mesh.tangents != null && mesh.tangents.Length == mesh.vertexCount) stat.SetTangents(mesh.tangents);
@@ -104,7 +131,7 @@ public static class DistrictBaker
             return;
         }
         string baseName = mesh.name.Replace("_ModelMesh", "");
-        string guid = BakeFxMesh(mesh, baseName, new Vector3(-90f, 0f, 0f), out var path);
+        string guid = BakeFxMesh(mesh, baseName, new Vector3(-90f, 0f, 0f), out var path, levelOnGround: true);
         if (guid == null) return;
         EditorGUIUtility.systemCopyBuffer = guid;
         EditorUtility.DisplayDialog("District FxMesh baked",
