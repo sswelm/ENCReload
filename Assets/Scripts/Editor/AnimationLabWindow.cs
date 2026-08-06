@@ -732,22 +732,26 @@ public class AnimationLabWindow : EditorWindow
                         new StringDropdown(new AdvancedDropdownState(), labels, values, "Turret bone", p => { cur.turretBone = p; Repaint(); }).Show(r);
                     }
             }
-            cur.turretAxis = EditorGUILayout.IntPopup(new GUIContent("Turret aim axis",
-                "Which local axis the aim angle rotates the turret bone around. 'Default' = the game's axis (usually reads " +
-                "as PITCH — turns up). A vehicle TURRET wants its YAW axis (turns around); a mechanized HOWITZER/ARTILLERY " +
-                "barrel wants its PITCH axis (elevates). Try each to find it — RUNTIME-ONLY, Save (no bake) + relaunch."),
-                cur.turretAxis,
-                new[] { new GUIContent("Default (game aim)"), new GUIContent("Axis 0 (X)"), new GUIContent("Axis 1 (Y)"), new GUIContent("Axis 2 (Z)") },
-                new[] { -1, 0, 1, 2 });
-            // Muzzle bone — the donor's fire clip fires the muzzle-flash from ITS weapon socket, which is absent on our
-            // renamed rig, so the flash lands off-side. Redirect it to a bone of OURS (e.g. the turret/gun). Free text + Pick.
+            // aim axis only exists when there IS a turret bone (user: it should disappear when the bone is empty)
+            if (!string.IsNullOrWhiteSpace(cur.turretBone))
+                cur.turretAxis = EditorGUILayout.IntPopup(new GUIContent("Turret aim axis",
+                    "Which local axis the aim angle rotates the turret bone around. 'Default' = the game's axis (usually reads " +
+                    "as PITCH — turns up). A vehicle TURRET wants its YAW axis (turns around); a mechanized HOWITZER/ARTILLERY " +
+                    "barrel wants its PITCH axis (elevates). Try each to find it — RUNTIME-ONLY, Save (no bake) + relaunch."),
+                    cur.turretAxis,
+                    new[] { new GUIContent("Default (game aim)"), new GUIContent("Axis 0 (X)"), new GUIContent("Axis 1 (Y)"), new GUIContent("Axis 2 (Z)") },
+                    new[] { -1, 0, 1, 2 });
+            // GUN vs TURRET distinction (user design, 2026-08-06): a TURRET yaws at targets (Turret bone above —
+            // and declares the vehicle turreted for category turn ease); a fixed GUN aims with the hull and only
+            // ELEVATES. Name the gun FIRST, then tune its elevation (user: identifier above modifier).
             using (new EditorGUILayout.HorizontalScope())
             {
-                cur.muzzleBone = EditorGUILayout.TextField(new GUIContent("Muzzle bone (flash fires from)",
-                    "MUZZLE-RELOCATE: bone-name SUBSTRING the weapon muzzle-flash should fire FROM — use Pick, or type e.g. " +
-                    "'Turret'. The donor's fire clip names ITS own weapon socket (an AA gun's 'Canon'), which our renamed rig " +
-                    "lacks, so the flash lands off-side; the plugin redirects it to THIS bone. Empty = leave vanilla. " +
-                    "RUNTIME-ONLY — Save (no bake) + relaunch."),
+                cur.muzzleBone = EditorGUILayout.TextField(new GUIContent("Gun bone (flash + elevation)",
+                    "THE GUN: bone-name SUBSTRING of the model's weapon — use Pick, or type e.g. 'Gun'. The muzzle flash " +
+                    "fires from it (the donor's fire clip names ITS own socket, absent on our renamed rig, so the flash " +
+                    "lands off-side without this), and Gun elevation raises it when no Turret bone is set. A fixed gun " +
+                    "(casemate/assault gun) needs ONLY this + elevation — leave Turret bone empty. Empty = leave vanilla. " +
+                    "RUNTIME-ONLY — Save (no bake) + relaunch. (Stored as muzzleBone in the registry.)"),
                     cur.muzzleBone ?? "");
                 using (new EditorGUI.DisabledScope(animBonePrefixes.Count == 0))
                     if (GUILayout.Button(new GUIContent("Pick", animBonePrefixes.Count == 0 ? "No bones readable from this model (glb/gltf only) — type the name" : null), GUILayout.Width(70)))
@@ -755,8 +759,31 @@ public class AnimationLabWindow : EditorWindow
                         var r = GUILayoutUtility.GetLastRect();
                         var labels = animBonePrefixes.Select(kv => $"{kv.Key}  ({kv.Value} part{(kv.Value == 1 ? "" : "s")})").ToArray();
                         var values = animBonePrefixes.Select(kv => kv.Key).ToArray();
-                        new StringDropdown(new AdvancedDropdownState(), labels, values, "Muzzle bone", p => { cur.muzzleBone = p; Repaint(); }).Show(r);
+                        new StringDropdown(new AdvancedDropdownState(), labels, values, "Gun bone", p => { cur.muzzleBone = p; Repaint(); }).Show(r);
                     }
+            }
+            cur.gunElevMax = EditorGUILayout.Slider(new GUIContent("Gun elevation — max (deg)",
+                "Raise the gun barrel during a bombard, PROPORTIONAL TO TARGET DISTANCE up to this max angle (full at " +
+                "~3 tiles): a short lob barely lifts, a max-range shot elevates fully — rising while the hull turns, held " +
+                "through the shot, lowered after. Applies to the Turret bone if set, else the Gun bone below. 0 = off; " +
+                "negative if the barrel dips the wrong way. RUNTIME-ONLY — Save (no bake) + relaunch."),
+                cur.gunElevMax, -60f, 60f);
+            // axis only exists once an elevation is set (same rule as the turret axis; != 0 because a NEGATIVE
+            // max is a valid configuration — it flips the raise direction)
+            if (cur.gunElevMax != 0f)
+                cur.gunElevAxis = EditorGUILayout.IntPopup(new GUIContent("   Elevation axis",
+                    "The gun bone's local PITCH axis (which axis raises the barrel). Usually X; try each if it swings sideways."),
+                    cur.gunElevAxis,
+                    new[] { new GUIContent("Axis 0 (X)"), new GUIContent("Axis 1 (Y)"), new GUIContent("Axis 2 (Z)") },
+                    new[] { 0, 1, 2 });
+            // name the bone the elevation will actually move, so "how does it know what's the gun?" answers itself
+            if (cur.gunElevMax != 0f)
+            {
+                bool viaTurret = !string.IsNullOrWhiteSpace(cur.turretBone);
+                string gunBone = viaTurret ? cur.turretBone : cur.muzzleBone;
+                EditorGUILayout.HelpBox(string.IsNullOrWhiteSpace(gunBone)
+                    ? "No gun bone: set the Muzzle bone (fixed gun) or a Turret bone — elevation has nothing to move."
+                    : $"Elevates bone '{gunBone}' (from the {(viaTurret ? "Turret bone" : "Gun bone")}).", MessageType.None);
             }
             // Donor sockets — the BAKE-TIME endgame for donor-anchored fire effects: bake EXACT-NAMED donor socket
             // bones onto our rig so the game's own lookups (flash, launch smoke, projectile origin) resolve natively.
@@ -772,14 +799,18 @@ public class AnimationLabWindow : EditorWindow
                 if (GUILayout.Button(new GUIContent("Edit…", "Guided mapping: link the donor's logged hardpoints to your model's bones (with optional offsets) instead of hand-writing the spec."), GUILayout.Width(70)))
                     SocketBonesDialog.Open(cur.socketBones, cur.pawnDescription, animBoneNames, s => { cur.socketBones = s; Repaint(); });
             }
-            // Muzzle offset — the runtime world-space dial that finished the ArmouredCar: iterate value -> relaunch,
-            // no bake, no mod rebuild (the plugin reads the pack registry directly at launch). Three separate float
-            // fields in the UI; the registry keeps the plugin's "x,y,z" string (empty when all zero).
+            // Muzzle offset — the runtime dial that finished the ArmouredCar: iterate value -> relaunch, no bake,
+            // no mod rebuild (the plugin reads the pack registry directly at launch). BONE-LOCAL since 2026-08-06:
+            // rotated by the gun bone's live rotation (aim + elevation), so a forward Z rides the barrel as the
+            // hull turns. Three separate float fields in the UI; the registry keeps the plugin's "x,y,z" string.
             var muzzleOff = ParseCsvVec3(cur.muzzleOffset);
-            var muzzleOffNew = EditorGUILayout.Vector3Field(new GUIContent("Muzzle offset (world)",
-                "RUNTIME dial: world-units added to the pinned fire origin (muzzle flash + tracer start). The fix when a " +
-                "rig's gun-bone head sits somewhere unhelpful (the Ehrhardt's is at the model base -> Y 2.6 lifted the " +
-                "flash onto the turret gun). Y = up. Judge from the [Muzzle] pin log's T= height vs pawnWorld. All zero = off. " +
+            var muzzleOffNew = EditorGUILayout.Vector3Field(new GUIContent("Muzzle offset (gun-local X,Y,Z)",
+                "RUNTIME dial: offset added to the pinned fire origin (muzzle flash, tracer AND smoke), in the GUN BONE'S " +
+                "OWN axes — it rotates with the aim and elevation, so once dialed it stays on the barrel end at every " +
+                "facing. WHICH axis is 'along the barrel' depends on the rig's bone frames: Unity-convention rigs often " +
+                "use Z, CONVERTED (Blender-style) rigs often X — dial one axis at a time and watch which way the flash " +
+                "moves (the Jagdpanzer landed on X=2 forward, Y=1 up). Same warning for the Elevation axis: pick the " +
+                "axis PERPENDICULAR to the barrel, or the 'elevation' is an invisible roll. All zero = off. " +
                 "Save (no bake) + relaunch per iteration — no re-bake, no mod rebuild."),
                 muzzleOff);
             if (muzzleOffNew != muzzleOff)
@@ -1028,7 +1059,7 @@ public class AnimationLabWindow : EditorWindow
         cur.deployConvert = mine.deployConvert; cur.deployStart = mine.deployStart; cur.deployEnd = mine.deployEnd;
         cur.deployStrip = mine.deployStrip; cur.deployStripExtra = mine.deployStripExtra; cur.deployReadyFrame = mine.deployReadyFrame; cur.deployLegScale = mine.deployLegScale; cur.deployBarrelScale = mine.deployBarrelScale;
         cur.deployRecoil = mine.deployRecoil; cur.deployRecoilStep = mine.deployRecoilStep; cur.deployRecoilMag = mine.deployRecoilMag; cur.deployArcR = mine.deployArcR; cur.deployRecoilReturn = mine.deployRecoilReturn; cur.deploySlamDeg = mine.deploySlamDeg; cur.deploySlamSettle = mine.deploySlamSettle;
-        cur.animStateDriven = mine.animStateDriven; cur.animClipMove = mine.animClipMove; cur.animClipAfter = mine.animClipAfter; cur.animClipAttack = mine.animClipAttack; cur.animClipCombat = mine.animClipCombat; cur.animClipPreMove = mine.animClipPreMove; cur.animClipIdle = mine.animClipIdle; cur.animClipIdleAlt = mine.animClipIdleAlt; cur.animClipIdleAlt2 = mine.animClipIdleAlt2; cur.idleAltInterval = mine.idleAltInterval; cur.animPhaseSpread = mine.animPhaseSpread; cur.attackRepeats = mine.attackRepeats; cur.clearAimLayer = mine.clearAimLayer; cur.turretBone = mine.turretBone; cur.turretAxis = mine.turretAxis; cur.muzzleBone = mine.muzzleBone; cur.muzzleOffset = mine.muzzleOffset; cur.socketBones = mine.socketBones; cur.disabled = mine.disabled; cur.bakeLocked = mine.bakeLocked;
+        cur.animStateDriven = mine.animStateDriven; cur.animClipMove = mine.animClipMove; cur.animClipAfter = mine.animClipAfter; cur.animClipAttack = mine.animClipAttack; cur.animClipCombat = mine.animClipCombat; cur.animClipPreMove = mine.animClipPreMove; cur.animClipIdle = mine.animClipIdle; cur.animClipIdleAlt = mine.animClipIdleAlt; cur.animClipIdleAlt2 = mine.animClipIdleAlt2; cur.idleAltInterval = mine.idleAltInterval; cur.animPhaseSpread = mine.animPhaseSpread; cur.attackRepeats = mine.attackRepeats; cur.clearAimLayer = mine.clearAimLayer; cur.turretBone = mine.turretBone; cur.turretAxis = mine.turretAxis; cur.gunElevMax = mine.gunElevMax; cur.gunElevAxis = mine.gunElevAxis; cur.muzzleBone = mine.muzzleBone; cur.muzzleOffset = mine.muzzleOffset; cur.socketBones = mine.socketBones; cur.disabled = mine.disabled; cur.bakeLocked = mine.bakeLocked;
         cur.handPropName = mine.handPropName; cur.handPropGuid = mine.handPropGuid; cur.handPropMat = mine.handPropMat; cur.handPropBone = mine.handPropBone;
         cur.handPropAngles = mine.handPropAngles;   // Lab-owned again since the LIVE fit knob edits it ('Save rotation to game')
         cur.fireOnAttack = mine.fireOnAttack; cur.deployOnStop = mine.deployOnStop;
