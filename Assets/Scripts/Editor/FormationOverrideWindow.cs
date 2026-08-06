@@ -413,6 +413,8 @@ public class FormationOverrideWindow : EditorWindow
                 : "Set Unit and Formation to save.", MessageType.Warning);
         if (!string.IsNullOrEmpty(status)) EditorGUILayout.HelpBox(status, MessageType.Info);
 
+        DrawTurnEaseDefaults();
+
         EditorGUILayout.HelpBox(
             "Workflow: extract a vanilla formation into Assets/Databases/UnitFormation (Database Browser), duplicate + edit it in the " +
             "Inspector (the SDK preview shows the layout), then Pick it here, Pick the unit, Save. No mod rebuild needed — the plugin " +
@@ -504,6 +506,111 @@ public class FormationOverrideWindow : EditorWindow
             return true;
         }
         return false;
+    }
+
+    // ---- TURN EASE DEFAULTS (docs/Turn-Ease.md): the per-TYPE global rates the plugin reads live off
+    // BepInEx/config/enc_turnease.txt (~1/s poll — edits reach a RUNNING game within a second, no rebuild).
+    // This window is HAF's per-unit config surface, so the type-level defaults live here too; the per-link
+    // Turn ease row above overrides its unit, and a model's own Factory value overrides everything.
+    // The editor OWNS the file format: Save rewrites the canonical commented template with these values. ----
+    [SerializeField] float teHuman, teLand = 180f, teTurret = 180f, teHover = 180f, teShip = 90f, teRate, teBank;
+    [SerializeField] float teHoverBank = 6f, teShipBank = 3f;   // per-category bank: a chopper banks, a ship heels
+    [SerializeField] bool teLoaded;
+    static string TurnEasePath => System.IO.Path.Combine(ModelRegistry.ConfigDir, "enc_turnease.txt");
+
+    void LoadTurnEase()
+    {
+        teLoaded = true;
+        try
+        {
+            if (!System.IO.File.Exists(TurnEasePath)) return;   // keep the seeded defaults
+            foreach (var raw in System.IO.File.ReadAllLines(TurnEasePath))
+            {
+                var line = raw.Trim();
+                if (line.Length == 0 || line.StartsWith("#")) continue;
+                var eq = line.Split('=');
+                if (eq.Length != 2 || !float.TryParse(eq[1].Trim(), System.Globalization.NumberStyles.Float,
+                    System.Globalization.CultureInfo.InvariantCulture, out var v)) continue;
+                switch (eq[0].Trim().ToLowerInvariant())
+                {
+                    case "human": teHuman = v; break;
+                    case "land": teLand = v; break;
+                    case "turret": teTurret = v; break;
+                    case "hover": case "air": teHover = v; break;   // "air" = legacy alias — planes are always excluded
+                    case "hoverbank": teHoverBank = v; break;
+                    case "shipbank": teShipBank = v; break;
+                    case "ship": teShip = v; break;
+                    case "rate": teRate = v; break;
+                    case "bank": teBank = v; break;
+                }
+            }
+        }
+        catch (Exception e) { Debug.LogWarning("[Formation] enc_turnease.txt read: " + e.Message); }
+    }
+
+    void SaveTurnEase()
+    {
+        var ic = System.Globalization.CultureInfo.InvariantCulture;
+        var txt =
+            "# Turn ease — smooth the facing SNAP (move orders AND map attacks) into an eased turn. docs/Turn-Ease.md.\n" +
+            "# Written by the Formation Override window (Turn ease defaults); polled ~1x/s by HAF — edits apply to a\n" +
+            "# running game within a second, no rebuild.\n" +
+            "#\n" +
+            "# PRECEDENCE: a model's own Factory value > its CATEGORY default below > the global `rate`.\n" +
+            "#\n" +
+            "# CATEGORY DEFAULTS (deg/s, 0 = that type keeps the vanilla snap). Classified by CHARACTERISTIC,\n" +
+            "# applies to HAF models AND vanilla units:\n" +
+            "#   human  = infantry, cavalry, chariots, animals (organic capability profiles)\n" +
+            "#   land   = turretless land vehicles (towed guns, assault guns, carts)\n" +
+            "#   turret = land vehicles WITH a traversing turret (azimuth transforms, learned from live pawns)\n" +
+            "#   hover  = units with the game's Hover ability — ignores terrain (helicopters, hovercraft)\n" +
+            "#   ship   = boats and ships\n" +
+            "# Fixed-wing PLANES and missiles are always excluded — the engine flies them on natural curved paths.\n" +
+            "# hoverbank / shipbank = max roll INTO the turn per category, degrees — a chopper banks, a ship heels\n" +
+            "# rate   = last-resort global for anything uncategorized (0 = off; never touches planes)\n" +
+            "# bank   = legacy/fallback bank for rate-eased models (per-model bank wins over everything)\n" +
+            "human=" + teHuman.ToString("0.#", ic) + "\n" +
+            "land=" + teLand.ToString("0.#", ic) + "\n" +
+            "turret=" + teTurret.ToString("0.#", ic) + "\n" +
+            "hover=" + teHover.ToString("0.#", ic) + "\n" +
+            "hoverbank=" + teHoverBank.ToString("0.#", ic) + "\n" +
+            "shipbank=" + teShipBank.ToString("0.#", ic) + "\n" +
+            "ship=" + teShip.ToString("0.#", ic) + "\n" +
+            "rate=" + teRate.ToString("0.#", ic) + "\n" +
+            "bank=" + teBank.ToString("0.#", ic) + "\n";
+        try
+        {
+            System.IO.Directory.CreateDirectory(ModelRegistry.ConfigDir);
+            System.IO.File.WriteAllText(TurnEasePath, txt);
+            status = "Turn ease defaults saved — a running game picks them up within a second.";
+        }
+        catch (Exception e) { status = "Turn ease defaults NOT saved: " + e.Message; Debug.LogError("[Formation] " + status); }
+    }
+
+    void DrawTurnEaseDefaults()
+    {
+        if (!teLoaded) LoadTurnEase();
+        EditorGUILayout.Space();
+        EditorGUILayout.LabelField("Turn ease defaults — by unit type (all units, live)", EditorStyles.miniBoldLabel);
+        EditorGUILayout.HelpBox(
+            "Global defaults per unit TYPE, degrees/second (0 = that type keeps the vanilla snap). Applies to HAF models " +
+            "AND vanilla units. Precedence: a model's own Factory value > these category defaults > the Fallback rate. " +
+            "The per-link Turn ease row above overrides just its unit. Saved to enc_turnease.txt — a running game reacts " +
+            "within a second.", MessageType.None);
+        teHuman = EditorGUILayout.Slider(new GUIContent("Human", "Infantry, cavalry, chariots, animals. These pivot naturally in vanilla — 0 (off) is a good default."), teHuman, 0f, 720f);
+        teLand = EditorGUILayout.Slider(new GUIContent("Land vehicle (no turret)", "Towed guns, assault guns, carts — the whole hull must pivot to aim."), teLand, 0f, 720f);
+        teTurret = EditorGUILayout.Slider(new GUIContent("Land vehicle (turret)", "Tanks and other vehicles with a traversing turret — detected from live pawns (needs a different value than the turretless rate to matter)."), teTurret, 0f, 720f);
+        teHover = EditorGUILayout.Slider(new GUIContent("Hover", "Units with the game's Hover ability — they ignore terrain: helicopters, hovercraft. Fixed-wing PLANES are always excluded (the engine flies them on natural curved paths)."), teHover, 0f, 720f);
+        teHoverBank = EditorGUILayout.Slider(new GUIContent("   Hover bank (deg)", "Roll INTO the turn for Hover units — a helicopter leaning through its sweep. A model's own Factory bank wins."), teHoverBank, -30f, 30f);
+        teShip = EditorGUILayout.Slider(new GUIContent("Ship", "Boats and ships — low values read as stately."), teShip, 0f, 720f);
+        teShipBank = EditorGUILayout.Slider(new GUIContent("   Ship heel (deg)", "Roll INTO the turn for ships — a subtle heel (2-4) sells the water; 0 = flat. A model's own Factory bank wins."), teShipBank, -30f, 30f);
+        teRate = EditorGUILayout.Slider(new GUIContent("   Fallback rate (uncategorized)", "Last-resort global for anything without a category; 0 = off. Prefer the categories above."), teRate, 0f, 720f);
+        teBank = EditorGUILayout.Slider(new GUIContent("   Fallback bank (deg)", "Bank for models eased by the Fallback rate only (categories use their own bank above)."), teBank, -30f, 30f);
+        using (new EditorGUILayout.HorizontalScope())
+        {
+            if (GUILayout.Button("Save turn ease defaults", GUILayout.Width(180))) SaveTurnEase();
+            if (GUILayout.Button("Reload", GUILayout.Width(70))) LoadTurnEase();
+        }
     }
 
     // The formation a unit CURRENTLY references, read off its PresentationUnitDefinition asset — the same
