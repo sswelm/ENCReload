@@ -266,6 +266,11 @@ public class DistrictFactoryWindow : EditorWindow
         cur.atlasGuid = atlasTex != null ? DistrictBaker.AmplitudeGuid(atlasTex) ?? "" : "";
         if (string.IsNullOrEmpty(cur.atlasGuid))
             Debug.LogWarning($"[District] no baked atlas for '{cur.resourceName}' — the model will render untextured in-game (vanilla district shading).");
+        // surface-map atlases (normal/roughness packed with the same rects — empty when the model shipped none)
+        var nrmTex = AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/Resources/" + cur.resourceName + "_NormalAtlas.asset");
+        cur.normalAtlasGuid = nrmTex != null ? DistrictBaker.AmplitudeGuid(nrmTex) ?? "" : "";
+        var rghTex = AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/Resources/" + cur.resourceName + "_RoughAtlas.asset");
+        cur.roughAtlasGuid = rghTex != null ? DistrictBaker.AmplitudeGuid(rghTex) ?? "" : "";
 
         LoadPreviewAssets(force: true);   // fresh assets exist even if the registry save below fails
 

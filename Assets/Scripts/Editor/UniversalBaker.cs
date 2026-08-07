@@ -778,6 +778,127 @@ public static class UniversalBaker
         catch (Exception e) { Debug.LogWarning("[Factory] preview prefab: " + e.Message); }
     }
 
+    // ---- SURFACE-MAP ATLASES (v1, the temple arc — docs/Wonder-Spike.md) --------------------------------------------
+    // The albedo often isn't where a PBR model keeps its beauty (the temple's wall albedo is pure white; the marble is
+    // 879 KB of normal map). Pack the source's normal/roughness sheets with the SAME rects as the albedo atlas, so the
+    // remapped UVs index them for free. v1 source: a "Textures/" folder next to the model file holding
+    // "<Material>_Normal.png" / "<Material>_Roughness.png" (the Sketchfab original-format layout); materials without a
+    // file keep the neutral fill. Outputs (Assets/Resources/):
+    //   <name>_NormalAtlas   — standard-RGB tangent normals, DXT5 (the game's district shader; encoding empirical)
+    //   <name>_RoughAtlas    — roughness, DXT1
+    //   <name>_NormalAtlasPrev — DXT5nm-swizzled copy (x->A, y->G) for the STANDARD-shader editor preview material
+    static void BuildSurfaceAtlases(string name, BakeConfig cfg, List<Material> matList, Rect[] rects, int w, int h)
+    {
+        try
+        {
+            if (rects == null || matList == null || w <= 0 || h <= 0) return;
+            string texDir = Path.Combine(Path.GetDirectoryName(cfg.modelFile ?? "") ?? "", "Textures");
+            if (!Directory.Exists(texDir)) { Debug.Log($"[Factory] {name}: no Textures/ folder next to the model — surface atlases skipped."); return; }
+
+            var normal = FilledTex(w, h, new Color32(128, 128, 255, 255));   // flat tangent normal
+            var rough = FilledTex(w, h, new Color32(140, 140, 140, 255));    // matte
+            int found = 0;
+            for (int i = 0; i < matList.Count && i < rects.Length; i++)
+            {
+                string clean = System.Text.RegularExpressions.Regex.Replace(matList[i] != null ? matList[i].name : "", @"^mat\d+_", "");
+                if (BlitFileIntoRect(Path.Combine(texDir, clean + "_Normal.png"), normal, rects[i])) found++;
+                BlitFileIntoRect(Path.Combine(texDir, clean + "_Roughness.png"), rough, rects[i]);
+            }
+            if (found == 0)
+            {
+                Debug.Log($"[Factory] {name}: Textures/ has no matching *_Normal.png — surface atlases skipped.");
+                UnityEngine.Object.DestroyImmediate(normal); UnityEngine.Object.DestroyImmediate(rough);
+                return;
+            }
+
+            // RELIEF CALIBRATION baked into the data (user-verified: full-strength read as chaos on dense maps, ~1/3
+            // reads as believable stone): every pixel lerped toward flat by the same factor, so the PREVIEW (scale 1)
+            // and the GAME (no scale knob on its shader) show the identical calmed relief — WYSIWYG by construction.
+            const float ReliefStrength = 0.35f;
+            {
+                var np = normal.GetPixels32();
+                for (int i = 0; i < np.Length; i++)
+                {
+                    np[i].r = (byte)(128 + (np[i].r - 128) * ReliefStrength);
+                    np[i].g = (byte)(128 + (np[i].g - 128) * ReliefStrength);
+                    np[i].b = (byte)(255 + (np[i].b - 255) * ReliefStrength);
+                }
+                normal.SetPixels32(np);
+            }
+
+            // GROUND-TRUTH DUMP (debug): the packed normal sheet as a plain PNG, pre-compression — inspectable in any
+            // image viewer and statistically analyzable, bypassing the Inspector's preview cache entirely.
+            try
+            {
+                string dbgDir = "Assets/FactorySource/" + name;
+                if (Directory.Exists(dbgDir))
+                    File.WriteAllBytes(Path.Combine(dbgDir, name + "_dbg_normalatlas.png"), normal.EncodeToPNG());
+            }
+            catch { }
+
+            // preview swizzle FIRST (needs the raw pixels): Unity Standard's desktop UnpackNormal reads DXT5nm (x=A, y=G).
+            // GREEN INVERTED (A/B-convicted in the preview): the source maps are DirectX-Y (green down); un-flipped they
+            // lit every bump as a dent — the exact "corrupt" look from the in-game incident, reproduced and cured here.
+            var raw = normal.GetPixels32();
+            var prev = new Texture2D(w, h, TextureFormat.RGBA32, true) { name = name + "_NormalAtlasPrev" };
+            var sw = new Color32[raw.Length];
+            for (int i = 0; i < raw.Length; i++) sw[i] = new Color32(255, (byte)(255 - raw[i].g), 255, raw[i].r);
+            prev.SetPixels32(sw); prev.Apply(true);
+            EditorUtility.CompressTexture(prev, TextureFormat.DXT5, TextureCompressionQuality.Normal);
+
+            normal.Apply(true); EditorUtility.CompressTexture(normal, TextureFormat.DXT5, TextureCompressionQuality.Normal);
+            rough.Apply(true); EditorUtility.CompressTexture(rough, TextureFormat.DXT1, TextureCompressionQuality.Normal);
+            foreach (var pair in new[] { (tex: normal, sfx: "_NormalAtlas"), (tex: rough, sfx: "_RoughAtlas"), (tex: prev, sfx: "_NormalAtlasPrev") })
+            {
+                string p = "Assets/Resources/" + name + pair.sfx + ".asset";
+                AssetDatabase.DeleteAsset(p);
+                pair.tex.name = name + pair.sfx;
+                AssetDatabase.CreateAsset(pair.tex, p);
+            }
+            Debug.Log($"[Factory] {name}: surface atlases packed ({found}/{matList.Count} materials had maps) -> _NormalAtlas / _RoughAtlas (+ preview swizzle)");
+        }
+        catch (Exception e) { Debug.LogWarning("[Factory] surface atlases: " + e.Message); }
+    }
+
+    static Texture2D FilledTex(int w, int h, Color32 c)
+    {
+        var t = new Texture2D(w, h, TextureFormat.RGBA32, true);
+        var px = new Color32[w * h]; for (int i = 0; i < px.Length; i++) px[i] = c;
+        t.SetPixels32(px);
+        return t;
+    }
+
+    // Load a PNG (any size, readable via LoadImage) and AREA-AVERAGE it into the atlas rect (normalized).
+    // A single bilinear tap per destination pixel ALIASES high-frequency content into rainbow static (the temple's
+    // dense normal maps, measured) — each destination pixel must average its whole source box, like a mip chain would.
+    static bool BlitFileIntoRect(string file, Texture2D atlas, Rect r)
+    {
+        if (!File.Exists(file)) return false;
+        var src = new Texture2D(2, 2, TextureFormat.RGBA32, false);
+        if (!src.LoadImage(File.ReadAllBytes(file))) { UnityEngine.Object.DestroyImmediate(src); return false; }
+        int x0 = Mathf.RoundToInt(r.x * atlas.width), y0 = Mathf.RoundToInt(r.y * atlas.height);
+        int rw = Mathf.Max(1, Mathf.RoundToInt(r.width * atlas.width)), rh = Mathf.Max(1, Mathf.RoundToInt(r.height * atlas.height));
+        var sp = src.GetPixels32();
+        int sw2 = src.width, sh2 = src.height;
+        var dst = new Color32[rw * rh];
+        for (int y = 0; y < rh; y++)
+        {
+            int sy0 = y * sh2 / rh, sy1 = Mathf.Max(sy0 + 1, (y + 1) * sh2 / rh);
+            for (int x = 0; x < rw; x++)
+            {
+                int sx0 = x * sw2 / rw, sx1 = Mathf.Max(sx0 + 1, (x + 1) * sw2 / rw);
+                long rSum = 0, gSum = 0, bSum = 0, aSum = 0; int n = 0;
+                for (int sy = sy0; sy < sy1; sy++)
+                    for (int sx = sx0; sx < sx1; sx++)
+                    { var c = sp[sy * sw2 + sx]; rSum += c.r; gSum += c.g; bSum += c.b; aSum += c.a; n++; }
+                dst[y * rw + x] = new Color32((byte)(rSum / n), (byte)(gSum / n), (byte)(bSum / n), (byte)(aSum / n));
+            }
+        }
+        atlas.SetPixels32(x0, y0, rw, rh, dst);
+        UnityEngine.Object.DestroyImmediate(src);
+        return true;
+    }
+
     // Blender: slim a rigged/animated model into a decimated FBX that keeps its armature + one clip (Tools/rig_anim.py).
     // `rotation` (degrees; x = pitch/stand-up, y = heading, z = roll) is baked INTO THE RIG — the game orients animated
     // units by the rig, so a rig that round-trips lying down (the Combine soldier) can only be fixed here, at bake time.
@@ -1173,6 +1294,7 @@ public static class UniversalBaker
         // skin) on a re-bake -- the same in-place-overwrite trap the mesh/prefab/skeleton delete-first block below fixes.
         AssetDatabase.DeleteAsset("Assets/Resources/" + name + "_Atlas.asset");
         AssetDatabase.CreateAsset(atlas, "Assets/Resources/" + name + "_Atlas.asset");
+        if (multiMat) BuildSurfaceAtlases(name, cfg, matList, atlasRects, atlas.width, atlas.height);   // normal/roughness packed with the SAME rects (docs/Wonder-Spike.md)
 
         // --- 5) Faceted shading: unweld so each triangle gets its own face normal ---
         if (cfg.normals == NormalsMode.Faceted)
@@ -1214,6 +1336,17 @@ public static class UniversalBaker
 
         var mat = new Material(Shader.Find("Standard")) { name = name + "_Mat", mainTexture = atlas };
         mat.SetFloat("_Glossiness", 0f); mat.SetFloat("_Metallic", 0f);   // matte (Standard defaults to 0.5 smoothness -> glossy on dark textures, e.g. tyres)
+        // surface-map atlases (when packed above): the swizzled PREVIEW variant (never the game-RGB _NormalAtlas — the
+        // Standard shader decodes the swizzle) at a calibrated scale. Full strength read as chaos on the dense temple
+        // maps (user-verified: fine at low scale, "crap" at 1.0 after every re-bake reset) — 0.35 is the shipped
+        // default; taste-tune the Normal Map scale on <name>_Mat freely, the next Bake restores 0.35.
+        var bumpPrev = AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/Resources/" + name + "_NormalAtlasPrev.asset");
+        if (bumpPrev != null)
+        {
+            mat.SetTexture("_BumpMap", bumpPrev);   // the swizzled PREVIEW variant — relief strength is baked into the data
+            mat.EnableKeyword("_NORMALMAP");
+            Debug.Log($"[Factory] {name} preview bump bound: {bumpPrev.name} (relief baked at 35%)");
+        }
         AssetDatabase.CreateAsset(mat, "Assets/Resources/" + name + "_Mat.mat");
 
         var meshGO = new GameObject("Unit_" + name); meshGO.transform.SetParent(root.transform);
