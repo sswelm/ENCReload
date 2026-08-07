@@ -111,30 +111,37 @@ public class ModelFactoryWindow : EditorWindow
         previewDraws = null;   // drop the old draw list; keep the PRU alive for reuse (it's cleaned on reload/close)
         previewFor = name ?? "";
         if (string.IsNullOrEmpty(name)) return;
-        // The animated preview companion lives in FactorySource (bake INPUT, not shipped), NOT Resources — see
-        // GeneratePreviewPrefab. The static _Model.prefab is a shipped OUTPUT and stays in Resources root.
-        // (A short-lived unification previewed animated entries from the REST-POSE anim FBX here, like the Animation
-        // Lab — faithful and grounded, but its post-bake force-reimport of that FBX corrupted the Lab's preview
-        // texture on tiling-UV rigs. REVERTED on user request: the Factory shows the display-flipped prefab for
-        // animated entries and points at the Lab for the faithful view. Root-cause the reimport scramble before
-        // re-attempting.)
+        // ANIMATED entries preview the REST-POSE rig FBX — the same source the Animation Lab previews: upright,
+        // faithful (the rest pose IS what the game composes) and grounded at the origin. READ-ONLY: the FBX is NEVER
+        // force-reimported here — attempt #1 did, post-bake, and that reimport scrambled the Lab's preview texture on
+        // tiling-UV rigs (see animlab notes); the FBX needs no reimport insurance anyway, every animated bake
+        // regenerates it from scratch. The old display-flipped <name>_Preview.prefab is only a fallback for entries
+        // whose rig FBX is gone; the static _Model.prefab is a shipped OUTPUT and stays in Resources root.
+        string animFbx = "Assets/FactorySource/" + name + "/anim/" + name + "_anim.fbx";
         string animPath = "Assets/FactorySource/" + name + "/" + name + "_Preview.prefab";
         string staticPath = "Assets/Resources/" + name + "_Model.prefab";
-        string path = AssetDatabase.LoadMainAssetAtPath(animPath) != null ? animPath
+        string path = AssetDatabase.LoadMainAssetAtPath(animFbx) != null ? animFbx
+                    : AssetDatabase.LoadMainAssetAtPath(animPath) != null ? animPath
                     : AssetDatabase.LoadMainAssetAtPath(staticPath) != null ? staticPath : null;
         if (path == null) return;
-        previewGrounded = path == staticPath;   // see the field comment — game-space previews only
+        previewGrounded = path == staticPath || path == animFbx;   // game-space previews only (see the field comment)
         if (forceReimport)
             foreach (var dep in new[] { "Assets/Resources/" + name + "_ModelMesh.asset", path })
-                if (AssetDatabase.LoadMainAssetAtPath(dep) != null)
+                if (dep != animFbx && AssetDatabase.LoadMainAssetAtPath(dep) != null)   // NEVER the FBX — see above
                     AssetDatabase.ImportAsset(dep, ImportAssetOptions.ForceUpdate | ImportAssetOptions.ForceSynchronousImport);
         var go = AssetDatabase.LoadAssetAtPath<GameObject>(path);
-        if (go != null) BuildDrawList(go);
+        // the rig FBX's own imported materials are grey stand-ins — texture it with the bake's atlas material, exactly
+        // like the Animation Lab's fit preview does (tiling UVs render fine: the texture wraps, same as in-game)
+        var over = path == animFbx
+            ? AssetDatabase.LoadAssetAtPath<Material>("Assets/FactorySource/" + name + "/" + name + "_PreviewMat.mat")
+            : null;
+        if (go != null) BuildDrawList(go, over);
     }
 
     // Flatten the baked prefab's renderers into a draw list + combined bounds for the PreviewRenderUtility (same
-    // approach as the Animation Lab fit preview). The prefab's shared materials already carry the baked atlas.
-    void BuildDrawList(GameObject go)
+    // approach as the Animation Lab fit preview). The prefab's shared materials already carry the baked atlas;
+    // overrideMat replaces them (the rest-pose FBX route, whose imported materials are untextured stand-ins).
+    void BuildDrawList(GameObject go, Material overrideMat = null)
     {
         previewDraws = new List<(Mesh, Material[], Matrix4x4)>();
         bool first = true;
@@ -143,7 +150,13 @@ public class ModelFactoryWindow : EditorWindow
             Mesh m = rr is SkinnedMeshRenderer smr ? smr.sharedMesh : rr.GetComponent<MeshFilter>()?.sharedMesh;
             if (m == null) continue;
             var mtx = rr.transform.localToWorldMatrix;
-            previewDraws.Add((m, rr.sharedMaterials, mtx));
+            var mats = rr.sharedMaterials;
+            if (overrideMat != null)
+            {
+                mats = new Material[Mathf.Max(1, m.subMeshCount)];
+                for (int i = 0; i < mats.Length; i++) mats[i] = overrideMat;
+            }
+            previewDraws.Add((m, mats, mtx));
             var wb = TransformBounds(mtx, m.bounds);
             if (first) { previewBounds = wb; first = false; } else previewBounds.Encapsulate(wb);
         }
@@ -167,7 +180,7 @@ public class ModelFactoryWindow : EditorWindow
         if (previewDraws == null) return;
         EditorGUILayout.Space();
         EditorGUILayout.LabelField("Preview — " + previewFor + "   (drag = orbit · middle-drag = pan · scroll = zoom" +
-            (previewGrounded ? " · square = ground level, ~1 tile)" : ")  — animated: display pose, see the Animation Lab for the faithful view"), EditorStyles.miniBoldLabel);
+            (previewGrounded ? " · square = ground level, ~1 tile)" : ")  — legacy display pose (no rig FBX found), orientation not faithful"), EditorStyles.miniBoldLabel);
         var r = GUILayoutUtility.GetRect(200, 260, GUILayout.ExpandWidth(true));
         var e = Event.current;
         if (r.Contains(e.mousePosition))
