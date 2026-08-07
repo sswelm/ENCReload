@@ -44,6 +44,8 @@ public class ModelFactoryWindow : EditorWindow
     bool previewGrounded;   // only the STATIC _Model.prefab preview is in game space; the animated FactorySource
                             // preview is a display-flipped bind pose (tanks stand on their tail) — a ground square
                             // there would be a LIE, so it only draws when this is set
+    bool previewWater;      // target pawn is a BOAT (AnimationCapabilityProfile 7 — the game's own characteristic,
+                            // the same signal the runtime classifies ships by; never by name) — square renders water-blue
 
     // Cheap animation probe (no Blender), cached per model-file path. State: 0 = unknown (allow), 1 = animation
     // detected (allow + hint), 2 = definitely none (disable the Animated toggle). Keeps the checkbox from being ticked
@@ -125,6 +127,7 @@ public class ModelFactoryWindow : EditorWindow
                     : AssetDatabase.LoadMainAssetAtPath(staticPath) != null ? staticPath : null;
         if (path == null) return;
         previewGrounded = path == staticPath || path == animFbx;   // game-space previews only (see the field comment)
+        previewWater = IsBoatPawn(cur?.pawnDescription);           // boats stand on water-blue, everything else on grass
         if (forceReimport)
             foreach (var dep in new[] { "Assets/Resources/" + name + "_ModelMesh.asset", path })
                 if (dep != animFbx && AssetDatabase.LoadMainAssetAtPath(dep) != null)   // NEVER the FBX — see above
@@ -182,7 +185,8 @@ public class ModelFactoryWindow : EditorWindow
         using (new EditorGUILayout.HorizontalScope())
         {
             EditorGUILayout.LabelField("Preview — " + previewFor + "   (drag = orbit · middle-drag = pan · scroll = zoom" +
-                (previewGrounded ? " · square = ground level, ~1 tile)" : ")  — legacy display pose (no rig FBX found), orientation not faithful"), EditorStyles.miniBoldLabel);
+                (previewGrounded ? (previewWater ? " · square = water level, ~1 tile)" : " · square = ground level, ~1 tile)")
+                                 : ")  — legacy display pose (no rig FBX found), orientation not faithful"), EditorStyles.miniBoldLabel);
             if (GUILayout.Button(new GUIContent("Center", "Re-center the view on the model (resets pan + zoom; keeps the orbit angle)"), GUILayout.Width(60)))
             { previewPan = Vector2.zero; previewZoom = 1.4f; Repaint(); }
         }
@@ -250,9 +254,10 @@ public class ModelFactoryWindow : EditorWindow
                 }
                 if (previewGroundMat == null)
                 {
-                    previewGroundMat = new Material(Shader.Find("Standard")) { hideFlags = HideFlags.HideAndDontSave, color = new Color(0.33f, 0.40f, 0.29f) };
+                    previewGroundMat = new Material(Shader.Find("Standard")) { hideFlags = HideFlags.HideAndDontSave };
                     previewGroundMat.SetFloat("_Glossiness", 0f);
                 }
+                previewGroundMat.color = previewWater ? new Color(0.23f, 0.36f, 0.47f) : new Color(0.33f, 0.40f, 0.29f);
                 previewPRU.DrawMesh(previewGroundMesh, Matrix4x4.Translate(new Vector3(0f, -0.02f, 0f)), previewGroundMat, 0);
             }
             bool anyDead = false;
@@ -1112,6 +1117,33 @@ public class ModelFactoryWindow : EditorWindow
     }
 
     static string[] pawnCache;
+    // Is this target pawn a BOAT? Read the game's own characteristic — AnimationCapabilityProfile 7 (Boat) on the
+    // PresentationPawnDefinition — never the name (user rule; the same signal the runtime's ship category uses).
+    // Cached per name: the first lookup scans the definition databases, later ones are a dictionary hit.
+    static readonly Dictionary<string, bool> boatPawnCache = new Dictionary<string, bool>(StringComparer.OrdinalIgnoreCase);
+    internal static bool IsBoatPawn(string pawnDescription)
+    {
+        string key = (pawnDescription ?? "").Trim();
+        if (key.Length == 0) return false;
+        if (boatPawnCache.TryGetValue(key, out bool cached)) return cached;
+        bool boat = false;
+        foreach (var guid in AssetDatabase.FindAssets("PresentationPawnDefinition"))
+        {
+            var path = AssetDatabase.GUIDToAssetPath(guid);
+            if (!path.EndsWith(".asset")) continue;
+            foreach (var o in AssetDatabase.LoadAllAssetsAtPath(path))
+                if (o != null && o.GetType().Name == "PresentationPawnDefinition" && o.name == key)
+                {
+                    var p = new SerializedObject(o).FindProperty("AnimationCapabilityProfile");
+                    boat = p != null && p.intValue == 7;   // 7 = Boat in the game's profile enum
+                    boatPawnCache[key] = boat;
+                    return boat;
+                }
+        }
+        boatPawnCache[key] = false;
+        return false;
+    }
+
     internal static string[] GatherPawnNames()
     {
         if (pawnCache != null) return pawnCache;

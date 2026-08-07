@@ -216,9 +216,12 @@ public class AnimationLabWindow : EditorWindow
                 }
                 if (fitGroundMat == null)
                 {
-                    fitGroundMat = new Material(Shader.Find("Standard")) { hideFlags = HideFlags.HideAndDontSave, color = new Color(0.33f, 0.40f, 0.29f) };
+                    fitGroundMat = new Material(Shader.Find("Standard")) { hideFlags = HideFlags.HideAndDontSave };
                     fitGroundMat.SetFloat("_Glossiness", 0f);
                 }
+                // boats float on water-blue (the pawn's own Boat capability profile — characteristic, not name)
+                fitGroundMat.color = ModelFactoryWindow.IsBoatPawn(cur?.pawnDescription)
+                    ? new Color(0.23f, 0.36f, 0.47f) : new Color(0.33f, 0.40f, 0.29f);
                 fitPRU.DrawMesh(fitGroundMesh, Matrix4x4.Translate(new Vector3(0f, -0.02f, 0f)), fitGroundMat, 0);
             }
             bool anyDead = false;
