@@ -179,8 +179,13 @@ public class ModelFactoryWindow : EditorWindow
     {
         if (previewDraws == null) return;
         EditorGUILayout.Space();
-        EditorGUILayout.LabelField("Preview — " + previewFor + "   (drag = orbit · middle-drag = pan · scroll = zoom" +
-            (previewGrounded ? " · square = ground level, ~1 tile)" : ")  — legacy display pose (no rig FBX found), orientation not faithful"), EditorStyles.miniBoldLabel);
+        using (new EditorGUILayout.HorizontalScope())
+        {
+            EditorGUILayout.LabelField("Preview — " + previewFor + "   (drag = orbit · middle-drag = pan · scroll = zoom" +
+                (previewGrounded ? " · square = ground level, ~1 tile)" : ")  — legacy display pose (no rig FBX found), orientation not faithful"), EditorStyles.miniBoldLabel);
+            if (GUILayout.Button(new GUIContent("Center", "Re-center the view on the model (resets pan + zoom; keeps the orbit angle)"), GUILayout.Width(60)))
+            { previewPan = Vector2.zero; previewZoom = 1.4f; Repaint(); }
+        }
         var r = GUILayoutUtility.GetRect(200, 260, GUILayout.ExpandWidth(true));
         var e = Event.current;
         if (r.Contains(e.mousePosition))
@@ -189,7 +194,7 @@ public class ModelFactoryWindow : EditorWindow
             {
                 // Consume the wheel HERE so the window's outer scroll view never sees it — THIS is the zoom. (The
                 // built-in GameObject preview had no zoom at all, and the scroll view ate the wheel — the old bug.)
-                previewZoom = Mathf.Clamp(previewZoom * Mathf.Pow(1.12f, e.delta.y > 0 ? 1f : -1f), 0.2f, 5f);
+                previewZoom = Mathf.Clamp(previewZoom * Mathf.Pow(1.12f, e.delta.y > 0 ? 1f : -1f), 0.1f, 5f);
                 e.Use(); Repaint();
             }
             else if (e.type == EventType.MouseDrag && e.button == 0)

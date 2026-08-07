@@ -296,6 +296,8 @@ public class DistrictFactoryWindow : EditorWindow
         using (new EditorGUILayout.HorizontalScope())
         {
             EditorGUILayout.LabelField("Preview — predicts the in-game orientation", EditorStyles.miniBoldLabel);
+            if (GUILayout.Button(new GUIContent("Center", "Re-center the view on the model (resets pan + zoom; keeps the orbit angle)"), GUILayout.Width(60)))
+            { pvPan = Vector2.zero; pvZoom = 1f; Repaint(); }
             if (GUILayout.Button("Refresh", GUILayout.Width(70))) LoadPreviewAssets(force: true);
         }
         LoadPreviewAssets();
@@ -321,7 +323,7 @@ public class DistrictFactoryWindow : EditorWindow
             if (e.type == EventType.ScrollWheel)
             {
                 // consume the wheel HERE so the window's scroll view never sees it — this is the zoom
-                pvZoom = Mathf.Clamp(pvZoom * Mathf.Pow(1.12f, e.delta.y > 0 ? 1f : -1f), 0.2f, 5f);
+                pvZoom = Mathf.Clamp(pvZoom * Mathf.Pow(1.12f, e.delta.y > 0 ? 1f : -1f), 0.1f, 5f);
                 e.Use(); Repaint();
             }
             else if (e.type == EventType.MouseDrag && e.button == 0)

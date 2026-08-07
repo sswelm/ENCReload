@@ -162,7 +162,7 @@ public class AnimationLabWindow : EditorWindow
             if (e.type == EventType.ScrollWheel)
             {
                 // consume the wheel HERE so the window's scroll view never sees it — this is the zoom
-                fitZoom = Mathf.Clamp(fitZoom * Mathf.Pow(1.12f, e.delta.y > 0 ? 1f : -1f), 0.2f, 5f);
+                fitZoom = Mathf.Clamp(fitZoom * Mathf.Pow(1.12f, e.delta.y > 0 ? 1f : -1f), 0.1f, 5f);
                 e.Use(); Repaint();
             }
             else if (e.type == EventType.MouseDrag && e.button == 0)
@@ -1054,11 +1054,16 @@ public class AnimationLabWindow : EditorWindow
         if (fitDraws != null)
         {
             EditorGUILayout.Space();
-            EditorGUILayout.LabelField(
-                string.IsNullOrEmpty((cur.handPropGuid ?? "").Trim())
-                    ? "Model preview  (drag = orbit · middle/right-drag = pan · scroll = zoom)"
-                    : "Fit preview — model + hand prop  (drag = orbit · middle/right-drag = pan · scroll = zoom)",
-                EditorStyles.miniBoldLabel);
+            using (new EditorGUILayout.HorizontalScope())
+            {
+                EditorGUILayout.LabelField(
+                    string.IsNullOrEmpty((cur.handPropGuid ?? "").Trim())
+                        ? "Model preview  (drag = orbit · middle/right-drag = pan · scroll = zoom)"
+                        : "Fit preview — model + hand prop  (drag = orbit · middle/right-drag = pan · scroll = zoom)",
+                    EditorStyles.miniBoldLabel);
+                if (GUILayout.Button(new GUIContent("Center", "Re-center the view on the model (resets pan + zoom; keeps the orbit angle)"), GUILayout.Width(60)))
+                { fitPan = Vector2.zero; fitZoom = 1.4f; Repaint(); }
+            }
             var rect = GUILayoutUtility.GetRect(200, 360, GUILayout.ExpandWidth(true));
             DrawFitPreview(rect);
         }
