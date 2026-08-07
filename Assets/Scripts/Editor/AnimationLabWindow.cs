@@ -193,7 +193,8 @@ public class AnimationLabWindow : EditorWindow
             var cam = fitPRU.camera;
             // frame the ground square too when it's drawn — a square outside the frustum reads as "no square"
             var frame = fitBounds;
-            if (fitGrounded) frame.Encapsulate(new Bounds(new Vector3(0f, -0.02f, 0f), new Vector3(10f, 0.04f, 10f)));
+            if (fitGrounded) frame.Encapsulate(new Bounds(new Vector3(0f, -0.02f, 0f),
+                new Vector3(2f * ModelFactoryWindow.TileCornerRadius, 0.04f, 2f * ModelFactoryWindow.TileInradius)));
             float radius = Mathf.Max(frame.extents.magnitude, 0.1f);
             float dist = radius * 2.0f * fitZoom;
             var rot = Quaternion.Euler(-fitOrbit.y, fitOrbit.x, 0f);
@@ -209,13 +210,7 @@ public class AnimationLabWindow : EditorWindow
             fitPRU.ambientColor = new Color(0.3f, 0.3f, 0.3f);
             if (fitGrounded)
             {
-                if (fitGroundMesh == null)
-                {
-                    fitGroundMesh = new Mesh { name = "AnimLabGroundPreview", hideFlags = HideFlags.HideAndDontSave };
-                    fitGroundMesh.vertices = new[] { new Vector3(-5f, 0f, -5f), new Vector3(5f, 0f, -5f), new Vector3(5f, 0f, 5f), new Vector3(-5f, 0f, 5f) };
-                    fitGroundMesh.normals = new[] { Vector3.up, Vector3.up, Vector3.up, Vector3.up };
-                    fitGroundMesh.triangles = new[] { 0, 3, 2, 0, 2, 1 };
-                }
+                if (fitGroundMesh == null) fitGroundMesh = ModelFactoryWindow.BuildTileHex("AnimLabTileHex");
                 if (fitGroundMat == null)
                 {
                     fitGroundMat = new Material(Shader.Find("Standard")) { hideFlags = HideFlags.HideAndDontSave };
@@ -1067,7 +1062,8 @@ public class AnimationLabWindow : EditorWindow
                     (string.IsNullOrEmpty((cur.handPropGuid ?? "").Trim())
                         ? "Model preview  (drag = orbit · middle/right-drag = pan · scroll = zoom"
                         : "Fit preview — model + hand prop  (drag = orbit · middle/right-drag = pan · scroll = zoom")
-                    + (fitGrounded ? " · arrow = forward)" : ")"),
+                    + (fitGrounded ? " · arrow = forward)" : ")")
+                    + (cur != null && cur.useDonorClip ? "  ⚠ donor-clip: in-game placement follows the DONOR rig — judge position in-game" : ""),
                     EditorStyles.miniBoldLabel);
                 if (GUILayout.Button(new GUIContent("Center", "Re-center the view on the model (resets pan + zoom; keeps the orbit angle)"), GUILayout.Width(60)))
                 { fitPan = Vector2.zero; fitZoom = 1.4f; Repaint(); }

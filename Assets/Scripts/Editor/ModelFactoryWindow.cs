@@ -169,15 +169,37 @@ public class ModelFactoryWindow : EditorWindow
         if (previewDraws.Count == 0) previewDraws = null;
     }
 
-    // A flat arrow on the ground square from the origin toward +Z (the in-game FORWARD), drawn just above it.
-    // Shared shape for the Factory / Animation Lab / District panes (each owns its instance for clean teardown).
+    // THE TILE HEX — one in-game tile at TRUE size: center-to-center tile spacing is ~6.93 units (measured on the map,
+    // the terrain-hug work), so across-flats = 6.93 (inradius 3.465, corner radius 4.0). Oriented with a flat EDGE
+    // facing +Z: units face their six neighbors edge-on (the hex-quantized facing directions), so the forward arrow
+    // crosses an edge, exactly like a unit leaving its tile. Shared by the Factory / Animation Lab / District panes.
+    internal const float TileInradius = 3.465f, TileCornerRadius = 4.001f;
+    internal static Mesh BuildTileHex(string name)
+    {
+        var m = new Mesh { name = name, hideFlags = HideFlags.HideAndDontSave };
+        var v = new Vector3[7];
+        v[0] = Vector3.zero;
+        for (int k = 0; k < 6; k++)
+        {
+            float a = (30f + 60f * k) * Mathf.Deg2Rad;   // corners at 30°+k·60° from +Z → edges face the six neighbor directions
+            v[k + 1] = new Vector3(Mathf.Sin(a) * TileCornerRadius, 0f, Mathf.Cos(a) * TileCornerRadius);
+        }
+        m.vertices = v;
+        var n = new Vector3[7]; for (int i = 0; i < 7; i++) n[i] = Vector3.up;
+        m.normals = n;
+        m.triangles = new[] { 0, 1, 2, 0, 2, 3, 0, 3, 4, 0, 4, 5, 0, 5, 6, 0, 6, 1 };
+        return m;
+    }
+
+    // A flat arrow from the origin toward +Z (the in-game FORWARD), drawn just above the tile hex; the head pokes
+    // over the +Z edge (inradius 3.465) like a unit leaving its tile. Shared shape, per-window instances.
     internal static Mesh BuildForwardArrow(string name)
     {
         var m = new Mesh { name = name, hideFlags = HideFlags.HideAndDontSave };
         m.vertices = new[]
         {
-            new Vector3(-0.06f, 0f, 0.3f), new Vector3(0.06f, 0f, 0.3f), new Vector3(0.06f, 0f, 4.2f), new Vector3(-0.06f, 0f, 4.2f),   // shaft
-            new Vector3(-0.25f, 0f, 4.2f), new Vector3(0.25f, 0f, 4.2f), new Vector3(0f, 0f, 5f),                                       // head
+            new Vector3(-0.06f, 0f, 0.3f), new Vector3(0.06f, 0f, 0.3f), new Vector3(0.06f, 0f, 3.5f), new Vector3(-0.06f, 0f, 3.5f),   // shaft
+            new Vector3(-0.25f, 0f, 3.5f), new Vector3(0.25f, 0f, 3.5f), new Vector3(0f, 0f, 4.3f),                                     // head
         };
         m.normals = new[] { Vector3.up, Vector3.up, Vector3.up, Vector3.up, Vector3.up, Vector3.up, Vector3.up };
         m.triangles = new[] { 0, 3, 2, 0, 2, 1, 4, 6, 5 };
@@ -203,8 +225,9 @@ public class ModelFactoryWindow : EditorWindow
         using (new EditorGUILayout.HorizontalScope())
         {
             EditorGUILayout.LabelField("Preview — " + previewFor + "   (drag = orbit · middle-drag = pan · scroll = zoom" +
-                (previewGrounded ? (previewWater ? " · square = water level, ~1 tile · arrow = forward)" : " · square = ground level, ~1 tile · arrow = forward)")
-                                 : ")  — legacy display pose (no rig FBX found), orientation not faithful"), EditorStyles.miniBoldLabel);
+                (previewGrounded ? (previewWater ? " · hex = one tile at water level · arrow = forward)" : " · hex = one tile at ground level · arrow = forward)")
+                                 : ")  — legacy display pose (no rig FBX found), orientation not faithful") +
+                (cur != null && cur.useDonorClip ? "  ⚠ donor-clip: in-game placement follows the DONOR rig — judge position in-game" : ""), EditorStyles.miniBoldLabel);
             if (GUILayout.Button(new GUIContent("Center", "Re-center the view on the model (resets pan + zoom; keeps the orbit angle)"), GUILayout.Width(60)))
             { previewPan = Vector2.zero; previewZoom = 1.4f; Repaint(); }
         }
@@ -245,7 +268,7 @@ public class ModelFactoryWindow : EditorWindow
             // frame the ground square too when it's drawn — the model can sit away from the origin, and a square
             // outside the frustum reads as "no square" (the TankDestroyers rebake proved it)
             var frame = previewBounds;
-            if (previewGrounded) frame.Encapsulate(new Bounds(new Vector3(0f, -0.02f, 0f), new Vector3(10f, 0.04f, 10f)));
+            if (previewGrounded) frame.Encapsulate(new Bounds(new Vector3(0f, -0.02f, 0f), new Vector3(2f * TileCornerRadius, 0.04f, 2f * TileInradius)));
             float radius = Mathf.Max(frame.extents.magnitude, 0.1f);
             float dist = radius * 2.0f * previewZoom;
             var rot = Quaternion.Euler(-previewOrbit.y, previewOrbit.x, 0f);
@@ -263,13 +286,7 @@ public class ModelFactoryWindow : EditorWindow
             // ground square first, at the ORIGIN plane (the in-game ground; see the field comment) — one tile ~10 across
             if (previewGrounded)
             {
-                if (previewGroundMesh == null)
-                {
-                    previewGroundMesh = new Mesh { name = "FactoryGroundPreview", hideFlags = HideFlags.HideAndDontSave };
-                    previewGroundMesh.vertices = new[] { new Vector3(-5f, 0f, -5f), new Vector3(5f, 0f, -5f), new Vector3(5f, 0f, 5f), new Vector3(-5f, 0f, 5f) };
-                    previewGroundMesh.normals = new[] { Vector3.up, Vector3.up, Vector3.up, Vector3.up };
-                    previewGroundMesh.triangles = new[] { 0, 3, 2, 0, 2, 1 };
-                }
+                if (previewGroundMesh == null) previewGroundMesh = BuildTileHex("FactoryTileHex");
                 if (previewGroundMat == null)
                 {
                     previewGroundMat = new Material(Shader.Find("Standard")) { hideFlags = HideFlags.HideAndDontSave };
@@ -477,7 +494,13 @@ public class ModelFactoryWindow : EditorWindow
         EditorGUILayout.Space();
         EditorGUILayout.LabelField("Transform", EditorStyles.miniBoldLabel);
         cur.rotation = EditorGUILayout.Vector3Field("Rotation offset (XYZ)", cur.rotation);
-        cur.position = EditorGUILayout.Vector3Field("Position offset (Z = waterline)", cur.position);
+        cur.position = EditorGUILayout.Vector3Field(new GUIContent("Position offset (Z = waterline)",
+            "Move the model relative to its pawn, in GAME units: X sway, Y fore/aft, Z vertical (− sinks; the Zumwalt " +
+            "waterline). STATIC models: baked into the mesh; preview shows it after Bake. ANIMATED models: applied in " +
+            "the rig conversion (mesh + bone rests, after auto-ground; pre-divided by the FBX import scale so 1 = one " +
+            "game unit). DONOR-CLIP flyers: the game re-anchors the geometry through the DONOR's skeleton, which " +
+            "absorbs most of the source's own off-centering — small trims usually suffice (the stealth helicopter " +
+            "needed −0.5), judged in-game (the preview shows the un-rebased rig)."), cur.position);
         using (new EditorGUILayout.HorizontalScope())
         {
             // Keep the Size input compact (not full-width) but sized RELATIVE to the label column — a fixed 220 left the
@@ -1199,6 +1222,7 @@ public class ModelFactoryWindow : EditorWindow
         var e = ModelRegistry.Load().FirstOrDefault(x => x.resourceName == cur.resourceName);
         if (e == null) return true;
         return cur.rotation != e.rotation
+            || cur.position != e.position   // Position offset now feeds the Blender step (rig_anim argv[15]) — a cached FBX must not swallow it
             || cur.targetTris != e.targetTris
             || (cur.animClip ?? "") != (e.animClip ?? "")
             || (cur.animateBones ?? "") != (e.animateBones ?? "")
