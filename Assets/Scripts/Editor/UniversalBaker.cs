@@ -398,7 +398,7 @@ public static class UniversalBaker
                 if (wantIdleAlt) stateRoles += ";idlealt=" + cfg.animClipIdleAlt.Trim();
                 if (wantIdleAlt2) stateRoles += ";idlealt2=" + cfg.animClipIdleAlt2.Trim();
             }
-            if (!RigAnimViaBlender(cfg.modelFile, fbxFull, target, cfg.animateBones ?? "", cfg.animClip ?? "", albedoOut, keepMats, cfg.rotationEuler, cfg.convertRig, stateRoles, cfg.autoGroundWheels, cfg.socketBones, cfg.keepTranslations, cfg.staticParts ?? "", cfg.localNodeAnim, cfg.positionOffset, cfg.animUnitFix ? 0f : (cfg.size > 0f ? cfg.size : 5f)))
+            if (!RigAnimViaBlender(cfg.modelFile, fbxFull, target, cfg.animateBones ?? "", cfg.animClip ?? "", albedoOut, keepMats, cfg.rotationEuler, cfg.convertRig, stateRoles, cfg.autoGroundWheels, cfg.socketBones, cfg.keepTranslations, cfg.staticParts ?? "", cfg.localNodeAnim))
                 return Fail(LastRigAnimError.Length > 0
                     ? "Blender animated slim failed: " + LastRigAnimError
                     : "Blender animated slim failed (see console). Is the model rigged with the named animation clip(s)?");
@@ -785,7 +785,12 @@ public static class UniversalBaker
     // scale fold, clean-unit export) — it used to be inferred from rotation != 0, which made Rotation a landmine.
     static string LastRigAnimError = "";   // the last RIGANIM ERROR line — so failure summaries can name the real cause
 
-    static bool RigAnimViaBlender(string src, string outFbx, int targetTris, string bonePrefixes, string clipName, string albedoOut, bool keepMaterials, Vector3 rotation, bool convertRig, string stateRoles = "", bool autoGround = false, string socketBones = "", bool keepTranslations = false, string staticParts = "", bool localNodeAnim = false, Vector3 posOffset = default, float sizeUnits = 0f)
+    // NOTE (2026-08-07): Position offset deliberately does NOT pass through here. It briefly did (argv[15]/[16],
+    // the heli-centering arc) — and DOUBLE-APPLIED: the runtime plugin has always added the registry `position` to
+    // the pawn each frame (UniversalInject ApplyPositionOffset — pawn frame, z = world-up), so baking it too made
+    // every animated model carry the offset twice (the helicopter flew at exactly 2x its dialed height). The runtime
+    // mechanism is the keeper: correct frame (turns with the unit), true game units, and no re-bake to nudge.
+    static bool RigAnimViaBlender(string src, string outFbx, int targetTris, string bonePrefixes, string clipName, string albedoOut, bool keepMaterials, Vector3 rotation, bool convertRig, string stateRoles = "", bool autoGround = false, string socketBones = "", bool keepTranslations = false, string staticParts = "", bool localNodeAnim = false)
     {
         string proj = Directory.GetParent(Application.dataPath).FullName;
         string script = Path.Combine(proj, "Tools", "rig_anim.py");
@@ -793,9 +798,7 @@ public static class UniversalBaker
         string blender = FindBlender();
         var inv = System.Globalization.CultureInfo.InvariantCulture;   // never the OS locale — a Dutch comma-decimal would corrupt the arg
         string rotArg = string.Format(inv, "{0:0.###},{1:0.###},{2:0.###}", rotation.x, rotation.y, rotation.z);
-        string posArg = string.Format(inv, "{0:0.###},{1:0.###},{2:0.###}", posOffset.x, posOffset.y, posOffset.z);
-        string sizeArg = string.Format(inv, "{0:0.###}", sizeUnits);
-        string args = $"--background --python \"{script}\" -- \"{src}\" \"{outFbx}\" {Mathf.Max(0, targetTris)} \"{bonePrefixes ?? ""}\" \"{clipName ?? ""}\" \"{albedoOut ?? ""}\" {(keepMaterials ? "1" : "0")} \"{rotArg}\" {(convertRig ? "1" : "0")} \"{stateRoles ?? ""}\" {(autoGround ? "1" : "0")} \"{socketBones ?? ""}\" {(keepTranslations ? "1" : "0")} \"{staticParts ?? ""}\" {(localNodeAnim ? "1" : "0")} \"{posArg}\" \"{sizeArg}\"";   // argv[10]: auto-ground; argv[11]: donor sockets; argv[12]: keep translations; argv[13]: static (weightless) parts; argv[14]: local-delta node animation; argv[15]: position offset in GAME units; argv[16]: target Size (the script pre-divides the offset by the importer's size/longest factor so the dial means game units)
+        string args = $"--background --python \"{script}\" -- \"{src}\" \"{outFbx}\" {Mathf.Max(0, targetTris)} \"{bonePrefixes ?? ""}\" \"{clipName ?? ""}\" \"{albedoOut ?? ""}\" {(keepMaterials ? "1" : "0")} \"{rotArg}\" {(convertRig ? "1" : "0")} \"{stateRoles ?? ""}\" {(autoGround ? "1" : "0")} \"{socketBones ?? ""}\" {(keepTranslations ? "1" : "0")} \"{staticParts ?? ""}\" {(localNodeAnim ? "1" : "0")}";   // argv[10]: auto-ground; argv[11]: donor sockets; argv[12]: keep translations; argv[13]: static (weightless) parts; argv[14]: local-delta node animation
         var psi = new System.Diagnostics.ProcessStartInfo(blender, args)
         { UseShellExecute = false, RedirectStandardOutput = true, RedirectStandardError = true, CreateNoWindow = true };
         try

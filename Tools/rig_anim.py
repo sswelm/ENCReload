@@ -1111,44 +1111,9 @@ if len(argv) > 10 and argv[10].strip() == "1" and arm is not None and me.vertice
     else:
         print("RIGANIM auto-ground: already grounded (minZ %.4f)" % _all_min)
 
-# POSITION OFFSET (argv[15] "x,y,z" in GAME units, argv[16] target Size — 2026-08-07): the registry Position-offset
-# knob, finally honored on the ANIMATED path (the static bake applied it since the Zumwalt waterline; here it was
-# silently dead — the stealth helicopter's off-center bake made it visible once the preview grew a true-size tile hex).
-# UNITS: Unity's FBX import rescales this rig by (Size / native longest axis) — an offset applied here in raw units
-# would be multiplied by that factor in-game (measured on the helicopter). So the dial is defined in GAME units and
-# PRE-DIVIDED here by that exact factor (longest/Size known from the post-transform bbox). argv[16] empty/0 = raw
-# units (the unit-fix import path keeps the file's own scale). Same mechanism as auto-ground, full vector: mesh verts
-# + bone rests together (skin + rotation-only clips untouched), AFTER auto-ground so grounding can't cancel it.
-# Axis semantics as the static path: x sway, y fore/aft, z vertical (- sinks).
-if len(argv) > 15 and argv[15].strip() and arm is not None and me.vertices:
-    try:
-        _po = [float(v) for v in argv[15].split(",")][:3] + [0.0] * max(0, 3 - len(argv[15].split(",")))
-    except Exception:
-        _po = [0.0, 0.0, 0.0]
-        print("RIGANIM WARN: bad position-offset arg '%s' — ignoring" % argv[15])
-    _size = 0.0
-    if len(argv) > 16 and argv[16].strip():
-        try: _size = float(argv[16])
-        except Exception: print("RIGANIM WARN: bad size arg '%s' — offset stays in raw units" % argv[16])
-    if any(abs(c) > 1e-4 for c in _po):
-        _xs = [v.co.x for v in me.vertices]; _ys = [v.co.y for v in me.vertices]; _zs = [v.co.z for v in me.vertices]
-        _longest = max(max(_xs) - min(_xs), max(_ys) - min(_ys), max(_zs) - min(_zs))
-        _unit = (_longest / _size) if (_size > 1e-4 and _longest > 1e-4) else 1.0   # game units -> rig units
-        _po = [c * _unit for c in _po]
-        _c0 = [sum(v.co[i] for v in me.vertices) / len(me.vertices) for i in range(3)]
-        for v in me.vertices:
-            v.co.x += _po[0]; v.co.y += _po[1]; v.co.z += _po[2]
-        me.update()
-        bpy.context.view_layer.objects.active = arm
-        bpy.ops.object.mode_set(mode='EDIT')
-        for _eb in arm.data.edit_bones:
-            _eb.head.x += _po[0]; _eb.head.y += _po[1]; _eb.head.z += _po[2]
-            _eb.tail.x += _po[0]; _eb.tail.y += _po[1]; _eb.tail.z += _po[2]
-        bpy.ops.object.mode_set(mode='OBJECT')
-        _c1 = [sum(v.co[i] for v in me.vertices) / len(me.vertices) for i in range(3)]
-        # calibration line: rig-space center before/after + the unit factor, so any residual mismatch is measurable
-        print("RIGANIM position offset: rig-units (%.3f, %.3f, %.3f) [game-unit factor %.3f, longest %.3f, size %.3f]; mesh center (%.3f, %.3f, %.3f) -> (%.3f, %.3f, %.3f)"
-              % (tuple(_po) + (_unit, _longest, _size) + tuple(_c0) + tuple(_c1)))
+# (2026-08-07: a POSITION-OFFSET block briefly lived here — argv[15]/[16], removed same-day: the runtime plugin
+# has always applied the registry position to the pawn each frame, so baking it too DOUBLE-applied it. The
+# runtime mechanism is the keeper; see UniversalBaker.RigAnimViaBlender's note.)
 
 bpy.ops.object.select_all(action='SELECT')
 # EXPORT SCALE (raw-FBX-parse evidence, fbx_lclscale/fbx_binddump): Blender's exporter writes meters->cm by scaling

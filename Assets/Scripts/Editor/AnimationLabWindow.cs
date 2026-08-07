@@ -142,17 +142,8 @@ public class AnimationLabWindow : EditorWindow
             if (first) { fitBounds = wb; first = false; } else fitBounds.Encapsulate(wb);
         }
         if (fitDraws.Count == 0) fitDraws = null;
-        // DONOR-CLIP placement approximation (mirrors the Factory): the runtime rebase re-anchors through the DONOR
-        // skeleton and absorbs the source's off-centering — preview the model footprint-centered, like the game
-        // renders it; fine position (Position-offset trim) is judged in-game.
-        if (fitDraws != null && fitGrounded && cur != null && cur.useDonorClip)
-        {
-            var c = fitBounds.center;
-            var t = Matrix4x4.Translate(new Vector3(-c.x, 0f, -c.z));
-            for (int i = 0; i < fitDraws.Count; i++)
-                fitDraws[i] = (fitDraws[i].mesh, fitDraws[i].mats, t * fitDraws[i].mtx);
-            fitBounds.center = new Vector3(0f, c.y, 0f);
-        }
+        // (A donor-clip "footprint centering" briefly lived here — REMOVED with the double-application discovery;
+        // the runtime Position offset is now drawn LIVE in DrawFitPreview instead, which is the honest prediction.)
         Repaint();
     }
 
@@ -235,6 +226,11 @@ public class AnimationLabWindow : EditorWindow
                 fitPRU.DrawMesh(fitArrowMesh, Matrix4x4.Translate(new Vector3(0f, -0.01f, 0f)), fitFallbackMat, 0);
             }
             bool anyDead = false;
+            // LIVE runtime Position offset (the plugin adds the registry `position` to the pawn every frame; Lab
+            // entries are all animated). Registry -> preview axes: x sway -> X, y fore/aft -> Z, z -> up Y.
+            var liveOff = fitGrounded && cur != null && cur.position != Vector3.zero
+                ? Matrix4x4.Translate(new Vector3(cur.position.x, cur.position.z, cur.position.y))
+                : Matrix4x4.identity;
             foreach (var (mesh, mats, mtx) in fitDraws)
             {
                 // A cached mesh can be DESTROYED under us (the slim FBX deleted/reimported outside the window —
@@ -244,7 +240,7 @@ public class AnimationLabWindow : EditorWindow
                 for (int s = 0; s < mesh.subMeshCount; s++)
                 {
                     var mat = mats != null && mats.Length > 0 ? (mats[Mathf.Min(s, mats.Length - 1)] ?? fitFallbackMat) : fitFallbackMat;
-                    fitPRU.DrawMesh(mesh, mtx, mat, s);
+                    fitPRU.DrawMesh(mesh, liveOff * mtx, mat, s);
                 }
             }
             if (anyDead) fitDraws.Clear();
@@ -1074,7 +1070,7 @@ public class AnimationLabWindow : EditorWindow
                         ? "Model preview  (drag = orbit · middle/right-drag = pan · scroll = zoom"
                         : "Fit preview — model + hand prop  (drag = orbit · middle/right-drag = pan · scroll = zoom")
                     + (fitGrounded ? " · arrow = forward)" : ")")
-                    + (cur != null && cur.useDonorClip ? "  · donor-clip: shown centered (the donor rig re-anchors) — fine position trims in-game" : ""),
+                    + (cur != null && cur.position != Vector3.zero ? "  · Position offset shown LIVE (runtime-applied, no bake needed)" : ""),
                     EditorStyles.miniBoldLabel);
                 if (GUILayout.Button(new GUIContent("Center", "Re-center the view on the model (resets pan + zoom; keeps the orbit angle)"), GUILayout.Width(60)))
                 { fitPan = Vector2.zero; fitZoom = 1.4f; Repaint(); }

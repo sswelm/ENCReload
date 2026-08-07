@@ -142,22 +142,10 @@ public class ModelFactoryWindow : EditorWindow
             ? AssetDatabase.LoadAssetAtPath<Material>("Assets/FactorySource/" + name + "/" + name + "_PreviewMat.mat")
             : null;
         if (go != null) BuildDrawList(go, over);
-        // DONOR-CLIP placement approximation (the heli-centering arc): the runtime rebase re-anchors the geometry
-        // through the DONOR skeleton, absorbing the source file's own off-centering — measured, the game renders the
-        // model ~centered on its pawn while the raw FBX sits wherever the source's origin put it. Centering the
-        // footprint here is the closest editor-side prediction short of reproducing the rebase; fine position
-        // (the Position-offset trim) is judged in-game, as the caption says.
-        if (previewDraws != null && cur != null && cur.useDonorClip && path == animFbx)
-            CenterDrawListFootprint();
-    }
-
-    void CenterDrawListFootprint()
-    {
-        var c = previewBounds.center;
-        var t = Matrix4x4.Translate(new Vector3(-c.x, 0f, -c.z));
-        for (int i = 0; i < previewDraws.Count; i++)
-            previewDraws[i] = (previewDraws[i].mesh, previewDraws[i].mats, t * previewDraws[i].mtx);
-        previewBounds.center = new Vector3(0f, c.y, 0f);
+        // (A donor-clip "footprint centering" briefly lived here — REMOVED with the double-application discovery:
+        // the placement quirks it approximated were largely the runtime ApplyPositionOffset adding the registry
+        // position on top of a bake that ALSO carried it. With the bake-side copy gone, the FBX view + the LIVE
+        // runtime offset below is the honest prediction.)
     }
 
     // Flatten the baked prefab's renderers into a draw list + combined bounds for the PreviewRenderUtility (same
@@ -243,7 +231,7 @@ public class ModelFactoryWindow : EditorWindow
             EditorGUILayout.LabelField("Preview — " + previewFor + "   (drag = orbit · middle-drag = pan · scroll = zoom" +
                 (previewGrounded ? (previewWater ? " · hex = one tile at water level · arrow = forward)" : " · hex = one tile at ground level · arrow = forward)")
                                  : ")  — legacy display pose (no rig FBX found), orientation not faithful") +
-                (cur != null && cur.useDonorClip ? "  · donor-clip: shown centered (the donor rig re-anchors) — fine position trims in-game" : ""), EditorStyles.miniBoldLabel);
+                (cur != null && cur.animated && cur.position != Vector3.zero ? "  · Position offset shown LIVE (runtime-applied, no bake needed)" : ""), EditorStyles.miniBoldLabel);
             if (GUILayout.Button(new GUIContent("Center", "Re-center the view on the model (resets pan + zoom; keeps the orbit angle)"), GUILayout.Width(60)))
             { previewPan = Vector2.zero; previewZoom = 1.4f; Repaint(); }
         }
@@ -314,6 +302,12 @@ public class ModelFactoryWindow : EditorWindow
                 previewPRU.DrawMesh(previewArrowMesh, Matrix4x4.Translate(new Vector3(0f, -0.01f, 0f)), previewFallbackMat, 0);
             }
             bool anyDead = false;
+            // LIVE runtime Position offset (animated entries only — the plugin adds the registry `position` to the
+            // pawn every frame; statics bake it into the mesh instead, so live-applying would double-show those).
+            // Registry semantics -> preview axes: x sway -> X, y fore/aft -> Z (the pawn faces +Z here), z -> up Y.
+            var liveOff = previewGrounded && cur != null && cur.animated && cur.position != Vector3.zero
+                ? Matrix4x4.Translate(new Vector3(cur.position.x, cur.position.z, cur.position.y))
+                : Matrix4x4.identity;
             foreach (var (mesh, mats, mtx) in previewDraws)
             {
                 // A cached mesh can be DESTROYED under us (the baked prefab/FBX deleted or reimported outside the
@@ -324,7 +318,7 @@ public class ModelFactoryWindow : EditorWindow
                 for (int s = 0; s < mesh.subMeshCount; s++)
                 {
                     var mat = mats != null && mats.Length > 0 ? (mats[Mathf.Min(s, mats.Length - 1)] ?? previewFallbackMat) : previewFallbackMat;
-                    previewPRU.DrawMesh(mesh, mtx, mat, s);
+                    previewPRU.DrawMesh(mesh, liveOff * mtx, mat, s);
                 }
             }
             if (anyDead) previewDraws.Clear();
@@ -512,11 +506,10 @@ public class ModelFactoryWindow : EditorWindow
         cur.rotation = EditorGUILayout.Vector3Field("Rotation offset (XYZ)", cur.rotation);
         cur.position = EditorGUILayout.Vector3Field(new GUIContent("Position offset (Z = waterline)",
             "Move the model relative to its pawn, in GAME units: X sway, Y fore/aft, Z vertical (− sinks; the Zumwalt " +
-            "waterline). STATIC models: baked into the mesh; preview shows it after Bake. ANIMATED models: applied in " +
-            "the rig conversion (mesh + bone rests, after auto-ground; pre-divided by the FBX import scale so 1 = one " +
-            "game unit). DONOR-CLIP flyers: the game re-anchors the geometry through the DONOR's skeleton, which " +
-            "absorbs most of the source's own off-centering — small trims usually suffice (the stealth helicopter " +
-            "needed −0.5), judged in-game (the preview shows the un-rebased rig)."), cur.position);
+            "waterline). STATIC models: baked into the mesh at Bake. ANIMATED models: applied by the PLUGIN at runtime " +
+            "every frame, in the pawn's frame (turns with the unit) — previewed LIVE, and needs only Save settings + a " +
+            "mod rebuild, no re-bake. (One dial, one application: a bake-time copy briefly existed and DOUBLED every " +
+            "offset — the helicopter flew at exactly 2× its dialed height; removed 2026-08-07.)"), cur.position);
         using (new EditorGUILayout.HorizontalScope())
         {
             // Keep the Size input compact (not full-width) but sized RELATIVE to the label column — a fixed 220 left the
@@ -1238,7 +1231,6 @@ public class ModelFactoryWindow : EditorWindow
         var e = ModelRegistry.Load().FirstOrDefault(x => x.resourceName == cur.resourceName);
         if (e == null) return true;
         return cur.rotation != e.rotation
-            || cur.position != e.position   // Position offset now feeds the Blender step (rig_anim argv[15]) — a cached FBX must not swallow it
             || cur.targetTris != e.targetTris
             || (cur.animClip ?? "") != (e.animClip ?? "")
             || (cur.animateBones ?? "") != (e.animateBones ?? "")
