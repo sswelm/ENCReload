@@ -43,6 +43,7 @@ public class AnimationLabWindow : EditorWindow
     [SerializeField] bool fitGrounded;
     Material fitGroundMat;
     Mesh fitGroundMesh;
+    Mesh fitArrowMesh;   // flat FORWARD (+Z) arrow on the square — the direction to dial the model toward
 
     [MenuItem("Tools/HAF/Animation Lab")]
     static void Open()
@@ -96,6 +97,7 @@ public class AnimationLabWindow : EditorWindow
         fitDraws = null;
         if (fitGroundMat != null) { DestroyImmediate(fitGroundMat); fitGroundMat = null; }
         if (fitGroundMesh != null) { DestroyImmediate(fitGroundMesh); fitGroundMesh = null; }
+        if (fitArrowMesh != null) { DestroyImmediate(fitArrowMesh); fitArrowMesh = null; }
         if (fitPRU != null) { try { fitPRU.Cleanup(); } catch { } fitPRU = null; }
     }
 
@@ -223,6 +225,8 @@ public class AnimationLabWindow : EditorWindow
                 fitGroundMat.color = ModelFactoryWindow.IsBoatPawn(cur?.pawnDescription)
                     ? new Color(0.23f, 0.36f, 0.47f) : new Color(0.33f, 0.40f, 0.29f);
                 fitPRU.DrawMesh(fitGroundMesh, Matrix4x4.Translate(new Vector3(0f, -0.02f, 0f)), fitGroundMat, 0);
+                if (fitArrowMesh == null) fitArrowMesh = ModelFactoryWindow.BuildForwardArrow("AnimLabForwardArrow");
+                fitPRU.DrawMesh(fitArrowMesh, Matrix4x4.Translate(new Vector3(0f, -0.01f, 0f)), fitFallbackMat, 0);
             }
             bool anyDead = false;
             foreach (var (mesh, mats, mtx) in fitDraws)
@@ -1060,9 +1064,10 @@ public class AnimationLabWindow : EditorWindow
             using (new EditorGUILayout.HorizontalScope())
             {
                 EditorGUILayout.LabelField(
-                    string.IsNullOrEmpty((cur.handPropGuid ?? "").Trim())
-                        ? "Model preview  (drag = orbit · middle/right-drag = pan · scroll = zoom)"
-                        : "Fit preview — model + hand prop  (drag = orbit · middle/right-drag = pan · scroll = zoom)",
+                    (string.IsNullOrEmpty((cur.handPropGuid ?? "").Trim())
+                        ? "Model preview  (drag = orbit · middle/right-drag = pan · scroll = zoom"
+                        : "Fit preview — model + hand prop  (drag = orbit · middle/right-drag = pan · scroll = zoom")
+                    + (fitGrounded ? " · arrow = forward)" : ")"),
                     EditorStyles.miniBoldLabel);
                 if (GUILayout.Button(new GUIContent("Center", "Re-center the view on the model (resets pan + zoom; keeps the orbit angle)"), GUILayout.Width(60)))
                 { fitPan = Vector2.zero; fitZoom = 1.4f; Repaint(); }

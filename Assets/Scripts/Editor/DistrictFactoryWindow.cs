@@ -34,6 +34,7 @@ public class DistrictFactoryWindow : EditorWindow
     PreviewRenderUtility pru;                       // non-serializable; lazily created, cleaned in OnDisable
     Material pvFallbackMat, pvTileMat;              // created on demand, HideAndDontSave, destroyed in OnDisable
     Mesh pvTileMesh;
+    Mesh pvArrowMesh;                               // flat forward arrow on the tile: Facing 0° points along it
     Mesh pvMesh; Material[] pvMats;                 // the baked district mesh + its atlas preview material
     string pvLoadedFor;                             // resourceName the cache was built for (null = load on next paint)
     [SerializeField] Vector2 pvOrbit = new Vector2(35f, -30f);
@@ -48,6 +49,7 @@ public class DistrictFactoryWindow : EditorWindow
         if (pvFallbackMat != null) DestroyImmediate(pvFallbackMat);
         if (pvTileMat != null) DestroyImmediate(pvTileMat);
         if (pvTileMesh != null) DestroyImmediate(pvTileMesh);
+        if (pvArrowMesh != null) DestroyImmediate(pvArrowMesh);
     }
 
     void RefreshList()
@@ -311,7 +313,7 @@ public class DistrictFactoryWindow : EditorWindow
         // grow with the window: ~45% of its height so a tall dock gets a big viewport, never under 300px
         var rect = GUILayoutUtility.GetRect(10f, Mathf.Max(300f, position.height * 0.45f), GUILayout.ExpandWidth(true));
         DrawPreview(rect);
-        EditorGUILayout.LabelField($"{pvMesh.vertexCount} verts · ground square = one district tile (~10 across) at the in-game surface level · LMB orbit, wheel zoom, MMB/RMB pan", EditorStyles.miniLabel);
+        EditorGUILayout.LabelField($"{pvMesh.vertexCount} verts · ground square = one district tile (~10 across) at the in-game surface level · arrow = where Facing 0° points · LMB orbit, wheel zoom, MMB/RMB pan", EditorStyles.miniLabel);
         EditorGUILayout.LabelField("Facing + Position offset preview LIVE (Bake makes them real). Rotation offset is baked into the mesh — re-Bake to see it.", EditorStyles.miniLabel);
     }
 
@@ -379,6 +381,8 @@ public class DistrictFactoryWindow : EditorWindow
             pru.ambientColor = new Color(0.3f, 0.3f, 0.3f);
 
             pru.DrawMesh(TileMesh(), tileMtx, pvTileMat, 0);
+            if (pvArrowMesh == null) pvArrowMesh = ModelFactoryWindow.BuildForwardArrow("DistrictForwardArrow");
+            pru.DrawMesh(pvArrowMesh, Matrix4x4.Translate(new Vector3(0f, -0.01f, 0f)), pvFallbackMat, 0);
             for (int s = 0; s < pvMesh.subMeshCount; s++)
             {
                 var m = pvMats != null && pvMats.Length > 0 ? pvMats[Mathf.Min(s, pvMats.Length - 1)] : null;

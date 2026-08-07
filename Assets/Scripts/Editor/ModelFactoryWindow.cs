@@ -41,6 +41,8 @@ public class ModelFactoryWindow : EditorWindow
     // bake); a model below the square previews sunk because it ships sunk.
     Material previewGroundMat;
     Mesh previewGroundMesh;
+    Mesh previewArrowMesh;   // flat FORWARD arrow on the square (+Z = the game's forward: yaw 0 faces it, a
+                             // projectile's mesh-Z welds to its velocity) — the direction to dial the model toward
     bool previewGrounded;   // only the STATIC _Model.prefab preview is in game space; the animated FactorySource
                             // preview is a display-flipped bind pose (tanks stand on their tail) — a ground square
                             // there would be a LIE, so it only draws when this is set
@@ -100,6 +102,7 @@ public class ModelFactoryWindow : EditorWindow
         previewDraws = null;
         if (previewGroundMat != null) { DestroyImmediate(previewGroundMat); previewGroundMat = null; }
         if (previewGroundMesh != null) { DestroyImmediate(previewGroundMesh); previewGroundMesh = null; }
+        if (previewArrowMesh != null) { DestroyImmediate(previewArrowMesh); previewArrowMesh = null; }
         if (previewPRU == null) return;
         try { previewPRU.Cleanup(); } catch { }
         previewPRU = null;
@@ -166,6 +169,21 @@ public class ModelFactoryWindow : EditorWindow
         if (previewDraws.Count == 0) previewDraws = null;
     }
 
+    // A flat arrow on the ground square from the origin toward +Z (the in-game FORWARD), drawn just above it.
+    // Shared shape for the Factory / Animation Lab / District panes (each owns its instance for clean teardown).
+    internal static Mesh BuildForwardArrow(string name)
+    {
+        var m = new Mesh { name = name, hideFlags = HideFlags.HideAndDontSave };
+        m.vertices = new[]
+        {
+            new Vector3(-0.06f, 0f, 0.3f), new Vector3(0.06f, 0f, 0.3f), new Vector3(0.06f, 0f, 4.2f), new Vector3(-0.06f, 0f, 4.2f),   // shaft
+            new Vector3(-0.25f, 0f, 4.2f), new Vector3(0.25f, 0f, 4.2f), new Vector3(0f, 0f, 5f),                                       // head
+        };
+        m.normals = new[] { Vector3.up, Vector3.up, Vector3.up, Vector3.up, Vector3.up, Vector3.up, Vector3.up };
+        m.triangles = new[] { 0, 3, 2, 0, 2, 1, 4, 6, 5 };
+        return m;
+    }
+
     static Bounds TransformBounds(Matrix4x4 m, Bounds b)
     {
         var c = m.MultiplyPoint3x4(b.center);
@@ -185,7 +203,7 @@ public class ModelFactoryWindow : EditorWindow
         using (new EditorGUILayout.HorizontalScope())
         {
             EditorGUILayout.LabelField("Preview — " + previewFor + "   (drag = orbit · middle-drag = pan · scroll = zoom" +
-                (previewGrounded ? (previewWater ? " · square = water level, ~1 tile)" : " · square = ground level, ~1 tile)")
+                (previewGrounded ? (previewWater ? " · square = water level, ~1 tile · arrow = forward)" : " · square = ground level, ~1 tile · arrow = forward)")
                                  : ")  — legacy display pose (no rig FBX found), orientation not faithful"), EditorStyles.miniBoldLabel);
             if (GUILayout.Button(new GUIContent("Center", "Re-center the view on the model (resets pan + zoom; keeps the orbit angle)"), GUILayout.Width(60)))
             { previewPan = Vector2.zero; previewZoom = 1.4f; Repaint(); }
@@ -259,6 +277,8 @@ public class ModelFactoryWindow : EditorWindow
                 }
                 previewGroundMat.color = previewWater ? new Color(0.23f, 0.36f, 0.47f) : new Color(0.33f, 0.40f, 0.29f);
                 previewPRU.DrawMesh(previewGroundMesh, Matrix4x4.Translate(new Vector3(0f, -0.02f, 0f)), previewGroundMat, 0);
+                if (previewArrowMesh == null) previewArrowMesh = BuildForwardArrow("FactoryForwardArrow");
+                previewPRU.DrawMesh(previewArrowMesh, Matrix4x4.Translate(new Vector3(0f, -0.01f, 0f)), previewFallbackMat, 0);
             }
             bool anyDead = false;
             foreach (var (mesh, mats, mtx) in previewDraws)
