@@ -142,6 +142,22 @@ public class ModelFactoryWindow : EditorWindow
             ? AssetDatabase.LoadAssetAtPath<Material>("Assets/FactorySource/" + name + "/" + name + "_PreviewMat.mat")
             : null;
         if (go != null) BuildDrawList(go, over);
+        // DONOR-CLIP placement approximation (the heli-centering arc): the runtime rebase re-anchors the geometry
+        // through the DONOR skeleton, absorbing the source file's own off-centering — measured, the game renders the
+        // model ~centered on its pawn while the raw FBX sits wherever the source's origin put it. Centering the
+        // footprint here is the closest editor-side prediction short of reproducing the rebase; fine position
+        // (the Position-offset trim) is judged in-game, as the caption says.
+        if (previewDraws != null && cur != null && cur.useDonorClip && path == animFbx)
+            CenterDrawListFootprint();
+    }
+
+    void CenterDrawListFootprint()
+    {
+        var c = previewBounds.center;
+        var t = Matrix4x4.Translate(new Vector3(-c.x, 0f, -c.z));
+        for (int i = 0; i < previewDraws.Count; i++)
+            previewDraws[i] = (previewDraws[i].mesh, previewDraws[i].mats, t * previewDraws[i].mtx);
+        previewBounds.center = new Vector3(0f, c.y, 0f);
     }
 
     // Flatten the baked prefab's renderers into a draw list + combined bounds for the PreviewRenderUtility (same
@@ -227,7 +243,7 @@ public class ModelFactoryWindow : EditorWindow
             EditorGUILayout.LabelField("Preview — " + previewFor + "   (drag = orbit · middle-drag = pan · scroll = zoom" +
                 (previewGrounded ? (previewWater ? " · hex = one tile at water level · arrow = forward)" : " · hex = one tile at ground level · arrow = forward)")
                                  : ")  — legacy display pose (no rig FBX found), orientation not faithful") +
-                (cur != null && cur.useDonorClip ? "  ⚠ donor-clip: in-game placement follows the DONOR rig — judge position in-game" : ""), EditorStyles.miniBoldLabel);
+                (cur != null && cur.useDonorClip ? "  · donor-clip: shown centered (the donor rig re-anchors) — fine position trims in-game" : ""), EditorStyles.miniBoldLabel);
             if (GUILayout.Button(new GUIContent("Center", "Re-center the view on the model (resets pan + zoom; keeps the orbit angle)"), GUILayout.Width(60)))
             { previewPan = Vector2.zero; previewZoom = 1.4f; Repaint(); }
         }
