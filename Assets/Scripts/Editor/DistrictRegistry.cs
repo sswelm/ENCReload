@@ -33,7 +33,10 @@ public class DistrictDef
     public int targetTris = 24000;     // quadric-decimate ceiling; districts share the 'Visual' GPU buffer (see DistrictBufferHeadroom)
     public string stripParts = "";     // Blender: comma-separated object-name substrings to DELETE before baking
     public bool reuseExtracted = false; // reuse the extracted OBJ/albedo on re-bake (keeps hand-edited textures)
-    public Vector3 importAngles = new Vector3(-90f, 0f, 0f);   // FxMesh draw-time rotation; (-90,0,0) = vanilla upright default
+    public Vector3 importAngles = Vector3.zero;   // FxMesh draw-time rotation — LEGACY (pre-Facing entries keep theirs; composed at bake). No longer a UI control: new entries stand up via `rotation`, turn via `facing`. Vanilla's own district FxMeshes use (-90,0,0) (Z-up authoring), ours bake upright.
+    public float facing = 0f;          // rotation ON the tile (deg, about the drawn-space vertical) — composed on top of importAngles at bake; the safe "turn the building" knob
+    public Vector3 posOffset = Vector3.zero;      // position on the tile, drawn-space world units (X/Z across the tile — a tile is ~10 — Y lifts off the ground); applied AFTER auto-level at bake
+    public Vector3 posOffsetBaked = Vector3.zero; // BAKE-STATE: the posOffset the current FxMesh carries — the preview shows posOffset edits live as a delta against this
 }
 
 [Serializable]

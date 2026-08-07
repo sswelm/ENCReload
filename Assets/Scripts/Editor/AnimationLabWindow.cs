@@ -37,6 +37,12 @@ public class AnimationLabWindow : EditorWindow
     [SerializeField] Vector2 fitPan;                                // camera-plane pan (middle/right-drag), in dist units
     [SerializeField] Vector3 fitAngles;             // LIVE prop rotation: applied to the previewed prop instantly (no bake) and saved to the registry (the plugin stamps the same value in-game)
     static Material fitFallbackMat;
+    // GROUND REFERENCE (same square as the District/Model Factory panes): a tile-sized square at the ORIGIN plane.
+    // Drawn only for the FBX rest-pose route (fitGrounded) — the rig is rest-normalized with the ground at the origin,
+    // so the square is the in-game ground truth there; the static-prefab fallback is display-flipped and would lie.
+    [SerializeField] bool fitGrounded;
+    Material fitGroundMat;
+    Mesh fitGroundMesh;
 
     [MenuItem("Tools/HAF/Animation Lab")]
     static void Open()
@@ -88,6 +94,8 @@ public class AnimationLabWindow : EditorWindow
     void DestroyFitPreview()
     {
         fitDraws = null;
+        if (fitGroundMat != null) { DestroyImmediate(fitGroundMat); fitGroundMat = null; }
+        if (fitGroundMesh != null) { DestroyImmediate(fitGroundMesh); fitGroundMesh = null; }
         if (fitPRU != null) { try { fitPRU.Cleanup(); } catch { } fitPRU = null; }
     }
 
@@ -181,10 +189,13 @@ public class AnimationLabWindow : EditorWindow
         try
         {
             var cam = fitPRU.camera;
-            float radius = Mathf.Max(fitBounds.extents.magnitude, 0.1f);
+            // frame the ground square too when it's drawn — a square outside the frustum reads as "no square"
+            var frame = fitBounds;
+            if (fitGrounded) frame.Encapsulate(new Bounds(new Vector3(0f, -0.02f, 0f), new Vector3(10f, 0.04f, 10f)));
+            float radius = Mathf.Max(frame.extents.magnitude, 0.1f);
             float dist = radius * 2.0f * fitZoom;
             var rot = Quaternion.Euler(-fitOrbit.y, fitOrbit.x, 0f);
-            var lookAt = fitBounds.center + rot * new Vector3(fitPan.x, fitPan.y, 0f) * dist;   // pan shifts the look target in the camera plane
+            var lookAt = frame.center + rot * new Vector3(fitPan.x, fitPan.y, 0f) * dist;   // pan shifts the look target in the camera plane
             cam.transform.position = lookAt + rot * (Vector3.back * dist);
             cam.transform.rotation = Quaternion.LookRotation(lookAt - cam.transform.position);
             cam.nearClipPlane = 0.01f;
@@ -194,6 +205,22 @@ public class AnimationLabWindow : EditorWindow
             fitPRU.lights[0].transform.rotation = Quaternion.Euler(45f, 45f, 0f);
             if (fitPRU.lights.Length > 1) fitPRU.lights[1].intensity = 0.6f;
             fitPRU.ambientColor = new Color(0.3f, 0.3f, 0.3f);
+            if (fitGrounded)
+            {
+                if (fitGroundMesh == null)
+                {
+                    fitGroundMesh = new Mesh { name = "AnimLabGroundPreview", hideFlags = HideFlags.HideAndDontSave };
+                    fitGroundMesh.vertices = new[] { new Vector3(-5f, 0f, -5f), new Vector3(5f, 0f, -5f), new Vector3(5f, 0f, 5f), new Vector3(-5f, 0f, 5f) };
+                    fitGroundMesh.normals = new[] { Vector3.up, Vector3.up, Vector3.up, Vector3.up };
+                    fitGroundMesh.triangles = new[] { 0, 3, 2, 0, 2, 1 };
+                }
+                if (fitGroundMat == null)
+                {
+                    fitGroundMat = new Material(Shader.Find("Standard")) { hideFlags = HideFlags.HideAndDontSave, color = new Color(0.33f, 0.40f, 0.29f) };
+                    fitGroundMat.SetFloat("_Glossiness", 0f);
+                }
+                fitPRU.DrawMesh(fitGroundMesh, Matrix4x4.Translate(new Vector3(0f, -0.02f, 0f)), fitGroundMat, 0);
+            }
             bool anyDead = false;
             foreach (var (mesh, mats, mtx) in fitDraws)
             {
@@ -236,6 +263,7 @@ public class AnimationLabWindow : EditorWindow
                 // old preview prefab whose fixed display flips stood the howitzer on end.
                 string pp = "Assets/FactorySource/" + res + "/" + res + "_Preview.prefab";
                 if (AssetDatabase.LoadAssetAtPath<GameObject>(pp) == null) { status = "No preview assets for '" + res + "' — bake the model first."; return; }
+                fitGrounded = false;   // display-flipped prefab — the origin square would lie here
                 LoadFitPreview(pp);
                 return;
             }
@@ -281,6 +309,7 @@ public class AnimationLabWindow : EditorWindow
                 string outPath = "Assets/FactorySource/" + res + "/" + res + "_PropFit.prefab";
                 AssetDatabase.DeleteAsset(outPath);
                 PrefabUtility.SaveAsPrefabAsset(inst, outPath);
+                fitGrounded = true;    // rest-pose rig route — origin plane = the in-game ground
                 LoadFitPreview(outPath);
                 status = withProp
                     ? "Fit preview rebuilt (" + outPath + ") — model + prop. NOT shipped; preview-only."

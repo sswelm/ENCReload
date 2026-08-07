@@ -35,6 +35,15 @@ public class ModelFactoryWindow : EditorWindow
     [SerializeField] Vector2 previewPan;                              // camera-plane pan offset (middle/right-drag), in radius units
     static Material previewFallbackMat;
     string previewFor = "";
+    // GROUND REFERENCE (ported back from the District Factory pane, user request): a tile-sized square pinned at the
+    // ORIGIN plane — the static bake grounds the keel to the origin and Position offset moves the model relative to it,
+    // so this square IS the in-game ground truth. Never anchor it to the model's bounds (that HID a half-sunk district
+    // bake); a model below the square previews sunk because it ships sunk.
+    Material previewGroundMat;
+    Mesh previewGroundMesh;
+    bool previewGrounded;   // only the STATIC _Model.prefab preview is in game space; the animated FactorySource
+                            // preview is a display-flipped bind pose (tanks stand on their tail) — a ground square
+                            // there would be a LIE, so it only draws when this is set
 
     // Cheap animation probe (no Blender), cached per model-file path. State: 0 = unknown (allow), 1 = animation
     // detected (allow + hint), 2 = definitely none (disable the Animated toggle). Keeps the checkbox from being ticked
@@ -87,6 +96,8 @@ public class ModelFactoryWindow : EditorWindow
     void DestroyPreview()
     {
         previewDraws = null;
+        if (previewGroundMat != null) { DestroyImmediate(previewGroundMat); previewGroundMat = null; }
+        if (previewGroundMesh != null) { DestroyImmediate(previewGroundMesh); previewGroundMesh = null; }
         if (previewPRU == null) return;
         try { previewPRU.Cleanup(); } catch { }
         previewPRU = null;
@@ -101,13 +112,18 @@ public class ModelFactoryWindow : EditorWindow
         previewFor = name ?? "";
         if (string.IsNullOrEmpty(name)) return;
         // The animated preview companion lives in FactorySource (bake INPUT, not shipped), NOT Resources — see
-        // GeneratePreviewPrefab. This path lagged behind when the working folder moved out of Resources, so the animated
-        // preview silently stopped loading; keep it pointed at FactorySource. The static _Model.prefab is a shipped OUTPUT and stays in Resources root.
+        // GeneratePreviewPrefab. The static _Model.prefab is a shipped OUTPUT and stays in Resources root.
+        // (A short-lived unification previewed animated entries from the REST-POSE anim FBX here, like the Animation
+        // Lab — faithful and grounded, but its post-bake force-reimport of that FBX corrupted the Lab's preview
+        // texture on tiling-UV rigs. REVERTED on user request: the Factory shows the display-flipped prefab for
+        // animated entries and points at the Lab for the faithful view. Root-cause the reimport scramble before
+        // re-attempting.)
         string animPath = "Assets/FactorySource/" + name + "/" + name + "_Preview.prefab";
         string staticPath = "Assets/Resources/" + name + "_Model.prefab";
         string path = AssetDatabase.LoadMainAssetAtPath(animPath) != null ? animPath
                     : AssetDatabase.LoadMainAssetAtPath(staticPath) != null ? staticPath : null;
         if (path == null) return;
+        previewGrounded = path == staticPath;   // see the field comment — game-space previews only
         if (forceReimport)
             foreach (var dep in new[] { "Assets/Resources/" + name + "_ModelMesh.asset", path })
                 if (AssetDatabase.LoadMainAssetAtPath(dep) != null)
@@ -150,7 +166,8 @@ public class ModelFactoryWindow : EditorWindow
     {
         if (previewDraws == null) return;
         EditorGUILayout.Space();
-        EditorGUILayout.LabelField("Preview — " + previewFor + "   (drag = orbit · middle-drag = pan · scroll = zoom)", EditorStyles.miniBoldLabel);
+        EditorGUILayout.LabelField("Preview — " + previewFor + "   (drag = orbit · middle-drag = pan · scroll = zoom" +
+            (previewGrounded ? " · square = ground level, ~1 tile)" : ")  — animated: display pose, see the Animation Lab for the faithful view"), EditorStyles.miniBoldLabel);
         var r = GUILayoutUtility.GetRect(200, 260, GUILayout.ExpandWidth(true));
         var e = Event.current;
         if (r.Contains(e.mousePosition))
@@ -185,11 +202,15 @@ public class ModelFactoryWindow : EditorWindow
         try
         {
             var cam = previewPRU.camera;
-            float radius = Mathf.Max(previewBounds.extents.magnitude, 0.1f);
+            // frame the ground square too when it's drawn — the model can sit away from the origin, and a square
+            // outside the frustum reads as "no square" (the TankDestroyers rebake proved it)
+            var frame = previewBounds;
+            if (previewGrounded) frame.Encapsulate(new Bounds(new Vector3(0f, -0.02f, 0f), new Vector3(10f, 0.04f, 10f)));
+            float radius = Mathf.Max(frame.extents.magnitude, 0.1f);
             float dist = radius * 2.0f * previewZoom;
             var rot = Quaternion.Euler(-previewOrbit.y, previewOrbit.x, 0f);
             // pan shifts the look target along the camera's right/up axes (× radius so it feels consistent at any size)
-            var center = previewBounds.center + rot * new Vector3(previewPan.x * radius, previewPan.y * radius, 0f);
+            var center = frame.center + rot * new Vector3(previewPan.x * radius, previewPan.y * radius, 0f);
             cam.transform.position = center + rot * (Vector3.back * dist);
             cam.transform.rotation = Quaternion.LookRotation(center - cam.transform.position);
             cam.nearClipPlane = 0.01f;
@@ -199,6 +220,23 @@ public class ModelFactoryWindow : EditorWindow
             previewPRU.lights[0].transform.rotation = Quaternion.Euler(45f, 45f, 0f);
             if (previewPRU.lights.Length > 1) previewPRU.lights[1].intensity = 0.6f;
             previewPRU.ambientColor = new Color(0.3f, 0.3f, 0.3f);
+            // ground square first, at the ORIGIN plane (the in-game ground; see the field comment) — one tile ~10 across
+            if (previewGrounded)
+            {
+                if (previewGroundMesh == null)
+                {
+                    previewGroundMesh = new Mesh { name = "FactoryGroundPreview", hideFlags = HideFlags.HideAndDontSave };
+                    previewGroundMesh.vertices = new[] { new Vector3(-5f, 0f, -5f), new Vector3(5f, 0f, -5f), new Vector3(5f, 0f, 5f), new Vector3(-5f, 0f, 5f) };
+                    previewGroundMesh.normals = new[] { Vector3.up, Vector3.up, Vector3.up, Vector3.up };
+                    previewGroundMesh.triangles = new[] { 0, 3, 2, 0, 2, 1 };
+                }
+                if (previewGroundMat == null)
+                {
+                    previewGroundMat = new Material(Shader.Find("Standard")) { hideFlags = HideFlags.HideAndDontSave, color = new Color(0.33f, 0.40f, 0.29f) };
+                    previewGroundMat.SetFloat("_Glossiness", 0f);
+                }
+                previewPRU.DrawMesh(previewGroundMesh, Matrix4x4.Translate(new Vector3(0f, -0.02f, 0f)), previewGroundMat, 0);
+            }
             bool anyDead = false;
             foreach (var (mesh, mats, mtx) in previewDraws)
             {

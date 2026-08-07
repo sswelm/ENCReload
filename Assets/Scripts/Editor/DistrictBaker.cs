@@ -43,7 +43,9 @@ public static class DistrictBaker
     // the model's bottom off the origin plane (the nuclear plant sank to its domes). Shift the vertices so that AFTER the
     // importAngles rotation the lowest point sits at y=0 and the footprint is centered. NEVER for props/projectiles —
     // their pivots are meaningful (props glue to hand bones; a projectile's mesh-Z welds to its velocity).
-    public static string BakeFxMesh(Mesh mesh, string baseName, Vector3 importAngles, out string fxMeshPath, bool mergeSubMeshes = false, bool levelOnGround = false)
+    // postLevelOffset: the District Factory's Position-offset knob — a nudge in DRAWN-space world units (X/Z across the
+    // tile, Y lifts off the ground) applied AFTER the leveling, so leveling can't cancel it out.
+    public static string BakeFxMesh(Mesh mesh, string baseName, Vector3 importAngles, out string fxMeshPath, bool mergeSubMeshes = false, bool levelOnGround = false, Vector3 postLevelOffset = default)
     {
         fxMeshPath = null;
         if (mesh == null) { Debug.LogError("[District] BakeFxMesh: no mesh."); return null; }
@@ -64,14 +66,15 @@ public static class DistrictBaker
                 var w = R * verts[i];
                 min = Vector3.Min(min, w); max = Vector3.Max(max, w);
             }
-            // desired shift in DRAWN space: footprint centered on the tile, bottom on the surface — applied to the
-            // stored vertices through the inverse rotation so the draw-time importAngles land it exactly there
-            var shift = new Vector3(-(min.x + max.x) * 0.5f, -min.y, -(min.z + max.z) * 0.5f);
+            // desired shift in DRAWN space: footprint centered on the tile, bottom on the surface, then the author's
+            // Position-offset nudge — applied to the stored vertices through the inverse rotation so the draw-time
+            // importAngles land it exactly there
+            var shift = new Vector3(-(min.x + max.x) * 0.5f, -min.y, -(min.z + max.z) * 0.5f) + postLevelOffset;
             if (shift.sqrMagnitude > 1e-10f)
             {
                 var t = Quaternion.Inverse(R) * shift;
                 for (int i = 0; i < verts.Length; i++) verts[i] += t;
-                Debug.Log($"[District] {baseName}: leveled on the tile surface (drawn-space shift {shift})");
+                Debug.Log($"[District] {baseName}: leveled on the tile surface (drawn-space shift {shift}, offset {postLevelOffset})");
             }
         }
         var stat = new Mesh { name = baseName + "_DistrictMesh", indexFormat = mesh.indexFormat };

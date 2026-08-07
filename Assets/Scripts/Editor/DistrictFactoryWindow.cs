@@ -27,8 +27,8 @@ public class DistrictFactoryWindow : EditorWindow
     Vector2 scroll;
 
     // EMBEDDED PREVIEW — renders the entry's baked mesh exactly as the game draws it (the FxMesh path: the bone-free
-    // _DistrictMesh rotated by the draw-time import angles), standing on a district-tile ground square (~10 across) so
-    // the Size knob reads at a glance. Import angles come LIVE from the form field, so the model can be dialed upright
+    // _DistrictMesh rotated by the draw-time FxMesh rotation), standing on a district-tile ground square (~10 across) so
+    // the Size knob reads at a glance. Facing comes LIVE from the form field, so the model can be turned by eye
     // in here; the Rotation offset is baked into the vertices and only shows after a re-Bake. Same PreviewRenderUtility
     // owner-camera pattern as the Animation Lab (built-in previews have no zoom and the scroll view steals the wheel).
     PreviewRenderUtility pru;                       // non-serializable; lazily created, cleaned in OnDisable
@@ -138,12 +138,19 @@ public class DistrictFactoryWindow : EditorWindow
         cur.size = EditorGUILayout.FloatField(new GUIContent("Size",
             "World length of the model's longest axis. A district tile is ~10 across — ~5 reads imposing, ~2.5 tile-furniture."), cur.size);
         cur.rotation = EditorGUILayout.Vector3Field(new GUIContent("Rotation offset (deg)",
-            "On top of the automatic longest-axis align — which can TIP a near-cubic model onto its side, around ANY axis. " +
-            "The reactor needed Y=180, Z=90. Check the <name>_FxMesh Inspector preview after baking: it PREDICTS the in-game " +
-            "orientation, so dial it in there instead of relaunching the game per guess."), cur.rotation);
-        cur.importAngles = EditorGUILayout.Vector3Field(new GUIContent("FxMesh import angles",
-            "Draw-time rotation on the FxMesh (no re-bake needed to change it — edit the FxMesh asset in the Inspector). " +
-            "(-90,0,0) is the vanilla upright default (the game authors district meshes Z-up)."), cur.importAngles);
+            "The STAND-IT-UP control, baked into the mesh — on top of the automatic longest-axis align, which can TIP a " +
+            "near-cubic model onto its side around ANY axis (the plant needed Z=-90). The preview below shows the result " +
+            "after each Bake — dial it there, no relaunch needed. To merely TURN a standing building, use Facing instead."), cur.rotation);
+        cur.facing = EditorGUILayout.Slider(new GUIContent("Facing on tile (deg)",
+            "Turn the building on its tile — always about the vertical, can't tip it. Previewed LIVE; written into the " +
+            "FxMesh at Bake (auto-level re-grounds for the result)."), cur.facing, 0f, 360f);
+        cur.posOffset = EditorGUILayout.Vector3Field(new GUIContent("Position offset",
+            "Nudge the building on its tile, in world units (a tile is ~10 across): X/Z slide it over the tile, Y lifts " +
+            "it off the ground. Applied AFTER the auto-level at Bake (so leveling can't cancel it); previewed LIVE. " +
+            "The same knob the Model Factory has for units."), cur.posOffset);
+        // cur.importAngles stays in the registry for entries authored before Facing (their FxMesh rotation composes it),
+        // but it's no longer a UI control: Rotation offset stands the model up (previewed per bake), Facing turns it
+        // (previewed live) — two rotation fields with overlapping jobs only bred "which one do I use?".
         cur.targetTris = EditorGUILayout.IntField(new GUIContent("Target triangles",
             "Quadric-decimate ceiling before baking (0 = off; models under it pass through untouched). District meshes share " +
             "one ~3M-vert GPU buffer that runs nearly FULL in a late-game city — keep this modest, or set the plugin's " +
@@ -195,7 +202,7 @@ public class DistrictFactoryWindow : EditorWindow
 
         EditorGUILayout.HelpBox(
             "Bake imports the model, bakes a bone-free district FxMesh, and writes the enc_districts.json entry the plugin reads.\n" +
-            "• Check the baked <name>_FxMesh Inspector preview — it predicts the in-game orientation. Tune Rotation / import angles until it stands.\n" +
+            "• The preview below predicts the in-game look. Tune Rotation offset until it stands (re-Bake to see), Facing to turn it (live).\n" +
             "• DATA prerequisite (once per district): set a renderable ConstructibleVisualAffinity + CLEAR Additional Visual Levels on the definition.\n" +
             "• Plugin prerequisite: [District] DistrictRepoint = true (+ DistrictBufferHeadroom for big meshes in late-game cities).\n" +
             "• Then REBUILD the mod (ships the FxMesh) and relaunch.\n" +
@@ -233,9 +240,10 @@ public class DistrictFactoryWindow : EditorWindow
         // 2) wrap the baked mesh as the bone-free district FxMesh
         var mesh = AssetDatabase.LoadAssetAtPath<Mesh>("Assets/Resources/" + cur.resourceName + "_ModelMesh.asset");
         if (mesh == null) { status = $"Bake succeeded but '{cur.resourceName}_ModelMesh.asset' wasn't found — can't build the FxMesh."; return; }
-        string guid = DistrictBaker.BakeFxMesh(mesh, cur.resourceName, cur.importAngles, out _, levelOnGround: true);
+        string guid = DistrictBaker.BakeFxMesh(mesh, cur.resourceName, ComposedImportAngles(), out _, levelOnGround: true, postLevelOffset: cur.posOffset);
         if (string.IsNullOrEmpty(guid)) { status = "District FxMesh bake FAILED (see Console)."; return; }
         cur.fxMeshGuid = guid;
+        cur.posOffsetBaked = cur.posOffset;   // the preview shows future posOffset edits as a live delta against this
 
         // the baked albedo atlas GUID — the plugin paints it into the district atlas page (texture injection)
         var atlasTex = AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/Resources/" + cur.resourceName + "_Atlas.asset");
@@ -302,7 +310,7 @@ public class DistrictFactoryWindow : EditorWindow
         var rect = GUILayoutUtility.GetRect(10f, Mathf.Max(300f, position.height * 0.45f), GUILayout.ExpandWidth(true));
         DrawPreview(rect);
         EditorGUILayout.LabelField($"{pvMesh.vertexCount} verts · ground square = one district tile (~10 across) at the in-game surface level · LMB orbit, wheel zoom, MMB/RMB pan", EditorStyles.miniLabel);
-        EditorGUILayout.LabelField("Import angles turn the preview LIVE (Bake writes them to the FxMesh). Rotation offset is baked into the mesh — re-Bake to see it.", EditorStyles.miniLabel);
+        EditorGUILayout.LabelField("Facing + Position offset preview LIVE (Bake makes them real). Rotation offset is baked into the mesh — re-Bake to see it.", EditorStyles.miniLabel);
     }
 
     void DrawPreview(Rect rect)
@@ -342,8 +350,10 @@ public class DistrictFactoryWindow : EditorWindow
         Texture tex = null;
         try
         {
-            // the game's draw-time rotation, LIVE from the form field — dial the model upright right here
-            var mtx = Matrix4x4.Rotate(Quaternion.Euler(cur.importAngles));
+            // the game's draw-time rotation, LIVE from the form fields — dial the model upright + turned right here.
+            // Position offset previews as a DELTA vs what the current bake already carries (baked into the vertices).
+            var mtx = Matrix4x4.Translate(cur.posOffset - cur.posOffsetBaked)
+                    * Matrix4x4.Rotate(Quaternion.Euler(0f, cur.facing, 0f) * Quaternion.Euler(cur.importAngles));
             var b = TransformBounds(mtx, pvMesh.bounds);
             // the tile square is the TRUE in-game surface: the plane through the origin. It must NOT follow the model —
             // anchoring it under the mesh's lowest point hid a half-sunk bake (the nuclear plant surfaced only its domes
@@ -399,6 +409,11 @@ public class DistrictFactoryWindow : EditorWindow
             Mathf.Abs(m.m20) * e.x + Mathf.Abs(m.m21) * e.y + Mathf.Abs(m.m22) * e.z);
         return new Bounds(c, ne * 2f);
     }
+
+    // The full draw-time rotation written into the FxMesh: Facing (a yaw about the drawn-space vertical) applied AFTER
+    // the import angles — so import angles stand the model up and Facing turns the standing model, never tips it.
+    Vector3 ComposedImportAngles() =>
+        (Quaternion.Euler(0f, cur.facing, 0f) * Quaternion.Euler(cur.importAngles)).eulerAngles;
 
     // Extension_Base_BreederReactor -> "BreederReactor". Suggested resource name.
     static string DeriveResourceName(string districtName)
