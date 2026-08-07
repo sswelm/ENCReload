@@ -148,9 +148,15 @@ public class DistrictFactoryWindow : EditorWindow
             "Turn the building on its tile — always about the vertical, can't tip it. Previewed LIVE; written into the " +
             "FxMesh at Bake (auto-level re-grounds for the result)."), cur.facing, 0f, 360f);
         cur.posOffset = EditorGUILayout.Vector3Field(new GUIContent("Position offset",
-            "Nudge the building on its tile, in world units (a tile is ~10 across): X/Z slide it over the tile, Y lifts " +
-            "it off the ground. Applied AFTER the auto-level at Bake (so leveling can't cancel it); previewed LIVE. " +
-            "The same knob the Model Factory has for units."), cur.posOffset);
+            "Nudge the building on its tile, in world units (a tile hex is ~7 across): X/Z slide it over the tile, Y " +
+            "lifts it off the ground. Applied AFTER the auto-level at Bake (so leveling can't cancel it); previewed " +
+            "LIVE. The same knob the Model Factory has for units."), cur.posOffset);
+        cur.clipHexPct = EditorGUILayout.Slider(new GUIContent("Clip to tile hex (%)",
+            "CUT the model to the in-game cell at Bake, so an oversized site plan ends at the hex border like a vanilla " +
+            "district instead of overhanging its neighbors. 100 = the exact cell (the preview hex); slightly less pulls " +
+            "the cut inside the border, slightly more leaves a rim. 0 = off. Tip: with the clip on, Size 8-9 lets the " +
+            "site plan FILL the whole cell corner to corner. Cut faces are open (no cap) — fine from the game camera, " +
+            "check the preview after Bake."), cur.clipHexPct, 0f, 120f);
         // cur.importAngles stays in the registry for entries authored before Facing (their FxMesh rotation composes it),
         // but it's no longer a UI control: Rotation offset stands the model up (previewed per bake), Facing turns it
         // (previewed live) — two rotation fields with overlapping jobs only bred "which one do I use?".
@@ -165,6 +171,13 @@ public class DistrictFactoryWindow : EditorWindow
             cur.smoothingAngle = EditorGUILayout.Slider("Smoothing angle", cur.smoothingAngle, 0f, 180f);
         cur.convertGrid = EditorGUILayout.IntField(new GUIContent("Convert grid",
             "GLB→OBJ conversion: 0 = faithful (preserves UV seams — textured models), >0 = vertex-cluster decimate (heavy untextured meshes)."), cur.convertGrid);
+        int atlasIdx = Array.IndexOf(new[] { 256, 512, 1024, 2048, 4096 }, cur.atlasMaxDim <= 0 ? 1024 : cur.atlasMaxDim);
+        atlasIdx = EditorGUILayout.Popup(new GUIContent("Atlas size",
+            "Longest side of the packed texture atlas. Multi-material models divide this between ALL their sheets " +
+            "(the temple packs ten 1024² textures — at 512 each got ~160², visibly blurry). Districts render close-up: " +
+            "1024 minimum for multi-material, 2048 for hero pieces like wonders."), atlasIdx < 0 ? 2 : atlasIdx,
+            new[] { "256", "512", "1024", "2048", "4096" });
+        cur.atlasMaxDim = new[] { 256, 512, 1024, 2048, 4096 }[atlasIdx];
         cur.stripParts = EditorGUILayout.TextField(new GUIContent("Strip parts",
             "Comma-separated object-name substrings to DELETE from the source model before baking (via Blender). Empty = keep everything."), cur.stripParts ?? "");
         cur.reuseExtracted = EditorGUILayout.Toggle(new GUIContent("Reuse extracted files",
@@ -235,7 +248,7 @@ public class DistrictFactoryWindow : EditorWindow
             rotationEuler = cur.rotation, positionOffset = Vector3.zero, size = cur.size,
             normals = (NormalsMode)cur.normalsMode, smoothingAngle = cur.smoothingAngle, convertGrid = cur.convertGrid,
             targetTris = cur.targetTris, stripParts = cur.stripParts, reuseExtracted = cur.reuseExtracted,
-            materialMode = MaterialMode.Auto, atlasMaxDim = 512, albedoBrightness = 1f, albedoSaturation = 1f,
+            materialMode = MaterialMode.Auto, atlasMaxDim = cur.atlasMaxDim <= 0 ? 1024 : cur.atlasMaxDim, albedoBrightness = 1f, albedoSaturation = 1f,
         };
         var r = UniversalBaker.Build(cfg);
         if (!r.ok) { status = "Bake FAILED: " + r.error; return; }
@@ -243,7 +256,7 @@ public class DistrictFactoryWindow : EditorWindow
         // 2) wrap the baked mesh as the bone-free district FxMesh
         var mesh = AssetDatabase.LoadAssetAtPath<Mesh>("Assets/Resources/" + cur.resourceName + "_ModelMesh.asset");
         if (mesh == null) { status = $"Bake succeeded but '{cur.resourceName}_ModelMesh.asset' wasn't found — can't build the FxMesh."; return; }
-        string guid = DistrictBaker.BakeFxMesh(mesh, cur.resourceName, ComposedImportAngles(), out _, levelOnGround: true, postLevelOffset: cur.posOffset);
+        string guid = DistrictBaker.BakeFxMesh(mesh, cur.resourceName, ComposedImportAngles(), out _, levelOnGround: true, postLevelOffset: cur.posOffset, clipHexPct: cur.clipHexPct);
         if (string.IsNullOrEmpty(guid)) { status = "District FxMesh bake FAILED (see Console)."; return; }
         cur.fxMeshGuid = guid;
         cur.posOffsetBaked = cur.posOffset;   // the preview shows future posOffset edits as a live delta against this

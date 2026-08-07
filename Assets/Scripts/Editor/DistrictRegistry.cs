@@ -37,6 +37,8 @@ public class DistrictDef
     public float facing = 0f;          // rotation ON the tile (deg, about the drawn-space vertical) — composed on top of importAngles at bake; the safe "turn the building" knob
     public Vector3 posOffset = Vector3.zero;      // position on the tile, drawn-space world units (X/Z across the tile — a tile is ~10 — Y lifts off the ground); applied AFTER auto-level at bake
     public Vector3 posOffsetBaked = Vector3.zero; // BAKE-STATE: the posOffset the current FxMesh carries — the preview shows posOffset edits live as a delta against this
+    public float clipHexPct = 0f;                 // >0 = CLIP the mesh to the tile hex at bake (100 = the exact in-game cell, 6.93 across flats), so the model tiles like a vanilla district; 0 = off
+    public int atlasMaxDim = 1024;                // packed-atlas resolution (was hardcoded 512 — ten 1024² source sheets crushed to ~160² each on the temple); districts render close-up, 1024-2048 is right for multi-material models
 }
 
 [Serializable]

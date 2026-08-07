@@ -45,7 +45,11 @@ public static class DistrictBaker
     // their pivots are meaningful (props glue to hand bones; a projectile's mesh-Z welds to its velocity).
     // postLevelOffset: the District Factory's Position-offset knob — a nudge in DRAWN-space world units (X/Z across the
     // tile, Y lifts off the ground) applied AFTER the leveling, so leveling can't cancel it out.
-    public static string BakeFxMesh(Mesh mesh, string baseName, Vector3 importAngles, out string fxMeshPath, bool mergeSubMeshes = false, bool levelOnGround = false, Vector3 postLevelOffset = default)
+    // clipHexPct (>0): CLIP the leveled mesh to the tile hex (100 = the exact in-game cell, inradius 3.465 — the same
+    // hex the previews draw, flat edge facing +Z), so an oversized site-plan model ends at the cell border like a
+    // vanilla district instead of overhanging its neighbors. Clipping runs in the same drawn-space frame as the
+    // leveling (via rotated plane normals); cut faces are left open — fine from the game's top-down camera.
+    public static string BakeFxMesh(Mesh mesh, string baseName, Vector3 importAngles, out string fxMeshPath, bool mergeSubMeshes = false, bool levelOnGround = false, Vector3 postLevelOffset = default, float clipHexPct = 0f)
     {
         fxMeshPath = null;
         if (mesh == null) { Debug.LogError("[District] BakeFxMesh: no mesh."); return null; }
@@ -56,9 +60,9 @@ public static class DistrictBaker
         // STATIC shader that can't read a skinned vertex format — the mesh uploads but draws nothing. So build a bone-FREE
         // static copy (geometry only) and wrap THAT in the FxMesh. Keeps the original _ModelMesh intact for the unit path.
         var verts = mesh.vertices;
+        var R = Quaternion.Euler(importAngles);
         if (levelOnGround && verts.Length > 0)
         {
-            var R = Quaternion.Euler(importAngles);
             var min = new Vector3(float.MaxValue, float.MaxValue, float.MaxValue);
             var max = new Vector3(float.MinValue, float.MinValue, float.MinValue);
             for (int i = 0; i < verts.Length; i++)
@@ -77,23 +81,40 @@ public static class DistrictBaker
                 Debug.Log($"[District] {baseName}: leveled on the tile surface (drawn-space shift {shift}, offset {postLevelOffset})");
             }
         }
-        var stat = new Mesh { name = baseName + "_DistrictMesh", indexFormat = mesh.indexFormat };
+
+        // gather attributes + per-submesh triangle lists (the clip rebuilds them; the plain path passes them through)
+        var normals = mesh.normals; var uvs = mesh.uv; var tangents = mesh.tangents; var colors = mesh.colors;
+        bool hasN = normals != null && normals.Length == mesh.vertexCount;
+        bool hasU = uvs != null && uvs.Length == mesh.vertexCount;
+        bool hasT = tangents != null && tangents.Length == mesh.vertexCount;
+        bool hasC = colors != null && colors.Length == mesh.vertexCount;
+        var subTris = new int[mesh.subMeshCount][];
+        for (int s = 0; s < mesh.subMeshCount; s++) subTris[s] = mesh.GetTriangles(s);
+
+        if (clipHexPct > 0f && verts.Length > 0)
+        {
+            int before = verts.Length;
+            ClipToTileHex(ref verts, ref normals, ref uvs, ref tangents, ref colors, hasN, hasU, hasT, hasC, subTris, R, clipHexPct);
+            Debug.Log($"[District] {baseName}: clipped to the tile hex at {clipHexPct:0}% ({before} -> {verts.Length} verts)");
+        }
+
+        var stat = new Mesh { name = baseName + "_DistrictMesh", indexFormat = UnityEngine.Rendering.IndexFormat.UInt32 };
         stat.SetVertices(verts);
-        if (mesh.normals != null && mesh.normals.Length == mesh.vertexCount) stat.SetNormals(mesh.normals);
-        if (mesh.uv != null && mesh.uv.Length == mesh.vertexCount) stat.SetUVs(0, mesh.uv);
-        if (mesh.tangents != null && mesh.tangents.Length == mesh.vertexCount) stat.SetTangents(mesh.tangents);
-        if (mesh.colors != null && mesh.colors.Length == mesh.vertexCount) stat.SetColors(mesh.colors);
-        if (mergeSubMeshes && mesh.subMeshCount > 1)
+        if (hasN && normals.Length == verts.Length) stat.SetNormals(normals);
+        if (hasU && uvs.Length == verts.Length) stat.SetUVs(0, uvs);
+        if (hasT && tangents.Length == verts.Length) stat.SetTangents(tangents);
+        if (hasC && colors.Length == verts.Length) stat.SetColors(colors);
+        if (mergeSubMeshes && subTris.Length > 1)
         {
             var tris = new System.Collections.Generic.List<int>();
-            for (int s = 0; s < mesh.subMeshCount; s++) tris.AddRange(mesh.GetTriangles(s));
+            for (int s = 0; s < subTris.Length; s++) tris.AddRange(subTris[s]);
             stat.subMeshCount = 1;
             stat.SetTriangles(tris, 0);
         }
         else
         {
-            stat.subMeshCount = mesh.subMeshCount;
-            for (int s = 0; s < mesh.subMeshCount; s++) stat.SetTriangles(mesh.GetTriangles(s), s);
+            stat.subMeshCount = subTris.Length;
+            for (int s = 0; s < subTris.Length; s++) stat.SetTriangles(subTris[s], s);
         }
         // NO boneWeights / bindposes -> a pure static mesh the district shader can render.
         if (stat.tangents == null || stat.tangents.Length != stat.vertexCount) stat.RecalculateTangents();
@@ -119,6 +140,106 @@ public static class DistrictBaker
         Debug.Log($"[District] FxMesh baked: {path}  (verts={mesh.vertexCount})  GUID={guid}");
         fxMeshPath = path;
         return string.IsNullOrEmpty(guid) ? null : guid;
+    }
+
+    // ---- tile-hex clipping ------------------------------------------------------------------------------------------
+    // Cut the mesh to the in-game tile cell: six vertical planes forming the SAME hex the previews draw (inradius
+    // 3.465 × pct, flat edge facing drawn-space +Z, corners at 30°+k·60°). The mesh verts are in STORED space (the
+    // draw-time importAngles rotation R not yet applied), so each drawn-space plane normal n is tested as (R⁻¹n)·v —
+    // rotations preserve distances, no vertex round-trip needed. Sutherland–Hodgman per boundary triangle with linear
+    // interpolation of ALL attributes; fully-inside triangles keep their original shared vertices (no growth), fully-
+    // outside ones are dropped. Cut faces are left OPEN (no cap) — invisible from the game's camera angles.
+    struct ClipV
+    {
+        public Vector3 p, n; public Vector2 uv; public Vector4 t; public Color c;
+        public static ClipV Lerp(ClipV a, ClipV b, float f) => new ClipV
+        {
+            p = Vector3.LerpUnclamped(a.p, b.p, f),
+            n = Vector3.LerpUnclamped(a.n, b.n, f),
+            uv = Vector2.LerpUnclamped(a.uv, b.uv, f),
+            t = Vector4.LerpUnclamped(a.t, b.t, f),
+            c = Color.LerpUnclamped(a.c, b.c, f),
+        };
+    }
+
+    static void ClipToTileHex(ref Vector3[] verts, ref Vector3[] normals, ref Vector2[] uvs, ref Vector4[] tangents,
+        ref Color[] colors, bool hasN, bool hasU, bool hasT, bool hasC, int[][] subTris, Quaternion R, float pct)
+    {
+        const float TileInradius = 3.465f;   // = ModelFactoryWindow.TileInradius (the measured 6.93 tile spacing / 2)
+        float r = TileInradius * pct / 100f;
+        var planes = new Vector3[6];
+        var Rinv = Quaternion.Inverse(R);
+        for (int k = 0; k < 6; k++)
+        {
+            float a = 60f * k * Mathf.Deg2Rad;   // edge normals face the six neighbor directions, +Z first
+            planes[k] = Rinv * new Vector3(Mathf.Sin(a), 0f, Mathf.Cos(a));
+        }
+
+        // per-vertex inside-ness (against all 6 planes) so interior triangles can be kept without any rebuild
+        var inside = new bool[verts.Length];
+        for (int i = 0; i < verts.Length; i++)
+        {
+            bool ok = true;
+            for (int k = 0; k < 6 && ok; k++) ok = Vector3.Dot(verts[i], planes[k]) <= r + 1e-4f;
+            inside[i] = ok;
+        }
+
+        var nv = new System.Collections.Generic.List<Vector3>(verts);
+        var nn = new System.Collections.Generic.List<Vector3>(hasN ? normals : new Vector3[verts.Length]);
+        var nu = new System.Collections.Generic.List<Vector2>(hasU ? uvs : new Vector2[verts.Length]);
+        var nt = new System.Collections.Generic.List<Vector4>(hasT ? tangents : new Vector4[verts.Length]);
+        var nc = new System.Collections.Generic.List<Color>(hasC ? colors : new Color[verts.Length]);
+        ClipV At(int i) => new ClipV
+        {
+            p = nv[i], n = hasN ? nn[i] : Vector3.up, uv = hasU ? nu[i] : Vector2.zero,
+            t = hasT ? nt[i] : new Vector4(1, 0, 0, 1), c = hasC ? nc[i] : Color.white,
+        };
+        int Emit(ClipV v)
+        {
+            nv.Add(v.p); nn.Add(v.n); nu.Add(v.uv); nt.Add(v.t); nc.Add(v.c);
+            return nv.Count - 1;
+        }
+
+        var poly = new System.Collections.Generic.List<ClipV>(8);
+        var next = new System.Collections.Generic.List<ClipV>(8);
+        for (int s = 0; s < subTris.Length; s++)
+        {
+            var src = subTris[s];
+            var dst = new System.Collections.Generic.List<int>(src.Length);
+            for (int i = 0; i < src.Length; i += 3)
+            {
+                int a = src[i], b = src[i + 1], c = src[i + 2];
+                if (inside[a] && inside[b] && inside[c]) { dst.Add(a); dst.Add(b); dst.Add(c); continue; }
+                poly.Clear(); poly.Add(At(a)); poly.Add(At(b)); poly.Add(At(c));
+                for (int k = 0; k < 6 && poly.Count >= 3; k++)
+                {
+                    next.Clear();
+                    for (int j = 0; j < poly.Count; j++)
+                    {
+                        var cur = poly[j]; var nxt = poly[(j + 1) % poly.Count];
+                        float dc = Vector3.Dot(cur.p, planes[k]) - r, dn = Vector3.Dot(nxt.p, planes[k]) - r;
+                        if (dc <= 0f) next.Add(cur);
+                        if ((dc <= 0f) != (dn <= 0f)) next.Add(ClipV.Lerp(cur, nxt, dc / (dc - dn)));
+                    }
+                    (poly, next) = (next, poly);
+                }
+                if (poly.Count < 3) continue;   // fully outside
+                int i0 = Emit(poly[0]);
+                int prev = Emit(poly[1]);
+                for (int j = 2; j < poly.Count; j++)
+                {
+                    int curIdx = Emit(poly[j]);
+                    dst.Add(i0); dst.Add(prev); dst.Add(curIdx);
+                    prev = curIdx;
+                }
+            }
+            subTris[s] = dst.ToArray();
+        }
+        verts = nv.ToArray();
+        if (hasN) normals = nn.ToArray();
+        if (hasU) uvs = nu.ToArray();
+        if (hasT) tangents = nt.ToArray();
+        if (hasC) colors = nc.ToArray();
     }
 
     // MANUAL step — wrap a baked mesh as an FxMesh from the Project selection. Superseded by the District Factory window
