@@ -138,7 +138,8 @@ public class DistrictFactoryWindow : EditorWindow
         EditorGUILayout.Space();
         EditorGUILayout.LabelField("Bake", EditorStyles.miniBoldLabel);
         cur.size = EditorGUILayout.FloatField(new GUIContent("Size",
-            "World length of the model's longest axis. A district tile is ~10 across — ~5 reads imposing, ~2.5 tile-furniture."), cur.size);
+            "World length of the model's longest axis. A tile hex is ~7 across its flats (~8 corner to corner — the " +
+            "preview hex is true size) — ~5-6 fills the tile, ~2.5 tile-furniture."), cur.size);
         cur.rotation = EditorGUILayout.Vector3Field(new GUIContent("Rotation offset (deg)",
             "The STAND-IT-UP control, baked into the mesh — on top of the automatic longest-axis align, which can TIP a " +
             "near-cubic model onto its side around ANY axis (the plant needed Z=-90). The preview below shows the result " +
@@ -313,7 +314,7 @@ public class DistrictFactoryWindow : EditorWindow
         // grow with the window: ~45% of its height so a tall dock gets a big viewport, never under 300px
         var rect = GUILayoutUtility.GetRect(10f, Mathf.Max(300f, position.height * 0.45f), GUILayout.ExpandWidth(true));
         DrawPreview(rect);
-        EditorGUILayout.LabelField($"{pvMesh.vertexCount} verts · ground square = one district tile (~10 across) at the in-game surface level · arrow = where Facing 0° points · LMB orbit, wheel zoom, MMB/RMB pan", EditorStyles.miniLabel);
+        EditorGUILayout.LabelField($"{pvMesh.vertexCount} verts · hex = one district tile at TRUE in-game size, at surface level · arrow = where Facing 0° points · LMB orbit, wheel zoom, MMB/RMB pan", EditorStyles.miniLabel);
         EditorGUILayout.LabelField("Facing + Position offset preview LIVE (Bake makes them real). Rotation offset is baked into the mesh — re-Bake to see it.", EditorStyles.miniLabel);
     }
 
@@ -397,11 +398,7 @@ public class DistrictFactoryWindow : EditorWindow
 
     Mesh TileMesh()
     {
-        if (pvTileMesh != null) return pvTileMesh;
-        pvTileMesh = new Mesh { name = "DistrictTilePreview", hideFlags = HideFlags.HideAndDontSave };
-        pvTileMesh.vertices = new[] { new Vector3(-5f, 0f, -5f), new Vector3(5f, 0f, -5f), new Vector3(5f, 0f, 5f), new Vector3(-5f, 0f, 5f) };
-        pvTileMesh.normals = new[] { Vector3.up, Vector3.up, Vector3.up, Vector3.up };
-        pvTileMesh.triangles = new[] { 0, 3, 2, 0, 2, 1 };
+        if (pvTileMesh == null) pvTileMesh = ModelFactoryWindow.BuildTileHex("DistrictTileHex");
         return pvTileMesh;
     }
 
