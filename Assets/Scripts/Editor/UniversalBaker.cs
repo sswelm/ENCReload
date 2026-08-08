@@ -72,6 +72,7 @@ public static class UniversalBaker
 {
     public static BakeResult Build(BakeConfig cfg)
     {
+        LastPrepSourceTris = -1;   // per-BUILD, not per-prep: a no-reduce bake must not inherit the previous bake's source count
         // E5: snapshot the existing baked outputs BEFORE the (delete-first) bake, and restore them if it fails, so a
         // partway-failed re-bake can't leave the registry pointing at now-deleted assets. Success path is unchanged.
         var backup = BackupOutputs(cfg.resourceName);
