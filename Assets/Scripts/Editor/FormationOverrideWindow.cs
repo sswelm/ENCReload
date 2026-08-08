@@ -5,7 +5,7 @@
 //
 // No bake, no bundle: a formation asset shipped in the mod bundle would never enter the game's datatable system
 // (unit references resolve BY NAME against the live database). Instead this window serializes the formation's FULL
-// data into enc_formations.json — dummy positions, the 6 per-orientation coordinate grids AND the six HIDDEN
+// data into haf_formations.json — dummy positions, the 6 per-orientation coordinate grids AND the six HIDDEN
 // ColumnsCountPerRow arrays (invisible in the Inspector; historically the reason hand-made formations crashed the
 // load with the misleading "mismatched mods" dialog) — and the plugin rebuilds + injects it at runtime through the
 // public Database.Add, then repoints the unit. Consistency is VALIDATED here before anything can be saved.
@@ -428,7 +428,7 @@ public class FormationOverrideWindow : EditorWindow
             if (GUILayout.Button("Open config folder", GUILayout.Width(150)))
                 EditorUtility.RevealInFinder(System.IO.File.Exists(FormationRegistry.RegistryPath)
                     ? FormationRegistry.RegistryPath : ModelRegistry.ConfigDir);
-            GUILayout.Label("↑ enc_formations.json + the plugin .cfg", EditorStyles.miniLabel);
+            GUILayout.Label("↑ haf_formations.json + the plugin .cfg", EditorStyles.miniLabel);
         }
         EditorGUILayout.EndScrollView();
     }
@@ -509,14 +509,14 @@ public class FormationOverrideWindow : EditorWindow
     }
 
     // ---- TURN EASE DEFAULTS (docs/Turn-Ease.md): the per-TYPE global rates the plugin reads live off
-    // BepInEx/config/enc_turnease.txt (~1/s poll — edits reach a RUNNING game within a second, no rebuild).
+    // BepInEx/config/haf_turnease.txt (~1/s poll — edits reach a RUNNING game within a second, no rebuild).
     // This window is HAF's per-unit config surface, so the type-level defaults live here too; the per-link
     // Turn ease row above overrides its unit, and a model's own Factory value overrides everything.
     // The editor OWNS the file format: Save rewrites the canonical commented template with these values. ----
     [SerializeField] float teHuman, teLand = 180f, teTurret = 180f, teHover = 180f, teShip = 90f, teRate, teBank;
     [SerializeField] float teHoverBank = 6f, teShipBank = 3f;   // per-category bank: a chopper banks, a ship heels
     [SerializeField] bool teLoaded;
-    static string TurnEasePath => System.IO.Path.Combine(ModelRegistry.ConfigDir, "enc_turnease.txt");
+    static string TurnEasePath => System.IO.Path.Combine(ModelRegistry.ConfigDir, "haf_turnease.txt");
 
     void LoadTurnEase()
     {
@@ -545,7 +545,7 @@ public class FormationOverrideWindow : EditorWindow
                 }
             }
         }
-        catch (Exception e) { Debug.LogWarning("[Formation] enc_turnease.txt read: " + e.Message); }
+        catch (Exception e) { Debug.LogWarning("[Formation] haf_turnease.txt read: " + e.Message); }
     }
 
     void SaveTurnEase()
@@ -595,7 +595,7 @@ public class FormationOverrideWindow : EditorWindow
         EditorGUILayout.HelpBox(
             "Global defaults per unit TYPE, degrees/second (0 = that type keeps the vanilla snap). Applies to HAF models " +
             "AND vanilla units. Precedence: a model's own Factory value > these category defaults > the Fallback rate. " +
-            "The per-link Turn ease row above overrides just its unit. Saved to enc_turnease.txt — a running game reacts " +
+            "The per-link Turn ease row above overrides just its unit. Saved to haf_turnease.txt — a running game reacts " +
             "within a second.", MessageType.None);
         teHuman = EditorGUILayout.Slider(new GUIContent("Human", "Infantry, cavalry, chariots, animals. These pivot naturally in vanilla — 0 (off) is a good default."), teHuman, 0f, 720f);
         teLand = EditorGUILayout.Slider(new GUIContent("Land vehicle (no turret)", "Towed guns, assault guns, carts — the whole hull must pivot to aim."), teLand, 0f, 720f);

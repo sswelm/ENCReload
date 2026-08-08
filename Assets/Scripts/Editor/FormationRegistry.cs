@@ -1,4 +1,4 @@
-// FormationRegistry.cs (HAF editor) — the Formation Override window's config store: enc_formations.json in the game's
+// FormationRegistry.cs (HAF editor) — the Formation Override window's config store: haf_formations.json in the game's
 // BepInEx/config, read by the plugin's FormationOverride (Patches/FormationOverridePatch.cs). Mirrors DistrictRegistry
 // (same target dir, same corrupt-guard + atomic write + git-tracked project backup) but for FORMATION links: each
 // entry binds one unit (PresentationUnitDefinition name) to one formation, carrying the formation's FULL data —
@@ -73,11 +73,11 @@ class FormationRegistryFile
 
 public static class FormationRegistry
 {
-    public static string RegistryPath => Path.Combine(ModelRegistry.ConfigDir, "enc_formations.json");
+    public static string RegistryPath => Path.Combine(ModelRegistry.ConfigDir, "haf_formations.json");
 
     // Versioned shadow copy in the mod repo (Assets/Databases is git-tracked) — survives a game reinstall,
-    // and Load() auto-restores from it if the live file goes missing. Mirrors enc_districts.backup.json.
-    public static string ProjectBackupPath => Path.Combine(Application.dataPath, "Databases", "enc_formations.backup.json");
+    // and Load() auto-restores from it if the live file goes missing. Mirrors haf_districts.backup.json.
+    public static string ProjectBackupPath => Path.Combine(Application.dataPath, "Databases", "haf_formations.backup.json");
 
     static bool lastLoadCorrupt;
 

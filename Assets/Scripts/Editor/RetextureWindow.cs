@@ -46,7 +46,7 @@ public class RetextureWindow : EditorWindow
     // folder in the game config (atlas dumps you paint from — not shipped).
     static string SkinsDir => Path.Combine(ModelRegistry.PackLiveDir, "skins");
     static string SkinsRepoDir => Path.Combine(ModelRegistry.PackRepoDir, "skins");
-    static string DumpDir  => Path.Combine(ModelRegistry.ConfigDir, "enc_atlas_dump");
+    static string DumpDir  => Path.Combine(ModelRegistry.ConfigDir, "haf_atlas_dump");
 
     void OnGUI()
     {
@@ -104,7 +104,7 @@ public class RetextureWindow : EditorWindow
                 if (!string.IsNullOrEmpty(p)) pngPath = p;
             }
         }
-        // BROKEN-LINK REPORT: the loaded entry references a skin PNG that isn't in enc_skins/ (deleted/renamed) and no new
+        // BROKEN-LINK REPORT: the loaded entry references a skin PNG that isn't in haf_skins/ (deleted/renamed) and no new
         // PNG is queued — warn so it's obvious the skin won't load (the unit would fall back to its own atlas).
         if (string.IsNullOrEmpty(pngPath))
         {

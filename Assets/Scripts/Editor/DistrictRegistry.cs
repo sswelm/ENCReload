@@ -1,4 +1,4 @@
-// DistrictRegistry.cs (ENC editor) — the District Factory's config store: enc_districts.json in the game's
+// DistrictRegistry.cs (ENC editor) — the District Factory's config store: haf_districts.json in the game's
 // BepInEx/config, read by the plugin's district repoint (UniversalInjectPatch.EnsureDistrictConfig). Mirrors
 // ModelRegistry (same target dir, same corrupt-guard + atomic write + git-tracked project backup) but for DISTRICT
 // models: each entry binds one district (ConstructibleDefinitionName) to one baked FxMesh GUID.
@@ -40,6 +40,7 @@ public class DistrictDef
     public string normalAtlasGuid = ""; // baked normal atlas GUID — RUNTIME (bound on _NormalMap instead of the neutral flat; empty = neutral)
     public string roughAtlasGuid = "";  // baked roughness atlas GUID — RUNTIME (bound on _RoughnessMap; empty = neutral matte)
     public bool isolate = true;        // true = private per-instance leaf (this district's tiles only); false = global culture-wide swap — RUNTIME
+    public string groundMaterial = ""; // RUNTIME: terrain paint under this district (GroundMaterialDefinition name, e.g. Prairie_Grassland) — "" = the game's default (usually bare for a wonder). The plugin forces it via ApplyGroundMaterialDefinition.
 
     // ---- bake-time knobs (runtime ignores; kept so re-bakes reload the same settings) ----
     public string resourceName = "";   // names the baked assets (<name>_ModelMesh / _DistrictMesh / _FxMesh)
@@ -71,11 +72,11 @@ class DistrictRegistryFile
 public static class DistrictRegistry
 {
     // Same resolution as the unit registry: manual override > Steam auto-detect > fallback (all via ModelRegistry).
-    public static string RegistryPath => Path.Combine(ModelRegistry.ConfigDir, "enc_districts.json");
+    public static string RegistryPath => Path.Combine(ModelRegistry.ConfigDir, "haf_districts.json");
 
     // Versioned shadow copy in the mod repo (Assets/Databases is git-tracked) — survives a game reinstall,
-    // and Load() auto-restores from it if the live file goes missing. Mirrors enc_models.backup.json.
-    public static string ProjectBackupPath => Path.Combine(Application.dataPath, "Databases", "enc_districts.backup.json");
+    // and Load() auto-restores from it if the live file goes missing. Mirrors haf_models.backup.json.
+    public static string ProjectBackupPath => Path.Combine(Application.dataPath, "Databases", "haf_districts.backup.json");
 
     // Set when the last Load() found a file it couldn't parse; Save() refuses while set, so a corrupt /
     // half-edited registry is never silently replaced with a fresh empty list.

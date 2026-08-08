@@ -1,4 +1,4 @@
-// SoundOverrideRegistry.cs (HAF editor) — the Game Sound Lab's config store: enc_sounds.json in the game's
+// SoundOverrideRegistry.cs (HAF editor) — the Game Sound Lab's config store: haf_sounds.json in the game's
 // BepInEx/config, read by the plugin's audio-override path (UniversalInject.EnsureSoundOverrides / ShouldSilenceEvent).
 // Mirrors DistrictRegistry (same target dir, corrupt-guard + atomic write + git-tracked project backup) but for global
 // AUDIO OVERRIDES: each entry silences a vanilla Wwise event by name-substring (and, later, substitutes a better one).
@@ -30,8 +30,8 @@ class SoundRegistryFile
 
 public static class SoundOverrideRegistry
 {
-    public static string RegistryPath => Path.Combine(ModelRegistry.ConfigDir, "enc_sounds.json");
-    public static string ProjectBackupPath => Path.Combine(Application.dataPath, "Databases", "enc_sounds.backup.json");
+    public static string RegistryPath => Path.Combine(ModelRegistry.ConfigDir, "haf_sounds.json");
+    public static string ProjectBackupPath => Path.Combine(Application.dataPath, "Databases", "haf_sounds.backup.json");
 
     // Set when the last Load() found a file it couldn't parse; Save() refuses while set, so a corrupt / half-edited
     // registry is never silently replaced with a fresh empty list.

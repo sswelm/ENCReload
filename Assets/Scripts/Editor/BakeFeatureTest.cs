@@ -26,7 +26,7 @@ public static class BakeFeatureTest
     {
         var res = new List<string>();
         int pass = 0, fail = 0, skip = 0;
-        string tmp = Path.Combine(Path.GetTempPath(), "enc_feattest");
+        string tmp = Path.Combine(Path.GetTempPath(), "haf_feattest");
         var used = new List<string>();
 
         try
@@ -199,7 +199,7 @@ public static class BakeFeatureTest
     {
         var res = new List<string>(); int pass = 0, fail = 0, skip = 0;
         var used = new List<string>();
-        string tmp = Path.Combine(Path.GetTempPath(), "enc_feattest2");
+        string tmp = Path.Combine(Path.GetTempPath(), "haf_feattest2");
         if (!UniversalBaker.BlenderAvailable())
         { EditorUtility.DisplayDialog("Bake Feature Test — Tier 2", "Blender not found — Tier 2 (targetTris / stripParts / animated) needs Blender.\nInstall it or set EditorPrefs 'ENC.blenderPath'.", "OK"); return; }
         try

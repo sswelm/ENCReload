@@ -2,7 +2,7 @@
 // counterpart of ModelFactoryWindow: pick a district + a model file, set the bake knobs, press Bake — it runs the same
 // static bake core (UniversalBaker.Build; pawnDescription empty, districts don't use one), wraps the result as a
 // bone-free FxMesh (DistrictBaker.BakeFxMesh — the district shader is STATIC, a rigged mesh draws nothing), and writes
-// the enc_districts.json entry the plugin's district repoint reads. No dummy pawn, no donor, no skeleton wiring.
+// the haf_districts.json entry the plugin's district repoint reads. No dummy pawn, no donor, no skeleton wiring.
 //
 // Runtime prerequisites (docs/District-Visuals.md): the district definition needs a RENDERABLE ConstructibleVisualAffinity
 // and CLEARED Additional Visual Levels (data edit in this project), and the plugin's [District] DistrictRepoint = true.
@@ -341,9 +341,24 @@ public class DistrictFactoryWindow : EditorWindow
 
         EditorGUILayout.Space();
         EditorGUILayout.LabelField("Runtime", EditorStyles.miniBoldLabel);
-        cur.isolate = EditorGUILayout.Toggle(new GUIContent("Isolate (this district only)",
-            "ON (recommended): only the named district's tiles show your mesh — the plugin builds a private per-instance leaf. " +
-            "OFF: the raw shared-leaf swap, which changes EVERY district of that culture using the same building part."), cur.isolate);
+        // GROUND — the terrain paint under the district (the "sauce"): a maintained field instead of bare terrain.
+        using (new EditorGUILayout.HorizontalScope())
+        {
+            cur.groundMaterial = EditorGUILayout.TextField(new GUIContent("Ground (terrain paint)",
+                "The GroundMaterialDefinition painted under this district — a maintained grass/paved field instead of bare terrain " +
+                "(a wonder's affinity has none). Empty = the game's default. Pick a name at right, or type one."), cur.groundMaterial ?? "");
+            if (GUILayout.Button("Pick", GUILayout.Width(70)))
+            {
+                var r = GUILayoutUtility.GetLastRect();
+                new StringDropdown(new AdvancedDropdownState(), GroundMaterialNames, GroundMaterialNames, "Ground materials",
+                    n => { cur.groundMaterial = n == "(none)" ? "" : n; Repaint(); }).Show(r);
+            }
+        }
+        // Isolate is always ON for authored districts (private per-instance leaf: scoped + textured). The old global
+        // shared-leaf swap (isolate=false) had no texture injection and changed every district of the culture — a
+        // footgun with no real use, so its toggle is retired. New entries default true; the plugin still honors a
+        // legacy entry that has it false.
+        cur.isolate = true;
 
         EditorGUILayout.Space();
         char badChar = '\0';
@@ -392,7 +407,7 @@ public class DistrictFactoryWindow : EditorWindow
         DrawPreviewPane();
 
         EditorGUILayout.HelpBox(
-            "Bake imports the model, bakes a bone-free district FxMesh, and writes the enc_districts.json entry the plugin reads.\n" +
+            "Bake imports the model, bakes a bone-free district FxMesh, and writes the haf_districts.json entry the plugin reads.\n" +
             "• The preview below predicts the in-game look. Tune Rotation offset until it stands (re-Bake to see), Facing to turn it (live).\n" +
             "• DATA prerequisite (once per district): set a renderable ConstructibleVisualAffinity + CLEAR Additional Visual Levels on the definition.\n" +
             "• Plugin prerequisite: [District] DistrictRepoint = true (+ DistrictBufferHeadroom for big meshes in late-game cities).\n" +
@@ -403,7 +418,7 @@ public class DistrictFactoryWindow : EditorWindow
             if (GUILayout.Button("Open config folder", GUILayout.Width(150)))
                 EditorUtility.RevealInFinder(System.IO.File.Exists(DistrictRegistry.RegistryPath)
                     ? DistrictRegistry.RegistryPath : ModelRegistry.ConfigDir);
-            GUILayout.Label("↑ enc_districts.json + the plugin .cfg", EditorStyles.miniLabel);
+            GUILayout.Label("↑ haf_districts.json + the plugin .cfg", EditorStyles.miniLabel);
         }
         EditorGUILayout.EndScrollView();
     }
@@ -547,7 +562,7 @@ public class DistrictFactoryWindow : EditorWindow
         selected = Array.IndexOf(existing, cur.district); if (selected < 0) selected = 0;
         if (!saved)
         {
-            status = $"Baked '{cur.resourceName}', but the REGISTRY SAVE FAILED (see Console). Close whatever's locking enc_districts.json and re-bake.";
+            status = $"Baked '{cur.resourceName}', but the REGISTRY SAVE FAILED (see Console). Close whatever's locking haf_districts.json and re-bake.";
             Debug.LogError("[District] " + status);
             return;
         }
@@ -714,6 +729,21 @@ public class DistrictFactoryWindow : EditorWindow
         (Quaternion.Euler(0f, cur.facing, 0f) * Quaternion.Euler(cur.importAngles)).eulerAngles;
 
     // Extension_Base_BreederReactor -> "BreederReactor". Suggested resource name.
+    // The game's GroundMaterialDefinition vocabulary (from the plugin's [Ground] dump — stable game data). Prairie_* =
+    // lush grass fields; Constructible_* = the paved/maintained ground districts use; Sterile_* = sparse/dry.
+    static readonly string[] GroundMaterialNames =
+    {
+        "(none)",
+        "Prairie_Grassland", "Prairie_Temperate", "Prairie_Mediterranean", "Prairie_Savanna", "Prairie_Tropical",
+        "Prairie_Taiga", "Prairie_Tundra", "Prairie_Arctic", "Prairie_Badlands", "Prairie_Desert",
+        "Constructible_Temperate_01", "Constructible_Temperate_02", "Constructible_Temperate_03",
+        "Constructible_Hot_01", "Constructible_Hot_02", "Constructible_Hot_03",
+        "Constructible_Dry_01", "Constructible_Dry_02", "Constructible_Dry_03",
+        "Constructible_Cold_01", "Constructible_Cold_02", "Constructible_Cold_03",
+        "Sterile_Desert", "Sterile_Grassland", "Sterile_Mediterranean", "Sterile_Savanna",
+        "Sterile_Taiga", "Sterile_Temperate", "Sterile_Tropical", "Sterile_Tundra",
+    };
+
     static string DeriveResourceName(string districtName)
     {
         if (string.IsNullOrEmpty(districtName)) return "";

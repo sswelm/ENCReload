@@ -1,4 +1,4 @@
-// GameSoundLabWindow.cs (HAF editor) — authors enc_sounds.json: game-wide audio overrides that silence vanilla Wwise
+// GameSoundLabWindow.cs (HAF editor) — authors haf_sounds.json: game-wide audio overrides that silence vanilla Wwise
 // sounds by event-name substring (any event — unit, ambient, music, UI). The plugin (UniversalInject.ShouldSilenceEvent)
 // drops any posted event whose name contains one of these substrings, at the AudioManager.PostEvent service sink.
 // Relaunch the game to apply edits.
@@ -7,7 +7,7 @@
 // not tied to any one model. `Replace with` is reserved for a future silence-then-substitute step (unused today).
 //
 // PICK LIST: the game's full Wwise event-name list is dumped by the plugin (F8 window -> Dump Sound Catalog) to
-// BepInEx/config/enc_sound_catalog.txt. This window reads that file so you can SEARCH + click real event names instead
+// BepInEx/config/haf_sound_catalog.txt. This window reads that file so you can SEARCH + click real event names instead
 // of typing them blind.
 
 using System.Collections.Generic;
@@ -40,7 +40,7 @@ public class GameSoundLabWindow : EditorWindow
         ("UI",      new[] { "_UI_", "Menu", "Button", "Click" }),
     };
 
-    static string CatalogPath => Path.Combine(ModelRegistry.ConfigDir, "enc_sound_catalog.txt");
+    static string CatalogPath => Path.Combine(ModelRegistry.ConfigDir, "haf_sound_catalog.txt");
 
     [MenuItem("Tools/HAF/Game Sound Lab")]
     static void Open() => GetWindow<GameSoundLabWindow>("Game Sound Lab").minSize = new Vector2(480, 420);
@@ -50,7 +50,7 @@ public class GameSoundLabWindow : EditorWindow
     void Reload()
     {
         entries = SoundOverrideRegistry.Load();
-        status = $"{entries.Count} override(s) loaded from enc_sounds.json.";
+        status = $"{entries.Count} override(s) loaded from haf_sounds.json.";
     }
 
     void LoadCatalog()
@@ -65,7 +65,7 @@ public class GameSoundLabWindow : EditorWindow
             "Silence vanilla Wwise sounds by event-name SUBSTRING (case-insensitive). The plugin drops any sound whose " +
             "event name contains one of these, at the service sink every sound passes through — so keep substrings " +
             "SPECIFIC. Tip: trim a picked name (drop '_Start'/'_Stop') to catch a whole family of related events.\n\n" +
-            "Writes enc_sounds.json — relaunch the game to apply. 'Replace with' is reserved for a future substitute " +
+            "Writes haf_sounds.json — relaunch the game to apply. 'Replace with' is reserved for a future substitute " +
             "step (no effect yet).", MessageType.Info);
 
         // ---- override list ----
@@ -105,7 +105,7 @@ public class GameSoundLabWindow : EditorWindow
         if (GUILayout.Button("Save", GUILayout.Width(120)))
         {
             status = SoundOverrideRegistry.Save(entries)
-                ? $"Saved {entries.Count(o => !string.IsNullOrWhiteSpace(o.silence))} override(s) -> enc_sounds.json. Relaunch the game to apply."
+                ? $"Saved {entries.Count(o => !string.IsNullOrWhiteSpace(o.silence))} override(s) -> haf_sounds.json. Relaunch the game to apply."
                 : "SAVE FAILED — see the Console.";
             Reload();
         }
@@ -120,7 +120,7 @@ public class GameSoundLabWindow : EditorWindow
         if (catalog.Length == 0)
         {
             EditorGUILayout.HelpBox("No event catalog found. In-game: open the plugin's F8 window and click \"Dump Sound Catalog\" " +
-                                    "(writes enc_sound_catalog.txt), then click Reload catalog below.", MessageType.Warning);
+                                    "(writes haf_sound_catalog.txt), then click Reload catalog below.", MessageType.Warning);
             if (GUILayout.Button("Reload catalog")) LoadCatalog();
             return;
         }

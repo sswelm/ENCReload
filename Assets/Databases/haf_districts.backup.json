@@ -7,6 +7,7 @@
             "normalAtlasGuid": "735420848,1150277674,704646061,1634110696",
             "roughAtlasGuid": "55007508,1281963943,-1803941740,1806809191",
             "isolate": true,
+            "groundMaterial": "Prairie_Grassland",
             "resourceName": "greek_temple",
             "modelFile": "D:/3DModels/Greek Temple/greek_temple.glb",
             "rotation": {
@@ -73,7 +74,8 @@
                             "y": 0.0,
                             "z": -1.5
                         }
-                    ]
+                    ],
+                    "targetTris": 6000
                 }
             ]
         },
@@ -84,6 +86,7 @@
             "normalAtlasGuid": "",
             "roughAtlasGuid": "",
             "isolate": true,
+            "groundMaterial": "",
             "resourceName": "BreederReactor",
             "modelFile": "D:/3DModels/Nuclear Power Plant/lowpoly_nuclear_powerplant.glb",
             "rotation": {

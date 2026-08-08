@@ -15,7 +15,7 @@ using UnityEngine;
 
 // A saved prop RECIPE (the Prop Lab form for one prop). Editor-side bookkeeping only — the runtime never reads
 // this file; it works from the baked assets + the GUIDs the model entries carry. Stored in
-// Assets/Databases/enc_props.json so recipes survive editor restarts and are re-loadable per prop (the form used
+// Assets/Databases/haf_props.json so recipes survive editor restarts and are re-loadable per prop (the form used
 // to be one shared EditorPrefs blob, which forced overwriting the previous prop's settings to start a new one).
 [Serializable]
 public class PropDef
@@ -29,7 +29,7 @@ public class PropDef
 public static class PropRegistry
 {
     [Serializable] class PropFile { public List<PropDef> props = new List<PropDef>(); }
-    const string PathJson = "Assets/Databases/enc_props.json";
+    const string PathJson = "Assets/Databases/haf_props.json";
 
     public static List<PropDef> Load()
     {
@@ -38,7 +38,7 @@ public static class PropRegistry
             if (System.IO.File.Exists(PathJson))
                 return JsonUtility.FromJson<PropFile>(System.IO.File.ReadAllText(PathJson))?.props ?? new List<PropDef>();
         }
-        catch (Exception e) { Debug.LogError("[Props] enc_props.json unreadable: " + e.Message); }
+        catch (Exception e) { Debug.LogError("[Props] haf_props.json unreadable: " + e.Message); }
         return new List<PropDef>();
     }
 
@@ -60,7 +60,7 @@ public static class PropRegistry
             System.IO.File.WriteAllText(PathJson, JsonUtility.ToJson(new PropFile { props = l }, true));
             AssetDatabase.ImportAsset(PathJson);
         }
-        catch (Exception e) { Debug.LogError("[Props] enc_props.json save failed: " + e.Message); }
+        catch (Exception e) { Debug.LogError("[Props] haf_props.json save failed: " + e.Message); }
     }
 }
 
@@ -245,7 +245,7 @@ public class PropBakerWindow : EditorWindow
 
         EditorGUILayout.Space();
         EditorGUILayout.LabelField("Bake a prop (model → FxMesh → MeshCollection → FragmentMesh)", EditorStyles.boldLabel);
-        // Edit existing / New / Remove — the same recipe header as the other Labs. Recipes live in enc_props.json
+        // Edit existing / New / Remove — the same recipe header as the other Labs. Recipes live in haf_props.json
         // (saved on every successful bake); switching recipes loads that prop's form, New clears it for a fresh prop.
         using (new EditorGUILayout.HorizontalScope())
         {
