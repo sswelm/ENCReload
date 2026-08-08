@@ -26,6 +26,7 @@ public class DistrictPart
     public Vector3 posOffset;          // place it: X/Z slide across the tile, Y lifts off the base's floor
     public float alphaBoost = 1f;      // cutout-foliage fullness: multiplies the part's texture alpha at compose (1 = as authored). Sources authored for a LOW alpha cutoff (the beech: 0.227) erode to slivers against the game's fixed threshold — 2-3 restores full leaves.
     public float leafScale = 1f;       // GEOMETRY: scale every small disconnected triangle island (leaf cards) around its own centroid at compose. Texture tricks can't outgrow the card — this makes each leaf physically bigger. Trunk/big islands untouched (size-characteristic selection).
+    public List<Vector3> copies = new List<Vector3>();   // EXTRA placements of the SAME part (a grove): one bake, one atlas slot, geometry appended per copy. Each copy auto-rotates by the golden angle (137.5° x n) so the grove doesn't look cloned. Triangles multiply per copy.
 }
 
 // One district model. `district` is the key (one custom model per district).

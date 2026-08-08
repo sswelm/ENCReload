@@ -311,6 +311,24 @@ public class DistrictFactoryWindow : EditorWindow
                     "Cutout-foliage fullness: boosts the part's texture alpha AND dilates the opaque leaf sprites (each whole step above 1 " +
                     "grows every leaf by ~1 texel — needed for binary-alpha foliage like the beech, where a plain alpha boost is a no-op). " +
                     "1 = as authored; 2-4 = fuller crown."), p.alphaBoost <= 0f ? 1f : p.alphaBoost, 1f, 4f);
+                // COPIES — the same part placed again (a grove): one bake, one atlas slot, geometry per copy
+                if (p.copies == null) p.copies = new List<Vector3>();
+                int removeCopy = -1;
+                for (int c = 0; c < p.copies.Count; c++)
+                    using (new EditorGUILayout.HorizontalScope())
+                    {
+                        p.copies[c] = EditorGUILayout.Vector3Field(new GUIContent($"Copy {c + 1} offset",
+                            "Extra placement of this part: X/Z slide across the tile, Y lifts. Auto-rotated by the golden angle so copies don't look cloned."), p.copies[c]);
+                        if (GUILayout.Button("X", GUILayout.Width(22))) removeCopy = c;
+                    }
+                if (removeCopy >= 0) p.copies.RemoveAt(removeCopy);
+                using (new EditorGUILayout.HorizontalScope())
+                {
+                    if (GUILayout.Button(new GUIContent("Add copy", "Place this part AGAIN at another offset (one bake, geometry appended per copy — triangles multiply)."), GUILayout.Width(90)))
+                        p.copies.Add(p.posOffset + new Vector3(1.5f, 0f, -1.5f));
+                    if (p.copies.Count > 0)
+                        EditorGUILayout.LabelField($"{1 + p.copies.Count}x this part on the tile — triangles multiply per copy", EditorStyles.miniLabel);
+                }
             }
         }
         if (removePart >= 0) cur.parts.RemoveAt(removePart);
@@ -414,6 +432,8 @@ public class DistrictFactoryWindow : EditorWindow
 
         // 2b) PIZZA compose: bake each part with its own knobs, then merge base + parts into ONE mesh + ONE super-atlas.
         //     (Purely bake-time — the runtime still receives a single FxMesh + atlas pair, so nothing downstream changes.)
+        bool composedLeveled = false;
+        string composeReceipt = null;
         if (cur.parts != null && cur.parts.Count > 0)
         {
             Texture2D LoadTex(string suffix, string res2) => AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/Resources/" + res2 + suffix + ".asset");
@@ -439,6 +459,7 @@ public class DistrictFactoryWindow : EditorWindow
                     mesh = pm, albedo = LoadTex("_Atlas", pcfg.resourceName),
                     normal = LoadTex("_NormalAtlas", pcfg.resourceName), rough = LoadTex("_RoughAtlas", pcfg.resourceName),
                     facing = p.facing, posOffset = p.posOffset, alphaBoost = p.alphaBoost, leafScale = p.leafScale,
+                    copies = p.copies,
                 });
             }
             var baseSrc = new DistrictBaker.ComposeSource
@@ -447,8 +468,11 @@ public class DistrictFactoryWindow : EditorWindow
                 normal = LoadTex("_NormalAtlas", cur.resourceName), rough = LoadTex("_RoughAtlas", cur.resourceName),
                 facing = 0f, posOffset = Vector3.zero,
             };
+            // compose does its own BASE-anchored leveling (incl. the entry's Position offset) — BakeFxMesh must not
+            // re-level the union, or a side-heavy grove re-centers the whole pizza (the shifted-temple bake)
+            composedLeveled = true;
             mesh = DistrictBaker.ComposeDistrict(baseSrc, partData, Quaternion.Euler(ComposedImportAngles()),
-                cur.atlasMaxDim <= 0 ? 1024 : cur.atlasMaxDim, out var superAtlas, out var superNormal, out var superRough);
+                cur.atlasMaxDim <= 0 ? 1024 : cur.atlasMaxDim, cur.posOffset, out var superAtlas, out var superNormal, out var superRough);
             // the super atlases REPLACE the entry's atlas assets (safe: compose blit-copied every input first)
             void SaveTex(Texture2D tex, string suffix, TextureFormat fmt)
             {
@@ -460,6 +484,7 @@ public class DistrictFactoryWindow : EditorWindow
                 AssetDatabase.CreateAsset(tex, p2);
             }
             // alpha-aware compression for the super albedo (cutout foliage needs DXT5; scan BEFORE compressing)
+            int superAtlasW = superAtlas.width, superAtlasH = superAtlas.height;
             bool superHasAlpha = false;
             var spx = superAtlas.GetPixels32();
             for (int i = 0; i < spx.Length; i += 97) if (spx[i].a < 250) { superHasAlpha = true; break; }
@@ -486,10 +511,13 @@ public class DistrictFactoryWindow : EditorWindow
                 EditorUtility.SetDirty(matAsset);
             }
             AssetDatabase.SaveAssets();
-            Debug.Log($"[District] composed {cur.parts.Count} part(s) onto '{cur.resourceName}' — one merged mesh, one super-atlas.");
+            int totalCopies = 0; foreach (var p in cur.parts) totalCopies += p.copies != null ? p.copies.Count : 0;
+            composeReceipt = $"composed: {cur.parts.Count} part(s) + {totalCopies} cop(ies) · super-atlas {superAtlasW}x{superAtlasH} {(superHasAlpha ? "DXT5 (alpha kept)" : "DXT1 (opaque)")} · base-anchored center";
+            Debug.Log($"[District] {composeReceipt}");
         }
 
-        string guid = DistrictBaker.BakeFxMesh(mesh, cur.resourceName, ComposedImportAngles(), out _, levelOnGround: true, postLevelOffset: cur.posOffset, clipHexPct: cur.clipHexPct);
+        string guid = DistrictBaker.BakeFxMesh(mesh, cur.resourceName, ComposedImportAngles(), out _,
+            levelOnGround: !composedLeveled, postLevelOffset: composedLeveled ? Vector3.zero : cur.posOffset, clipHexPct: cur.clipHexPct);
         if (string.IsNullOrEmpty(guid)) { status = "District FxMesh bake FAILED (see Console)."; return; }
         cur.fxMeshGuid = guid;
         cur.posOffsetBaked = cur.posOffset;   // the preview shows future posOffset edits as a live delta against this
@@ -521,6 +549,7 @@ public class DistrictFactoryWindow : EditorWindow
             return;
         }
         status = $"Baked district model '{cur.resourceName}' -> '{cur.district}'\nFxMesh {guid}  (verts={mesh.vertexCount}, tris={TriCount(mesh)}{(cur.sourceTris > 0 ? $", source model {cur.sourceTris:N0} tris" : "")})\n" +
+                 (composeReceipt != null ? composeReceipt + "\n" : "") +
                  "Check the FxMesh Inspector preview for orientation, then rebuild the mod + relaunch.";
         Debug.Log("[District] " + status);
         RunHealthChecks();   // fresh bake: the stale-bundle warning should light up until the mod is rebuilt

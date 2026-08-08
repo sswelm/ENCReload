@@ -156,6 +156,7 @@ public static class DistrictBaker
         public Mesh mesh; public Texture2D albedo, normal, rough; public float facing; public Vector3 posOffset;
         public float alphaBoost;   // <=0 or 1 = no-op; >1 multiplies the source's alpha + dilates (cutout-foliage fullness)
         public float leafScale;    // <=0 or 1 = no-op; >1 scales each SMALL disconnected island (leaf card) around its centroid
+        public List<Vector3> copies;   // extra placements of the same part (a grove): geometry appended per copy, ONE atlas slot; each copy auto-rotates by the golden angle
     }
 
     // GEOMETRY leaf sizing: texture dilation can't outgrow the card, so scale every small disconnected triangle
@@ -235,7 +236,7 @@ public static class DistrictBaker
     }
 
     public static Mesh ComposeDistrict(ComposeSource baseSrc, List<ComposeSource> parts,
-        Quaternion R, int atlasCap, out Texture2D superAtlas, out Texture2D superNormal, out Texture2D superRough)
+        Quaternion R, int atlasCap, Vector3 entryPosOffset, out Texture2D superAtlas, out Texture2D superNormal, out Texture2D superRough)
     {
         var baseMesh = baseSrc.mesh;
         var Rinv = Quaternion.Inverse(R);
@@ -303,32 +304,49 @@ public static class DistrictBaker
         superRough = new Texture2D(sw2, sh2, TextureFormat.RGBA32, false) { name = baseMesh.name + "_SuperRough" };
         superRough.SetPixels32(rpx); superRough.Apply();
 
-        // the base's DRAWN floor: parts ground to it (a part's own bottom lands on the base's bottom + its Y lift)
+        // the base's DRAWN footprint center + floor. Parts place RELATIVE TO THE BASE CENTER (not the raw origin):
+        // the base-anchored leveling below re-centers everything on the base, so a part placed at raw `off` would be
+        // silently shifted by -baseCenter — the temple's center sits north of origin (its -90° bake), which ate the
+        // north component of every tree's offset (the "should be NE, lands on the E line" bug). Add baseCenter here,
+        // leveling subtracts it, net = exactly `off` on the tile.
         float baseMinY = float.MaxValue;
+        var bcMin = new Vector3(float.MaxValue, float.MaxValue, float.MaxValue);
+        var bcMax = new Vector3(float.MinValue, float.MinValue, float.MinValue);
         var bv = baseMesh.vertices;
-        for (int i = 0; i < bv.Length; i++) { float y = (R * bv[i]).y; if (y < baseMinY) baseMinY = y; }
+        for (int i = 0; i < bv.Length; i++) { var d = R * bv[i]; if (d.y < baseMinY) baseMinY = d.y; bcMin = Vector3.Min(bcMin, d); bcMax = Vector3.Max(bcMax, d); }
+        var baseCenterXZ = new Vector3((bcMin.x + bcMax.x) * 0.5f, 0f, (bcMin.z + bcMax.z) * 0.5f);
 
         var nv = new List<Vector3>(); var nn = new List<Vector3>(); var nu = new List<Vector2>(); var nt4 = new List<Vector4>();
         var subs = new List<int[]>();
-        void Append(Mesh m, Rect rect, bool isBase, float facing, Vector3 off, float leafScale)
+        void Append(Mesh m, Rect rect, bool isBase, float facing, Vector3 off, Vector3[] overrideVerts)
         {
             int start = nv.Count;
-            var vs = (!isBase && leafScale > 1.01f) ? ScaledLeafCards(m, leafScale) : m.vertices;
+            var vs = overrideVerts ?? m.vertices;   // copies share ONE leaf-scaled vertex array (the stem search is the slow part)
             var ns = m.normals; var us = m.uv; var ts = m.tangents;
             bool hasN = ns != null && ns.Length == vs.Length;
             bool hasU = us != null && us.Length == vs.Length;
             bool hasT = ts != null && ts.Length == vs.Length;
             var Rp = Quaternion.Euler(0f, facing, 0f);
-            Vector3 shift = Vector3.zero;
+            Vector3 shift = Vector3.zero; Vector3 pivot = Vector3.zero;
             if (!isBase)
             {
+                // PREDICTABLE PLACEMENT: the offset places the part's own FOOTPRINT CENTER, and facing spins the
+                // part around its own axis. Rotating around the raw mesh origin made copies ORBIT a downloaded
+                // model's arbitrary pivot (the beech's trunk is off-origin — a golden-angle copy landed off the
+                // hex entirely). Pivot = the part's XZ bounds center; ground = its own lowest point.
+                var pmin = new Vector3(float.MaxValue, float.MaxValue, float.MaxValue);
+                var pmax = new Vector3(float.MinValue, float.MinValue, float.MinValue);
+                for (int i = 0; i < vs.Length; i++) { pmin = Vector3.Min(pmin, vs[i]); pmax = Vector3.Max(pmax, vs[i]); }
+                pivot = new Vector3((pmin.x + pmax.x) * 0.5f, 0f, (pmin.z + pmax.z) * 0.5f);
                 float minY = float.MaxValue;
-                for (int i = 0; i < vs.Length; i++) { float y = (Rp * vs[i]).y; if (y < minY) minY = y; }
-                shift = new Vector3(off.x, baseMinY - minY + off.y, off.z);   // grounded to the base floor, then the author's lift
+                for (int i = 0; i < vs.Length; i++) { float y = (Rp * (vs[i] - pivot)).y; if (y < minY) minY = y; }
+                // + baseCenterXZ so the offset is measured from the TILE CENTER (leveling subtracts baseCenter again)
+                shift = new Vector3(off.x + baseCenterXZ.x, baseMinY - minY + off.y, off.z + baseCenterXZ.z);
             }
+            if (!isBase) Debug.Log($"[District] placement: offset ({off.x:0.0}, {off.y:0.0}, {off.z:0.0}) [X=east, Z=north] · facing {facing:0.0}° · lands at tile ({off.x:0.0}, {off.z:0.0}) from center");
             for (int i = 0; i < vs.Length; i++)
             {
-                nv.Add(isBase ? vs[i] : Rinv * (Rp * vs[i] + shift));
+                nv.Add(isBase ? vs[i] : Rinv * (Rp * (vs[i] - pivot) + shift));
                 var nrm = hasN ? ns[i] : Vector3.up;
                 nn.Add(isBase ? nrm : Rinv * (Rp * nrm));
                 var uv = hasU ? us[i] : Vector2.zero;
@@ -341,8 +359,27 @@ public static class DistrictBaker
             for (int s = 0; s < m.subMeshCount; s++) { var st = m.GetTriangles(s); for (int k = 0; k < st.Length; k++) tris.Add(st[k] + start); }
             subs.Add(tris.ToArray());
         }
-        Append(baseMesh, rects[0], isBase: true, 0f, Vector3.zero, 1f);
-        for (int i = 0; i < parts.Count; i++) Append(parts[i].mesh, rects[i + 1], isBase: false, parts[i].facing, parts[i].posOffset, parts[i].leafScale);
+        Append(baseMesh, rects[0], isBase: true, 0f, Vector3.zero, null);
+        for (int i = 0; i < parts.Count; i++)
+        {
+            var p = parts[i];
+            var pv = p.leafScale > 1.01f ? ScaledLeafCards(p.mesh, p.leafScale) : null;   // computed once, shared by all copies
+            Append(p.mesh, rects[i + 1], isBase: false, p.facing, p.posOffset, pv);
+            if (p.copies != null)
+                for (int k = 0; k < p.copies.Count; k++)   // golden-angle facing per copy — a grove, not an army of clones
+                    Append(p.mesh, rects[i + 1], isBase: false, p.facing + 137.5f * (k + 1), p.copies[k], pv);
+        }
+
+        // BASE-ANCHORED leveling, in drawn space: the generic auto-level centers the UNION footprint, so a grove
+        // weighting one side shoved the temple into a corner (measured). The BASE alone decides centering + the
+        // ground plane (+ the entry's Position offset); every part rides along exactly where its author put it.
+        int baseVertCount = baseMesh.vertexCount;   // the base is appended first
+        var bmin = new Vector3(float.MaxValue, float.MaxValue, float.MaxValue);
+        var bmax = new Vector3(float.MinValue, float.MinValue, float.MinValue);
+        for (int i = 0; i < baseVertCount; i++) { var d = R * nv[i]; bmin = Vector3.Min(bmin, d); bmax = Vector3.Max(bmax, d); }
+        var shiftDrawn = new Vector3(-(bmin.x + bmax.x) * 0.5f, -bmin.y, -(bmin.z + bmax.z) * 0.5f) + entryPosOffset;
+        var shiftStored = Rinv * shiftDrawn;
+        for (int i = 0; i < nv.Count; i++) nv[i] += shiftStored;
 
         var merged = new Mesh { name = baseMesh.name + "_Composed", indexFormat = UnityEngine.Rendering.IndexFormat.UInt32 };
         merged.SetVertices(nv); merged.SetNormals(nn); merged.SetUVs(0, nu); merged.SetTangents(nt4);
