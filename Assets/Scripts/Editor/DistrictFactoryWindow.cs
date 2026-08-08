@@ -43,6 +43,10 @@ public class DistrictFactoryWindow : EditorWindow
 
     void OnEnable() => RefreshList();
 
+    // The natural flow is bake -> build the mod -> glance back at this window: re-run the health checks whenever the
+    // window regains focus, so the STALE BUNDLE verdict updates itself instead of showing the pre-build state.
+    void OnFocus() { if (selected > 0 && cur != null && !string.IsNullOrWhiteSpace(cur.district)) { RunHealthChecks(); Repaint(); } }
+
     void OnDisable()
     {
         if (pru != null) { pru.Cleanup(); pru = null; }
@@ -137,14 +141,22 @@ public class DistrictFactoryWindow : EditorWindow
         catch (Exception ex) { health.Add((MessageType.Warning, "Health checks failed to run: " + ex.Message)); }
     }
 
+    // Broader than the Pick dropdown's search on purpose: entries can target WONDER-class constructibles too
+    // (ArtificialWonderDefinition lives in its own Constructible*Definition asset, and its class name does NOT end
+    // in "DistrictDefinition" — the Oracle health check false-negatived on the narrow search). The UIMapper
+    // sub-assets share the definition's name, so the type-name filter stays essential.
     static UnityEngine.Object FindDistrictDefinition(string name)
     {
-        foreach (var guid in AssetDatabase.FindAssets("ConstructibleCommonExtensionDefinition"))
+        foreach (var guid in AssetDatabase.FindAssets("Constructible"))
         {
             var path = AssetDatabase.GUIDToAssetPath(guid);
-            if (!path.EndsWith(".asset")) continue;
+            if (!path.EndsWith("Definition.asset")) continue;
             foreach (var o in AssetDatabase.LoadAllAssetsAtPath(path))
-                if (o != null && o.name == name && o.GetType().Name.EndsWith("DistrictDefinition")) return o;
+            {
+                if (o == null || o.name != name) continue;
+                var tn = o.GetType().Name;
+                if (tn.EndsWith("DistrictDefinition") || tn.EndsWith("ArtificialWonderDefinition") || tn.EndsWith("HolySiteDefinition")) return o;
+            }
         }
         return null;
     }
@@ -267,6 +279,38 @@ public class DistrictFactoryWindow : EditorWindow
         cur.reuseExtracted = EditorGUILayout.Toggle(new GUIContent("Reuse extracted files",
             "Skip re-importing the model file and reuse the OBJ/albedo already extracted — tick after hand-editing the texture so your fix survives a re-bake."), cur.reuseExtracted);
 
+        // ---- PARTS (the pizza): extra models composed onto the tile at bake ----
+        EditorGUILayout.Space();
+        if (cur.parts == null) cur.parts = new List<DistrictPart>();
+        EditorGUILayout.LabelField($"Parts — extra models on the tile ({cur.parts.Count})", EditorStyles.miniBoldLabel);
+        int removePart = -1;
+        for (int i = 0; i < cur.parts.Count; i++)
+        {
+            var p = cur.parts[i];
+            using (new EditorGUILayout.VerticalScope(EditorStyles.helpBox))
+            {
+                using (new EditorGUILayout.HorizontalScope())
+                {
+                    p.modelFile = EditorGUILayout.TextField(new GUIContent($"Part {i + 1} model",
+                        "This part's model file. Bakes with the entry's Normals / Target triangles / Atlas settings."), p.modelFile);
+                    if (GUILayout.Button("Browse", GUILayout.Width(70)))
+                    {
+                        var pf = EditorUtility.OpenFilePanel("Select part model", "", "glb,gltf,obj,fbx,blend");
+                        if (!string.IsNullOrEmpty(pf)) p.modelFile = pf;
+                    }
+                    if (GUILayout.Button("X", GUILayout.Width(22))) removePart = i;
+                }
+                p.size = EditorGUILayout.FloatField(new GUIContent("Size", "World length of this part's longest axis (the tile is ~7 across)."), p.size);
+                p.rotation = EditorGUILayout.Vector3Field(new GUIContent("Rotation offset (deg)", "Stand THIS part up (baked into its import, like the entry's Rotation offset)."), p.rotation);
+                p.facing = EditorGUILayout.Slider(new GUIContent("Facing (deg)", "Turn this part on the tile, about the vertical."), p.facing, 0f, 360f);
+                p.posOffset = EditorGUILayout.Vector3Field(new GUIContent("Position offset", "Place this part: X/Z slide across the tile, Y lifts it off the base's floor. The part auto-grounds to the base's floor first."), p.posOffset);
+            }
+        }
+        if (removePart >= 0) cur.parts.RemoveAt(removePart);
+        if (GUILayout.Button("Add part", GUILayout.Width(90))) cur.parts.Add(new DistrictPart());
+        if (cur.parts.Count > 0)
+            EditorGUILayout.HelpBox("Parts are BAKED-IN: each part bakes with its own knobs, grounds to the base's floor, and merges into ONE mesh + super albedo/normal/rough atlases (the runtime is unchanged). Alpha-cutout foliage is supported (verified in-game). Placement shows in the preview after Bake.", MessageType.None);
+
         EditorGUILayout.Space();
         EditorGUILayout.LabelField("Runtime", EditorStyles.miniBoldLabel);
         cur.isolate = EditorGUILayout.Toggle(new GUIContent("Isolate (this district only)",
@@ -360,6 +404,84 @@ public class DistrictFactoryWindow : EditorWindow
         // 2) wrap the baked mesh as the bone-free district FxMesh
         var mesh = AssetDatabase.LoadAssetAtPath<Mesh>("Assets/Resources/" + cur.resourceName + "_ModelMesh.asset");
         if (mesh == null) { status = $"Bake succeeded but '{cur.resourceName}_ModelMesh.asset' wasn't found — can't build the FxMesh."; return; }
+
+        // 2b) PIZZA compose: bake each part with its own knobs, then merge base + parts into ONE mesh + ONE super-atlas.
+        //     (Purely bake-time — the runtime still receives a single FxMesh + atlas pair, so nothing downstream changes.)
+        if (cur.parts != null && cur.parts.Count > 0)
+        {
+            Texture2D LoadTex(string suffix, string res2) => AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/Resources/" + res2 + suffix + ".asset");
+            var partData = new List<DistrictBaker.ComposeSource>();
+            for (int i = 0; i < cur.parts.Count; i++)
+            {
+                var p = cur.parts[i];
+                if (string.IsNullOrWhiteSpace(p.modelFile)) { status = $"Part {i + 1} has no Model file — set it or remove the part."; return; }
+                var pcfg = new BakeConfig
+                {
+                    resourceName = cur.resourceName + "_p" + (i + 1), modelFile = p.modelFile.Trim(), pawnDescription = "",
+                    rotationEuler = p.rotation, positionOffset = Vector3.zero, size = p.size,
+                    normals = (NormalsMode)cur.normalsMode, smoothingAngle = cur.smoothingAngle, convertGrid = cur.convertGrid,
+                    targetTris = cur.targetTris, stripParts = "", reuseExtracted = false,
+                    materialMode = MaterialMode.Auto, atlasMaxDim = cur.atlasMaxDim <= 0 ? 1024 : cur.atlasMaxDim, albedoBrightness = 1f, albedoSaturation = 1f,
+                };
+                var pr = UniversalBaker.Build(pcfg);
+                if (!pr.ok) { status = $"Part {i + 1} ('{System.IO.Path.GetFileName(p.modelFile)}') bake FAILED: " + pr.error; return; }
+                var pm = AssetDatabase.LoadAssetAtPath<Mesh>("Assets/Resources/" + pcfg.resourceName + "_ModelMesh.asset");
+                if (pm == null) { status = $"Part {i + 1}: baked mesh '{pcfg.resourceName}_ModelMesh.asset' not found."; return; }
+                partData.Add(new DistrictBaker.ComposeSource
+                {
+                    mesh = pm, albedo = LoadTex("_Atlas", pcfg.resourceName),
+                    normal = LoadTex("_NormalAtlas", pcfg.resourceName), rough = LoadTex("_RoughAtlas", pcfg.resourceName),
+                    facing = p.facing, posOffset = p.posOffset,
+                });
+            }
+            var baseSrc = new DistrictBaker.ComposeSource
+            {
+                mesh = mesh, albedo = LoadTex("_Atlas", cur.resourceName),
+                normal = LoadTex("_NormalAtlas", cur.resourceName), rough = LoadTex("_RoughAtlas", cur.resourceName),
+                facing = 0f, posOffset = Vector3.zero,
+            };
+            mesh = DistrictBaker.ComposeDistrict(baseSrc, partData, Quaternion.Euler(ComposedImportAngles()),
+                cur.atlasMaxDim <= 0 ? 1024 : cur.atlasMaxDim, out var superAtlas, out var superNormal, out var superRough);
+            // the super atlases REPLACE the entry's atlas assets (safe: compose blit-copied every input first)
+            void SaveTex(Texture2D tex, string suffix, TextureFormat fmt)
+            {
+                tex.name = cur.resourceName + suffix;
+                EditorUtility.CompressTexture(tex, fmt, TextureCompressionQuality.Normal);
+                tex.Apply(false, false);
+                string p2 = "Assets/Resources/" + cur.resourceName + suffix + ".asset";
+                AssetDatabase.DeleteAsset(p2);
+                AssetDatabase.CreateAsset(tex, p2);
+            }
+            // alpha-aware compression for the super albedo (cutout foliage needs DXT5; scan BEFORE compressing)
+            bool superHasAlpha = false;
+            var spx = superAtlas.GetPixels32();
+            for (int i = 0; i < spx.Length; i += 97) if (spx[i].a < 250) { superHasAlpha = true; break; }
+            string atlasPath = "Assets/Resources/" + cur.resourceName + "_Atlas.asset";
+            SaveTex(superAtlas, "_Atlas", superHasAlpha ? TextureFormat.DXT5 : TextureFormat.DXT1);
+            SaveTex(superNormal, "_NormalAtlas", TextureFormat.DXT5);
+            SaveTex(superRough, "_RoughAtlas", TextureFormat.DXT1);
+            // the preview material must sample the super-atlas, not the base's old sheet
+            var matAsset = AssetDatabase.LoadAssetAtPath<Material>("Assets/Resources/" + cur.resourceName + "_Mat.mat");
+            if (matAsset != null)
+            {
+                matAsset.mainTexture = AssetDatabase.LoadAssetAtPath<Texture2D>(atlasPath);
+                // alpha-card foliage (leaf textures that are mostly transparent): switch the PREVIEW material to
+                // cutout when the super-atlas carries real transparency, so cards show leaves instead of solid
+                // triangles. VERIFIED in-game 2026-08-08: the district shader honors cutout (the beech tree).
+                if (superHasAlpha)
+                {
+                    matAsset.SetFloat("_Mode", 1f);                       // Standard shader: Cutout
+                    matAsset.EnableKeyword("_ALPHATEST_ON");
+                    matAsset.SetFloat("_Cutoff", 0.5f);
+                    matAsset.renderQueue = 2450;
+                    Debug.Log($"[District] super-atlas carries transparency — preview material set to alpha-cutout (in-game behavior of the district shader with alpha is UNVERIFIED).");
+                }
+                EditorUtility.SetDirty(matAsset);
+            }
+            AssetDatabase.SaveAssets();
+            Debug.Log($"[District] composed {cur.parts.Count} part(s) onto '{cur.resourceName}' — one merged mesh, one super-atlas.");
+        }
+
         string guid = DistrictBaker.BakeFxMesh(mesh, cur.resourceName, ComposedImportAngles(), out _, levelOnGround: true, postLevelOffset: cur.posOffset, clipHexPct: cur.clipHexPct);
         if (string.IsNullOrEmpty(guid)) { status = "District FxMesh bake FAILED (see Console)."; return; }
         cur.fxMeshGuid = guid;
@@ -375,6 +497,9 @@ public class DistrictFactoryWindow : EditorWindow
         cur.normalAtlasGuid = nrmTex != null ? DistrictBaker.AmplitudeGuid(nrmTex) ?? "" : "";
         var rghTex = AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/Resources/" + cur.resourceName + "_RoughAtlas.asset");
         cur.roughAtlasGuid = rghTex != null ? DistrictBaker.AmplitudeGuid(rghTex) ?? "" : "";
+        // (composed entries: the guids above now point at the SUPER normal/rough atlases — packed with the super
+        // albedo's exact rects, base maps blitted in, neutral fill for map-less parts — so the marble keeps its
+        // relief. The v1 albedo-only shortcut turned the whole temple donor-map blue; falsified same evening.)
 
         LoadPreviewAssets(force: true);   // fresh assets exist even if the registry save below fails
 

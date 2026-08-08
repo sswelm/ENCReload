@@ -1106,6 +1106,17 @@ public static class UniversalBaker
         if (multiMat)
         {
             var albs = matList.Select(mm => LoadReadableAlbedo(fsResDir, mm)).ToArray();
+            // Does any source albedo carry REAL transparency (alpha-MASK foliage cards etc.)? Checked BEFORE packing:
+            // the old unconditional a=255 below silently flattened cutout foliage into solid triangles (the beech-tree
+            // hunt). Opaque-source models keep the exact old behavior, so their re-bakes stay byte-identical.
+            bool srcHasAlpha = false;
+            foreach (var a in albs)
+            {
+                if (a == null || srcHasAlpha) continue;
+                var sp = a.GetPixels32(); int tr = 0, seen = 0;
+                for (int i = 0; i < sp.Length; i += 97) { seen++; if (sp[i].a < 250) tr++; }
+                if (tr > seen / 100) srcHasAlpha = true;   // >1% transparent samples = intentional alpha, not noise
+            }
             packedAtlas = new Texture2D(2, 2, TextureFormat.RGBA32, false) { name = name + "_Atlas" };
             atlasRects = packedAtlas.PackTextures(albs, 2, cfg.atlasMaxDim > 0 ? cfg.atlasMaxDim : AtlasMaxDimDefault);   // cap packing at the final size (was 4096) — no need to pack huge then shrink
             foreach (var a in albs) if (a != null) UnityEngine.Object.DestroyImmediate(a);   // E8: free the packed source albedos — Unity objects don't GC, so they leak (tens of MB) per bake until a domain reload
@@ -1114,14 +1125,18 @@ public static class UniversalBaker
             // hull top samples), and (b) the gaps PackTextures leaves between packed islands — faces whose UVs land on
             // either render BLACK. BUT this can't tell those from an INTENTIONALLY black material (a glossy canopy, a
             // dark cockpit), which it would flatten to grey. keepBlack skips the remap for models that want true black.
+            // With srcHasAlpha, alpha is PRESERVED (FinalizeAtlas then picks DXT5) and transparent pixels skip the
+            // repaint — a transparent-black leaf texel is correct, the cutout discards it.
             var apx = packedAtlas.GetPixels32();
             AdjustAlbedo(apx, cfg.albedoBrightness, cfg.albedoSaturation);   // optional brightness/saturation lift (baked in)
             for (int i = 0; i < apx.Length; i++)
             {
-                apx[i].a = 255;
+                if (!srcHasAlpha) apx[i].a = 255;
+                else if (apx[i].a < 250) continue;   // transparent texel: keep as-is (cutout territory)
                 if (!cfg.keepBlack && apx[i].r < 32 && apx[i].g < 32 && apx[i].b < 32) { apx[i].r = 160; apx[i].g = 160; apx[i].b = 168; }
             }
             packedAtlas.SetPixels32(apx); packedAtlas.Apply();
+            if (srcHasAlpha) Debug.Log($"[Factory] {name}: source albedo carries transparency — atlas keeps alpha (cutout foliage etc.).");
             Debug.Log($"[Factory] {name} MULTI-MATERIAL: {matList.Count} materials [{string.Join(", ", matList.Select(mm => mm.name))}] -> packed atlas {packedAtlas.width}x{packedAtlas.height}");
         }
 
@@ -1475,9 +1490,15 @@ public static class UniversalBaker
             UnityEngine.Object.DestroyImmediate(atlas);
             atlas = scaled; w = nw; h = nh;
         }
-        if ((w % 4) == 0 && (h % 4) == 0)   // DXT1 needs multiple-of-4 dims; tiny odd atlases stay uncompressed
+        if ((w % 4) == 0 && (h % 4) == 0)   // block compression needs multiple-of-4 dims; tiny odd atlases stay uncompressed
         {
-            EditorUtility.CompressTexture(atlas, TextureFormat.DXT1, TextureCompressionQuality.Normal);
+            // ALPHA-AWARE compression: DXT1 has NO alpha channel — it silently flattened alpha-cutout foliage
+            // (leaf cards baked as solid triangles, the beech-tree hunt). Sources with real transparency keep it
+            // via DXT5; fully-opaque atlases keep the smaller DXT1.
+            bool hasAlpha = false;
+            var apx = atlas.GetPixels32();
+            for (int i = 0; i < apx.Length; i += 97) if (apx[i].a < 250) { hasAlpha = true; break; }
+            EditorUtility.CompressTexture(atlas, hasAlpha ? TextureFormat.DXT5 : TextureFormat.DXT1, TextureCompressionQuality.Normal);
             atlas.Apply(false, false);
         }
         Debug.Log($"[Factory] {name} atlas finalized -> {atlas.width}x{atlas.height} {atlas.format}");

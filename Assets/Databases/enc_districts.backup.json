@@ -4,8 +4,8 @@
             "district": "Extension_ArtificialWonder_Era1_Oracle",
             "fxMeshGuid": "-2058631080,1126754268,2079042691,420879829",
             "atlasGuid": "1914818309,1234421233,-907490170,81774264",
-            "normalAtlasGuid": "735420848,1150277674,704646061,1634110696",
-            "roughAtlasGuid": "55007508,1281963943,-1803941740,1806809191",
+            "normalAtlasGuid": "",
+            "roughAtlasGuid": "",
             "isolate": true,
             "resourceName": "greek_temple",
             "modelFile": "D:/3DModels/Greek Temple/greek_temple.glb",
@@ -39,7 +39,24 @@
             },
             "clipHexPct": 0.0,
             "atlasMaxDim": 1024,
-            "sourceTris": -1
+            "sourceTris": 31426,
+            "parts": [
+                {
+                    "modelFile": "D:/3DModels/Beech Tree/beech_tree.glb",
+                    "size": 2.0,
+                    "rotation": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "facing": 0.0,
+                    "posOffset": {
+                        "x": 1.5,
+                        "y": 0.0,
+                        "z": 1.5
+                    }
+                }
+            ]
         },
         {
             "district": "Extension_Base_BreederReactor",
@@ -55,7 +72,7 @@
                 "y": 0.0,
                 "z": -90.0
             },
-            "size": 5.5,
+            "size": 5.0,
             "normalsMode": 1,
             "smoothingAngle": 20.0,
             "convertGrid": 0,
@@ -80,7 +97,8 @@
             },
             "clipHexPct": 0.0,
             "atlasMaxDim": 1024,
-            "sourceTris": 26220
+            "sourceTris": 26220,
+            "parts": []
         }
     ]
 }

@@ -10,6 +10,7 @@
 // Two menu commands, matching that split. Both operate on the current Project selection so the modder drives the
 // browse-the-SDK-assets step (finding a donor drawer) where it belongs — in the editor.
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using UnityEditor;
@@ -140,6 +141,146 @@ public static class DistrictBaker
         Debug.Log($"[District] FxMesh baked: {path}  (verts={mesh.vertexCount})  GUID={guid}");
         fxMeshPath = path;
         return string.IsNullOrEmpty(guid) ? null : guid;
+    }
+
+    // ---- PIZZA compose: merge extra part meshes onto the base district mesh ------------------------------------------
+    // Bake-time composition (the runtime still ships ONE FxMesh + ONE atlas): each part arrives as its own baked,
+    // size-scaled mesh + albedo atlas. All atlases pack into a SUPER-ATLAS (each source's [0,1] UVs remap into its
+    // rect), each part is grounded to the BASE's floor and placed by facing + posOffset in DRAWN space (the entry's
+    // composed draw rotation R), then everything is transformed back to STORED space and appended — one submesh per
+    // source. Downstream (BakeFxMesh auto-level / hex clip / texture injection) runs on the merged result unchanged.
+    // One source on the pizza: its baked mesh, its albedo atlas, its OPTIONAL surface-map atlases (null = neutral
+    // fill in the super maps), and its placement. The base is source 0 with identity placement.
+    public struct ComposeSource
+    {
+        public Mesh mesh; public Texture2D albedo, normal, rough; public float facing; public Vector3 posOffset;
+    }
+
+    public static Mesh ComposeDistrict(ComposeSource baseSrc, List<ComposeSource> parts,
+        Quaternion R, int atlasCap, out Texture2D superAtlas, out Texture2D superNormal, out Texture2D superRough)
+    {
+        var baseMesh = baseSrc.mesh;
+        var Rinv = Quaternion.Inverse(R);
+        var texs = new List<Texture2D> { ReadableCopy(baseSrc.albedo) };
+        foreach (var p in parts) texs.Add(ReadableCopy(p.albedo));
+        superAtlas = new Texture2D(4, 4, TextureFormat.RGBA32, false) { name = baseMesh.name + "_SuperAtlas" };
+        var rects = superAtlas.PackTextures(texs.ToArray(), 2, Mathf.Clamp(atlasCap * 2, 1024, 8192));
+
+        // SUPER SURFACE MAPS — same rects as the albedo pack (the remapped UVs index all three for free), neutral
+        // fill where a source ships no maps (flat normal / matte rough — the per-entry verified stand-ins). Without
+        // this, composing DROPPED the base's baked maps and the donor's maps tinted the whole model (the blue-temple
+        // launch). Area-average blit: a single bilinear tap aliases dense normal maps into rainbow static (measured).
+        int sw2 = superAtlas.width, sh2 = superAtlas.height;
+        var npx = Fill(sw2, sh2, new Color32(128, 128, 255, 128));
+        var rpx = Fill(sw2, sh2, new Color32(140, 140, 140, 140));
+        void BlitMaps(int rectIdx, Texture2D normal, Texture2D rough)
+        {
+            if (normal != null) { var c = ReadableCopy(normal); BlitIntoRectArea(c, npx, sw2, sh2, rects[rectIdx]); UnityEngine.Object.DestroyImmediate(c); }
+            if (rough != null) { var c = ReadableCopy(rough); BlitIntoRectArea(c, rpx, sw2, sh2, rects[rectIdx]); UnityEngine.Object.DestroyImmediate(c); }
+        }
+        BlitMaps(0, baseSrc.normal, baseSrc.rough);
+        for (int i = 0; i < parts.Count; i++) BlitMaps(i + 1, parts[i].normal, parts[i].rough);
+        superNormal = new Texture2D(sw2, sh2, TextureFormat.RGBA32, false) { name = baseMesh.name + "_SuperNormal" };
+        superNormal.SetPixels32(npx); superNormal.Apply();
+        superRough = new Texture2D(sw2, sh2, TextureFormat.RGBA32, false) { name = baseMesh.name + "_SuperRough" };
+        superRough.SetPixels32(rpx); superRough.Apply();
+
+        // the base's DRAWN floor: parts ground to it (a part's own bottom lands on the base's bottom + its Y lift)
+        float baseMinY = float.MaxValue;
+        var bv = baseMesh.vertices;
+        for (int i = 0; i < bv.Length; i++) { float y = (R * bv[i]).y; if (y < baseMinY) baseMinY = y; }
+
+        var nv = new List<Vector3>(); var nn = new List<Vector3>(); var nu = new List<Vector2>(); var nt4 = new List<Vector4>();
+        var subs = new List<int[]>();
+        void Append(Mesh m, Rect rect, bool isBase, float facing, Vector3 off)
+        {
+            int start = nv.Count;
+            var vs = m.vertices; var ns = m.normals; var us = m.uv; var ts = m.tangents;
+            bool hasN = ns != null && ns.Length == vs.Length;
+            bool hasU = us != null && us.Length == vs.Length;
+            bool hasT = ts != null && ts.Length == vs.Length;
+            var Rp = Quaternion.Euler(0f, facing, 0f);
+            Vector3 shift = Vector3.zero;
+            if (!isBase)
+            {
+                float minY = float.MaxValue;
+                for (int i = 0; i < vs.Length; i++) { float y = (Rp * vs[i]).y; if (y < minY) minY = y; }
+                shift = new Vector3(off.x, baseMinY - minY + off.y, off.z);   // grounded to the base floor, then the author's lift
+            }
+            for (int i = 0; i < vs.Length; i++)
+            {
+                nv.Add(isBase ? vs[i] : Rinv * (Rp * vs[i] + shift));
+                var nrm = hasN ? ns[i] : Vector3.up;
+                nn.Add(isBase ? nrm : Rinv * (Rp * nrm));
+                var uv = hasU ? us[i] : Vector2.zero;
+                nu.Add(new Vector2(rect.x + uv.x * rect.width, rect.y + uv.y * rect.height));
+                var t4 = hasT ? ts[i] : new Vector4(1f, 0f, 0f, 1f);
+                if (!isBase) { var xyz = Rinv * (Rp * new Vector3(t4.x, t4.y, t4.z)); t4 = new Vector4(xyz.x, xyz.y, xyz.z, t4.w); }
+                nt4.Add(t4);
+            }
+            var tris = new List<int>();
+            for (int s = 0; s < m.subMeshCount; s++) { var st = m.GetTriangles(s); for (int k = 0; k < st.Length; k++) tris.Add(st[k] + start); }
+            subs.Add(tris.ToArray());
+        }
+        Append(baseMesh, rects[0], isBase: true, 0f, Vector3.zero);
+        for (int i = 0; i < parts.Count; i++) Append(parts[i].mesh, rects[i + 1], isBase: false, parts[i].facing, parts[i].posOffset);
+
+        var merged = new Mesh { name = baseMesh.name + "_Composed", indexFormat = UnityEngine.Rendering.IndexFormat.UInt32 };
+        merged.SetVertices(nv); merged.SetNormals(nn); merged.SetUVs(0, nu); merged.SetTangents(nt4);
+        merged.subMeshCount = subs.Count;
+        for (int s = 0; s < subs.Count; s++) merged.SetTriangles(subs[s], s);
+        merged.RecalculateBounds();
+        return merged;
+    }
+
+    static Color32[] Fill(int w, int h, Color32 c)
+    {
+        var px = new Color32[w * h];
+        for (int i = 0; i < px.Length; i++) px[i] = c;
+        return px;
+    }
+
+    // AREA-AVERAGE blit of a readable source into a normalized rect of a Color32 canvas. One source box per dst
+    // pixel — a single bilinear tap aliases dense normal maps into rainbow static (the surface-map arc's lesson #1).
+    static void BlitIntoRectArea(Texture2D src, Color32[] dst, int dw, int dh, Rect rect)
+    {
+        if (src == null) return;
+        int x0 = Mathf.Clamp(Mathf.RoundToInt(rect.x * dw), 0, dw - 1), y0 = Mathf.Clamp(Mathf.RoundToInt(rect.y * dh), 0, dh - 1);
+        int rw = Mathf.Clamp(Mathf.RoundToInt(rect.width * dw), 1, dw - x0), rh = Mathf.Clamp(Mathf.RoundToInt(rect.height * dh), 1, dh - y0);
+        var sp = src.GetPixels32(); int sw = src.width, sh = src.height;
+        for (int y = 0; y < rh; y++)
+            for (int x = 0; x < rw; x++)
+            {
+                float u0 = x / (float)rw * sw, u1 = (x + 1) / (float)rw * sw;
+                float v0 = y / (float)rh * sh, v1 = (y + 1) / (float)rh * sh;
+                int iu0 = Mathf.FloorToInt(u0), iu1 = Mathf.Min(sw - 1, Mathf.Max(iu0, Mathf.CeilToInt(u1) - 1));
+                int iv0 = Mathf.FloorToInt(v0), iv1 = Mathf.Min(sh - 1, Mathf.Max(iv0, Mathf.CeilToInt(v1) - 1));
+                int r = 0, g = 0, b = 0, a = 0, n = 0;
+                for (int sy = iv0; sy <= iv1; sy++)
+                    for (int sx = iu0; sx <= iu1; sx++)
+                    { var c = sp[sy * sw + sx]; r += c.r; g += c.g; b += c.b; a += c.a; n++; }
+                dst[(y0 + y) * dw + (x0 + x)] = new Color32((byte)(r / n), (byte)(g / n), (byte)(b / n), (byte)(a / n));
+            }
+    }
+
+    // GPU-blit copy: atlas assets may be compressed / non-readable — PackTextures needs readable RGBA32. Null-safe
+    // (an untextured part contributes a flat light-grey patch instead of failing the whole compose).
+    static Texture2D ReadableCopy(Texture2D src)
+    {
+        if (src == null)
+        {
+            var w = new Texture2D(4, 4, TextureFormat.RGBA32, false);
+            var px = new Color32[16]; for (int i = 0; i < 16; i++) px[i] = new Color32(200, 200, 200, 255);
+            w.SetPixels32(px); w.Apply();
+            return w;
+        }
+        var rt = RenderTexture.GetTemporary(src.width, src.height, 0, RenderTextureFormat.ARGB32, RenderTextureReadWrite.sRGB);
+        Graphics.Blit(src, rt);
+        var prev = RenderTexture.active; RenderTexture.active = rt;
+        var t = new Texture2D(src.width, src.height, TextureFormat.RGBA32, false);
+        t.ReadPixels(new Rect(0, 0, src.width, src.height), 0, 0); t.Apply();
+        RenderTexture.active = prev; RenderTexture.ReleaseTemporary(rt);
+        return t;
     }
 
     // ---- tile-hex clipping ------------------------------------------------------------------------------------------

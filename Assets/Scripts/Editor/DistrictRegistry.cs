@@ -13,6 +13,19 @@ using System.IO;
 using UnityEditor;
 using UnityEngine;
 
+// One extra model composed onto the district tile at bake ("pizza topping"): baked with its own knobs, grounded to
+// the BASE model's floor, placed by facing + posOffset, then merged into the entry's single mesh + super-atlas.
+// Purely bake-time — the runtime still ships ONE FxMesh + ONE atlas per entry.
+[Serializable]
+public class DistrictPart
+{
+    public string modelFile = "";      // .glb/.gltf/.obj/.fbx/.blend for this part
+    public float size = 2f;            // world length of the part's longest axis (its own Size knob)
+    public Vector3 rotation;           // stand-it-up rotation offset, baked in the part's own import (same semantic as the entry's)
+    public float facing = 0f;          // turn the part on the tile (deg about the vertical)
+    public Vector3 posOffset;          // place it: X/Z slide across the tile, Y lifts off the base's floor
+}
+
 // One district model. `district` is the key (one custom model per district).
 [Serializable]
 public class DistrictDef
@@ -42,6 +55,7 @@ public class DistrictDef
     public float clipHexPct = 0f;                 // >0 = CLIP the mesh to the tile hex at bake (100 = the exact in-game cell, 6.93 across flats), so the model tiles like a vanilla district; 0 = off
     public int atlasMaxDim = 1024;                // packed-atlas resolution (was hardcoded 512 — ten 1024² source sheets crushed to ~160² each on the temple); districts render close-up, 1024-2048 is right for multi-material models
     public int sourceTris = -1;                   // BAKE-STATE: the SOURCE model's triangle count before decimation (parsed from the Blender prep; -1 = unknown / no reduce ran)
+    public List<DistrictPart> parts = new List<DistrictPart>();   // extra models composed onto the tile at bake (see DistrictPart) — runtime ignores (it ships as one merged mesh)
 }
 
 [Serializable]
