@@ -303,7 +303,6 @@ public class DistrictFactoryWindow : EditorWindow
                 p.size = EditorGUILayout.FloatField(new GUIContent("Size", "World length of this part's longest axis (the tile is ~7 across)."), p.size);
                 p.rotation = EditorGUILayout.Vector3Field(new GUIContent("Rotation offset (deg)", "Stand THIS part up (baked into its import, like the entry's Rotation offset)."), p.rotation);
                 p.facing = EditorGUILayout.Slider(new GUIContent("Facing (deg)", "Turn this part on the tile, about the vertical."), p.facing, 0f, 360f);
-                p.posOffset = EditorGUILayout.Vector3Field(new GUIContent("Position offset", "Place this part: X/Z slide across the tile, Y lifts it off the base's floor. The part auto-grounds to the base's floor first."), p.posOffset);
                 p.leafScale = EditorGUILayout.Slider(new GUIContent("Leaf size ×",
                     "GEOMETRY: scales every small disconnected triangle island (each leaf card) around its own centroid — the leaves get " +
                     "physically bigger. The trunk (one big connected island) is untouched. 1 = as authored; try 1.5-2.5."), p.leafScale <= 0f ? 1f : p.leafScale, 1f, 3f);
@@ -311,6 +310,7 @@ public class DistrictFactoryWindow : EditorWindow
                     "Cutout-foliage fullness: boosts the part's texture alpha AND dilates the opaque leaf sprites (each whole step above 1 " +
                     "grows every leaf by ~1 texel — needed for binary-alpha foliage like the beech, where a plain alpha boost is a no-op). " +
                     "1 = as authored; 2-4 = fuller crown."), p.alphaBoost <= 0f ? 1f : p.alphaBoost, 1f, 4f);
+                p.posOffset = EditorGUILayout.Vector3Field(new GUIContent("Position offset", "Place this part: X/Z slide across the tile, Y lifts it off the base's floor. The part auto-grounds to the base's floor first."), p.posOffset);
                 // COPIES — the same part placed again (a grove): one bake, one atlas slot, geometry per copy
                 if (p.copies == null) p.copies = new List<Vector3>();
                 int removeCopy = -1;
