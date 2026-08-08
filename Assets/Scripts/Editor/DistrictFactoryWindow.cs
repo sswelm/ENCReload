@@ -301,6 +301,9 @@ public class DistrictFactoryWindow : EditorWindow
                     if (GUILayout.Button("X", GUILayout.Width(22))) removePart = i;
                 }
                 p.size = EditorGUILayout.FloatField(new GUIContent("Size", "World length of this part's longest axis (the tile is ~7 across)."), p.size);
+                p.targetTris = EditorGUILayout.IntField(new GUIContent("Target triangles",
+                    "THIS part's decimation ceiling. Parts render small on the tile — keep this LOW (a grove multiplies it), so the whole " +
+                    "composed mesh stays under the ~65,535-vertex per-district-mesh limit. 0 = use the entry's Target."), p.targetTris);
                 p.rotation = EditorGUILayout.Vector3Field(new GUIContent("Rotation offset (deg)", "Stand THIS part up (baked into its import, like the entry's Rotation offset)."), p.rotation);
                 p.facing = EditorGUILayout.Slider(new GUIContent("Facing (deg)", "Turn this part on the tile, about the vertical."), p.facing, 0f, 360f);
                 p.leafScale = EditorGUILayout.Slider(new GUIContent("Leaf size ×",
@@ -447,7 +450,7 @@ public class DistrictFactoryWindow : EditorWindow
                     resourceName = cur.resourceName + "_p" + (i + 1), modelFile = p.modelFile.Trim(), pawnDescription = "",
                     rotationEuler = p.rotation, positionOffset = Vector3.zero, size = p.size,
                     normals = (NormalsMode)cur.normalsMode, smoothingAngle = cur.smoothingAngle, convertGrid = cur.convertGrid,
-                    targetTris = cur.targetTris, stripParts = "", reuseExtracted = false,
+                    targetTris = p.targetTris > 0 ? p.targetTris : cur.targetTris, stripParts = "", reuseExtracted = false,
                     materialMode = MaterialMode.Auto, atlasMaxDim = cur.atlasMaxDim <= 0 ? 1024 : cur.atlasMaxDim, albedoBrightness = 1f, albedoSaturation = 1f,
                 };
                 var pr = UniversalBaker.Build(pcfg);
