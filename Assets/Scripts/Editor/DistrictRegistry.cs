@@ -24,6 +24,8 @@ public class DistrictPart
     public Vector3 rotation;           // stand-it-up rotation offset, baked in the part's own import (same semantic as the entry's)
     public float facing = 0f;          // turn the part on the tile (deg about the vertical)
     public Vector3 posOffset;          // place it: X/Z slide across the tile, Y lifts off the base's floor
+    public float alphaBoost = 1f;      // cutout-foliage fullness: multiplies the part's texture alpha at compose (1 = as authored). Sources authored for a LOW alpha cutoff (the beech: 0.227) erode to slivers against the game's fixed threshold — 2-3 restores full leaves.
+    public float leafScale = 1f;       // GEOMETRY: scale every small disconnected triangle island (leaf cards) around its own centroid at compose. Texture tricks can't outgrow the card — this makes each leaf physically bigger. Trunk/big islands untouched (size-characteristic selection).
 }
 
 // One district model. `district` is the key (one custom model per district).

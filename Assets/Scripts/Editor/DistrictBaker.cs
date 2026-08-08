@@ -154,6 +154,84 @@ public static class DistrictBaker
     public struct ComposeSource
     {
         public Mesh mesh; public Texture2D albedo, normal, rough; public float facing; public Vector3 posOffset;
+        public float alphaBoost;   // <=0 or 1 = no-op; >1 multiplies the source's alpha + dilates (cutout-foliage fullness)
+        public float leafScale;    // <=0 or 1 = no-op; >1 scales each SMALL disconnected island (leaf card) around its centroid
+    }
+
+    // GEOMETRY leaf sizing: texture dilation can't outgrow the card, so scale every small disconnected triangle
+    // island around its own centroid. Selection is by CHARACTERISTIC, not material: leaf cards are thousands of
+    // tiny islands, the trunk is one big connected island (any island spanning >25% of the mesh is left alone).
+    static Vector3[] ScaledLeafCards(Mesh m, float factor)
+    {
+        var verts = m.vertices;
+        int n = verts.Length;
+        var parent = new int[n];
+        for (int i = 0; i < n; i++) parent[i] = i;
+        int Find(int a) { while (parent[a] != a) { parent[a] = parent[parent[a]]; a = parent[a]; } return a; }
+        void Union(int a, int b) { a = Find(a); b = Find(b); if (a != b) parent[a] = b; }
+        for (int s = 0; s < m.subMeshCount; s++)
+        {
+            var t = m.GetTriangles(s);
+            for (int k = 0; k < t.Length; k += 3) { Union(t[k], t[k + 1]); Union(t[k + 1], t[k + 2]); }
+        }
+        // triangles per island: a LEAF CARD is 1-4 tris; a TWIG is a many-tri cylinder. The first size-only
+        // selector scaled twigs into spears ("spiked desert bush") — tri-count is the leaf/twig discriminator.
+        var triCount = new Dictionary<int, int>();
+        for (int s = 0; s < m.subMeshCount; s++)
+        {
+            var t = m.GetTriangles(s);
+            for (int k = 0; k < t.Length; k += 3)
+            {
+                int r = Find(t[k]);
+                triCount.TryGetValue(r, out int cnt); triCount[r] = cnt + 1;
+            }
+        }
+        var groups = new Dictionary<int, List<int>>();
+        for (int i = 0; i < n; i++)
+        {
+            int r = Find(i);
+            if (!groups.TryGetValue(r, out var list)) groups[r] = list = new List<int>();
+            list.Add(i);
+        }
+        float meshSize = m.bounds.size.magnitude;
+        // branch-class vertex cloud (islands >4 tris): each leaf card scales around its STEM — the card vertex
+        // nearest to this cloud — so the attachment point stays glued to its twig. Centroid scaling detached the
+        // leaves ("hanging in the air"): the stem end moved away from the branch by (factor-1) x half a card.
+        var branchVerts = new List<Vector3>();
+        foreach (var kv in groups)
+        { triCount.TryGetValue(kv.Key, out int tc); if (tc > 4) foreach (var i in kv.Value) branchVerts.Add(verts[i]); }
+        int scaled = 0;
+        foreach (var kv in groups)
+        {
+            triCount.TryGetValue(kv.Key, out int tris);
+            if (tris > 4) continue;   // twig/trunk-class geometry — leave it (only true leaf CARDS scale)
+            var g = kv.Value;
+            var min = new Vector3(float.MaxValue, float.MaxValue, float.MaxValue);
+            var max = new Vector3(float.MinValue, float.MinValue, float.MinValue);
+            var c = Vector3.zero;
+            foreach (var i in g) { var v = verts[i]; min = Vector3.Min(min, v); max = Vector3.Max(max, v); c += v; }
+            if ((max - min).magnitude > meshSize * 0.25f) continue;   // oversized flat island — leave it
+            c /= g.Count;
+            // anchor = the card vertex closest to any branch vertex (fallback: centroid when no branches exist)
+            var anchor = c;
+            if (branchVerts.Count > 0)
+            {
+                float best = float.MaxValue;
+                foreach (var i in g)
+                {
+                    var v = verts[i];
+                    for (int b = 0; b < branchVerts.Count; b++)
+                    {
+                        float d = (branchVerts[b] - v).sqrMagnitude;
+                        if (d < best) { best = d; anchor = v; }
+                    }
+                }
+            }
+            foreach (var i in g) verts[i] = anchor + (verts[i] - anchor) * factor;
+            scaled++;
+        }
+        Debug.Log($"[District] leaf size x{factor:0.0}: scaled {scaled} of {groups.Count} card island(s) around their stems ({branchVerts.Count} branch verts anchored them)");
+        return verts;
     }
 
     public static Mesh ComposeDistrict(ComposeSource baseSrc, List<ComposeSource> parts,
@@ -161,8 +239,48 @@ public static class DistrictBaker
     {
         var baseMesh = baseSrc.mesh;
         var Rinv = Quaternion.Inverse(R);
-        var texs = new List<Texture2D> { ReadableCopy(baseSrc.albedo) };
-        foreach (var p in parts) texs.Add(ReadableCopy(p.albedo));
+        Texture2D CopyBoosted(Texture2D src, float boost)
+        {
+            var c = ReadableCopy(src);
+            if (boost > 1f)
+            {
+                // CUTOUT-FOLIAGE FULLNESS, two mechanisms (both needed — measured on the beech leaf sheet):
+                // 1) alpha GAIN for soft-alpha sources (authored for a low cutoff, eroded by the game's threshold);
+                // 2) DILATION for BINARY-alpha sources (the beech: 19k texels a=0, 2k a=255, ~120 between — gain is
+                //    a NO-OP there). Each round grows every leaf by one texel via a 3x3 alpha-max, copying the
+                //    winning neighbor's RGB so grown edges stay leaf-coloured instead of fringing black.
+                var px = c.GetPixels32();
+                int w = c.width, h = c.height;
+                for (int i = 0; i < px.Length; i++) px[i].a = (byte)Mathf.Min(255f, px[i].a * boost);
+                int rounds = Mathf.Clamp(Mathf.RoundToInt(boost - 1f), 0, 6);
+                for (int r = 0; r < rounds; r++)
+                {
+                    var srcPx = (Color32[])px.Clone();
+                    for (int y = 0; y < h; y++)
+                        for (int x = 0; x < w; x++)
+                        {
+                            int i = y * w + x;
+                            if (srcPx[i].a >= 250) continue;
+                            byte bestA = srcPx[i].a; int bestI = -1;
+                            for (int dy = -1; dy <= 1; dy++)
+                                for (int dx = -1; dx <= 1; dx++)
+                                {
+                                    int nx = x + dx, ny = y + dy;
+                                    if (nx < 0 || ny < 0 || nx >= w || ny >= h) continue;
+                                    int ni = ny * w + nx;
+                                    if (srcPx[ni].a > bestA) { bestA = srcPx[ni].a; bestI = ni; }
+                                }
+                            if (bestI >= 0) px[i] = srcPx[bestI];
+                        }
+                }
+                c.SetPixels32(px); c.Apply();
+                int op = 0; for (int i = 0; i < px.Length; i += 31) if (px[i].a >= 128) op++;
+                Debug.Log($"[District] part fullness {boost:0.0}: {rounds} dilation round(s), opaque coverage now ~{op * 3100 / px.Length}% of sampled texels");
+            }
+            return c;
+        }
+        var texs = new List<Texture2D> { CopyBoosted(baseSrc.albedo, baseSrc.alphaBoost) };
+        foreach (var p in parts) texs.Add(CopyBoosted(p.albedo, p.alphaBoost));
         superAtlas = new Texture2D(4, 4, TextureFormat.RGBA32, false) { name = baseMesh.name + "_SuperAtlas" };
         var rects = superAtlas.PackTextures(texs.ToArray(), 2, Mathf.Clamp(atlasCap * 2, 1024, 8192));
 
@@ -192,10 +310,11 @@ public static class DistrictBaker
 
         var nv = new List<Vector3>(); var nn = new List<Vector3>(); var nu = new List<Vector2>(); var nt4 = new List<Vector4>();
         var subs = new List<int[]>();
-        void Append(Mesh m, Rect rect, bool isBase, float facing, Vector3 off)
+        void Append(Mesh m, Rect rect, bool isBase, float facing, Vector3 off, float leafScale)
         {
             int start = nv.Count;
-            var vs = m.vertices; var ns = m.normals; var us = m.uv; var ts = m.tangents;
+            var vs = (!isBase && leafScale > 1.01f) ? ScaledLeafCards(m, leafScale) : m.vertices;
+            var ns = m.normals; var us = m.uv; var ts = m.tangents;
             bool hasN = ns != null && ns.Length == vs.Length;
             bool hasU = us != null && us.Length == vs.Length;
             bool hasT = ts != null && ts.Length == vs.Length;
@@ -222,8 +341,8 @@ public static class DistrictBaker
             for (int s = 0; s < m.subMeshCount; s++) { var st = m.GetTriangles(s); for (int k = 0; k < st.Length; k++) tris.Add(st[k] + start); }
             subs.Add(tris.ToArray());
         }
-        Append(baseMesh, rects[0], isBase: true, 0f, Vector3.zero);
-        for (int i = 0; i < parts.Count; i++) Append(parts[i].mesh, rects[i + 1], isBase: false, parts[i].facing, parts[i].posOffset);
+        Append(baseMesh, rects[0], isBase: true, 0f, Vector3.zero, 1f);
+        for (int i = 0; i < parts.Count; i++) Append(parts[i].mesh, rects[i + 1], isBase: false, parts[i].facing, parts[i].posOffset, parts[i].leafScale);
 
         var merged = new Mesh { name = baseMesh.name + "_Composed", indexFormat = UnityEngine.Rendering.IndexFormat.UInt32 };
         merged.SetVertices(nv); merged.SetNormals(nn); merged.SetUVs(0, nu); merged.SetTangents(nt4);
