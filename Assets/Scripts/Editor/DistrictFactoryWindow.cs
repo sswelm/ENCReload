@@ -65,6 +65,88 @@ public class DistrictFactoryWindow : EditorWindow
             : new DistrictDef();
         status = "";
         LoadPreviewAssets(force: true);   // preview follows the selection — never show the previous entry's model
+        RunHealthChecks();
+    }
+
+    // ---- HEALTH CHECKS (the review's editor-side validation) --------------------------------------------------------
+    // The two failure modes that actually cost launches this week — registry-vs-asset GUID drift ("waiting for leaves
+    // to load..." forever) and a stale mod bundle (mesh/atlas pair mismatch = scrambled texture) — plus the July
+    // data-prerequisite trap (non-empty Additional Visual Levels = guaranteed empty tile). All detectable right here,
+    // at authoring time. Computed on selection / after Bake (never per-OnGUI — these hit the AssetDatabase and disk).
+    readonly List<(MessageType sev, string msg)> health = new List<(MessageType, string)>();
+    const string CommunityDir = @"C:\GameData\Humankind\Community";   // = HafCli's export target (junctioned game data)
+
+    void RunHealthChecks()
+    {
+        health.Clear();
+        if (selected <= 0 || string.IsNullOrWhiteSpace(cur.district)) return;   // a fresh entry has nothing to validate
+        string res = (cur.resourceName ?? "").Trim();
+        try
+        {
+            // 1) registry-vs-asset GUID drift: the shipped GUIDs must match the assets currently on disk
+            System.DateTime newestBaked = System.DateTime.MinValue;
+            void CheckGuid(string suffix, string regGuid, string what, bool critical)
+            {
+                if (string.IsNullOrEmpty(regGuid)) return;   // entry doesn't ship this asset — nothing to check
+                string path = "Assets/Resources/" + res + suffix + ".asset";
+                var asset = AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(path);
+                if (asset == null)
+                { health.Add((MessageType.Error, $"{what}: registry has a GUID but '{path}' is MISSING — the game will wait forever for it. Re-bake.")); return; }
+                var diskGuid = DistrictBaker.AmplitudeGuid(asset);
+                if (!string.IsNullOrEmpty(diskGuid) && diskGuid != regGuid)
+                    health.Add((critical ? MessageType.Error : MessageType.Warning,
+                        $"{what}: registry GUID != the asset on disk ({regGuid} vs {diskGuid}) — the game loads a different {what.ToLowerInvariant()} than this project holds. Re-bake to re-sync."));
+                var full = System.IO.Path.Combine(System.IO.Directory.GetParent(Application.dataPath).FullName, path.Replace('/', System.IO.Path.DirectorySeparatorChar));
+                if (System.IO.File.Exists(full) && System.IO.File.GetLastWriteTime(full) > newestBaked) newestBaked = System.IO.File.GetLastWriteTime(full);
+            }
+            CheckGuid("_FxMesh", cur.fxMeshGuid, "FxMesh", critical: true);
+            CheckGuid("_Atlas", cur.atlasGuid, "Albedo atlas", critical: false);
+            CheckGuid("_NormalAtlas", cur.normalAtlasGuid, "Normal atlas", critical: false);
+            CheckGuid("_RoughAtlas", cur.roughAtlasGuid, "Roughness atlas", critical: false);
+
+            // 2) stale deployment: baked assets newer than the newest built mod bundle = the game ships an older pair
+            //    (re-bakes reshuffle atlas packing — the mesh/atlas halves MUST come from the same bake; learned twice)
+            if (newestBaked > System.DateTime.MinValue && System.IO.Directory.Exists(CommunityDir))
+            {
+                System.DateTime newestBundle = System.DateTime.MinValue;
+                foreach (var dir in System.IO.Directory.GetDirectories(CommunityDir, "ENCReload.*"))
+                    foreach (var f in System.IO.Directory.GetFiles(dir, "*.assetbundle"))
+                        if (System.IO.File.GetLastWriteTime(f) > newestBundle) newestBundle = System.IO.File.GetLastWriteTime(f);
+                if (newestBundle == System.DateTime.MinValue)
+                    health.Add((MessageType.Warning, "No built ENCReload assetbundle found in the game's Community folder — build the mod before launching."));
+                else if (newestBaked > newestBundle)
+                    health.Add((MessageType.Warning, $"STALE BUNDLE: baked assets ({newestBaked:HH:mm:ss}) are newer than the built mod ({newestBundle:HH:mm:ss}) — REBUILD the mod before launching, or the game ships the old mesh/atlas pair (scrambled texture)."));
+            }
+
+            // 3) data prerequisites on the district definition (the July trap): non-empty Additional Visual Levels
+            //    resolves to material 0,0,0,0 = a guaranteed empty tile; a missing affinity renders nothing to swap.
+            var def = FindDistrictDefinition(cur.district);
+            if (def == null)
+                health.Add((MessageType.Warning, $"No district definition named '{cur.district}' found in the project databases — typo, or the definition lives outside this project."));
+            else
+            {
+                var so = new SerializedObject(def);
+                var lv = so.FindProperty("AdditionalVisualLevels");
+                if (lv != null && lv.isArray && lv.arraySize > 0)
+                    health.Add((MessageType.Error, $"'{cur.district}' has {lv.arraySize} Additional Visual Level(s) — the visual lookup keys on the full combo and an unregistered combo is an EMPTY TILE (the July trap). Clear the list on the definition."));
+                var aff = so.FindProperty("ConstructibleVisualAffinity")?.FindPropertyRelative("serializableElementName");
+                if (aff != null && string.IsNullOrEmpty(aff.stringValue))
+                    health.Add((MessageType.Warning, $"'{cur.district}' has NO ConstructibleVisualAffinity — the tile resolves no material family and there is nothing to swap. Set a renderable affinity (or the native wonder affinity + WonderNativeRows for wonders)."));
+            }
+        }
+        catch (Exception ex) { health.Add((MessageType.Warning, "Health checks failed to run: " + ex.Message)); }
+    }
+
+    static UnityEngine.Object FindDistrictDefinition(string name)
+    {
+        foreach (var guid in AssetDatabase.FindAssets("ConstructibleCommonExtensionDefinition"))
+        {
+            var path = AssetDatabase.GUIDToAssetPath(guid);
+            if (!path.EndsWith(".asset")) continue;
+            foreach (var o in AssetDatabase.LoadAllAssetsAtPath(path))
+                if (o != null && o.name == name && o.GetType().Name.EndsWith("DistrictDefinition")) return o;
+        }
+        return null;
     }
 
     void OnGUI()
@@ -216,6 +298,25 @@ public class DistrictFactoryWindow : EditorWindow
 
         if (!string.IsNullOrEmpty(status)) EditorGUILayout.HelpBox(status, MessageType.Info);
 
+        // health panel — the editor-side validation (GUID drift / stale bundle / data prerequisites)
+        if (health.Count > 0)
+        {
+            using (new EditorGUILayout.HorizontalScope())
+            {
+                EditorGUILayout.LabelField($"Health — {health.Count} issue(s)", EditorStyles.miniBoldLabel);
+                if (GUILayout.Button(new GUIContent("Re-check", "Re-run the GUID / stale-bundle / data-prerequisite checks"), GUILayout.Width(70))) RunHealthChecks();
+            }
+            foreach (var (sev, msg) in health) EditorGUILayout.HelpBox(msg, sev);
+        }
+        else if (selected > 0)
+        {
+            using (new EditorGUILayout.HorizontalScope())
+            {
+                EditorGUILayout.LabelField("Health — registry, assets, bundle and definition all consistent ✓", EditorStyles.miniLabel);
+                if (GUILayout.Button("Re-check", GUILayout.Width(70))) RunHealthChecks();
+            }
+        }
+
         DrawPreviewPane();
 
         EditorGUILayout.HelpBox(
@@ -290,6 +391,7 @@ public class DistrictFactoryWindow : EditorWindow
         status = $"Baked district model '{cur.resourceName}' -> '{cur.district}'\nFxMesh {guid}  (verts={mesh.vertexCount}, tris={TriCount(mesh)}{(cur.sourceTris > 0 ? $", source model {cur.sourceTris:N0} tris" : "")})\n" +
                  "Check the FxMesh Inspector preview for orientation, then rebuild the mod + relaunch.";
         Debug.Log("[District] " + status);
+        RunHealthChecks();   // fresh bake: the stale-bundle warning should light up until the mod is rebuilt
         Selection.activeObject = AssetDatabase.LoadAssetAtPath<UnityEngine.Object>("Assets/Resources/" + cur.resourceName + "_FxMesh.asset");
     }
 
