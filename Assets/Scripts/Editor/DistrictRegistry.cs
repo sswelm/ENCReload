@@ -41,6 +41,7 @@ public class DistrictDef
     public Vector3 posOffsetBaked = Vector3.zero; // BAKE-STATE: the posOffset the current FxMesh carries — the preview shows posOffset edits live as a delta against this
     public float clipHexPct = 0f;                 // >0 = CLIP the mesh to the tile hex at bake (100 = the exact in-game cell, 6.93 across flats), so the model tiles like a vanilla district; 0 = off
     public int atlasMaxDim = 1024;                // packed-atlas resolution (was hardcoded 512 — ten 1024² source sheets crushed to ~160² each on the temple); districts render close-up, 1024-2048 is right for multi-material models
+    public int sourceTris = -1;                   // BAKE-STATE: the SOURCE model's triangle count before decimation (parsed from the Blender prep; -1 = unknown / no reduce ran)
 }
 
 [Serializable]

@@ -38,7 +38,8 @@
                 "z": 0.0
             },
             "clipHexPct": 0.0,
-            "atlasMaxDim": 1024
+            "atlasMaxDim": 1024,
+            "sourceTris": -1
         },
         {
             "district": "Extension_Base_BreederReactor",
@@ -58,7 +59,7 @@
             "normalsMode": 1,
             "smoothingAngle": 20.0,
             "convertGrid": 0,
-            "targetTris": 24000,
+            "targetTris": 20000,
             "stripParts": "",
             "reuseExtracted": false,
             "importAngles": {
@@ -78,7 +79,8 @@
                 "z": 0.0
             },
             "clipHexPct": 0.0,
-            "atlasMaxDim": 1024
+            "atlasMaxDim": 1024,
+            "sourceTris": 26220
         }
     ]
 }

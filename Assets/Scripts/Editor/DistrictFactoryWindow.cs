@@ -160,6 +160,8 @@ public class DistrictFactoryWindow : EditorWindow
         // cur.importAngles stays in the registry for entries authored before Facing (their FxMesh rotation composes it),
         // but it's no longer a UI control: Rotation offset stands the model up (previewed per bake), Facing turns it
         // (previewed live) — two rotation fields with overlapping jobs only bred "which one do I use?".
+        if (cur.sourceTris > 0)
+            EditorGUILayout.LabelField(" ", $"source model: {cur.sourceTris:N0} tris (before reduction, from the last bake)", EditorStyles.miniLabel);
         cur.targetTris = EditorGUILayout.IntField(new GUIContent("Target triangles",
             "Quadric-decimate ceiling before baking (0 = off; models under it pass through untouched). District meshes share " +
             "one ~3M-vert GPU buffer that runs nearly FULL in a late-game city — keep this modest, or set the plugin's " +
@@ -252,6 +254,7 @@ public class DistrictFactoryWindow : EditorWindow
         };
         var r = UniversalBaker.Build(cfg);
         if (!r.ok) { status = "Bake FAILED: " + r.error; return; }
+        if (UniversalBaker.LastPrepSourceTris > 0) cur.sourceTris = UniversalBaker.LastPrepSourceTris;
 
         // 2) wrap the baked mesh as the bone-free district FxMesh
         var mesh = AssetDatabase.LoadAssetAtPath<Mesh>("Assets/Resources/" + cur.resourceName + "_ModelMesh.asset");
@@ -284,7 +287,7 @@ public class DistrictFactoryWindow : EditorWindow
             Debug.LogError("[District] " + status);
             return;
         }
-        status = $"Baked district model '{cur.resourceName}' -> '{cur.district}'\nFxMesh {guid}  (verts={mesh.vertexCount})\n" +
+        status = $"Baked district model '{cur.resourceName}' -> '{cur.district}'\nFxMesh {guid}  (verts={mesh.vertexCount}, tris={TriCount(mesh)}{(cur.sourceTris > 0 ? $", source model {cur.sourceTris:N0} tris" : "")})\n" +
                  "Check the FxMesh Inspector preview for orientation, then rebuild the mod + relaunch.";
         Debug.Log("[District] " + status);
         Selection.activeObject = AssetDatabase.LoadAssetAtPath<UnityEngine.Object>("Assets/Resources/" + cur.resourceName + "_FxMesh.asset");
@@ -332,7 +335,7 @@ public class DistrictFactoryWindow : EditorWindow
         // grow with the window: ~45% of its height so a tall dock gets a big viewport, never under 300px
         var rect = GUILayoutUtility.GetRect(10f, Mathf.Max(300f, position.height * 0.45f), GUILayout.ExpandWidth(true));
         DrawPreview(rect);
-        EditorGUILayout.LabelField($"{pvMesh.vertexCount} verts · hex = one district tile at TRUE in-game size, at surface level · N line = map North (Facing 0° points along it) · LMB orbit, wheel zoom, MMB/RMB pan", EditorStyles.miniLabel);
+        EditorGUILayout.LabelField($"{pvMesh.vertexCount} verts · {TriCount(pvMesh)} tris · hex = one district tile at TRUE in-game size, at surface level · N line = map North (Facing 0° points along it) · LMB orbit, wheel zoom, MMB/RMB pan", EditorStyles.miniLabel);
         EditorGUILayout.LabelField("Facing + Position offset preview LIVE (Bake makes them real). Rotation offset is baked into the mesh — re-Bake to see it.", EditorStyles.miniLabel);
     }
 
@@ -412,6 +415,14 @@ public class DistrictFactoryWindow : EditorWindow
         }
         finally { tex = pru.EndPreview(); }
         if (tex != null) GUI.DrawTexture(rect, tex, ScaleMode.StretchToFill, false);
+    }
+
+    // Triangle count without allocating (Mesh.triangles copies the whole index array per access — per-repaint GC churn)
+    static int TriCount(Mesh m)
+    {
+        long n = 0;
+        for (int s = 0; s < m.subMeshCount; s++) n += m.GetIndexCount(s);
+        return (int)(n / 3);
     }
 
     Mesh TileMesh()

@@ -1717,8 +1717,13 @@ public static class UniversalBaker
     // ONE headless Blender session, exporting a single GLB the Factory then bakes. This replaces the old two-pass
     // strip-then-reduce (two Blender startups + an intermediate GLB round-trip) with one, cutting ~24% off a heavy
     // model's Blender time. substrings "" = skip strip; targetTris <= 0 = skip reduce (so either step can run alone).
+    // Source (pre-decimation) triangle count of the LAST prep run, parsed from prep_model.py's
+    // "PREP reduce: tris <before> -> <after>" line. -1 = no reduce ran (model untouched or under the ceiling).
+    internal static int LastPrepSourceTris = -1;
+
     static bool PrepViaBlender(string src, string outGlb, string substrings, int targetTris)
     {
+        LastPrepSourceTris = -1;
         if (!File.Exists(src)) { Debug.LogError("[Factory] prep: model file not found: " + src); return false; }
         string proj = Directory.GetParent(Application.dataPath).FullName;
         string script = Path.Combine(proj, "Tools", "prep_model.py");
@@ -1736,6 +1741,8 @@ public static class UniversalBaker
                 { Debug.LogError($"[Factory] model prep timed out (~{ProcTimeoutMs / 1000}s) and was killed (stuck process or over-heavy model)."); return false; }
                 if (!string.IsNullOrWhiteSpace(o)) Debug.Log("[prep] " + o.Trim());
                 if (!string.IsNullOrWhiteSpace(e)) Debug.LogWarning("[prep] " + e.Trim());
+                var m = System.Text.RegularExpressions.Regex.Match(o ?? "", @"PREP reduce: tris (\d+) -> \d+");
+                if (m.Success && int.TryParse(m.Groups[1].Value, out int srcTris)) LastPrepSourceTris = srcTris;
                 if (p.ExitCode != 0 || !File.Exists(outGlb)) { Debug.LogError("[Factory] Blender prep produced no GLB (exit " + p.ExitCode + ")."); return false; }
                 return true;
             }
