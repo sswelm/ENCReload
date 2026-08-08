@@ -34,7 +34,7 @@ public class DistrictFactoryWindow : EditorWindow
     PreviewRenderUtility pru;                       // non-serializable; lazily created, cleaned in OnDisable
     Material pvFallbackMat, pvTileMat;              // created on demand, HideAndDontSave, destroyed in OnDisable
     Mesh pvTileMesh;
-    Mesh pvArrowMesh;                               // flat forward arrow on the tile: Facing 0° points along it
+    Mesh pvArrowMesh;                               // flat compass line + N glyph: map NORTH (how the tile presents in-game); Facing 0° points along it
     Mesh pvMesh; Material[] pvMats;                 // the baked district mesh + its atlas preview material
     string pvLoadedFor;                             // resourceName the cache was built for (null = load on next paint)
     [SerializeField] Vector2 pvOrbit = new Vector2(35f, -30f);
@@ -332,7 +332,7 @@ public class DistrictFactoryWindow : EditorWindow
         // grow with the window: ~45% of its height so a tall dock gets a big viewport, never under 300px
         var rect = GUILayoutUtility.GetRect(10f, Mathf.Max(300f, position.height * 0.45f), GUILayout.ExpandWidth(true));
         DrawPreview(rect);
-        EditorGUILayout.LabelField($"{pvMesh.vertexCount} verts · hex = one district tile at TRUE in-game size, at surface level · arrow = where Facing 0° points · LMB orbit, wheel zoom, MMB/RMB pan", EditorStyles.miniLabel);
+        EditorGUILayout.LabelField($"{pvMesh.vertexCount} verts · hex = one district tile at TRUE in-game size, at surface level · N line = map North (Facing 0° points along it) · LMB orbit, wheel zoom, MMB/RMB pan", EditorStyles.miniLabel);
         EditorGUILayout.LabelField("Facing + Position offset preview LIVE (Bake makes them real). Rotation offset is baked into the mesh — re-Bake to see it.", EditorStyles.miniLabel);
     }
 
@@ -400,7 +400,7 @@ public class DistrictFactoryWindow : EditorWindow
             pru.ambientColor = new Color(0.3f, 0.3f, 0.3f);
 
             pru.DrawMesh(TileMesh(), tileMtx, pvTileMat, 0);
-            if (pvArrowMesh == null) pvArrowMesh = ModelFactoryWindow.BuildForwardArrow("DistrictForwardArrow");
+            if (pvArrowMesh == null) pvArrowMesh = ModelFactoryWindow.BuildCompass("DistrictCompass");
             pru.DrawMesh(pvArrowMesh, Matrix4x4.Translate(new Vector3(0f, -0.01f, 0f)), pvFallbackMat, 0);
             for (int s = 0; s < pvMesh.subMeshCount; s++)
             {
@@ -416,7 +416,7 @@ public class DistrictFactoryWindow : EditorWindow
 
     Mesh TileMesh()
     {
-        if (pvTileMesh == null) pvTileMesh = ModelFactoryWindow.BuildTileHex("DistrictTileHex");
+        if (pvTileMesh == null) pvTileMesh = ModelFactoryWindow.BuildTileHex("DistrictTileHex", 0f);   // corner faces +Z (district cell orientation)
         return pvTileMesh;
     }
 

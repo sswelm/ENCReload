@@ -174,24 +174,82 @@ public class ModelFactoryWindow : EditorWindow
     }
 
     // THE TILE HEX — one in-game tile at TRUE size: center-to-center tile spacing is ~6.93 units (measured on the map,
-    // the terrain-hug work), so across-flats = 6.93 (inradius 3.465, corner radius 4.0). Oriented with a flat EDGE
-    // facing +Z: units face their six neighbors edge-on (the hex-quantized facing directions), so the forward arrow
-    // crosses an edge, exactly like a unit leaving its tile. Shared by the Factory / Animation Lab / District panes.
+    // the terrain-hug work), so across-flats = 6.93 (inradius 3.465, corner radius 4.0). Orientation is a parameter:
+    // UNITS use cornerBaseDeg 30 (a flat EDGE faces +Z — units face their six neighbors edge-on, the forward arrow
+    // crosses an edge like a unit leaving its tile); DISTRICTS use 0 (a CORNER faces +Z — the in-game district cell
+    // presents a corner toward the model's forward, user-measured on the reactor). Factory / Anim Lab / District panes.
     internal const float TileInradius = 3.465f, TileCornerRadius = 4.001f;
-    internal static Mesh BuildTileHex(string name)
+    internal static Mesh BuildTileHex(string name, float cornerBaseDeg = 30f)
     {
         var m = new Mesh { name = name, hideFlags = HideFlags.HideAndDontSave };
         var v = new Vector3[7];
         v[0] = Vector3.zero;
         for (int k = 0; k < 6; k++)
         {
-            float a = (30f + 60f * k) * Mathf.Deg2Rad;   // corners at 30°+k·60° from +Z → edges face the six neighbor directions
+            float a = (cornerBaseDeg + 60f * k) * Mathf.Deg2Rad;   // corners at base+k·60° from +Z
             v[k + 1] = new Vector3(Mathf.Sin(a) * TileCornerRadius, 0f, Mathf.Cos(a) * TileCornerRadius);
         }
         m.vertices = v;
         var n = new Vector3[7]; for (int i = 0; i < 7; i++) n[i] = Vector3.up;
         m.normals = n;
         m.triangles = new[] { 0, 1, 2, 0, 2, 3, 0, 3, 4, 0, 4, 5, 0, 5, 6, 0, 6, 1 };
+        return m;
+    }
+
+    // A flat compass rose in the XZ plane: a line from the origin toward +Z (map NORTH, how the tile presents
+    // in-game) ending in an "N" glyph past the hex corner, plus E/S/W letters at their cardinal corners. All
+    // letters read upright with North up (map convention). Districts have no facing of their own.
+    internal static Mesh BuildCompass(string name)
+    {
+        var m = new Mesh { name = name, hideFlags = HideFlags.HideAndDontSave };
+        var v = new System.Collections.Generic.List<Vector3>();
+        var t = new System.Collections.Generic.List<int>();
+        void Quad(Vector3 a, Vector3 b, Vector3 c, Vector3 d)
+        {
+            int i = v.Count; v.Add(a); v.Add(b); v.Add(c); v.Add(d);
+            t.AddRange(new[] { i, i + 1, i + 2, i, i + 2, i + 3 });
+        }
+        Vector2 off = Vector2.zero;   // letter placement offset for Bar()
+        void Bar(Vector2 from, Vector2 to, float w)   // thick 2D segment in the XZ plane
+        {
+            from += off; to += off;
+            var dir = (to - from).normalized; var side = new Vector2(-dir.y, dir.x) * (w * 0.5f);
+            Quad(new Vector3(from.x + side.x, 0f, from.y + side.y), new Vector3(to.x + side.x, 0f, to.y + side.y),
+                 new Vector3(to.x - side.x, 0f, to.y - side.y), new Vector3(from.x - side.x, 0f, from.y - side.y));
+        }
+        const float W2 = 0.13f, LetterDist = 5.05f;
+        Bar(new Vector2(0f, 0.3f), new Vector2(0f, 4.3f), 0.10f);    // the North line, center to past the corner
+        Bar(new Vector2(0.3f, 0f), new Vector2(4.3f, 0f), 0.10f);    // East line
+        Bar(new Vector2(0f, -0.3f), new Vector2(0f, -4.3f), 0.10f);  // South line
+        Bar(new Vector2(-0.3f, 0f), new Vector2(-4.3f, 0f), 0.10f);  // West line
+        // N — on the line
+        off = new Vector2(0f, LetterDist);
+        Bar(new Vector2(-0.32f, -0.45f), new Vector2(-0.32f, 0.45f), W2);
+        Bar(new Vector2(0.32f, -0.45f), new Vector2(0.32f, 0.45f), W2);
+        Bar(new Vector2(-0.32f, 0.45f), new Vector2(0.32f, -0.45f), W2);
+        // E — at +X
+        off = new Vector2(LetterDist, 0f);
+        Bar(new Vector2(-0.28f, -0.45f), new Vector2(-0.28f, 0.45f), W2);
+        Bar(new Vector2(-0.28f, 0.45f), new Vector2(0.30f, 0.45f), W2);
+        Bar(new Vector2(-0.28f, 0f), new Vector2(0.22f, 0f), W2);
+        Bar(new Vector2(-0.28f, -0.45f), new Vector2(0.30f, -0.45f), W2);
+        // S — at -Z
+        off = new Vector2(0f, -LetterDist);
+        Bar(new Vector2(-0.30f, 0.45f), new Vector2(0.30f, 0.45f), W2);
+        Bar(new Vector2(-0.30f, 0.45f), new Vector2(-0.30f, 0.02f), W2);
+        Bar(new Vector2(-0.30f, 0.02f), new Vector2(0.30f, 0.02f), W2);
+        Bar(new Vector2(0.30f, 0.02f), new Vector2(0.30f, -0.45f), W2);
+        Bar(new Vector2(-0.30f, -0.45f), new Vector2(0.30f, -0.45f), W2);
+        // W — at -X
+        off = new Vector2(-LetterDist, 0f);
+        Bar(new Vector2(-0.34f, 0.45f), new Vector2(-0.17f, -0.45f), W2);
+        Bar(new Vector2(-0.17f, -0.45f), new Vector2(0f, 0.15f), W2);
+        Bar(new Vector2(0f, 0.15f), new Vector2(0.17f, -0.45f), W2);
+        Bar(new Vector2(0.17f, -0.45f), new Vector2(0.34f, 0.45f), W2);
+        m.vertices = v.ToArray();
+        var n = new Vector3[v.Count]; for (int i = 0; i < n.Length; i++) n[i] = Vector3.up;
+        m.normals = n;
+        m.triangles = t.ToArray();
         return m;
     }
 

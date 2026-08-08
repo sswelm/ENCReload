@@ -171,7 +171,7 @@ public static class DistrictBaker
         var Rinv = Quaternion.Inverse(R);
         for (int k = 0; k < 6; k++)
         {
-            float a = 60f * k * Mathf.Deg2Rad;   // edge normals face the six neighbor directions, +Z first
+            float a = (30f + 60f * k) * Mathf.Deg2Rad;   // district cell is CORNER-forward: edge normals at 30°+k·60° from +Z (matches the preview hex)
             planes[k] = Rinv * new Vector3(Mathf.Sin(a), 0f, Mathf.Cos(a));
         }
 
