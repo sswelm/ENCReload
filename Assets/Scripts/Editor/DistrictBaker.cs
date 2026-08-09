@@ -114,14 +114,19 @@ public static class DistrictBaker
                 var d = R * verts[i];
                 dmin = Vector3.Min(dmin, d); dmax = Vector3.Max(dmax, d);
             }
-            float topY = dmin.y + 0.05f;                 // tuck the cap just under the building's lowest point
-            float botY = dmin.y - foundationDepth;        // straight down into the earth
+            // Exact footprint, top tucked just under the building's lowest point — fills the overhang cleanly in both
+            // preview and game. (A Z-fight can appear where the plinth meets the building's own walls at map distance —
+            // a depth-buffer-precision limit; deferred, to solve later without disturbing this shape.)
+            float x0 = dmin.x, x1 = dmax.x;
+            float z0 = dmin.z, z1 = dmax.z;
+            float topY = dmin.y + 0.05f;                   // tuck the wall tops just under the building's lowest point
+            float botY = dmin.y - foundationDepth;         // straight down into the earth
             var dc = new[]
             {
-                new Vector3(dmin.x, topY, dmin.z), new Vector3(dmax.x, topY, dmin.z),
-                new Vector3(dmax.x, topY, dmax.z), new Vector3(dmin.x, topY, dmax.z),   // 0-3 cap
-                new Vector3(dmin.x, botY, dmin.z), new Vector3(dmax.x, botY, dmin.z),
-                new Vector3(dmax.x, botY, dmax.z), new Vector3(dmin.x, botY, dmax.z),   // 4-7 floor
+                new Vector3(x0, topY, z0), new Vector3(x1, topY, z0),
+                new Vector3(x1, topY, z1), new Vector3(x0, topY, z1),   // 0-3 top rim
+                new Vector3(x0, botY, z0), new Vector3(x1, botY, z0),
+                new Vector3(x1, botY, z1), new Vector3(x0, botY, z1),   // 4-7 floor
             };
             int b = verts.Length;
             var nv = new System.Collections.Generic.List<Vector3>(verts);
@@ -138,7 +143,7 @@ public static class DistrictBaker
                 if (hasT) nt.Add(new Vector4(1, 0, 0, 1));
                 if (hasC) ncol.Add(Color.white);
             }
-            // 4 side walls + floor (cap omitted — hidden under the building). Wound so each face's front normal
+            // 4 side walls + floor (top cap omitted — hidden under the building). Wound so each face's front normal
             // (Unity's cross(v1-v0,v2-v0)) points OUTWARD / down — the sides face away from the box, the floor faces -Y.
             int[] f =
             {
