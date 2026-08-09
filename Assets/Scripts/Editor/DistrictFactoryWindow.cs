@@ -127,7 +127,15 @@ public class DistrictFactoryWindow : EditorWindow
             //    resolves to material 0,0,0,0 = a guaranteed empty tile; a missing affinity renders nothing to swap.
             var def = FindDistrictDefinition(cur.district);
             if (def == null)
-                health.Add((MessageType.Warning, $"No district definition named '{cur.district}' found in the project databases — typo, or the definition lives outside this project."));
+            {
+                // A base-game / DLC constructible (the 'Extension_' namespace — districts, quarters, wonders) is
+                // DEFINED IN THE GAME, not this project, so the project search can't see it. That's the normal case
+                // for the reactor/silo/etc. targets — the plugin binds the mesh to it BY NAME at runtime, so stay
+                // SILENT (a note here only confuses). Only a name that ISN'T in that namespace and ISN'T a project
+                // asset is a probable typo worth a warning.
+                if (cur.district == null || !cur.district.StartsWith("Extension_", StringComparison.OrdinalIgnoreCase))
+                    health.Add((MessageType.Warning, $"No district definition named '{cur.district}' found — check the spelling. (Base-game targets are named 'Extension_…' and bind at runtime; a project-local definition should resolve here.)"));
+            }
             else
             {
                 var so = new SerializedObject(def);
@@ -252,6 +260,11 @@ public class DistrictFactoryWindow : EditorWindow
             "the cut inside the border, slightly more leaves a rim. 0 = off. Tip: with the clip on, Size 8-9 lets the " +
             "site plan FILL the whole cell corner to corner. Cut faces are open (no cap) — fine from the game camera, " +
             "check the preview after Bake."), cur.clipHexPct, 0f, 120f);
+        cur.foundationDepth = EditorGUILayout.Slider(new GUIContent("Foundation depth",
+            "Extrude the building's footprint straight DOWN into the earth by this many world units at Bake — a solid " +
+            "concrete plinth. On a cliff or uneven tile the building otherwise overhangs into empty air; the plinth " +
+            "plants it on a base that runs down past the drop. 0 = off. Try ~8-12 for a coastal cliff. Textured with a " +
+            "concrete strip added to the atlas (the plinth shows in the preview below the model)."), cur.foundationDepth, 0f, 30f);
         // cur.importAngles stays in the registry for entries authored before Facing (their FxMesh rotation composes it),
         // but it's no longer a UI control: Rotation offset stands the model up (previewed per bake), Facing turns it
         // (previewed live) — two rotation fields with overlapping jobs only bred "which one do I use?".
@@ -399,11 +412,14 @@ public class DistrictFactoryWindow : EditorWindow
         if (!string.IsNullOrEmpty(status)) EditorGUILayout.HelpBox(status, MessageType.Info);
 
         // health panel — the editor-side validation (GUID drift / stale bundle / data prerequisites)
+        // Info-level entries are neutral notes (e.g. a base-game target that can't be validated here), NOT problems —
+        // count only Warning/Error toward the "issue(s)" tally so a healthy entry doesn't read as broken.
+        int issues = 0; foreach (var (sev, _) in health) if (sev != MessageType.Info) issues++;
         if (health.Count > 0)
         {
             using (new EditorGUILayout.HorizontalScope())
             {
-                EditorGUILayout.LabelField($"Health — {health.Count} issue(s)", EditorStyles.miniBoldLabel);
+                EditorGUILayout.LabelField(issues > 0 ? $"Health — {issues} issue(s)" : "Health — consistent ✓ (notes below)", EditorStyles.miniBoldLabel);
                 if (GUILayout.Button(new GUIContent("Re-check", "Re-run the GUID / stale-bundle / data-prerequisite checks"), GUILayout.Width(70))) RunHealthChecks();
             }
             foreach (var (sev, msg) in health) EditorGUILayout.HelpBox(msg, sev);
@@ -547,8 +563,22 @@ public class DistrictFactoryWindow : EditorWindow
             Debug.Log($"[District] {composeReceipt}");
         }
 
+        // FOUNDATION: append a concrete swatch to the atlas (grows it + remaps the mesh UVs), then extrude the
+        // building's footprint straight down into that swatch, so on a cliff/uneven tile it plants on a plinth
+        // instead of overhanging into air. Must run BEFORE BakeFxMesh — it edits the mesh UVs the bake reads.
+        Vector2 foundationUV = default;
+        if (cur.foundationDepth > 0f)
+        {
+            foundationUV = DistrictBaker.AppendConcreteStrip(cur.resourceName, mesh);
+            // the strip rewrote _Atlas.asset (delete+create) — the preview material's texture pointer is now stale;
+            // re-point it at the grown atlas so the preview stays textured
+            var fm = AssetDatabase.LoadAssetAtPath<Material>("Assets/Resources/" + cur.resourceName + "_Mat.mat");
+            var fa = AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/Resources/" + cur.resourceName + "_Atlas.asset");
+            if (fm != null && fa != null) { fm.mainTexture = fa; EditorUtility.SetDirty(fm); AssetDatabase.SaveAssets(); }
+        }
         string guid = DistrictBaker.BakeFxMesh(mesh, cur.resourceName, ComposedImportAngles(), out _,
-            levelOnGround: !composedLeveled, postLevelOffset: composedLeveled ? Vector3.zero : cur.posOffset, clipHexPct: cur.clipHexPct);
+            levelOnGround: !composedLeveled, postLevelOffset: composedLeveled ? Vector3.zero : cur.posOffset, clipHexPct: cur.clipHexPct,
+            foundationDepth: cur.foundationDepth, foundationUV: foundationUV);
         if (string.IsNullOrEmpty(guid)) { status = "District FxMesh bake FAILED (see Console)."; return; }
         cur.fxMeshGuid = guid;
         cur.posOffsetBaked = cur.posOffset;   // the preview shows future posOffset edits as a live delta against this
@@ -682,6 +712,10 @@ public class DistrictFactoryWindow : EditorWindow
             var mtx = Matrix4x4.Translate(cur.posOffset - cur.posOffsetBaked)
                     * Matrix4x4.Rotate(Quaternion.Euler(0f, cur.facing, 0f) * Quaternion.Euler(cur.importAngles));
             var b = TransformBounds(mtx, pvMesh.bounds);
+            // the FOUNDATION plinth extrudes below the surface (y<0); don't let it drag the framing down — the camera
+            // frames on the ABOVE-GROUND building (clamp the bottom to the surface) so adding a plinth doesn't shift
+            // the view center. The plinth still draws; it's just not counted when centering.
+            if (b.min.y < 0f) { var mn = b.min; var mx = b.max; mn.y = 0f; b.SetMinMax(mn, mx); }
             // the tile square is the TRUE in-game surface: the plane through the origin. It must NOT follow the model —
             // anchoring it under the mesh's lowest point hid a half-sunk bake (the nuclear plant surfaced only its domes
             // in-game while the preview looked grounded). A model below this plane previews sunk because it IS sunk.

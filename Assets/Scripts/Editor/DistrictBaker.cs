@@ -50,7 +50,7 @@ public static class DistrictBaker
     // hex the previews draw, flat edge facing +Z), so an oversized site-plan model ends at the cell border like a
     // vanilla district instead of overhanging its neighbors. Clipping runs in the same drawn-space frame as the
     // leveling (via rotated plane normals); cut faces are left open — fine from the game's top-down camera.
-    public static string BakeFxMesh(Mesh mesh, string baseName, Vector3 importAngles, out string fxMeshPath, bool mergeSubMeshes = false, bool levelOnGround = false, Vector3 postLevelOffset = default, float clipHexPct = 0f)
+    public static string BakeFxMesh(Mesh mesh, string baseName, Vector3 importAngles, out string fxMeshPath, bool mergeSubMeshes = false, bool levelOnGround = false, Vector3 postLevelOffset = default, float clipHexPct = 0f, float foundationDepth = 0f, Vector2 foundationUV = default)
     {
         fxMeshPath = null;
         if (mesh == null) { Debug.LogError("[District] BakeFxMesh: no mesh."); return null; }
@@ -62,6 +62,7 @@ public static class DistrictBaker
         // static copy (geometry only) and wrap THAT in the FxMesh. Keeps the original _ModelMesh intact for the unit path.
         var verts = mesh.vertices;
         var R = Quaternion.Euler(importAngles);
+        var Rinv = Quaternion.Inverse(R);
         if (levelOnGround && verts.Length > 0)
         {
             var min = new Vector3(float.MaxValue, float.MaxValue, float.MaxValue);
@@ -97,6 +98,63 @@ public static class DistrictBaker
             int before = verts.Length;
             ClipToTileHex(ref verts, ref normals, ref uvs, ref tangents, ref colors, hasN, hasU, hasT, hasC, subTris, R, clipHexPct);
             Debug.Log($"[District] {baseName}: clipped to the tile hex at {clipHexPct:0}% ({before} -> {verts.Length} verts)");
+        }
+
+        // FOUNDATION: a solid concrete plinth extruded straight DOWN into the earth (world -Y) under the building's
+        // footprint. On a cliff/uneven tile the building otherwise overhangs into empty air; this plants it on a base.
+        // Built in DRAWN space (post-rotation, so "down" is true world -Y regardless of importAngles), then inverse-
+        // rotated into stored space so R lands it straight-down at draw time. UVs point at a grey concrete swatch the
+        // Factory paints into a corner of the atlas.
+        if (foundationDepth > 0f && verts.Length > 0)
+        {
+            var dmin = new Vector3(float.MaxValue, float.MaxValue, float.MaxValue);
+            var dmax = new Vector3(float.MinValue, float.MinValue, float.MinValue);
+            for (int i = 0; i < verts.Length; i++)
+            {
+                var d = R * verts[i];
+                dmin = Vector3.Min(dmin, d); dmax = Vector3.Max(dmax, d);
+            }
+            float topY = dmin.y + 0.05f;                 // tuck the cap just under the building's lowest point
+            float botY = dmin.y - foundationDepth;        // straight down into the earth
+            var dc = new[]
+            {
+                new Vector3(dmin.x, topY, dmin.z), new Vector3(dmax.x, topY, dmin.z),
+                new Vector3(dmax.x, topY, dmax.z), new Vector3(dmin.x, topY, dmax.z),   // 0-3 cap
+                new Vector3(dmin.x, botY, dmin.z), new Vector3(dmax.x, botY, dmin.z),
+                new Vector3(dmax.x, botY, dmax.z), new Vector3(dmin.x, botY, dmax.z),   // 4-7 floor
+            };
+            int b = verts.Length;
+            var nv = new System.Collections.Generic.List<Vector3>(verts);
+            var nn = hasN ? new System.Collections.Generic.List<Vector3>(normals) : null;
+            var nu = hasU ? new System.Collections.Generic.List<Vector2>(uvs) : null;
+            var nt = hasT ? new System.Collections.Generic.List<Vector4>(tangents) : null;
+            var ncol = hasC ? new System.Collections.Generic.List<Color>(colors) : null;
+            var center = new Vector3((dmin.x + dmax.x) * 0.5f, (topY + botY) * 0.5f, (dmin.z + dmax.z) * 0.5f);
+            for (int i = 0; i < 8; i++)
+            {
+                nv.Add(Rinv * dc[i]);
+                if (hasN) { var nrm = dc[i] - center; nrm.y *= 0.15f; nn.Add((Rinv * nrm).normalized); }
+                if (hasU) nu.Add(foundationUV);
+                if (hasT) nt.Add(new Vector4(1, 0, 0, 1));
+                if (hasC) ncol.Add(Color.white);
+            }
+            // 4 side walls + floor (cap omitted — hidden under the building). Wound so each face's front normal
+            // (Unity's cross(v1-v0,v2-v0)) points OUTWARD / down — the sides face away from the box, the floor faces -Y.
+            int[] f =
+            {
+                b+0,b+5,b+4, b+0,b+1,b+5,   // -Z wall
+                b+1,b+6,b+5, b+1,b+2,b+6,   // +X wall
+                b+2,b+7,b+6, b+2,b+3,b+7,   // +Z wall
+                b+3,b+4,b+7, b+3,b+0,b+4,   // -X wall
+                b+4,b+6,b+7, b+4,b+5,b+6,   // floor (-Y)
+            };
+            verts = nv.ToArray();
+            if (hasN) normals = nn.ToArray();
+            if (hasU) uvs = nu.ToArray();
+            if (hasT) tangents = nt.ToArray();
+            if (hasC) colors = ncol.ToArray();
+            var s0 = new System.Collections.Generic.List<int>(subTris[0]); s0.AddRange(f); subTris[0] = s0.ToArray();
+            Debug.Log($"[District] {baseName}: foundation plinth appended (depth {foundationDepth:0.0}, footprint {(dmax.x - dmin.x):0.0}x{(dmax.z - dmin.z):0.0})");
         }
 
         var stat = new Mesh { name = baseName + "_DistrictMesh", indexFormat = UnityEngine.Rendering.IndexFormat.UInt32 };
@@ -437,6 +495,72 @@ public static class DistrictBaker
         t.ReadPixels(new Rect(0, 0, src.width, src.height), 0, 0); t.Apply();
         RenderTexture.active = prev; RenderTexture.ReleaseTemporary(rt);
         return t;
+    }
+
+    // ---- foundation concrete swatch ---------------------------------------------------------------------------------
+    // Grow the district atlas set by a CONCRETE STRIP along the top, slide existing content down into the remaining
+    // area, and remap the mesh's UVs to match (v' = v · oldFrac). The strip is fresh canvas — no existing texel is
+    // overwritten — giving the foundation plinth a flat grey concrete region to sample. Albedo gets a lightly noised
+    // grey; the normal map a neutral (flat) fill; the roughness map a rough concrete value. Rewrites the three .asset
+    // files (albedo/normal/rough) in place; the caller re-reads their GUIDs afterward. Returns the UV to bake into the
+    // foundation faces (the strip's center). No-op-safe: a missing normal/rough atlas is simply skipped.
+    public static Vector2 AppendConcreteStrip(string resourceName, Mesh mesh)
+    {
+        var albedo = AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/Resources/" + resourceName + "_Atlas.asset");
+        if (albedo == null)
+        {
+            Debug.LogWarning($"[District] foundation: '{resourceName}' has no _Atlas — the plinth will render untextured.");
+            return new Vector2(0.5f, 0.5f);
+        }
+        int w = albedo.width, h = albedo.height;
+        int stripH = Mathf.Max(4, ((h / 16) + 3) / 4 * 4);   // ~1/16 of the height, rounded up to a multiple of 4 (DXT)
+        int newH = h + stripH;
+        float oldFrac = (float)h / newH;
+        float uvV = (h + stripH * 0.5f) / newH;               // center of the strip in the grown atlas
+
+        void Rebuild(string suffix, System.Func<int, int, Color32> stripPixel, TextureFormat fmt)
+        {
+            string p = "Assets/Resources/" + resourceName + suffix + ".asset";
+            var src = AssetDatabase.LoadAssetAtPath<Texture2D>(p);
+            if (src == null) return;                          // map-less model: no normal/rough atlas to grow
+            var old = ReadableCopy(src);
+            var tex = new Texture2D(w, newH, TextureFormat.RGBA32, false);
+            tex.SetPixels32(0, 0, w, h, old.GetPixels32());   // existing content slides to the BOTTOM
+            var strip = new Color32[w * stripH];
+            for (int y = 0; y < stripH; y++)
+                for (int x = 0; x < w; x++) strip[y * w + x] = stripPixel(x, y);
+            tex.SetPixels32(0, h, w, stripH, strip);          // concrete strip fills the TOP
+            tex.Apply(false, false);
+            EditorUtility.CompressTexture(tex, fmt, TextureCompressionQuality.Normal);
+            tex.Apply(false, false);
+            tex.name = resourceName + suffix;
+            AssetDatabase.DeleteAsset(p);
+            AssetDatabase.CreateAsset(tex, p);
+            UnityEngine.Object.DestroyImmediate(old);
+        }
+
+        // subtle deterministic grain so the concrete reads as a surface, not a flat block
+        Color32 Concrete(int x, int y)
+        {
+            uint hsh = (uint)((x * 73856093) ^ (y * 19349663)); hsh ^= hsh >> 13;
+            int n = (int)(hsh % 17) - 8;                       // ±8
+            byte g(int b) => (byte)Mathf.Clamp(b + n, 0, 255);
+            return new Color32(g(150), g(148), g(144), 255);
+        }
+        Rebuild("_Atlas", Concrete, albedo.format == TextureFormat.DXT5 || albedo.format == TextureFormat.RGBA32 ? TextureFormat.DXT5 : TextureFormat.DXT1);
+        Rebuild("_NormalAtlas", (x, y) => new Color32(128, 128, 255, 255), TextureFormat.DXT5);   // flat tangent-space normal
+        Rebuild("_RoughAtlas", (x, y) => new Color32(205, 205, 205, 255), TextureFormat.DXT1);    // rough concrete
+
+        // slide every UV down into the old-content band so the model still samples its own texels
+        var uv = mesh.uv;
+        if (uv != null && uv.Length > 0)
+        {
+            for (int i = 0; i < uv.Length; i++) uv[i] = new Vector2(uv[i].x, uv[i].y * oldFrac);
+            mesh.uv = uv;
+        }
+        AssetDatabase.SaveAssets();
+        Debug.Log($"[District] {resourceName}: concrete strip appended ({w}x{h} -> {w}x{newH}); foundation UV=(0.5,{uvV:0.000})");
+        return new Vector2(0.5f, uvV);
     }
 
     // ---- tile-hex clipping ------------------------------------------------------------------------------------------
