@@ -192,6 +192,11 @@ public class ModelFactoryWindow : EditorWindow
         m.vertices = v;
         var n = new Vector3[7]; for (int i = 0; i < 7; i++) n[i] = Vector3.up;
         m.normals = n;
+        // planar UVs (XZ → 0..1 across the tile) so a ground texture maps across the hex; unused by the solid-colour
+        // tile material, needed by the District Factory's terrain-paint texture.
+        var uv = new Vector2[7];
+        for (int i = 0; i < 7; i++) uv[i] = new Vector2(v[i].x / (2f * TileCornerRadius) + 0.5f, v[i].z / (2f * TileCornerRadius) + 0.5f);
+        m.uv = uv;
         m.triangles = new[] { 0, 1, 2, 0, 2, 3, 0, 3, 4, 0, 4, 5, 0, 5, 6, 0, 6, 1 };
         return m;
     }

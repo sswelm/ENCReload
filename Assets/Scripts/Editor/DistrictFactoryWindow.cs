@@ -37,6 +37,7 @@ public class DistrictFactoryWindow : EditorWindow
     Mesh pvArrowMesh;                               // flat compass line + N glyph: map NORTH (how the tile presents in-game); Facing 0° points along it
     Mesh pvMesh; Material[] pvMats;                 // the baked district mesh + its atlas preview material
     string pvLoadedFor;                             // resourceName the cache was built for (null = load on next paint)
+    Rect groundPickRect;   // Ground "Pick" button rect, captured on Repaint (GetLastRect is unreliable on click)
     [SerializeField] Vector2 pvOrbit = new Vector2(35f, -30f);
     [SerializeField] float pvZoom = 1f;
     [SerializeField] Vector2 pvPan;
@@ -45,7 +46,7 @@ public class DistrictFactoryWindow : EditorWindow
 
     // The natural flow is bake -> build the mod -> glance back at this window: re-run the health checks whenever the
     // window regains focus, so the STALE BUNDLE verdict updates itself instead of showing the pre-build state.
-    void OnFocus() { if (selected > 0 && cur != null && !string.IsNullOrWhiteSpace(cur.district)) { RunHealthChecks(); Repaint(); } }
+    void OnFocus() { groundTexCache.Clear(); if (selected > 0 && cur != null && !string.IsNullOrWhiteSpace(cur.district)) { RunHealthChecks(); Repaint(); } }   // drop cached ground textures so a fresh plugin dump is picked up
 
     void OnDisable()
     {
@@ -347,12 +348,12 @@ public class DistrictFactoryWindow : EditorWindow
             cur.groundMaterial = EditorGUILayout.TextField(new GUIContent("Ground (terrain paint)",
                 "The GroundMaterialDefinition painted under this district — a maintained grass/paved field instead of bare terrain " +
                 "(a wonder's affinity has none). Empty = the game's default. Pick a name at right, or type one."), cur.groundMaterial ?? "");
+            // GetLastRect is only reliable on Repaint; capture the button rect then and use it on the click, or the
+            // dropdown opens detached in the corner (GetLastRect returns a stale/zero rect during the MouseDown event).
             if (GUILayout.Button("Pick", GUILayout.Width(70)))
-            {
-                var r = GUILayoutUtility.GetLastRect();
                 new StringDropdown(new AdvancedDropdownState(), GroundMaterialNames, GroundMaterialNames, "Ground materials",
-                    n => { cur.groundMaterial = n == "(none)" ? "" : n; Repaint(); }).Show(r);
-            }
+                    n => { cur.groundMaterial = n == "(none)" ? "" : n; Repaint(); }).Show(groundPickRect);
+            if (Event.current.type == EventType.Repaint) groundPickRect = GUILayoutUtility.GetLastRect();
         }
         // Isolate is always ON for authored districts (private per-instance leaf: scoped + textured). The old global
         // shared-leaf swap (isolate=false) had no texture injection and changed every district of the culture — a
@@ -649,9 +650,16 @@ public class DistrictFactoryWindow : EditorWindow
         if (pvFallbackMat == null) pvFallbackMat = new Material(Shader.Find("Standard")) { hideFlags = HideFlags.HideAndDontSave };
         if (pvTileMat == null)
         {
-            pvTileMat = new Material(Shader.Find("Standard")) { hideFlags = HideFlags.HideAndDontSave, color = new Color(0.33f, 0.40f, 0.29f) };
+            pvTileMat = new Material(Shader.Find("Standard")) { hideFlags = HideFlags.HideAndDontSave };
             pvTileMat.SetFloat("_Glossiness", 0f);
         }
+        // show the chosen ground material in the preview: the ACTUAL terrain texture (dumped by the plugin to
+        // haf_ground_tex/<name>.png) when available, else the material's true tint (haf_ground_colors.json), else a
+        // by-family colour. Texture wins — set white base so it isn't tinted, and tile it a few times across the hex.
+        var groundTex = GroundTexture(cur.groundMaterial);
+        pvTileMat.mainTexture = groundTex;
+        pvTileMat.color = groundTex != null ? Color.white : GroundTint(cur.groundMaterial);
+        if (groundTex != null) pvTileMat.mainTextureScale = new Vector2(3f, 3f);
         pru.BeginPreview(rect, GUIStyle.none);
         // try/finally so a throw in DrawMesh/Render can never skip EndPreview (the "BeginPreview not closed" cascade)
         Texture tex = null;
@@ -710,6 +718,62 @@ public class DistrictFactoryWindow : EditorWindow
     {
         if (pvTileMesh == null) pvTileMesh = ModelFactoryWindow.BuildTileHex("DistrictTileHex", 0f);   // corner faces +Z (district cell orientation)
         return pvTileMesh;
+    }
+
+    // Preview colour for a GroundMaterialDefinition. Prefers the TRUE per-material tint the plugin dumped to
+    // haf_ground_colors.json (from each material's GroundMaterialAuthoringData.Color — run the game once with the
+    // districts loaded to generate it); falls back to a by-family colour when the dump isn't present yet.
+    static Dictionary<string, Color> groundColors;
+    static bool groundColorsTried;
+    static void LoadGroundColors()
+    {
+        groundColorsTried = true; groundColors = new Dictionary<string, Color>(StringComparer.OrdinalIgnoreCase);
+        try
+        {
+            var path = System.IO.Path.Combine(ModelRegistry.ConfigDir, "haf_ground_colors.json");
+            if (!System.IO.File.Exists(path)) return;
+            foreach (var line in System.IO.File.ReadAllLines(path))
+            {
+                var m = System.Text.RegularExpressions.Regex.Match(line, "\"([^\"]+)\"\\s*:\\s*\\[\\s*([0-9.]+)\\s*,\\s*([0-9.]+)\\s*,\\s*([0-9.]+)");
+                if (m.Success)
+                    groundColors[m.Groups[1].Value] = new Color(
+                        float.Parse(m.Groups[2].Value, System.Globalization.CultureInfo.InvariantCulture),
+                        float.Parse(m.Groups[3].Value, System.Globalization.CultureInfo.InvariantCulture),
+                        float.Parse(m.Groups[4].Value, System.Globalization.CultureInfo.InvariantCulture));
+            }
+        }
+        catch { }
+    }
+    // The ACTUAL terrain texture the plugin dumped for this ground material (haf_ground_tex/<name>.png), loaded
+    // once and cached. Null when the dump hasn't run yet or the material shipped no texture.
+    static readonly Dictionary<string, Texture2D> groundTexCache = new Dictionary<string, Texture2D>(StringComparer.OrdinalIgnoreCase);
+    static Texture2D GroundTexture(string ground)
+    {
+        if (string.IsNullOrEmpty(ground)) return null;
+        if (groundTexCache.TryGetValue(ground, out var t) && t != null) return t;   // only cache SUCCESSFUL loads — retry if the PNG appears later (the plugin dumps it on a game run)
+        Texture2D tex = null;
+        try
+        {
+            var path = System.IO.Path.Combine(ModelRegistry.ConfigDir, "haf_ground_tex", ground + ".png");
+            if (System.IO.File.Exists(path))
+            {
+                tex = new Texture2D(2, 2, TextureFormat.RGBA32, true) { name = "ground_" + ground, hideFlags = HideFlags.HideAndDontSave, wrapMode = TextureWrapMode.Repeat };
+                tex.LoadImage(System.IO.File.ReadAllBytes(path));
+            }
+        }
+        catch { }
+        if (tex != null) groundTexCache[ground] = tex;
+        return tex;
+    }
+    static Color GroundTint(string ground)
+    {
+        if (string.IsNullOrEmpty(ground)) return new Color(0.33f, 0.40f, 0.29f);   // the old neutral tile
+        if (!groundColorsTried) LoadGroundColors();
+        if (groundColors != null && groundColors.TryGetValue(ground, out var exact)) return exact;   // the material's TRUE tint
+        if (ground.StartsWith("Prairie", StringComparison.OrdinalIgnoreCase)) return new Color(0.30f, 0.46f, 0.22f);      // grass green
+        if (ground.StartsWith("Constructible", StringComparison.OrdinalIgnoreCase)) return new Color(0.52f, 0.49f, 0.42f); // paved/dirt
+        if (ground.StartsWith("Sterile", StringComparison.OrdinalIgnoreCase)) return new Color(0.62f, 0.56f, 0.40f);       // dry sparse
+        return new Color(0.33f, 0.40f, 0.29f);
     }
 
     static Bounds TransformBounds(Matrix4x4 m, Bounds b)
