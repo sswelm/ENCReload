@@ -41,6 +41,7 @@ public class DistrictDef
     public string roughAtlasGuid = "";  // baked roughness atlas GUID — RUNTIME (bound on _RoughnessMap; empty = neutral matte)
     public bool isolate = true;        // true = private per-instance leaf (this district's tiles only); false = global culture-wide swap — RUNTIME
     public string groundMaterial = ""; // RUNTIME: terrain paint under this district (GroundMaterialDefinition name, e.g. Prairie_Grassland) — "" = the game's default (usually bare for a wonder). The plugin forces it via ApplyGroundMaterialDefinition.
+    public string hexSculpt = "";      // RUNTIME: hexagon sculpting (HexagonSculptingDefinition name) — the raised terrain platform + strategic-zoom footprint. "" = the game's default (flat for a custom wonder). The plugin forces it via ApplyHexagonSculptingDefinition.
 
     // ---- bake-time knobs (runtime ignores; kept so re-bakes reload the same settings) ----
     public string resourceName = "";   // names the baked assets (<name>_ModelMesh / _DistrictMesh / _FxMesh)

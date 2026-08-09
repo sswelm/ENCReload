@@ -37,7 +37,7 @@ public class DistrictFactoryWindow : EditorWindow
     Mesh pvArrowMesh;                               // flat compass line + N glyph: map NORTH (how the tile presents in-game); Facing 0° points along it
     Mesh pvMesh; Material[] pvMats;                 // the baked district mesh + its atlas preview material
     string pvLoadedFor;                             // resourceName the cache was built for (null = load on next paint)
-    Rect groundPickRect;   // Ground "Pick" button rect, captured on Repaint (GetLastRect is unreliable on click)
+    Rect groundPickRect, hexPickRect;   // "Pick" button rects, captured on Repaint (GetLastRect is unreliable on click)
     [SerializeField] Vector2 pvOrbit = new Vector2(35f, -30f);
     [SerializeField] float pvZoom = 1f;
     [SerializeField] Vector2 pvPan;
@@ -360,6 +360,18 @@ public class DistrictFactoryWindow : EditorWindow
         // footgun with no real use, so its toggle is retired. New entries default true; the plugin still honors a
         // legacy entry that has it false.
         cur.isolate = true;
+        // HEXAGON SCULPTING — the raised platform + strategic-zoom footprint (a custom wonder has none = flat).
+        using (new EditorGUILayout.HorizontalScope())
+        {
+            cur.hexSculpt = EditorGUILayout.TextField(new GUIContent("Footprint (hex sculpting)",
+                "The HexagonSculptingDefinition that carves this district's raised terrain platform — also its top-down " +
+                "footprint at strategic zoom / in battle. A custom wonder has none (sits flat). EmblematicAndCityCenter* " +
+                "are the district platforms. Empty = flat. Pick a name at right, or type one."), cur.hexSculpt ?? "");
+            if (GUILayout.Button("Pick", GUILayout.Width(70)))
+                new StringDropdown(new AdvancedDropdownState(), HexSculptNames, HexSculptNames, "Hex sculpting",
+                    n => { cur.hexSculpt = n == "(none)" ? "" : n; Repaint(); }).Show(hexPickRect);
+            if (Event.current.type == EventType.Repaint) hexPickRect = GUILayoutUtility.GetLastRect();
+        }
 
         EditorGUILayout.Space();
         char badChar = '\0';
@@ -807,6 +819,19 @@ public class DistrictFactoryWindow : EditorWindow
         "Sterile_Desert", "Sterile_Grassland", "Sterile_Mediterranean", "Sterile_Savanna",
         "Sterile_Taiga", "Sterile_Temperate", "Sterile_Tropical", "Sterile_Tundra",
     };
+
+    // HexagonSculptingDefinition vocabulary (from the plugin's [HexSculpt] dump). EmblematicAndCityCenter* = the
+    // district/building raised-platform footprints; POI_* = natural/resource point-of-interest shapes.
+    static readonly string[] HexSculptNames = BuildHexNames();
+    static string[] BuildHexNames()
+    {
+        var l = new List<string> { "(none)" };
+        for (int i = 1; i <= 33; i++) l.Add("EmblematicAndCityCenter" + i.ToString("00"));
+        foreach (var s in new[] { "03", "08", "09", "15", "21", "27", "33" }) l.Add("EmblematicAndCityCenters_Set02_" + s);
+        for (int i = 1; i <= 18; i++) l.Add("POI_NaturalModifier" + i.ToString("00"));
+        for (int i = 1; i <= 8; i++) l.Add("POI_ResourceStrategic" + i.ToString("00"));
+        return l.ToArray();
+    }
 
     static string DeriveResourceName(string districtName)
     {
