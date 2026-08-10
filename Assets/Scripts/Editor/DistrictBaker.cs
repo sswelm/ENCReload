@@ -755,25 +755,30 @@ public static class DistrictBaker
 
     // structure dump: type + any fxMesh/mesh/decalMesh; follow levelBuildItems (LOAD each item's EvolverMaterialGuid so we
     // see the actual building element + whether a decal/footprint drawer is nested), plus selector pairs/cache.
-    static void DumpVisual(object mat, int depth, HashSet<object> seen)
+    static void DumpVisual(object mat, int depth, HashSet<object> seen, string ctx = "")
     {
         if (mat == null || depth > 6 || !seen.Add(mat)) return;
         var t = mat.GetType();
         string extra = "";
-        foreach (var fn in new[] { "mesh", "fxMesh", "decalMesh" })
+        foreach (var fn in new[] { "mesh", "fxMesh", "decalMesh", "size" })
         { var f = t.GetField(fn, BF); if (f != null) extra += $" {fn}={f.GetValue(mat)}"; }
+        var bboxF = t.GetField("bbox", BF);
+        if (bboxF?.GetValue(mat) is Bounds bb) extra += $" bbox(size={bb.size})";
         bool isDecal = t.Name.Contains("Decal");
-        string line = $"{new string(' ', depth * 2)}{t.Name}{extra}{(isDecal ? "   <<< DECAL / FOOTPRINT" : "")}";
+        string line = $"{new string(' ', depth * 2)}{t.Name}{ctx}{extra}{(isDecal ? "   <<< DECAL / FOOTPRINT" : "")}";
         _probeSb?.AppendLine(line);
-        Debug.Log($"[VisualProbe] {line}");
         if (t.GetField("levelBuildItems", BF)?.GetValue(mat) is Array items)
             foreach (var it in items)
             {
                 if (it == null) continue;
                 var itt = it.GetType();
+                string ic = "";
+                if (itt.GetField("Position", BF)?.GetValue(it) is Vector3 p) ic += $" pos={p}";
+                if (itt.GetField("LocalScale", BF)?.GetValue(it) is Vector3 ls) ic += $" scale={ls}";
+                var prob = itt.GetField("Probability", BF)?.GetValue(it); if (prob != null) ic += $" prob={prob}";
                 var child = itt.GetField("loadedEvolverMaterial", BF)?.GetValue(it)
                          ?? TryLoadFx(itt.GetField("EvolverMaterialGuid", BF)?.GetValue(it));
-                DumpVisual(child, depth + 1, seen);
+                DumpVisual(child, depth + 1, seen, ic);
             }
         var cache = t.GetField("fxMaterialCacheEntries", BF)?.GetValue(mat);
         if (cache != null && cache.GetType().GetField("Entries", BF)?.GetValue(cache) is Array ents)
