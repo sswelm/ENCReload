@@ -699,6 +699,136 @@ public static class DistrictBaker
     // NationalProject_NuclearTest district visual by its Amplitude GUID (from */District/Main.Level1)? That single-building
     // + footprint selector is the template we'd clone (swap its building mesh to ours, keep its decal) and register in
     // data. This probe answers the crux unknown — is the template reachable in the editor at all — and dumps its structure.
+    // Build an Amplitude Guid from "a,b,c,d" or 4 ints.
+    static object MakeGuid(int a, int b, int c, int d)
+    {
+        var gt = FindType("Amplitude.Framework.Guid");
+        if (gt == null) return null;
+        object g = Activator.CreateInstance(gt);
+        gt.GetField("a", BF)?.SetValue(g, a); gt.GetField("b", BF)?.SetValue(g, b);
+        gt.GetField("c", BF)?.SetValue(g, c); gt.GetField("d", BF)?.SetValue(g, d);
+        return g;
+    }
+    static object MakeGuid(string abcd)
+    {
+        var p = abcd.Split(','); if (p.Length != 4) return null;
+        return MakeGuid(int.Parse(p[0]), int.Parse(p[1]), int.Parse(p[2]), int.Parse(p[3]));
+    }
+
+    // Recursively find the largest-bbox building Element in a loaded template tree (the main structure, vs small props).
+    static void FindLargestElement(object mat, int depth, HashSet<object> seen, ref object best, ref float bestMax)
+    {
+        if (mat == null || depth > 6 || !seen.Add(mat)) return;
+        var t = mat.GetType();
+        if (t.Name.Contains("BuildElement") && t.GetField("bbox", BF)?.GetValue(mat) is Bounds bb)
+        { float m = Mathf.Max(bb.size.x, Mathf.Max(bb.size.y, bb.size.z)); if (m > bestMax) { bestMax = m; best = mat; } }
+        if (t.GetField("levelBuildItems", BF)?.GetValue(mat) is Array items)
+            foreach (var it in items) if (it != null)
+            { var ch = it.GetType().GetField("loadedEvolverMaterial", BF)?.GetValue(it) ?? TryLoadFx(it.GetType().GetField("EvolverMaterialGuid", BF)?.GetValue(it)); FindLargestElement(ch, depth + 1, seen, ref best, ref bestMax); }
+        var cache = t.GetField("fxMaterialCacheEntries", BF)?.GetValue(mat);
+        if (cache != null && cache.GetType().GetField("Entries", BF)?.GetValue(cache) is Array ents)
+            foreach (var en in ents) if (en != null) FindLargestElement(en.GetType().GetField("FxMaterial", BF)?.GetValue(en), depth + 1, seen, ref best, ref bestMax);
+    }
+
+    // STEP 1a — bake our reactor as a district Element asset: clone the NuclearTest template's MAIN building element
+    // (inherits its shader/output-layer/decal wiring), swap its fxMesh to our BreederReactor_FxMesh, save with a GUID.
+    [MenuItem("Tools/HAF/District/1b. Bake Reactor District Element (template main building + our FxMesh)")]
+    static void BakeReactorElement()
+    {
+        var ourFxMesh = AssetDatabase.LoadAssetAtPath<UnityEngine.Object>("Assets/Resources/BreederReactor_FxMesh.asset");
+        if (ourFxMesh == null) { EditorUtility.DisplayDialog("Bake Reactor Element", "Assets/Resources/BreederReactor_FxMesh.asset not found — run step 1 (Bake District FxMesh) first.", "OK"); return; }
+        string meshGuidStr = AmplitudeGuid(ourFxMesh);
+        var meshGuid = MakeGuid(meshGuidStr);
+        if (meshGuid == null) { Debug.LogError("[ReactorElement] couldn't parse our FxMesh GUID: " + meshGuidStr); return; }
+
+        var tmpl = TryLoadFx(MakeGuid(-1883953677, 1215187674, -1533191005, -2060159479));
+        if (tmpl == null) { Debug.LogError("[ReactorElement] NuclearTest template didn't load (run the Probe first to confirm it loads)."); return; }
+
+        object best = null; float bestMax = -1f;
+        FindLargestElement(tmpl, 0, new HashSet<object>(), ref best, ref bestMax);
+        if (best == null || !(best is UnityEngine.Object)) { Debug.LogError("[ReactorElement] no building Element found in the template."); return; }
+        Debug.Log($"[ReactorElement] cloning largest template element (bbox-max={bestMax:0.00}, type={best.GetType().Name}).");
+
+        var clone = UnityEngine.Object.Instantiate((UnityEngine.Object)best);
+        clone.name = "BreederReactor_Element";
+        var mf = clone.GetType().GetField("fxMesh", BF);
+        if (mf == null) { Debug.LogError("[ReactorElement] element has no fxMesh field (SDK changed?)."); return; }
+        mf.SetValue(clone, meshGuid);
+
+        string path = "Assets/Resources/BreederReactor_Element.asset";
+        AssetDatabase.DeleteAsset(path);
+        AssetDatabase.CreateAsset(clone, path);
+        EditorUtility.SetDirty(clone);
+        AssetDatabase.SaveAssets(); AssetDatabase.Refresh();
+        string g = AmplitudeGuid(clone);
+        Debug.Log($"[ReactorElement] baked {path}  fxMesh={meshGuidStr}  ELEMENT GUID={g}");
+        EditorGUIUtility.systemCopyBuffer = g;
+        EditorUtility.DisplayDialog("Reactor Element baked", $"{path}\nfxMesh -> our reactor ({meshGuidStr})\n\nELEMENT GUID = {g}\n(copied to clipboard)\n\nNext: assemble the selector (clone template, repoint one slot to this element, null the props, keep decals).", "OK");
+        Selection.activeObject = clone;
+    }
+
+    // STEP 1c — assemble the reactor's district visual selector: clone the NuclearTest template (a LevelBuild EMITTER whose
+    // own levelBuildItems are the positioned building Elements + the footprint Decal/Selector items). We edit the CLONE's
+    // OWN item array (Unity Instantiate deep-copies serialized fields, so this doesn't touch the shared template): repoint
+    // the LARGEST building-element slot at our BreederReactor_Element, NULL the other building-element slots (the props),
+    // and leave every Decal/Selector/Emitter item alone (footprint + smoke). Save -> the reactor's CityMapSelector GUID.
+    [MenuItem("Tools/HAF/District/1c. Bake Reactor District Selector (clone template, reduce to one reactor)")]
+    static void BakeReactorSelector()
+    {
+        var elem = AssetDatabase.LoadAssetAtPath<UnityEngine.Object>("Assets/Resources/BreederReactor_Element.asset");
+        if (elem == null) { EditorUtility.DisplayDialog("Bake Reactor Selector", "Run 1b (Bake Reactor District Element) first.", "OK"); return; }
+        var elemGuid = MakeGuid(AmplitudeGuid(elem));
+        var nullGuid = MakeGuid(0, 0, 0, 0);
+
+        var tmpl = TryLoadFx(MakeGuid(-1883953677, 1215187674, -1533191005, -2060159479));
+        if (tmpl == null) { Debug.LogError("[ReactorSelector] NuclearTest template didn't load."); return; }
+        var clone = UnityEngine.Object.Instantiate((UnityEngine.Object)tmpl);
+        clone.name = "CityMapSelector_BreederReactor";
+
+        var itemsF = clone.GetType().GetField("levelBuildItems", BF);
+        if (!(itemsF?.GetValue(clone) is Array items)) { Debug.LogError("[ReactorSelector] clone has no levelBuildItems."); return; }
+
+        // pass 1: find the largest building-element item (the main structure slot)
+        int bestIdx = -1; float bestMax = -1f;
+        for (int i = 0; i < items.Length; i++)
+        {
+            var it = items.GetValue(i); if (it == null) continue;
+            var mat = TryLoadFx(it.GetType().GetField("EvolverMaterialGuid", BF)?.GetValue(it));
+            if (mat != null && mat.GetType().Name.Contains("BuildElement") && mat.GetType().GetField("bbox", BF)?.GetValue(mat) is Bounds bb)
+            { float m = Mathf.Max(bb.size.x, Mathf.Max(bb.size.y, bb.size.z)); if (m > bestMax) { bestMax = m; bestIdx = i; } }
+        }
+        // pass 2: repoint the winner at our element, null the other building elements, keep everything else
+        int kept = 0, nulled = 0, keptOther = 0;
+        for (int i = 0; i < items.Length; i++)
+        {
+            var it = items.GetValue(i); if (it == null) continue;
+            var itt = it.GetType();
+            var gf = itt.GetField("EvolverMaterialGuid", BF);
+            var lf = itt.GetField("loadedEvolverMaterial", BF);
+            var mat = TryLoadFx(gf?.GetValue(it));
+            bool isElem = mat != null && mat.GetType().Name.Contains("BuildElement");
+            if (isElem)
+            {
+                if (i == bestIdx) { gf?.SetValue(it, elemGuid); kept++; }
+                else { gf?.SetValue(it, nullGuid); nulled++; }
+                lf?.SetValue(it, null);   // force re-resolve from the new guid
+                items.SetValue(it, i);
+            }
+            else keptOther++;
+        }
+
+        string path = "Assets/Resources/BreederReactor_Selector.asset";
+        AssetDatabase.DeleteAsset(path);
+        AssetDatabase.CreateAsset(clone, path);
+        EditorUtility.SetDirty(clone);
+        AssetDatabase.SaveAssets(); AssetDatabase.Refresh();
+        string g = AmplitudeGuid(clone);
+        Debug.Log($"[ReactorSelector] {path}: kept {kept} reactor slot, nulled {nulled} prop slots, left {keptOther} other items (decals/emitters). SELECTOR GUID={g}");
+        EditorGUIUtility.systemCopyBuffer = g;
+        EditorUtility.DisplayDialog("Reactor Selector baked", $"{path}\nkept 1 reactor slot, nulled {nulled} props, left {keptOther} decal/emitter items.\n\nSELECTOR GUID = {g}\n(copied to clipboard)\n\nNext (data): map this GUID to a dedicated affinity in */District/Main.Level1+Level2, define the affinity, point the reactor's ConstructibleVisualAffinity at it.", "OK");
+        Selection.activeObject = clone;
+    }
+
     [MenuItem("Tools/HAF/District/Probe: NuclearTest visual template")]
     static void ProbeNuclearTest() => ProbeDistrictVisual(new[] { -1883953677, 1215187674, -1533191005, -2060159479 }, "NuclearTest");
     [MenuItem("Tools/HAF/District/Probe: MissileSilo visual template")]
