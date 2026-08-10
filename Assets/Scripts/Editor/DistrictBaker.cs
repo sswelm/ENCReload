@@ -694,4 +694,92 @@ public static class DistrictBaker
     // repoint its mesh at our FxMesh, for the SetChannel path. REMOVED — the investigation proved any material handed in
     // via SetChannel is context-gated and draws nothing (see District-Visuals.md "History"); the working pipeline is the
     // District Factory window + the plugin's leaf fxMesh-swap. Recover from git history if ever needed.)
+
+    // DEDICATED-VISUAL step 1 PROBE (docs/District-Dedicated-Visual-Feasibility.md): can the editor LOAD the native
+    // NationalProject_NuclearTest district visual by its Amplitude GUID (from */District/Main.Level1)? That single-building
+    // + footprint selector is the template we'd clone (swap its building mesh to ours, keep its decal) and register in
+    // data. This probe answers the crux unknown — is the template reachable in the editor at all — and dumps its structure.
+    [MenuItem("Tools/HAF/District/Probe: NuclearTest visual template")]
+    static void ProbeNuclearTest() => ProbeDistrictVisual(new[] { -1883953677, 1215187674, -1533191005, -2060159479 }, "NuclearTest");
+    [MenuItem("Tools/HAF/District/Probe: MissileSilo visual template")]
+    static void ProbeMissileSilo() => ProbeDistrictVisual(new[] { -1158439761, 1096327552, -1625448046, -477384506 }, "MissileSilo");
+
+    static void ProbeDistrictVisual(int[] gi, string label)
+    {
+        _probeSb = new System.Text.StringBuilder();
+        string outPath = "district_visual_dump_" + label + ".txt";
+        try
+        {
+            var guidType = FindType("Amplitude.Framework.Guid");
+            if (guidType == null) { _probeSb.AppendLine("ERROR: Amplitude.Framework.Guid type not found (SDK not loaded?)."); return; }
+            object guid = Activator.CreateInstance(guidType);
+            guidType.GetField("a", BF)?.SetValue(guid, gi[0]);
+            guidType.GetField("b", BF)?.SetValue(guid, gi[1]);
+            guidType.GetField("c", BF)?.SetValue(guid, gi[2]);
+            guidType.GetField("d", BF)?.SetValue(guid, gi[3]);
+
+            var asset = TryLoadFx(guid);
+            if (asset == null)
+            {
+                _probeSb.AppendLine($"ERROR: could NOT load {label} visual by GUID {gi[0]},{gi[1]},{gi[2]},{gi[3]} (FxEvolverMaterial.TryLoad returned null).");
+                _probeSb.AppendLine("The asset may not be a plain FxEvolverMaterial, or the SDK didn't have it loaded. Try selecting it in the Project and we'll dump the selection instead.");
+                return;
+            }
+            _probeSb.AppendLine($"LOADED: type={asset.GetType().FullName}  name={(asset as UnityEngine.Object)?.name}");
+            DumpVisual(asset, 0, new HashSet<object>());
+        }
+        catch (Exception e) { _probeSb.AppendLine("EXCEPTION: " + e); }
+        finally
+        {
+            try { System.IO.File.WriteAllText(outPath, _probeSb.ToString()); } catch { }
+            Debug.Log($"[VisualProbe] {label}: wrote {System.IO.Path.GetFullPath(outPath)} — {_probeSb.ToString().Split('\n')[0]}");
+            _probeSb = null;
+        }
+    }
+    static System.Text.StringBuilder _probeSb;
+
+    // Load an Amplitude FxEvolverMaterial by its Guid (editor, synchronous) — the runtime loader, which the probe proved
+    // works in-editor. Returns null if the guid is null/unloadable.
+    static object TryLoadFx(object guid)
+    {
+        if (guid == null) return null;
+        var gt = guid.GetType();
+        bool isNull = (int)(gt.GetField("a", BF)?.GetValue(guid) ?? 0) == 0 && (int)(gt.GetField("b", BF)?.GetValue(guid) ?? 0) == 0
+                   && (int)(gt.GetField("c", BF)?.GetValue(guid) ?? 0) == 0 && (int)(gt.GetField("d", BF)?.GetValue(guid) ?? 0) == 0;
+        if (isNull) return null;
+        var fxmType = FindType("Amplitude.Graphics.Fx.FxEvolverMaterial");
+        var tryLoad = fxmType?.GetMethods(BindingFlags.Public | BindingFlags.Static)
+            .FirstOrDefault(m => m.Name == "TryLoad" && m.GetParameters().Length == 2 && m.GetParameters()[0].ParameterType == gt && m.GetParameters()[1].ParameterType == typeof(bool));
+        try { return tryLoad?.Invoke(null, new object[] { guid, true }); } catch { return null; }
+    }
+
+    // structure dump: type + any fxMesh/mesh/decalMesh; follow levelBuildItems (LOAD each item's EvolverMaterialGuid so we
+    // see the actual building element + whether a decal/footprint drawer is nested), plus selector pairs/cache.
+    static void DumpVisual(object mat, int depth, HashSet<object> seen)
+    {
+        if (mat == null || depth > 6 || !seen.Add(mat)) return;
+        var t = mat.GetType();
+        string extra = "";
+        foreach (var fn in new[] { "mesh", "fxMesh", "decalMesh" })
+        { var f = t.GetField(fn, BF); if (f != null) extra += $" {fn}={f.GetValue(mat)}"; }
+        bool isDecal = t.Name.Contains("Decal");
+        string line = $"{new string(' ', depth * 2)}{t.Name}{extra}{(isDecal ? "   <<< DECAL / FOOTPRINT" : "")}";
+        _probeSb?.AppendLine(line);
+        Debug.Log($"[VisualProbe] {line}");
+        if (t.GetField("levelBuildItems", BF)?.GetValue(mat) is Array items)
+            foreach (var it in items)
+            {
+                if (it == null) continue;
+                var itt = it.GetType();
+                var child = itt.GetField("loadedEvolverMaterial", BF)?.GetValue(it)
+                         ?? TryLoadFx(itt.GetField("EvolverMaterialGuid", BF)?.GetValue(it));
+                DumpVisual(child, depth + 1, seen);
+            }
+        var cache = t.GetField("fxMaterialCacheEntries", BF)?.GetValue(mat);
+        if (cache != null && cache.GetType().GetField("Entries", BF)?.GetValue(cache) is Array ents)
+            foreach (var en in ents) if (en != null) DumpVisual(en.GetType().GetField("FxMaterial", BF)?.GetValue(en), depth + 1, seen);
+        if (t.GetField("pairs", BF)?.GetValue(mat) is Array pairs)
+            foreach (var pr in pairs) if (pr != null)
+                DumpVisual(TryLoadFx(pr.GetType().GetField("Value", BF)?.GetValue(pr) ?? pr.GetType().GetField("Guid", BF)?.GetValue(pr)), depth + 1, seen);
+    }
 }
