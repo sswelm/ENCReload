@@ -754,6 +754,11 @@ public static class DistrictBaker
         var mf = clone.GetType().GetField("fxMesh", BF);
         if (mf == null) { Debug.LogError("[ReactorElement] element has no fxMesh field (SDK changed?)."); return; }
         mf.SetValue(clone, meshGuid);
+        // clear the DONOR's LOD chain + resolved mesh-content (they point at the slab's meshes) so the element re-resolves
+        // cleanly from OUR fxMesh on load — otherwise LoadFxMeshAsset NREs on the stale FxMeshContent[] lods.
+        clone.GetType().GetField("fxMeshContentLods", BF)?.SetValue(clone, null);
+        var fmcF = clone.GetType().GetField("fxMeshContent", BF);
+        if (fmcF != null) fmcF.SetValue(clone, Activator.CreateInstance(fmcF.FieldType));
 
         string path = "Assets/Resources/BreederReactor_Element.asset";
         AssetDatabase.DeleteAsset(path);
@@ -784,6 +789,9 @@ public static class DistrictBaker
         if (tmpl == null) { Debug.LogError("[ReactorSelector] NuclearTest template didn't load."); return; }
         var clone = UnityEngine.Object.Instantiate((UnityEngine.Object)tmpl);
         clone.name = "CityMapSelector_BreederReactor";
+        // Instantiate copies the emitter but NOT its embedded 'companion' sub-object, leaving a broken PPtr (zero-guid
+        // fileID) that fails asset extraction. Null it — the emitter rebuilds its companion at load if it needs one.
+        clone.GetType().GetField("companion", BF)?.SetValue(clone, null);
 
         var itemsF = clone.GetType().GetField("levelBuildItems", BF);
         if (!(itemsF?.GetValue(clone) is Array items)) { Debug.LogError("[ReactorSelector] clone has no levelBuildItems."); return; }
