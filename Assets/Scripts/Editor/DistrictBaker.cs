@@ -715,6 +715,16 @@ public static class DistrictBaker
         return MakeGuid(int.Parse(p[0]), int.Parse(p[1]), int.Parse(p[2]), int.Parse(p[3]));
     }
 
+    // Copy all instance fields src->dst (walking the base chain). Used to populate a FRESH ScriptableObject.CreateInstance
+    // (which has a VALID m_Script, unlike Instantiate of a runtime-loaded DLL object whose m_Script serializes zero-guid
+    // and breaks the mod bundle build). NonSerialized runtime fields copy harmlessly (they don't persist / reset on load).
+    static void CopyFields(object src, object dst)
+    {
+        for (var t = src.GetType(); t != null && t != typeof(UnityEngine.ScriptableObject) && t != typeof(object); t = t.BaseType)
+            foreach (var f in t.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
+                if (!f.IsInitOnly) { try { f.SetValue(dst, f.GetValue(src)); } catch { } }
+    }
+
     // Recursively find the largest-bbox building Element in a loaded template tree (the main structure, vs small props).
     static void FindLargestElement(object mat, int depth, HashSet<object> seen, ref object best, ref float bestMax)
     {
@@ -749,16 +759,24 @@ public static class DistrictBaker
         if (best == null || !(best is UnityEngine.Object)) { Debug.LogError("[ReactorElement] no building Element found in the template."); return; }
         Debug.Log($"[ReactorElement] cloning largest template element (bbox-max={bestMax:0.00}, type={best.GetType().Name}).");
 
-        var clone = UnityEngine.Object.Instantiate((UnityEngine.Object)best);
+        // FRESH typed instance (valid m_Script) + copy the template's fields — NOT Instantiate (that serializes a
+        // zero-guid m_Script that fails the bundle build).
+        var clone = ScriptableObject.CreateInstance(best.GetType());
+        CopyFields(best, clone);
         clone.name = "BreederReactor_Element";
         var mf = clone.GetType().GetField("fxMesh", BF);
         if (mf == null) { Debug.LogError("[ReactorElement] element has no fxMesh field (SDK changed?)."); return; }
         mf.SetValue(clone, meshGuid);
         // clear the DONOR's LOD chain + resolved mesh-content (they point at the slab's meshes) so the element re-resolves
-        // cleanly from OUR fxMesh on load — otherwise LoadFxMeshAsset NREs on the stale FxMeshContent[] lods.
-        clone.GetType().GetField("fxMeshContentLods", BF)?.SetValue(clone, null);
+        // cleanly from OUR fxMesh on load. Use an EMPTY array (not null) — LoadFxMeshAsset does new FxMesh[lods.Length] and
+        // NREs on null (the editor inspector-preview crash).
+        var lodsF = clone.GetType().GetField("fxMeshContentLods", BF);
+        if (lodsF != null) lodsF.SetValue(clone, Array.CreateInstance(lodsF.FieldType.GetElementType(), 0));
         var fmcF = clone.GetType().GetField("fxMeshContent", BF);
         if (fmcF != null) fmcF.SetValue(clone, Activator.CreateInstance(fmcF.FieldType));
+        // HYBRID: null the output layer (it points at an un-authorable game-bundle FxOutputLayer -> zero-guid, breaks the
+        // bundle). The tiny runtime hook sets our textured layer on this element at load.
+        clone.GetType().GetField("outputLayer", BF)?.SetValue(clone, null);
 
         string path = "Assets/Resources/BreederReactor_Element.asset";
         AssetDatabase.DeleteAsset(path);
@@ -787,13 +805,16 @@ public static class DistrictBaker
 
         var tmpl = TryLoadFx(MakeGuid(-1883953677, 1215187674, -1533191005, -2060159479));
         if (tmpl == null) { Debug.LogError("[ReactorSelector] NuclearTest template didn't load."); return; }
-        var clone = UnityEngine.Object.Instantiate((UnityEngine.Object)tmpl);
+        // FRESH typed instance (valid m_Script) + copy fields — NOT Instantiate (zero-guid m_Script breaks the bundle).
+        var clone = ScriptableObject.CreateInstance(tmpl.GetType());
+        CopyFields(tmpl, clone);
         clone.name = "CityMapSelector_BreederReactor";
-        // Instantiate copies the emitter but NOT its embedded 'companion' sub-object, leaving a broken PPtr (zero-guid
-        // fileID) that fails asset extraction. Null it — the emitter rebuilds its companion at load if it needs one.
+        // null the 'companion' sub-object ref (embedded in the template, not copyable -> broken PPtr); rebuilt at load if needed.
         clone.GetType().GetField("companion", BF)?.SetValue(clone, null);
 
         var itemsF = clone.GetType().GetField("levelBuildItems", BF);
+        // deep-clone the items array so our edits don't mutate the SHARED template array (CopyFields copied it by reference).
+        if (itemsF?.GetValue(clone) is Array shared) itemsF.SetValue(clone, (Array)shared.Clone());
         if (!(itemsF?.GetValue(clone) is Array items)) { Debug.LogError("[ReactorSelector] clone has no levelBuildItems."); return; }
 
         // pass 1: find the largest building-element item (the main structure slot)
