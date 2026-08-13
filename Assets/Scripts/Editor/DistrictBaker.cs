@@ -740,8 +740,44 @@ public static class DistrictBaker
             foreach (var en in ents) if (en != null) FindLargestElement(en.GetType().GetField("FxMaterial", BF)?.GetValue(en), depth + 1, seen, ref best, ref bestMax);
     }
 
-    // STEP 1a — bake our reactor as a district Element asset: clone the NuclearTest template's MAIN building element
-    // (inherits its shader/output-layer/decal wiring), swap its fxMesh to our BreederReactor_FxMesh, save with a GUID.
+    // ---- FOOTPRINT TEMPLATE selection ----
+    // The dedicated selector is built by cloning a single-building district template and KEEPING its DECAL items —
+    // those decals ARE the strategic footprint. Which template we clone is therefore the footprint choice. Only
+    // SINGLE-BUILDING families reduce cleanly to one reactor (culture-nested ones like Base_Industry can't). The
+    // choice is stored in EditorPrefs and read by BOTH 1b (element) and 1c (selector), so re-running them re-bakes
+    // with the selected footprint. (Note: the strategic footprint still lazy-builds ~1s the first time you zoom out
+    // per session — an engine limitation, see docs/District-Dedicated-Visual.md; this only changes WHICH footprint.)
+    const string FootprintPrefKey = "HAF_District_FootprintTemplate";
+    // Only templates with a single reducible BuildElement work here (reduce-to-one keeps their footprint decals + swaps
+    // the one building → our reactor). VERIFIED: NuclearTest + MissileSilo. RULED OUT: the space national projects
+    // (SatelliteLaunch/SpaceLaunch) are emitter/decal-only — no BuildElement, so 1b throws "no building Element found";
+    // and the city-district affinities (Industry/Science/Food/...) are culture-nested (one building per civ) and can't
+    // be reduced. So these two are the clean footprint choices; more would need a decal-only graft (see docs).
+    static readonly (string label, string guid)[] FootprintTemplates =
+    {
+        ("NuclearTest (brick plant)", "-1883953677,1215187674,-1533191005,-2060159479"),
+        ("MissileSilo",               "-1158439761,1096327552,-1625448046,-477384506"),
+    };
+    static string FootprintTemplateGuidStr() => EditorPrefs.GetString(FootprintPrefKey, FootprintTemplates[0].guid);
+    static string FootprintTemplateLabel()
+    {
+        var g = FootprintTemplateGuidStr();
+        foreach (var t in FootprintTemplates) if (t.guid == g) return t.label;
+        return "custom (" + g + ")";
+    }
+    static object FootprintTemplateGuid() => MakeGuid(FootprintTemplateGuidStr());
+
+    [MenuItem("Tools/HAF/District/Footprint template.../NuclearTest (brick plant)")]
+    static void SetFootprintNuclearTest() { EditorPrefs.SetString(FootprintPrefKey, FootprintTemplates[0].guid); Debug.Log("[Footprint] template -> NuclearTest (brick plant). Re-run 1b then 1c to apply, then rebuild the mod."); }
+    [MenuItem("Tools/HAF/District/Footprint template.../NuclearTest (brick plant)", true)]
+    static bool SetFootprintNuclearTestCheck() { Menu.SetChecked("Tools/HAF/District/Footprint template.../NuclearTest (brick plant)", FootprintTemplateGuidStr() == FootprintTemplates[0].guid); return true; }
+    [MenuItem("Tools/HAF/District/Footprint template.../MissileSilo")]
+    static void SetFootprintMissileSilo() { EditorPrefs.SetString(FootprintPrefKey, FootprintTemplates[1].guid); Debug.Log("[Footprint] template -> MissileSilo. Re-run 1b then 1c to apply, then rebuild the mod."); }
+    [MenuItem("Tools/HAF/District/Footprint template.../MissileSilo", true)]
+    static bool SetFootprintMissileSiloCheck() { Menu.SetChecked("Tools/HAF/District/Footprint template.../MissileSilo", FootprintTemplateGuidStr() == FootprintTemplates[1].guid); return true; }
+
+    // STEP 1a — bake our reactor as a district Element asset: clone the SELECTED footprint template's MAIN building
+    // element (inherits its shader/output-layer/decal wiring), swap its fxMesh to our BreederReactor_FxMesh, save w/ a GUID.
     [MenuItem("Tools/HAF/District/1b. Bake Reactor District Element (template main building + our FxMesh)")]
     static void BakeReactorElement()
     {
@@ -751,8 +787,9 @@ public static class DistrictBaker
         var meshGuid = MakeGuid(meshGuidStr);
         if (meshGuid == null) { Debug.LogError("[ReactorElement] couldn't parse our FxMesh GUID: " + meshGuidStr); return; }
 
-        var tmpl = TryLoadFx(MakeGuid(-1883953677, 1215187674, -1533191005, -2060159479));
-        if (tmpl == null) { Debug.LogError("[ReactorElement] NuclearTest template didn't load (run the Probe first to confirm it loads)."); return; }
+        var tmpl = TryLoadFx(FootprintTemplateGuid());
+        if (tmpl == null) { Debug.LogError($"[ReactorElement] footprint template '{FootprintTemplateLabel()}' didn't load (Tools/HAF/District/Footprint template...; run the Probe to confirm it loads)."); return; }
+        Debug.Log($"[ReactorElement] footprint template = {FootprintTemplateLabel()}");
 
         object best = null; float bestMax = -1f;
         FindLargestElement(tmpl, 0, new HashSet<object>(), ref best, ref bestMax);
@@ -803,8 +840,9 @@ public static class DistrictBaker
         var elemGuid = MakeGuid(AmplitudeGuid(elem));
         var nullGuid = MakeGuid(0, 0, 0, 0);
 
-        var tmpl = TryLoadFx(MakeGuid(-1883953677, 1215187674, -1533191005, -2060159479));
-        if (tmpl == null) { Debug.LogError("[ReactorSelector] NuclearTest template didn't load."); return; }
+        var tmpl = TryLoadFx(FootprintTemplateGuid());
+        if (tmpl == null) { Debug.LogError($"[ReactorSelector] footprint template '{FootprintTemplateLabel()}' didn't load (Tools/HAF/District/Footprint template...)."); return; }
+        Debug.Log($"[ReactorSelector] footprint template = {FootprintTemplateLabel()}");
         // FRESH typed instance (valid m_Script) + copy fields — NOT Instantiate (zero-guid m_Script breaks the bundle).
         var clone = ScriptableObject.CreateInstance(tmpl.GetType());
         CopyFields(tmpl, clone);
