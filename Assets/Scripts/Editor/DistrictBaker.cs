@@ -694,4 +694,373 @@ public static class DistrictBaker
     // repoint its mesh at our FxMesh, for the SetChannel path. REMOVED — the investigation proved any material handed in
     // via SetChannel is context-gated and draws nothing (see District-Visuals.md "History"); the working pipeline is the
     // District Factory window + the plugin's leaf fxMesh-swap. Recover from git history if ever needed.)
+
+    // DEDICATED-VISUAL step 1 PROBE (docs/District-Dedicated-Visual-Feasibility.md): can the editor LOAD the native
+    // NationalProject_NuclearTest district visual by its Amplitude GUID (from */District/Main.Level1)? That single-building
+    // + footprint selector is the template we'd clone (swap its building mesh to ours, keep its decal) and register in
+    // data. This probe answers the crux unknown — is the template reachable in the editor at all — and dumps its structure.
+    // Build an Amplitude Guid from "a,b,c,d" or 4 ints.
+    static object MakeGuid(int a, int b, int c, int d)
+    {
+        var gt = FindType("Amplitude.Framework.Guid");
+        if (gt == null) return null;
+        object g = Activator.CreateInstance(gt);
+        gt.GetField("a", BF)?.SetValue(g, a); gt.GetField("b", BF)?.SetValue(g, b);
+        gt.GetField("c", BF)?.SetValue(g, c); gt.GetField("d", BF)?.SetValue(g, d);
+        return g;
+    }
+    static object MakeGuid(string abcd)
+    {
+        var p = abcd.Split(','); if (p.Length != 4) return null;
+        return MakeGuid(int.Parse(p[0]), int.Parse(p[1]), int.Parse(p[2]), int.Parse(p[3]));
+    }
+
+    // Copy all instance fields src->dst (walking the base chain). Used to populate a FRESH ScriptableObject.CreateInstance
+    // (which has a VALID m_Script, unlike Instantiate of a runtime-loaded DLL object whose m_Script serializes zero-guid
+    // and breaks the mod bundle build). NonSerialized runtime fields copy harmlessly (they don't persist / reset on load).
+    static void CopyFields(object src, object dst)
+    {
+        for (var t = src.GetType(); t != null && t != typeof(UnityEngine.ScriptableObject) && t != typeof(object); t = t.BaseType)
+            foreach (var f in t.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
+                if (!f.IsInitOnly) { try { f.SetValue(dst, f.GetValue(src)); } catch { } }
+    }
+
+    // Recursively find the largest-bbox building Element in a loaded template tree (the main structure, vs small props).
+    static void FindLargestElement(object mat, int depth, HashSet<object> seen, ref object best, ref float bestMax)
+    {
+        if (mat == null || depth > 6 || !seen.Add(mat)) return;
+        var t = mat.GetType();
+        if (t.Name.Contains("BuildElement") && t.GetField("bbox", BF)?.GetValue(mat) is Bounds bb)
+        { float m = Mathf.Max(bb.size.x, Mathf.Max(bb.size.y, bb.size.z)); if (m > bestMax) { bestMax = m; best = mat; } }
+        if (t.GetField("levelBuildItems", BF)?.GetValue(mat) is Array items)
+            foreach (var it in items) if (it != null)
+            { var ch = it.GetType().GetField("loadedEvolverMaterial", BF)?.GetValue(it) ?? TryLoadFx(it.GetType().GetField("EvolverMaterialGuid", BF)?.GetValue(it)); FindLargestElement(ch, depth + 1, seen, ref best, ref bestMax); }
+        var cache = t.GetField("fxMaterialCacheEntries", BF)?.GetValue(mat);
+        if (cache != null && cache.GetType().GetField("Entries", BF)?.GetValue(cache) is Array ents)
+            foreach (var en in ents) if (en != null) FindLargestElement(en.GetType().GetField("FxMaterial", BF)?.GetValue(en), depth + 1, seen, ref best, ref bestMax);
+    }
+
+    // ---- FOOTPRINT TEMPLATE selection ----
+    // The dedicated selector is built by cloning a single-building district template and KEEPING its DECAL items —
+    // those decals ARE the strategic footprint. Which template we clone is therefore the footprint choice. Only
+    // SINGLE-BUILDING families reduce cleanly to one reactor (culture-nested ones like Base_Industry can't). The
+    // choice is stored in EditorPrefs and read by BOTH 1b (element) and 1c (selector), so re-running them re-bakes
+    // with the selected footprint. (Note: the strategic footprint still lazy-builds ~1s the first time you zoom out
+    // per session — an engine limitation, see docs/District-Dedicated-Visual.md; this only changes WHICH footprint.)
+    const string FootprintPrefKey = "HAF_District_FootprintTemplate";
+    // Only templates with a single reducible BuildElement work here (reduce-to-one keeps their footprint decals + swaps
+    // the one building → our reactor). VERIFIED: NuclearTest + MissileSilo. RULED OUT: the space national projects
+    // (SatelliteLaunch/SpaceLaunch) are emitter/decal-only — no BuildElement, so 1b throws "no building Element found";
+    // and the city-district affinities (Industry/Science/Food/...) are culture-nested (one building per civ) and can't
+    // be reduced. So these two are the clean footprint choices; more would need a decal-only graft (see docs).
+    static readonly (string label, string guid)[] FootprintTemplates =
+    {
+        ("NuclearTest (brick plant)", "-1883953677,1215187674,-1533191005,-2060159479"),
+        ("MissileSilo",               "-1158439761,1096327552,-1625448046,-477384506"),
+    };
+    static string FootprintTemplateGuidStr() => EditorPrefs.GetString(FootprintPrefKey, FootprintTemplates[0].guid);
+    static string FootprintTemplateLabel()
+    {
+        var g = FootprintTemplateGuidStr();
+        foreach (var t in FootprintTemplates) if (t.guid == g) return t.label;
+        return "custom (" + g + ")";
+    }
+    static object FootprintTemplateGuid() => MakeGuid(FootprintTemplateGuidStr());
+
+    [MenuItem("Tools/HAF/District/Footprint template.../NuclearTest (brick plant)")]
+    static void SetFootprintNuclearTest() { EditorPrefs.SetString(FootprintPrefKey, FootprintTemplates[0].guid); Debug.Log("[Footprint] template -> NuclearTest (brick plant). Re-run 1b then 1c to apply, then rebuild the mod."); }
+    [MenuItem("Tools/HAF/District/Footprint template.../NuclearTest (brick plant)", true)]
+    static bool SetFootprintNuclearTestCheck() { Menu.SetChecked("Tools/HAF/District/Footprint template.../NuclearTest (brick plant)", FootprintTemplateGuidStr() == FootprintTemplates[0].guid); return true; }
+    [MenuItem("Tools/HAF/District/Footprint template.../MissileSilo")]
+    static void SetFootprintMissileSilo() { EditorPrefs.SetString(FootprintPrefKey, FootprintTemplates[1].guid); Debug.Log("[Footprint] template -> MissileSilo. Re-run 1b then 1c to apply, then rebuild the mod."); }
+    [MenuItem("Tools/HAF/District/Footprint template.../MissileSilo", true)]
+    static bool SetFootprintMissileSiloCheck() { Menu.SetChecked("Tools/HAF/District/Footprint template.../MissileSilo", FootprintTemplateGuidStr() == FootprintTemplates[1].guid); return true; }
+
+    // STEP 1a — bake our reactor as a district Element asset: clone the SELECTED footprint template's MAIN building
+    // element (inherits its shader/output-layer/decal wiring), swap its fxMesh to our BreederReactor_FxMesh, save w/ a GUID.
+    [MenuItem("Tools/HAF/District/1b. Bake Reactor District Element (template main building + our FxMesh)")]
+    static void BakeReactorElement()
+    {
+        var ourFxMesh = AssetDatabase.LoadAssetAtPath<UnityEngine.Object>("Assets/Resources/BreederReactor_FxMesh.asset");
+        if (ourFxMesh == null) { EditorUtility.DisplayDialog("Bake Reactor Element", "Assets/Resources/BreederReactor_FxMesh.asset not found — run step 1 (Bake District FxMesh) first.", "OK"); return; }
+        string meshGuidStr = AmplitudeGuid(ourFxMesh);
+        var meshGuid = MakeGuid(meshGuidStr);
+        if (meshGuid == null) { Debug.LogError("[ReactorElement] couldn't parse our FxMesh GUID: " + meshGuidStr); return; }
+
+        var tmpl = TryLoadFx(FootprintTemplateGuid());
+        if (tmpl == null) { Debug.LogError($"[ReactorElement] footprint template '{FootprintTemplateLabel()}' didn't load (Tools/HAF/District/Footprint template...; run the Probe to confirm it loads)."); return; }
+        Debug.Log($"[ReactorElement] footprint template = {FootprintTemplateLabel()}");
+
+        object best = null; float bestMax = -1f;
+        FindLargestElement(tmpl, 0, new HashSet<object>(), ref best, ref bestMax);
+        if (best == null || !(best is UnityEngine.Object)) { Debug.LogError("[ReactorElement] no building Element found in the template."); return; }
+        Debug.Log($"[ReactorElement] cloning largest template element (bbox-max={bestMax:0.00}, type={best.GetType().Name}).");
+
+        // FRESH typed instance (valid m_Script) + copy the template's fields — NOT Instantiate (that serializes a
+        // zero-guid m_Script that fails the bundle build).
+        var clone = ScriptableObject.CreateInstance(best.GetType());
+        CopyFields(best, clone);
+        clone.name = "BreederReactor_Element";
+        var mf = clone.GetType().GetField("fxMesh", BF);
+        if (mf == null) { Debug.LogError("[ReactorElement] element has no fxMesh field (SDK changed?)."); return; }
+        mf.SetValue(clone, meshGuid);
+        // clear the DONOR's LOD chain + resolved mesh-content (they point at the slab's meshes) so the element re-resolves
+        // cleanly from OUR fxMesh on load. Use an EMPTY array (not null) — LoadFxMeshAsset does new FxMesh[lods.Length] and
+        // NREs on null (the editor inspector-preview crash).
+        var lodsF = clone.GetType().GetField("fxMeshContentLods", BF);
+        if (lodsF != null) lodsF.SetValue(clone, Array.CreateInstance(lodsF.FieldType.GetElementType(), 0));
+        var fmcF = clone.GetType().GetField("fxMeshContent", BF);
+        if (fmcF != null) fmcF.SetValue(clone, Activator.CreateInstance(fmcF.FieldType));
+        // HYBRID: null the output layer (it points at an un-authorable game-bundle FxOutputLayer -> zero-guid, breaks the
+        // bundle). The tiny runtime hook sets our textured layer on this element at load.
+        clone.GetType().GetField("outputLayer", BF)?.SetValue(clone, null);
+
+        string path = "Assets/Resources/BreederReactor_Element.asset";
+        AssetDatabase.DeleteAsset(path);
+        AssetDatabase.CreateAsset(clone, path);
+        EditorUtility.SetDirty(clone);
+        AssetDatabase.SaveAssets(); AssetDatabase.Refresh();
+        string g = AmplitudeGuid(clone);
+        Debug.Log($"[ReactorElement] baked {path}  fxMesh={meshGuidStr}  ELEMENT GUID={g}");
+        EditorGUIUtility.systemCopyBuffer = g;
+        EditorUtility.DisplayDialog("Reactor Element baked", $"{path}\nfxMesh -> our reactor ({meshGuidStr})\n\nELEMENT GUID = {g}\n(copied to clipboard)\n\nNext: assemble the selector (clone template, repoint one slot to this element, null the props, keep decals).", "OK");
+        Selection.activeObject = clone;
+    }
+
+    // STEP 1c — assemble the reactor's district visual selector: clone the NuclearTest template (a LevelBuild EMITTER whose
+    // own levelBuildItems are the positioned building Elements + the footprint Decal/Selector items). We edit the CLONE's
+    // OWN item array (Unity Instantiate deep-copies serialized fields, so this doesn't touch the shared template): repoint
+    // the LARGEST building-element slot at our BreederReactor_Element, NULL the other building-element slots (the props),
+    // and leave every Decal/Selector/Emitter item alone (footprint + smoke). Save -> the reactor's CityMapSelector GUID.
+    [MenuItem("Tools/HAF/District/1c. Bake Reactor District Selector (clone template, reduce to one reactor)")]
+    static void BakeReactorSelector()
+    {
+        var elem = AssetDatabase.LoadAssetAtPath<UnityEngine.Object>("Assets/Resources/BreederReactor_Element.asset");
+        if (elem == null) { EditorUtility.DisplayDialog("Bake Reactor Selector", "Run 1b (Bake Reactor District Element) first.", "OK"); return; }
+        var elemGuid = MakeGuid(AmplitudeGuid(elem));
+        var nullGuid = MakeGuid(0, 0, 0, 0);
+
+        var tmpl = TryLoadFx(FootprintTemplateGuid());
+        if (tmpl == null) { Debug.LogError($"[ReactorSelector] footprint template '{FootprintTemplateLabel()}' didn't load (Tools/HAF/District/Footprint template...)."); return; }
+        Debug.Log($"[ReactorSelector] footprint template = {FootprintTemplateLabel()}");
+        // FRESH typed instance (valid m_Script) + copy fields — NOT Instantiate (zero-guid m_Script breaks the bundle).
+        var clone = ScriptableObject.CreateInstance(tmpl.GetType());
+        CopyFields(tmpl, clone);
+        clone.name = "CityMapSelector_BreederReactor";
+        // null the 'companion' sub-object ref (embedded in the template, not copyable -> broken PPtr); rebuilt at load if needed.
+        clone.GetType().GetField("companion", BF)?.SetValue(clone, null);
+
+        var itemsF = clone.GetType().GetField("levelBuildItems", BF);
+        // deep-clone the items array so our edits don't mutate the SHARED template array (CopyFields copied it by reference).
+        if (itemsF?.GetValue(clone) is Array shared) itemsF.SetValue(clone, (Array)shared.Clone());
+        if (!(itemsF?.GetValue(clone) is Array items)) { Debug.LogError("[ReactorSelector] clone has no levelBuildItems."); return; }
+
+        // pass 1: find the largest building-element item (the main structure slot)
+        int bestIdx = -1; float bestMax = -1f;
+        for (int i = 0; i < items.Length; i++)
+        {
+            var it = items.GetValue(i); if (it == null) continue;
+            var mat = TryLoadFx(it.GetType().GetField("EvolverMaterialGuid", BF)?.GetValue(it));
+            if (mat != null && mat.GetType().Name.Contains("BuildElement") && mat.GetType().GetField("bbox", BF)?.GetValue(mat) is Bounds bb)
+            { float m = Mathf.Max(bb.size.x, Mathf.Max(bb.size.y, bb.size.z)); if (m > bestMax) { bestMax = m; bestIdx = i; } }
+        }
+        // pass 2: repoint the winner at our element, null the other building elements, keep everything else
+        int kept = 0, nulled = 0, keptOther = 0;
+        for (int i = 0; i < items.Length; i++)
+        {
+            var it = items.GetValue(i); if (it == null) continue;
+            var itt = it.GetType();
+            var gf = itt.GetField("EvolverMaterialGuid", BF);
+            var lf = itt.GetField("loadedEvolverMaterial", BF);
+            var mat = TryLoadFx(gf?.GetValue(it));
+            bool isElem = mat != null && mat.GetType().Name.Contains("BuildElement");
+            if (isElem)
+            {
+                if (i == bestIdx) { gf?.SetValue(it, elemGuid); kept++; }
+                else { gf?.SetValue(it, nullGuid); nulled++; }
+                lf?.SetValue(it, null);   // force re-resolve from the new guid
+                items.SetValue(it, i);
+            }
+            else keptOther++;
+        }
+
+        string path = "Assets/Resources/BreederReactor_Selector.asset";
+        AssetDatabase.DeleteAsset(path);
+        AssetDatabase.CreateAsset(clone, path);
+        EditorUtility.SetDirty(clone);
+        AssetDatabase.SaveAssets(); AssetDatabase.Refresh();
+        string g = AmplitudeGuid(clone);
+        Debug.Log($"[ReactorSelector] {path}: kept {kept} reactor slot, nulled {nulled} prop slots, left {keptOther} other items (decals/emitters). SELECTOR GUID={g}");
+        EditorGUIUtility.systemCopyBuffer = g;
+        EditorUtility.DisplayDialog("Reactor Selector baked", $"{path}\nkept 1 reactor slot, nulled {nulled} props, left {keptOther} decal/emitter items.\n\nSELECTOR GUID = {g}\n(copied to clipboard)\n\nNext (data): map this GUID to a dedicated affinity in */District/Main.Level1+Level2, define the affinity, point the reactor's ConstructibleVisualAffinity at it.", "OK");
+        Selection.activeObject = clone;
+    }
+
+    // GENERALIZED 1b+1c for ANY district (the migration path off the legacy isolate/repoint route). Bakes
+    // <resourceName>_Element (the selected footprint template's largest building element, fxMesh swapped to
+    // <resourceName>_FxMesh) then CityMapSelector_<resourceName> (clone the template, repoint that one slot, null the
+    // other building props, keep every decal/emitter = the footprint). Returns the selector's Amplitude GUID "a,b,c,d".
+    // Same asset-hygiene as the reactor commands (fresh typed instance + CopyFields, cleared donor LODs, null output
+    // layer + companion). The window's "Bake strategic selector" button calls this and stores the GUID on the entry.
+    public static bool BakeScopedSelector(string resourceName, out string selectorGuidStr, out string err)
+    {
+        selectorGuidStr = null; err = null;
+        try
+        {
+            if (string.IsNullOrWhiteSpace(resourceName)) { err = "no resource name on the entry."; return false; }
+            var fxMesh = AssetDatabase.LoadAssetAtPath<UnityEngine.Object>($"Assets/Resources/{resourceName}_FxMesh.asset");
+            if (fxMesh == null) { err = $"Assets/Resources/{resourceName}_FxMesh.asset not found — bake the district model first."; return false; }
+            var meshGuid = MakeGuid(AmplitudeGuid(fxMesh));
+            if (meshGuid == null) { err = "couldn't parse the FxMesh GUID."; return false; }
+            var tmpl = TryLoadFx(FootprintTemplateGuid());
+            if (tmpl == null) { err = $"footprint template '{FootprintTemplateLabel()}' didn't load (Tools/HAF/District/Footprint template...)."; return false; }
+
+            // ---- element: clone the template's largest building element, swap in our fxMesh ----
+            // WARM the template tree first: its building elements load lazily on first touch (a cold TryLoadFx returns the
+            // shell before the child materials resolve), so a first pass primes the cache and the second actually finds them
+            // — same effect as running Tools/HAF/District/Probe before the reactor's 1b.
+            object warm = null; float warmMax = -1f;
+            FindLargestElement(tmpl, 0, new HashSet<object>(), ref warm, ref warmMax);
+            object best = null; float bestMax = -1f;
+            FindLargestElement(tmpl, 0, new HashSet<object>(), ref best, ref bestMax);
+            if (best == null || !(best is UnityEngine.Object))
+            { err = $"no building Element found in template '{FootprintTemplateLabel()}'. Run Tools/HAF/District/Probe: {FootprintTemplateLabel().Split(' ')[0]} visual template once to warm it, then re-bake (or pick a different Footprint template — only single-building families like NuclearTest / MissileSilo reduce cleanly)."; return false; }
+            var elem = ScriptableObject.CreateInstance(best.GetType());
+            CopyFields(best, elem);
+            elem.name = resourceName + "_Element";
+            var mf = elem.GetType().GetField("fxMesh", BF); if (mf == null) { err = "element has no fxMesh field (SDK changed?)."; return false; }
+            mf.SetValue(elem, meshGuid);
+            var lodsF = elem.GetType().GetField("fxMeshContentLods", BF); if (lodsF != null) lodsF.SetValue(elem, Array.CreateInstance(lodsF.FieldType.GetElementType(), 0));
+            var fmcF = elem.GetType().GetField("fxMeshContent", BF); if (fmcF != null) fmcF.SetValue(elem, Activator.CreateInstance(fmcF.FieldType));
+            elem.GetType().GetField("outputLayer", BF)?.SetValue(elem, null);   // runtime hook binds our textured layer
+            string elemPath = $"Assets/Resources/{resourceName}_Element.asset";
+            AssetDatabase.DeleteAsset(elemPath); AssetDatabase.CreateAsset(elem, elemPath); EditorUtility.SetDirty(elem);
+            AssetDatabase.SaveAssets(); AssetDatabase.Refresh();
+            var elemGuid = MakeGuid(AmplitudeGuid(elem));
+
+            // ---- selector: clone the template, reduce its building elements to our one, keep the decals ----
+            var nullGuid = MakeGuid(0, 0, 0, 0);
+            var sel = ScriptableObject.CreateInstance(tmpl.GetType());
+            CopyFields(tmpl, sel);
+            sel.name = "CityMapSelector_" + resourceName;
+            sel.GetType().GetField("companion", BF)?.SetValue(sel, null);
+            var itemsF = sel.GetType().GetField("levelBuildItems", BF);
+            if (itemsF?.GetValue(sel) is Array shared) itemsF.SetValue(sel, (Array)shared.Clone());   // don't mutate the shared template array
+            if (!(itemsF?.GetValue(sel) is Array items)) { err = "selector clone has no levelBuildItems."; return false; }
+            int bestIdx = -1; float bMax = -1f;
+            for (int i = 0; i < items.Length; i++)
+            {
+                var it = items.GetValue(i); if (it == null) continue;
+                var mat = TryLoadFx(it.GetType().GetField("EvolverMaterialGuid", BF)?.GetValue(it));
+                if (mat != null && mat.GetType().Name.Contains("BuildElement") && mat.GetType().GetField("bbox", BF)?.GetValue(mat) is Bounds bb)
+                { float m = Mathf.Max(bb.size.x, Mathf.Max(bb.size.y, bb.size.z)); if (m > bMax) { bMax = m; bestIdx = i; } }
+            }
+            int kept = 0, nulled = 0, keptOther = 0;
+            for (int i = 0; i < items.Length; i++)
+            {
+                var it = items.GetValue(i); if (it == null) continue;
+                var itt = it.GetType(); var gf = itt.GetField("EvolverMaterialGuid", BF); var lf = itt.GetField("loadedEvolverMaterial", BF);
+                var mat = TryLoadFx(gf?.GetValue(it));
+                bool isElem = mat != null && mat.GetType().Name.Contains("BuildElement");
+                if (isElem) { if (i == bestIdx) { gf?.SetValue(it, elemGuid); kept++; } else { gf?.SetValue(it, nullGuid); nulled++; } lf?.SetValue(it, null); items.SetValue(it, i); }
+                else keptOther++;
+            }
+            string selPath = $"Assets/Resources/CityMapSelector_{resourceName}.asset";
+            AssetDatabase.DeleteAsset(selPath); AssetDatabase.CreateAsset(sel, selPath); EditorUtility.SetDirty(sel);
+            AssetDatabase.SaveAssets(); AssetDatabase.Refresh();
+            selectorGuidStr = AmplitudeGuid(sel);
+            Debug.Log($"[ScopedSelector] '{resourceName}': element={AmplitudeGuid(elem)}  selector={selectorGuidStr}  (kept {kept} slot, nulled {nulled} props, left {keptOther} decal/emitter items).");
+            return true;
+        }
+        catch (Exception e) { err = e.Message; Debug.LogError("[ScopedSelector] " + e); return false; }
+    }
+
+    [MenuItem("Tools/HAF/District/Probe: NuclearTest visual template")]
+    static void ProbeNuclearTest() => ProbeDistrictVisual(new[] { -1883953677, 1215187674, -1533191005, -2060159479 }, "NuclearTest");
+    [MenuItem("Tools/HAF/District/Probe: MissileSilo visual template")]
+    static void ProbeMissileSilo() => ProbeDistrictVisual(new[] { -1158439761, 1096327552, -1625448046, -477384506 }, "MissileSilo");
+
+    static void ProbeDistrictVisual(int[] gi, string label)
+    {
+        _probeSb = new System.Text.StringBuilder();
+        string outPath = "district_visual_dump_" + label + ".txt";
+        try
+        {
+            var guidType = FindType("Amplitude.Framework.Guid");
+            if (guidType == null) { _probeSb.AppendLine("ERROR: Amplitude.Framework.Guid type not found (SDK not loaded?)."); return; }
+            object guid = Activator.CreateInstance(guidType);
+            guidType.GetField("a", BF)?.SetValue(guid, gi[0]);
+            guidType.GetField("b", BF)?.SetValue(guid, gi[1]);
+            guidType.GetField("c", BF)?.SetValue(guid, gi[2]);
+            guidType.GetField("d", BF)?.SetValue(guid, gi[3]);
+
+            var asset = TryLoadFx(guid);
+            if (asset == null)
+            {
+                _probeSb.AppendLine($"ERROR: could NOT load {label} visual by GUID {gi[0]},{gi[1]},{gi[2]},{gi[3]} (FxEvolverMaterial.TryLoad returned null).");
+                _probeSb.AppendLine("The asset may not be a plain FxEvolverMaterial, or the SDK didn't have it loaded. Try selecting it in the Project and we'll dump the selection instead.");
+                return;
+            }
+            _probeSb.AppendLine($"LOADED: type={asset.GetType().FullName}  name={(asset as UnityEngine.Object)?.name}");
+            DumpVisual(asset, 0, new HashSet<object>());
+        }
+        catch (Exception e) { _probeSb.AppendLine("EXCEPTION: " + e); }
+        finally
+        {
+            try { System.IO.File.WriteAllText(outPath, _probeSb.ToString()); } catch { }
+            Debug.Log($"[VisualProbe] {label}: wrote {System.IO.Path.GetFullPath(outPath)} — {_probeSb.ToString().Split('\n')[0]}");
+            _probeSb = null;
+        }
+    }
+    static System.Text.StringBuilder _probeSb;
+
+    // Load an Amplitude FxEvolverMaterial by its Guid (editor, synchronous) — the runtime loader, which the probe proved
+    // works in-editor. Returns null if the guid is null/unloadable.
+    static object TryLoadFx(object guid)
+    {
+        if (guid == null) return null;
+        var gt = guid.GetType();
+        bool isNull = (int)(gt.GetField("a", BF)?.GetValue(guid) ?? 0) == 0 && (int)(gt.GetField("b", BF)?.GetValue(guid) ?? 0) == 0
+                   && (int)(gt.GetField("c", BF)?.GetValue(guid) ?? 0) == 0 && (int)(gt.GetField("d", BF)?.GetValue(guid) ?? 0) == 0;
+        if (isNull) return null;
+        var fxmType = FindType("Amplitude.Graphics.Fx.FxEvolverMaterial");
+        var tryLoad = fxmType?.GetMethods(BindingFlags.Public | BindingFlags.Static)
+            .FirstOrDefault(m => m.Name == "TryLoad" && m.GetParameters().Length == 2 && m.GetParameters()[0].ParameterType == gt && m.GetParameters()[1].ParameterType == typeof(bool));
+        try { return tryLoad?.Invoke(null, new object[] { guid, true }); } catch { return null; }
+    }
+
+    // structure dump: type + any fxMesh/mesh/decalMesh; follow levelBuildItems (LOAD each item's EvolverMaterialGuid so we
+    // see the actual building element + whether a decal/footprint drawer is nested), plus selector pairs/cache.
+    static void DumpVisual(object mat, int depth, HashSet<object> seen, string ctx = "")
+    {
+        if (mat == null || depth > 6 || !seen.Add(mat)) return;
+        var t = mat.GetType();
+        string extra = "";
+        foreach (var fn in new[] { "mesh", "fxMesh", "decalMesh", "size" })
+        { var f = t.GetField(fn, BF); if (f != null) extra += $" {fn}={f.GetValue(mat)}"; }
+        var bboxF = t.GetField("bbox", BF);
+        if (bboxF?.GetValue(mat) is Bounds bb) extra += $" bbox(size={bb.size})";
+        bool isDecal = t.Name.Contains("Decal");
+        string line = $"{new string(' ', depth * 2)}{t.Name}{ctx}{extra}{(isDecal ? "   <<< DECAL / FOOTPRINT" : "")}";
+        _probeSb?.AppendLine(line);
+        if (t.GetField("levelBuildItems", BF)?.GetValue(mat) is Array items)
+            foreach (var it in items)
+            {
+                if (it == null) continue;
+                var itt = it.GetType();
+                string ic = "";
+                if (itt.GetField("Position", BF)?.GetValue(it) is Vector3 p) ic += $" pos={p}";
+                if (itt.GetField("LocalScale", BF)?.GetValue(it) is Vector3 ls) ic += $" scale={ls}";
+                var prob = itt.GetField("Probability", BF)?.GetValue(it); if (prob != null) ic += $" prob={prob}";
+                var child = itt.GetField("loadedEvolverMaterial", BF)?.GetValue(it)
+                         ?? TryLoadFx(itt.GetField("EvolverMaterialGuid", BF)?.GetValue(it));
+                DumpVisual(child, depth + 1, seen, ic);
+            }
+        var cache = t.GetField("fxMaterialCacheEntries", BF)?.GetValue(mat);
+        if (cache != null && cache.GetType().GetField("Entries", BF)?.GetValue(cache) is Array ents)
+            foreach (var en in ents) if (en != null) DumpVisual(en.GetType().GetField("FxMaterial", BF)?.GetValue(en), depth + 1, seen);
+        if (t.GetField("pairs", BF)?.GetValue(mat) is Array pairs)
+            foreach (var pr in pairs) if (pr != null)
+                DumpVisual(TryLoadFx(pr.GetType().GetField("Value", BF)?.GetValue(pr) ?? pr.GetType().GetField("Guid", BF)?.GetValue(pr)), depth + 1, seen);
+    }
 }

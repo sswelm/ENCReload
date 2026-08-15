@@ -43,6 +43,14 @@ public class DistrictDef
     public string groundMaterial = ""; // RUNTIME: terrain paint under this district (GroundMaterialDefinition name, e.g. Prairie_Grassland) — "" = the game's default (usually bare for a wonder). The plugin forces it via ApplyGroundMaterialDefinition.
     public string hexSculpt = "";      // RUNTIME: hexagon sculpting (HexagonSculptingDefinition name) — the raised terrain platform + strategic-zoom footprint. "" = the game's default (flat for a custom wonder). The plugin forces it via ApplyHexagonSculptingDefinition.
 
+    // ---- MESH strategic footprint (RUNTIME) — the district's own 3D building becomes its strategic-map footprint. See
+    // docs/District-Dedicated-Visual.md "MESH footprint". footprintMesh=false leaves the plugin's global config in charge. ----
+    public bool footprintMesh = false;          // keep the 3D building mesh visible at strategic zoom (it IS the footprint), instead of a flat decal
+    public bool footprintMeshBW = false;        // render the mesh footprint BLACK-AND-WHITE while zoomed out; full colour up close
+    public bool footprintMeshFlat = false;      // squash the mesh flat on the strategic map so it reads as a sheet, not a 3D model
+    public float footprintMeshFlatHeight = 0.17f; // flatten HEIGHT (size.y multiplier) when flat: ~0.02 = paper-flat but edges drown in rising terrain; ~0.17 reads flat yet clears the ground; 1 = full 3D
+    public bool footprintMeshHideDecal = true;  // drop the template's inherited footprint DECAL (e.g. the MissileSilo outline) that would otherwise show beneath the mesh
+
     // ---- bake-time knobs (runtime ignores; kept so re-bakes reload the same settings) ----
     public string resourceName = "";   // names the baked assets (<name>_ModelMesh / _DistrictMesh / _FxMesh)
     public string modelFile = "";      // .glb/.obj/.fbx/.blend; empty = re-bake the existing resource with new settings
@@ -60,6 +68,8 @@ public class DistrictDef
     public Vector3 posOffsetBaked = Vector3.zero; // BAKE-STATE: the posOffset the current FxMesh carries — the preview shows posOffset edits live as a delta against this
     public float clipHexPct = 0f;                 // >0 = CLIP the mesh to the tile hex at bake (100 = the exact in-game cell, 6.93 across flats), so the model tiles like a vanilla district; 0 = off
     public float foundationDepth = 0f;            // >0 = extrude the building's footprint straight DOWN into the earth by this many world units at bake (concrete plinth), so it plants on cliff/uneven tiles instead of overhanging; 0 = off
+    public string footprintDonor = "";   // RUNTIME strategic-footprint donor selector GUID "a,b,c,d" (grafted by the plugin; building stays ours). Empty = keep the footprint baked into the selector.
+    public string selectorGuid = "";     // RUNTIME: this district's baked SCOPED CityMapSelector GUID "a,b,c,d" (data-authored path — the reactor's route). Non-empty => the plugin renders it via the scoped path (mesh footprint etc.) instead of the legacy isolate/repoint path. Produced by "Bake strategic selector" in the window.
     public int atlasMaxDim = 1024;                // packed-atlas resolution (was hardcoded 512 — ten 1024² source sheets crushed to ~160² each on the temple); districts render close-up, 1024-2048 is right for multi-material models
     public int sourceTris = -1;                   // BAKE-STATE: the SOURCE model's triangle count before decimation (parsed from the Blender prep; -1 = unknown / no reduce ran)
     public List<DistrictPart> parts = new List<DistrictPart>();   // extra models composed onto the tile at bake (see DistrictPart) — runtime ignores (it ships as one merged mesh)

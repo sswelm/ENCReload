@@ -1,5 +1,49 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-7735211341499324621
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -717291864, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Extension_ArtificialWonderParticipation_Era1_Oracle
+  m_EditorClassIdentifier: 
+  Title: The Oracle
+  Description: "Through the ecstatic visions of its priestess, the Pythia, the Oracle
+    offered counsel to all who sought it. Pilgrims filled the roads to her sanctuary,
+    and around it life reorganized: fields yielded more, workshops hummed, coin changed
+    hands, and knowledge gathered. A city that held the Oracle knew a rare calm \u2014
+    whatever the question, there was an answer."
+  Images:
+  - Value:
+      guid:
+        a: -1048288069
+        b: 1265937041
+        c: 1128930697
+        d: -1034910713
+    serializableKey: ArtificialWonderCard
+  - Value:
+      guid:
+        a: 1189427500
+        b: 1287918001
+        c: 1083626381
+        d: -1652967376
+    serializableKey: Small
+  - Value:
+      guid:
+        a: 564443232
+        b: 1137226600
+        c: -1340042332
+        d: 1331653814
+    serializableKey: Tooltip
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  Symbol: 
+  SortPriority: 4
+  ConstructibleTraits: 
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24,28 +68,26 @@ MonoBehaviour:
   m_Script: {fileID: -717291864, guid: b310e23bee821cb478da05296ba685d0, type: 3}
   m_Name: Extension_ArtificialWonder_Era1_Oracle
   m_EditorClassIdentifier: 
-  Title: Oracle
-  Description: 'Mentioned in many a myth and play, the Oracle of Delphi was a conduit
-    to Apollo, the god of Light and Truth. The Oracle herself, known as the Pythia,
-    consulted with the gods by inhaling vapors of the Castalian Spring on which her
-    temple was built. This would send the Pythia into a frenzy, and from this ecstatic
-    state, the Pythia would produce her visions. The Oracle''s predictions were highly
-    regarded among many Mediterranean societies until 393 AD, when the Roman Emperor
-    Theodosius I ordered the temple''s closure. '
+  Title: The Oracle
+  Description: "Through the ecstatic visions of its priestess, the Pythia, the Oracle
+    offered counsel to all who sought it. Pilgrims filled the roads to her sanctuary,
+    and around it life reorganized: fields yielded more, workshops hummed, coin changed
+    hands, and knowledge gathered. A city that held the Oracle knew a rare calm \u2014
+    whatever the question, there was an answer."
   Images:
   - Value:
       guid:
-        a: -73870202
-        b: 1253696640
-        c: -2112723072
-        d: 2007913065
+        a: -1048288069
+        b: 1265937041
+        c: 1128930697
+        d: -1034910713
     serializableKey: ArtificialWonderCard
   - Value:
       guid:
-        a: 564443232
-        b: 1137226600
-        c: -1340042332
-        d: 1331653814
+        a: 1189427500
+        b: 1287918001
+        c: 1083626381
+        d: -1652967376
     serializableKey: Small
   - Value:
       guid:

@@ -385,6 +385,53 @@ public class DistrictFactoryWindow : EditorWindow
                     n => { cur.hexSculpt = n == "(none)" ? "" : n; Repaint(); }).Show(hexPickRect);
             if (Event.current.type == EventType.Repaint) hexPickRect = GUILayoutUtility.GetLastRect();
         }
+        // Strategic footprint (decals) — grafted onto the reactor at runtime by the plugin; the BUILDING stays ours.
+        // Distinct from "Footprint (hex sculpting)" above, which is the raised terrain platform. Only the decal footprint
+        // still lazy-builds ~1s on first zoom-out (engine limitation, docs/District-Dedicated-Visual.md).
+        // MUTUALLY EXCLUSIVE with the Mesh footprint below: when the mesh IS the footprint, any decal footprint is dropped
+        // (Hide inherited decal), so this control is greyed out and reads "(superseded by Mesh footprint)".
+        using (new EditorGUI.DisabledScope(cur.footprintMesh))
+        using (new EditorGUILayout.HorizontalScope())
+        {
+            EditorGUILayout.PrefixLabel(new GUIContent("Strategic footprint (decals)",
+                "The top-down decal footprint at strategic zoom. Picked from another district; grafted at runtime so the " +
+                "building stays your reactor. '(baked-in)' keeps whatever the selector was baked with. Some donors' nested " +
+                "decals may not transfer cleanly — check in-game. Ignored when Mesh footprint is on (the mesh is the footprint)."));
+            if (GUILayout.Button(cur.footprintMesh ? "(superseded by Mesh footprint)" : FootprintDonorLabel(cur.footprintDonor ?? "")))
+                new StringDropdown(new AdvancedDropdownState(), FootprintDonorNames, FootprintDonorNames, "Strategic footprint",
+                    n => { cur.footprintDonor = FootprintDonorGuid(n); Repaint(); }).Show(fpPickRect);
+            if (Event.current.type == EventType.Repaint) fpPickRect = GUILayoutUtility.GetLastRect();
+        }
+        // MESH strategic footprint — the district's OWN 3D building stays visible when zoomed out and BECOMES the footprint,
+        // instead of a flat decal. See docs/District-Dedicated-Visual.md "MESH footprint". OFF = the plugin's global config
+        // (DistrictFootprintMesh…) stays in charge; turning it ON here makes this entry authoritative.
+        bool prevFpMesh = cur.footprintMesh;
+        cur.footprintMesh = EditorGUILayout.ToggleLeft(new GUIContent("Mesh footprint (3D building as the footprint)",
+            "Keep this district's own 3D building mesh rendering at strategic zoom, so the footprint IS the real model — no flat/sketchy " +
+            "decal. OFF leaves the plugin's global DistrictFootprintMesh config in charge; ON makes this entry's settings authoritative."),
+            cur.footprintMesh);
+        if (cur.footprintMesh && !prevFpMesh)   // ticking it ON pre-fills the full shipped treatment — else the entry becomes
+        {                                        // authoritative with B&W/flatten OFF and the district regresses to 3D colour.
+            cur.footprintMeshBW = true; cur.footprintMeshFlat = true; cur.footprintMeshHideDecal = true;
+            if (cur.footprintMeshFlatHeight < 0.03f) cur.footprintMeshFlatHeight = 0.17f;
+        }
+        if (cur.footprintMesh)
+            using (new EditorGUI.IndentLevelScope())
+            {
+                cur.footprintMeshBW = EditorGUILayout.ToggleLeft(new GUIContent("Black & white when zoomed out",
+                    "Render the mesh footprint greyscale on the strategic map; full colour up close."), cur.footprintMeshBW);
+                cur.footprintMeshFlat = EditorGUILayout.ToggleLeft(new GUIContent("Flatten to a sheet when zoomed out",
+                    "Squash the mesh flat on the strategic map so it reads as a footprint sheet, not a 3D model poking up; full height up close."), cur.footprintMeshFlat);
+                using (new EditorGUI.DisabledScope(!cur.footprintMeshFlat))
+                    cur.footprintMeshFlatHeight = EditorGUILayout.Slider(new GUIContent("   Flatten height",
+                        "size.y multiplier when flat: ~0.02 is paper-flat but its edges drown where the tile's terrain rises over them; " +
+                        "~0.17 reads flat yet clears the ground; 1 = full 3D. Live-tunable in-game via the F8 window."),
+                        cur.footprintMeshFlatHeight, 0.02f, 1f);
+                cur.footprintMeshHideDecal = EditorGUILayout.ToggleLeft(new GUIContent("Hide the inherited decal footprint",
+                    "Drop the template's baked footprint decal (e.g. the MissileSilo outline) that would otherwise show beneath the mesh."), cur.footprintMeshHideDecal);
+            }
+        // (The scoped-selector GUID is baked automatically by Bake and saved on the entry — no UI row needed; the Bake
+        //  status line reports whether the district landed on the scoped or legacy path.)
 
         EditorGUILayout.Space();
         char badChar = '\0';
@@ -400,6 +447,12 @@ public class DistrictFactoryWindow : EditorWindow
         {
             using (new EditorGUI.DisabledScope(!canBake))
                 if (GUILayout.Button("Bake", GUILayout.Height(34))) DoBake();
+            // Persist the RUNTIME knobs (Strategic footprint, Ground, Hex sculpting, isolate, atlas GUIDs...) to
+            // haf_districts.json WITHOUT re-baking — so changing a footprint doesn't re-run the model bake or mint a new
+            // selector GUID. Only valid for an entry with a district set (Upsert keys on it).
+            using (new EditorGUI.DisabledScope(string.IsNullOrWhiteSpace(cur.district)))
+                if (GUILayout.Button(new GUIContent("Save settings", "Write this entry's runtime knobs to haf_districts.json without baking. Relaunch to apply."), GUILayout.Height(34), GUILayout.Width(110)))
+                    SaveSettingsNoBake();
             if (GUILayout.Button("Reset", GUILayout.Height(34), GUILayout.Width(72))) { cur = new DistrictDef(); selected = 0; status = ""; GUI.FocusControl(null); }
         }
         if (!canBake)
@@ -450,6 +503,21 @@ public class DistrictFactoryWindow : EditorWindow
             GUILayout.Label("↑ haf_districts.json + the plugin .cfg", EditorStyles.miniLabel);
         }
         EditorGUILayout.EndScrollView();
+    }
+
+    // Persist the current entry's runtime knobs to haf_districts.json without re-baking (Upsert keeps the existing
+    // baked GUIDs untouched). Used to change a footprint/ground/hex choice on an already-baked district.
+    void SaveSettingsNoBake()
+    {
+        cur.district = (cur.district ?? "").Trim();
+        bool ok = DistrictRegistry.Upsert(cur);
+        RefreshList();
+        selected = Array.IndexOf(existing, cur.district); if (selected < 0) selected = 0;
+        status = ok
+            ? $"Saved runtime settings for '{cur.district}' (no re-bake). Relaunch the game to apply."
+            : "Registry SAVE FAILED — see Console (is haf_districts.json locked / open elsewhere?).";
+        if (!ok) Debug.LogError("[District] " + status);
+        GUI.FocusControl(null);
     }
 
     void DoBake()
@@ -597,6 +665,15 @@ public class DistrictFactoryWindow : EditorWindow
         // albedo's exact rects, base maps blitted in, neutral fill for map-less parts — so the marble keeps its
         // relief. The v1 albedo-only shortcut turned the whole temple donor-map blue; falsified same evening.)
 
+        // 2c) SCOPED selector — bake the data-authored CityMapSelector so this district renders via the scoped path (the
+        //     reactor's route: mesh footprint, per-district texture/B&W/flatten), not the legacy isolate/repoint path.
+        //     Best-effort: the model already baked, so a selector failure (e.g. an emitter-only footprint template) just
+        //     leaves the district on the legacy path with a warning instead of aborting the whole bake.
+        if (DistrictBaker.BakeScopedSelector(cur.resourceName, out var selGuid, out var selErr))
+            cur.selectorGuid = selGuid;
+        else
+            Debug.LogWarning($"[District] '{cur.resourceName}': scoped selector NOT baked ({selErr}) — the district stays on the legacy path. Pick a single-building Footprint template (Tools/HAF/District/Footprint template...) and re-bake to migrate it.");
+
         LoadPreviewAssets(force: true);   // fresh assets exist even if the registry save below fails
 
         // 3) registry entry
@@ -611,6 +688,7 @@ public class DistrictFactoryWindow : EditorWindow
         }
         status = $"Baked district model '{cur.resourceName}' -> '{cur.district}'\nFxMesh {guid}  (verts={mesh.vertexCount}, tris={TriCount(mesh)}{(cur.sourceTris > 0 ? $", source model {cur.sourceTris:N0} tris" : "")})\n" +
                  (composeReceipt != null ? composeReceipt + "\n" : "") +
+                 (string.IsNullOrWhiteSpace(cur.selectorGuid) ? "scoped selector: NOT baked (legacy path) — see Console\n" : $"scoped selector {cur.selectorGuid} (scoped path)\n") +
                  "Check the FxMesh Inspector preview for orientation, then rebuild the mod + relaunch.";
         Debug.Log("[District] " + status);
         RunHealthChecks();   // fresh bake: the stale-bundle warning should light up until the mod is rebuilt
@@ -719,7 +797,10 @@ public class DistrictFactoryWindow : EditorWindow
             // the tile square is the TRUE in-game surface: the plane through the origin. It must NOT follow the model —
             // anchoring it under the mesh's lowest point hid a half-sunk bake (the nuclear plant surfaced only its domes
             // in-game while the preview looked grounded). A model below this plane previews sunk because it IS sunk.
-            var tileMtx = Matrix4x4.Translate(new Vector3(0f, -0.02f, 0f));
+            // The preview reference frame is oriented to match how the game draws the district cell: the hexgrid is turned
+            // +30° (a hex is 60°-symmetric, so this is its visible correction) and the compass/North indicator +150° so
+            // map North points where it actually does in-game. Both are clockwise-from-above (Unity +Y). Preview-only.
+            var tileMtx = Matrix4x4.Translate(new Vector3(0f, -0.02f, 0f)) * Matrix4x4.Rotate(Quaternion.Euler(0f, 30f, 0f));
             var frame = b; frame.Encapsulate(TransformBounds(tileMtx, TileMesh().bounds));
 
             var cam = pru.camera;
@@ -739,7 +820,7 @@ public class DistrictFactoryWindow : EditorWindow
 
             pru.DrawMesh(TileMesh(), tileMtx, pvTileMat, 0);
             if (pvArrowMesh == null) pvArrowMesh = ModelFactoryWindow.BuildCompass("DistrictCompass");
-            pru.DrawMesh(pvArrowMesh, Matrix4x4.Translate(new Vector3(0f, -0.01f, 0f)), pvFallbackMat, 0);
+            pru.DrawMesh(pvArrowMesh, Matrix4x4.Translate(new Vector3(0f, -0.01f, 0f)) * Matrix4x4.Rotate(Quaternion.Euler(0f, 150f, 0f)), pvFallbackMat, 0);
             for (int s = 0; s < pvMesh.subMeshCount; s++)
             {
                 var m = pvMats != null && pvMats.Length > 0 ? pvMats[Mathf.Min(s, pvMats.Length - 1)] : null;
@@ -856,6 +937,29 @@ public class DistrictFactoryWindow : EditorWindow
 
     // HexagonSculptingDefinition vocabulary (from the plugin's [HexSculpt] dump). EmblematicAndCityCenter* = the
     // district/building raised-platform footprints; POI_* = natural/resource point-of-interest shapes.
+    // Strategic-footprint donor districts (name -> selector GUID "a,b,c,d"). The plugin grafts the chosen donor's top-down
+    // decal footprint onto our reactor at runtime; the building stays ours. "(baked-in ...)" = keep the selector's own.
+    static readonly (string name, string guid)[] FootprintDonors =
+    {
+        ("(baked-in — keep selector's own)", ""),
+        ("Industry (factories)",   "149945011,1306056350,1706429623,-368887441"),
+        ("MissileSilo",            "-1158439761,1096327552,-1625448046,-477384506"),
+        ("NuclearTest (brick plant)","-1883953677,1215187674,-1533191005,-2060159479"),
+        ("Science",                "217712326,1333435725,1112758,601061218"),
+        ("Food",                   "-1632914879,1264979107,-860135776,898048793"),
+        ("Military",               "1990225763,1262659521,1233462935,-36990848"),
+        ("Money",                  "-1482860262,1190406099,-1169012827,610018136"),
+        ("Order",                  "307882725,1278992011,560327327,373902021"),
+        ("Harbour",                "1135955116,1293714479,321596598,-1162436722"),
+        ("SpaceLaunch (rocket pad)","-711220426,1124345735,-1819569492,72056027"),
+        ("SatelliteLaunch",        "1708676664,1196002645,-305692763,1766765912"),
+        ("HolySite",               "-1674189652,1156219232,1325226633,-1273229686"),
+    };
+    static string[] FootprintDonorNames => System.Array.ConvertAll(FootprintDonors, d => d.name);
+    static string FootprintDonorGuid(string name) { foreach (var d in FootprintDonors) if (d.name == name) return d.guid; return ""; }
+    static string FootprintDonorLabel(string guid) { foreach (var d in FootprintDonors) if (d.guid == guid) return d.name; return string.IsNullOrEmpty(guid) ? FootprintDonors[0].name : "custom (" + guid + ")"; }
+    static Rect fpPickRect;
+
     static readonly string[] HexSculptNames = BuildHexNames();
     static string[] BuildHexNames()
     {
