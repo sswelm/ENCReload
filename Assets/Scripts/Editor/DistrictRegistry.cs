@@ -43,6 +43,14 @@ public class DistrictDef
     public string groundMaterial = ""; // RUNTIME: terrain paint under this district (GroundMaterialDefinition name, e.g. Prairie_Grassland) — "" = the game's default (usually bare for a wonder). The plugin forces it via ApplyGroundMaterialDefinition.
     public string hexSculpt = "";      // RUNTIME: hexagon sculpting (HexagonSculptingDefinition name) — the raised terrain platform + strategic-zoom footprint. "" = the game's default (flat for a custom wonder). The plugin forces it via ApplyHexagonSculptingDefinition.
 
+    // ---- MESH strategic footprint (RUNTIME) — the district's own 3D building becomes its strategic-map footprint. See
+    // docs/District-Dedicated-Visual.md "MESH footprint". footprintMesh=false leaves the plugin's global config in charge. ----
+    public bool footprintMesh = false;          // keep the 3D building mesh visible at strategic zoom (it IS the footprint), instead of a flat decal
+    public bool footprintMeshBW = false;        // render the mesh footprint BLACK-AND-WHITE while zoomed out; full colour up close
+    public bool footprintMeshFlat = false;      // squash the mesh flat on the strategic map so it reads as a sheet, not a 3D model
+    public float footprintMeshFlatHeight = 0.17f; // flatten HEIGHT (size.y multiplier) when flat: ~0.02 = paper-flat but edges drown in rising terrain; ~0.17 reads flat yet clears the ground; 1 = full 3D
+    public bool footprintMeshHideDecal = true;  // drop the template's inherited footprint DECAL (e.g. the MissileSilo outline) that would otherwise show beneath the mesh
+
     // ---- bake-time knobs (runtime ignores; kept so re-bakes reload the same settings) ----
     public string resourceName = "";   // names the baked assets (<name>_ModelMesh / _DistrictMesh / _FxMesh)
     public string modelFile = "";      // .glb/.obj/.fbx/.blend; empty = re-bake the existing resource with new settings

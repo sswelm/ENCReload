@@ -399,6 +399,28 @@ public class DistrictFactoryWindow : EditorWindow
                     n => { cur.footprintDonor = FootprintDonorGuid(n); Repaint(); }).Show(fpPickRect);
             if (Event.current.type == EventType.Repaint) fpPickRect = GUILayoutUtility.GetLastRect();
         }
+        // MESH strategic footprint — the district's OWN 3D building stays visible when zoomed out and BECOMES the footprint,
+        // instead of a flat decal. See docs/District-Dedicated-Visual.md "MESH footprint". OFF = the plugin's global config
+        // (DistrictFootprintMesh…) stays in charge; turning it ON here makes this entry authoritative.
+        cur.footprintMesh = EditorGUILayout.ToggleLeft(new GUIContent("Mesh footprint (3D building as the footprint)",
+            "Keep this district's own 3D building mesh rendering at strategic zoom, so the footprint IS the real model — no flat/sketchy " +
+            "decal. OFF leaves the plugin's global DistrictFootprintMesh config in charge; ON makes this entry's settings authoritative."),
+            cur.footprintMesh);
+        if (cur.footprintMesh)
+            using (new EditorGUI.IndentLevelScope())
+            {
+                cur.footprintMeshBW = EditorGUILayout.ToggleLeft(new GUIContent("Black & white when zoomed out",
+                    "Render the mesh footprint greyscale on the strategic map; full colour up close."), cur.footprintMeshBW);
+                cur.footprintMeshFlat = EditorGUILayout.ToggleLeft(new GUIContent("Flatten to a sheet when zoomed out",
+                    "Squash the mesh flat on the strategic map so it reads as a footprint sheet, not a 3D model poking up; full height up close."), cur.footprintMeshFlat);
+                using (new EditorGUI.DisabledScope(!cur.footprintMeshFlat))
+                    cur.footprintMeshFlatHeight = EditorGUILayout.Slider(new GUIContent("   Flatten height",
+                        "size.y multiplier when flat: ~0.02 is paper-flat but its edges drown where the tile's terrain rises over them; " +
+                        "~0.17 reads flat yet clears the ground; 1 = full 3D. Live-tunable in-game via the F8 window."),
+                        cur.footprintMeshFlatHeight, 0.02f, 1f);
+                cur.footprintMeshHideDecal = EditorGUILayout.ToggleLeft(new GUIContent("Hide the inherited decal footprint",
+                    "Drop the template's baked footprint decal (e.g. the MissileSilo outline) that would otherwise show beneath the mesh."), cur.footprintMeshHideDecal);
+            }
 
         EditorGUILayout.Space();
         char badChar = '\0';
