@@ -430,6 +430,24 @@ public class DistrictFactoryWindow : EditorWindow
                 cur.footprintMeshHideDecal = EditorGUILayout.ToggleLeft(new GUIContent("Hide the inherited decal footprint",
                     "Drop the template's baked footprint decal (e.g. the MissileSilo outline) that would otherwise show beneath the mesh."), cur.footprintMeshHideDecal);
             }
+        // SCOPED rendering path — bake a data-authored CityMapSelector for this district (the reactor's route). Required to
+        // render via the scoped path (mesh footprint etc.) instead of the legacy isolate/repoint path. Non-empty = migrated.
+        using (new EditorGUILayout.HorizontalScope())
+        {
+            EditorGUILayout.LabelField(new GUIContent("Scoped selector",
+                "This district's baked CityMapSelector GUID. Non-empty = rendered via the SCOPED path (data-authored selector on the " +
+                "tile, like the reactor) — required for the Mesh footprint and to leave the legacy isolate/repoint path behind. Bake it " +
+                "at right: needs this district's FxMesh baked first, and a Footprint template chosen under Tools/HAF/District/Footprint template..."),
+                new GUIContent(string.IsNullOrWhiteSpace(cur.selectorGuid) ? "— none (legacy path)" : cur.selectorGuid));
+            using (new EditorGUI.DisabledScope(string.IsNullOrWhiteSpace(cur.resourceName)))
+                if (GUILayout.Button("Bake strategic selector", GUILayout.Width(180)))
+                {
+                    if (DistrictBaker.BakeScopedSelector((cur.resourceName ?? "").Trim(), out var sg, out var err))
+                        status = $"Baked scoped selector for '{cur.resourceName}' — GUID {(cur.selectorGuid = sg)}. Save settings + relaunch to render via the scoped path.";
+                    else { status = "Scoped selector bake FAILED: " + err; Debug.LogError("[District] " + status); }
+                    GUI.FocusControl(null);
+                }
+        }
 
         EditorGUILayout.Space();
         char badChar = '\0';

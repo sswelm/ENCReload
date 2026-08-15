@@ -896,6 +896,79 @@ public static class DistrictBaker
         Selection.activeObject = clone;
     }
 
+    // GENERALIZED 1b+1c for ANY district (the migration path off the legacy isolate/repoint route). Bakes
+    // <resourceName>_Element (the selected footprint template's largest building element, fxMesh swapped to
+    // <resourceName>_FxMesh) then CityMapSelector_<resourceName> (clone the template, repoint that one slot, null the
+    // other building props, keep every decal/emitter = the footprint). Returns the selector's Amplitude GUID "a,b,c,d".
+    // Same asset-hygiene as the reactor commands (fresh typed instance + CopyFields, cleared donor LODs, null output
+    // layer + companion). The window's "Bake strategic selector" button calls this and stores the GUID on the entry.
+    public static bool BakeScopedSelector(string resourceName, out string selectorGuidStr, out string err)
+    {
+        selectorGuidStr = null; err = null;
+        try
+        {
+            if (string.IsNullOrWhiteSpace(resourceName)) { err = "no resource name on the entry."; return false; }
+            var fxMesh = AssetDatabase.LoadAssetAtPath<UnityEngine.Object>($"Assets/Resources/{resourceName}_FxMesh.asset");
+            if (fxMesh == null) { err = $"Assets/Resources/{resourceName}_FxMesh.asset not found — bake the district model first."; return false; }
+            var meshGuid = MakeGuid(AmplitudeGuid(fxMesh));
+            if (meshGuid == null) { err = "couldn't parse the FxMesh GUID."; return false; }
+            var tmpl = TryLoadFx(FootprintTemplateGuid());
+            if (tmpl == null) { err = $"footprint template '{FootprintTemplateLabel()}' didn't load (Tools/HAF/District/Footprint template...)."; return false; }
+
+            // ---- element: clone the template's largest building element, swap in our fxMesh ----
+            object best = null; float bestMax = -1f;
+            FindLargestElement(tmpl, 0, new HashSet<object>(), ref best, ref bestMax);
+            if (best == null || !(best is UnityEngine.Object)) { err = "no building Element found in the template."; return false; }
+            var elem = ScriptableObject.CreateInstance(best.GetType());
+            CopyFields(best, elem);
+            elem.name = resourceName + "_Element";
+            var mf = elem.GetType().GetField("fxMesh", BF); if (mf == null) { err = "element has no fxMesh field (SDK changed?)."; return false; }
+            mf.SetValue(elem, meshGuid);
+            var lodsF = elem.GetType().GetField("fxMeshContentLods", BF); if (lodsF != null) lodsF.SetValue(elem, Array.CreateInstance(lodsF.FieldType.GetElementType(), 0));
+            var fmcF = elem.GetType().GetField("fxMeshContent", BF); if (fmcF != null) fmcF.SetValue(elem, Activator.CreateInstance(fmcF.FieldType));
+            elem.GetType().GetField("outputLayer", BF)?.SetValue(elem, null);   // runtime hook binds our textured layer
+            string elemPath = $"Assets/Resources/{resourceName}_Element.asset";
+            AssetDatabase.DeleteAsset(elemPath); AssetDatabase.CreateAsset(elem, elemPath); EditorUtility.SetDirty(elem);
+            AssetDatabase.SaveAssets(); AssetDatabase.Refresh();
+            var elemGuid = MakeGuid(AmplitudeGuid(elem));
+
+            // ---- selector: clone the template, reduce its building elements to our one, keep the decals ----
+            var nullGuid = MakeGuid(0, 0, 0, 0);
+            var sel = ScriptableObject.CreateInstance(tmpl.GetType());
+            CopyFields(tmpl, sel);
+            sel.name = "CityMapSelector_" + resourceName;
+            sel.GetType().GetField("companion", BF)?.SetValue(sel, null);
+            var itemsF = sel.GetType().GetField("levelBuildItems", BF);
+            if (itemsF?.GetValue(sel) is Array shared) itemsF.SetValue(sel, (Array)shared.Clone());   // don't mutate the shared template array
+            if (!(itemsF?.GetValue(sel) is Array items)) { err = "selector clone has no levelBuildItems."; return false; }
+            int bestIdx = -1; float bMax = -1f;
+            for (int i = 0; i < items.Length; i++)
+            {
+                var it = items.GetValue(i); if (it == null) continue;
+                var mat = TryLoadFx(it.GetType().GetField("EvolverMaterialGuid", BF)?.GetValue(it));
+                if (mat != null && mat.GetType().Name.Contains("BuildElement") && mat.GetType().GetField("bbox", BF)?.GetValue(mat) is Bounds bb)
+                { float m = Mathf.Max(bb.size.x, Mathf.Max(bb.size.y, bb.size.z)); if (m > bMax) { bMax = m; bestIdx = i; } }
+            }
+            int kept = 0, nulled = 0, keptOther = 0;
+            for (int i = 0; i < items.Length; i++)
+            {
+                var it = items.GetValue(i); if (it == null) continue;
+                var itt = it.GetType(); var gf = itt.GetField("EvolverMaterialGuid", BF); var lf = itt.GetField("loadedEvolverMaterial", BF);
+                var mat = TryLoadFx(gf?.GetValue(it));
+                bool isElem = mat != null && mat.GetType().Name.Contains("BuildElement");
+                if (isElem) { if (i == bestIdx) { gf?.SetValue(it, elemGuid); kept++; } else { gf?.SetValue(it, nullGuid); nulled++; } lf?.SetValue(it, null); items.SetValue(it, i); }
+                else keptOther++;
+            }
+            string selPath = $"Assets/Resources/CityMapSelector_{resourceName}.asset";
+            AssetDatabase.DeleteAsset(selPath); AssetDatabase.CreateAsset(sel, selPath); EditorUtility.SetDirty(sel);
+            AssetDatabase.SaveAssets(); AssetDatabase.Refresh();
+            selectorGuidStr = AmplitudeGuid(sel);
+            Debug.Log($"[ScopedSelector] '{resourceName}': element={AmplitudeGuid(elem)}  selector={selectorGuidStr}  (kept {kept} slot, nulled {nulled} props, left {keptOther} decal/emitter items).");
+            return true;
+        }
+        catch (Exception e) { err = e.Message; Debug.LogError("[ScopedSelector] " + e); return false; }
+    }
+
     [MenuItem("Tools/HAF/District/Probe: NuclearTest visual template")]
     static void ProbeNuclearTest() => ProbeDistrictVisual(new[] { -1883953677, 1215187674, -1533191005, -2060159479 }, "NuclearTest");
     [MenuItem("Tools/HAF/District/Probe: MissileSilo visual template")]
