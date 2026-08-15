@@ -430,14 +430,8 @@ public class DistrictFactoryWindow : EditorWindow
                 cur.footprintMeshHideDecal = EditorGUILayout.ToggleLeft(new GUIContent("Hide the inherited decal footprint",
                     "Drop the template's baked footprint decal (e.g. the MissileSilo outline) that would otherwise show beneath the mesh."), cur.footprintMeshHideDecal);
             }
-        // SCOPED rendering path — read-only status. Baked automatically as part of Bake (below): non-empty = this district
-        // renders via the scoped path (mesh footprint etc.); empty = legacy isolate/repoint path (selector bake was skipped
-        // or failed — see the Console, and pick a single-building Footprint template under Tools/HAF/District).
-        EditorGUILayout.LabelField(new GUIContent("Scoped selector",
-            "Baked automatically by Bake. Non-empty = rendered via the SCOPED path (data-authored selector on the tile, like the " +
-            "reactor) — needed for the Mesh footprint. Empty = legacy isolate/repoint path (bake failed/skipped; needs a single-building " +
-            "Footprint template chosen under Tools/HAF/District/Footprint template...)."),
-            new GUIContent(string.IsNullOrWhiteSpace(cur.selectorGuid) ? "— none (legacy path)" : cur.selectorGuid));
+        // (The scoped-selector GUID is baked automatically by Bake and saved on the entry — no UI row needed; the Bake
+        //  status line reports whether the district landed on the scoped or legacy path.)
 
         EditorGUILayout.Space();
         char badChar = '\0';
