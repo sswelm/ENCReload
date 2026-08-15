@@ -9,6 +9,11 @@
             "isolate": true,
             "groundMaterial": "Prairie_Mediterranean",
             "hexSculpt": "EmblematicAndCityCenter26",
+            "footprintMesh": false,
+            "footprintMeshBW": false,
+            "footprintMeshFlat": false,
+            "footprintMeshFlatHeight": 0.17000000178813935,
+            "footprintMeshHideDecal": true,
             "resourceName": "greek_temple",
             "modelFile": "D:/3DModels/Greek Temple/greek_temple.glb",
             "rotation": {
@@ -40,6 +45,8 @@
                 "z": 0.0
             },
             "clipHexPct": 0.0,
+            "foundationDepth": 0.0,
+            "footprintDonor": "",
             "atlasMaxDim": 1024,
             "sourceTris": 31426,
             "parts": [
@@ -87,8 +94,13 @@
             "normalAtlasGuid": "",
             "roughAtlasGuid": "",
             "isolate": true,
-            "groundMaterial": "",
+            "groundMaterial": "Constructible_Temperate_03",
             "hexSculpt": "",
+            "footprintMesh": true,
+            "footprintMeshBW": true,
+            "footprintMeshFlat": true,
+            "footprintMeshFlatHeight": 0.17000000178813935,
+            "footprintMeshHideDecal": true,
             "resourceName": "BreederReactor",
             "modelFile": "D:/3DModels/Nuclear Power Plant/lowpoly_nuclear_powerplant.glb",
             "rotation": {
@@ -112,14 +124,16 @@
             "posOffset": {
                 "x": 0.0,
                 "y": 0.0,
-                "z": 0.0
+                "z": 0.009999999776482582
             },
             "posOffsetBaked": {
                 "x": 0.0,
                 "y": 0.0,
-                "z": 0.0
+                "z": 0.009999999776482582
             },
             "clipHexPct": 0.0,
+            "foundationDepth": 0.5,
+            "footprintDonor": "-1158439761,1096327552,-1625448046,-477384506",
             "atlasMaxDim": 1024,
             "sourceTris": 26220,
             "parts": []
