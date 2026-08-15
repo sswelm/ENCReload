@@ -388,13 +388,16 @@ public class DistrictFactoryWindow : EditorWindow
         // Strategic footprint (decals) — grafted onto the reactor at runtime by the plugin; the BUILDING stays ours.
         // Distinct from "Footprint (hex sculpting)" above, which is the raised terrain platform. Only the decal footprint
         // still lazy-builds ~1s on first zoom-out (engine limitation, docs/District-Dedicated-Visual.md).
+        // MUTUALLY EXCLUSIVE with the Mesh footprint below: when the mesh IS the footprint, any decal footprint is dropped
+        // (Hide inherited decal), so this control is greyed out and reads "(superseded by Mesh footprint)".
+        using (new EditorGUI.DisabledScope(cur.footprintMesh))
         using (new EditorGUILayout.HorizontalScope())
         {
             EditorGUILayout.PrefixLabel(new GUIContent("Strategic footprint (decals)",
                 "The top-down decal footprint at strategic zoom. Picked from another district; grafted at runtime so the " +
                 "building stays your reactor. '(baked-in)' keeps whatever the selector was baked with. Some donors' nested " +
-                "decals may not transfer cleanly — check in-game."));
-            if (GUILayout.Button(FootprintDonorLabel(cur.footprintDonor ?? "")))
+                "decals may not transfer cleanly — check in-game. Ignored when Mesh footprint is on (the mesh is the footprint)."));
+            if (GUILayout.Button(cur.footprintMesh ? "(superseded by Mesh footprint)" : FootprintDonorLabel(cur.footprintDonor ?? "")))
                 new StringDropdown(new AdvancedDropdownState(), FootprintDonorNames, FootprintDonorNames, "Strategic footprint",
                     n => { cur.footprintDonor = FootprintDonorGuid(n); Repaint(); }).Show(fpPickRect);
             if (Event.current.type == EventType.Repaint) fpPickRect = GUILayoutUtility.GetLastRect();
