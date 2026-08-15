@@ -916,9 +916,15 @@ public static class DistrictBaker
             if (tmpl == null) { err = $"footprint template '{FootprintTemplateLabel()}' didn't load (Tools/HAF/District/Footprint template...)."; return false; }
 
             // ---- element: clone the template's largest building element, swap in our fxMesh ----
+            // WARM the template tree first: its building elements load lazily on first touch (a cold TryLoadFx returns the
+            // shell before the child materials resolve), so a first pass primes the cache and the second actually finds them
+            // — same effect as running Tools/HAF/District/Probe before the reactor's 1b.
+            object warm = null; float warmMax = -1f;
+            FindLargestElement(tmpl, 0, new HashSet<object>(), ref warm, ref warmMax);
             object best = null; float bestMax = -1f;
             FindLargestElement(tmpl, 0, new HashSet<object>(), ref best, ref bestMax);
-            if (best == null || !(best is UnityEngine.Object)) { err = "no building Element found in the template."; return false; }
+            if (best == null || !(best is UnityEngine.Object))
+            { err = $"no building Element found in template '{FootprintTemplateLabel()}'. Run Tools/HAF/District/Probe: {FootprintTemplateLabel().Split(' ')[0]} visual template once to warm it, then re-bake (or pick a different Footprint template — only single-building families like NuclearTest / MissileSilo reduce cleanly)."; return false; }
             var elem = ScriptableObject.CreateInstance(best.GetType());
             CopyFields(best, elem);
             elem.name = resourceName + "_Element";
