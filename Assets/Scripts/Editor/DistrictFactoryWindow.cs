@@ -430,24 +430,14 @@ public class DistrictFactoryWindow : EditorWindow
                 cur.footprintMeshHideDecal = EditorGUILayout.ToggleLeft(new GUIContent("Hide the inherited decal footprint",
                     "Drop the template's baked footprint decal (e.g. the MissileSilo outline) that would otherwise show beneath the mesh."), cur.footprintMeshHideDecal);
             }
-        // SCOPED rendering path — bake a data-authored CityMapSelector for this district (the reactor's route). Required to
-        // render via the scoped path (mesh footprint etc.) instead of the legacy isolate/repoint path. Non-empty = migrated.
-        using (new EditorGUILayout.HorizontalScope())
-        {
-            EditorGUILayout.LabelField(new GUIContent("Scoped selector",
-                "This district's baked CityMapSelector GUID. Non-empty = rendered via the SCOPED path (data-authored selector on the " +
-                "tile, like the reactor) — required for the Mesh footprint and to leave the legacy isolate/repoint path behind. Bake it " +
-                "at right: needs this district's FxMesh baked first, and a Footprint template chosen under Tools/HAF/District/Footprint template..."),
-                new GUIContent(string.IsNullOrWhiteSpace(cur.selectorGuid) ? "— none (legacy path)" : cur.selectorGuid));
-            using (new EditorGUI.DisabledScope(string.IsNullOrWhiteSpace(cur.resourceName)))
-                if (GUILayout.Button("Bake strategic selector", GUILayout.Width(180)))
-                {
-                    if (DistrictBaker.BakeScopedSelector((cur.resourceName ?? "").Trim(), out var sg, out var err))
-                        status = $"Baked scoped selector for '{cur.resourceName}' — GUID {(cur.selectorGuid = sg)}. Save settings + relaunch to render via the scoped path.";
-                    else { status = "Scoped selector bake FAILED: " + err; Debug.LogError("[District] " + status); }
-                    GUI.FocusControl(null);
-                }
-        }
+        // SCOPED rendering path — read-only status. Baked automatically as part of Bake (below): non-empty = this district
+        // renders via the scoped path (mesh footprint etc.); empty = legacy isolate/repoint path (selector bake was skipped
+        // or failed — see the Console, and pick a single-building Footprint template under Tools/HAF/District).
+        EditorGUILayout.LabelField(new GUIContent("Scoped selector",
+            "Baked automatically by Bake. Non-empty = rendered via the SCOPED path (data-authored selector on the tile, like the " +
+            "reactor) — needed for the Mesh footprint. Empty = legacy isolate/repoint path (bake failed/skipped; needs a single-building " +
+            "Footprint template chosen under Tools/HAF/District/Footprint template...)."),
+            new GUIContent(string.IsNullOrWhiteSpace(cur.selectorGuid) ? "— none (legacy path)" : cur.selectorGuid));
 
         EditorGUILayout.Space();
         char badChar = '\0';
@@ -681,6 +671,15 @@ public class DistrictFactoryWindow : EditorWindow
         // albedo's exact rects, base maps blitted in, neutral fill for map-less parts — so the marble keeps its
         // relief. The v1 albedo-only shortcut turned the whole temple donor-map blue; falsified same evening.)
 
+        // 2c) SCOPED selector — bake the data-authored CityMapSelector so this district renders via the scoped path (the
+        //     reactor's route: mesh footprint, per-district texture/B&W/flatten), not the legacy isolate/repoint path.
+        //     Best-effort: the model already baked, so a selector failure (e.g. an emitter-only footprint template) just
+        //     leaves the district on the legacy path with a warning instead of aborting the whole bake.
+        if (DistrictBaker.BakeScopedSelector(cur.resourceName, out var selGuid, out var selErr))
+            cur.selectorGuid = selGuid;
+        else
+            Debug.LogWarning($"[District] '{cur.resourceName}': scoped selector NOT baked ({selErr}) — the district stays on the legacy path. Pick a single-building Footprint template (Tools/HAF/District/Footprint template...) and re-bake to migrate it.");
+
         LoadPreviewAssets(force: true);   // fresh assets exist even if the registry save below fails
 
         // 3) registry entry
@@ -695,6 +694,7 @@ public class DistrictFactoryWindow : EditorWindow
         }
         status = $"Baked district model '{cur.resourceName}' -> '{cur.district}'\nFxMesh {guid}  (verts={mesh.vertexCount}, tris={TriCount(mesh)}{(cur.sourceTris > 0 ? $", source model {cur.sourceTris:N0} tris" : "")})\n" +
                  (composeReceipt != null ? composeReceipt + "\n" : "") +
+                 (string.IsNullOrWhiteSpace(cur.selectorGuid) ? "scoped selector: NOT baked (legacy path) — see Console\n" : $"scoped selector {cur.selectorGuid} (scoped path)\n") +
                  "Check the FxMesh Inspector preview for orientation, then rebuild the mod + relaunch.";
         Debug.Log("[District] " + status);
         RunHealthChecks();   // fresh bake: the stale-bundle warning should light up until the mod is rebuilt
