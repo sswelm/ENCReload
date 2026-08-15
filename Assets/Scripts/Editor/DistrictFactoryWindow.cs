@@ -405,10 +405,16 @@ public class DistrictFactoryWindow : EditorWindow
         // MESH strategic footprint — the district's OWN 3D building stays visible when zoomed out and BECOMES the footprint,
         // instead of a flat decal. See docs/District-Dedicated-Visual.md "MESH footprint". OFF = the plugin's global config
         // (DistrictFootprintMesh…) stays in charge; turning it ON here makes this entry authoritative.
+        bool prevFpMesh = cur.footprintMesh;
         cur.footprintMesh = EditorGUILayout.ToggleLeft(new GUIContent("Mesh footprint (3D building as the footprint)",
             "Keep this district's own 3D building mesh rendering at strategic zoom, so the footprint IS the real model — no flat/sketchy " +
             "decal. OFF leaves the plugin's global DistrictFootprintMesh config in charge; ON makes this entry's settings authoritative."),
             cur.footprintMesh);
+        if (cur.footprintMesh && !prevFpMesh)   // ticking it ON pre-fills the full shipped treatment — else the entry becomes
+        {                                        // authoritative with B&W/flatten OFF and the district regresses to 3D colour.
+            cur.footprintMeshBW = true; cur.footprintMeshFlat = true; cur.footprintMeshHideDecal = true;
+            if (cur.footprintMeshFlatHeight < 0.03f) cur.footprintMeshFlatHeight = 0.17f;
+        }
         if (cur.footprintMesh)
             using (new EditorGUI.IndentLevelScope())
             {
