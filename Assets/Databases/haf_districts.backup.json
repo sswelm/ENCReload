@@ -9,9 +9,9 @@
             "isolate": true,
             "groundMaterial": "Prairie_Mediterranean",
             "hexSculpt": "EmblematicAndCityCenter26",
-            "footprintMesh": false,
-            "footprintMeshBW": false,
-            "footprintMeshFlat": false,
+            "footprintMesh": true,
+            "footprintMeshBW": true,
+            "footprintMeshFlat": true,
             "footprintMeshFlatHeight": 0.17000000178813935,
             "footprintMeshHideDecal": true,
             "resourceName": "greek_temple",
@@ -47,6 +47,7 @@
             "clipHexPct": 0.0,
             "foundationDepth": 0.0,
             "footprintDonor": "",
+            "selectorGuid": "189444280,1192320557,-1924479337,810561797",
             "atlasMaxDim": 1024,
             "sourceTris": 31426,
             "parts": [
@@ -61,25 +62,25 @@
                     "facing": 0.0,
                     "posOffset": {
                         "x": 1.5,
-                        "y": 0.0,
+                        "y": -0.4000000059604645,
                         "z": 1.5
                     },
-                    "alphaBoost": 1.0,
-                    "leafScale": 3.0,
+                    "alphaBoost": 2.5,
+                    "leafScale": 1.5,
                     "copies": [
                         {
                             "x": 1.5,
-                            "y": 0.0,
+                            "y": -0.4000000059604645,
                             "z": -1.5
                         },
                         {
                             "x": -1.5,
-                            "y": 0.0,
+                            "y": -0.4000000059604645,
                             "z": 1.5
                         },
                         {
                             "x": -1.5,
-                            "y": 0.0,
+                            "y": -0.4000000059604645,
                             "z": -1.5
                         }
                     ],
@@ -134,6 +135,7 @@
             "clipHexPct": 0.0,
             "foundationDepth": 0.5,
             "footprintDonor": "-1158439761,1096327552,-1625448046,-477384506",
+            "selectorGuid": "",
             "atlasMaxDim": 1024,
             "sourceTris": 26220,
             "parts": []
