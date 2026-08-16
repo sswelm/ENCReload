@@ -19,10 +19,8 @@ public enum MaterialMode { Auto = 0, Single = 1, Multi = 2 }
 [Serializable]
 public class ModelDef : Haf.Schema.HafModelSchema
 {
-    public string pawnDescription = "";
     public string modelFile = "";
     public Vector3 rotation;            // rotation offset (deg)
-    public Vector3 position;            // position offset (z = waterline)
     public float size = 5f;             // world length of the model's longest axis
     public int normalsMode = 1;         // 0 KeepModel, 1 Recalculate, 2 Faceted
     public float smoothingAngle = 20f;
