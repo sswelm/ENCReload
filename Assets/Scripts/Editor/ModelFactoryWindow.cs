@@ -770,34 +770,36 @@ public class ModelFactoryWindow : EditorWindow
                 }
             }
         }
-        cur.respawnAfterLoad = EditorGUILayout.Toggle(new GUIContent("Re-spawn after load (borrowed rotor fix)",
-            "FIX for the save-load first-instance rotor bug: on a save-load the engine draws the FIRST custom-helicopter " +
-            "pawn with its borrowed donor rotor ~1 unit low; anything (re)built after load is correct. Tick this and the " +
-            "plugin re-runs the game's own pawn rebuild on this model's units ~3s after load, clearing it (a brief one-time " +
-            "flicker as they rebuild). Tick ONLY for models that borrow a donor's animated sub-part (a spinning rotor); " +
-            "pointless flicker otherwise."), cur.respawnAfterLoad);
-
-        cur.freezeDonorAnim = EditorGUILayout.Toggle(new GUIContent("Freeze donor animation",
-            "Stop the DONOR's idle/move animation from bobbing your STATIC mesh. A borrowed mesh inherits the donor's pose " +
-            "wiggle (e.g. a Recon-Drone donor's hover bob looks wrong on a big airship). Tick this and the plugin pins every " +
-            "pose's time to frame 0 each frame, holding the mesh rigid — it still glides tile-to-tile (that's transform-driven, " +
-            "not animation). Static models only; animated models play their own baked clip. No re-bake, just rebuild the mod."),
-            cur.freezeDonorAnim);
-
-        cur.silenceDonorVfx = EditorGUILayout.Toggle(new GUIContent("Silence donor VFX (flashes)",
-            "Suppress the DONOR's animation-driven VFX on this unit — muzzle flashes, animator smoke puffs. Those effects " +
-            "anchor to DONOR bone names that don't exist on your injected skeleton, so they render misplaced (the AA-gun " +
-            "flash floating in mid-air). VFX only: the donor's SOUNDS are untouched (use 'Silence donor sound' in the Sound " +
-            "Studio for those). Runtime-only — no re-bake, just rebuild the mod."),
-            cur.silenceDonorVfx);
-
-        cur.useDonorClip = EditorGUILayout.Toggle(new GUIContent("Use donor animation clip",
-            "Keep the DONOR's own animation playing on your injected skeleton instead of your baked clip (helicopter " +
-            "flight motion: body bob + rotor spin from the donor). The donor's channels grab our bones BY INDEX, so the " +
-            "rig must be built to donor convention — same bone count/order (body, main rotor, tail rotor; no extra Gun " +
-            "bone) with identity rests (the Vehicle Lab's rotor bones + the plugin's root rebase handle this). " +
-            "Runtime-only — no re-bake, just rebuild the mod."),
-            cur.useDonorClip);
+        // Four runtime toggles on one right-aligned row (ToggleLeft = checkbox then label; leading FlexibleSpace right-aligns).
+        using (new EditorGUILayout.HorizontalScope())
+        {
+            GUILayout.FlexibleSpace();
+            cur.respawnAfterLoad = EditorGUILayout.ToggleLeft(new GUIContent("Re-spawn after load (borrowed rotor fix)",
+                "FIX for the save-load first-instance rotor bug: on a save-load the engine draws the FIRST custom-helicopter " +
+                "pawn with its borrowed donor rotor ~1 unit low; anything (re)built after load is correct. Tick this and the " +
+                "plugin re-runs the game's own pawn rebuild on this model's units ~3s after load, clearing it (a brief one-time " +
+                "flicker as they rebuild). Tick ONLY for models that borrow a donor's animated sub-part (a spinning rotor); " +
+                "pointless flicker otherwise."), cur.respawnAfterLoad, GUILayout.Width(285));
+            cur.freezeDonorAnim = EditorGUILayout.ToggleLeft(new GUIContent("Freeze donor animation",
+                "Stop the DONOR's idle/move animation from bobbing your STATIC mesh. A borrowed mesh inherits the donor's pose " +
+                "wiggle (e.g. a Recon-Drone donor's hover bob looks wrong on a big airship). Tick this and the plugin pins every " +
+                "pose's time to frame 0 each frame, holding the mesh rigid — it still glides tile-to-tile (that's transform-driven, " +
+                "not animation). Static models only; animated models play their own baked clip. No re-bake, just rebuild the mod."),
+                cur.freezeDonorAnim, GUILayout.Width(165));
+            cur.silenceDonorVfx = EditorGUILayout.ToggleLeft(new GUIContent("Silence donor VFX (flashes)",
+                "Suppress the DONOR's animation-driven VFX on this unit — muzzle flashes, animator smoke puffs. Those effects " +
+                "anchor to DONOR bone names that don't exist on your injected skeleton, so they render misplaced (the AA-gun " +
+                "flash floating in mid-air). VFX only: the donor's SOUNDS are untouched (use 'Silence donor sound' in the Sound " +
+                "Studio for those). Runtime-only — no re-bake, just rebuild the mod."),
+                cur.silenceDonorVfx, GUILayout.Width(195));
+            cur.useDonorClip = EditorGUILayout.ToggleLeft(new GUIContent("Use donor animation clip",
+                "Keep the DONOR's own animation playing on your injected skeleton instead of your baked clip (helicopter " +
+                "flight motion: body bob + rotor spin from the donor). The donor's channels grab our bones BY INDEX, so the " +
+                "rig must be built to donor convention — same bone count/order (body, main rotor, tail rotor; no extra Gun " +
+                "bone) with identity rests (the Vehicle Lab's rotor bones + the plugin's root rebase handle this). " +
+                "Runtime-only — no re-bake, just rebuild the mod."),
+                cur.useDonorClip, GUILayout.Width(175));
+        }
 
         // FLIGHT CHARACTER: the family of knobs that decide how a unit CARRIES ITSELF while moving — whose
         // animation plays (donor clip, above), how it changes heading (turn ease), how it holds altitude
