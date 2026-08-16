@@ -815,7 +815,8 @@ public class ModelFactoryWindow : EditorWindow
             "Protect the extracted albedo from being regenerated, so a hand-edited texture (e.g. in paint.net) survives " +
             "re-bakes. ANIMATED models: this is the checkbox's ONLY effect — geometry is re-processed automatically " +
             "whenever a relevant setting changes (rotation, tris, clip, bones, material, model file), so rotation etc. " +
-            "always respond. STATIC models: also reuses the extracted OBJ (skip re-import, fast iteration)."), cur.reuseExtracted);
+            "always respond. STATIC models: also reuses the extracted OBJ for fast iteration, but re-extracts " +
+            "automatically when the source file, converter, or a convert arg (grid/strip/reduce/double-sided) changes."), cur.reuseExtracted);
 
         EditorGUILayout.Space();
         // A brand-new resource (<New>) has nothing to re-bake, so it also needs a model file; an existing one may leave

@@ -980,9 +980,45 @@ public static class UniversalBaker
         string projRoot = Directory.GetParent(Application.dataPath).FullName;
         bool haveObj = File.Exists(Path.Combine(projRoot, objPath)) || File.Exists(Path.Combine(projRoot, resDir + "/" + name + ".fbx"));
 
-        // --- 0) (re)import the model. Skipped when "Reuse extracted files" is on AND files already exist, so manual
-        //        OBJ/albedo edits survive a re-bake. Still imports on the first bake, or whenever reuse is off. ---
-        if (!string.IsNullOrEmpty(cfg.modelFile) && (!cfg.reuseExtracted || !haveObj))
+        // STATIC EXTRACTION CACHE-BUSTERS (review #5 — mirror BuildAnimatedInner's slim busters). With 'Reuse
+        // extracted' on, the block below was skipped whenever the OBJ merely EXISTED, so a changed SOURCE FILE, a
+        // changed CONVERTER, or a changed CONVERT ARG (grid / strip / reduce / double-sided — all of which shape the
+        // extracted OBJ) was silently ignored and a stale OBJ re-baked (the "rotation doesn't respond" trap). Re-
+        // extract when any of them changed, exactly as the animated path does for its slim FBX.
+        string cachedFull = File.Exists(Path.Combine(projRoot, objPath)) ? Path.Combine(projRoot, objPath)
+                          : File.Exists(Path.Combine(projRoot, resDir + "/" + name + ".fbx")) ? Path.Combine(projRoot, resDir + "/" + name + ".fbx")
+                          : null;
+        System.DateTime cacheTime = cachedFull != null ? File.GetLastWriteTimeUtc(cachedFull) : System.DateTime.MinValue;
+        // tool buster: glbconv (glb/gltf/blend) or prep_model.py (when strip/reduce runs) newer than the cached model
+        string glbconvExe = Path.Combine(projRoot, "Tools", "glbconv", "glbconv.exe");
+        string glbconvDll = Path.Combine(projRoot, "Tools", "glbconv", "glbconv.dll");
+        string prepScript = Path.Combine(projRoot, "Tools", "prep_model.py");
+        bool toolNewer = cachedFull != null &&
+            ((File.Exists(glbconvExe) && File.GetLastWriteTimeUtc(glbconvExe) > cacheTime) ||
+             (File.Exists(glbconvDll) && File.GetLastWriteTimeUtc(glbconvDll) > cacheTime) ||
+             (File.Exists(prepScript) && File.GetLastWriteTimeUtc(prepScript) > cacheTime));
+        if (toolNewer) Debug.Log($"[Factory] {name}: the converter/prep tool is newer than the extracted model — re-extracting (tool changed).");
+        // source buster: the picked model file newer than the cached extract
+        bool srcNewer = !string.IsNullOrEmpty(cfg.modelFile) && File.Exists(cfg.modelFile) && cachedFull != null &&
+                        File.GetLastWriteTimeUtc(cfg.modelFile) > cacheTime;
+        if (srcNewer) Debug.Log($"[Factory] {name}: the source model file is newer than the extracted model — re-extracting (source changed).");
+        // settings-fingerprint buster: the extract-shaping args, stamped in a sidecar next to the OBJ (mirrors the
+        // animated .args.txt). Also catches a SWITCH to a different source whose mtime isn't newer than the cache.
+        var sinv = System.Globalization.CultureInfo.InvariantCulture;
+        string extractArgsKey = string.Join("|",
+            cfg.modelFile ?? "",
+            cfg.convertGrid.ToString(sinv),
+            (cfg.stripParts ?? "").Trim(),
+            cfg.targetTris > 0 ? cfg.targetTris.ToString(sinv) : "0",
+            cfg.doubleSided ? "1" : "0");   // double-sided halves the reduce target -> shapes the OBJ
+        string extractArgsFull = Path.Combine(projRoot, resDir, name + ".extract.args.txt");
+        bool argsChanged = cachedFull != null && (!File.Exists(extractArgsFull) || File.ReadAllText(extractArgsFull) != extractArgsKey);
+        if (argsChanged) Debug.Log($"[Factory] {name}: an extract setting changed (source/grid/strip/reduce/double-sided) — re-extracting.");
+
+        // --- 0) (re)import the model. Skipped only when "Reuse extracted files" is on, the files exist, AND none of
+        //        the busters above fired — so manual OBJ/albedo edits survive a re-bake while a changed source/tool/
+        //        arg still re-extracts. Always imports on the first bake, or whenever reuse is off. ---
+        if (!string.IsNullOrEmpty(cfg.modelFile) && (!cfg.reuseExtracted || !haveObj || toolNewer || srcNewer || argsChanged))
         {
             string srcFile = cfg.modelFile;
             // Optional PRE-BAKE PREP (strip + reduce) in ONE Blender session: import once, delete named objects (+ their
@@ -1048,6 +1084,8 @@ public static class UniversalBaker
                 }
             }
             else return Fail("unsupported model format: " + ext);
+            try { File.WriteAllText(extractArgsFull, extractArgsKey); }   // stamp the fingerprint so the next bake can detect a changed extract input
+            catch { /* best-effort: a missing/failed stamp just forces a harmless re-extract next bake */ }
             AssetDatabase.Refresh();
         }
         // Force a SYNCHRONOUS import of the freshly-copied model before loading it. AssetDatabase.Refresh() can defer the
