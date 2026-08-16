@@ -576,6 +576,10 @@ public class ModelFactoryWindow : EditorWindow
 
         EditorGUILayout.Space();
         EditorGUILayout.LabelField("Transform", EditorStyles.miniBoldLabel);
+        // wideMode: a custom EditorWindow defaults it to false, which makes Vector3Field wrap the XYZ onto a second
+        // line under the label. Force it true so label + X/Y/Z sit on one line (the window is plenty wide for both).
+        bool prevWide = EditorGUIUtility.wideMode;
+        EditorGUIUtility.wideMode = true;
         cur.rotation = EditorGUILayout.Vector3Field("Rotation offset (XYZ)", cur.rotation);
         cur.position = EditorGUILayout.Vector3Field(new GUIContent("Position offset (Z = waterline)",
             "Move the model relative to its pawn, in GAME units: X sway, Y fore/aft, Z vertical (− sinks; the Zumwalt " +
@@ -583,6 +587,7 @@ public class ModelFactoryWindow : EditorWindow
             "every frame, in the pawn's frame (turns with the unit) — previewed LIVE, and needs only Save settings + a " +
             "mod rebuild, no re-bake. (One dial, one application: a bake-time copy briefly existed and DOUBLED every " +
             "offset — the helicopter flew at exactly 2× its dialed height; removed 2026-08-07.)"), cur.position);
+        EditorGUIUtility.wideMode = prevWide;
         using (new EditorGUILayout.HorizontalScope())
         {
             // Keep the Size input compact (not full-width) but sized RELATIVE to the label column — a fixed 220 left the
