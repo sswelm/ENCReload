@@ -448,28 +448,38 @@ public class ModelFactoryWindow : EditorWindow
                     // text field meant editing the name then Remove would delete a DIFFERENT model — or nothing — while
                     // still reporting "Removed". Also branch the status on Remove's actual result.
                     var name = selected > 0 && selected < existing.Length ? existing[selected] : null;
-                    if (!string.IsNullOrEmpty(name) &&
-                        EditorUtility.DisplayDialog("Remove model",
-                            $"Remove '{name}' from the registry? The plugin will stop injecting it on next launch. " +
-                            "(The baked skeleton/atlas assets stay in the project.)", "Remove", "Cancel"))
+                    if (!string.IsNullOrEmpty(name))
                     {
-                        bool removed = ModelRegistry.Remove(name);
-                        selected = 0; cur = new ModelDef(); RefreshList(); GUI.FocusControl(null);
-                        status = removed ? $"Removed '{name}' from the registry."
-                                         : $"'{name}' was not in the registry — nothing removed.";
-                        // OPTIONAL curated asset cleanup (2026-07-27, the lost-portrait lesson): offer deletion of
-                        // the BAKED outputs via the exact whitelist ONLY — never a name wildcard, because unit-side
-                        // files share the prefix (a manual 'rm <name>*' deleted the AntiTank Halftrack's card
-                        // portrait '<name>512.png' — magenta unit card). Portraits/UI images are never touched.
-                        if (removed && EditorUtility.DisplayDialog("Delete baked assets?",
-                                $"Also delete '{name}'s BAKED assets from Assets/Resources (skeleton, atlas, clips, pose data, mesh, prefab)?\n\n" +
-                                "Only the baker's own outputs are deleted — unit portraits and other unit-side files are never touched. " +
-                                "The FactorySource working folder is left alone (delete it by hand if wanted).",
-                                "Delete baked assets", "Keep them"))
+                        // ONE dialog with the delete question built in (was two sequential modals — the second could be
+                        // missed, and once the entry was gone it could NEVER be re-triggered, leaving orphan baked assets
+                        // with no in-editor cleanup). DisplayDialogComplex → 0 = ok / 1 = cancel / 2 = alt.
+                        int choice = EditorUtility.DisplayDialogComplex("Remove model",
+                            $"Remove '{name}' from the registry? The plugin will stop injecting it on next launch.\n\n" +
+                            "Also delete its BAKED assets (skeleton, atlas, clips, pose data, mesh, prefab) from " +
+                            "Assets/Resources? Only the baker's own outputs are deleted — unit portraits and other " +
+                            "unit-side files are never touched, and the FactorySource working folder is left alone.",
+                            "Remove + delete files",   // 0
+                            "Cancel",                  // 1
+                            "Remove, keep files");     // 2
+                        if (choice != 1)   // 0 or 2 = remove (1 = cancel)
                         {
-                            UniversalBaker.SweepAllOutputs(name);
-                            AssetDatabase.Refresh();
-                            status += " Baked assets deleted (whitelisted outputs only).";
+                            bool removed = ModelRegistry.Remove(name);
+                            // sel = 0 too (same reason as Clone, line ~440): the popup-apply below reads a stale `sel` as a
+                            // "selection change" and reloads existing[sel] on the SHRUNKEN list — jumping to a different
+                            // entry, or IndexOutOfRange when the removed entry was the last.
+                            selected = 0; sel = 0; cur = new ModelDef(); RefreshList(); GUI.FocusControl(null);
+                            status = removed ? $"Removed '{name}' from the registry."
+                                             : $"'{name}' was not in the registry — nothing removed.";
+                            // Curated asset cleanup (2026-07-27, the lost-portrait lesson): delete the BAKED outputs via
+                            // the exact whitelist ONLY — never a name wildcard, because unit-side files share the prefix
+                            // (a manual 'rm <name>*' once deleted the AntiTank Halftrack's card portrait '<name>512.png'
+                            // — magenta unit card). Portraits/UI images are never touched.
+                            if (removed && choice == 0)
+                            {
+                                UniversalBaker.SweepAllOutputs(name);
+                                AssetDatabase.Refresh();
+                                status += " Baked assets deleted (whitelisted outputs only).";
+                            }
                         }
                     }
                 }
