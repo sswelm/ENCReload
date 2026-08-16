@@ -688,9 +688,11 @@ public class ModelFactoryWindow : EditorWindow
         cur.normalsMode = (int)(NormalsMode)EditorGUILayout.EnumPopup("Normals", (NormalsMode)cur.normalsMode);
         using (new EditorGUI.DisabledScope(cur.normalsMode != (int)NormalsMode.Recalculate))
             cur.smoothingAngle = EditorGUILayout.Slider("Smoothing angle", cur.smoothingAngle, 0f, 180f);
-        // Three geometry/shading toggles on one row (ToggleLeft = checkbox then label, so they pack compactly).
+        // Three geometry/shading toggles on one row (ToggleLeft = checkbox then label, so they pack compactly),
+        // right-aligned via a leading FlexibleSpace.
         using (new EditorGUILayout.HorizontalScope())
         {
+            GUILayout.FlexibleSpace();
             cur.heightUV = EditorGUILayout.ToggleLeft(new GUIContent("Height-gradient UVs (untextured)",
                 "Override UVs with V = normalized height, so a vertical-gradient albedo maps by height regardless of the " +
                 "model's own UVs — e.g. a black skirt low + grey hull high (put a bottom-black / top-grey PNG named " +
