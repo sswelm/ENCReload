@@ -1360,20 +1360,54 @@ public class ModelFactoryWindow : EditorWindow
     // ownership rebase, so this can never orphan them.
     void SaveSettingsOnly()
     {
+        if (BlockedByRenameClobber()) return;
         RebaseLabOwnedOnRegistry();
         bool saved = ModelRegistry.Upsert(cur);
+        string renameNote = saved ? FinishRename() : "";
         RefreshList();
         selected = System.Array.IndexOf(existing, cur.resourceName); if (selected < 0) selected = 0;
-        status = saved
+        status = (saved
             ? $"Saved '{cur.resourceName}' settings (no bake). Rebuild the mod to apply them in-game."
-            : "REGISTRY SAVE FAILED (see Console) — settings were NOT written.";
+            : "REGISTRY SAVE FAILED (see Console) — settings were NOT written.") + renameNote;
         Debug.Log("[Factory] " + status);
         GUI.FocusControl(null);
     }
 
+    // The registry key the form was LOADED under. `existing[selected]` is the same reliable signal the Remove
+    // button keys on (see the Remove handler): it tracks the loaded entry and is "<New>"/absent for a fresh or
+    // cloned form (selected<=0), so a Clone or a brand-new entry is NEVER mistaken for a rename. It differs from
+    // cur.resourceName ONLY when the user edited the Resource-name field of a loaded entry = a RENAME.
+    string LoadedResourceKey() => (selected > 0 && selected < existing.Length) ? existing[selected] : null;
+
+    // Pre-Upsert rename guard. A rename onto a name a DIFFERENT model already owns would make Upsert silently
+    // overwrite that model — block it (sets a status; the caller returns without writing). Not a rename, or the
+    // new name is free → returns false and the save proceeds unchanged.
+    bool BlockedByRenameClobber()
+    {
+        string oldKey = LoadedResourceKey();
+        if (string.IsNullOrEmpty(oldKey) || oldKey == cur.resourceName) return false;                // not a rename
+        if (!ModelRegistry.Load().Any(x => x.resourceName == cur.resourceName)) return false;         // new name is free
+        status = $"A model named '{cur.resourceName}' already exists — rename to a free name, or Remove that model first. Nothing was written.";
+        Debug.LogWarning("[Factory] " + status);
+        return true;
+    }
+
+    // Apply a rename as a RENAME, not a silent second copy. Without this a rename kept the OLD entry (a duplicate)
+    // and orphaned its baked assets, because Upsert adds under the new name while the source entry lingers. The
+    // rebase + GUID-carry key on LoadedResourceKey(), so the new entry already inherits the source's Lab-owned
+    // fields + baked GUIDs (Unity GUIDs are filename-independent, so a no-bake rename still resolves in-game).
+    // Call AFTER a successful Upsert; returns a status suffix ("" when it isn't a rename).
+    string FinishRename()
+    {
+        string oldKey = LoadedResourceKey();
+        if (string.IsNullOrEmpty(oldKey) || oldKey == cur.resourceName) return "";
+        ModelRegistry.Remove(oldKey);
+        return $"  (Renamed from '{oldKey}' — old registry entry removed.)";
+    }
+
     void RebaseLabOwnedOnRegistry()
     {
-        var regE = ModelRegistry.Load().FirstOrDefault(x => x.resourceName == cur.resourceName);
+        var regE = ModelRegistry.Load().FirstOrDefault(x => x.resourceName == (LoadedResourceKey() ?? cur.resourceName));
         if (regE == null) return;
         var form = JsonUtility.FromJson<ModelDef>(JsonUtility.ToJson(cur));   // snapshot the form — the Factory-owned values live here
         JsonUtility.FromJsonOverwrite(JsonUtility.ToJson(regE), cur);         // cur := the saved entry IN PLACE (every field preserved, no reference swap)
@@ -1441,7 +1475,8 @@ public class ModelFactoryWindow : EditorWindow
         cur.modelFile = (cur.modelFile ?? "").Trim();
         cur.stripParts = (cur.stripParts ?? "").Trim();
         cur.hideMeshes = (cur.hideMeshes ?? "").Trim();
-        var regE = ModelRegistry.Load().FirstOrDefault(x => x.resourceName == cur.resourceName);
+        if (BlockedByRenameClobber()) return;
+        var regE = ModelRegistry.Load().FirstOrDefault(x => x.resourceName == (LoadedResourceKey() ?? cur.resourceName));
         RebaseLabOwnedOnRegistry();
         bool modelFileChanged = false;
         if (regE != null)
@@ -1454,13 +1489,14 @@ public class ModelFactoryWindow : EditorWindow
             modelFileChanged = !string.Equals(regE.modelFile ?? "", cur.modelFile, StringComparison.OrdinalIgnoreCase);
         }
         bool saved = ModelRegistry.Upsert(cur);
+        string renameNote = saved ? FinishRename() : "";
         RefreshList();
         selected = System.Array.IndexOf(existing, cur.resourceName); if (selected < 0) selected = 0;
-        status = saved
+        status = (saved
             ? $"Saved '{cur.resourceName}' (registry only, baked assets untouched). Relaunch the game — runtime fields " +
               "(Hide donor meshes, Freeze/Silence, Position offset, Size) apply on load; bake-time fields still need a Bake." +
               (modelFileChanged ? "  NOTE: the Model file differs from what was last baked — the assets on disk are still the old bake." : "")
-            : "REGISTRY SAVE FAILED (see Console). Close whatever's locking the registry and retry.";
+            : "REGISTRY SAVE FAILED (see Console). Close whatever's locking the registry and retry.") + renameNote;
         Debug.Log("[Factory] " + status);
     }
 
@@ -1469,6 +1505,8 @@ public class ModelFactoryWindow : EditorWindow
         // Snapshot the form so a FAILED bake keeps every setting (mirror of AnimationLabWindow.DoBake — the ownership
         // rebase + trims below mutate cur in place; a failure would otherwise revert the form and force re-entry).
         string formSnapshot = JsonUtility.ToJson(cur);
+        cur.resourceName = (cur.resourceName ?? "").Trim();   // trim early so the rename guard compares clean names
+        if (BlockedByRenameClobber()) return;                 // block a name collision BEFORE tearing down the preview / spending a bake
         // Tear down the preview editor BEFORE baking. The baked prefab has an Animator, so the preview is a GameObjectInspector
         // with a live animator preview; the bake's delete-first (DeleteAsset _Model.prefab) would then null its target mid-bake,
         // and SaveAsPrefabAsset's OnPostprocessAllAssets fires InstantiateForAnimatorPreview(null) -> ArgumentException. Destroying
@@ -1533,6 +1571,7 @@ public class ModelFactoryWindow : EditorWindow
         cur.clipIdleAlt = cfg.animated && cfg.animStateDriven && !string.IsNullOrEmpty(r.clipIdleAltGuid) ? ModelRegistry.ParseGuid(r.clipIdleAltGuid) : new int[4];
         cur.clipIdleAlt2 = cfg.animated && cfg.animStateDriven && !string.IsNullOrEmpty(r.clipIdleAlt2Guid) ? ModelRegistry.ParseGuid(r.clipIdleAlt2Guid) : new int[4];
         bool saved = ModelRegistry.Upsert(cur);
+        string renameNote = saved ? FinishRename() : "";
         RefreshList();
         selected = System.Array.IndexOf(existing, cur.resourceName); if (selected < 0) selected = 0;
         if (!saved)
@@ -1545,9 +1584,9 @@ public class ModelFactoryWindow : EditorWindow
             LoadPreview(cur.resourceName, forceReimport: true);
             return;
         }
-        status = cfg.animated
+        status = (cfg.animated
             ? $"Baked ANIMATED '{cur.resourceName}' -> '{cur.pawnDescription}'\nskeleton {r.skeletonGuid}\nclip {r.clipGuid}\nNow rebuild the mod + relaunch."
-            : $"Baked '{cur.resourceName}' -> '{cur.pawnDescription}'  (raw bbox {r.bbox})\nskeleton {r.skeletonGuid}\nNow rebuild the mod + relaunch.";
+            : $"Baked '{cur.resourceName}' -> '{cur.pawnDescription}'  (raw bbox {r.bbox})\nskeleton {r.skeletonGuid}\nNow rebuild the mod + relaunch.") + renameNote;
         Debug.Log("[Factory] " + status);
         LoadPreview(cur.resourceName, forceReimport: true);   // show the just-baked model (force reimport so it isn't stale)
         AnimationLabWindow.RebuildFitPreviews();              // rebuild the Lab's (fit) preview from the fresh assets
