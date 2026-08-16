@@ -2,14 +2,19 @@
 # Schema parity guard for the Model Factory registry.
 #
 # The registry (enc_models.json) is WRITTEN by the editor baker from ModelDef (ModelRegistry.cs, JsonUtility) and READ by
-# the runtime plugin (UniversalInjectPatch.cs) two ways: the PRIMARY Newtonsoft object parse and a REGEX fallback. Those
-# three field lists live in two repos and are hand-synced, so they drift silently — add a field to one, forget another,
-# and a feature quietly dies at runtime with no error. This guard makes that drift LOUD. It checks:
+# the runtime plugin (UniversalInjectPatch.cs) two ways: the PRIMARY Newtonsoft parse and a REGEX fallback. The Newtonsoft
+# path now deserializes GENERICALLY (`m.ToObject<ModelEntry>()`), so every name-matching field is mapped automatically —
+# there's no Newtonsoft hand-list left to drift. What still hand-syncs across the two repos: the GUID arrays (one JSON
+# array -> four ints, hand-extracted in BOTH paths) and the entire REGEX fallback. So the drift is now one-directional —
+# a field the fallback FORGOT — plus the GUID hand-lists. This guard makes that drift LOUD. It checks:
 #
-#   1. N == R   — the Newtonsoft key set equals the regex-fallback key set (the two read paths can't diverge).
-#   2. N ⊆ W   — every key the plugin reads is a ModelDef field the baker writes (minus a small runtime-only allowlist).
-#   3. types    — for each shared key, the plugin's read cast matches ModelDef's declared type (bool/float/int/string/array/obj).
-#   INFO        — ModelDef fields the plugin never reads (expected for bake-time-only knobs; eyeball for a forgotten one).
+#   1. G ⊆ R   — every GUID/position key the Newtonsoft path hand-extracts is also parsed by the regex fallback.
+#   2. SH ⊆ R  — every shared HafModelSchema field (auto-read by ToObject) is covered by the regex fallback, so it can't lag.
+#   3. R ⊆ W   — every regex-fallback key is a ModelDef/HafModelSchema field the baker writes (minus a runtime-only allowlist).
+#   INFO       — ModelDef fields the plugin never reads (expected for bake-time-only knobs; eyeball for a forgotten one).
+#
+# Type parity is no longer checked here: the shared fields live in ONE class (HafModelSchema) that BOTH ModelDef and
+# ModelEntry inherit, so the write type and the read type are the SAME declaration — compiler-enforced, can't diverge.
 #
 # Source-text comparison, no build coupling. Run before committing a registry-schema change:
 #   Tools/check_schema_parity.sh [ENCReload_root] [ENCAccessProof_root]
@@ -49,54 +54,49 @@ while read -r ty nm; do
 done < <(grep -oE 'public[[:space:]]+[A-Za-z0-9_]+(\[\])?[[:space:]]+[A-Za-z_][A-Za-z0-9_]*[[:space:]]*[=;]' <<<"$defbody" \
          | sed -E 's/public[[:space:]]+([A-Za-z0-9_]+(\[\])?)[[:space:]]+([A-Za-z_][A-Za-z0-9_]*).*/\1 \3/')
 
-# --- N: keys the Newtonsoft path reads (every m["key"]) ---
-N=$(grep -oE 'm\["[A-Za-z_][A-Za-z0-9_]*"\]' "$PLUG" | sed -E 's/m\["(.*)"\]/\1/' | sort -u)
+# --- SH: the shared HafModelSchema fields. The Newtonsoft path deserializes GENERICALLY (m.ToObject<ModelEntry>), so each
+#     of these is auto-read by name — and W ∩ ModelEntry == exactly this set (ModelDef-only fields aren't ModelEntry fields,
+#     so ToObject ignores them). This is precisely what the regex fallback must also cover, or the fallback silently drops it.
+SH=$(awk '/public class HafModelSchema/{f=1} f&&/^    }/{f=0} f' "$SCHEMA" \
+     | grep -oE 'public[[:space:]]+[A-Za-z0-9_]+(\[\])?[[:space:]]+[A-Za-z_][A-Za-z0-9_]*[[:space:]]*[=;]' \
+     | sed -E 's/.*[[:space:]]([A-Za-z_][A-Za-z0-9_]*)[[:space:]]*[=;]/\1/' | sort -u)
+
+# --- G: GUID-array + position keys STILL hand-extracted in the Newtonsoft path (the one m["..."] block that remains).
+#     Each maps one JSON array -> four ints (skel[] -> sa/sb/sc/sd), so it can't deserialize by name; both paths hand-list it.
+G=$(grep -oE 'm\["[A-Za-z_][A-Za-z0-9_]*"\]' "$PLUG" | sed -E 's/m\["(.*)"\]/\1/' | sort -u)
 
 # --- R: keys the regex fallback reads (first "key" of each Regex.Matches(text, ...)) ---
 R=$(grep -oE 'Regex\.Matches\(text, "\\"[A-Za-z_][A-Za-z0-9_]*' "$PLUG" \
     | grep -oE '[A-Za-z_][A-Za-z0-9_]*$' | sort -u)
 
-# How the Newtonsoft path READS a key -> one-letter shape code (skel/atlas/clip are int arrays, position is a Vector3).
-ntype() {
-  local K=$1 c
-  case $K in skel|atlas|clip|clipMove|clipAfter|clipAttack|clipCombat|clipPreMove|clipIdle|clipIdleAlt|clipIdleAlt2) echo A; return;; position) echo V; return;; esac
-  c=$(grep -oE "\((string|bool\?|float\?|float|int\?|int)\)m\[\"$K\"\]" "$PLUG" | head -1 | sed -E 's/\(([a-z?]+)\).*/\1/')
-  case $c in string) echo S;; "bool?") echo B;; "float?") echo F;; float) echo F;; "int?") echo I;; int) echo I;; *) echo "?";; esac
-}
-
 fail=0
 
-# 1) N == R
-onlyN=$(comm -23 <(echo "$N") <(echo "$R"))
-onlyR=$(comm -13 <(echo "$N") <(echo "$R"))
-if [ -n "$onlyN$onlyR" ]; then
+# 1) G ⊆ R — every GUID/position key the Newtonsoft path hand-extracts must also be parsed by the regex fallback.
+gMissingR=$(comm -23 <(echo "$G") <(echo "$R"))
+if [ -n "$gMissingR" ]; then
   fail=1
-  echo "FAIL — the two plugin read paths disagree (Newtonsoft vs regex fallback):"
-  [ -n "$onlyN" ] && echo "  only in Newtonsoft: $(tr '\n' ' ' <<<"$onlyN")"
-  [ -n "$onlyR" ] && echo "  only in regex     : $(tr '\n' ' ' <<<"$onlyR")"
-  echo "  -> add the missing key to whichever path lacks it (both must parse every field)."
+  echo "FAIL — GUID/position key(s) read by the Newtonsoft path but NOT by the regex fallback: $(tr '\n' ' ' <<<"$gMissingR")"
+  echo "  -> add the matching Regex.Matches(...) to the fallback in ParseModels."
 fi
 
-# 2) N ⊆ W (+ allowlist) and 3) type match on shared keys
-missing=""; typemismatch=""
-for k in $N; do
+# 2) SH ⊆ R — every shared field (auto-read by ToObject) must be covered by the regex fallback, so the fallback can't lag.
+shMissingR=$(comm -23 <(echo "$SH") <(echo "$R"))
+if [ -n "$shMissingR" ]; then
+  fail=1
+  echo "FAIL — shared HafModelSchema field(s) the Newtonsoft path auto-reads but the regex fallback MISSES: $(tr '\n' ' ' <<<"$shMissingR")"
+  echo "  -> add the matching Regex.Matches(...) to the fallback in ParseModels (Newtonsoft covers it automatically)."
+fi
+
+# 3) R ⊆ W (+allowlist) — every regex key must be a field the baker writes (catches a typo'd or removed key).
+missing=""
+for k in $R; do
   case "$allow" in *" $k "*) continue;; esac
-  if [ -z "${W[$k]+x}" ]; then
-    missing="$missing $k"
-  else
-    nt=$(ntype "$k"); wt=${W[$k]}
-    [ "$nt" != "$wt" ] && typemismatch="$typemismatch $k(reads:$nt,writes:$wt)"
-  fi
+  [ -z "${W[$k]+x}" ] && missing="$missing $k"
 done
 if [ -n "$missing" ]; then
   fail=1
-  echo "FAIL — plugin reads key(s) the baker never writes:$missing"
-  echo "  -> add the field to ModelDef (ModelRegistry.cs), fix the key name, or allowlist a runtime-only override."
-fi
-if [ -n "$typemismatch" ]; then
-  fail=1
-  echo "FAIL — type mismatch between the plugin's read cast and ModelDef's declared type:$typemismatch"
-  echo "  -> (S string, I int, F float, B bool, V Vector3, A array). Align the cast or the field type."
+  echo "FAIL — regex fallback reads key(s) the baker never writes:$missing"
+  echo "  -> add the field to ModelDef/HafModelSchema (ModelRegistry.cs), fix the key name, or allowlist a runtime-only override."
 fi
 
 # 4) WRAPPER parity (HAF multi-mod): the plugin's top-level root["..."] reads must all be RegistryFile fields the baker
@@ -121,16 +121,17 @@ if [ -n "$wrapmiss" ]; then
 fi
 
 # INFO: ModelDef fields never read at runtime (expected for bake-time-only knobs; scan for a genuinely-forgotten one).
+# The consumed surface is the regex set R (which, per checks 1-2, is a superset of the GUID hand-list G and the shared SH).
 unread=""
 for k in "${!W[@]}"; do
-  case " $(tr '\n' ' ' <<<"$N") " in *" $k "*) ;; *) unread="$unread $k";; esac
+  case " $(tr '\n' ' ' <<<"$R") " in *" $k "*) ;; *) unread="$unread $k";; esac
 done
 
-echo "Plugin reads (Newtonsoft): $(wc -w <<<"$N") keys"
-echo "Plugin reads (regex)     : $(wc -w <<<"$R") keys"
-echo "ModelDef writes          : ${#W[@]} fields"
-echo "Wrapper reads (root)     : $(wc -w <<<"$NR") keys | RegistryFile writes: $(wc -w <<<"$WR") fields"
-[ -n "$unread" ] && echo "INFO — ModelDef fields not read at runtime (bake-time-only, expected):$(echo "$unread" | tr ' ' '\n' | sort | tr '\n' ' ')"
+echo "Shared fields (HafModelSchema): $(wc -w <<<"$SH") | GUID/pos hand-list (Newtonsoft): $(wc -w <<<"$G")"
+echo "Plugin reads (regex fallback) : $(wc -w <<<"$R") keys"
+echo "Baker writes (ModelDef+shared): ${#W[@]} fields"
+echo "Wrapper reads (root)          : $(wc -w <<<"$NR") keys | RegistryFile writes: $(wc -w <<<"$WR") fields"
+[ -n "$unread" ] && echo "INFO — baker fields not read at runtime (bake-time-only, expected):$(echo "$unread" | tr ' ' '\n' | sort | tr '\n' ' ')"
 
 if [ "$fail" -ne 0 ]; then exit 1; fi
-echo "PASS — Newtonsoft == regex read paths, all read keys (model + wrapper) are written by the baker, and types agree."
+echo "PASS — GUID hand-lists agree, every shared field is covered by the regex fallback, and all read keys are written by the baker."
