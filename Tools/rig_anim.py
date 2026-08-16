@@ -718,11 +718,21 @@ try:
         # VERIFY: at frame 0 the evaluated PRIMARY pose must coincide with the rest
         bpy.context.scene.frame_set(_fs0)
         bpy.context.view_layer.update()
-        _worst = 0.0
+        _worst = 0.0; _scaleref = 0.0
         for pb in arm.pose.bones:
             _d = (pb.matrix.translation - arm.data.bones[pb.name].matrix_local.translation).length
             if _d > _worst: _worst = _d
+            _rl = arm.data.bones[pb.name].matrix_local.translation.length
+            if _rl > _scaleref: _scaleref = _rl
         print("RIGANIM rest-normalized + rebaked %d clip(s) x %d bones (%d meshes re-bound); primary frame-0 residual = %.6f (should be ~0)" % (len(all_acts), len(arm.pose.bones), len(_rebind), _worst))
+        # ASSERT convergence (review 2026-08-16): the residual was computed + printed but never checked. A fold that
+        # completes yet leaves frame-0 several units off rest = a rigidly displaced bone that ships with exit 0 (the
+        # "head off shoulders" class). Fail loudly on NaN or a residual > 25% of the rig's own bone scale (generous —
+        # a converged fold is ~1e-4; a real failure is model-scale, so this never trips a valid bake).
+        _thr = max(0.02, 0.25 * _scaleref)
+        if _worst != _worst or _worst > _thr:
+            print("RIGANIM ERROR: rest-fold did NOT converge — frame-0 residual %.6f exceeds %.6f (rig bone-scale %.4f); a rigidly displaced bone would ship (the 'head off shoulders' bug). Aborting." % (_worst, _thr, _scaleref))
+            sys.exit(1)
 except Exception as _e:
     try: bpy.ops.object.mode_set(mode='OBJECT')
     except Exception: pass
@@ -1088,7 +1098,11 @@ if convert_rig or clean_units_input:
         bpy.ops.object.transform_apply(location=False, rotation=True, scale=True)
         print("RIGANIM rig rotation+scale APPLIED TO DATA (identity nodes)")
     except Exception as e:
-        print("RIGANIM WARN: transform_apply failed (%s) — rotation left object-level (may not survive the bake)" % e)
+        # This IS the sole scale-fold on the conversion/clean path (gated above); without it the skeleton ships
+        # ~100x off the mesh (the soldier's-head desync). A swallowed failure = a broken rig with exit 0. Fail loudly
+        # (review 2026-08-16). (The legacy path never reaches this block — it deliberately keeps object scale.)
+        print("RIGANIM ERROR: transform_apply(rotation+scale) failed (%s) — the skeleton would ship un-normalized (~100x off the mesh). Aborting instead of exporting a broken rig." % e)
+        sys.exit(1)
 
 # AUTO-GROUND (argv[10] == "1"): sit a rigged VEHICLE on the terrain with NO manual Position-offset dial — the
 # animated path has no keel->z=0 like the static path. Robust measure: drop the model's LOWEST point (the tyre

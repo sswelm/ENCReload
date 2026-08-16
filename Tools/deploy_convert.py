@@ -243,6 +243,15 @@ if len(parts) > _PART_BUDGET:
     if len(parts) > _PART_BUDGET:
         print("DEPLOY bone budget WARNING: still %d parts after pair-merge — expect missing geometry past bone 127" % len(parts))
 
+# GUARD (review 2026-08-16): nothing left to animate. A source with only node/matrix-level animation (unsupported —
+# deploy conversion is TRS-per-part only) or whose parts were all culled would otherwise build a StaticRoot-only rig
+# and SHIP A STATIC single-bone model with exit 0 ("DEPLOY baked 0 bones"). Fail loudly instead.
+if not parts:
+    print("DEPLOY ERROR: no animated parts to convert (0 after filtering) — the source has no per-part TRS animation "
+          "the deploy conversion can use (node/matrix-level animation is unsupported), or every part was culled. "
+          "Aborting instead of exporting a static single-bone rig.")
+    sys.exit(1)
+
 # --- 4. armature: one bone per animated part at its current (fmin) world pos, hierarchy mirrored ---
 # "DeployArmV2" = the CONTRACT MARKER (2026-07-27): rig_anim keys its clean-unit handling (global_scale 0.01,
 # amplify skip) off this armature name. Conversions named plain "DeployArm" predate the engine-contract rework
