@@ -688,18 +688,22 @@ public class ModelFactoryWindow : EditorWindow
         cur.normalsMode = (int)(NormalsMode)EditorGUILayout.EnumPopup("Normals", (NormalsMode)cur.normalsMode);
         using (new EditorGUI.DisabledScope(cur.normalsMode != (int)NormalsMode.Recalculate))
             cur.smoothingAngle = EditorGUILayout.Slider("Smoothing angle", cur.smoothingAngle, 0f, 180f);
-        cur.heightUV = EditorGUILayout.Toggle(new GUIContent("Height-gradient UVs (untextured)",
-            "Override UVs with V = normalized height, so a vertical-gradient albedo maps by height regardless of the " +
-            "model's own UVs — e.g. a black skirt low + grey hull high (put a bottom-black / top-grey PNG named " +
-            "'*albedo*.png' in the resource folder). For untextured CAD models that need a simple gradient skin."), cur.heightUV);
-        cur.windingFix = EditorGUILayout.Toggle(new GUIContent("Winding fix (CAD/convex)",
-            "Rewind faces outward so single-sided / CAD 'sketch' meshes render single-sided instead of culling to invisible " +
-            "(e.g. a hovercraft skirt). Lighter than double-sided (no extra geometry). Assumes a roughly convex hull — " +
-            "true for vehicles/ships. Preferred for CAD hulls; use Double-sided for genuinely non-convex thin shells."), cur.windingFix);
-        cur.doubleSided = EditorGUILayout.Toggle(new GUIContent("Double-sided (single-sided/CAD)",
-            "Add a back face to every surface so single-sided or CAD 'sketch' meshes don't render invisible in-game (the " +
-            "engine culls backfaces). Enable for models with missing / see-through parts — e.g. a hovercraft skirt. " +
-            "Doubles the triangle count."), cur.doubleSided);
+        // Three geometry/shading toggles on one row (ToggleLeft = checkbox then label, so they pack compactly).
+        using (new EditorGUILayout.HorizontalScope())
+        {
+            cur.heightUV = EditorGUILayout.ToggleLeft(new GUIContent("Height-gradient UVs (untextured)",
+                "Override UVs with V = normalized height, so a vertical-gradient albedo maps by height regardless of the " +
+                "model's own UVs — e.g. a black skirt low + grey hull high (put a bottom-black / top-grey PNG named " +
+                "'*albedo*.png' in the resource folder). For untextured CAD models that need a simple gradient skin."), cur.heightUV, GUILayout.Width(240));
+            cur.windingFix = EditorGUILayout.ToggleLeft(new GUIContent("Winding fix (CAD/convex)",
+                "Rewind faces outward so single-sided / CAD 'sketch' meshes render single-sided instead of culling to invisible " +
+                "(e.g. a hovercraft skirt). Lighter than double-sided (no extra geometry). Assumes a roughly convex hull — " +
+                "true for vehicles/ships. Preferred for CAD hulls; use Double-sided for genuinely non-convex thin shells."), cur.windingFix, GUILayout.Width(190));
+            cur.doubleSided = EditorGUILayout.ToggleLeft(new GUIContent("Double-sided (single-sided/CAD)",
+                "Add a back face to every surface so single-sided or CAD 'sketch' meshes don't render invisible in-game (the " +
+                "engine culls backfaces). Enable for models with missing / see-through parts — e.g. a hovercraft skirt. " +
+                "Doubles the triangle count."), cur.doubleSided, GUILayout.Width(235));
+        }
         // Albedo tone (baked into the atlas). The injection path ships a FLAT albedo — the donor's PBR normal/metallic/
         // roughness maps are neutralized so its camo can't bleed onto our model — so a skin that relied on shiny metal,
         // or a dark/washed-out texture, reads muddy in-game. These lift it at bake time (1.0 = unchanged). Slider ranges
