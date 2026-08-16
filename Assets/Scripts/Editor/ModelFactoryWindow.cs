@@ -609,14 +609,14 @@ public class ModelFactoryWindow : EditorWindow
                 "source object names. This is the mirror of 'Hide donor meshes' (which hides the DONOR's parts at runtime) — " +
                 "this edits YOUR model at bake time. Needs Blender. Empty = keep everything."),
                 GUILayout.Width(EditorGUIUtility.labelWidth));
-            using (var sv = new EditorGUILayout.ScrollViewScope(stripScroll, GUILayout.Height(74f)))
+            using (var sv = new EditorGUILayout.ScrollViewScope(stripScroll, GUILayout.Height(37f)))
             {
                 stripScroll = sv.scrollPosition;
-                // ExpandHeight so the editable box FILLS the 74px (3-line) viewport even when it's near-empty — without it
-                // the text area only grows to the content, so you'd see 1-2 lines. It still grows past 3 lines (scrollbar).
+                // ExpandHeight so the editable box FILLS the 37px viewport even when it's near-empty — without it the
+                // text area only grows to the content, so you'd see a single line. It still grows past the box (scrollbar).
                 cur.stripParts = EditorGUILayout.TextArea(cur.stripParts ?? "", wrapArea, GUILayout.ExpandHeight(true));
             }
-            if (GUILayout.Button(new GUIContent("Pick", "List the object names in the Model file so you can choose which to strip (reads GLB/glTF directly)."), GUILayout.Width(70), GUILayout.Height(74f)))
+            if (GUILayout.Button(new GUIContent("Pick", "List the object names in the Model file so you can choose which to strip (reads GLB/glTF directly)."), GUILayout.Width(70), GUILayout.Height(37f)))
             {
                 var r = GUILayoutUtility.GetLastRect();
                 var names = UniversalBaker.ListModelObjectNames((cur.modelFile ?? "").Trim());
