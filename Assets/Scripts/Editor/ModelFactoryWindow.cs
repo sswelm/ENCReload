@@ -774,12 +774,12 @@ public class ModelFactoryWindow : EditorWindow
         using (new EditorGUILayout.HorizontalScope())
         {
             GUILayout.FlexibleSpace();
-            cur.respawnAfterLoad = EditorGUILayout.ToggleLeft(new GUIContent("Re-spawn after load (borrowed rotor fix)",
+            cur.respawnAfterLoad = EditorGUILayout.ToggleLeft(new GUIContent("Respawn after load",
                 "FIX for the save-load first-instance rotor bug: on a save-load the engine draws the FIRST custom-helicopter " +
                 "pawn with its borrowed donor rotor ~1 unit low; anything (re)built after load is correct. Tick this and the " +
                 "plugin re-runs the game's own pawn rebuild on this model's units ~3s after load, clearing it (a brief one-time " +
                 "flicker as they rebuild). Tick ONLY for models that borrow a donor's animated sub-part (a spinning rotor); " +
-                "pointless flicker otherwise."), cur.respawnAfterLoad, GUILayout.Width(285));
+                "pointless flicker otherwise."), cur.respawnAfterLoad, GUILayout.Width(150));
             cur.freezeDonorAnim = EditorGUILayout.ToggleLeft(new GUIContent("Freeze donor animation",
                 "Stop the DONOR's idle/move animation from bobbing your STATIC mesh. A borrowed mesh inherits the donor's pose " +
                 "wiggle (e.g. a Recon-Drone donor's hover bob looks wrong on a big airship). Tick this and the plugin pins every " +
