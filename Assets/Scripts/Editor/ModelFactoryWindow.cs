@@ -644,29 +644,37 @@ public class ModelFactoryWindow : EditorWindow
         // 0/unlimited) — the real budget is the SHARED pawn-layer pool (~1M verts, ~700k used by the full roster at load;
         // see HAF docs/Vertex-Budget.md). Slider range 0..100000: default 24000 is a sensible share of the pool; go higher
         // for a hero unit (mind the F8 'Mesh Budget' readout), or grow the pool itself via [Buffers] BufferOverrides.
-        cur.targetTris = EditorGUILayout.IntSlider(new GUIContent("Reduce to ~tris (0 = off)",
-            "Quadric-decimate a heavy model to about this many triangles (via Blender) before baking. There's NO hard " +
-            "per-model limit — the budget is the SHARED pawn buffer (~1,000,000 verts across ALL loaded model types; " +
-            "~300k free with vanilla + the current set — check F8 ▸ Mesh Budget in-game, or raise the pool with the " +
-            "plugin's [Buffers] BufferOverrides). Runs AFTER 'Strip parts', so the budget covers only the geometry you " +
-            "keep. Default 24000 is a good roster citizen; 50k+ is fine for a hero unit. It's a CEILING, not a quota: a " +
-            "model already under it passes through untouched (never upscaled). Toggling Double-sided automatically HALVES " +
-            "the effective target (it doubles the baked geometry). Preserves thin parts (per-object). 0 = no reduction. " +
-            "Needs Blender (auto-detected)."), cur.targetTris, 0, 100000);
+        // Two geometry-reduction knobs share one row (you reach for one OR the other): 'Reduce to ~tris' = Blender
+        // quadric decimation (UV-preserving); 'Weld & simplify' = glbconv vertex welding (GLB/glTF/.blend, runs after
+        // strip+reduce, untextured only). The slider fills the row; the weld field is a compact trailing int.
+        using (new EditorGUILayout.HorizontalScope())
+        {
+            cur.targetTris = EditorGUILayout.IntSlider(new GUIContent("Reduce to ~tris (0 = off)",
+                "Quadric-decimate a heavy model to about this many triangles (via Blender) before baking. There's NO hard " +
+                "per-model limit — the budget is the SHARED pawn buffer (~1,000,000 verts across ALL loaded model types; " +
+                "~300k free with vanilla + the current set — check F8 ▸ Mesh Budget in-game, or raise the pool with the " +
+                "plugin's [Buffers] BufferOverrides). Runs AFTER 'Strip parts', so the budget covers only the geometry you " +
+                "keep. Default 24000 is a good roster citizen; 50k+ is fine for a hero unit. It's a CEILING, not a quota: a " +
+                "model already under it passes through untouched (never upscaled). Toggling Double-sided automatically HALVES " +
+                "the effective target (it doubles the baked geometry). Preserves thin parts (per-object). 0 = no reduction. " +
+                "Needs Blender (auto-detected)."), cur.targetTris, 0, 100000);
+            GUILayout.Space(14);
+            float lw = EditorGUIUtility.labelWidth;
+            EditorGUIUtility.labelWidth = 96;
+            cur.convertGrid = EditorGUILayout.IntField(new GUIContent("Weld & simplify",
+                "GLB / glTF / .blend only — controls how the source mesh is converted to OBJ.\n\n" +
+                "0 = keep exact: every vertex and UV preserved (texture seams intact). This is the right value for " +
+                "textured models — any welding averages UVs across seams and scrambles the skin.\n\n" +
+                ">0 = weld/simplify: merge nearby vertices at this resolution along the longest axis " +
+                "(higher = more vertices kept). Use only for heavy UNtextured meshes that need simplifying — for a " +
+                "textured model, decimate with 'Reduce to ~tris' instead (it preserves UVs).\n\n" +
+                "Ignored for OBJ/FBX (already meshes)."), cur.convertGrid, GUILayout.Width(150));
+            EditorGUIUtility.labelWidth = lw;
+        }
         if (cur.targetTris > 0 && !UniversalBaker.BlenderAvailable())
             EditorGUILayout.HelpBox("Reduce-to-tris uses Blender (quadric decimation) — Blender wasn't found, so Bake will " +
-                "fail. Either set this to 0, use 'Convert grid' below (Blender-free GLB decimation), or install Blender / " +
+                "fail. Either set this to 0, use 'Weld & simplify' (Blender-free GLB decimation), or install Blender / " +
                 "set its path in Settings above.", MessageType.Warning);
-        // Convert grid — the GLB/glTF/.blend -> OBJ conversion (runs after strip + reduce). Also a geometry step, so it
-        // lives with its siblings here rather than up among the shading knobs.
-        cur.convertGrid = EditorGUILayout.IntField(new GUIContent("Weld & simplify (0 = keep exact)",
-            "GLB / glTF / .blend only — controls how the source mesh is converted to OBJ.\n\n" +
-            "0 = keep exact: every vertex and UV preserved (texture seams intact). This is the right value for " +
-            "textured models — any welding averages UVs across seams and scrambles the skin.\n\n" +
-            ">0 = weld/simplify: merge nearby vertices at this resolution along the longest axis " +
-            "(higher = more vertices kept). Use only for heavy UNtextured meshes that need simplifying — for a " +
-            "textured model, decimate with 'Reduce to ~tris' instead (it preserves UVs).\n\n" +
-            "Ignored for OBJ/FBX (already meshes)."), cur.convertGrid);
 
         EditorGUILayout.Space();
         EditorGUILayout.LabelField("Shading / normals — bake-time", EditorStyles.miniBoldLabel);
