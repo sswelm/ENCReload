@@ -18,7 +18,7 @@ run() {  # run <label> <command...>
 run "editor scripts compile (Roslyn)" bash "$ROOT/Tools/editor_compile_check.sh"
 
 # 2) registry schema parity — the editor's ModelDef/RegistryFile vs the plugin's Newtonsoft + regex parse (needs the
-#    ENCAccessProof plugin checkout; the script self-reports MISSING and exits 2 if it can't find it).
+#    HumankindAssetFramework plugin checkout; the script self-reports MISSING and exits 2 if it can't find it).
 run "registry schema parity" bash "$ROOT/Tools/check_schema_parity.sh"
 
 printf '\n========================================\n'

@@ -17,10 +17,10 @@
 # ModelEntry inherit, so the write type and the read type are the SAME declaration — compiler-enforced, can't diverge.
 #
 # Source-text comparison, no build coupling. Run before committing a registry-schema change:
-#   Tools/check_schema_parity.sh [ENCReload_root] [ENCAccessProof_root]
+#   Tools/check_schema_parity.sh [ENCReload_root] [HumankindAssetFramework_root]
 set -u
 RELOAD="${1:-/c/Repo/ENCReload}"
-PROOF="${2:-/c/Repo/ENCAccessProof}"
+PROOF="${2:-/c/Repo/HumankindAssetFramework}"
 DEF="$RELOAD/Assets/Scripts/Editor/ModelRegistry.cs"
 PLUG="$PROOF/Patches/UniversalInjectPatch.cs"
 [ -f "$DEF" ]  || { echo "MISSING: $DEF"; exit 2; }
