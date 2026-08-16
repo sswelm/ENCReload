@@ -38,7 +38,12 @@ canon() {
 
 # --- W: ModelDef serialized fields + types (the WRITE schema) ---
 declare -A W
+SCHEMA="$PROOF/Haf.Schema/HafModelSchema.cs"
 defbody=$(awk '/public class ModelDef/{f=1} /class (OverrideRef|RegistryFile)/{f=0} f' "$DEF")
+# The ~64 shared fields moved to Haf.Schema.HafModelSchema, inherited by BOTH ModelDef and ModelEntry — so parity for
+# those is now COMPILER-enforced. Union the shared class's fields into the WRITE schema so the check still sees the full set.
+[ -f "$SCHEMA" ] && defbody="$defbody
+$(awk '/public class HafModelSchema/{f=1} f&&/^    }/{f=0} f' "$SCHEMA")"
 while read -r ty nm; do
   [ -n "${nm:-}" ] && W["$nm"]=$(canon "$ty")
 done < <(grep -oE 'public[[:space:]]+[A-Za-z0-9_]+(\[\])?[[:space:]]+[A-Za-z_][A-Za-z0-9_]*[[:space:]]*[=;]' <<<"$defbody" \
