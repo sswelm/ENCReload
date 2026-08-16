@@ -279,8 +279,8 @@ public class DistrictFactoryWindow : EditorWindow
             cur.normalsMode, new[] { "Keep model", "Recalculate", "Faceted" });
         using (new EditorGUI.DisabledScope(cur.normalsMode != 1))
             cur.smoothingAngle = EditorGUILayout.Slider("Smoothing angle", cur.smoothingAngle, 0f, 180f);
-        cur.convertGrid = EditorGUILayout.IntField(new GUIContent("Convert grid",
-            "GLB→OBJ conversion: 0 = faithful (preserves UV seams — textured models), >0 = vertex-cluster decimate (heavy untextured meshes)."), cur.convertGrid);
+        cur.convertGrid = EditorGUILayout.IntField(new GUIContent("Weld & simplify (0 = keep exact)",
+            "GLB→OBJ conversion: 0 = keep exact (preserves UV seams — textured models), >0 = weld/simplify nearby vertices (heavy untextured meshes only)."), cur.convertGrid);
         int atlasIdx = Array.IndexOf(new[] { 256, 512, 1024, 2048, 4096 }, cur.atlasMaxDim <= 0 ? 1024 : cur.atlasMaxDim);
         atlasIdx = EditorGUILayout.Popup(new GUIContent("Atlas size",
             "Longest side of the packed texture atlas. Multi-material models divide this between ALL their sheets " +

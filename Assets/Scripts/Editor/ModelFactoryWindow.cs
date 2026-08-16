@@ -659,12 +659,13 @@ public class ModelFactoryWindow : EditorWindow
                 "set its path in Settings above.", MessageType.Warning);
         // Convert grid — the GLB/glTF/.blend -> OBJ conversion (runs after strip + reduce). Also a geometry step, so it
         // lives with its siblings here rather than up among the shading knobs.
-        cur.convertGrid = EditorGUILayout.IntField(new GUIContent("Convert grid",
+        cur.convertGrid = EditorGUILayout.IntField(new GUIContent("Weld & simplify (0 = keep exact)",
             "GLB / glTF / .blend only — controls how the source mesh is converted to OBJ.\n\n" +
-            "0 = faithful: keep every vertex and UV exactly (preserves texture seams). Use this for " +
-            "textured models — any decimation averages UVs across seams and scrambles the skin.\n\n" +
-            ">0 = decimate to a vertex-cluster grid of this resolution along the longest axis " +
-            "(higher = more detail/vertices). Use only for heavy UNtextured meshes that need simplifying.\n\n" +
+            "0 = keep exact: every vertex and UV preserved (texture seams intact). This is the right value for " +
+            "textured models — any welding averages UVs across seams and scrambles the skin.\n\n" +
+            ">0 = weld/simplify: merge nearby vertices at this resolution along the longest axis " +
+            "(higher = more vertices kept). Use only for heavy UNtextured meshes that need simplifying — for a " +
+            "textured model, decimate with 'Reduce to ~tris' instead (it preserves UVs).\n\n" +
             "Ignored for OBJ/FBX (already meshes)."), cur.convertGrid);
 
         EditorGUILayout.Space();
@@ -674,7 +675,7 @@ public class ModelFactoryWindow : EditorWindow
         cur.normalsMode = (int)(NormalsMode)EditorGUILayout.EnumPopup("Normals", (NormalsMode)cur.normalsMode);
         using (new EditorGUI.DisabledScope(cur.normalsMode != (int)NormalsMode.Recalculate))
             cur.smoothingAngle = EditorGUILayout.Slider("Smoothing angle", cur.smoothingAngle, 0f, 180f);
-        cur.heightUV = EditorGUILayout.Toggle(new GUIContent("Height-based UVs",
+        cur.heightUV = EditorGUILayout.Toggle(new GUIContent("Height-gradient UVs (untextured)",
             "Override UVs with V = normalized height, so a vertical-gradient albedo maps by height regardless of the " +
             "model's own UVs — e.g. a black skirt low + grey hull high (put a bottom-black / top-grey PNG named " +
             "'*albedo*.png' in the resource folder). For untextured CAD models that need a simple gradient skin."), cur.heightUV);
