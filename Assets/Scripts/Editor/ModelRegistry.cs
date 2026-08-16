@@ -162,6 +162,8 @@ class RegistryFile
 {
     public int schemaVersion = 1;                                   // HAF schema version this file targets (bump additively)
     public string modId = "enc";                                   // unique pack id; ENC is the base pack
+    public string module = "";                                     // HK runtime MODULE this pack extends — pack load order follows the game's mod order (docs/Multi-Mod). "" = auto (the pack folder name == module Name by convention); set only to override. Read by UniversalInjectPatch.ParsePack.
+    public string moduleGuid = "";                                 // optional explicit HK module GUID (wins over `module`/folder; stable across a retitle). "" = unused.
     public List<string> dependsOn = new List<string>();            // RESERVED: modIds this pack requires (parsed + reported, not yet enforced)
     public List<string> loadAfter = new List<string>();            // RESERVED: modIds this pack must load after (deterministic ordering, not yet enforced)
     public List<OverrideRef> overrides = new List<OverrideRef>();  // RESERVED: explicit cross-pack replacements (no implicit overrides)

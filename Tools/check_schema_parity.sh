@@ -23,7 +23,8 @@ PLUG="$PROOF/Patches/UniversalInjectPatch.cs"
 
 # Runtime-ONLY keys: intentional overrides the baker deliberately doesn't write (the user hand-edits them into the JSON).
 # `scale` fixes a mis-scaled animated model without a re-bake. Add here ONLY for a conscious runtime-only override.
-allow=" scale "
+# rotorSpinBones/rotorSpinSpeed: advanced rotor-reclaim (Pose.cs) authored directly in pack.json; not (yet) an editor field.
+allow=" scale rotorSpinBones rotorSpinSpeed "
 
 # Map a C# type to a one-letter JSON-shape code (how JsonUtility serializes it): S string, I int, F float, B bool,
 # V object (Vector3), A array (int[]). Enums serialize as int.
@@ -54,8 +55,8 @@ R=$(grep -oE 'Regex\.Matches\(text, "\\"[A-Za-z_][A-Za-z0-9_]*' "$PLUG" \
 ntype() {
   local K=$1 c
   case $K in skel|atlas|clip|clipMove|clipAfter|clipAttack|clipCombat|clipPreMove|clipIdle|clipIdleAlt|clipIdleAlt2) echo A; return;; position) echo V; return;; esac
-  c=$(grep -oE "\((string|bool\?|float|int\?|int)\)m\[\"$K\"\]" "$PLUG" | head -1 | sed -E 's/\(([a-z?]+)\).*/\1/')
-  case $c in string) echo S;; "bool?") echo B;; float) echo F;; "int?") echo I;; int) echo I;; *) echo "?";; esac
+  c=$(grep -oE "\((string|bool\?|float\?|float|int\?|int)\)m\[\"$K\"\]" "$PLUG" | head -1 | sed -E 's/\(([a-z?]+)\).*/\1/')
+  case $c in string) echo S;; "bool?") echo B;; "float?") echo F;; float) echo F;; "int?") echo I;; int) echo I;; *) echo "?";; esac
 }
 
 fail=0
