@@ -669,6 +669,10 @@ public class DistrictFactoryWindow : EditorWindow
         //     reactor's route: mesh footprint, per-district texture/B&W/flatten), not the legacy isolate/repoint path.
         //     Best-effort: the model already baked, so a selector failure (e.g. an emitter-only footprint template) just
         //     leaves the district on the legacy path with a warning instead of aborting the whole bake.
+        cur.selectorGuid = "";   // clear BEFORE the (re-)bake so a FAILURE genuinely falls to the legacy path (as the comment
+                                 // above promises). Without this, a re-bake keeps a STALE selectorGuid from a previous bake:
+                                 // the entry Upserts as "✓" but routes through the scoped path with an old selector against the
+                                 // freshly-minted fxMesh (delete+create) — a broken/empty district that reports success.
         if (DistrictBaker.BakeScopedSelector(cur.resourceName, out var selGuid, out var selErr))
             cur.selectorGuid = selGuid;
         else
