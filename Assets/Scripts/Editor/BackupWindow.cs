@@ -169,7 +169,8 @@ public class BackupWindow : EditorWindow
 
         EditorGUILayout.Space();
         EditorGUILayout.LabelField("Existing backups (newest first)", EditorStyles.boldLabel);
-        listScroll = EditorGUILayout.BeginScrollView(listScroll, GUILayout.Height(180));
+        // Fill the remaining window height (drill feedback: the list was pinned at 180px and ignored resizes).
+        listScroll = EditorGUILayout.BeginScrollView(listScroll, GUILayout.ExpandHeight(true));
         var backups = ListBackups();
         if (backups.Count == 0) EditorGUILayout.LabelField("  (none yet)", EditorStyles.miniLabel);
         foreach (var b in backups)
