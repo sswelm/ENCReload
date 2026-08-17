@@ -58,6 +58,13 @@ public class ModelFactoryWindow : EditorWindow
             if (files > 0) AssetDatabase.Refresh();
             bool saved = ModelRegistry.Upsert(def);
             RefreshList();
+            // Select + LOAD the restored entry (2026-08-17 drill: after Undo the window sat on <New> with an empty
+            // form — "I expect it to be selected again". Seeing the entry loaded, preview and all, IS the proof.)
+            if (saved)
+            {
+                int idx = Array.IndexOf(existing, def.resourceName);
+                if (idx > 0) { selected = idx; OnSelectResource(); }
+            }
             status = saved
                 ? $"Restored '{def.resourceName}' — registry entry + {files} baked file(s) from {Path.GetFileName(lastRemovedSnap)}."
                 : $"⚠ Undo remove: {files} baked file(s) restored but the registry SAVE FAILED — press Undo remove again or check the registry.";
