@@ -178,7 +178,8 @@ public class BackupWindow : EditorWindow
         string NameOf(string p) => Path.GetFileName(p);
         var fulls = all.Where(b => !NameOf(b).StartsWith("_") || NameOf(b).StartsWith("_auto_"))
                        .OrderByDescending(b => TsOf(NameOf(b))).ToList();
-        foreach (var b in fulls) BackupRow(b, NameOf(b).StartsWith("_auto_") ? "daily auto" : "manual", RowMode.GroupRestore);
+        if (fulls.Count > 0 && (showFull = EditorGUILayout.Foldout(showFull, $"Full backups ({fulls.Count}) — manual + daily auto", true)))
+            foreach (var b in fulls) BackupRow(b, NameOf(b).StartsWith("_auto_") ? "daily auto" : "manual", RowMode.GroupRestore);
 
         var pre = all.Where(b => NameOf(b).StartsWith("_prerestore")).ToList();
         var del = all.Where(b => NameOf(b).StartsWith("_deleted")).ToList();
@@ -192,7 +193,10 @@ public class BackupWindow : EditorWindow
         EditorGUILayout.EndScrollView();
     }
 
-    bool showPre, showDel, showRem;   // collapsed by default — the noisy automatic classes stay out of the way
+    // Fold defaults (2026-08-17, user-tuned): delete-guard OPEN (the section you check after an "oops"), the rest
+    // folded — incl. full backups, which are rare and easy to expand when actually restoring.
+    bool showFull, showPre, showRem;
+    bool showDel = true;
 
     enum RowMode { GroupRestore, RemovedRestore }
 
