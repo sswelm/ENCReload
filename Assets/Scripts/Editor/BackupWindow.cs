@@ -13,6 +13,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;   // offsite zip (2026-08-17)
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
@@ -28,7 +29,11 @@ public class BackupWindow : EditorWindow
     }
 
     const string PrefDest = "HAF.Backup.Dest";
-    string dest;                                   // backup root on D:
+    const string PrefOffsite = "HAF.Backup.OffsiteDest";   // OFFSITE copy (2026-08-17): D: is the same machine — theft/fire/surge
+    const string PrefOffsiteAuto = "HAF.Backup.OffsiteAuto"; // takes the backups with the originals. Each backup can be zipped as ONE
+    string dest;                                   // backup root on D:  // file into a second (ideally cloud-synced) folder.
+    string offsite;                                // offsite folder ("" = feature off)
+    bool offsiteAuto;                              // auto-zip each new manual backup
     Vector2 scroll, listScroll;
     string status = "";
     readonly Dictionary<string, bool> enabled = new Dictionary<string, bool>();   // group key -> included
@@ -73,6 +78,8 @@ public class BackupWindow : EditorWindow
     void OnEnable()
     {
         dest = EditorPrefs.GetString(PrefDest, "D:/HAF_Backups");
+        offsite = EditorPrefs.GetString(PrefOffsite, "");
+        offsiteAuto = EditorPrefs.GetBool(PrefOffsiteAuto, true);
         foreach (var g in BuildGroups()) if (!enabled.ContainsKey(g.Key)) enabled[g.Key] = true;   // everything on by default
     }
 
@@ -94,6 +101,30 @@ public class BackupWindow : EditorWindow
             }
         }
         EditorPrefs.SetString(PrefDest, dest);
+
+        // OFFSITE: one .zip per backup into a second folder. D: is the same machine — a machine-level event (theft,
+        // fire, surge) takes the backups with the originals; a cloud-synced folder here is the "just in case" copy.
+        using (new EditorGUILayout.HorizontalScope())
+        {
+            offsite = EditorGUILayout.TextField(new GUIContent("Offsite folder (cloud-synced)", "Second folder each backup is zipped into as ONE file (e.g. a OneDrive/Drive folder). Blank = off."), offsite);
+            if (GUILayout.Button("Browse", GUILayout.Width(70)))
+            {
+                var p = EditorUtility.OpenFolderPanel("Pick the OFFSITE folder (ideally cloud-synced)", Directory.Exists(offsite) ? offsite : "", "");
+                if (!string.IsNullOrEmpty(p)) { offsite = p; EditorPrefs.SetString(PrefOffsite, offsite); }
+            }
+        }
+        EditorPrefs.SetString(PrefOffsite, offsite);
+        using (new EditorGUILayout.HorizontalScope())
+        {
+            bool na = EditorGUILayout.ToggleLeft(new GUIContent("Auto-zip each new backup to the offsite folder", "After every successful 'Back up now', the snapshot is also written offsite as HAF_<timestamp>.zip."), offsiteAuto);
+            if (na != offsiteAuto) { offsiteAuto = na; EditorPrefs.SetBool(PrefOffsiteAuto, offsiteAuto); }
+            using (new EditorGUI.DisabledScope(string.IsNullOrEmpty(offsite) || ListBackups().All(b => Path.GetFileName(b).StartsWith("_prerestore"))))
+                if (GUILayout.Button("Zip latest backup → offsite now", GUILayout.Width(210)))
+                {
+                    var latest = ListBackups().FirstOrDefault(b => !Path.GetFileName(b).StartsWith("_prerestore"));
+                    if (latest != null) OffsiteZipAsync(latest);
+                }
+        }
 
         EditorGUILayout.Space();
         using (new EditorGUILayout.HorizontalScope())
@@ -139,8 +170,66 @@ public class BackupWindow : EditorWindow
     void DoBackup()
     {
         var groups = BuildGroups().Where(g => enabled.TryGetValue(g.Key, out var b) && b).ToList();
-        DoBackupInto(NewBackupDir(""), groups, "manual backup");
+        string dir = DoBackupInto(NewBackupDir(""), groups, "manual backup");
+        // Offsite ride-along: zip the fresh snapshot into the second folder — OPTIONAL (blank folder = off) and
+        // SILENT (background thread; a multi-GB FactorySource zip must not freeze the editor). A failure here NEVER
+        // un-does the local backup — the result surfaces in the status line when it lands. (_prerestore safety
+        // snapshots are deliberately not auto-zipped; they're local undo state, not archives.)
+        if (dir != null && offsiteAuto && !string.IsNullOrEmpty(offsite)) OffsiteZipAsync(dir);
         sizeCache.Clear();
+    }
+
+    // ---- offsite (background) ----
+    volatile string offsitePending;   // result from the worker thread, appended to status on the editor tick
+    bool offsiteRunning;
+
+    void OffsiteZipAsync(string backupDir)
+    {
+        if (offsiteRunning) { status += "\nOffsite: a zip is already running — this backup was NOT zipped; use 'Zip latest backup → offsite now' when it finishes."; return; }
+        offsiteRunning = true;
+        status += $"\nOffsite: zipping '{Path.GetFileName(backupDir)}' in the background…";
+        string off = offsite;   // capture for the thread (prefs/UI stay main-thread-only)
+        EditorApplication.update += PumpOffsiteResult;   // subscribed on the MAIN thread, before the worker starts
+        System.Threading.Tasks.Task.Run(() =>
+        {
+            var result = OffsiteZipCore(backupDir, off);
+            offsitePending = result;   // picked up by PumpOffsiteResult on the editor tick
+        });
+    }
+
+    void PumpOffsiteResult()
+    {
+        var r = offsitePending;
+        if (r == null) return;
+        offsitePending = null;
+        offsiteRunning = false;
+        EditorApplication.update -= PumpOffsiteResult;
+        status += "\n" + r;
+        Repaint();
+    }
+
+    // Zip one backup folder into the offsite folder as a single file, atomically (.partial then rename), never
+    // overwriting an existing zip, and VERIFY by re-opening the zip and comparing its entry count to the folder's.
+    // Pure file IO — safe off the main thread (no Unity APIs).
+    static string OffsiteZipCore(string backupDir, string offsiteDir)
+    {
+        try
+        {
+            if (string.IsNullOrEmpty(offsiteDir)) return "Offsite: no folder set.";
+            Directory.CreateDirectory(offsiteDir);
+            string zip = Path.Combine(offsiteDir, "HAF_" + Path.GetFileName(backupDir) + ".zip");
+            if (File.Exists(zip)) return $"Offsite: '{Path.GetFileName(zip)}' already exists — kept (never overwritten).";
+            string partial = zip + ".partial";
+            if (File.Exists(partial)) File.Delete(partial);   // leftover from an interrupted run
+            ZipFile.CreateFromDirectory(backupDir, partial, System.IO.Compression.CompressionLevel.Optimal, false);
+            int expect = FileCount(backupDir);
+            int inZip;
+            using (var z = ZipFile.OpenRead(partial)) inZip = z.Entries.Count(e => !string.IsNullOrEmpty(e.Name));   // entries with a name = files (skips pure dir entries)
+            if (inZip != expect) { File.Delete(partial); return $"⚠ Offsite zip VERIFY FAILED ({inZip} files in zip vs {expect} in backup) — partial deleted, local backup untouched."; }
+            File.Move(partial, zip);
+            return $"Offsite: zipped {inZip} files ({Human(new FileInfo(zip).Length)}) → {zip}";
+        }
+        catch (Exception e) { return "⚠ Offsite zip FAILED: " + e.Message + " (local backup untouched)"; }
     }
 
     // Snapshot the given groups into a fresh folder; write a manifest; verify counts. Returns the folder (or null on failure).
