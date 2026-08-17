@@ -36,6 +36,14 @@ class HafDeleteGuard : UnityEditor.AssetModificationProcessor
             string p = assetPath.Replace('\\', '/');
             if (!roots.Any(r => p.StartsWith(r + "/", StringComparison.OrdinalIgnoreCase) || p.Equals(r, StringComparison.OrdinalIgnoreCase)))
                 return AssetDeleteResult.DidNotDelete;
+            // PREVIEW-SCRATCH exclusion (2026-08-17, "WTF it mentions TowedGunHowitzers_PropFit"): the Lab/Factory
+            // fit-preview prefabs are delete-first REBUILT constantly ("NOT shipped; preview-only") — guarding them
+            // fills the log with alarming churn for files that regenerate on the next preview. Same lesson as
+            // excluding Assets/Resources: the guard protects what can't be rebuilt, not what rebuilds itself.
+            string leafLower = Path.GetFileName(p).ToLowerInvariant();
+            if (leafLower.EndsWith("_propfit.prefab") || leafLower.EndsWith("_preview.prefab") ||
+                leafLower.EndsWith("_previewmesh.asset") || leafLower.EndsWith("_previewmat.mat"))
+                return AssetDeleteResult.DidNotDelete;
             string dest = EditorPrefs.GetString("HAF.Backup.Dest", "D:/HAF_Backups");
             string projRoot = Directory.GetParent(Application.dataPath).FullName;
             string abs = Path.Combine(projRoot, p);
