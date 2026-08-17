@@ -45,10 +45,10 @@ public class BackupWindow : EditorWindow
     static string AssetsDir => Application.dataPath;
 
     // A backup group: a display name, a prefs/manifest key, and the concrete source paths it captures (file or dir).
-    class Group { public string Name, Key; public List<string> Sources; public Group(string n, string k, List<string> s) { Name = n; Key = k; Sources = s; } }
+    internal class Group { public string Name, Key; public List<string> Sources; public Group(string n, string k, List<string> s) { Name = n; Key = k; Sources = s; } }
 
     // Resolved fresh each time (paths must exist to be offered). Runtime config = the haf_* entries the plugin reads.
-    static List<Group> BuildGroups()
+    internal static List<Group> BuildGroups()
     {
         var g = new List<Group>();
         void Add(string name, string key, IEnumerable<string> srcs)
@@ -126,6 +126,21 @@ public class BackupWindow : EditorWindow
                 }
         }
 
+        // AUTOMATIC guards (implemented in BackupAuto.cs) — both silent, both optional, both feeding THIS list.
+        EditorGUILayout.Space();
+        EditorGUILayout.LabelField("Automatic", EditorStyles.boldLabel);
+        bool dg = EditorPrefs.GetBool(HafDeleteGuard.PrefOn, true);
+        bool ndg = EditorGUILayout.ToggleLeft(new GUIContent("Delete guard — snapshot any asset before it is deleted",
+            "Before ANYTHING under FactorySource / Resources / Databases / Scripts/Editor is deleted (Factory Remove, a Project-window delete), it is first copied to a _deleted_<timestamp> folder here. The delete then proceeds normally."), dg);
+        if (ndg != dg) EditorPrefs.SetBool(HafDeleteGuard.PrefOn, ndg);
+        bool ab = EditorPrefs.GetBool(HafAutoBackup.PrefOn, true);
+        long lastTicks = long.TryParse(EditorPrefs.GetString(HafAutoBackup.PrefLast, "0"), out var lt) ? lt : 0;
+        bool nab = EditorGUILayout.ToggleLeft(new GUIContent(
+            $"Daily auto-version — full silent backup (assets + configuration) on first editor load of the day; keeps the newest {HafAutoBackup.Keep}" +
+            (lastTicks > 0 ? $"   (last: {new DateTime(lastTicks):yyyy-MM-dd HH:mm})" : "   (never run yet)"),
+            "Runs the same backup as the button, all groups, and appears below with a Restore button like any version. Only _auto_ versions rotate; manual backups and _deleted snapshots are never auto-deleted."), ab);
+        if (nab != ab) EditorPrefs.SetBool(HafAutoBackup.PrefOn, nab);
+
         EditorGUILayout.Space();
         using (new EditorGUILayout.HorizontalScope())
         {
@@ -157,8 +172,11 @@ public class BackupWindow : EditorWindow
         foreach (var b in backups)
             using (new EditorGUILayout.HorizontalScope())
             {
-                bool pre = Path.GetFileName(b).StartsWith("_prerestore");
-                EditorGUILayout.LabelField($"{Path.GetFileName(b)}   {Human(CachedBytes(b))}" + (pre ? "   (auto safety snapshot)" : ""));
+                string bn = Path.GetFileName(b);
+                string tag = bn.StartsWith("_prerestore") ? "   (auto safety snapshot)"
+                           : bn.StartsWith("_deleted") ? "   (delete-guard snapshot)"
+                           : bn.StartsWith("_auto") ? "   (daily auto-version)" : "";
+                EditorGUILayout.LabelField($"{bn}   {Human(CachedBytes(b))}" + tag);
                 if (GUILayout.Button("Reveal", GUILayout.Width(60))) EditorUtility.RevealInFinder(b + Path.DirectorySeparatorChar);
                 if (GUILayout.Button("Restore", GUILayout.Width(64))) { DoRestore(b); GUIUtility.ExitGUI(); }
                 if (GUILayout.Button("Delete", GUILayout.Width(60))) { DeleteBackup(b); GUIUtility.ExitGUI(); }
@@ -211,7 +229,7 @@ public class BackupWindow : EditorWindow
     // Zip one backup folder into the offsite folder as a single file, atomically (.partial then rename), never
     // overwriting an existing zip, and VERIFY by re-opening the zip and comparing its entry count to the folder's.
     // Pure file IO — safe off the main thread (no Unity APIs).
-    static string OffsiteZipCore(string backupDir, string offsiteDir)
+    internal static string OffsiteZipCore(string backupDir, string offsiteDir)
     {
         try
         {
@@ -235,6 +253,15 @@ public class BackupWindow : EditorWindow
     // Snapshot the given groups into a fresh folder; write a manifest; verify counts. Returns the folder (or null on failure).
     string DoBackupInto(string dir, List<Group> groups, string note)
     {
+        var r = SnapshotInto(dir, groups, note);
+        status = r.report;
+        return r.ok ? r.dir : null;
+    }
+
+    // Static core so the AUTOMATIC half (BackupAuto.cs: delete guard + daily auto) can snapshot without a window open.
+    internal struct SnapResult { public string dir, report; public bool ok; }
+    internal static SnapResult SnapshotInto(string dir, List<Group> groups, string note)
+    {
         try
         {
             Directory.CreateDirectory(dir);
@@ -255,12 +282,21 @@ public class BackupWindow : EditorWindow
             File.WriteAllLines(Path.Combine(dir, "manifest.txt"), manifest);
             // verify: re-count what actually landed vs the manifest
             int landed = ManifestSources(dir).Sum(m => FileCount(Path.Combine(dir, m.rel)));
-            status = landed == totalFiles
-                ? $"Backed up {totalFiles} files ({Human(totalBytes)}) → {Path.GetFileName(dir)}."
-                : $"⚠ Backup COUNT MISMATCH: expected {totalFiles}, found {landed} in {Path.GetFileName(dir)} — inspect before trusting it.";
-            return dir;
+            bool ok = landed == totalFiles;
+            return new SnapResult
+            {
+                dir = dir,
+                ok = ok,
+                report = ok
+                    ? $"Backed up {totalFiles} files ({Human(totalBytes)}) → {Path.GetFileName(dir)}."
+                    : $"⚠ Backup COUNT MISMATCH: expected {totalFiles}, found {landed} in {Path.GetFileName(dir)} — inspect before trusting it."
+            };
         }
-        catch (Exception e) { status = "Backup FAILED: " + e.Message; try { if (Directory.Exists(dir) && !Directory.EnumerateFileSystemEntries(dir).Any()) Directory.Delete(dir); } catch { } return null; }
+        catch (Exception e)
+        {
+            try { if (Directory.Exists(dir) && !Directory.EnumerateFileSystemEntries(dir).Any()) Directory.Delete(dir); } catch { }
+            return new SnapResult { dir = dir, ok = false, report = "Backup FAILED: " + e.Message };
+        }
     }
 
     // ---- restore (guarded) ----
@@ -315,7 +351,7 @@ public class BackupWindow : EditorWindow
     }
 
     struct MSrc { public string rel, original; public int files; }
-    List<MSrc> ManifestSources(string backupDir)
+    static List<MSrc> ManifestSources(string backupDir)
     {
         var outp = new List<MSrc>();
         string mf = Path.Combine(backupDir, "manifest.txt");
@@ -329,7 +365,7 @@ public class BackupWindow : EditorWindow
         return outp;
     }
 
-    static int CopyFile(string src, string dst)
+    internal static int CopyFile(string src, string dst)
     {
         Directory.CreateDirectory(Path.GetDirectoryName(dst));
         File.Copy(src, dst, true);
@@ -338,7 +374,7 @@ public class BackupWindow : EditorWindow
 
     // Recursively copy src dir into dst, overwriting matching files but NEVER deleting files already in dst — so this is
     // inherently safe/additive for both backup (dst is fresh) and restore (dst keeps anything added since the backup).
-    static int CopyTree(string src, string dst)
+    internal static int CopyTree(string src, string dst)
     {
         int n = 0;
         Directory.CreateDirectory(dst);
@@ -351,7 +387,7 @@ public class BackupWindow : EditorWindow
         return n;
     }
 
-    static int FileCount(string path)
+    internal static int FileCount(string path)
     {
         try { return File.Exists(path) ? 1 : Directory.Exists(path) ? Directory.GetFiles(path, "*", SearchOption.AllDirectories).Length : 0; }
         catch { return 0; }
@@ -368,7 +404,7 @@ public class BackupWindow : EditorWindow
         catch { return 0; }
     }
 
-    static string Human(long bytes)
+    internal static string Human(long bytes)
     {
         string[] u = { "B", "KB", "MB", "GB" }; double b = bytes; int i = 0;
         while (b >= 1024 && i < u.Length - 1) { b /= 1024; i++; }
