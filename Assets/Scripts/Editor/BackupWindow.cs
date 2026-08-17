@@ -175,6 +175,7 @@ public class BackupWindow : EditorWindow
                 string bn = Path.GetFileName(b);
                 string tag = bn.StartsWith("_prerestore") ? "   (auto safety snapshot)"
                            : bn.StartsWith("_deleted") ? "   (delete-guard snapshot)"
+                           : bn.StartsWith("_removed") ? "   (Factory remove-undo snapshot)"
                            : bn.StartsWith("_auto") ? "   (daily auto-version)" : "";
                 EditorGUILayout.LabelField($"{bn}   {Human(CachedBytes(b))}" + tag);
                 if (GUILayout.Button("Reveal", GUILayout.Width(60))) EditorUtility.RevealInFinder(b + Path.DirectorySeparatorChar);

@@ -131,6 +131,25 @@ public static class UniversalBaker
             AssetDatabase.DeleteAsset("Assets/Resources/" + name + s);
     }
 
+    // Copy the EXACT same whitelist SweepAllOutputs deletes (incl. .meta so GUIDs survive a round trip) into destDir.
+    // The Factory's Remove uses it to make removal UNDOABLE (recycle-bin semantics — 2026-08-17 recovery-drill finding:
+    // recovery must not depend on a manual backup happening to exist). Returns the number of files copied.
+    internal static int CopyAllOutputs(string name, string destDir)
+    {
+        int n = 0;
+        string res = ResourcesFull();
+        foreach (var s in OutputSuffixes)
+            foreach (var ext in new[] { "", ".meta" })
+            {
+                string src = Path.Combine(res, name + s + ext);
+                if (!File.Exists(src)) continue;
+                Directory.CreateDirectory(destDir);
+                File.Copy(src, Path.Combine(destDir, name + s + ext), true);
+                n++;
+            }
+        return n;
+    }
+
     class OutputBackup { public string name = ""; public string dir = ""; public readonly List<string> files = new List<string>(); }
 
     static string ResourcesFull() => Path.Combine(Directory.GetParent(Application.dataPath).FullName, "Assets", "Resources");

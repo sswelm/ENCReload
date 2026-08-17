@@ -5,6 +5,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;                            // remove-undo snapshot (2026-08-17)
 using System.Linq;
 using Newtonsoft.Json.Linq;                 // SDK-provided (mod.io) — robust glTF parse for the Clip/Bone pickers
 using UnityEditor;
@@ -35,6 +36,35 @@ public class ModelFactoryWindow : EditorWindow
     [SerializeField] Vector2 previewPan;                              // camera-plane pan offset (middle/right-drag), in radius units
     static Material previewFallbackMat;
     string previewFor = "";
+    [SerializeField] string lastRemovedName = "", lastRemovedSnap = "";   // recycle-bin undo state (survives domain reload)
+
+    // Restore the last-removed model from its _removed_ snapshot: baked outputs back (additive file copies, .meta
+    // incl. so GUIDs survive), then the registry entry (Upsert = load-replace-save, dual-written like any save).
+    void UndoRemove()
+    {
+        try
+        {
+            string ej = Path.Combine(lastRemovedSnap, "entry.json");
+            if (!File.Exists(ej)) { status = $"Undo remove FAILED: snapshot entry.json missing in {lastRemovedSnap}."; return; }
+            var def = JsonUtility.FromJson<ModelDef>(File.ReadAllText(ej));
+            if (def == null || string.IsNullOrEmpty(def.resourceName)) { status = "Undo remove FAILED: snapshot entry unreadable."; return; }
+            int files = 0;
+            foreach (var f in Directory.GetFiles(lastRemovedSnap))
+            {
+                string leaf = Path.GetFileName(f);
+                if (leaf == "entry.json") continue;
+                File.Copy(f, Path.Combine("Assets/Resources", leaf), true); files++;
+            }
+            if (files > 0) AssetDatabase.Refresh();
+            bool saved = ModelRegistry.Upsert(def);
+            RefreshList();
+            status = saved
+                ? $"Restored '{def.resourceName}' — registry entry + {files} baked file(s) from {Path.GetFileName(lastRemovedSnap)}."
+                : $"⚠ Undo remove: {files} baked file(s) restored but the registry SAVE FAILED — press Undo remove again or check the registry.";
+            if (saved) { lastRemovedName = ""; lastRemovedSnap = ""; }
+        }
+        catch (Exception ex) { status = "Undo remove FAILED: " + ex.Message + " (the _removed_ snapshot is untouched — retry or restore by hand)"; }
+    }
     // GROUND REFERENCE (ported back from the District Factory pane, user request): a tile-sized square pinned at the
     // ORIGIN plane — the static bake grounds the keel to the origin and Position offset moves the model relative to it,
     // so this square IS the in-game ground truth. Never anchor it to the model's bounds (that HID a half-sunk district
@@ -463,6 +493,26 @@ public class ModelFactoryWindow : EditorWindow
                             "Remove, keep files");     // 2
                         if (choice != 1)   // 0 or 2 = remove (1 = cancel)
                         {
+                            // RECYCLE-BIN SNAPSHOT (2026-08-17 drill finding): Remove guarantees its OWN undo — the
+                            // entry's JSON + (when deleting files) the exact baked-output whitelist are copied to
+                            // <backup root>/_removed_<ts>_<name>/ BEFORE anything is touched. If the snapshot can't
+                            // be taken, the remove is ABORTED (never destroy what can't be restored).
+                            string undoDir = Path.Combine(EditorPrefs.GetString("HAF.Backup.Dest", "D:/HAF_Backups"),
+                                "_removed_" + DateTime.Now.ToString("yyyy-MM-dd_HHmmss") + "_" + name);
+                            try
+                            {
+                                var defSnap = ModelRegistry.Load().FirstOrDefault(d => d.resourceName == name);
+                                if (defSnap == null) { status = $"Remove ABORTED — '{name}' not found in the registry (refresh and retry)."; GUIUtility.ExitGUI(); }
+                                Directory.CreateDirectory(undoDir);
+                                File.WriteAllText(Path.Combine(undoDir, "entry.json"), JsonUtility.ToJson(defSnap, true));
+                                if (choice == 0) UniversalBaker.CopyAllOutputs(name, undoDir);
+                                lastRemovedName = name; lastRemovedSnap = undoDir;
+                            }
+                            catch (Exception ex)
+                            {
+                                status = $"Remove ABORTED — could not take the undo snapshot ({ex.Message}). Nothing was removed.";
+                                GUIUtility.ExitGUI();
+                            }
                             bool removed = ModelRegistry.Remove(name);
                             // sel = 0 too (same reason as Clone, line ~440): the popup-apply below reads a stale `sel` as a
                             // "selection change" and reloads existing[sel] on the SHRUNKEN list — jumping to a different
@@ -487,6 +537,12 @@ public class ModelFactoryWindow : EditorWindow
                         }
                     }
                 }
+            // UNDO REMOVE (2026-08-17 drill, user-designed placement: "a restore button where the deletion button
+            // is"): visible only after a remove this session; restores the entry + its baked outputs from the
+            // _removed_ snapshot the Remove took. Survives a domain reload ([SerializeField] fields).
+            if (!string.IsNullOrEmpty(lastRemovedName))
+                if (GUILayout.Button(new GUIContent($"Undo remove", $"Restore '{lastRemovedName}' (registry entry + baked assets) from {Path.GetFileName(lastRemovedSnap)}"), GUILayout.Width(94)))
+                { UndoRemove(); GUIUtility.ExitGUI(); }
             if (sel != selected) { selected = sel; OnSelectResource(); GUI.FocusControl(null); }
         }
         EditorGUILayout.Space();
