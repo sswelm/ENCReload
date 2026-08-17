@@ -38,39 +38,19 @@ public class ModelFactoryWindow : EditorWindow
     string previewFor = "";
     [SerializeField] string lastRemovedName = "", lastRemovedSnap = "";   // recycle-bin undo state (survives domain reload)
 
-    // Restore the last-removed model from its _removed_ snapshot: baked outputs back (additive file copies, .meta
-    // incl. so GUIDs survive), then the registry entry (Upsert = load-replace-save, dual-written like any save).
+    // Restore the last-removed model — ONE shared implementation with the Backup window's _removed_-row Restore
+    // (BackupWindow.RestoreRemovedSnapshot: baked files back additively, registry entry via Upsert). This wrapper
+    // adds the Factory-side proof: select + LOAD the restored entry (drill: "I expect it to be selected again").
     void UndoRemove()
     {
-        try
+        status = BackupWindow.RestoreRemovedSnapshot(lastRemovedSnap, out var restoredName);
+        RefreshList();
+        if (!string.IsNullOrEmpty(restoredName))
         {
-            string ej = Path.Combine(lastRemovedSnap, "entry.json");
-            if (!File.Exists(ej)) { status = $"Undo remove FAILED: snapshot entry.json missing in {lastRemovedSnap}."; return; }
-            var def = JsonUtility.FromJson<ModelDef>(File.ReadAllText(ej));
-            if (def == null || string.IsNullOrEmpty(def.resourceName)) { status = "Undo remove FAILED: snapshot entry unreadable."; return; }
-            int files = 0;
-            foreach (var f in Directory.GetFiles(lastRemovedSnap))
-            {
-                string leaf = Path.GetFileName(f);
-                if (leaf == "entry.json") continue;
-                File.Copy(f, Path.Combine("Assets/Resources", leaf), true); files++;
-            }
-            if (files > 0) AssetDatabase.Refresh();
-            bool saved = ModelRegistry.Upsert(def);
-            RefreshList();
-            // Select + LOAD the restored entry (2026-08-17 drill: after Undo the window sat on <New> with an empty
-            // form — "I expect it to be selected again". Seeing the entry loaded, preview and all, IS the proof.)
-            if (saved)
-            {
-                int idx = Array.IndexOf(existing, def.resourceName);
-                if (idx > 0) { selected = idx; OnSelectResource(); }
-            }
-            status = saved
-                ? $"Restored '{def.resourceName}' — registry entry + {files} baked file(s) from {Path.GetFileName(lastRemovedSnap)}."
-                : $"⚠ Undo remove: {files} baked file(s) restored but the registry SAVE FAILED — press Undo remove again or check the registry.";
-            if (saved) { lastRemovedName = ""; lastRemovedSnap = ""; }
+            int idx = Array.IndexOf(existing, restoredName);
+            if (idx > 0) { selected = idx; OnSelectResource(); }
+            lastRemovedName = ""; lastRemovedSnap = "";
         }
-        catch (Exception ex) { status = "Undo remove FAILED: " + ex.Message + " (the _removed_ snapshot is untouched — retry or restore by hand)"; }
     }
     // GROUND REFERENCE (ported back from the District Factory pane, user request): a tile-sized square pinned at the
     // ORIGIN plane — the static bake grounds the keel to the origin and Position offset moves the model relative to it,

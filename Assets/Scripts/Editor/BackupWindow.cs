@@ -168,25 +168,96 @@ public class BackupWindow : EditorWindow
         if (!string.IsNullOrEmpty(status)) EditorGUILayout.HelpBox(status, MessageType.None);
 
         EditorGUILayout.Space();
+        // GROUPED list (2026-08-17 drill feedback: "this list is very confusing" — the flat view mixed four snapshot
+        // KINDS behind machine names, burying the only rows most restores actually use). Full backups first with
+        // human dates; the automatic snapshot classes live in collapsed, counted sections.
         EditorGUILayout.LabelField("Existing backups (newest first)", EditorStyles.boldLabel);
-        // Fill the remaining window height (drill feedback: the list was pinned at 180px and ignored resizes).
         listScroll = EditorGUILayout.BeginScrollView(listScroll, GUILayout.ExpandHeight(true));
-        var backups = ListBackups();
-        if (backups.Count == 0) EditorGUILayout.LabelField("  (none yet)", EditorStyles.miniLabel);
-        foreach (var b in backups)
-            using (new EditorGUILayout.HorizontalScope())
-            {
-                string bn = Path.GetFileName(b);
-                string tag = bn.StartsWith("_prerestore") ? "   (auto safety snapshot)"
-                           : bn.StartsWith("_deleted") ? "   (delete-guard snapshot)"
-                           : bn.StartsWith("_removed") ? "   (Factory remove-undo snapshot)"
-                           : bn.StartsWith("_auto") ? "   (daily auto-version)" : "";
-                EditorGUILayout.LabelField($"{bn}   {Human(CachedBytes(b))}" + tag);
-                if (GUILayout.Button(new GUIContent("Reveal", "Open this backup's folder in Explorer."), GUILayout.Width(60))) EditorUtility.RevealInFinder(b + Path.DirectorySeparatorChar);
-                if (GUILayout.Button(new GUIContent("Restore", "Copy this backup's TICKED groups back over the originals. Guarded: your current state is snapshotted first (_prerestore), files you added since are never deleted, and only missing/changed files are written (identical ones untouched)."), GUILayout.Width(64))) { DoRestore(b); GUIUtility.ExitGUI(); }
-                if (GUILayout.Button(new GUIContent("Delete", "Permanently delete this backup folder (asks first). Live project files are untouched."), GUILayout.Width(60))) { DeleteBackup(b); GUIUtility.ExitGUI(); }
-            }
+        var all = ListBackups();
+        if (all.Count == 0) EditorGUILayout.LabelField("  (none yet)", EditorStyles.miniLabel);
+        string NameOf(string p) => Path.GetFileName(p);
+        var fulls = all.Where(b => !NameOf(b).StartsWith("_") || NameOf(b).StartsWith("_auto_"))
+                       .OrderByDescending(b => TsOf(NameOf(b))).ToList();
+        foreach (var b in fulls) BackupRow(b, NameOf(b).StartsWith("_auto_") ? "daily auto" : "manual", RowMode.GroupRestore);
+
+        var pre = all.Where(b => NameOf(b).StartsWith("_prerestore")).ToList();
+        var del = all.Where(b => NameOf(b).StartsWith("_deleted")).ToList();
+        var rem = all.Where(b => NameOf(b).StartsWith("_removed")).ToList();
+        if (pre.Count > 0 && (showPre = EditorGUILayout.Foldout(showPre, $"Pre-restore safety snapshots ({pre.Count}) — each restore's own undo", true)))
+            foreach (var b in pre.OrderByDescending(x => TsOf(NameOf(x)))) BackupRow(b, "pre-restore undo", RowMode.GroupRestore);
+        if (del.Count > 0 && (showDel = EditorGUILayout.Foldout(showDel, $"Delete-guard snapshots ({del.Count}) — assets copied before a deletion", true)))
+            foreach (var b in del.OrderByDescending(x => TsOf(NameOf(x)))) BackupRow(b, AssetOf(NameOf(b), "_deleted"), RowMode.GroupRestore);
+        if (rem.Count > 0 && (showRem = EditorGUILayout.Foldout(showRem, $"Factory remove snapshots ({rem.Count}) — one-click full restore (baked assets + registry entry)", true)))
+            foreach (var b in rem.OrderByDescending(x => TsOf(NameOf(x)))) BackupRow(b, AssetOf(NameOf(b), "_removed"), RowMode.RemovedRestore);
         EditorGUILayout.EndScrollView();
+    }
+
+    bool showPre, showDel, showRem;   // collapsed by default — the noisy automatic classes stay out of the way
+
+    enum RowMode { GroupRestore, RemovedRestore }
+
+    void BackupRow(string b, string kind, RowMode mode)
+    {
+        using (new EditorGUILayout.HorizontalScope())
+        {
+            EditorGUILayout.LabelField($"{TsPretty(Path.GetFileName(b))}   {Human(CachedBytes(b))}   ·  {kind}");
+            if (GUILayout.Button(new GUIContent("Reveal", "Open this backup's folder in Explorer."), GUILayout.Width(60))) EditorUtility.RevealInFinder(b + Path.DirectorySeparatorChar);
+            if (mode == RowMode.GroupRestore)
+            {
+                if (GUILayout.Button(new GUIContent("Restore", "Copy this backup's TICKED groups back over the originals. Guarded: your current state is snapshotted first (_prerestore), files you added since are never deleted, and only missing/changed files are written (identical ones untouched)."), GUILayout.Width(64))) { DoRestore(b); GUIUtility.ExitGUI(); }
+            }
+            else if (GUILayout.Button(new GUIContent("Restore", "FULL restore of this removed model: its baked assets are copied back AND its registry entry is re-added (dual-written like any save). The Model Factory's Undo-remove button does exactly this."), GUILayout.Width(64)))
+            { status = RestoreRemovedSnapshot(b, out _); sizeCache.Clear(); GUIUtility.ExitGUI(); }
+            if (GUILayout.Button(new GUIContent("Delete", "Permanently delete this backup folder (asks first). Live project files are untouched."), GUILayout.Width(60))) { DeleteBackup(b); GUIUtility.ExitGUI(); }
+        }
+    }
+
+    // FULL restore of a Factory _removed_ snapshot (2026-08-17, user: "the intuitive click is the removed row
+    // itself, in the Restore & Backup dialog"): baked files copied back additively, then the registry entry
+    // re-added via ModelRegistry.Upsert (dual-written like any save). Shared with the Factory's Undo button.
+    internal static string RestoreRemovedSnapshot(string snapDir, out string resourceName)
+    {
+        resourceName = null;
+        try
+        {
+            string ej = Path.Combine(snapDir, "entry.json");
+            if (!File.Exists(ej)) return $"Restore FAILED: no entry.json in {Path.GetFileName(snapDir)} — not a Factory remove snapshot.";
+            var def = JsonUtility.FromJson<ModelDef>(File.ReadAllText(ej));
+            if (def == null || string.IsNullOrEmpty(def.resourceName)) return "Restore FAILED: snapshot entry unreadable.";
+            int files = 0;
+            foreach (var f in Directory.GetFiles(snapDir))
+            {
+                string leaf = Path.GetFileName(f);
+                if (leaf == "entry.json" || leaf == "manifest.txt") continue;
+                File.Copy(f, Path.Combine("Assets/Resources", leaf), true); files++;
+            }
+            if (files > 0) AssetDatabase.Refresh();
+            bool saved = ModelRegistry.Upsert(def);
+            resourceName = def.resourceName;
+            return saved
+                ? $"Restored '{def.resourceName}' — registry entry + {files} baked file(s) from {Path.GetFileName(snapDir)}."
+                : $"⚠ '{def.resourceName}': {files} baked file(s) restored but the registry SAVE FAILED — retry, or check the registry.";
+        }
+        catch (Exception e) { return "Restore FAILED: " + e.Message; }
+    }
+
+    // "_deleted_2026-08-17_214023_TowedGunHowitzers_PropFit.prefab" -> "TowedGunHowitzers_PropFit.prefab"
+    static string AssetOf(string folderName, string prefix)
+    {
+        var m = System.Text.RegularExpressions.Regex.Match(folderName, prefix + @"_\d{4}-\d{2}-\d{2}_\d{6}_(.+)$");
+        return m.Success ? m.Groups[1].Value : folderName;
+    }
+
+    static string TsOf(string n)
+    {
+        var m = System.Text.RegularExpressions.Regex.Match(n, @"\d{4}-\d{2}-\d{2}_\d{6}");
+        return m.Success ? m.Value : n;
+    }
+
+    static string TsPretty(string n)
+    {
+        var m = System.Text.RegularExpressions.Regex.Match(n, @"(\d{4}-\d{2}-\d{2})_(\d{2})(\d{2})\d{2}");
+        return m.Success ? $"{m.Groups[1].Value} {m.Groups[2].Value}:{m.Groups[3].Value}" : n;
     }
 
     // ---- backup ----
