@@ -288,12 +288,19 @@ public class BackupWindow : EditorWindow
             // verify: re-count what actually landed vs the manifest
             int landed = ManifestSources(dir).Sum(m => FileCount(Path.Combine(dir, m.rel)));
             bool ok = landed == totalFiles;
+            // CRITICAL-CONTENT VERIFY (2026-08-17, "it can't even survive the most basic test"): a backup that runs
+            // green while missing the ONE file a recovery needs is worse than no backup — the recovery drill proved
+            // it (the registry silently absent for weeks). A snapshot that took the config group must CONTAIN every
+            // live pack registry, or it is NOT ok, full stop.
+            string critical = VerifyCriticalContents(dir, groups);
+            if (critical != null) ok = false;
             return new SnapResult
             {
                 dir = dir,
                 ok = ok,
-                report = ok
-                    ? $"Backed up {totalFiles} files ({Human(totalBytes)}) → {Path.GetFileName(dir)}."
+                report = critical != null ? critical
+                    : ok
+                    ? $"Backed up {totalFiles} files ({Human(totalBytes)}) → {Path.GetFileName(dir)} — registry verified in snapshot."
                     : $"⚠ Backup COUNT MISMATCH: expected {totalFiles}, found {landed} in {Path.GetFileName(dir)} — inspect before trusting it."
             };
         }
@@ -358,6 +365,30 @@ public class BackupWindow : EditorWindow
                      $"({st.identical} identical file(s) untouched). Current state was saved to '{Path.GetFileName(snap)}' first (undo by restoring that).";
         }
         catch (Exception e) { status = $"Restore FAILED midway ({e.Message}). Your pre-restore snapshot '{Path.GetFileName(snap)}' is intact — restore IT to get back."; }
+    }
+
+    // A snapshot that includes the config group must contain every live pack registry (haf_packs/*/pack.json) —
+    // the exact file class whose silent absence the 2026-08-17 recovery drill exposed. Returns null when clean,
+    // else a loud message; the caller marks the whole backup NOT ok. Extend as new must-have classes appear.
+    static string VerifyCriticalContents(string dir, List<Group> groups)
+    {
+        try
+        {
+            if (!groups.Any(g => g.Key == "config")) return null;   // config not taken -> nothing to assert
+            string cfg = SafeConfigDir();
+            if (string.IsNullOrEmpty(cfg)) return null;
+            string packs = Path.Combine(cfg, "haf_packs");
+            if (!Directory.Exists(packs)) return null;
+            var missing = new List<string>();
+            foreach (var p in Directory.GetFiles(packs, "pack.json", SearchOption.AllDirectories))
+            {
+                string rel = p.Substring(cfg.Length).TrimStart('/', '\\');   // haf_packs/<mod>/pack.json
+                if (!File.Exists(Path.Combine(dir, "config", rel))) missing.Add(rel.Replace('\\', '/'));
+            }
+            return missing.Count == 0 ? null
+                : $"⚠ CRITICAL: this backup is MISSING the model registry file(s): {string.Join(", ", missing)} — it CANNOT fully recover a removed model. Do not trust it; fix the config group and back up again.";
+        }
+        catch { return null; }   // the verify must never break the backup itself
     }
 
     // ---- smart copy (restore only) ----
