@@ -61,14 +61,17 @@ public class BackupWindow : EditorWindow
         Add("Baked assets (Assets/Resources)", "resources", new[] { Path.Combine(AssetsDir, "Resources") });
         Add("ENC Databases (Assets/Databases)", "databases", new[] { Path.Combine(AssetsDir, "Databases") });
         Add("Tools (Blender / converters)", "tools", new[] { Path.Combine(ProjectRoot, "Tools") });
-        // Runtime config: the LIVE files the plugin reads — haf_*.json + the skins/sounds folders (skip the regenerable atlas dump).
+        // Runtime config: the LIVE files the plugin reads — haf_*.json + the skins/sounds folders (skip the regenerable
+        // atlas dump) AND the haf_packs/ tree, where the MODEL REGISTRY (pack.json) has lived since the multi-pack
+        // migration. haf_packs was MISSING here until 2026-08-17 — found the hard way, mid recovery-drill: the restore
+        // brought every baked asset back but the registry entry "restored" from a backup that never contained it.
         string cfg = SafeConfigDir();
         if (!string.IsNullOrEmpty(cfg) && Directory.Exists(cfg))
         {
             var cfgSrcs = new List<string>();
             cfgSrcs.AddRange(Directory.GetFiles(cfg, "haf_*.json"));
-            foreach (var sub in new[] { "haf_skins", "haf_sounds" }) { var p = Path.Combine(cfg, sub); if (Directory.Exists(p)) cfgSrcs.Add(p); }
-            Add("Runtime config (registry + skins + sounds)", "config", cfgSrcs);
+            foreach (var sub in new[] { "haf_packs", "haf_skins", "haf_sounds" }) { var p = Path.Combine(cfg, sub); if (Directory.Exists(p)) cfgSrcs.Add(p); }
+            Add("Runtime config (registry packs + skins + sounds)", "config", cfgSrcs);
         }
         return g;
     }
