@@ -468,6 +468,10 @@ public class ModelFactoryWindow : EditorWindow
                             // "selection change" and reloads existing[sel] on the SHRUNKEN list — jumping to a different
                             // entry, or IndexOutOfRange when the removed entry was the last.
                             selected = 0; sel = 0; cur = new ModelDef(); RefreshList(); GUI.FocusControl(null);
+                            // Also clear the PREVIEW (user-found on the first live Remove drill, 2026-08-17): the
+                            // sel-reset above didn't touch it, so the window kept rendering the REMOVED model —
+                            // header and mesh — implying it still existed. Same stale-state family as the sel bug.
+                            LoadPreview("");
                             status = removed ? $"Removed '{name}' from the registry."
                                              : $"'{name}' was not in the registry — nothing removed.";
                             // Curated asset cleanup (2026-07-27, the lost-portrait lesson): delete the BAKED outputs via
