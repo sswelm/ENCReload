@@ -144,7 +144,7 @@ public class BackupWindow : EditorWindow
         EditorGUILayout.Space();
         using (new EditorGUILayout.HorizontalScope())
         {
-            EditorGUILayout.LabelField("Include in backup", EditorStyles.boldLabel);
+            EditorGUILayout.LabelField("Include in backup / restore (the same checkboxes scope both)", EditorStyles.boldLabel);
             if (GUILayout.Button("↻ sizes", GUILayout.Width(70))) sizeCache.Clear();
         }
         scroll = EditorGUILayout.BeginScrollView(scroll, GUILayout.Height(130));
@@ -305,9 +305,27 @@ public class BackupWindow : EditorWindow
     {
         var srcs = ManifestSources(backupDir);
         if (srcs.Count == 0) { status = "Nothing to restore — no manifest in " + Path.GetFileName(backupDir) + "."; return; }
+
+        // SELECTIVE RESTORE (2026-08-17, critical-review gap: restore was all-or-nothing, so recovering ONE thing
+        // from an older snapshot also rolled every other group back to snapshot time). The SAME group checkboxes
+        // that scope a backup scope a restore: a manifest rel path starts with its group key ("resources/…"), so
+        // filter to the ticked groups. Non-standard snapshots (_deleted / _prerestore: keys like "restore0") have
+        // no matching group keys — those restore whole, as before (they're single-purpose snapshots by nature).
+        var groupKeys = new HashSet<string>(BuildGroups().Select(g => g.Key));
+        bool standard = srcs.Any(s => groupKeys.Contains(s.rel.Replace('\\', '/').Split('/')[0]));
+        string scopeNote = "";
+        if (standard)
+        {
+            var picked = srcs.Where(s => enabled.TryGetValue(s.rel.Replace('\\', '/').Split('/')[0], out var on) && on).ToList();
+            int skipped = srcs.Count - picked.Count;
+            if (picked.Count == 0) { status = "Nothing selected to restore — tick the group checkboxes above (they scope Restore as well as Backup)."; return; }
+            srcs = picked;
+            scopeNote = skipped > 0 ? $"\n\nSCOPE: restoring only the {picked.Count} TICKED group source(s); {skipped} unticked group source(s) in this backup are left alone (the checkboxes above scope Restore too)." : "";
+        }
+
         string list = string.Join("\n", srcs.Select(s => "  • " + s.original + "   (" + s.files + " files)"));
         if (!EditorUtility.DisplayDialog("Restore this backup?",
-            $"Restoring '{Path.GetFileName(backupDir)}' will copy these back OVER the current files:\n\n{list}\n\n" +
+            $"Restoring '{Path.GetFileName(backupDir)}' will copy these back OVER the current files:\n\n{list}{scopeNote}\n\n" +
             "GUARDS: your CURRENT state is snapshotted to a _prerestore backup first, and files you've ADDED since are NOT deleted. " +
             "This only overwrites files that also exist in the backup.", "Snapshot & Restore", "Cancel")) { status = "Restore cancelled."; return; }
 
