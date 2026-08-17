@@ -337,21 +337,65 @@ public class BackupWindow : EditorWindow
         string snap = DoBackupInto(NewBackupDir("_prerestore_"), affected, "auto snapshot before restoring " + Path.GetFileName(backupDir));
         if (snap == null) { status = "Restore ABORTED — could not take the pre-restore safety snapshot (nothing was changed)."; return; }
 
-        // GUARD 2: additive copy back — overwrite matching files, never delete extras.
-        int restored = 0;
+        // GUARD 2: SMART additive copy back (2026-08-17, user-designed): only files that are MISSING or actually
+        // DIFFERENT (byte-compared, not just size) are written — identical files are left completely untouched, so
+        // Unity doesn't re-import ~1,600 unchanged assets — and the status reports all three classes.
+        var st = new CopyStats();
         try
         {
             foreach (var s in srcs)
             {
                 string from = Path.Combine(backupDir, s.rel);
-                if (File.Exists(from)) restored += CopyFile(from, s.original);
-                else if (Directory.Exists(from)) restored += CopyTree(from, s.original);
+                if (File.Exists(from)) SmartCopyFile(from, s.original, ref st);
+                else if (Directory.Exists(from)) SmartCopyTree(from, s.original, ref st);
             }
             sizeCache.Clear();
-            AssetDatabase.Refresh();
-            status = $"Restored {restored} files from '{Path.GetFileName(backupDir)}'. Current state was saved to '{Path.GetFileName(snap)}' first (undo by restoring that).";
+            if (st.missing + st.changed > 0) AssetDatabase.Refresh();   // nothing written = nothing to reimport
+            status = $"Restored {st.missing} missing + {st.changed} changed file(s) from '{Path.GetFileName(backupDir)}' " +
+                     $"({st.identical} identical file(s) untouched). Current state was saved to '{Path.GetFileName(snap)}' first (undo by restoring that).";
         }
         catch (Exception e) { status = $"Restore FAILED midway ({e.Message}). Your pre-restore snapshot '{Path.GetFileName(snap)}' is intact — restore IT to get back."; }
+    }
+
+    // ---- smart copy (restore only) ----
+    struct CopyStats { public int missing, changed, identical; }
+
+    static void SmartCopyFile(string src, string dst, ref CopyStats st)
+    {
+        if (!File.Exists(dst))
+        { Directory.CreateDirectory(Path.GetDirectoryName(dst)); File.Copy(src, dst); st.missing++; }
+        else if (!FilesIdentical(src, dst))
+        { File.Copy(src, dst, true); st.changed++; }
+        else st.identical++;
+    }
+
+    static void SmartCopyTree(string src, string dst, ref CopyStats st)
+    {
+        Directory.CreateDirectory(dst);
+        foreach (var f in Directory.GetFiles(src)) SmartCopyFile(f, Path.Combine(dst, Path.GetFileName(f)), ref st);
+        foreach (var d in Directory.GetDirectories(src)) SmartCopyTree(d, Path.Combine(dst, Path.GetFileName(d)), ref st);
+    }
+
+    // Byte-equality via length check then buffered stream compare — cheap enough for a restore (a few seconds
+    // over a 1 GB group on local disk), and CORRECT, unlike mtime/size heuristics.
+    static bool FilesIdentical(string a, string b)
+    {
+        var fa = new FileInfo(a); var fb = new FileInfo(b);
+        if (fa.Length != fb.Length) return false;
+        const int BUF = 1 << 16;
+        using (var sa = fa.OpenRead())
+        using (var sb = fb.OpenRead())
+        {
+            var ba = new byte[BUF]; var bb = new byte[BUF];
+            int ra;
+            while ((ra = sa.Read(ba, 0, BUF)) > 0)
+            {
+                int rb = 0;
+                while (rb < ra) { int k = sb.Read(bb, rb, ra - rb); if (k <= 0) return false; rb += k; }
+                for (int i = 0; i < ra; i++) if (ba[i] != bb[i]) return false;
+            }
+        }
+        return true;
     }
 
     void DeleteBackup(string dir)
