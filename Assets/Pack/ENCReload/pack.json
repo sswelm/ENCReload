@@ -9,6 +9,12 @@
     "models": [
         {
             "resourceName": "Abominations",
+            "pawnDescription": "Era6_Common_Abominations_01",
+            "position": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
             "scale": 1.0,
             "hideMeshes": "",
             "animStateDriven": true,
@@ -72,14 +78,8 @@
             "soundBattleOffset": 0.0,
             "gunElevMax": 0.0,
             "gunElevAxis": 0,
-            "pawnDescription": "Era6_Common_Abominations_01",
             "modelFile": "D:/3DModels/Abomination/scp-682_low-poly_style.glb",
             "rotation": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0
-            },
-            "position": {
                 "x": 0.0,
                 "y": 0.0,
                 "z": 0.0
@@ -202,6 +202,12 @@
         },
         {
             "resourceName": "AntiTankIFV",
+            "pawnDescription": "Era6_Common_AntiTankIFV_01",
+            "position": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
             "scale": 1.0,
             "hideMeshes": "",
             "animStateDriven": true,
@@ -265,16 +271,10 @@
             "soundBattleOffset": 0.0,
             "gunElevMax": 0.0,
             "gunElevAxis": 0,
-            "pawnDescription": "Era6_Common_AntiTankIFV_01",
             "modelFile": "D:/3DModels/Bradley/FBX/Bredley_Low_Spin.glb",
             "rotation": {
                 "x": 0.0,
                 "y": -90.0,
-                "z": 0.0
-            },
-            "position": {
-                "x": 0.0,
-                "y": 0.0,
                 "z": 0.0
             },
             "size": 5.0,
@@ -395,6 +395,12 @@
         },
         {
             "resourceName": "ArmouredCar",
+            "pawnDescription": "Era5_Common_ArmouredCar_01",
+            "position": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
             "scale": 1.0,
             "hideMeshes": "",
             "animStateDriven": true,
@@ -458,16 +464,10 @@
             "soundBattleOffset": 0.0,
             "gunElevMax": 0.0,
             "gunElevAxis": 0,
-            "pawnDescription": "Era5_Common_ArmouredCar_01",
             "modelFile": "D:/3DModels/Armored Car Ehnhardt/Ehrhardt_Spin2.glb",
             "rotation": {
                 "x": 0.0,
                 "y": -90.0,
-                "z": 0.0
-            },
-            "position": {
-                "x": 0.0,
-                "y": 0.0,
                 "z": 0.0
             },
             "size": 4.0,
@@ -588,6 +588,12 @@
         },
         {
             "resourceName": "AttackHelicopter",
+            "pawnDescription": "Era6_Common_AttackHelicopter_01",
+            "position": {
+                "x": 0.0,
+                "y": 0.8999999761581421,
+                "z": 0.10000000149011612
+            },
             "scale": 1.0,
             "hideMeshes": "",
             "animStateDriven": false,
@@ -651,17 +657,11 @@
             "soundBattleOffset": 0.0,
             "gunElevMax": 0.0,
             "gunElevAxis": 0,
-            "pawnDescription": "Era6_Common_AttackHelicopter_01",
             "modelFile": "D:/Downloads/Cobra.glb",
             "rotation": {
                 "x": 184.0,
                 "y": 0.0,
                 "z": 142.0
-            },
-            "position": {
-                "x": 0.0,
-                "y": 0.8999999761581421,
-                "z": 0.10000000149011612
             },
             "size": 4.5,
             "normalsMode": 1,
@@ -781,6 +781,12 @@
         },
         {
             "resourceName": "DroneSquadFPV",
+            "pawnDescription": "Era6_Common_DroneSquadFPV_01",
+            "position": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
             "scale": 1.0,
             "hideMeshes": "",
             "animStateDriven": true,
@@ -844,15 +850,9 @@
             "soundBattleOffset": 0.0,
             "gunElevMax": 0.0,
             "gunElevAxis": 0,
-            "pawnDescription": "Era6_Common_DroneSquadFPV_01",
             "modelFile": "D:/Downloads/combine_soldier.glb",
             "rotation": {
                 "x": 360.0,
-                "y": 0.0,
-                "z": 0.0
-            },
-            "position": {
-                "x": 0.0,
                 "y": 0.0,
                 "z": 0.0
             },
@@ -974,6 +974,12 @@
         },
         {
             "resourceName": "DugoutCanoe",
+            "pawnDescription": "Era1_Common_DugoutCanoe_01",
+            "position": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
             "scale": 1.0,
             "hideMeshes": "",
             "animStateDriven": false,
@@ -1037,16 +1043,10 @@
             "soundBattleOffset": 0.0,
             "gunElevMax": 0.0,
             "gunElevAxis": 0,
-            "pawnDescription": "Era1_Common_DugoutCanoe_01",
             "modelFile": "D:/3DModels/Dugout Canoe/dug-out_canoe_Wave.glb",
             "rotation": {
                 "x": 0.0,
                 "y": 180.0,
-                "z": 0.0
-            },
-            "position": {
-                "x": 0.0,
-                "y": 0.0,
                 "z": 0.0
             },
             "size": 4.0,
@@ -1167,6 +1167,12 @@
         },
         {
             "resourceName": "HandCrankedSubmarines",
+            "pawnDescription": "Era5_Common_HandCrankedSubmarines_01",
+            "position": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
             "scale": 1.0,
             "hideMeshes": "",
             "animStateDriven": false,
@@ -1230,16 +1236,10 @@
             "soundBattleOffset": 0.0,
             "gunElevMax": 0.0,
             "gunElevAxis": 0,
-            "pawnDescription": "Era5_Common_HandCrankedSubmarines_01",
             "modelFile": "D:/Downloads/submarine_diver.glb",
             "rotation": {
                 "x": 0.0,
                 "y": 180.0,
-                "z": 0.0
-            },
-            "position": {
-                "x": 0.0,
-                "y": 0.0,
                 "z": 0.0
             },
             "size": 4.0,
@@ -1360,6 +1360,12 @@
         },
         {
             "resourceName": "Hovercraft",
+            "pawnDescription": "Era6_Common_Hovercrafts_01",
+            "position": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
             "scale": 1.0,
             "hideMeshes": "",
             "animStateDriven": false,
@@ -1423,15 +1429,9 @@
             "soundBattleOffset": 0.0,
             "gunElevMax": 0.0,
             "gunElevAxis": 0,
-            "pawnDescription": "Era6_Common_Hovercrafts_01",
             "modelFile": "D:/Downloads/lcac_esboco.glb",
             "rotation": {
                 "x": 180.0,
-                "y": 0.0,
-                "z": 0.0
-            },
-            "position": {
-                "x": 0.0,
                 "y": 0.0,
                 "z": 0.0
             },
@@ -1553,6 +1553,12 @@
         },
         {
             "resourceName": "LightAssaultMech",
+            "pawnDescription": "Era6_Common_LightAssaultMech_01",
+            "position": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
             "scale": 1.0,
             "hideMeshes": "",
             "animStateDriven": true,
@@ -1616,14 +1622,8 @@
             "soundBattleOffset": 0.0,
             "gunElevMax": 0.0,
             "gunElevAxis": 0,
-            "pawnDescription": "Era6_Common_LightAssaultMech_01",
             "modelFile": "D:/3DModels/Mecha/uploads_files_6690430_robo1A.fbx",
             "rotation": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0
-            },
-            "position": {
                 "x": 0.0,
                 "y": 0.0,
                 "z": 0.0
@@ -1746,6 +1746,12 @@
         },
         {
             "resourceName": "OrganGun",
+            "pawnDescription": "Era4_Common_OrganGun_01",
+            "position": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
             "scale": 1.0,
             "hideMeshes": "",
             "animStateDriven": true,
@@ -1809,14 +1815,8 @@
             "soundBattleOffset": 0.0,
             "gunElevMax": 0.0,
             "gunElevAxis": 0,
-            "pawnDescription": "Era4_Common_OrganGun_01",
             "modelFile": "D:/3DModels/Ribauldequin/Ribauldequin_textured_Spin.glb",
             "rotation": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0
-            },
-            "position": {
                 "x": 0.0,
                 "y": 0.0,
                 "z": 0.0
@@ -1939,6 +1939,12 @@
         },
         {
             "resourceName": "ReconDrone",
+            "pawnDescription": "Era6_Common_ReconDrones_01",
+            "position": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 2.0
+            },
             "scale": 1.0,
             "hideMeshes": "",
             "animStateDriven": false,
@@ -2002,17 +2008,11 @@
             "soundBattleOffset": 0.0,
             "gunElevMax": 0.0,
             "gunElevAxis": 0,
-            "pawnDescription": "Era6_Common_ReconDrones_01",
             "modelFile": "D:/Downloads/drone_clean.glb",
             "rotation": {
                 "x": 0.0,
                 "y": 0.0,
                 "z": 0.0
-            },
-            "position": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 2.0
             },
             "size": 2.0,
             "normalsMode": 1,
@@ -2132,6 +2132,12 @@
         },
         {
             "resourceName": "ReconHelicopter",
+            "pawnDescription": "Era6_Common_ReconHelicopter_01",
+            "position": {
+                "x": 0.0,
+                "y": 1.4500000476837159,
+                "z": 0.4300000071525574
+            },
             "scale": 1.0,
             "hideMeshes": "",
             "animStateDriven": false,
@@ -2195,17 +2201,11 @@
             "soundBattleOffset": 0.0,
             "gunElevMax": 0.0,
             "gunElevAxis": 0,
-            "pawnDescription": "Era6_Common_ReconHelicopter_01",
             "modelFile": "D:/Downloads/Bel-H-13-Cleaned.glb",
             "rotation": {
                 "x": 181.0,
                 "y": 0.0,
                 "z": 5.0
-            },
-            "position": {
-                "x": 0.0,
-                "y": 1.4500000476837159,
-                "z": 0.4300000071525574
             },
             "size": 5.300000190734863,
             "normalsMode": 1,
@@ -2325,6 +2325,12 @@
         },
         {
             "resourceName": "ReconZeppelin",
+            "pawnDescription": "Era6_Common_ReconZeppelin_01",
+            "position": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 3.0
+            },
             "scale": 1.0,
             "hideMeshes": "",
             "animStateDriven": false,
@@ -2388,17 +2394,11 @@
             "soundBattleOffset": 0.0,
             "gunElevMax": 0.0,
             "gunElevAxis": 0,
-            "pawnDescription": "Era6_Common_ReconZeppelin_01",
             "modelFile": "D:/Downloads/92734a2c283e4d889fecbb010aaf7822(3).glb",
             "rotation": {
                 "x": 0.0,
                 "y": 180.0,
                 "z": 0.0
-            },
-            "position": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 3.0
             },
             "size": 12.0,
             "normalsMode": 1,
@@ -2518,6 +2518,12 @@
         },
         {
             "resourceName": "Retex_Era6_Common_StealthCorvettes_01",
+            "pawnDescription": "Era6_Common_StealthCorvettes_01",
+            "position": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
             "scale": 1.0,
             "hideMeshes": "",
             "animStateDriven": false,
@@ -2581,14 +2587,8 @@
             "soundBattleOffset": 0.0,
             "gunElevMax": 0.0,
             "gunElevAxis": 0,
-            "pawnDescription": "Era6_Common_StealthCorvettes_01",
             "modelFile": "",
             "rotation": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0
-            },
-            "position": {
                 "x": 0.0,
                 "y": 0.0,
                 "z": 0.0
@@ -2711,6 +2711,12 @@
         },
         {
             "resourceName": "SiegeHowitzersCar",
+            "pawnDescription": "Era5_Common_SiegeHowitzersCar_01",
+            "position": {
+                "x": 0.0,
+                "y": 0.5,
+                "z": 0.0
+            },
             "scale": 1.0,
             "hideMeshes": "",
             "animStateDriven": true,
@@ -2774,16 +2780,10 @@
             "soundBattleOffset": 0.0,
             "gunElevMax": 0.0,
             "gunElevAxis": 0,
-            "pawnDescription": "Era5_Common_SiegeHowitzersCar_01",
             "modelFile": "D:/Downloads/m114_howitzer_in_action.glb",
             "rotation": {
                 "x": 0.0,
                 "y": 0.0,
-                "z": 0.0
-            },
-            "position": {
-                "x": 0.0,
-                "y": 0.5,
                 "z": 0.0
             },
             "size": 6.0,
@@ -2904,6 +2904,12 @@
         },
         {
             "resourceName": "StealthCruiser",
+            "pawnDescription": "Era6_Common_StealthCruisers_01",
+            "position": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": -0.4000000059604645
+            },
             "scale": 1.0,
             "hideMeshes": "",
             "animStateDriven": false,
@@ -2967,17 +2973,11 @@
             "soundBattleOffset": 0.0,
             "gunElevMax": 0.0,
             "gunElevAxis": 0,
-            "pawnDescription": "Era6_Common_StealthCruisers_01",
             "modelFile": "D:/Downloads/zumwalt_clean.glb",
             "rotation": {
                 "x": 180.0,
                 "y": 0.0,
                 "z": 0.0
-            },
-            "position": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": -0.20000000298023225
             },
             "size": 8.0,
             "normalsMode": 0,
@@ -3097,6 +3097,12 @@
         },
         {
             "resourceName": "StealthHelicopter",
+            "pawnDescription": "Era6_Common_StealthHelicopters_01",
+            "position": {
+                "x": -0.5,
+                "y": 0.5,
+                "z": 1.5
+            },
             "scale": 1.0,
             "hideMeshes": "",
             "animStateDriven": false,
@@ -3160,17 +3166,11 @@
             "soundBattleOffset": 0.0,
             "gunElevMax": 0.0,
             "gunElevAxis": 0,
-            "pawnDescription": "Era6_Common_StealthHelicopters_01",
             "modelFile": "D:/3DModels/Rah66/rah66_Spin.glb",
             "rotation": {
                 "x": 0.0,
                 "y": 90.0,
                 "z": 0.0
-            },
-            "position": {
-                "x": -0.5,
-                "y": 0.5,
-                "z": 1.5
             },
             "size": 5.0,
             "normalsMode": 1,
@@ -3290,6 +3290,12 @@
         },
         {
             "resourceName": "TankDestroyers",
+            "pawnDescription": "Era6_Common_TankDestroyers_01",
+            "position": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.5
+            },
             "scale": 1.0,
             "hideMeshes": "Unit_Era6_Common_MediumTanks_02_tracks",
             "animStateDriven": true,
@@ -3353,17 +3359,11 @@
             "soundBattleOffset": 0.0,
             "gunElevMax": 20.0,
             "gunElevAxis": 0,
-            "pawnDescription": "Era6_Common_TankDestroyers_01",
             "modelFile": "D:/3DModels/Jagdpanzer Tank Destroyer/jagdpanzer_iv_late_prod2_Spin.glb",
             "rotation": {
                 "x": 0.0,
                 "y": -90.0,
                 "z": 0.0
-            },
-            "position": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.5
             },
             "size": 5.0,
             "normalsMode": 1,
@@ -3483,6 +3483,12 @@
         },
         {
             "resourceName": "TowedGunHowitzers",
+            "pawnDescription": "Era6_Common_TowedGunHowitzers_01",
+            "position": {
+                "x": 0.0,
+                "y": 0.5,
+                "z": 0.0
+            },
             "scale": 1.0,
             "hideMeshes": "",
             "animStateDriven": true,
@@ -3546,16 +3552,10 @@
             "soundBattleOffset": 0.0,
             "gunElevMax": 0.0,
             "gunElevAxis": 0,
-            "pawnDescription": "Era6_Common_TowedGunHowitzers_01",
             "modelFile": "D:/Downloads/m114_howitzer_in_action.glb",
             "rotation": {
                 "x": 0.0,
                 "y": 0.0,
-                "z": 0.0
-            },
-            "position": {
-                "x": 0.0,
-                "y": 0.5,
                 "z": 0.0
             },
             "size": 6.0,
@@ -3676,6 +3676,12 @@
         },
         {
             "resourceName": "UniversalTanks",
+            "pawnDescription": "Era6_Common_UniversalTanks_01",
+            "position": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
             "scale": 1.0,
             "hideMeshes": "",
             "animStateDriven": true,
@@ -3739,16 +3745,10 @@
             "soundBattleOffset": 0.0,
             "gunElevMax": 0.0,
             "gunElevAxis": 0,
-            "pawnDescription": "Era6_Common_UniversalTanks_01",
             "modelFile": "D:/3DModels/T-62/tank_1animation.glb",
             "rotation": {
                 "x": 0.0,
                 "y": -90.0,
-                "z": 0.0
-            },
-            "position": {
-                "x": 0.0,
-                "y": 0.0,
                 "z": 0.0
             },
             "size": 6.0,
@@ -3869,6 +3869,12 @@
         },
         {
             "resourceName": "VolleyGun",
+            "pawnDescription": "Era5_Common_VolleyGun_01",
+            "position": {
+                "x": 0.0,
+                "y": -1.0,
+                "z": 0.0
+            },
             "scale": 1.0,
             "hideMeshes": "",
             "animStateDriven": true,
@@ -3932,16 +3938,10 @@
             "soundBattleOffset": 0.0,
             "gunElevMax": 0.0,
             "gunElevAxis": 0,
-            "pawnDescription": "Era5_Common_VolleyGun_01",
             "modelFile": "D:/3DModels/Ozhiga Organ Gun/ozhiga_organ_gun_1_Spin.glb",
             "rotation": {
                 "x": 0.0,
                 "y": -90.0,
-                "z": 0.0
-            },
-            "position": {
-                "x": 0.0,
-                "y": -1.0,
                 "z": 0.0
             },
             "size": 2.799999952316284,
@@ -4062,6 +4062,12 @@
         },
         {
             "resourceName": "Zeppelin",
+            "pawnDescription": "Era5_Common_Zeppelins_01",
+            "position": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 3.0
+            },
             "scale": 1.0,
             "hideMeshes": "",
             "animStateDriven": false,
@@ -4125,17 +4131,11 @@
             "soundBattleOffset": 0.0,
             "gunElevMax": 0.0,
             "gunElevAxis": 0,
-            "pawnDescription": "Era5_Common_Zeppelins_01",
             "modelFile": "D:/Downloads/92734a2c283e4d889fecbb010aaf7822(3).glb",
             "rotation": {
                 "x": 0.0,
                 "y": 180.0,
                 "z": 0.0
-            },
-            "position": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 3.0
             },
             "size": 12.0,
             "normalsMode": 1,
