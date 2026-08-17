@@ -238,8 +238,9 @@ public class BackupWindow : EditorWindow
             if (files > 0) AssetDatabase.Refresh();
             bool saved = ModelRegistry.Upsert(def);
             resourceName = def.resourceName;
+            ModelFactoryWindow.RefreshAllOpen();   // the Factory's dropdown must reflect the registry change NOW
             return saved
-                ? $"Restored '{def.resourceName}' — registry entry + {files} baked file(s) from {Path.GetFileName(snapDir)}."
+                ? $"Restored '{def.resourceName}' — registry entry + {files} baked file(s) from {Path.GetFileName(snapDir)}. The Model Factory list is refreshed."
                 : $"⚠ '{def.resourceName}': {files} baked file(s) restored but the registry SAVE FAILED — retry, or check the registry.";
         }
         catch (Exception e) { return "Restore FAILED: " + e.Message; }
@@ -436,7 +437,7 @@ public class BackupWindow : EditorWindow
                 else if (Directory.Exists(from)) SmartCopyTree(from, s.original, ref st);
             }
             sizeCache.Clear();
-            if (st.missing + st.changed > 0) AssetDatabase.Refresh();   // nothing written = nothing to reimport
+            if (st.missing + st.changed > 0) { AssetDatabase.Refresh(); ModelFactoryWindow.RefreshAllOpen(); }   // reimport + tell open Factory windows the registry may have changed
             status = $"Restored {st.missing} missing + {st.changed} changed file(s) from '{Path.GetFileName(backupDir)}' " +
                      $"({st.identical} identical file(s) untouched). Current state was saved to '{Path.GetFileName(snap)}' first (undo by restoring that).";
         }

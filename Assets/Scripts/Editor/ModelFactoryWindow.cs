@@ -38,6 +38,15 @@ public class ModelFactoryWindow : EditorWindow
     string previewFor = "";
     [SerializeField] string lastRemovedName = "", lastRemovedSnap = "";   // recycle-bin undo state (survives domain reload)
 
+    // Cross-window nudge (2026-08-17 drill: "I pressed restore and it still doesn't work!!!" — the restore HAD
+    // worked; the Factory's dropdown was stale because another window changed the registry). Any window that
+    // writes the registry calls this so every open Factory re-reads and repaints immediately.
+    internal static void RefreshAllOpen()
+    {
+        foreach (var w in Resources.FindObjectsOfTypeAll<ModelFactoryWindow>())
+            try { w.RefreshList(); w.Repaint(); } catch { }
+    }
+
     // Restore the last-removed model — ONE shared implementation with the Backup window's _removed_-row Restore
     // (BackupWindow.RestoreRemovedSnapshot: baked files back additively, registry entry via Upsert). This wrapper
     // adds the Factory-side proof: select + LOAD the restored entry (drill: "I expect it to be selected again").
