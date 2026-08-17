@@ -13,6 +13,7 @@
 //      manual version. The offsite zip rides along if configured. RETENTION: only the newest 3 _auto_ versions are
 //      kept (rotation is logged loudly); manual backups and _deleted_ snapshots are NEVER auto-deleted.
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UnityEditor;
@@ -21,7 +22,11 @@ using UnityEngine;
 class HafDeleteGuard : UnityEditor.AssetModificationProcessor
 {
     internal const string PrefOn = "HAF.Backup.DeleteGuard";
-    static readonly string[] roots = { "Assets/FactorySource", "Assets/Resources", "Assets/Databases", "Assets/Scripts/Editor" };
+    // Protected roots = the IRREPLACEABLE classes only. Assets/Resources is deliberately NOT here (critical-review
+    // finding): the bake pipeline delete-firsts atlases/skeletons/meshes on EVERY re-bake (~30 AssetDatabase.DeleteAsset
+    // sites) — guarding Resources would flood the backup root with churn folders within days, and baked assets are
+    // regenerable anyway (bake again). The daily auto-version still snapshots Resources for go-back-a-version.
+    static readonly string[] roots = { "Assets/FactorySource", "Assets/Databases", "Assets/Scripts/Editor" };
 
     static AssetDeleteResult OnWillDeleteAsset(string assetPath, RemoveAssetOptions options)
     {
@@ -34,16 +39,27 @@ class HafDeleteGuard : UnityEditor.AssetModificationProcessor
             string dest = EditorPrefs.GetString("HAF.Backup.Dest", "D:/HAF_Backups");
             string projRoot = Directory.GetParent(Application.dataPath).FullName;
             string abs = Path.Combine(projRoot, p);
-            string dir = Path.Combine(dest, "_deleted_" + DateTime.Now.ToString("yyyy-MM-dd_HHmmss") + "_" + Path.GetFileNameWithoutExtension(p));
-            int n = 0;
-            if (File.Exists(abs)) n = BackupWindow.CopyFile(abs, Path.Combine(dir, Path.GetFileName(abs)));
-            else if (Directory.Exists(abs)) n = BackupWindow.CopyTree(abs, Path.Combine(dir, Path.GetFileName(abs.TrimEnd('/', '\\'))));
-            if (File.Exists(abs + ".meta")) n += BackupWindow.CopyFile(abs + ".meta", Path.Combine(dir, Path.GetFileName(abs) + ".meta"));
+            // Folder name keeps the EXTENSION (Tank.png vs Tank.mat deleted in the same second must not merge) and is
+            // uniquified with a counter if it still collides — a collision silently overwrote the first manifest.
+            string baseName = Path.Combine(dest, "_deleted_" + DateTime.Now.ToString("yyyy-MM-dd_HHmmss") + "_" + Path.GetFileName(p.TrimEnd('/')));
+            string dir = baseName;
+            for (int i = 2; Directory.Exists(dir); i++) dir = baseName + "_" + i;
+            string leaf = Path.GetFileName(abs.TrimEnd('/', '\\'));
+            int n = 0; long bytes = 0;
+            if (File.Exists(abs)) { n = BackupWindow.CopyFile(abs, Path.Combine(dir, leaf)); bytes = new FileInfo(abs).Length; }
+            else if (Directory.Exists(abs)) { n = BackupWindow.CopyTree(abs, Path.Combine(dir, leaf)); bytes = BackupWindow.TreeBytes(Path.Combine(dir, leaf)); }
+            bool meta = File.Exists(abs + ".meta");
+            if (meta) n += BackupWindow.CopyFile(abs + ".meta", Path.Combine(dir, leaf + ".meta"));
             if (n > 0)
             {
-                File.WriteAllLines(Path.Combine(dir, "manifest.txt"),
-                    new[] { "# HAF delete-guard snapshot", "# original: " + abs.Replace('\\', '/'), "# files: " + n, "# restore: copy the content back to the original path (or keep it — it costs only disk)" });
-                Debug.Log($"[HAF Backup] delete guard: {n} file(s) of '{p}' snapshotted → {dir} (the delete proceeded normally)");
+                // A REAL manifest (SRC lines), so the window's Restore button works on delete-guard snapshots too —
+                // one click puts the deleted asset back (with the usual pre-restore safety snapshot). The .meta gets
+                // its OWN line: restoring without it would regenerate the GUID and break asset references.
+                var mf = new List<string> { "# HAF delete-guard snapshot", "# original: " + abs.Replace('\\', '/'), "",
+                    $"SRC\t{leaf}\t{abs.Replace('\\', '/')}\t{(meta ? n - 1 : n)}\t{bytes}" };
+                if (meta) mf.Add($"SRC\t{leaf}.meta\t{abs.Replace('\\', '/')}.meta\t1\t{new FileInfo(abs + ".meta").Length}");
+                File.WriteAllLines(Path.Combine(dir, "manifest.txt"), mf);
+                Debug.Log($"[HAF Backup] delete guard: {n} file(s) of '{p}' snapshotted → {dir} (the delete proceeded normally; restorable from the Backup window)");
             }
         }
         catch (Exception e) { Debug.LogWarning("[HAF Backup] delete guard could not snapshot '" + assetPath + "' (the delete still proceeded): " + e.Message); }
@@ -71,24 +87,32 @@ static class HafAutoBackup
             var groups = BackupWindow.BuildGroups();   // ALL groups — assets AND configuration; the auto net is deliberately complete
             if (groups.Count == 0) return;
             string dir = Path.Combine(dest, "_auto_" + DateTime.Now.ToString("yyyy-MM-dd_HHmmss"));
-            var r = BackupWindow.SnapshotInto(dir, groups, "daily auto-version");
-            EditorPrefs.SetString(PrefLast, DateTime.Now.Ticks.ToString());
-            Debug.Log("[HAF Backup] daily auto-version: " + r.report);
-            if (!r.ok) return;
-
-            // Offsite ride-along (background thread; Debug.Log is thread-safe).
             string off = EditorPrefs.GetString("HAF.Backup.OffsiteDest", "");
-            if (EditorPrefs.GetBool("HAF.Backup.OffsiteAuto", true) && !string.IsNullOrEmpty(off))
-                System.Threading.Tasks.Task.Run(() => Debug.Log("[HAF Backup] auto offsite: " + BackupWindow.OffsiteZipCore(dir, off)));
+            bool offAuto = EditorPrefs.GetBool("HAF.Backup.OffsiteAuto", true);
+            EditorPrefs.SetString(PrefLast, DateTime.Now.Ticks.ToString());   // main thread, before the worker starts
+            Debug.Log("[HAF Backup] daily auto-version started in the background → " + Path.GetFileName(dir));
 
-            // RETENTION: rotate _auto_ versions only — keep the newest N. Manual backups, _prerestore and _deleted
-            // snapshots are never touched (the never-auto-delete rule holds for everything a human made or lost).
-            var autos = Directory.GetDirectories(dest).Where(d => Path.GetFileName(d).StartsWith("_auto_")).OrderByDescending(d => d).ToList();
-            foreach (var old in autos.Skip(Keep))
+            // The whole snapshot runs on a WORKER thread (critical-review fix: 1+ GB copied synchronously froze the
+            // editor for ~30-60 s on load, looking like a hang). SnapshotInto + rotation + zip are pure file IO —
+            // no Unity APIs — and Debug.Log is thread-safe. Group paths were resolved on the main thread above.
+            System.Threading.Tasks.Task.Run(() =>
             {
-                try { Directory.Delete(old, true); Debug.Log("[HAF Backup] rotated out old auto-version '" + Path.GetFileName(old) + "' (keeping the newest " + Keep + ")"); }
-                catch (Exception e) { Debug.LogWarning("[HAF Backup] could not rotate '" + Path.GetFileName(old) + "': " + e.Message); }
-            }
+                var r = BackupWindow.SnapshotInto(dir, groups, "daily auto-version");
+                Debug.Log("[HAF Backup] daily auto-version: " + r.report);
+                if (!r.ok) return;
+
+                if (offAuto && !string.IsNullOrEmpty(off))
+                    Debug.Log("[HAF Backup] auto offsite: " + BackupWindow.OffsiteZipCore(dir, off));
+
+                // RETENTION: rotate _auto_ versions only — keep the newest N. Manual backups, _prerestore and _deleted
+                // snapshots are never touched (the never-auto-delete rule holds for everything a human made or lost).
+                var autos = Directory.GetDirectories(dest).Where(d => Path.GetFileName(d).StartsWith("_auto_")).OrderByDescending(d => d).ToList();
+                foreach (var old in autos.Skip(Keep))
+                {
+                    try { Directory.Delete(old, true); Debug.Log("[HAF Backup] rotated out old auto-version '" + Path.GetFileName(old) + "' (keeping the newest " + Keep + ")"); }
+                    catch (Exception e) { Debug.LogWarning("[HAF Backup] could not rotate '" + Path.GetFileName(old) + "': " + e.Message); }
+                }
+            });
         }
         catch (Exception e) { Debug.LogWarning("[HAF Backup] daily auto-version failed: " + e.Message); }
     }

@@ -106,7 +106,7 @@ public class BackupWindow : EditorWindow
         // fire, surge) takes the backups with the originals; a cloud-synced folder here is the "just in case" copy.
         using (new EditorGUILayout.HorizontalScope())
         {
-            offsite = EditorGUILayout.TextField(new GUIContent("Offsite folder (cloud-synced)", "Second folder each backup is zipped into as ONE file (e.g. a OneDrive/Drive folder). Blank = off."), offsite);
+            offsite = EditorGUILayout.TextField(new GUIContent("Offsite folder", "Second folder each backup is zipped into as ONE file — ideally cloud-synced (OneDrive/Drive/NAS). Blank = off."), offsite);
             if (GUILayout.Button("Browse", GUILayout.Width(70)))
             {
                 var p = EditorUtility.OpenFolderPanel("Pick the OFFSITE folder (ideally cloud-synced)", Directory.Exists(offsite) ? offsite : "", "");
@@ -222,6 +222,7 @@ public class BackupWindow : EditorWindow
         offsitePending = null;
         offsiteRunning = false;
         EditorApplication.update -= PumpOffsiteResult;
+        if (this == null) { Debug.Log("[HAF Backup] " + r); return; }   // window was closed mid-zip (Unity fake-null) — result goes to the Console instead
         status += "\n" + r;
         Repaint();
     }
@@ -393,7 +394,7 @@ public class BackupWindow : EditorWindow
         catch { return 0; }
     }
 
-    static long TreeBytes(string path)
+    internal static long TreeBytes(string path)
     {
         try
         {
