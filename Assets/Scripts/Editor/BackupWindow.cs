@@ -97,7 +97,7 @@ public class BackupWindow : EditorWindow
         using (new EditorGUILayout.HorizontalScope())
         {
             dest = EditorGUILayout.TextField(new GUIContent("Backup folder (on D:)", "Root folder for all backups; each backup is a timestamped subfolder."), dest);
-            if (GUILayout.Button("Browse", GUILayout.Width(70)))
+            if (GUILayout.Button(new GUIContent("Browse", "Pick the local backup ROOT folder — every backup becomes a timestamped subfolder inside it."), GUILayout.Width(70)))
             {
                 var p = EditorUtility.OpenFolderPanel("Pick the backup root folder", Directory.Exists(dest) ? dest : "D:/", "");
                 if (!string.IsNullOrEmpty(p)) { dest = p; EditorPrefs.SetString(PrefDest, dest); }
@@ -110,7 +110,7 @@ public class BackupWindow : EditorWindow
         using (new EditorGUILayout.HorizontalScope())
         {
             offsite = EditorGUILayout.TextField(new GUIContent("Offsite folder", "Second folder each backup is zipped into as ONE file — ideally cloud-synced (OneDrive/Drive/NAS). Blank = off."), offsite);
-            if (GUILayout.Button("Browse", GUILayout.Width(70)))
+            if (GUILayout.Button(new GUIContent("Browse", "Pick the OFFSITE folder — ideally one a cloud service syncs, so a machine-level event can't take the backups with the originals."), GUILayout.Width(70)))
             {
                 var p = EditorUtility.OpenFolderPanel("Pick the OFFSITE folder (ideally cloud-synced)", Directory.Exists(offsite) ? offsite : "", "");
                 if (!string.IsNullOrEmpty(p)) { offsite = p; EditorPrefs.SetString(PrefOffsite, offsite); }
@@ -122,7 +122,7 @@ public class BackupWindow : EditorWindow
             bool na = EditorGUILayout.ToggleLeft(new GUIContent("Auto-zip each new backup to the offsite folder", "After every successful 'Back up now', the snapshot is also written offsite as HAF_<timestamp>.zip."), offsiteAuto);
             if (na != offsiteAuto) { offsiteAuto = na; EditorPrefs.SetBool(PrefOffsiteAuto, offsiteAuto); }
             using (new EditorGUI.DisabledScope(string.IsNullOrEmpty(offsite) || ListBackups().All(b => Path.GetFileName(b).StartsWith("_prerestore"))))
-                if (GUILayout.Button("Zip latest backup → offsite now", GUILayout.Width(210)))
+                if (GUILayout.Button(new GUIContent("Zip latest backup → offsite now", "Zip the NEWEST backup into the offsite folder on demand — for backups made before offsite was configured. Runs in the background; result lands in the status line."), GUILayout.Width(210)))
                 {
                     var latest = ListBackups().FirstOrDefault(b => !Path.GetFileName(b).StartsWith("_prerestore"));
                     if (latest != null) OffsiteZipAsync(latest);
@@ -148,7 +148,7 @@ public class BackupWindow : EditorWindow
         using (new EditorGUILayout.HorizontalScope())
         {
             EditorGUILayout.LabelField("Include in backup / restore (the same checkboxes scope both)", EditorStyles.boldLabel);
-            if (GUILayout.Button("↻ sizes", GUILayout.Width(70))) sizeCache.Clear();
+            if (GUILayout.Button(new GUIContent("↻ sizes", "Recompute the size readouts — they are cached because walking the folders is slow; refresh after big changes."), GUILayout.Width(70))) sizeCache.Clear();
         }
         scroll = EditorGUILayout.BeginScrollView(scroll, GUILayout.Height(130));
         foreach (var grp in BuildGroups())
@@ -163,7 +163,7 @@ public class BackupWindow : EditorWindow
         EditorGUILayout.EndScrollView();
 
         using (new EditorGUI.DisabledScope(!BuildGroups().Any(g => enabled.TryGetValue(g.Key, out var b) && b)))
-            if (GUILayout.Button("Back up now", GUILayout.Height(30))) DoBackup();
+            if (GUILayout.Button(new GUIContent("Back up now", "Snapshot every TICKED group into a new timestamped folder — never overwrites, never auto-deleted. Verifies file counts AND that the model registry actually landed in the snapshot; zips offsite if configured."), GUILayout.Height(30))) DoBackup();
 
         if (!string.IsNullOrEmpty(status)) EditorGUILayout.HelpBox(status, MessageType.None);
 
@@ -181,9 +181,9 @@ public class BackupWindow : EditorWindow
                            : bn.StartsWith("_removed") ? "   (Factory remove-undo snapshot)"
                            : bn.StartsWith("_auto") ? "   (daily auto-version)" : "";
                 EditorGUILayout.LabelField($"{bn}   {Human(CachedBytes(b))}" + tag);
-                if (GUILayout.Button("Reveal", GUILayout.Width(60))) EditorUtility.RevealInFinder(b + Path.DirectorySeparatorChar);
-                if (GUILayout.Button("Restore", GUILayout.Width(64))) { DoRestore(b); GUIUtility.ExitGUI(); }
-                if (GUILayout.Button("Delete", GUILayout.Width(60))) { DeleteBackup(b); GUIUtility.ExitGUI(); }
+                if (GUILayout.Button(new GUIContent("Reveal", "Open this backup's folder in Explorer."), GUILayout.Width(60))) EditorUtility.RevealInFinder(b + Path.DirectorySeparatorChar);
+                if (GUILayout.Button(new GUIContent("Restore", "Copy this backup's TICKED groups back over the originals. Guarded: your current state is snapshotted first (_prerestore), files you added since are never deleted, and only missing/changed files are written (identical ones untouched)."), GUILayout.Width(64))) { DoRestore(b); GUIUtility.ExitGUI(); }
+                if (GUILayout.Button(new GUIContent("Delete", "Permanently delete this backup folder (asks first). Live project files are untouched."), GUILayout.Width(60))) { DeleteBackup(b); GUIUtility.ExitGUI(); }
             }
         EditorGUILayout.EndScrollView();
     }
