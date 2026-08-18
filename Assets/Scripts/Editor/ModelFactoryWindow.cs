@@ -1654,6 +1654,20 @@ public class ModelFactoryWindow : EditorWindow
         string formSnapshot = JsonUtility.ToJson(cur);
         cur.resourceName = (cur.resourceName ?? "").Trim();   // trim early so the rename guard compares clean names
         if (BlockedByRenameClobber()) return;                 // block a name collision BEFORE tearing down the preview / spending a bake
+        // PRE-BAKE VALIDATE (2026-08-18, user: "validate should also run before build"): the same shared rule core,
+        // on the CURRENT form, at the exact moment authoring mistakes are made. Warnings NEVER block the bake
+        // (fail-soft) — they land in the Console with the field named, while the model is still in front of you.
+        // Bone checks run against the PREVIOUS bake's skeleton if one exists (a fresh model skips them — the
+        // Validate-pack button and the plugin's boot pre-flight cover post-bake).
+        try
+        {
+            var preIssues = Haf.Schema.PackValidator.ValidateEntry(cur, new EditorValidationCtx
+            { Pawns = new System.Collections.Generic.HashSet<string>(GatherPawnNames()), SkeletonPath = "Assets/Resources/" + cur.resourceName + "_Skeleton.asset" });
+            if (preIssues.Count > 0)
+                Debug.LogWarning($"[Validate] '{cur.resourceName}' pre-bake: {preIssues.Count} issue(s) (bake proceeds — fix and re-Save/re-Bake):\n    "
+                                 + string.Join("\n    ", preIssues));
+        }
+        catch (Exception vex) { Debug.LogWarning("[Validate] pre-bake validation failed (bake proceeds): " + vex.Message); }
         // Tear down the preview editor BEFORE baking. The baked prefab has an Animator, so the preview is a GameObjectInspector
         // with a live animator preview; the bake's delete-first (DeleteAsset _Model.prefab) would then null its target mid-bake,
         // and SaveAsPrefabAsset's OnPostprocessAllAssets fires InstantiateForAnimatorPreview(null) -> ArgumentException. Destroying
