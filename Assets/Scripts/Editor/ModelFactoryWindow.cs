@@ -530,7 +530,11 @@ public class ModelFactoryWindow : EditorWindow
         using (new EditorGUILayout.HorizontalScope())
         {
             int sel = EditorGUILayout.Popup("3D resource", selected, existing);
-            if (GUILayout.Button("Refresh", GUILayout.Width(70))) RefreshList();
+            // Refresh = "look at the registry NOW" (user design, drill 5 follow-up): re-read the dropdown AND
+            // re-run the coherence compare — an on-demand banner, no recompile needed. Full recompute in both
+            // directions (raise if drifted, clear if the registry caught back up); the form itself is never touched.
+            if (GUILayout.Button(new GUIContent("Refresh", "Re-read the registry: update the dropdown and show the Form ≠ registry banner if this form has drifted from the saved entry."), GUILayout.Width(70)))
+            { RefreshList(); formDiffersFromRegistry = ComputeFormDiffers(); }
             // CLONE (2026-07-27, user-designed): duplicate the ACTIVE entry into an UNSAVED new one — the fast
             // path for re-pointing a proven recipe at another unit (the T-62 -> MediumTanks "universal tank").
             // Pawn description is deliberately BLANK (pick the new target), the name gets a Clone suffix (so a
