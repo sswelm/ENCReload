@@ -171,7 +171,18 @@ public class ModelFactoryWindow : EditorWindow
         var over = path == animFbx
             ? AssetDatabase.LoadAssetAtPath<Material>("Assets/FactorySource/" + name + "/" + name + "_PreviewMat.mat")
             : null;
-        if (go != null) BuildDrawList(go, over);
+        // ATLAS-UV SUBSTITUTION (2026-08-18 — the REAL fix for the 08-01 deferred item, the user's #1 problem):
+        // a multi-material bake remaps the FBX's skinned-mesh UVs into the packed atlas IN MEMORY ONLY
+        // (BuildMultiAtlasAndRemap assigns clones onto the imported asset), which is why the preview was correct
+        // right after a bake and WRONG on every fresh select — a reimport/restart reverts the FBX to original UVs
+        // while PreviewMat still carries the packed atlas. The bake also PERSISTS that clone (_PreviewMesh.asset:
+        // same FBX-space geometry, remapped UVs, submeshes merged). Substituting it for the renderer it was cloned
+        // from (matched by mesh name) pairs mesh and texture correctly WITHOUT losing the upright grounded FBX
+        // view. Single-material rigs have no _PreviewMesh and stay on the plain route (their UVs wrap correctly).
+        Mesh uvSub = path == animFbx
+            ? AssetDatabase.LoadAssetAtPath<Mesh>("Assets/FactorySource/" + name + "/" + name + "_PreviewMesh.asset")
+            : null;
+        if (go != null) BuildDrawList(go, over, uvSub);
         // (A donor-clip "footprint centering" briefly lived here — REMOVED with the double-application discovery:
         // the placement quirks it approximated were largely the runtime ApplyPositionOffset adding the registry
         // position on top of a bake that ALSO carried it. With the bake-side copy gone, the FBX view + the LIVE
@@ -181,7 +192,7 @@ public class ModelFactoryWindow : EditorWindow
     // Flatten the baked prefab's renderers into a draw list + combined bounds for the PreviewRenderUtility (same
     // approach as the Animation Lab fit preview). The prefab's shared materials already carry the baked atlas;
     // overrideMat replaces them (the rest-pose FBX route, whose imported materials are untextured stand-ins).
-    void BuildDrawList(GameObject go, Material overrideMat = null)
+    void BuildDrawList(GameObject go, Material overrideMat = null, Mesh uvSubstitute = null)
     {
         previewDraws = new List<(Mesh, Material[], Matrix4x4)>();
         bool first = true;
@@ -189,6 +200,8 @@ public class ModelFactoryWindow : EditorWindow
         {
             Mesh m = rr is SkinnedMeshRenderer smr ? smr.sharedMesh : rr.GetComponent<MeshFilter>()?.sharedMesh;
             if (m == null) continue;
+            // the persisted atlas-remapped clone keeps its source mesh's NAME — swap it in for that renderer only
+            if (uvSubstitute != null && m.name == uvSubstitute.name) m = uvSubstitute;
             var mtx = rr.transform.localToWorldMatrix;
             var mats = rr.sharedMaterials;
             if (overrideMat != null)
