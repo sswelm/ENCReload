@@ -954,6 +954,8 @@ public class ModelFactoryWindow : EditorWindow
             if (GUILayout.Button("Open config folder", GUILayout.Width(150)))
                 EditorUtility.RevealInFinder(System.IO.File.Exists(ModelRegistry.RegistryPath)
                     ? ModelRegistry.RegistryPath : ModelRegistry.ConfigDir);
+            if (GUILayout.Button(new GUIContent("Validate pack", "PRE-SHIP gate (Pack-Validator-Design): runs the shared rule core over EVERY registry entry — real pawn names, sound/skin files exist, bone names exist on each entry's baked skeleton, ranges/formats/exclusions. Same rules the plugin re-runs on the player's machine at load. Warnings explain; nothing is blocked."), GUILayout.Width(100)))
+                ValidatePack();
             GUILayout.Label("↑ haf_models.json + the plugin .cfg", EditorStyles.miniLabel);
         }
         EditorGUILayout.EndScrollView();
@@ -1346,6 +1348,72 @@ public class ModelFactoryWindow : EditorWindow
         }
         boatPawnCache[key] = false;
         return false;
+    }
+
+    // PACK VALIDATE — the pre-flight's editor half (Pack-Validator-Design Phase 1, built 2026-08-18): the pre-ship
+    // gate. ONE shared rule core (Haf.Schema.PackValidator — unit-tested in the plugin repo; the plugin re-runs the
+    // same rules at boot on the player's machine) with the lookups only the editor can answer pre-ship: the real
+    // pawn-name list (the Pick dropdown's source), file existence in the deployed pack + legacy shared dirs, and
+    // bone names against each entry's BAKED skeleton asset.
+    sealed class EditorValidationCtx : Haf.Schema.IValidationContext
+    {
+        public System.Collections.Generic.HashSet<string> Pawns;
+        public string SkeletonPath;
+        Array bones; bool bonesLoaded;
+        public bool? PawnExists(string p) => Pawns == null ? (bool?)null : Pawns.Contains(p);
+        public bool? SoundFileExists(string f) => FileIn("sounds", "haf_sounds", f);
+        public bool? SkinFileExists(string f) => FileIn("skins", "haf_skins", f);
+        static bool? FileIn(string sub, string legacy, string f) =>
+            System.IO.File.Exists(System.IO.Path.Combine(ModelRegistry.PackLiveDir, sub, f)) ||
+            System.IO.File.Exists(System.IO.Path.Combine(ModelRegistry.ConfigDir, legacy, f));
+        public bool? BoneExists(string subName)
+        {
+            if (!bonesLoaded)
+            {
+                bonesLoaded = true;
+                var sk = AssetDatabase.LoadMainAssetAtPath(SkeletonPath);
+                bones = sk == null ? null : ReflectMember(sk, "BoneInfos") as Array;
+            }
+            if (bones == null) return null;   // no baked skeleton (static borrow / retex / not yet baked) — can't judge
+            foreach (var b in bones)
+            {
+                var n = (b == null ? null : ReflectMember(b, "Name"))?.ToString() ?? "";
+                if (n.IndexOf(subName, StringComparison.OrdinalIgnoreCase) >= 0) return true;
+            }
+            return false;
+        }
+        static object ReflectMember(object o, string name)
+        {
+            var t = o.GetType();
+            const System.Reflection.BindingFlags F = System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance;
+            var fi = t.GetField(name, F); if (fi != null) return fi.GetValue(o);
+            var pi = t.GetProperty(name, F); return pi != null ? pi.GetValue(o, null) : null;
+        }
+    }
+
+    void ValidatePack()
+    {
+        var defs = ModelRegistry.Load();
+        if (defs == null || defs.Count == 0) { status = "Validate pack: no entries in the registry."; return; }
+        var pawns = new System.Collections.Generic.HashSet<string>(GatherPawnNames());
+        int warns = 0, errors = 0;
+        var sb = new System.Text.StringBuilder();
+        foreach (var d in defs)
+        {
+            var ctx = new EditorValidationCtx { Pawns = pawns.Count > 0 ? pawns : null, SkeletonPath = "Assets/Resources/" + d.resourceName + "_Skeleton.asset" };
+            var issues = Haf.Schema.PackValidator.ValidateEntry(d, ctx);
+            if (issues.Count == 0) continue;
+            sb.AppendLine($"'{d.resourceName}' (pawn '{d.pawnDescription}'):");
+            foreach (var i in issues)
+            {
+                sb.AppendLine("    " + i);
+                if (i.Severity == Haf.Schema.ValidationSeverity.Error) errors++; else warns++;
+            }
+        }
+        string summary = $"Validate pack: {defs.Count} entr(y/ies) — {warns} warning(s), {errors} error(s).";
+        if (sb.Length > 0) Debug.LogWarning("[Validate] " + summary + "\n" + sb);
+        else Debug.Log("[Validate] " + summary + " Clean.");
+        status = summary + (sb.Length > 0 ? " Details in the Console." : " Clean — ready to ship.");
     }
 
     internal static string[] GatherPawnNames()
