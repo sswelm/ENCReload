@@ -71,9 +71,13 @@ public class ShipStatusWindow : EditorWindow
         w.Scan();
     }
 
-    class Row { public string name, state, detail; public int severity; }   // severity: 2 problem, 1 attention, 0 fine
+    class Row { public string name, state, detail; public int severity; public bool deletable, owned, ticked; }   // severity: 2 problem, 1 attention, 0 fine
+    // deletable = the row HAS baked output files (user request: "any of the listed resources"). Deleting an
+    // OWNED row's bakes un-bakes it — the registry entry stays and shows BAKE MISSING until re-baked; removing
+    // the entry itself stays the Factory's Remove, with its own confirm + recycle-bin flow.
 
     string buildDir; DateTime? buildUtc; readonly List<Row> rows = new List<Row>(); Vector2 scroll;
+    int lastClicked = -1;   // shift-range anchor (display-order row index); reset on every Scan
 
     void OnEnable() { Scan(); }
 
@@ -118,11 +122,12 @@ public class ShipStatusWindow : EditorWindow
             }
             foreach (var n in orphans.OrderBy(x => x))
                 rows.Add(n.StartsWith("__convgate__")
-                    ? new Row { name = n, state = "TEST ARTIFACT", detail = "ConversionGateTest scratch bake — still ships as dead bundle weight; safe to delete", severity = 1 }
-                    : new Row { name = n, state = "ORPHANED BAKE", detail = "baked outputs no registry owns (renamed/removed?) — dead weight that still ships; Remove-style cleanup applies", severity = 1 });
+                    ? new Row { name = n, state = "TEST ARTIFACT", detail = "ConversionGateTest scratch bake — still ships as dead bundle weight; safe to delete", severity = 1, deletable = true }
+                    : new Row { name = n, state = "ORPHANED BAKE", detail = "baked outputs no registry owns (renamed/removed?) — dead weight that still ships; tick + Delete selected to clean up (delete-guard snapshots everything)", severity = 1, deletable = true });
         }
         catch { }
         rows.Sort((a, b) => b.severity != a.severity ? b.severity - a.severity : string.CompareOrdinal(a.name, b.name));
+        lastClicked = -1;
     }
 
     // Add rows for another registry's entries and claim their names so the orphan sweep skips them. A saved-but-
@@ -144,8 +149,8 @@ public class ShipStatusWindow : EditorWindow
 
     Row ShippedRow(string name, string kind, DateTime? bake) =>
         buildUtc == null || bake > buildUtc
-            ? new Row { name = name, state = $"BAKED, NOT BUILT ({kind})", detail = $"baked {Local(bake)} — newer than the last mod build; the game still loads the previous assets", severity = 2 }
-            : new Row { name = name, state = $"shipped ({kind})", detail = $"baked {Local(bake)}", severity = 0 };
+            ? new Row { name = name, state = $"BAKED, NOT BUILT ({kind})", detail = $"baked {Local(bake)} — newer than the last mod build; the game still loads the previous assets", severity = 2, deletable = true, owned = true }
+            : new Row { name = name, state = $"shipped ({kind})", detail = $"baked {Local(bake)}", severity = 0, deletable = true, owned = true };
 
     static string Local(DateTime? utc) => utc?.ToLocalTime().ToString("yyyy-MM-dd HH:mm") ?? "never";
 
@@ -166,20 +171,80 @@ public class ShipStatusWindow : EditorWindow
                 "(The boot pre-flight in haf_load_report.txt warns about exactly these.)", MessageType.Warning);
         EditorGUILayout.Space();
         scroll = EditorGUILayout.BeginScrollView(scroll, GUILayout.ExpandHeight(true));
-        foreach (var r in rows)
+        for (int i = 0; i < rows.Count; i++)
         {
-            using (new EditorGUILayout.HorizontalScope())
+            var r = rows[i];
+            var rowRect = EditorGUILayout.BeginHorizontal();
+            var style = r.severity == 2 ? EditorStyles.boldLabel : EditorStyles.label;
+            var c = GUI.color;
+            GUI.color = r.severity == 2 ? new Color(1f, 0.75f, 0.3f) : r.severity == 1 ? new Color(1f, 0.9f, 0.5f) : c;
+            if (r.deletable)
+                r.ticked = EditorGUILayout.Toggle(r.ticked, GUILayout.Width(18));
+            else
+                GUILayout.Space(22);
+            EditorGUILayout.LabelField(new GUIContent(r.name, r.detail), style, GUILayout.Width(220));
+            EditorGUILayout.LabelField(new GUIContent(r.state, r.detail), style);
+            GUI.color = c;
+            EditorGUILayout.EndHorizontal();
+            // LIST SELECTION (user request 2026-08-18): plain click = select only this row, Ctrl-click = toggle,
+            // Shift-click = range from the last clicked row — the tick IS the selection, so the checkbox, the
+            // keyboard-modifier clicks and Tick all all drive the same state. The Toggle consumes clicks on the
+            // checkbox itself, so this only sees clicks on the rest of the row.
+            if (r.ticked && Event.current.type == EventType.Repaint)
+                EditorGUI.DrawRect(rowRect, new Color(0.24f, 0.48f, 0.90f, 0.18f));
+            if (r.deletable && Event.current.type == EventType.MouseDown && rowRect.Contains(Event.current.mousePosition))
             {
-                var style = r.severity == 2 ? EditorStyles.boldLabel : EditorStyles.label;
-                var c = GUI.color;
-                GUI.color = r.severity == 2 ? new Color(1f, 0.75f, 0.3f) : r.severity == 1 ? new Color(1f, 0.9f, 0.5f) : c;
-                EditorGUILayout.LabelField(new GUIContent(r.name, r.detail), style, GUILayout.Width(220));
-                EditorGUILayout.LabelField(new GUIContent(r.state, r.detail), style);
-                GUI.color = c;
+                if (Event.current.shift && lastClicked >= 0)
+                {
+                    int lo = Mathf.Min(lastClicked, i), hi = Mathf.Max(lastClicked, i);
+                    for (int k = lo; k <= hi; k++) if (rows[k].deletable) rows[k].ticked = true;
+                }
+                else if (Event.current.control || Event.current.command)
+                { r.ticked = !r.ticked; lastClicked = i; }
+                else
+                { foreach (var o in rows) o.ticked = false; r.ticked = true; lastClicked = i; }
+                Event.current.Use(); Repaint();
             }
         }
         EditorGUILayout.EndScrollView();
+        // DELETE SELECTED (user request 2026-08-18: "any of the listed resources"). Deletion runs the baker's own
+        // SweepAllOutputs (exact whitelist), so the delete-guard snapshots every file first — fully restorable
+        // from the Backup & Restore window's guard-snapshot list. Owned entries are only UN-BAKED: the registry
+        // entry stays (BAKE MISSING until re-baked); removing the entry itself is the Factory's Remove.
+        var deletable = rows.Where(r => r.deletable).ToList();
+        if (deletable.Count > 0)
+            using (new EditorGUILayout.HorizontalScope())
+            {
+                int ticked = deletable.Count(r => r.ticked);
+                if (GUILayout.Button(new GUIContent(deletable.All(r => r.ticked) ? "Untick all" : "Tick all", "Toggle every row that has baked outputs."), GUILayout.Width(80)))
+                { bool on = !deletable.All(r => r.ticked); foreach (var r in deletable) r.ticked = on; }
+                using (new EditorGUI.DisabledScope(ticked == 0))
+                    if (GUILayout.Button(new GUIContent($"Delete selected ({ticked})", "Delete the ticked rows' baked output files from Assets/Resources. The delete-guard snapshots every file first — restorable from the Backup & Restore window. Registry entries are NOT touched."), GUILayout.Width(150)))
+                    {
+                        var sel = deletable.Where(r => r.ticked).ToList();
+                        var names = sel.Select(r => r.name).ToList();
+                        int ownedCount = sel.Count(r => r.owned);
+                        string listing = string.Join("\n", names.Take(12)) + (names.Count > 12 ? $"\n… and {names.Count - 12} more" : "");
+                        string ownedNote = ownedCount > 0
+                            ? $"\n\n{ownedCount} of these belong to a registry entry — the ENTRY STAYS and shows as un-baked until you re-bake it. (Removing an entry itself is the Factory's Remove.)"
+                            : "";
+                        if (EditorUtility.DisplayDialog("Delete baked outputs?",
+                            $"Delete the baked outputs of {names.Count} name(s) from Assets/Resources:\n\n{listing}{ownedNote}\n\n" +
+                            "The delete-guard snapshots every file first, so this is restorable from the Backup & Restore window.",
+                            "Delete", "Cancel"))
+                        {
+                            foreach (var n in names) UniversalBaker.SweepAllOutputs(n);
+                            AssetDatabase.Refresh();
+                            Scan();
+                            ModelFactoryWindow.RefreshAllOpen();   // an open Factory showing an un-baked entry must find out now, not on the next reload
+                            Debug.Log($"[ShipStatus] deleted the baked outputs of {names.Count} name(s): {string.Join(", ", names)} (guard snapshots taken).");
+                            GUIUtility.ExitGUI();
+                        }
+                    }
+            }
         EditorGUILayout.HelpBox("Hover a row for details. BAKED, NOT BUILT = the HandCrankedSubmarine trap (2026-08-18): " +
-            "the entry's GUIDs point at assets newer than the shipped bundle, so the game can't resolve them.", MessageType.None);
+            "the entry's GUIDs point at assets newer than the shipped bundle, so the game can't resolve them. " +
+            "Tick any row with baked outputs + Delete selected: orphans/test artifacts vanish for good, owned entries " +
+            "just lose their bakes (re-bake to regenerate). Everything deleted is guard-snapshotted and restorable.", MessageType.None);
     }
 }
