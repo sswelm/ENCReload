@@ -151,17 +151,11 @@ public class ModelFactoryWindow : EditorWindow
         string animFbx = "Assets/FactorySource/" + name + "/anim/" + name + "_anim.fbx";
         string animPath = "Assets/FactorySource/" + name + "/" + name + "_Preview.prefab";
         string staticPath = "Assets/Resources/" + name + "_Model.prefab";
-        // TEXTURE-CORRECT ROUTE (2026-08-18 — the 08-01 investigation's deferred "real fix"; user: "my number one
-        // problem with this editor"): a MULTI-MATERIAL bake writes _PreviewMesh.asset — the SAME rest geometry as
-        // the rig FBX but with UVs REMAPPED into the packed atlas — wrapped upright+textured in _Preview.prefab.
-        // The old route drew the raw FBX (ORIGINAL UVs) against the packed atlas, mis-texturing every
-        // multi-material / tiling rig on first select. When the remapped pairing exists, PREFER it; the FBX route
-        // remains for single-material rigs, where the atlas IS the source image and original UVs wrap correctly.
-        // Display-only either way: the SHIPPED mesh always carries the remapped UVs (proven 2026-08-01 via
-        // draw_mats.txt, and by every in-game verification since) — the preview was lying, never the mod.
-        bool remapped = AssetDatabase.LoadMainAssetAtPath("Assets/FactorySource/" + name + "/" + name + "_PreviewMesh.asset") != null;
-        string path = remapped && AssetDatabase.LoadMainAssetAtPath(animPath) != null ? animPath
-                    : AssetDatabase.LoadMainAssetAtPath(animFbx) != null ? animFbx
+        // (2026-08-18: a first attempt preferred the texture-correct _Preview.prefab here — REVERTED same hour:
+        // that prefab is a display-flipped bind pose with no ground plane, so the cure was worse than the disease
+        // ("why is it heading up without a surface?"). The real fix must keep THIS route's upright grounded
+        // geometry and fix the texture pairing instead — see the atlas-UV preview work.)
+        string path = AssetDatabase.LoadMainAssetAtPath(animFbx) != null ? animFbx
                     : AssetDatabase.LoadMainAssetAtPath(animPath) != null ? animPath
                     : AssetDatabase.LoadMainAssetAtPath(staticPath) != null ? staticPath : null;
         if (path == null) return;
