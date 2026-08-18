@@ -52,14 +52,19 @@ public class ModelFactoryWindow : EditorWindow
     void SelectEntry(string name) { RefreshList(); SelectEntry(Array.IndexOf(existing, (name ?? "").Trim())); }
 
     // Form-vs-registry comparison shared by the domain-reload reconciliation and the cross-window nudge.
-    // Two lessons folded in (self-review, 2026-08-18): (a) the Lab's spurious-banner lesson — OnGUI mutates the
-    // form (the `animated` self-heal), so the SAME normalization must hit the registry copy before comparing, or
-    // the banner fires after every compile with no user edit and gets ignored; (b) an entry REMOVED from the
-    // registry while shown here is the STRONGEST desync — report it as differing, don't silently shrug.
+    // Keyed on `loadedName` — the form's OWN registry identity — NEVER on the `selected` dropdown index:
+    // RefreshList() re-derives that index by name and resets it to 0 when the entry vanished from the registry,
+    // which made the old `selected <= 0` guard swallow EXACTLY the vanished-entry case rule (b) exists for
+    // (2026-08-18 drill 3: Bears hand-removed from pack.json, no banner). Two more lessons folded in
+    // (self-review, 2026-08-18): (a) the Lab's spurious-banner lesson — OnGUI mutates the form (the `animated`
+    // self-heal), so the SAME normalization must hit the registry copy before comparing, or the banner fires
+    // after every compile with no user edit and gets ignored; (b) an entry REMOVED from the registry while
+    // shown here is the STRONGEST desync — report it as differing, don't silently shrug.
     bool ComputeFormDiffers()
     {
-        if (selected <= 0 || string.IsNullOrEmpty((cur.resourceName ?? "").Trim())) return false;
-        var reg = ModelRegistry.Load().FirstOrDefault(x => x.resourceName == cur.resourceName.Trim());
+        var name = (loadedName ?? "").Trim();
+        if (name.Length == 0) return false;   // <New>/clone form — no saved registry identity to drift from
+        var reg = ModelRegistry.Load().FirstOrDefault(x => x.resourceName == name);
         if (reg == null) return true;   // the shown entry no longer exists in the registry — maximal difference
         if (!reg.animated && LooksAnimated(reg)) reg.animated = true;   // mirror the OnGUI self-heal (see (a))
         return JsonUtility.ToJson(reg) != JsonUtility.ToJson(cur);
@@ -129,6 +134,11 @@ public class ModelFactoryWindow : EditorWindow
                                                      // domain-reload reconciliation, ported — the Factory was the one
                                                      // window WITHOUT it ("external registry edits are detected by the
                                                      // Lab (yellow banner) but not by the Factory").
+    [SerializeField] string loadedName = "";         // which registry entry this form was loaded from / last saved as
+                                                     // ("" = <New>/clone). The coherence compare keys on THIS, because
+                                                     // the `selected` index is re-derived by name on every RefreshList
+                                                     // and resets to 0 when the entry vanishes — the one case the
+                                                     // banner most needs to catch (drill 3 finding, 2026-08-18).
 
     void OnEnable()
     {
@@ -535,6 +545,7 @@ public class ModelFactoryWindow : EditorWindow
                     clone.bakeLocked = false; clone.disabled = false;
                     cur = clone; selected = 0; sel = 0; GUI.FocusControl(null);   // sel too — else the popup-apply below reads the stale index as a "selection change" and reloads the source entry right over the clone
                     formDiffersFromRegistry = false;   // the banner is about a SAVED entry's form; a clone is unsaved by definition (and the banner's Reload would wipe it)
+                    loadedName = "";                   // no registry identity until first Save/Bake
                     status = "Cloned — set a Resource name and Pawn description, then Bake. Nothing saved yet.";
                 }
             // Remove the selected registry entry (disabled on <New>). Prompts, then drops it from haf_models.json.
@@ -615,8 +626,8 @@ public class ModelFactoryWindow : EditorWindow
             EditorGUILayout.HelpBox("Form ≠ saved registry entry (your edits survived a compile, or the registry changed " +
                 "outside this window). Nothing was discarded. Choose: ↻ Reload entry = take the registry (drops these " +
                 "form values) · Save settings or Bake = keep exactly what you see here.", MessageType.Warning);
-            if (GUILayout.Button(new GUIContent("↻ Reload entry (take the registry)", "Discard the form and re-load this entry fresh from the registry file."), GUILayout.Width(230)))
-            { SelectEntry(cur.resourceName); GUIUtility.ExitGUI(); }
+            if (GUILayout.Button(new GUIContent("↻ Reload entry (take the registry)", "Discard the form and re-load this entry fresh from the registry file. If the entry was removed from the registry, this resets to <New>."), GUILayout.Width(230)))
+            { SelectEntry(loadedName); GUIUtility.ExitGUI(); }   // loadedName, not the name FIELD — a half-typed rename must reload the ORIGINAL entry
         }
         EditorGUILayout.Space();
 
@@ -1107,10 +1118,11 @@ public class ModelFactoryWindow : EditorWindow
     void OnSelectResource()
     {
         formDiffersFromRegistry = false;   // loading fresh = in sync by definition
-        if (selected <= 0) { cur = new ModelDef(); status = ""; LoadPreview(null); return; }
+        if (selected <= 0) { cur = new ModelDef(); loadedName = ""; status = ""; LoadPreview(null); return; }
         var e = ModelRegistry.Load().FirstOrDefault(x => x.resourceName == existing[selected]);
         if (e == null) return;
         cur = JsonUtility.FromJson<ModelDef>(JsonUtility.ToJson(e));   // clone so edits don't mutate the stored copy
+        loadedName = cur.resourceName;   // the form's registry identity (survives a rename typed into the name field)
         status = "Loaded '" + e.resourceName + "'. Edit + Bake; leave Model file empty to re-bake with new settings.";
         if (!cur.animated && LooksAnimated(cur))
         {
@@ -1617,7 +1629,7 @@ public class ModelFactoryWindow : EditorWindow
         if (BlockedByRenameClobber()) return;
         RebaseLabOwnedOnRegistry();
         bool saved = ModelRegistry.Upsert(cur);
-        if (saved) formDiffersFromRegistry = false;   // form is now the saved truth
+        if (saved) { formDiffersFromRegistry = false; loadedName = cur.resourceName; }   // form is now the saved truth
         string renameNote = saved ? FinishRename() : "";
         RefreshList();
         selected = System.Array.IndexOf(existing, cur.resourceName); if (selected < 0) selected = 0;
@@ -1712,7 +1724,7 @@ public class ModelFactoryWindow : EditorWindow
         cur.fireOnAttack = false; cur.deployOnStop = false;
         cur.deployPoseTime = 0f; cur.deploySpeed = 0f; cur.recoilSpeed = 0f;
         bool saved = ModelRegistry.Upsert(cur);
-        if (saved) formDiffersFromRegistry = false;   // form is now the saved truth
+        if (saved) { formDiffersFromRegistry = false; loadedName = cur.resourceName; }   // form is now the saved truth
         RefreshList();
         status = saved
             ? $"'{cur.resourceName}' animation configuration DELETED from the registry — the next Bake is static. (Relaunch also stops the animated override.)"
@@ -1745,7 +1757,7 @@ public class ModelFactoryWindow : EditorWindow
             modelFileChanged = !string.Equals(regE.modelFile ?? "", cur.modelFile, StringComparison.OrdinalIgnoreCase);
         }
         bool saved = ModelRegistry.Upsert(cur);
-        if (saved) formDiffersFromRegistry = false;   // form is now the saved truth
+        if (saved) { formDiffersFromRegistry = false; loadedName = cur.resourceName; }   // form is now the saved truth
         string renameNote = saved ? FinishRename() : "";
         RefreshList();
         selected = System.Array.IndexOf(existing, cur.resourceName); if (selected < 0) selected = 0;
@@ -1855,7 +1867,7 @@ public class ModelFactoryWindow : EditorWindow
         cur.clipIdleAlt = cfg.animated && cfg.animStateDriven && !string.IsNullOrEmpty(r.clipIdleAltGuid) ? ModelRegistry.ParseGuid(r.clipIdleAltGuid) : new int[4];
         cur.clipIdleAlt2 = cfg.animated && cfg.animStateDriven && !string.IsNullOrEmpty(r.clipIdleAlt2Guid) ? ModelRegistry.ParseGuid(r.clipIdleAlt2Guid) : new int[4];
         bool saved = ModelRegistry.Upsert(cur);
-        if (saved) formDiffersFromRegistry = false;   // form is now the saved truth
+        if (saved) { formDiffersFromRegistry = false; loadedName = cur.resourceName; }   // form is now the saved truth
         string renameNote = saved ? FinishRename() : "";
         RefreshList();
         selected = System.Array.IndexOf(existing, cur.resourceName); if (selected < 0) selected = 0;
