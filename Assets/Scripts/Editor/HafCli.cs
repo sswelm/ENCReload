@@ -11,10 +11,10 @@ using UnityEngine;
 //   Unity.exe -batchmode -quit -projectPath <ENCReload> -logFile - -executeMethod HAF.Cli.RebuildModel -model <resourceName> [-fresh]
 //   Unity.exe -batchmode -quit -projectPath <ENCReload> -logFile - -executeMethod HAF.Cli.RebuildModel -all
 //   Unity.exe -batchmode -quit -projectPath <ENCReload> -logFile - -executeMethod HAF.Cli.CleanExport
-//   Unity.exe -batchmode -quit -projectPath <ENCReload> -logFile - -executeMethod HAF.Cli.BuildMod
+//   Unity.exe -batchmode -quit -projectPath <ENCReload> -logFile - -executeMethod HAF.Cli.BuildMod [-strict]
 //
 // Each verb prints one JSON result line prefixed [HAF-CLI] and sets the process exit code:
-//   0 = ok, 2 = not found / bad arg, 3 = bake or save failed.
+//   0 = ok, 2 = not found / bad arg, 3 = bake or save failed, 4 = pre-ship validation failed (BuildMod -strict).
 // RebuildModel reuses the EXACT path the Model Factory's Bake button and BakeSmokeTest use
 // (ModelRegistry.Load -> ModelFactoryWindow.ConfigFor -> UniversalBaker.Build/BuildAnimated -> copy GUIDs -> Upsert),
 // so it cannot drift from the GUI. BuildMod runs the game's own Mod Editor build+deploy headless (the three build
@@ -133,6 +133,18 @@ namespace HAF
         {
             try
             {
+                // PRE-SHIP VALIDATE (2026-08-18, user: "I was referring to mod build"): the shared rule core over the
+                // FULL registry, at the last gate before the pack leaves this machine. Default: report + continue
+                // (fail-soft — the built mod still works degraded, exactly like it would in-game). Pass -strict to
+                // FAIL the build instead (exit 4) — the CI-able mode where a warning is a stop-ship.
+                string vDetail = ModelFactoryWindow.ValidatePackCore(out int vWarns, out int vErrors, out int vCount);
+                if (vWarns + vErrors > 0)
+                {
+                    Debug.LogWarning($"[HAF-CLI] pre-ship validation: {vCount} entr(y/ies), {vWarns} warning(s), {vErrors} error(s)\n{vDetail}");
+                    if (Flag("-strict"))
+                    { Emit(4, "{\"ok\":false,\"step\":\"validate\",\"entries\":" + vCount + ",\"warnings\":" + vWarns + ",\"errors\":" + vErrors + ",\"note\":\"-strict: fix the issues listed in the log, or build without -strict\"}"); return; }
+                }
+
                 var meType = ResolveType("Amplitude.Mercury.Production.Modification.ModuleEditor");
                 if (meType == null) { Emit(3, "{\"ok\":false,\"error\":\"ModuleEditor type not found\"}"); return; }
                 var rmProp = meType.GetProperty("RuntimeModule", BindingFlags.Public | BindingFlags.Static);

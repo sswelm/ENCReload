@@ -1391,16 +1391,19 @@ public class ModelFactoryWindow : EditorWindow
         }
     }
 
-    void ValidatePack()
+    // Shared core — the button, the pre-bake check, AND the headless mod build (HAF.Cli.BuildMod) all run this.
+    internal static string ValidatePackCore(out int warns, out int errors, out int entryCount)
     {
+        warns = 0; errors = 0; entryCount = 0;
         var defs = ModelRegistry.Load();
-        if (defs == null || defs.Count == 0) { status = "Validate pack: no entries in the registry."; return; }
-        var pawns = new System.Collections.Generic.HashSet<string>(GatherPawnNames());
-        int warns = 0, errors = 0;
+        if (defs == null || defs.Count == 0) return "";
+        entryCount = defs.Count;
+        var pawnArr = GatherPawnNames();
+        var pawns = pawnArr != null && pawnArr.Length > 0 ? new System.Collections.Generic.HashSet<string>(pawnArr) : null;
         var sb = new System.Text.StringBuilder();
         foreach (var d in defs)
         {
-            var ctx = new EditorValidationCtx { Pawns = pawns.Count > 0 ? pawns : null, SkeletonPath = "Assets/Resources/" + d.resourceName + "_Skeleton.asset" };
+            var ctx = new EditorValidationCtx { Pawns = pawns, SkeletonPath = "Assets/Resources/" + d.resourceName + "_Skeleton.asset" };
             var issues = Haf.Schema.PackValidator.ValidateEntry(d, ctx);
             if (issues.Count == 0) continue;
             sb.AppendLine($"'{d.resourceName}' (pawn '{d.pawnDescription}'):");
@@ -1410,10 +1413,17 @@ public class ModelFactoryWindow : EditorWindow
                 if (i.Severity == Haf.Schema.ValidationSeverity.Error) errors++; else warns++;
             }
         }
-        string summary = $"Validate pack: {defs.Count} entr(y/ies) — {warns} warning(s), {errors} error(s).";
-        if (sb.Length > 0) Debug.LogWarning("[Validate] " + summary + "\n" + sb);
+        return sb.ToString();
+    }
+
+    void ValidatePack()
+    {
+        string detail = ValidatePackCore(out int warns, out int errors, out int count);
+        if (count == 0) { status = "Validate pack: no entries in the registry."; return; }
+        string summary = $"Validate pack: {count} entr(y/ies) — {warns} warning(s), {errors} error(s).";
+        if (detail.Length > 0) Debug.LogWarning("[Validate] " + summary + "\n" + detail);
         else Debug.Log("[Validate] " + summary + " Clean.");
-        status = summary + (sb.Length > 0 ? " Details in the Console." : " Clean — ready to ship.");
+        status = summary + (detail.Length > 0 ? " Details in the Console." : " Clean — ready to ship.");
     }
 
     internal static string[] GatherPawnNames()
