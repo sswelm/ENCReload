@@ -104,6 +104,19 @@ public class ModelFactoryWindow : EditorWindow
     // ORIGIN plane — the static bake grounds the keel to the origin and Position offset moves the model relative to it,
     // so this square IS the in-game ground truth. Never anchor it to the model's bounds (that HID a half-sunk district
     // bake); a model below the square previews sunk because it ships sunk.
+    // GAME WATER LEVEL vs model origin (2026-08-18 submarine/cruiser calibration): the game floats naval pawns
+    // with the water surface ABOVE the model origin — the preview's plane at origin height showed every vessel
+    // riding ~half a unit too high vs the in-game waterline (cruiser evidence: preview calibrated to the
+    // red/black paint boundary, game water at the TOP of the black band). Measured empirically against the
+    // user's calibrated cruiser, like the 6.93u tile spacing — the dial next to the preview refines it; stored
+    // in EditorPrefs so the calibration is done ONCE. Ground (land) keeps the origin contract untouched.
+    internal static float PreviewWaterY
+    {
+        get => EditorPrefs.GetFloat("HAF.Preview.WaterY", 0.5f);
+        set => EditorPrefs.SetFloat("HAF.Preview.WaterY", value);
+    }
+    float PreviewPlaneY => previewWater ? PreviewWaterY : -0.02f;
+
     Material previewGroundMat;
     Mesh previewGroundMesh;
     Mesh previewArrowMesh;   // flat FORWARD arrow on the square (+Z = the game's forward: yaw 0 faces it, a
@@ -421,7 +434,8 @@ public class ModelFactoryWindow : EditorWindow
             if (previewGrounded && previewDraws != null && previewDraws.Count > 0)
             {
                 float liveY = cur != null && cur.animated && cur.position != Vector3.zero ? cur.position.z : 0f;
-                float keel = previewBounds.min.y + liveY, top = previewBounds.max.y + liveY;
+                float plane = previewWater ? PreviewWaterY : 0f;   // ground contract: keel vs ORIGIN; water: vs the calibrated game water level
+                float keel = previewBounds.min.y + liveY - plane, top = previewBounds.max.y + liveY - plane;
                 keelInfo = string.Format("  ·  keel {0:+0.00;-0.00;0.00}u / top {1:+0.00;-0.00;0.00}u vs {2}", keel, top, previewWater ? "waterline" : "ground");
             }
             EditorGUILayout.LabelField("Preview — " + previewFor + "   (drag = orbit · middle-drag = pan · scroll = zoom" +
@@ -429,6 +443,14 @@ public class ModelFactoryWindow : EditorWindow
                                  : ")  — legacy display pose (no rig FBX found), orientation not faithful") +
                 (cur != null && cur.animated && cur.position != Vector3.zero ? "  · Position offset shown LIVE (runtime-applied, no bake needed)" : "") +
                 keelInfo, EditorStyles.miniBoldLabel);
+            if (previewWater)
+            {
+                // The calibration dial (see PreviewWaterY): where the GAME's water surface sits above the model
+                // origin. Set once against in-game truth (the cruiser's paint line), applies to every vessel.
+                EditorGUILayout.LabelField(new GUIContent("water @", "Game water level above the model origin (calibrated against the in-game waterline; the game floats naval pawns with the surface this far above origin). Applies to every vessel preview."), GUILayout.Width(50));
+                float w = EditorGUILayout.FloatField(PreviewWaterY, GUILayout.Width(45));
+                if (!Mathf.Approximately(w, PreviewWaterY)) { PreviewWaterY = w; Repaint(); }
+            }
             if (GUILayout.Button(new GUIContent("Center", "Re-center the view on the model (resets pan + zoom; keeps the orbit angle)"), GUILayout.Width(60)))
             { previewPan = Vector2.zero; previewZoom = 1.4f; Repaint(); }
         }
@@ -469,7 +491,7 @@ public class ModelFactoryWindow : EditorWindow
             // frame the ground square too when it's drawn — the model can sit away from the origin, and a square
             // outside the frustum reads as "no square" (the TankDestroyers rebake proved it)
             var frame = previewBounds;
-            if (previewGrounded) frame.Encapsulate(new Bounds(new Vector3(0f, -0.02f, 0f), new Vector3(2f * TileCornerRadius, 0.04f, 2f * TileInradius)));
+            if (previewGrounded) frame.Encapsulate(new Bounds(new Vector3(0f, PreviewPlaneY, 0f), new Vector3(2f * TileCornerRadius, 0.04f, 2f * TileInradius)));
             float radius = Mathf.Max(frame.extents.magnitude, 0.1f);
             float dist = radius * 2.0f * previewZoom;
             var rot = Quaternion.Euler(-previewOrbit.y, previewOrbit.x, 0f);
@@ -494,9 +516,9 @@ public class ModelFactoryWindow : EditorWindow
                     previewGroundMat.SetFloat("_Glossiness", 0f);
                 }
                 previewGroundMat.color = previewWater ? new Color(0.23f, 0.36f, 0.47f) : new Color(0.33f, 0.40f, 0.29f);
-                previewPRU.DrawMesh(previewGroundMesh, Matrix4x4.Translate(new Vector3(0f, -0.02f, 0f)), previewGroundMat, 0);
+                previewPRU.DrawMesh(previewGroundMesh, Matrix4x4.Translate(new Vector3(0f, PreviewPlaneY, 0f)), previewGroundMat, 0);
                 if (previewArrowMesh == null) previewArrowMesh = BuildForwardArrow("FactoryForwardArrow");
-                previewPRU.DrawMesh(previewArrowMesh, Matrix4x4.Translate(new Vector3(0f, -0.01f, 0f)), previewFallbackMat, 0);
+                previewPRU.DrawMesh(previewArrowMesh, Matrix4x4.Translate(new Vector3(0f, PreviewPlaneY + 0.01f, 0f)), previewFallbackMat, 0);
             }
             bool anyDead = false;
             // LIVE runtime Position offset (animated entries only — the plugin adds the registry `position` to the
