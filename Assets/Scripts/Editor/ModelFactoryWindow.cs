@@ -148,6 +148,9 @@ public class ModelFactoryWindow : EditorWindow
         // survives the reload untouched; if it differs from the saved registry entry, a warning banner appears with
         // an explicit choice — never a silent resync in either direction.
         formDiffersFromRegistry = ComputeFormDiffers();
+        // Reload-reconciliation evidence line (drill 3 debugging, 2026-08-18): one log per domain reload, so a
+        // missing banner is diagnosable from the Console (identity empty? compare said equal?) instead of guessed at.
+        Debug.Log($"[Factory] coherence after reload: loadedName='{loadedName}' differs={formDiffersFromRegistry}");
         // Clean the PreviewRenderUtility BEFORE the domain unloads (and before editor quit): a PRU that survives a
         // domain reload leaks its camera/scene and spams errors. Cleaning at beforeAssemblyReload, while everything is
         // still alive, is clean; OnDisable also cleans for a plain window close.
