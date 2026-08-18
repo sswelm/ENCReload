@@ -108,7 +108,7 @@ public static class UniversalBaker
     // The FULL union of both paths' shipped outputs. Used by the E5 backup/rollback AND the cross-path sweep below —
     // "_ClipsPoseData.bytes" (the clip's baked pose stream, written by ClipCollection.Reimport next to _Clips) was
     // missing from this list, so a failed animated re-bake could restore an OLD _Clips next to NEW pose bytes.
-    static readonly string[] OutputSuffixes = { "_ModelMesh.asset", "_Atlas.asset", "_Mat.mat", "_Model.prefab", "_Skeleton.asset", "_Clips.asset", "_ClipsPoseData.bytes",
+    internal static readonly string[] OutputSuffixes = { "_ModelMesh.asset", "_Atlas.asset", "_Mat.mat", "_Model.prefab", "_Skeleton.asset", "_Clips.asset", "_ClipsPoseData.bytes",
                                                 "_ClipsMove.asset", "_ClipsMovePoseData.bytes", "_ClipsAfter.asset", "_ClipsAfterPoseData.bytes",
                                                 "_ClipsAttack.asset", "_ClipsAttackPoseData.bytes",
                                                 "_ClipsCombat.asset", "_ClipsCombatPoseData.bytes",

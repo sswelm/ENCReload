@@ -139,6 +139,10 @@ public class ModelFactoryWindow : EditorWindow
                                                      // the `selected` index is re-derived by name on every RefreshList
                                                      // and resets to 0 when the entry vanishes — the one case the
                                                      // banner most needs to catch (drill 3 finding, 2026-08-18).
+    bool bakedNotShipped;                            // SHIP STATUS inline flag (user request 2026-08-18): this entry's
+                                                     // baked outputs are newer than the last mod build — the game still
+                                                     // loads the previous assets. Recomputed at the same trigger points
+                                                     // as the coherence flag (never per-OnGUI-frame: it's file I/O).
 
     void OnEnable()
     {
@@ -148,6 +152,7 @@ public class ModelFactoryWindow : EditorWindow
         // survives the reload untouched; if it differs from the saved registry entry, a warning banner appears with
         // an explicit choice — never a silent resync in either direction.
         formDiffersFromRegistry = ComputeFormDiffers();
+        bakedNotShipped = ShipStatus.IsBakedNotShipped(loadedName);
         // Reload-reconciliation evidence line (drill 3 debugging, 2026-08-18): one log per domain reload, so a
         // missing banner is diagnosable from the Console (identity empty? compare said equal?) instead of guessed at.
         Debug.Log($"[Factory] coherence after reload: loadedName='{loadedName}' differs={formDiffersFromRegistry}");
@@ -541,7 +546,7 @@ public class ModelFactoryWindow : EditorWindow
             // re-run the coherence compare — an on-demand banner, no recompile needed. Full recompute in both
             // directions (raise if drifted, clear if the registry caught back up); the form itself is never touched.
             if (GUILayout.Button(new GUIContent("Refresh", "Re-read the registry: update the dropdown and show the Form ≠ registry banner if this form has drifted from the saved entry."), GUILayout.Width(70)))
-            { RefreshList(); formDiffersFromRegistry = ComputeFormDiffers(); }
+            { RefreshList(); formDiffersFromRegistry = ComputeFormDiffers(); bakedNotShipped = ShipStatus.IsBakedNotShipped(loadedName); }
             // CLONE (2026-07-27, user-designed): duplicate the ACTIVE entry into an UNSAVED new one — the fast
             // path for re-pointing a proven recipe at another unit (the T-62 -> MediumTanks "universal tank").
             // Pawn description is deliberately BLANK (pick the new target), the name gets a Clone suffix (so a
@@ -643,6 +648,13 @@ public class ModelFactoryWindow : EditorWindow
             if (GUILayout.Button(new GUIContent("↻ Reload entry (take the registry)", "Discard the form and re-load this entry fresh from the registry file. If the entry was removed from the registry, this resets to <New>."), GUILayout.Width(230)))
             { SelectEntry(loadedName); GUIUtility.ExitGUI(); }   // loadedName, not the name FIELD — a half-typed rename must reload the ORIGINAL entry
         }
+        // SHIP STATUS inline notice (user request 2026-08-18, the HandCrankedSubmarine trap): baked assets only
+        // reach the game through a mod build — a fresh bake is invisible in-game (dead GUIDs, pre-flight warning)
+        // until the next build. Info, not warning: it's the NORMAL state right after baking, alarming only if forgotten.
+        if (bakedNotShipped)
+            EditorGUILayout.HelpBox("Baked, but NOT in the mod build yet — this bake is newer than the last mod build, so " +
+                "the game still loads the previous assets (the boot pre-flight will warn about unresolved GUIDs). " +
+                "Run the mod build, then relaunch the game. Tools ▸ HAF ▸ Ship Status lists all entries in this state.", MessageType.Info);
         EditorGUILayout.Space();
 
         cur.resourceName = EditorGUILayout.TextField("Resource name", cur.resourceName);
@@ -1137,6 +1149,7 @@ public class ModelFactoryWindow : EditorWindow
         if (e == null) return;
         cur = JsonUtility.FromJson<ModelDef>(JsonUtility.ToJson(e));   // clone so edits don't mutate the stored copy
         loadedName = cur.resourceName;   // the form's registry identity (survives a rename typed into the name field)
+        bakedNotShipped = ShipStatus.IsBakedNotShipped(loadedName);
         status = "Loaded '" + e.resourceName + "'. Edit + Bake; leave Model file empty to re-bake with new settings.";
         if (!cur.animated && LooksAnimated(cur))
         {
@@ -1882,6 +1895,7 @@ public class ModelFactoryWindow : EditorWindow
         cur.clipIdleAlt2 = cfg.animated && cfg.animStateDriven && !string.IsNullOrEmpty(r.clipIdleAlt2Guid) ? ModelRegistry.ParseGuid(r.clipIdleAlt2Guid) : new int[4];
         bool saved = ModelRegistry.Upsert(cur);
         if (saved) { formDiffersFromRegistry = false; loadedName = cur.resourceName; }   // form is now the saved truth
+        bakedNotShipped = ShipStatus.IsBakedNotShipped(loadedName);   // a fresh bake is always newer than the build — show the ship notice immediately
         string renameNote = saved ? FinishRename() : "";
         RefreshList();
         selected = System.Array.IndexOf(existing, cur.resourceName); if (selected < 0) selected = 0;
