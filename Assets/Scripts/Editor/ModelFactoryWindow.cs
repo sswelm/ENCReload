@@ -412,10 +412,23 @@ public class ModelFactoryWindow : EditorWindow
         EditorGUILayout.Space();
         using (new EditorGUILayout.HorizontalScope())
         {
+            // KEEL READOUT (2026-08-18, submarine waterline dispute): numbers, not eyeballs — the drawn geometry's
+            // lowest/highest point vs the reference plane, INCLUDING the live offset when it applies. Separates
+            // "the preview plane is at the wrong height" from "the preview is drawing a stale bake" in one glance:
+            // a stale bake reads keel 0.00 despite a dialed offset; a wrong plane reads the right keel under the
+            // wrong picture.
+            string keelInfo = "";
+            if (previewGrounded && previewDraws != null && previewDraws.Count > 0)
+            {
+                float liveY = cur != null && cur.animated && cur.position != Vector3.zero ? cur.position.z : 0f;
+                float keel = previewBounds.min.y + liveY, top = previewBounds.max.y + liveY;
+                keelInfo = string.Format("  ·  keel {0:+0.00;-0.00;0.00}u / top {1:+0.00;-0.00;0.00}u vs {2}", keel, top, previewWater ? "waterline" : "ground");
+            }
             EditorGUILayout.LabelField("Preview — " + previewFor + "   (drag = orbit · middle-drag = pan · scroll = zoom" +
                 (previewGrounded ? (previewWater ? " · hex = one tile at water level · arrow = forward)" : " · hex = one tile at ground level · arrow = forward)")
                                  : ")  — legacy display pose (no rig FBX found), orientation not faithful") +
-                (cur != null && cur.animated && cur.position != Vector3.zero ? "  · Position offset shown LIVE (runtime-applied, no bake needed)" : ""), EditorStyles.miniBoldLabel);
+                (cur != null && cur.animated && cur.position != Vector3.zero ? "  · Position offset shown LIVE (runtime-applied, no bake needed)" : "") +
+                keelInfo, EditorStyles.miniBoldLabel);
             if (GUILayout.Button(new GUIContent("Center", "Re-center the view on the model (resets pan + zoom; keeps the orbit angle)"), GUILayout.Width(60)))
             { previewPan = Vector2.zero; previewZoom = 1.4f; Repaint(); }
         }
