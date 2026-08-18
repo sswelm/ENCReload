@@ -77,6 +77,10 @@ public class ShipStatusWindow : EditorWindow
 
     void OnEnable() { Scan(); }
 
+    // One row per baked thing, whoever owns it. THREE registries bake into Assets/Resources — units
+    // (ModelRegistry/pack.json), districts (DistrictRegistry/haf_districts.json), props (PropRegistry/
+    // haf_props.json) — plus hand-prop names referenced from unit entries. The first version only knew units and
+    // accused every district/prop of being an ORPHANED BAKE (2026-08-18 first-run finding, user screenshot).
     void Scan()
     {
         buildUtc = ShipStatus.LastBuildUtc(out buildDir);
@@ -91,13 +95,16 @@ public class ShipStatusWindow : EditorWindow
                 rows.Add(new Row { name = e.resourceName, state = "no bake needed", detail = "retex/borrow entry — no authored assets", severity = 0 });
             else if (bake == null)
                 rows.Add(new Row { name = e.resourceName, state = "BAKE MISSING", detail = "the entry authors asset GUIDs but no baked outputs exist in Assets/Resources — re-bake it", severity = 2 });
-            else if (buildUtc == null || bake > buildUtc)
-                rows.Add(new Row { name = e.resourceName, state = "BAKED, NOT BUILT", detail = $"baked {Local(bake)} — newer than the last mod build; the game still loads the previous assets", severity = 2 });
             else
-                rows.Add(new Row { name = e.resourceName, state = "shipped", detail = $"baked {Local(bake)}", severity = 0 });
+                rows.Add(ShippedRow(e.resourceName, "unit", bake));
         }
-        // Orphaned bakes: output files whose entry no longer exists (renamed/removed entries leave these behind;
-        // they still SHIP — Resources force-includes everything — so they are dead weight in the bundle).
+        AddOwned(names, () => DistrictRegistry.Load().Select(d => d.resourceName), "district");
+        AddOwned(names, () => PropRegistry.Load().Select(p => p.resourceName), "prop");
+        // Hand props referenced by name from unit entries (may not appear in haf_props.json when authored elsewhere).
+        AddOwned(names, () => entries.Select(e => e.handPropName).Where(n => !string.IsNullOrEmpty(n)), "hand prop");
+        // Orphaned bakes: output files NO registry owns (renamed/removed entries leave these behind; they still
+        // SHIP — Resources force-includes everything — so they are dead weight in the bundle). ConversionGateTest
+        // debris gets its own label: it's test scratch, not a lost model.
         try
         {
             var res = Path.Combine(Application.dataPath, "Resources");
@@ -110,11 +117,35 @@ public class ShipStatusWindow : EditorWindow
                     if (b.EndsWith(s)) { var n = b.Substring(0, b.Length - s.Length); if (!names.Contains(n)) orphans.Add(n); break; }
             }
             foreach (var n in orphans.OrderBy(x => x))
-                rows.Add(new Row { name = n, state = "ORPHANED BAKE", detail = "baked outputs with no registry entry (renamed/removed?) — dead weight that still ships; Remove-style cleanup applies", severity = 1 });
+                rows.Add(n.StartsWith("__convgate__")
+                    ? new Row { name = n, state = "TEST ARTIFACT", detail = "ConversionGateTest scratch bake — still ships as dead bundle weight; safe to delete", severity = 1 }
+                    : new Row { name = n, state = "ORPHANED BAKE", detail = "baked outputs no registry owns (renamed/removed?) — dead weight that still ships; Remove-style cleanup applies", severity = 1 });
         }
         catch { }
         rows.Sort((a, b) => b.severity != a.severity ? b.severity - a.severity : string.CompareOrdinal(a.name, b.name));
     }
+
+    // Add rows for another registry's entries and claim their names so the orphan sweep skips them. A saved-but-
+    // never-baked district/prop recipe is quiet (severity 0): unlike units, their recipes routinely exist pre-bake.
+    void AddOwned(HashSet<string> names, Func<IEnumerable<string>> source, string kind)
+    {
+        IEnumerable<string> list;
+        try { list = source().Where(n => !string.IsNullOrEmpty(n)).Distinct().ToList(); }
+        catch (Exception e) { Debug.LogWarning($"[ShipStatus] could not read the {kind} registry: {e.Message}"); return; }
+        foreach (var n in list)
+        {
+            bool fresh = names.Add(n);
+            if (!fresh) continue;   // a unit entry already produced this row (e.g. a hand prop also in haf_props.json)
+            var bake = ShipStatus.LastBakeUtc(n);
+            if (bake == null) rows.Add(new Row { name = n, state = $"no bake yet ({kind})", detail = $"{kind} recipe saved, no baked outputs in Assets/Resources", severity = 0 });
+            else rows.Add(ShippedRow(n, kind, bake));
+        }
+    }
+
+    Row ShippedRow(string name, string kind, DateTime? bake) =>
+        buildUtc == null || bake > buildUtc
+            ? new Row { name = name, state = $"BAKED, NOT BUILT ({kind})", detail = $"baked {Local(bake)} — newer than the last mod build; the game still loads the previous assets", severity = 2 }
+            : new Row { name = name, state = $"shipped ({kind})", detail = $"baked {Local(bake)}", severity = 0 };
 
     static string Local(DateTime? utc) => utc?.ToLocalTime().ToString("yyyy-MM-dd HH:mm") ?? "never";
 
