@@ -91,10 +91,25 @@ public class ModelFactoryWindow : EditorWindow
         w.RefreshList();
     }
 
+    [SerializeField] bool formDiffersFromRegistry;   // ENTRY-STATE COHERENCE (2026-08-18, backlog fix #1): the Lab's
+                                                     // domain-reload reconciliation, ported — the Factory was the one
+                                                     // window WITHOUT it ("external registry edits are detected by the
+                                                     // Lab (yellow banner) but not by the Factory").
+
     void OnEnable()
     {
         titleContent = new GUIContent("Model Factory");   // rename any pre-existing docked instance: Unity caches the tab title in the window's serialized state, so the GetWindow title alone never reaches already-open windows
         RefreshList(); LoadPreview(cur.resourceName);
+        // DOMAIN-RELOAD RECONCILIATION (mirror of AnimationLabWindow.OnEnable v2): the form's serialized state
+        // survives the reload untouched; if it differs from the saved registry entry, a warning banner appears with
+        // an explicit choice — never a silent resync in either direction.
+        formDiffersFromRegistry = false;
+        if (selected > 0 && !string.IsNullOrEmpty((cur.resourceName ?? "").Trim()))
+        {
+            var reg = ModelRegistry.Load().FirstOrDefault(x => x.resourceName == cur.resourceName.Trim());
+            if (reg != null && JsonUtility.ToJson(reg) != JsonUtility.ToJson(cur))
+                formDiffersFromRegistry = true;
+        }
         // Clean the PreviewRenderUtility BEFORE the domain unloads (and before editor quit): a PRU that survives a
         // domain reload leaks its camera/scene and spams errors. Cleaning at beforeAssemblyReload, while everything is
         // still alive, is clean; OnDisable also cleans for a plain window close.
@@ -567,6 +582,15 @@ public class ModelFactoryWindow : EditorWindow
                 if (GUILayout.Button(new GUIContent($"Undo remove", $"Restore '{lastRemovedName}' (registry entry + baked assets) from {Path.GetFileName(lastRemovedSnap)}"), GUILayout.Width(94)))
                 { UndoRemove(); GUIUtility.ExitGUI(); }
             if (sel != selected) { selected = sel; OnSelectResource(); GUI.FocusControl(null); }
+        }
+        // ENTRY-STATE COHERENCE banner (the Lab's, ported): loud choice, never a silent resync in either direction.
+        if (formDiffersFromRegistry)
+        {
+            EditorGUILayout.HelpBox("Form ≠ saved registry entry (your edits survived a compile, or the registry changed " +
+                "outside this window). Nothing was discarded. Choose: ↻ Reload entry = take the registry (drops these " +
+                "form values) · Save settings or Bake = keep exactly what you see here.", MessageType.Warning);
+            if (GUILayout.Button(new GUIContent("↻ Reload entry (take the registry)", "Discard the form and re-load this entry fresh from the registry file."), GUILayout.Width(230)))
+            { RefreshList(); OnSelectResource(); formDiffersFromRegistry = false; GUI.FocusControl(null); GUIUtility.ExitGUI(); }
         }
         EditorGUILayout.Space();
 
@@ -1056,6 +1080,7 @@ public class ModelFactoryWindow : EditorWindow
 
     void OnSelectResource()
     {
+        formDiffersFromRegistry = false;   // loading fresh = in sync by definition
         if (selected <= 0) { cur = new ModelDef(); status = ""; LoadPreview(null); return; }
         var e = ModelRegistry.Load().FirstOrDefault(x => x.resourceName == existing[selected]);
         if (e == null) return;
@@ -1566,6 +1591,7 @@ public class ModelFactoryWindow : EditorWindow
         if (BlockedByRenameClobber()) return;
         RebaseLabOwnedOnRegistry();
         bool saved = ModelRegistry.Upsert(cur);
+        if (saved) formDiffersFromRegistry = false;   // form is now the saved truth
         string renameNote = saved ? FinishRename() : "";
         RefreshList();
         selected = System.Array.IndexOf(existing, cur.resourceName); if (selected < 0) selected = 0;
@@ -1660,6 +1686,7 @@ public class ModelFactoryWindow : EditorWindow
         cur.fireOnAttack = false; cur.deployOnStop = false;
         cur.deployPoseTime = 0f; cur.deploySpeed = 0f; cur.recoilSpeed = 0f;
         bool saved = ModelRegistry.Upsert(cur);
+        if (saved) formDiffersFromRegistry = false;   // form is now the saved truth
         RefreshList();
         status = saved
             ? $"'{cur.resourceName}' animation configuration DELETED from the registry — the next Bake is static. (Relaunch also stops the animated override.)"
@@ -1692,6 +1719,7 @@ public class ModelFactoryWindow : EditorWindow
             modelFileChanged = !string.Equals(regE.modelFile ?? "", cur.modelFile, StringComparison.OrdinalIgnoreCase);
         }
         bool saved = ModelRegistry.Upsert(cur);
+        if (saved) formDiffersFromRegistry = false;   // form is now the saved truth
         string renameNote = saved ? FinishRename() : "";
         RefreshList();
         selected = System.Array.IndexOf(existing, cur.resourceName); if (selected < 0) selected = 0;
@@ -1710,6 +1738,19 @@ public class ModelFactoryWindow : EditorWindow
         string formSnapshot = JsonUtility.ToJson(cur);
         cur.resourceName = (cur.resourceName ?? "").Trim();   // trim early so the rename guard compares clean names
         if (BlockedByRenameClobber()) return;                 // block a name collision BEFORE tearing down the preview / spending a bake
+        // BAKE-TIME MODEL-FILE CONFIRM (2026-08-18, entry-state coherence fix #1 — the translation-cube-over-
+        // Jagdpanzer ambush): a stale form Model-file once silently baked the WRONG MODEL over a good entry.
+        // If the form's file differs from the SAVED entry's, ask loudly with both paths shown.
+        var regEntry = ModelRegistry.Load().FirstOrDefault(x => x.resourceName == cur.resourceName);
+        if (regEntry != null && !string.IsNullOrWhiteSpace(regEntry.modelFile) && !string.IsNullOrWhiteSpace(cur.modelFile) &&
+            !string.Equals(regEntry.modelFile.Trim(), cur.modelFile.Trim(), StringComparison.OrdinalIgnoreCase))
+        {
+            if (!EditorUtility.DisplayDialog("Model file differs from the saved entry",
+                $"The form is about to bake:\n    {cur.modelFile}\n\nbut the SAVED registry entry uses:\n    {regEntry.modelFile}\n\n" +
+                "A stale form file once silently overwrote a good bake with the wrong model. Bake with the FORM's file?",
+                "Bake with the form's file", "Cancel"))
+            { status = "Bake cancelled (model-file mismatch — ↻ Reload entry to take the registry's file)."; return; }
+        }
         // PRE-BAKE VALIDATE (2026-08-18, user: "validate should also run before build"): the same shared rule core,
         // on the CURRENT form, at the exact moment authoring mistakes are made. Warnings NEVER block the bake
         // (fail-soft) — they land in the Console with the field named, while the model is still in front of you.
@@ -1788,6 +1829,7 @@ public class ModelFactoryWindow : EditorWindow
         cur.clipIdleAlt = cfg.animated && cfg.animStateDriven && !string.IsNullOrEmpty(r.clipIdleAltGuid) ? ModelRegistry.ParseGuid(r.clipIdleAltGuid) : new int[4];
         cur.clipIdleAlt2 = cfg.animated && cfg.animStateDriven && !string.IsNullOrEmpty(r.clipIdleAlt2Guid) ? ModelRegistry.ParseGuid(r.clipIdleAlt2Guid) : new int[4];
         bool saved = ModelRegistry.Upsert(cur);
+        if (saved) formDiffersFromRegistry = false;   // form is now the saved truth
         string renameNote = saved ? FinishRename() : "";
         RefreshList();
         selected = System.Array.IndexOf(existing, cur.resourceName); if (selected < 0) selected = 0;
