@@ -105,6 +105,11 @@ class RegistryFile
     public List<UnitScaleRule> unitScales = new List<UnitScaleRule>();   // Resize Lab: runtime scale rules for ANY unit (vanilla included) — no bake, no assets
     public List<EraScaleRow> eraGrid = new List<EraScaleRow>();          // Global Era Lab: unit-era × current-era modifier grid
     public List<FormationThreshold> formationThresholds = new List<FormationThreshold>();   // Global Era Lab: swap formation as a unit shrinks
+    public float waterLevel = 0.16f;   // HAF WATER STANDARD (2026-08-18): the game's water surface height above a naval
+                                       // model's origin (mean ~0.05 + wave allowance ~0.11, calibrated in-game: cruiser
+                                       // paint line, submarine deck-awash). Every vessel's position Z is calibrated
+                                       // against it. Part of the pack CONFIGURATION (versioned, dual-written, backed up);
+                                       // no editor UI modifies it — change it HERE, then recalibrate every vessel's Z.
 }
 
 // GLOBAL ERA LAB, second table (2026-07-29, user-designed): as an aged unit gets SMALLER, swap its formation — a
@@ -260,6 +265,7 @@ public static class ModelRegistry
     // RESIZE LAB rules — the registry file's `unitScales` array, captured at every Load and written back on
     // every Save (same session-static pattern as the pack header fields). The Lab edits this list directly.
     public static List<UnitScaleRule> UnitScales = new List<UnitScaleRule>();
+    public static float WaterLevel = 0.16f;   // see RegistryFile.waterLevel — refreshed on every Load(); read-only in the editor
 
     // GLOBAL ERA LAB grid — the registry file's `eraGrid` array, same capture-on-Load / write-on-Save pattern.
     public static List<EraScaleRow> EraGrid = new List<EraScaleRow>();
@@ -321,6 +327,7 @@ public static class ModelRegistry
                     var retry = JsonUtility.FromJson<RegistryFile>(retryJson);
                     lastLoadCorrupt = false;
                     UnitScales = retry?.unitScales ?? new List<UnitScaleRule>();
+                    WaterLevel = retry != null ? retry.waterLevel : 0.16f;
                     EraGrid = retry?.eraGrid ?? new List<EraScaleRow>();
                     FormationThresholds = retry?.formationThresholds ?? new List<FormationThreshold>();
                     return Migrate(SortByName(retry?.models ?? new List<ModelDef>()), retryJson);
@@ -358,6 +365,7 @@ public static class ModelRegistry
             var data = JsonUtility.FromJson<RegistryFile>(liveJson);
             lastLoadCorrupt = false;
             UnitScales = data?.unitScales ?? new List<UnitScaleRule>();
+            WaterLevel = data != null ? data.waterLevel : 0.16f;
             EraGrid = data?.eraGrid ?? new List<EraScaleRow>();
             FormationThresholds = data?.formationThresholds ?? new List<FormationThreshold>();
             return Migrate(SortByName(data?.models ?? new List<ModelDef>()), liveJson);

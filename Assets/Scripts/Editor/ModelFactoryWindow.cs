@@ -110,14 +110,12 @@ public class ModelFactoryWindow : EditorWindow
     // red/black paint boundary, game water at the TOP of the black band). Measured empirically against the
     // user's calibrated cruiser, like the 6.93u tile spacing — the dial next to the preview refines it; stored
     // in EditorPrefs so the calibration is done ONCE. Ground (land) keeps the origin contract untouched.
-    internal static float PreviewWaterY
-    {
-        get => EditorPrefs.GetFloat("HAF.Preview.WaterY", 0.16f);   // THE HOUSE STANDARD (2026-08-18): mean water ~0.05 + ~0.11 wave allowance.
-                                                                    // Both vessels' registry Z values are calibrated against 0.16 and verified
-                                                                    // in-game (cruiser paint line, submarine deck-awash) — change only with a
-                                                                    // full recalibration of every vessel's Z.
-        set => EditorPrefs.SetFloat("HAF.Preview.WaterY", value);
-    }
+    // THE HAF WATER STANDARD (2026-08-18): mean water ~0.05 + ~0.11 wave allowance, verified in-game (cruiser
+    // paint line, submarine deck-awash). Every vessel's registry Z is calibrated against it. Lives in the PACK
+    // CONFIGURATION (RegistryFile.waterLevel — versioned, dual-written, backed up; user call after the dial
+    // experiment: one source of truth, unmodifiable from the UI, part of HAF configuration). Refreshed by every
+    // registry Load(); changing it is a deliberate pack.json edit + recalibration of every vessel's Z.
+    static float PreviewWaterY => ModelRegistry.WaterLevel;
     float PreviewPlaneY => previewWater ? PreviewWaterY : -0.02f;
 
     Material previewGroundMat;
@@ -163,6 +161,7 @@ public class ModelFactoryWindow : EditorWindow
     void OnEnable()
     {
         titleContent = new GUIContent("Model Factory");   // rename any pre-existing docked instance: Unity caches the tab title in the window's serialized state, so the GetWindow title alone never reaches already-open windows
+        EditorPrefs.DeleteKey("HAF.Preview.WaterY");      // retired 2026-08-18 (same day it was added): the water level is the WaterStandard code constant now — delete the machine-local copy so no zombie value can ever shadow the standard
         RefreshList(); LoadPreview(cur.resourceName);
         // DOMAIN-RELOAD RECONCILIATION (mirror of AnimationLabWindow.OnEnable v2): the form's serialized state
         // survives the reload untouched; if it differs from the saved registry entry, a warning banner appears with
@@ -447,13 +446,8 @@ public class ModelFactoryWindow : EditorWindow
                 (cur != null && cur.animated && cur.position != Vector3.zero ? "  · Position offset shown LIVE (runtime-applied, no bake needed)" : "") +
                 keelInfo, EditorStyles.miniBoldLabel);
             if (previewWater)
-            {
-                // The calibration dial (see PreviewWaterY): where the GAME's water surface sits above the model
-                // origin. Set once against in-game truth (the cruiser's paint line), applies to every vessel.
-                EditorGUILayout.LabelField(new GUIContent("water @", "Game water level above the model origin (calibrated against the in-game waterline; the game floats naval pawns with the surface this far above origin). Applies to every vessel preview."), GUILayout.Width(50));
-                float w = EditorGUILayout.FloatField(PreviewWaterY, GUILayout.Width(45));
-                if (!Mathf.Approximately(w, PreviewWaterY)) { PreviewWaterY = w; Repaint(); }
-            }
+                EditorGUILayout.LabelField(new GUIContent($"water @ {PreviewWaterY:0.00}",
+                    "The HAF water standard: where the game's water surface sits above the model origin (mean + wave allowance, calibrated in-game 2026-08-18). A fixed code constant — every vessel's Z is calibrated against it."), GUILayout.Width(85));
             if (GUILayout.Button(new GUIContent("Center", "Re-center the view on the model (resets pan + zoom; keeps the orbit angle)"), GUILayout.Width(60)))
             { previewPan = Vector2.zero; previewZoom = 1.4f; Repaint(); }
         }
