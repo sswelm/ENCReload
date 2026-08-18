@@ -38,13 +38,48 @@ public class ModelFactoryWindow : EditorWindow
     string previewFor = "";
     [SerializeField] string lastRemovedName = "", lastRemovedSnap = "";   // recycle-bin undo state (survives domain reload)
 
+    // THE SELECTION FUNNEL (entry-state coherence slice 2, 2026-08-18): every change of "which entry does this
+    // window show" routes through here, so dropdown + form + preview + coherence flag can never desynchronize
+    // again — the 08-16..18 stale-window family (sel-reset over a clone, preview-after-remove, blank-after-undo,
+    // stale-dropdown-after-restore) were each ONE forgotten surface at ONE bypassing call site. The ONE deliberate
+    // bypass: Clone, whose unsaved form owns the window (routing it through the funnel would wipe the clone).
+    void SelectEntry(int idx)
+    {
+        selected = idx > 0 && idx < existing.Length ? idx : 0;
+        OnSelectResource();   // loads the entry or resets to <New>; clears the coherence flag; loads/clears the preview
+        GUI.FocusControl(null);
+    }
+    void SelectEntry(string name) { RefreshList(); SelectEntry(Array.IndexOf(existing, (name ?? "").Trim())); }
+
+    // Form-vs-registry comparison shared by the domain-reload reconciliation and the cross-window nudge.
+    // Two lessons folded in (self-review, 2026-08-18): (a) the Lab's spurious-banner lesson — OnGUI mutates the
+    // form (the `animated` self-heal), so the SAME normalization must hit the registry copy before comparing, or
+    // the banner fires after every compile with no user edit and gets ignored; (b) an entry REMOVED from the
+    // registry while shown here is the STRONGEST desync — report it as differing, don't silently shrug.
+    bool ComputeFormDiffers()
+    {
+        if (selected <= 0 || string.IsNullOrEmpty((cur.resourceName ?? "").Trim())) return false;
+        var reg = ModelRegistry.Load().FirstOrDefault(x => x.resourceName == cur.resourceName.Trim());
+        if (reg == null) return true;   // the shown entry no longer exists in the registry — maximal difference
+        if (!reg.animated && LooksAnimated(reg)) reg.animated = true;   // mirror the OnGUI self-heal (see (a))
+        return JsonUtility.ToJson(reg) != JsonUtility.ToJson(cur);
+    }
+
     // Cross-window nudge (2026-08-17 drill: "I pressed restore and it still doesn't work!!!" — the restore HAD
     // worked; the Factory's dropdown was stale because another window changed the registry). Any window that
-    // writes the registry calls this so every open Factory re-reads and repaints immediately.
+    // writes the registry calls this so every open Factory re-reads and repaints immediately. COHERENCE-AWARE
+    // (slice 2): it never silently reloads the form — if the nudged window's form now differs from the registry,
+    // the yellow banner appears and the USER chooses, exactly like after a domain reload.
     internal static void RefreshAllOpen()
     {
         foreach (var w in Resources.FindObjectsOfTypeAll<ModelFactoryWindow>())
-            try { w.RefreshList(); w.Repaint(); } catch { }
+            try
+            {
+                w.RefreshList();
+                if (w.ComputeFormDiffers()) w.formDiffersFromRegistry = true;
+                w.Repaint();
+            }
+            catch { }
     }
 
     // Restore the last-removed model — ONE shared implementation with the Backup window's _removed_-row Restore
@@ -56,8 +91,7 @@ public class ModelFactoryWindow : EditorWindow
         RefreshList();
         if (!string.IsNullOrEmpty(restoredName))
         {
-            int idx = Array.IndexOf(existing, restoredName);
-            if (idx > 0) { selected = idx; OnSelectResource(); }
+            SelectEntry(restoredName);   // the funnel: dropdown + form + preview + coherence flag, atomically
             lastRemovedName = ""; lastRemovedSnap = "";
         }
     }
@@ -103,13 +137,7 @@ public class ModelFactoryWindow : EditorWindow
         // DOMAIN-RELOAD RECONCILIATION (mirror of AnimationLabWindow.OnEnable v2): the form's serialized state
         // survives the reload untouched; if it differs from the saved registry entry, a warning banner appears with
         // an explicit choice — never a silent resync in either direction.
-        formDiffersFromRegistry = false;
-        if (selected > 0 && !string.IsNullOrEmpty((cur.resourceName ?? "").Trim()))
-        {
-            var reg = ModelRegistry.Load().FirstOrDefault(x => x.resourceName == cur.resourceName.Trim());
-            if (reg != null && JsonUtility.ToJson(reg) != JsonUtility.ToJson(cur))
-                formDiffersFromRegistry = true;
-        }
+        formDiffersFromRegistry = ComputeFormDiffers();
         // Clean the PreviewRenderUtility BEFORE the domain unloads (and before editor quit): a PRU that survives a
         // domain reload leaks its camera/scene and spams errors. Cleaning at beforeAssemblyReload, while everything is
         // still alive, is clean; OnDisable also cleans for a plain window close.
@@ -506,6 +534,7 @@ public class ModelFactoryWindow : EditorWindow
                     clone.clipPreMove = new int[4]; clone.clipIdle = new int[4]; clone.clipIdleAlt = new int[4]; clone.clipIdleAlt2 = new int[4];
                     clone.bakeLocked = false; clone.disabled = false;
                     cur = clone; selected = 0; sel = 0; GUI.FocusControl(null);   // sel too — else the popup-apply below reads the stale index as a "selection change" and reloads the source entry right over the clone
+                    formDiffersFromRegistry = false;   // the banner is about a SAVED entry's form; a clone is unsaved by definition (and the banner's Reload would wipe it)
                     status = "Cloned — set a Resource name and Pawn description, then Bake. Nothing saved yet.";
                 }
             // Remove the selected registry entry (disabled on <New>). Prompts, then drops it from haf_models.json.
@@ -552,14 +581,11 @@ public class ModelFactoryWindow : EditorWindow
                                 GUIUtility.ExitGUI();
                             }
                             bool removed = ModelRegistry.Remove(name);
-                            // sel = 0 too (same reason as Clone, line ~440): the popup-apply below reads a stale `sel` as a
-                            // "selection change" and reloads existing[sel] on the SHRUNKEN list — jumping to a different
-                            // entry, or IndexOutOfRange when the removed entry was the last.
-                            selected = 0; sel = 0; cur = new ModelDef(); RefreshList(); GUI.FocusControl(null);
-                            // Also clear the PREVIEW (user-found on the first live Remove drill, 2026-08-17): the
-                            // sel-reset above didn't touch it, so the window kept rendering the REMOVED model —
-                            // header and mesh — implying it still existed. Same stale-state family as the sel bug.
-                            LoadPreview("");
+                            // sel = 0 too: the popup-apply below reads a stale `sel` as a "selection change" and
+                            // reloads existing[sel] on the SHRUNKEN list. Everything else — form reset, preview
+                            // clear, coherence flag — is the FUNNEL's job (SelectEntry -> OnSelectResource): the
+                            // 08-16..18 stale-window family were each one of these surfaces forgotten at one site.
+                            sel = 0; RefreshList(); SelectEntry(0);
                             status = removed ? $"Removed '{name}' from the registry."
                                              : $"'{name}' was not in the registry — nothing removed.";
                             // Curated asset cleanup (2026-07-27, the lost-portrait lesson): delete the BAKED outputs via
@@ -581,7 +607,7 @@ public class ModelFactoryWindow : EditorWindow
             if (!string.IsNullOrEmpty(lastRemovedName))
                 if (GUILayout.Button(new GUIContent($"Undo remove", $"Restore '{lastRemovedName}' (registry entry + baked assets) from {Path.GetFileName(lastRemovedSnap)}"), GUILayout.Width(94)))
                 { UndoRemove(); GUIUtility.ExitGUI(); }
-            if (sel != selected) { selected = sel; OnSelectResource(); GUI.FocusControl(null); }
+            if (sel != selected) SelectEntry(sel);
         }
         // ENTRY-STATE COHERENCE banner (the Lab's, ported): loud choice, never a silent resync in either direction.
         if (formDiffersFromRegistry)
@@ -590,7 +616,7 @@ public class ModelFactoryWindow : EditorWindow
                 "outside this window). Nothing was discarded. Choose: ↻ Reload entry = take the registry (drops these " +
                 "form values) · Save settings or Bake = keep exactly what you see here.", MessageType.Warning);
             if (GUILayout.Button(new GUIContent("↻ Reload entry (take the registry)", "Discard the form and re-load this entry fresh from the registry file."), GUILayout.Width(230)))
-            { RefreshList(); OnSelectResource(); formDiffersFromRegistry = false; GUI.FocusControl(null); GUIUtility.ExitGUI(); }
+            { SelectEntry(cur.resourceName); GUIUtility.ExitGUI(); }
         }
         EditorGUILayout.Space();
 
