@@ -298,15 +298,22 @@ public class ModelFactoryWindow : EditorWindow
             float a = (cornerBaseDeg + 60f * k) * Mathf.Deg2Rad;   // corners at base+k·60° from +Z
             v[k + 1] = new Vector3(Mathf.Sin(a) * TileCornerRadius, 0f, Mathf.Cos(a) * TileCornerRadius);
         }
-        m.vertices = v;
-        var n = new Vector3[7]; for (int i = 0; i < 7; i++) n[i] = Vector3.up;
-        m.normals = n;
-        // planar UVs (XZ → 0..1 across the tile) so a ground texture maps across the hex; unused by the solid-colour
-        // tile material, needed by the District Factory's terrain-paint texture.
-        var uv = new Vector2[7];
-        for (int i = 0; i < 7; i++) uv[i] = new Vector2(v[i].x / (2f * TileCornerRadius) + 0.5f, v[i].z / (2f * TileCornerRadius) + 0.5f);
-        m.uv = uv;
-        m.triangles = new[] { 0, 1, 2, 0, 2, 3, 0, 3, 4, 0, 4, 5, 0, 5, 6, 0, 6, 1 };
+        // DOUBLE-SIDED (2026-08-18, user request): the water tile must stay visible from BELOW the waterline —
+        // orbiting under a submarine hull made the single-sided plane vanish. Mirrored vertex set (7 up-normal +
+        // 7 down-normal) with reversed winding, so lit shading is correct from both sides. Shared by every
+        // BuildTileHex user (District pane included) — a ground tile seen from below is equally deliberate there.
+        var vv = new Vector3[14]; var nn = new Vector3[14]; var uv = new Vector2[14];
+        for (int i = 0; i < 7; i++)
+        {
+            vv[i] = vv[i + 7] = v[i];
+            nn[i] = Vector3.up; nn[i + 7] = Vector3.down;
+            // planar UVs (XZ → 0..1 across the tile) so a ground texture maps across the hex; unused by the
+            // solid-colour tile material, needed by the District Factory's terrain-paint texture.
+            uv[i] = uv[i + 7] = new Vector2(v[i].x / (2f * TileCornerRadius) + 0.5f, v[i].z / (2f * TileCornerRadius) + 0.5f);
+        }
+        m.vertices = vv; m.normals = nn; m.uv = uv;
+        m.triangles = new[] { 0, 1, 2, 0, 2, 3, 0, 3, 4, 0, 4, 5, 0, 5, 6, 0, 6, 1,          // top face (seen from above)
+                              7, 9, 8, 7, 10, 9, 7, 11, 10, 7, 12, 11, 7, 13, 12, 7, 8, 13 }; // underside (reversed winding)
         return m;
     }
 
