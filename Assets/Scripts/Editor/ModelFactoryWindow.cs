@@ -112,7 +112,10 @@ public class ModelFactoryWindow : EditorWindow
     // in EditorPrefs so the calibration is done ONCE. Ground (land) keeps the origin contract untouched.
     internal static float PreviewWaterY
     {
-        get => EditorPrefs.GetFloat("HAF.Preview.WaterY", 0.05f);   // calibrated stepwise on the cruiser: 0.5 deck-high, 0.1 still high, 0.05 final
+        get => EditorPrefs.GetFloat("HAF.Preview.WaterY", 0.16f);   // THE HOUSE STANDARD (2026-08-18): mean water ~0.05 + ~0.11 wave allowance.
+                                                                    // Both vessels' registry Z values are calibrated against 0.16 and verified
+                                                                    // in-game (cruiser paint line, submarine deck-awash) — change only with a
+                                                                    // full recalibration of every vessel's Z.
         set => EditorPrefs.SetFloat("HAF.Preview.WaterY", value);
     }
     float PreviewPlaneY => previewWater ? PreviewWaterY : -0.02f;
