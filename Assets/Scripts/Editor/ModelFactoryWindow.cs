@@ -196,12 +196,17 @@ public class ModelFactoryWindow : EditorWindow
     {
         previewDraws = new List<(Mesh, Material[], Matrix4x4)>();
         bool first = true;
+        bool subUsed = false;
         foreach (var rr in go.GetComponentsInChildren<Renderer>(true))
         {
             Mesh m = rr is SkinnedMeshRenderer smr ? smr.sharedMesh : rr.GetComponent<MeshFilter>()?.sharedMesh;
             if (m == null) continue;
-            // the persisted atlas-remapped clone keeps its source mesh's NAME — swap it in for that renderer only
-            if (uvSubstitute != null && m.name == uvSubstitute.name) m = uvSubstitute;
+            // Swap in the persisted atlas-remapped clone for the renderer it was cloned from. Matched by GEOMETRY
+            // IDENTITY (same vertex count — the clone has the exact same vertices), NOT by name: CreateAsset renames
+            // the persisted mesh to its filename, which made a name match silently never fire (drill-caught,
+            // 2026-08-18, TankDestroyers still corrupt).
+            if (!subUsed && uvSubstitute != null && rr is SkinnedMeshRenderer && m.vertexCount == uvSubstitute.vertexCount)
+            { m = uvSubstitute; subUsed = true; }
             var mtx = rr.transform.localToWorldMatrix;
             var mats = rr.sharedMaterials;
             if (overrideMat != null)
@@ -213,6 +218,11 @@ public class ModelFactoryWindow : EditorWindow
             var wb = TransformBounds(mtx, m.bounds);
             if (first) { previewBounds = wb; first = false; } else previewBounds.Encapsulate(wb);
         }
+        // Loud diagnostic (drill aid): when a remapped preview mesh exists, say whether it was actually used —
+        // a silent no-match is exactly how the first two versions of this fix hid their failure.
+        if (uvSubstitute != null)
+            Debug.Log($"[Factory] preview UV substitution for '{previewFor}': " +
+                      (subUsed ? "APPLIED (texture-correct)" : $"NO MATCH — no skinned mesh with {uvSubstitute.vertexCount} verts (FBX re-slimmed since the last bake? Re-bake to refresh _PreviewMesh)"));
         if (previewDraws.Count == 0) previewDraws = null;
     }
 
