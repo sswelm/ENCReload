@@ -1456,6 +1456,14 @@ public class ModelFactoryWindow : EditorWindow
             if (detail.Length > 0) Debug.LogWarning("[Validate] " + summary + " (registry: " + ModelRegistry.RegistryPath + ")\n" + detail);
             else Debug.Log("[Validate] " + summary + " Clean. (registry: " + ModelRegistry.RegistryPath + ")");
             status = summary + (detail.Length > 0 ? " Details in the Console." : " Clean — ready to ship.");
+            // RESULTS IN A DIALOG (2026-08-18 drill: "I expected it to appear in the dialog instead") — a validation
+            // you clicked for answers to your face. Long lists are truncated here; the Console keeps the full,
+            // copyable record.
+            const int DialogMax = 1600;
+            string body = detail.Length == 0
+                ? $"All {count} entries validated clean — ready to ship.\n\nRegistry: {ModelRegistry.RegistryPath}"
+                : summary + "\n\n" + (detail.Length > DialogMax ? detail.Substring(0, DialogMax) + "\n… (full list in the Console)" : detail);
+            EditorUtility.DisplayDialog("Validate pack", body, "OK");
         }
         catch (Exception ex)
         {
