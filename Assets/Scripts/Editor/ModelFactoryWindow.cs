@@ -1445,12 +1445,23 @@ public class ModelFactoryWindow : EditorWindow
 
     void ValidatePack()
     {
-        string detail = ValidatePackCore(out int warns, out int errors, out int count);
-        if (count == 0) { status = "Validate pack: no entries in the registry."; return; }
-        string summary = $"Validate pack: {count} entr(y/ies) — {warns} warning(s), {errors} error(s).";
-        if (detail.Length > 0) Debug.LogWarning("[Validate] " + summary + "\n" + detail);
-        else Debug.Log("[Validate] " + summary + " Clean.");
-        status = summary + (detail.Length > 0 ? " Details in the Console." : " Clean — ready to ship.");
+        // try/catch + registry path in the output (2026-08-18 drill: "validate detects nothing" — a headless run of
+        // the same core on the same file found the planted fault, so the editor side had failed INVISIBLY. A
+        // validator that can die silently is the exact disease it exists to cure.)
+        try
+        {
+            string detail = ValidatePackCore(out int warns, out int errors, out int count);
+            if (count == 0) { status = "Validate pack: no entries in the registry (" + ModelRegistry.RegistryPath + ")."; return; }
+            string summary = $"Validate pack: {count} entr(y/ies) — {warns} warning(s), {errors} error(s).";
+            if (detail.Length > 0) Debug.LogWarning("[Validate] " + summary + " (registry: " + ModelRegistry.RegistryPath + ")\n" + detail);
+            else Debug.Log("[Validate] " + summary + " Clean. (registry: " + ModelRegistry.RegistryPath + ")");
+            status = summary + (detail.Length > 0 ? " Details in the Console." : " Clean — ready to ship.");
+        }
+        catch (Exception ex)
+        {
+            status = "Validate pack FAILED: " + ex.Message + " — full stack in the Console.";
+            Debug.LogError("[Validate] " + ex);
+        }
     }
 
     internal static string[] GatherPawnNames()
