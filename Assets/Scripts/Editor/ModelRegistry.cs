@@ -278,6 +278,60 @@ public static class ModelRegistry
     // auto-restores the live pack from it if the game copy ever goes missing. (Was Assets/Databases/haf_models.backup.json
     // when ENC was the loose base pack — now the whole pack ships as one directory.)
     public static string ProjectBackupPath => Path.Combine(PackRepoDir, "pack.json");
+    // THE COLLAPSE (2026-08-19, backlog #3 closed): pack.json is ONE file now. The git-tracked PROJECT file is
+    // THE registry — the editor reads and writes only it. The DEPLOYED copy under BepInEx/config is a BUILD
+    // ARTIFACT, regenerated on every Save (and recreated on Load if missing), exactly like the deployed DLLs:
+    // derived, never edited. Hand-edits to the deployed file are detected and warned about on Load, and
+    // overwritten by the next Save. (Historically the deployed copy was authoritative and the project file the
+    // dual-written shadow — the split surprised every external tool and cost a day of coherence drills.)
+    public static string SourcePath => ProjectBackupPath;   // the honest name for what it now is
+
+    const string PrefCollapsed = "HAF.Registry.SingleSource";   // one-time per-machine migration marker
+    static bool artifactDriftWarned;   // warn once per domain load, not per Load() call (RefreshList polls)
+
+    // One-time migration: until the marker is set, the DEPLOYED copy is still the historical authority — adopt
+    // it into the project file if they differ (covers a machine whose last session predates the collapse).
+    static void MigrateToSingleSourceOnce()
+    {
+        if (EditorPrefs.GetBool(PrefCollapsed, false)) return;
+        try
+        {
+            if (File.Exists(RegistryPath))
+            {
+                string dep = File.ReadAllText(RegistryPath);
+                if (!File.Exists(SourcePath) || File.ReadAllText(SourcePath) != dep)
+                {
+                    Directory.CreateDirectory(PackRepoDir);
+                    File.WriteAllText(SourcePath, dep);
+                    Debug.Log("[Factory] registry collapse migration: adopted the deployed pack.json into the project source (the deployed copy was authoritative until 2026-08-19; from now on it is a build artifact).");
+                }
+            }
+            EditorPrefs.SetBool(PrefCollapsed, true);
+        }
+        catch (Exception e) { Debug.LogWarning("[Factory] registry collapse migration failed (will retry next load): " + e.Message); }
+    }
+
+    // Keep the deployed ARTIFACT in step: recreate it when missing (fresh/reinstalled game), warn ONCE when it
+    // was hand-edited (the next Save overwrites it — the old habit points at the wrong file now).
+    static void SyncArtifact(string sourceJson)
+    {
+        try
+        {
+            if (!File.Exists(RegistryPath))
+            {
+                Directory.CreateDirectory(PackLiveDir);
+                File.WriteAllText(RegistryPath, sourceJson);
+                Debug.Log($"[Factory] deployed registry artifact recreated from the project source → {RegistryPath}");
+                return;
+            }
+            if (!artifactDriftWarned && File.ReadAllText(RegistryPath) != sourceJson)
+            {
+                artifactDriftWarned = true;
+                Debug.LogWarning("[Factory] the DEPLOYED pack.json differs from the project source. Since the 2026-08-19 collapse the deployed copy is a BUILD ARTIFACT — a hand-edit there is ignored by the editor and overwritten on the next Save. Edit the source instead: " + SourcePath);
+            }
+        }
+        catch (Exception e) { Debug.LogWarning("[Factory] deployed-artifact sync: " + e.Message); }
+    }
 
     // Keep the registry in a STABLE alphabetical order (by resourceName, case-insensitive) everywhere it's read or
     // written, so the Factory dropdown AND both config files (the live haf_models.json + the git-tracked backup) list
@@ -315,70 +369,60 @@ public static class ModelRegistry
         try
         {
             loaded = true;   // this session has now observed the on-disk registry (see the `loaded` field) — the corrupt path below leaves Save() guarded by lastLoadCorrupt regardless
-            if (!File.Exists(RegistryPath))
+            MigrateToSingleSourceOnce();
+            if (!File.Exists(SourcePath))
             {
                 // Don't declare the registry dead on ONE glance: an external editor's save-by-rename (temp write →
-                // delete → rename) leaves a milliseconds-wide window where the file doesn't exist, and a Load()
-                // landing inside it triggered a full (harmless but alarming) backup recovery. Re-check briefly.
+                // delete → rename) leaves a milliseconds-wide window where the file doesn't exist. Re-check briefly.
                 System.Threading.Thread.Sleep(250);
-                if (File.Exists(RegistryPath))
+                if (!File.Exists(SourcePath))
                 {
-                    var retryJson = File.ReadAllText(RegistryPath);
-                    var retry = JsonUtility.FromJson<RegistryFile>(retryJson);
                     lastLoadCorrupt = false;
-                    UnitScales = retry?.unitScales ?? new List<UnitScaleRule>();
-                    WaterLevel = retry != null ? retry.waterLevel : 0.16f;
-                    EraGrid = retry?.eraGrid ?? new List<EraScaleRow>();
-                    FormationThresholds = retry?.formationThresholds ?? new List<FormationThreshold>();
-                    return Migrate(SortByName(retry?.models ?? new List<ModelDef>()), retryJson);
-                }
-                lastLoadCorrupt = false;
-                // Game registry gone (fresh/reinstalled game, verified files). Recover from the versioned project
-                // backup and write it back to the game target, so nothing is lost.
-                if (File.Exists(ProjectBackupPath))
-                {
-                    // E6: parse the backup in ITS OWN try/catch. If the backup is corrupt WHILE the live registry is
-                    // missing, a throw here would fall into the outer catch — which sets lastLoadCorrupt and names
-                    // RegistryPath (a file that doesn't exist in this case), locking Save forever with instructions that
-                    // can't be followed. Treat an unreadable backup as "no backup": there's no live registry to protect,
-                    // and the next successful Save rewrites the backup anyway.
-                    try
+                    // Project source gone (a fresh clone that predates the pack, or a hand-deletion) but a deployed
+                    // artifact exists: ADOPT it — it's the only surviving copy of the data.
+                    if (File.Exists(RegistryPath))
                     {
-                        var backupJson = File.ReadAllText(ProjectBackupPath);
-                        var b = JsonUtility.FromJson<RegistryFile>(backupJson);
-                        if (b?.models != null && b.models.Count > 0)
+                        try
                         {
-                            try { Directory.CreateDirectory(ConfigDir); File.WriteAllText(RegistryPath, backupJson); } catch { }
-                            Debug.Log($"[Factory] game registry was missing — restored {b.models.Count} model(s) from the project backup ({ProjectBackupPath}).");
-                            return Migrate(SortByName(b.models), backupJson);
+                            var dep = File.ReadAllText(RegistryPath);
+                            var d = JsonUtility.FromJson<RegistryFile>(dep);
+                            if (d?.models != null && d.models.Count > 0)
+                            {
+                                Directory.CreateDirectory(PackRepoDir);
+                                File.WriteAllText(SourcePath, dep);
+                                Debug.Log($"[Factory] project registry source was missing — adopted {d.models.Count} model(s) from the deployed artifact ({RegistryPath}).");
+                                UnitScales = d.unitScales ?? new List<UnitScaleRule>();
+                                WaterLevel = d.waterLevel;
+                                EraGrid = d.eraGrid ?? new List<EraScaleRow>();
+                                FormationThresholds = d.formationThresholds ?? new List<FormationThreshold>();
+                                return Migrate(SortByName(d.models), dep);
+                            }
                         }
+                        catch (Exception be) { Debug.LogWarning($"[Factory] the deployed artifact '{RegistryPath}' is unreadable ({be.Message}) — treating as absent."); }
                     }
-                    catch (Exception be)
-                    {
-                        Debug.LogWarning($"[Factory] the project backup '{ProjectBackupPath}' is unreadable ({be.Message}) — treating as no backup. " +
-                                         "Fix or delete it if you expected models to restore; a fresh Save will overwrite it.");
-                    }
+                    return new List<ModelDef>();
                 }
-                return new List<ModelDef>();
             }
-            var liveJson = File.ReadAllText(RegistryPath);
-            var data = JsonUtility.FromJson<RegistryFile>(liveJson);
+            var json = File.ReadAllText(SourcePath);
+            var data = JsonUtility.FromJson<RegistryFile>(json);
             lastLoadCorrupt = false;
             UnitScales = data?.unitScales ?? new List<UnitScaleRule>();
             WaterLevel = data != null ? data.waterLevel : 0.16f;
             EraGrid = data?.eraGrid ?? new List<EraScaleRow>();
             FormationThresholds = data?.formationThresholds ?? new List<FormationThreshold>();
-            return Migrate(SortByName(data?.models ?? new List<ModelDef>()), liveJson);
+            SyncArtifact(json);   // deployed copy recreated if missing; hand-edit there warned about once
+            return Migrate(SortByName(data?.models ?? new List<ModelDef>()), json);
         }
         catch (Exception e)
         {
-            // The file exists but won't parse (a hand-edit typo, a half-written file). Preserve it and flag
+            // The source exists but won't parse (a hand-edit typo, a half-written file). Preserve it and flag
             // it so Save() won't clobber it and lose everything.
             lastLoadCorrupt = true;
-            try { File.Copy(RegistryPath, RegistryPath + ".corrupt.json", true); } catch { }
-            Debug.LogError($"[Factory] registry '{RegistryPath}' is unreadable ({e.Message}) — backed up to " +
-                           $"'{Path.GetFileName(RegistryPath)}.corrupt.json'. Fix or delete it (then press Refresh); " +
-                           $"a versioned copy is also at '{ProjectBackupPath}'. Baking won't save until then, to avoid wiping your models.");
+            try { File.Copy(SourcePath, SourcePath + ".corrupt.json", true); } catch { }
+            Debug.LogError($"[Factory] registry source '{SourcePath}' is unreadable ({e.Message}) — backed up to " +
+                           $"'{Path.GetFileName(SourcePath)}.corrupt.json'. Fix or delete it (then press Refresh); " +
+                           $"git history has every committed version, and the deployed artifact at '{RegistryPath}' still holds the last good deploy. " +
+                           "Baking won't save until then, to avoid wiping your models.");
             return new List<ModelDef>();
         }
     }
@@ -400,7 +444,7 @@ public static class ModelRegistry
         // are empty right after a domain reload; writing them then would silently wipe Resize/Era-Lab data). A fresh /
         // absent / unreadable file falls back to RegistryFile defaults, so a first-ever Save still writes a valid pack.
         RegistryFile file = null;
-        try { if (File.Exists(RegistryPath)) file = JsonUtility.FromJson<RegistryFile>(File.ReadAllText(RegistryPath)); } catch { }
+        try { if (File.Exists(SourcePath)) file = JsonUtility.FromJson<RegistryFile>(File.ReadAllText(SourcePath)); } catch { }   // merge base = the SOURCE (the collapse: deployed is derived)
         if (file == null) file = new RegistryFile();
         file.models = models;
         if (loaded)   // the statics reflect the on-disk state (+ any Lab edits this session) — authoritative
@@ -411,27 +455,40 @@ public static class ModelRegistry
         }
         // else: keep file.unitScales/eraGrid/formationThresholds exactly as read from disk — never overwrite with the empty statics
         var json = JsonUtility.ToJson(file, true);
-        // 1) Atomic write to the live game target (what the plugin reads): fill a temp file, then swap it in, so an
-        //    interrupted or locked write can never leave a truncated registry. GUARDED — File.Replace/Move throws on a
-        //    transient lock (AV, search indexer, the running game holding the file). Without this, a bake that succeeds
-        //    then fails to save would leak a raw editor exception AND leave the user thinking it saved.
+        // 1) Atomic write to THE SOURCE (the collapse: the git-tracked project file is the one registry): fill a
+        //    temp file, then swap it in, so an interrupted or locked write can never leave a truncated registry.
         try
         {
-            Directory.CreateDirectory(ConfigDir);
-            var tmp = RegistryPath + ".tmp";
+            Directory.CreateDirectory(PackRepoDir);
+            var tmp = SourcePath + ".tmp";
             File.WriteAllText(tmp, json);
-            if (File.Exists(RegistryPath)) File.Replace(tmp, RegistryPath, null);
-            else File.Move(tmp, RegistryPath);
+            if (File.Exists(SourcePath)) File.Replace(tmp, SourcePath, null);
+            else File.Move(tmp, SourcePath);
         }
         catch (Exception e)
         {
             Debug.LogError($"[Factory] registry write FAILED — the model baked but its entry was NOT saved to " +
-                           $"'{RegistryPath}' ({e.Message}). Close whatever's locking it (AV, search indexer, the running " +
-                           $"game) and re-bake; the previous registry and the versioned copy at '{ProjectBackupPath}' are intact.");
+                           $"'{SourcePath}' ({e.Message}). Close whatever's locking it (AV, search indexer) and re-bake; " +
+                           "the previous source is intact (git history has every committed version).");
             return false;
         }
-        // 2) Versioned shadow copy inside the mod repo (git-tracked; survives a game reinstall). Best-effort.
-        try { File.WriteAllText(ProjectBackupPath, json); } catch (Exception e) { Debug.LogWarning("[Factory] project backup write failed: " + e.Message); }
+        // 2) Refresh the DEPLOYED ARTIFACT (what the running game reads) — atomically too. A failure here does not
+        //    fail the Save (the source of truth is safe) but it is LOUD: the game keeps loading the stale artifact
+        //    until the next successful Save/Load regenerates it.
+        try
+        {
+            Directory.CreateDirectory(PackLiveDir);
+            var tmp2 = RegistryPath + ".tmp";
+            File.WriteAllText(tmp2, json);
+            if (File.Exists(RegistryPath)) File.Replace(tmp2, RegistryPath, null);
+            else File.Move(tmp2, RegistryPath);
+        }
+        catch (Exception e)
+        {
+            Debug.LogWarning($"[Factory] deployed-artifact refresh FAILED ({e.Message}) — the registry SOURCE saved fine, " +
+                             $"but the GAME will keep loading the stale copy at '{RegistryPath}' until a Save/Load succeeds " +
+                             "(is the game running and holding the file?).");
+        }
         AssetDatabase.Refresh();
         return true;
     }
@@ -441,7 +498,7 @@ public static class ModelRegistry
     // snapshot. Empty on a missing/unreadable file.
     static List<ModelDef> LoadModelsOnly()
     {
-        try { if (File.Exists(RegistryPath)) return JsonUtility.FromJson<RegistryFile>(File.ReadAllText(RegistryPath))?.models ?? new List<ModelDef>(); } catch { }
+        try { if (File.Exists(SourcePath)) return JsonUtility.FromJson<RegistryFile>(File.ReadAllText(SourcePath))?.models ?? new List<ModelDef>(); } catch { }   // the collapse: read the SOURCE
         return new List<ModelDef>();
     }
 

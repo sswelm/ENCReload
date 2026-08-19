@@ -1119,7 +1119,7 @@ public class ModelFactoryWindow : EditorWindow
             "• Model file empty = re-bake the existing resource with new settings (fast iteration).\n" +
             "• Normals: KeepModel = the artist's; Recalculate = hard edges via smoothing angle; Faceted = fully flat.\n" +
             "• Convert grid: 0 keeps UV seams (textured models); >0 decimates (heavy untextured meshes).\n" +
-            "Registry: " + ModelRegistry.RegistryPath, MessageType.None);
+            "Registry (source): " + ModelRegistry.SourcePath + "\nDeploys to (artifact): " + ModelRegistry.RegistryPath, MessageType.None);
         using (new EditorGUILayout.HorizontalScope())
         {
             // One-click way to reach the config folder (haf_models.json + the plugin's .cfg live here).
@@ -1159,8 +1159,9 @@ public class ModelFactoryWindow : EditorWindow
                 using (new EditorGUI.DisabledScope(string.IsNullOrEmpty(ModelRegistry.ConfigDirOverride)))
                     if (GUILayout.Button("Clear", GUILayout.Width(56))) { ModelRegistry.ConfigDirOverride = ""; GUI.FocusControl(null); }
             }
-            EditorGUILayout.HelpBox("Registry target:\n" + ModelRegistry.RegistryPath +
-                (exists ? "" : "\n(folder doesn't exist yet — created on Bake; check the path if this looks wrong)"),
+            EditorGUILayout.HelpBox("Registry SOURCE (edit this one, git-tracked):\n" + ModelRegistry.SourcePath +
+                "\nDeployed ARTIFACT (what the game reads — regenerated on every Save):\n" + ModelRegistry.RegistryPath +
+                (exists ? "" : "\n(game folder doesn't exist yet — created on Bake; check the path if this looks wrong)"),
                 exists ? MessageType.None : MessageType.Warning);
         }
 
@@ -1599,17 +1600,17 @@ public class ModelFactoryWindow : EditorWindow
         try
         {
             string detail = ValidatePackCore(out int warns, out int errors, out int count);
-            if (count == 0) { status = "Validate pack: no entries in the registry (" + ModelRegistry.RegistryPath + ")."; return; }
+            if (count == 0) { status = "Validate pack: no entries in the registry (" + ModelRegistry.SourcePath + ")."; return; }
             string summary = $"Validate pack: {count} entr(y/ies) — {warns} warning(s), {errors} error(s).";
-            if (detail.Length > 0) Debug.LogWarning("[Validate] " + summary + " (registry: " + ModelRegistry.RegistryPath + ")\n" + detail);
-            else Debug.Log("[Validate] " + summary + " Clean. (registry: " + ModelRegistry.RegistryPath + ")");
+            if (detail.Length > 0) Debug.LogWarning("[Validate] " + summary + " (registry: " + ModelRegistry.SourcePath + ")\n" + detail);
+            else Debug.Log("[Validate] " + summary + " Clean. (registry: " + ModelRegistry.SourcePath + ")");
             status = summary + (detail.Length > 0 ? " Details in the Console." : " Clean — ready to ship.");
             // RESULTS IN A DIALOG (2026-08-18 drill: "I expected it to appear in the dialog instead") — a validation
             // you clicked for answers to your face. Long lists are truncated here; the Console keeps the full,
             // copyable record.
             const int DialogMax = 1600;
             string body = detail.Length == 0
-                ? $"All {count} entries validated clean — ready to ship.\n\nRegistry: {ModelRegistry.RegistryPath}"
+                ? $"All {count} entries validated clean — ready to ship.\n\nRegistry: {ModelRegistry.SourcePath}"
                 : summary + "\n\n" + (detail.Length > DialogMax ? detail.Substring(0, DialogMax) + "\n… (full list in the Console)" : detail);
             EditorUtility.DisplayDialog("Validate pack", body, "OK");
         }
