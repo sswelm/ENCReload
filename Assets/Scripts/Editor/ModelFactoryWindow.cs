@@ -347,6 +347,12 @@ public class ModelFactoryWindow : EditorWindow
         Box(-0.21f, 0.60f, 0f, 0.08f, 0.30f, 0.10f);    // arms
         Box( 0.21f, 0.60f, 0f, 0.08f, 0.30f, 0.10f);
         Box(0f, 0.92f, 0f, 0.16f, 0.16f, 0.16f);        // head
+        // DOUBLE-SIDED (drill-caught 2026-08-19: "I don't see any man" — hand-rolled box winding faced inward and
+        // every face backface-culled): append every triangle reversed, so the figure is visible from all angles
+        // regardless of winding convention. Same cure as the tile hex; a grey reference figure doesn't need
+        // beautiful lighting, it needs to EXIST.
+        int n0 = t.Count;
+        for (int i = 0; i < n0; i += 3) { t.Add(t[i]); t.Add(t[i + 2]); t.Add(t[i + 1]); }
         var m = new Mesh { name = name, hideFlags = HideFlags.HideAndDontSave };
         m.SetVertices(v); m.SetTriangles(t, 0); m.RecalculateNormals(); m.RecalculateBounds();
         return m;
