@@ -77,7 +77,15 @@ public class AnimationLabWindow : EditorWindow
             if (reg != null && JsonUtility.ToJson(reg) != JsonUtility.ToJson(cur))
                 formDiffersFromRegistry = true;
         }
-        if (!string.IsNullOrEmpty(previewPath)) LoadFitPreview(previewPath);
+        // Domain-reload restore of the fit preview — WITH the atlas-UV substitute (2026-08-19 second drill
+        // finding: the substitution landed in the rebuild path only, and THIS path is the one that runs right
+        // after a compile — the one-forgotten-call-site pattern again). The owning resource is the FactorySource
+        // subfolder in the persisted path; a model with no _PreviewMesh (single-material) just passes null.
+        if (!string.IsNullOrEmpty(previewPath))
+        {
+            var resDir = System.IO.Path.GetFileName(System.IO.Path.GetDirectoryName(previewPath));
+            LoadFitPreview(previewPath, AssetDatabase.LoadAssetAtPath<Mesh>("Assets/FactorySource/" + resDir + "/" + resDir + "_PreviewMesh.asset"));
+        }
     }
     void OnDisable() { DestroyFitPreview(); }
 
