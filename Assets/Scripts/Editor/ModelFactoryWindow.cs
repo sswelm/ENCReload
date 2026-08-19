@@ -394,8 +394,8 @@ public class ModelFactoryWindow : EditorWindow
         AddBox(v, t, 0f, 0.705f, 0f, 0.235f, 0.29f, 0.085f);       // torso (0.56–0.85); depths slimmed ("less thick")
         AddBox(v, t, -0.153f, 0.64f, 0f, 0.055f, 0.40f, 0.06f);    // arms (shoulder to mid-thigh)
         AddBox(v, t,  0.153f, 0.64f, 0f, 0.055f, 0.40f, 0.06f);
-        AddBox(v, t, 0f, 0.865f, 0f, 0.05f, 0.05f, 0.05f);         // neck
-        AddSphere(v, t, 0f, 0.925f, 0f, 0.072f);                   // head — a sphere (top ≈ 1.0)
+        AddBox(v, t, 0f, 0.87f, 0f, 0.05f, 0.06f, 0.05f);          // neck
+        AddSphere(v, t, 0f, 0.94f, 0f, 0.055f);                    // head — sphere at real head WIDTH (~0.11 of stature; a 1/7-of-height sphere read too big), top ≈ 1.0
         return FinishFlatDoubleSided(name, v, t);
     }
 
