@@ -159,7 +159,8 @@ public class ModelFactoryWindow : EditorWindow
     [SerializeField] bool previewRefMan;             // "Ref man" toggle (2026-08-19): a human-pawn-height figure beside
                                                      // the model — the size reference (see HumanRefHeight)
     [SerializeField] Vector2 previewRefManPos = new Vector2(1.5f, 0f);   // his spot on the plane (X sideways, Z fore/aft) — user-dialed
-    Mesh previewRefManMesh;
+    [SerializeField] bool previewRuler;              // measuring stick (0.5u ticks, 3u tall) at the model's left
+    Mesh previewRefManMesh, previewRulerMesh;
     bool bakedNotShipped;                            // SHIP STATUS inline flag (user request 2026-08-18): this entry's
                                                      // baked outputs are newer than the last mod build — the game still
                                                      // loads the previous assets. Recomputed at the same trigger points
@@ -329,32 +330,24 @@ public class ModelFactoryWindow : EditorWindow
     // plane. HumanRefHeight is a CALIBRATION CONSTANT in the waterLevel tradition: 0.9u is the starting
     // estimate — calibrate once by comparing the preview against an infantry pawn standing next to a known
     // unit in-game, then pin the measured value here (and note it in Factory-Manual).
-    internal const float HumanRefHeight = 1.1f;   // 0.9 first estimate read short (user); 1.1 = a 1.8m human at the
-                                                  // typical vehicle-bake scale (Bradley 6.5m @ size 4 → 0.615 u/m).
-                                                  // Still a to-be-pinned calibration: the TRUE reference is the game's
-                                                  // own infantry pawn height, measured once in-game.
-    internal static Mesh BuildRefMan(string name)
+    internal const float HumanRefHeight = 1.85f;  // calibrated stepwise by the user against a human-scale soldier
+                                                  // model (0.9 → 1.1 → 1.85, 2026-08-19) — the waterline tradition.
+                                                  // Matches the game's stylized pawn scale rather than strict
+                                                  // vehicle-bake meters (game humans run large vs vehicles).
+    // Shared box-prop machinery for the preview reference props (Ref man, measuring stick). BULLETPROOF
+    // RENDERING (two drill rounds, 2026-08-19: "I don't see any man"): round 1 — hand-rolled winding faced
+    // inward, every face culled; round 2 — shared-vertex double-siding averaged opposing face normals to ~zero.
+    // Final form: every triangle FLAT-SHADED (its own 3 verts) and emitted in BOTH windings.
+    static void AddBox(List<Vector3> v, List<int> t, float cx, float cy, float cz, float sx, float sy, float sz)
     {
-        var v = new List<Vector3>(); var t = new List<int>();
-        void Box(float cx, float cy, float cz, float sx, float sy, float sz)
-        {
-            int b = v.Count;
-            for (int i = 0; i < 8; i++)
-                v.Add(new Vector3(cx + ((i & 1) == 0 ? -sx : sx) / 2f, cy + ((i & 2) == 0 ? -sy : sy) / 2f, cz + ((i & 4) == 0 ? -sz : sz) / 2f));
-            foreach (var i in new[] { 0,2,1, 1,2,3, 4,5,6, 5,7,6, 0,1,4, 1,5,4, 2,6,3, 3,6,7, 0,4,2, 2,4,6, 1,3,5, 3,7,5 })
-                t.Add(b + i);
-        }
-        // proportions of a 1.0-tall figure (scaled to HumanRefHeight at draw time)
-        Box(-0.06f, 0.225f, 0f, 0.09f, 0.45f, 0.11f);   // legs
-        Box( 0.06f, 0.225f, 0f, 0.09f, 0.45f, 0.11f);
-        Box(0f, 0.62f, 0f, 0.30f, 0.34f, 0.14f);        // torso
-        Box(-0.21f, 0.60f, 0f, 0.08f, 0.30f, 0.10f);    // arms
-        Box( 0.21f, 0.60f, 0f, 0.08f, 0.30f, 0.10f);
-        Box(0f, 0.92f, 0f, 0.16f, 0.16f, 0.16f);        // head
-        // BULLETPROOF RENDERING (two drill rounds, 2026-08-19: "I don't see any man"): round 1 — hand-rolled
-        // winding faced inward, every face culled; round 2 — shared-vertex double-siding averaged opposing face
-        // normals to ~zero, lighting garbage. Final form: every triangle FLAT-SHADED (its own 3 verts) and
-        // emitted in BOTH windings — correct outward lighting from every angle, no winding archaeology.
+        int b = v.Count;
+        for (int i = 0; i < 8; i++)
+            v.Add(new Vector3(cx + ((i & 1) == 0 ? -sx : sx) / 2f, cy + ((i & 2) == 0 ? -sy : sy) / 2f, cz + ((i & 4) == 0 ? -sz : sz) / 2f));
+        foreach (var i in new[] { 0,2,1, 1,2,3, 4,5,6, 5,7,6, 0,1,4, 1,5,4, 2,6,3, 3,6,7, 0,4,2, 2,4,6, 1,3,5, 3,7,5 })
+            t.Add(b + i);
+    }
+    static Mesh FinishFlatDoubleSided(string name, List<Vector3> v, List<int> t)
+    {
         var fv = new List<Vector3>(); var ft = new List<int>();
         for (int i = 0; i < t.Count; i += 3)
         {
@@ -365,6 +358,35 @@ public class ModelFactoryWindow : EditorWindow
         var m = new Mesh { name = name, hideFlags = HideFlags.HideAndDontSave };
         m.SetVertices(fv); m.SetTriangles(ft, 0); m.RecalculateNormals(); m.RecalculateBounds();
         return m;
+    }
+
+    internal static Mesh BuildRefMan(string name)
+    {
+        var v = new List<Vector3>(); var t = new List<int>();
+        // proportions of a 1.0-tall figure (scaled to HumanRefHeight at draw time)
+        AddBox(v, t, -0.06f, 0.225f, 0f, 0.09f, 0.45f, 0.11f);   // legs
+        AddBox(v, t,  0.06f, 0.225f, 0f, 0.09f, 0.45f, 0.11f);
+        AddBox(v, t, 0f, 0.62f, 0f, 0.30f, 0.34f, 0.14f);        // torso
+        AddBox(v, t, -0.21f, 0.60f, 0f, 0.08f, 0.30f, 0.10f);    // arms
+        AddBox(v, t,  0.21f, 0.60f, 0f, 0.08f, 0.30f, 0.10f);
+        AddBox(v, t, 0f, 0.92f, 0f, 0.16f, 0.16f, 0.16f);        // head
+        return FinishFlatDoubleSided(name, v, t);
+    }
+
+    // MEASURING STICK (2026-08-19, user request): a vertical ruler in GAME UNITS — ticks every 0.5u, long ticks
+    // at whole units, 3u tall. Units, not meters: each bake picks its own world scale (Size dial), so units are
+    // the one honest common measure; the Ref man is the human-scale anchor beside it.
+    internal static Mesh BuildMeasureStick(string name)
+    {
+        var v = new List<Vector3>(); var t = new List<int>();
+        const float H = 3f;
+        AddBox(v, t, 0f, H / 2f, 0f, 0.035f, H, 0.035f);   // the pole
+        for (float y = 0.5f; y <= H + 0.01f; y += 0.5f)
+        {
+            bool whole = Mathf.Abs(y - Mathf.Round(y)) < 0.01f;
+            AddBox(v, t, whole ? 0.15f : 0.10f, y, 0f, whole ? 0.28f : 0.16f, 0.025f, 0.025f);   // tick bars, longer at whole units
+        }
+        return FinishFlatDoubleSided(name, v, t);
     }
     internal static Mesh BuildTileHex(string name, float cornerBaseDeg = 30f)
     {
@@ -514,6 +536,8 @@ public class ModelFactoryWindow : EditorWindow
                     previewRefManPos.x = EditorGUILayout.FloatField(previewRefManPos.x, GUILayout.Width(38));
                     previewRefManPos.y = EditorGUILayout.FloatField(previewRefManPos.y, GUILayout.Width(38));
                 }
+                previewRuler = GUILayout.Toggle(previewRuler, new GUIContent("Ruler",
+                    "A vertical measuring stick left of the model: ticks every 0.5 game units, long ticks at whole units, 3u tall. Units, not meters — each bake picks its own world scale, so units are the honest common measure."), GUILayout.Width(52));
             }
             if (previewGrounded)
                 previewCombat = GUILayout.Toggle(previewCombat, new GUIContent("In combat",
@@ -594,6 +618,11 @@ public class ModelFactoryWindow : EditorWindow
                     if (previewRefManMesh == null) previewRefManMesh = BuildRefMan("FactoryRefMan");
                     // at the USER-DIALED spot (header fields; default 1.5u right of origin)
                     previewPRU.DrawMesh(previewRefManMesh, Matrix4x4.TRS(new Vector3(previewRefManPos.x, PreviewPlaneY, previewRefManPos.y), Quaternion.identity, Vector3.one * HumanRefHeight), previewFallbackMat, 0);
+                }
+                if (previewRuler)
+                {
+                    if (previewRulerMesh == null) previewRulerMesh = BuildMeasureStick("FactoryRuler");
+                    previewPRU.DrawMesh(previewRulerMesh, Matrix4x4.Translate(new Vector3(-1.5f, PreviewPlaneY, 0f)), previewFallbackMat, 0);
                 }
             }
             bool anyDead = false;
