@@ -153,6 +153,9 @@ public class ModelFactoryWindow : EditorWindow
                                                      // the `selected` index is re-derived by name on every RefreshList
                                                      // and resets to 0 when the entry vanishes — the one case the
                                                      // banner most needs to catch (drill 3 finding, 2026-08-18).
+    [SerializeField] bool previewCombat;             // "In combat" preview toggle (2026-08-19): draw the model at its
+                                                     // battle-locked height (combatZ applied) — the calibration view
+                                                     // for "only the periscope above the water"
     bool bakedNotShipped;                            // SHIP STATUS inline flag (user request 2026-08-18): this entry's
                                                      // baked outputs are newer than the last mod build — the game still
                                                      // loads the previous assets. Recomputed at the same trigger points
@@ -436,6 +439,7 @@ public class ModelFactoryWindow : EditorWindow
             if (previewGrounded && previewDraws != null && previewDraws.Count > 0)
             {
                 float liveY = cur != null && cur.animated && cur.position != Vector3.zero ? cur.position.z : 0f;
+                if (previewCombat && cur != null) liveY += cur.combatZ;   // "In combat" preview: the battle-locked height
                 float plane = previewWater ? PreviewWaterY : 0f;   // ground contract: keel vs ORIGIN; water: vs the calibrated game water level
                 float keel = previewBounds.min.y + liveY - plane, top = previewBounds.max.y + liveY - plane;
                 keelInfo = string.Format("  ·  keel {0:+0.00;-0.00;0.00}u / top {1:+0.00;-0.00;0.00}u vs {2}", keel, top, previewWater ? "waterline" : "ground");
@@ -445,6 +449,9 @@ public class ModelFactoryWindow : EditorWindow
                                  : ")  — legacy display pose (no rig FBX found), orientation not faithful") +
                 (cur != null && cur.animated && cur.position != Vector3.zero ? "  · Position offset shown LIVE (runtime-applied, no bake needed)" : "") +
                 keelInfo, EditorStyles.miniBoldLabel);
+            if (previewGrounded)
+                previewCombat = GUILayout.Toggle(previewCombat, new GUIContent("In combat",
+                    "Preview the unit at its BATTLE-LOCKED height: the Combat height offset (Flight character section) applied on top of everything else — the position the unit eases to during a battle. Calibrate a submarine so only the periscope clears the waterline."), GUILayout.Width(78));
             if (previewWater)
                 EditorGUILayout.LabelField(new GUIContent($"water @ {PreviewWaterY:0.00}",
                     "The HAF water standard: where the game's water surface sits above the model origin (mean + wave allowance, calibrated in-game 2026-08-18). A fixed code constant — every vessel's Z is calibrated against it."), GUILayout.Width(85));
@@ -521,9 +528,14 @@ public class ModelFactoryWindow : EditorWindow
             // LIVE runtime Position offset (animated entries only — the plugin adds the registry `position` to the
             // pawn every frame; statics bake it into the mesh instead, so live-applying would double-show those).
             // Registry semantics -> preview axes: x sway -> X, y fore/aft -> Z (the pawn faces +Z here), z -> up Y.
-            var liveOff = previewGrounded && cur != null && cur.animated && cur.position != Vector3.zero
-                ? Matrix4x4.Translate(new Vector3(cur.position.x, cur.position.z, cur.position.y))
-                : Matrix4x4.identity;
+            // The "In combat" toggle adds combatZ for EVERY entry type — that offset is runtime for statics too.
+            var liveVec = Vector3.zero;
+            if (previewGrounded && cur != null)
+            {
+                if (cur.animated && cur.position != Vector3.zero) liveVec += new Vector3(cur.position.x, cur.position.z, cur.position.y);
+                if (previewCombat) liveVec += new Vector3(0f, cur.combatZ, 0f);
+            }
+            var liveOff = liveVec != Vector3.zero ? Matrix4x4.Translate(liveVec) : Matrix4x4.identity;
             foreach (var (mesh, mats, mtx) in previewDraws)
             {
                 // A cached mesh can be DESTROYED under us (the baked prefab/FBX deleted or reimported outside the
