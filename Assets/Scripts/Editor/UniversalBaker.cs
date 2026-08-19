@@ -570,9 +570,9 @@ public static class UniversalBaker
         //        mesh UVs remapped per-submesh. MaterialMode gates it: Single = one texture; Multi = force packing; Auto =
         //        pack when the model has >1 material. Without this, every part samples one texture and e.g. a wheel maps wrong.
         //        (fsResDir / orderedAlb / multiMat were computed up front so the importer could gate tangent-stripping.) ---
-        Mesh previewMesh = null;
+        List<Mesh> previewMeshes = null;
         Texture2D atlas = multiMat
-            ? BuildMultiAtlasAndRemap(fbxGo, orderedAlb, name, cfg, out previewMesh)   // pack + remap the skinned mesh UVs in place (SetPrefab below reads them)
+            ? BuildMultiAtlasAndRemap(fbxGo, orderedAlb, name, cfg, out previewMeshes)   // pack + remap the skinned mesh UVs in place (SetPrefab below reads them)
             : BuildAtlas(resDir, name, cfg.albedoBrightness, cfg.albedoSaturation);
         atlas = FinalizeAtlas(atlas, name, cfg.atlasMaxDim);   // cap resolution + DXT1-compress (keeps the shipped _Atlas.asset small)
         string atlasPath = "Assets/Resources/" + name + "_Atlas.asset";
@@ -680,7 +680,7 @@ public static class UniversalBaker
         //        runtime ignores it entirely — it's purely a modeling aid.
         // Rotation is now baked INTO the rig by rig_anim.py (cfg.rotationEuler passed to the Blender step above), so
         // the preview must NOT apply it again — pass zero. What the preview shows is now what the game gets.
-        GeneratePreviewPrefab(name, resDir, fbxRel, atlas, Vector3.zero, previewMesh);
+        GeneratePreviewPrefab(name, resDir, fbxRel, atlas, Vector3.zero, previewMeshes);
 
         string skelGuid = AmplitudeGuid(skel), atlasGuid = AmplitudeGuid(atlas), clipGuid = AmplitudeGuid(clipColl);
         // an empty GUID means the SDK skeleton/clip bake produced nothing — fail loudly rather than write a dead registry entry.
@@ -755,19 +755,49 @@ public static class UniversalBaker
     // modeling aid for Unity's preview window + judging the decimated vertex count — it is NOT in the registry, so the
     // runtime never touches it. Uses the same mesh that gets injected, so its vert count is the real one; logs it so you
     // can see the effect of 'Reduce to ~tris' and cut further.
-    static void GeneratePreviewPrefab(string name, string resDir, string fbxRel, Texture2D atlas, Vector3 rotationEuler, Mesh overrideMesh = null)
+    // The _PreviewMesh asset paths, index 0 keeping the historical un-numbered name (existing single-SMR bakes and
+    // their loaders stay valid): <name>_PreviewMesh.asset, <name>_PreviewMesh1.asset, … Shared by the persist below
+    // and LoadPreviewSubstitutes so the two ends can never disagree on naming.
+    internal static string PreviewMeshPath(string resDir, string name, int i) =>
+        resDir + "/" + name + (i == 0 ? "_PreviewMesh.asset" : "_PreviewMesh" + i + ".asset");
+
+    // MULTI-SMR SLICE loader (2026-08-19): every persisted atlas-remapped clone, in bake order. Used by BOTH preview
+    // windows (Factory LoadPreview + Lab fit preview) — one loader, so a naming change can't strand one of them
+    // (the pattern-copy lesson). Empty list = single-material bake (no substitution needed).
+    internal static List<Mesh> LoadPreviewSubstitutes(string name)
+    {
+        var list = new List<Mesh>();
+        string resDir = "Assets/FactorySource/" + name;
+        for (int i = 0; i < 32; i++)
+        {
+            var m = AssetDatabase.LoadAssetAtPath<Mesh>(PreviewMeshPath(resDir, name, i));
+            if (m == null) { if (i == 0) continue; break; }   // index 0 may be absent while 1+ exist only transiently; past 0, a gap ends the set
+            list.Add(m);
+        }
+        return list;
+    }
+
+    static void GeneratePreviewPrefab(string name, string resDir, string fbxRel, Texture2D atlas, Vector3 rotationEuler, List<Mesh> overrideMeshes = null)
     {
         try
         {
-            // multi-material bake hands us the already-remapped, single-submesh mesh so the preview shows all parts with the
-            // right UVs; otherwise load the largest mesh from the FBX (the body).
-            var mesh = overrideMesh ?? AssetDatabase.LoadAllAssetsAtPath(fbxRel).OfType<Mesh>()
-                .OrderByDescending(m => m.vertexCount).FirstOrDefault();
+            // multi-material bake hands us the already-remapped, single-submesh meshes (ONE PER SKINNED RENDERER —
+            // the multi-SMR slice) so the preview shows all parts with the right UVs; otherwise load the largest
+            // mesh from the FBX (the body). The inspectable prefab displays the largest clone; ALL clones persist.
+            var mesh = overrideMeshes != null && overrideMeshes.Count > 0
+                ? overrideMeshes.OrderByDescending(m => m.vertexCount).First()
+                : AssetDatabase.LoadAllAssetsAtPath(fbxRel).OfType<Mesh>().OrderByDescending(m => m.vertexCount).FirstOrDefault();
             if (mesh == null) { Debug.LogWarning("[Factory] preview: no mesh found in " + fbxRel); return; }
-            if (overrideMesh != null && !AssetDatabase.Contains(mesh))   // a runtime clone can't be referenced by the saved prefab -> persist it as an asset first
+            if (overrideMeshes != null && overrideMeshes.Count > 0)
             {
-                string mp = resDir + "/" + name + "_PreviewMesh.asset";
-                AssetDatabase.DeleteAsset(mp); AssetDatabase.CreateAsset(mesh, mp); AssetDatabase.SaveAssets();
+                // Sweep the whole numbered set FIRST (a re-bake with fewer renderers must not leave stale clones
+                // that could vertex-match a future mesh by accident), then persist every clone.
+                for (int i = 0; i < 32; i++) AssetDatabase.DeleteAsset(PreviewMeshPath(resDir, name, i));
+                for (int i = 0; i < overrideMeshes.Count; i++)
+                    if (!AssetDatabase.Contains(overrideMeshes[i]))   // a runtime clone can't be referenced by the saved prefab -> persist as an asset
+                        AssetDatabase.CreateAsset(overrideMeshes[i], PreviewMeshPath(resDir, name, i));
+                AssetDatabase.SaveAssets();
+                if (overrideMeshes.Count > 1) Debug.Log($"[Factory] {name}: persisted {overrideMeshes.Count} atlas-remapped preview meshes (one per skinned renderer)");
             }
             var mat = new Material(Shader.Find("Standard")) { name = name + "_PreviewMat", mainTexture = atlas };
             mat.SetFloat("_Glossiness", 0f); mat.SetFloat("_Metallic", 0f);   // matte (Standard defaults to 0.5 smoothness -> glossy on dark textures, e.g. tyres)
@@ -1403,6 +1433,7 @@ public static class UniversalBaker
         // window's LoadPreview PREFERS that over the static _Model.prefab whenever it exists — so without this a static
         // re-bake would keep showing the OLD animated model in the preview. The static path has no _Preview of its own
         // (its preview IS the _Model prefab), so delete the stale animated-preview assets to fall through to it.
+        for (int i = 1; i < 32; i++) AssetDatabase.DeleteAsset(PreviewMeshPath(resDir, name, i));   // numbered multi-SMR clones swept with the rest
         foreach (var pv in new[] { "_Preview.prefab", "_PreviewMesh.asset", "_PreviewMat.mat" })
             AssetDatabase.DeleteAsset(resDir + "/" + name + pv);
         AssetDatabase.CreateAsset(mesh, "Assets/Resources/" + name + "_ModelMesh.asset");
@@ -1627,9 +1658,9 @@ public static class UniversalBaker
     // so each part samples its own texture. The mesh is CLONED (we never mutate the imported asset) and re-assigned to the
     // renderer, so the skeleton bake (SetPrefab, run after this) reads the remapped UVs. Submesh->rect is matched by material
     // base-name, falling back to submesh index (submesh order == MTL order for a glbconv/rig_anim pair from the same GLB).
-    static Texture2D BuildMultiAtlasAndRemap(GameObject fbxGo, List<KeyValuePair<string, Texture2D>> orderedAlb, string name, BakeConfig cfg, out Mesh remappedPreviewMesh)
+    static Texture2D BuildMultiAtlasAndRemap(GameObject fbxGo, List<KeyValuePair<string, Texture2D>> orderedAlb, string name, BakeConfig cfg, out List<Mesh> remappedPreviewMeshes)
     {
-        remappedPreviewMesh = null;
+        remappedPreviewMeshes = new List<Mesh>();
         var albs = orderedAlb.Select(kv => kv.Value).ToArray();
         var atlas = new Texture2D(2, 2, TextureFormat.RGBA32, false) { name = name + "_Atlas" };
         var rects = atlas.PackTextures(albs, 2, cfg.atlasMaxDim > 0 ? cfg.atlasMaxDim : AtlasMaxDimDefault);
@@ -1692,7 +1723,11 @@ public static class UniversalBaker
             mesh.RecalculateTangents();
             smr.sharedMaterials = new[] { mats != null && mats.Length > 0 ? mats[0] : null };   // one slot to match the one submesh
             smr.sharedMesh = mesh;
-            remappedPreviewMesh = mesh;   // hand the corrected mesh to the preview so it shows all parts with the right UVs
+            // MULTI-SMR SLICE (2026-08-19): collect EVERY remapped clone — this used to be a single out-param the
+            // loop overwrote, so only the LAST skinned renderer's clone was persisted and a multi-SMR rig's other
+            // renderers replayed the corrupt-texture pairing on every fresh preview. The preview substitution
+            // consumes these per-renderer by vertex count.
+            remappedPreviewMeshes.Add(mesh);
         }
         return atlas;
     }

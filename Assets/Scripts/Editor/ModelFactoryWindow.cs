@@ -258,10 +258,10 @@ public class ModelFactoryWindow : EditorWindow
         // same FBX-space geometry, remapped UVs, submeshes merged). Substituting it for the renderer it was cloned
         // from (matched by mesh name) pairs mesh and texture correctly WITHOUT losing the upright grounded FBX
         // view. Single-material rigs have no _PreviewMesh and stay on the plain route (their UVs wrap correctly).
-        Mesh uvSub = path == animFbx
-            ? AssetDatabase.LoadAssetAtPath<Mesh>("Assets/FactorySource/" + name + "/" + name + "_PreviewMesh.asset")
-            : null;
-        if (go != null) BuildDrawList(go, over, uvSub);
+        // MULTI-SMR SLICE (2026-08-19): the bake persists ONE remapped clone PER skinned renderer
+        // (_PreviewMesh, _PreviewMesh1, …) — load them all and substitute per-renderer, not just the first hit.
+        var uvSubs = path == animFbx ? UniversalBaker.LoadPreviewSubstitutes(name) : null;
+        if (go != null) BuildDrawList(go, over, uvSubs);
         // (A donor-clip "footprint centering" briefly lived here — REMOVED with the double-application discovery:
         // the placement quirks it approximated were largely the runtime ApplyPositionOffset adding the registry
         // position on top of a bake that ALSO carried it. With the bake-side copy gone, the FBX view + the LIVE
@@ -271,11 +271,15 @@ public class ModelFactoryWindow : EditorWindow
     // Flatten the baked prefab's renderers into a draw list + combined bounds for the PreviewRenderUtility (same
     // approach as the Animation Lab fit preview). The prefab's shared materials already carry the baked atlas;
     // overrideMat replaces them (the rest-pose FBX route, whose imported materials are untextured stand-ins).
-    void BuildDrawList(GameObject go, Material overrideMat = null, Mesh uvSubstitute = null)
+    void BuildDrawList(GameObject go, Material overrideMat = null, List<Mesh> uvSubstitutes = null)
     {
         previewDraws = new List<(Mesh, Material[], Matrix4x4)>();
         bool first = true;
-        bool subUsed = false;
+        // MULTI-SMR SLICE (2026-08-19): the bake persists one remapped clone PER skinned renderer; each renderer
+        // consumes its own match from the pool (match-and-remove), so a rig with several skinned renderers gets
+        // every part texture-correct — not just whichever renderer happened to match first.
+        var pool = uvSubstitutes != null ? new List<Mesh>(uvSubstitutes.Where(s => s != null)) : null;
+        int subTotal = pool?.Count ?? 0, subUsed = 0;
         foreach (var rr in go.GetComponentsInChildren<Renderer>(true))
         {
             Mesh m = rr is SkinnedMeshRenderer smr ? smr.sharedMesh : rr.GetComponent<MeshFilter>()?.sharedMesh;
@@ -284,8 +288,11 @@ public class ModelFactoryWindow : EditorWindow
             // IDENTITY (same vertex count — the clone has the exact same vertices), NOT by name: CreateAsset renames
             // the persisted mesh to its filename, which made a name match silently never fire (drill-caught,
             // 2026-08-18, TankDestroyers still corrupt).
-            if (!subUsed && uvSubstitute != null && rr is SkinnedMeshRenderer && m.vertexCount == uvSubstitute.vertexCount)
-            { m = uvSubstitute; subUsed = true; }
+            if (pool != null && rr is SkinnedMeshRenderer)
+            {
+                int hit = pool.FindIndex(s => s.vertexCount == m.vertexCount);
+                if (hit >= 0) { m = pool[hit]; pool.RemoveAt(hit); subUsed++; }
+            }
             var mtx = rr.transform.localToWorldMatrix;
             var mats = rr.sharedMaterials;
             if (overrideMat != null)
@@ -297,11 +304,12 @@ public class ModelFactoryWindow : EditorWindow
             var wb = TransformBounds(mtx, m.bounds);
             if (first) { previewBounds = wb; first = false; } else previewBounds.Encapsulate(wb);
         }
-        // Loud diagnostic (drill aid): when a remapped preview mesh exists, say whether it was actually used —
+        // Loud diagnostic (drill aid): when remapped preview meshes exist, say whether they were actually used —
         // a silent no-match is exactly how the first two versions of this fix hid their failure.
-        if (uvSubstitute != null)
+        if (subTotal > 0)
             Debug.Log($"[Factory] preview UV substitution for '{previewFor}': " +
-                      (subUsed ? "APPLIED (texture-correct)" : $"NO MATCH — no skinned mesh with {uvSubstitute.vertexCount} verts (FBX re-slimmed since the last bake? Re-bake to refresh _PreviewMesh)"));
+                      (subUsed == subTotal ? $"APPLIED {subUsed}/{subTotal} (texture-correct)"
+                                           : $"APPLIED {subUsed}/{subTotal} — {subTotal - subUsed} clone(s) UNMATCHED ({string.Join(", ", pool.Select(s => s.vertexCount + " verts"))}) — FBX re-slimmed since the last bake? Re-bake to refresh the _PreviewMesh set"));
         if (previewDraws.Count == 0) previewDraws = null;
     }
 

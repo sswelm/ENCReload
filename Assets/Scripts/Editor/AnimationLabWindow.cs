@@ -84,7 +84,7 @@ public class AnimationLabWindow : EditorWindow
         if (!string.IsNullOrEmpty(previewPath))
         {
             var resDir = System.IO.Path.GetFileName(System.IO.Path.GetDirectoryName(previewPath));
-            LoadFitPreview(previewPath, AssetDatabase.LoadAssetAtPath<Mesh>("Assets/FactorySource/" + resDir + "/" + resDir + "_PreviewMesh.asset"));
+            LoadFitPreview(previewPath, UniversalBaker.LoadPreviewSubstitutes(resDir));   // the SHARED loader — multi-SMR set
         }
     }
     void OnDisable() { DestroyFitPreview(); }
@@ -131,7 +131,7 @@ public class AnimationLabWindow : EditorWindow
     // Flatten the combined prefab into (mesh, materials, matrix) draws — the asset hierarchy's transforms are valid
     // (the FBX rest pose IS the bind pose after rest-normalization, so drawing sharedMesh at the renderer transform
     // shows the correct stance; the prop's matrix includes the bone chain + the live rotation).
-    void LoadFitPreview(string prefabPath, Mesh uvSubstitute = null)
+    void LoadFitPreview(string prefabPath, List<Mesh> uvSubstitutes = null)
     {
         previewPath = prefabPath ?? "";
         fitDraws = null;
@@ -140,18 +140,20 @@ public class AnimationLabWindow : EditorWindow
         if (go == null) return;
         fitDraws = new List<(Mesh, Material[], Matrix4x4)>();
         bool first = true;
-        bool subUsed = false;
+        // ATLAS-UV SUBSTITUTION (2026-08-19 — the Factory's fix, ported; MULTI-SMR same day: one persisted clone
+        // PER skinned renderer, matched-and-consumed per renderer by GEOMETRY IDENTITY — vertex count, never name;
+        // CreateAsset renames persisted meshes, which made a name match silently never fire — Factory drill lesson).
+        var pool = uvSubstitutes != null ? new List<Mesh>(uvSubstitutes.Where(s => s != null)) : null;
+        int subTotal = pool?.Count ?? 0, subUsed = 0;
         foreach (var r in go.GetComponentsInChildren<Renderer>(true))
         {
             Mesh m = r is SkinnedMeshRenderer smr ? smr.sharedMesh : r.GetComponent<MeshFilter>()?.sharedMesh;
             if (m == null) continue;
-            // ATLAS-UV SUBSTITUTION (2026-08-19 — the Factory's 08-18 first-select texture fix, PORTED: the user
-            // caught this window still showing the corrupt pairing on load). A multi-material bake remaps the
-            // FBX's skinned-mesh UVs into the packed atlas IN MEMORY ONLY; the persisted _PreviewMesh.asset is
-            // that clone. Matched by GEOMETRY IDENTITY (vertex count), never by name — CreateAsset renames the
-            // persisted mesh, which made a name match silently never fire (Factory drill lesson).
-            if (!subUsed && uvSubstitute != null && r is SkinnedMeshRenderer && m.vertexCount == uvSubstitute.vertexCount)
-            { m = uvSubstitute; subUsed = true; }
+            if (pool != null && r is SkinnedMeshRenderer)
+            {
+                int hit = pool.FindIndex(s => s.vertexCount == m.vertexCount);
+                if (hit >= 0) { m = pool[hit]; pool.RemoveAt(hit); subUsed++; }
+            }
             var mtx = r.transform.localToWorldMatrix;
             fitDraws.Add((m, r.sharedMaterials, mtx));
             var wb = TransformBounds(mtx, m.bounds);
@@ -159,9 +161,10 @@ public class AnimationLabWindow : EditorWindow
         }
         if (fitDraws.Count == 0) fitDraws = null;
         // Loud diagnostic (the Factory drill lesson: a silent no-match is how this fix hid its failure twice)
-        if (uvSubstitute != null)
+        if (subTotal > 0)
             Debug.Log("[AnimLab] fit-preview UV substitution: " +
-                      (subUsed ? "APPLIED (texture-correct)" : $"NO MATCH — no skinned mesh with {uvSubstitute.vertexCount} verts (FBX re-slimmed since the last bake? Re-bake to refresh _PreviewMesh)"));
+                      (subUsed == subTotal ? $"APPLIED {subUsed}/{subTotal} (texture-correct)"
+                                           : $"APPLIED {subUsed}/{subTotal} — {subTotal - subUsed} clone(s) UNMATCHED (FBX re-slimmed since the last bake? Re-bake to refresh the _PreviewMesh set)"));
         // (A donor-clip "footprint centering" briefly lived here — REMOVED with the double-application discovery;
         // the runtime Position offset is now drawn LIVE in DrawFitPreview instead, which is the honest prediction.)
         Repaint();
@@ -339,8 +342,8 @@ public class AnimationLabWindow : EditorWindow
                 AssetDatabase.DeleteAsset(outPath);
                 PrefabUtility.SaveAsPrefabAsset(inst, outPath);
                 fitGrounded = true;    // rest-pose rig route — origin plane = the in-game ground
-                // multi-material bakes persist the atlas-remapped mesh clone; single-material rigs have none (their UVs wrap fine)
-                LoadFitPreview(outPath, AssetDatabase.LoadAssetAtPath<Mesh>("Assets/FactorySource/" + res + "/" + res + "_PreviewMesh.asset"));
+                // multi-material bakes persist atlas-remapped clones (one per skinned renderer); single-material rigs have none (their UVs wrap fine)
+                LoadFitPreview(outPath, UniversalBaker.LoadPreviewSubstitutes(res));
                 status = withProp
                     ? "Fit preview rebuilt (" + outPath + ") — model + prop. NOT shipped; preview-only."
                     : "Model preview rebuilt (rest pose from the rig FBX). NOT shipped; preview-only.";
