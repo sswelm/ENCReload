@@ -21,6 +21,10 @@ run "editor scripts compile (Roslyn)" bash "$ROOT/Tools/editor_compile_check.sh"
 #    HumankindAssetFramework plugin checkout; the script self-reports MISSING and exits 2 if it can't find it).
 run "registry schema parity" bash "$ROOT/Tools/check_schema_parity.sh"
 
+# 3) hand-list gate — every field a window's UI edits must be on that window's ownership-rebase re-apply list,
+#    or Save silently resets it (the combatZ class, drill-caught 2026-08-19; audit made permanent here).
+run "hand-list gate (ownership rebases)" bash "$ROOT/Tools/check_handlists.sh"
+
 printf '\n========================================\n'
 if [ "$fail" -eq 0 ]; then printf 'CHECK: PASS — safe to push.\n'; else printf 'CHECK: FAIL — fix the [FAIL] step(s) above before pushing (or, only in a real emergency, git push --no-verify).\n'; fi
 exit "$fail"
