@@ -158,6 +158,7 @@ public class ModelFactoryWindow : EditorWindow
                                                      // for "only the periscope above the water"
     [SerializeField] bool previewRefMan;             // "Ref man" toggle (2026-08-19): a human-pawn-height figure beside
                                                      // the model — the size reference (see HumanRefHeight)
+    [SerializeField] Vector2 previewRefManPos = new Vector2(1.5f, 0f);   // his spot on the plane (X sideways, Z fore/aft) — user-dialed
     Mesh previewRefManMesh;
     bool bakedNotShipped;                            // SHIP STATUS inline flag (user request 2026-08-18): this entry's
                                                      // baked outputs are newer than the last mod build — the game still
@@ -328,7 +329,10 @@ public class ModelFactoryWindow : EditorWindow
     // plane. HumanRefHeight is a CALIBRATION CONSTANT in the waterLevel tradition: 0.9u is the starting
     // estimate — calibrate once by comparing the preview against an infantry pawn standing next to a known
     // unit in-game, then pin the measured value here (and note it in Factory-Manual).
-    internal const float HumanRefHeight = 0.9f;
+    internal const float HumanRefHeight = 1.1f;   // 0.9 first estimate read short (user); 1.1 = a 1.8m human at the
+                                                  // typical vehicle-bake scale (Bradley 6.5m @ size 4 → 0.615 u/m).
+                                                  // Still a to-be-pinned calibration: the TRUE reference is the game's
+                                                  // own infantry pawn height, measured once in-game.
     internal static Mesh BuildRefMan(string name)
     {
         var v = new List<Vector3>(); var t = new List<int>();
@@ -501,8 +505,16 @@ public class ModelFactoryWindow : EditorWindow
                 (cur != null && cur.animated && cur.position != Vector3.zero ? "  · Position offset shown LIVE (runtime-applied, no bake needed)" : "") +
                 keelInfo, EditorStyles.miniBoldLabel);
             if (previewGrounded)
+            {
                 previewRefMan = GUILayout.Toggle(previewRefMan, new GUIContent("Ref man",
                     $"Draw a human figure at in-game pawn height ({ModelFactoryWindow.HumanRefHeight:0.0}u) beside the model — the size reference. (Calibration constant; see the manual.)"), GUILayout.Width(66));
+                if (previewRefMan)
+                {
+                    // his spot, user-dialed (X sideways, Z fore/aft on the plane) — walk him around the model
+                    previewRefManPos.x = EditorGUILayout.FloatField(previewRefManPos.x, GUILayout.Width(38));
+                    previewRefManPos.y = EditorGUILayout.FloatField(previewRefManPos.y, GUILayout.Width(38));
+                }
+            }
             if (previewGrounded)
                 previewCombat = GUILayout.Toggle(previewCombat, new GUIContent("In combat",
                     "Preview the unit at its BATTLE-LOCKED height: the Combat height offset (Flight character section) applied on top of everything else — the position the unit eases to during a battle. Calibrate a submarine so only the periscope clears the waterline."), GUILayout.Width(78));
@@ -580,9 +592,8 @@ public class ModelFactoryWindow : EditorWindow
                 if (previewRefMan)
                 {
                     if (previewRefManMesh == null) previewRefManMesh = BuildRefMan("FactoryRefMan");
-                    // Clear of the model's flank (user: "put him to the side more"): at least 1.5u out, or 0.6u past the bounds
-                    float manX = Mathf.Max(1.5f, (previewDraws != null && previewDraws.Count > 0 ? previewBounds.max.x : 0f) + 0.6f);
-                    previewPRU.DrawMesh(previewRefManMesh, Matrix4x4.TRS(new Vector3(manX, PreviewPlaneY, 0f), Quaternion.identity, Vector3.one * HumanRefHeight), previewFallbackMat, 0);
+                    // at the USER-DIALED spot (header fields; default 1.5u right of origin)
+                    previewPRU.DrawMesh(previewRefManMesh, Matrix4x4.TRS(new Vector3(previewRefManPos.x, PreviewPlaneY, previewRefManPos.y), Quaternion.identity, Vector3.one * HumanRefHeight), previewFallbackMat, 0);
                 }
             }
             bool anyDead = false;

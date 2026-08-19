@@ -42,6 +42,7 @@ public class AnimationLabWindow : EditorWindow
     // so the square is the in-game ground truth there; the static-prefab fallback is display-flipped and would lie.
     [SerializeField] bool fitGrounded;
     [SerializeField] bool fitRefMan;   // "Ref man" size reference (2026-08-19) — shared builder/constant with the Factory
+    [SerializeField] Vector2 fitRefManPos = new Vector2(1.5f, 0f);   // his spot (X sideways, Z fore/aft) — user-dialed
     Mesh fitRefManMesh;
     Material fitGroundMat;
     Mesh fitGroundMesh;
@@ -253,9 +254,8 @@ public class AnimationLabWindow : EditorWindow
                 if (fitRefMan)
                 {
                     if (fitRefManMesh == null) fitRefManMesh = ModelFactoryWindow.BuildRefMan("AnimLabRefMan");
-                    // Clear of the model's flank (user request) — mirrors the Factory: at least 1.5u out, or 0.6u past the bounds
-                    float manX = Mathf.Max(1.5f, (fitDraws != null && fitDraws.Count > 0 ? fitBounds.max.x : 0f) + 0.6f);
-                    fitPRU.DrawMesh(fitRefManMesh, Matrix4x4.TRS(new Vector3(manX, -0.02f, 0f), Quaternion.identity, Vector3.one * ModelFactoryWindow.HumanRefHeight), fitFallbackMat, 0);
+                    // at the USER-DIALED spot (header fields) — mirrors the Factory
+                    fitPRU.DrawMesh(fitRefManMesh, Matrix4x4.TRS(new Vector3(fitRefManPos.x, -0.02f, fitRefManPos.y), Quaternion.identity, Vector3.one * ModelFactoryWindow.HumanRefHeight), fitFallbackMat, 0);
                 }
             }
             bool anyDead = false;
@@ -1107,8 +1107,15 @@ public class AnimationLabWindow : EditorWindow
                     + (cur != null && cur.position != Vector3.zero ? "  · Position offset shown LIVE (runtime-applied, no bake needed)" : ""),
                     EditorStyles.miniBoldLabel);
                 if (fitGrounded)
+                {
                     fitRefMan = GUILayout.Toggle(fitRefMan, new GUIContent("Ref man",
                         $"Draw a human figure at in-game pawn height ({ModelFactoryWindow.HumanRefHeight:0.0}u) beside the model — the size reference (shared with the Factory preview)."), GUILayout.Width(66));
+                    if (fitRefMan)
+                    {
+                        fitRefManPos.x = EditorGUILayout.FloatField(fitRefManPos.x, GUILayout.Width(38));
+                        fitRefManPos.y = EditorGUILayout.FloatField(fitRefManPos.y, GUILayout.Width(38));
+                    }
+                }
                 if (GUILayout.Button(new GUIContent("Center", "Re-center the view on the model (resets pan + zoom; keeps the orbit angle)"), GUILayout.Width(60)))
                 { fitPan = Vector2.zero; fitZoom = 1.4f; Repaint(); }
             }
