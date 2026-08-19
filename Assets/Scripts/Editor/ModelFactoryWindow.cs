@@ -346,6 +346,27 @@ public class ModelFactoryWindow : EditorWindow
         foreach (var i in new[] { 0,2,1, 1,2,3, 4,5,6, 5,7,6, 0,1,4, 1,5,4, 2,6,3, 3,6,7, 0,4,2, 2,4,6, 1,3,5, 3,7,5 })
             t.Add(b + i);
     }
+    static void AddSphere(List<Vector3> v, List<int> t, float cx, float cy, float cz, float r, int rings = 6, int segs = 10)
+    {
+        int b = v.Count;
+        for (int ri = 0; ri <= rings; ri++)
+        {
+            float phi = Mathf.PI * ri / rings;
+            for (int si = 0; si <= segs; si++)
+            {
+                float th = 2f * Mathf.PI * si / segs;
+                v.Add(new Vector3(cx + r * Mathf.Sin(phi) * Mathf.Cos(th), cy + r * Mathf.Cos(phi), cz + r * Mathf.Sin(phi) * Mathf.Sin(th)));
+            }
+        }
+        for (int ri = 0; ri < rings; ri++)
+            for (int si = 0; si < segs; si++)
+            {
+                int a = b + ri * (segs + 1) + si, c = a + segs + 1;
+                t.Add(a); t.Add(c); t.Add(a + 1);
+                t.Add(a + 1); t.Add(c); t.Add(c + 1);
+            }
+    }
+
     static Mesh FinishFlatDoubleSided(string name, List<Vector3> v, List<int> t)
     {
         var fv = new List<Vector3>(); var ft = new List<int>();
@@ -363,13 +384,18 @@ public class ModelFactoryWindow : EditorWindow
     internal static Mesh BuildRefMan(string name)
     {
         var v = new List<Vector3>(); var t = new List<int>();
-        // proportions of a 1.0-tall figure (scaled to HumanRefHeight at draw time)
-        AddBox(v, t, -0.06f, 0.225f, 0f, 0.09f, 0.45f, 0.11f);   // legs
-        AddBox(v, t,  0.06f, 0.225f, 0f, 0.09f, 0.45f, 0.11f);
-        AddBox(v, t, 0f, 0.62f, 0f, 0.30f, 0.34f, 0.14f);        // torso
-        AddBox(v, t, -0.21f, 0.60f, 0f, 0.08f, 0.30f, 0.10f);    // arms
-        AddBox(v, t,  0.21f, 0.60f, 0f, 0.08f, 0.30f, 0.10f);
-        AddBox(v, t, 0f, 0.92f, 0f, 0.16f, 0.16f, 0.16f);        // head
+        // Proportions of a 1.0-tall figure, scaled to HumanRefHeight at draw time. Classical figure ratios
+        // (2026-08-19 v2, user: "proportion the stickman better" — v1 read chunky beside the soldier): head
+        // ~1/7 of height, legs half the height with a visible gap, shoulders under a quarter of the width,
+        // arms hanging to mid-thigh, a small pelvis block joining legs to torso.
+        AddBox(v, t, -0.058f, 0.25f, 0f, 0.075f, 0.50f, 0.075f);   // legs (gap between them reads as two)
+        AddBox(v, t,  0.058f, 0.25f, 0f, 0.075f, 0.50f, 0.075f);
+        AddBox(v, t, 0f, 0.53f, 0f, 0.20f, 0.08f, 0.075f);         // pelvis
+        AddBox(v, t, 0f, 0.705f, 0f, 0.235f, 0.29f, 0.085f);       // torso (0.56–0.85); depths slimmed ("less thick")
+        AddBox(v, t, -0.153f, 0.64f, 0f, 0.055f, 0.40f, 0.06f);    // arms (shoulder to mid-thigh)
+        AddBox(v, t,  0.153f, 0.64f, 0f, 0.055f, 0.40f, 0.06f);
+        AddBox(v, t, 0f, 0.865f, 0f, 0.05f, 0.05f, 0.05f);         // neck
+        AddSphere(v, t, 0f, 0.925f, 0f, 0.072f);                   // head — a sphere (top ≈ 1.0)
         return FinishFlatDoubleSided(name, v, t);
     }
 
