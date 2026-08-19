@@ -377,7 +377,7 @@ public static class ModelRegistry
                 System.Threading.Thread.Sleep(250);
                 if (!File.Exists(SourcePath))
                 {
-                    lastLoadCorrupt = false;
+                    lastLoadCorrupt = false; corruptLogged = false;
                     // Project source gone (a fresh clone that predates the pack, or a hand-deletion) but a deployed
                     // artifact exists: ADOPT it — it's the only surviving copy of the data.
                     if (File.Exists(RegistryPath))
@@ -405,7 +405,7 @@ public static class ModelRegistry
             }
             var json = File.ReadAllText(SourcePath);
             var data = JsonUtility.FromJson<RegistryFile>(json);
-            lastLoadCorrupt = false;
+            lastLoadCorrupt = false; corruptLogged = false;
             UnitScales = data?.unitScales ?? new List<UnitScaleRule>();
             WaterLevel = data != null ? data.waterLevel : 0.16f;
             EraGrid = data?.eraGrid ?? new List<EraScaleRow>();
@@ -421,11 +421,18 @@ public static class ModelRegistry
             // JsonReaderException names the exact line and column of the missing comma/bracket.
             lastLoadCorrupt = true;
             LastCorruptDetail = Pinpoint(SourcePath) ?? e.Message;
-            string keep = SourcePath + ".corrupt-" + DateTime.Now.ToString("yyyyMMdd_HHmmss") + ".json";   // timestamped: a second corruption never overwrites the evidence of the first
-            try { File.Copy(SourcePath, keep, true); } catch { }
-            Debug.LogError($"[Factory] registry source '{SourcePath}' is unreadable — {LastCorruptDetail}. " +
-                           $"Preserved as '{Path.GetFileName(keep)}'. The Model Factory shows one-click recovery " +
-                           "(restore the last deploy, or the last git commit). Baking won't save until recovered, to avoid wiping your models.");
+            // LOG ONCE per corruption (drill finding 2026-08-19: every window polls Load(), so this line spammed
+            // the Console dozens of times for one broken file — the red banner is the persistent surface, the log
+            // is the event record). Reset when the corruption clears (successful load or recovery).
+            if (!corruptLogged)
+            {
+                corruptLogged = true;
+                string keep = SourcePath + ".corrupt-" + DateTime.Now.ToString("yyyyMMdd_HHmmss") + ".json";   // timestamped: a second corruption never overwrites the evidence of the first
+                try { File.Copy(SourcePath, keep, true); } catch { }
+                Debug.LogError($"[Factory] registry source '{SourcePath}' is unreadable — {LastCorruptDetail}. " +
+                               $"Preserved as '{Path.GetFileName(keep)}'. The Model Factory shows one-click recovery " +
+                               "(restore the last deploy, or the last git commit). Baking won't save until recovered, to avoid wiping your models.");
+            }
             return new List<ModelDef>();
         }
     }
@@ -433,6 +440,7 @@ public static class ModelRegistry
     // ---- CORRUPT-SOURCE RECOVERY (2026-08-19, user design: "not only a try/catch but recovery functionality") ----
     public static bool LastLoadCorrupt => lastLoadCorrupt;
     public static string LastCorruptDetail = "";
+    static bool corruptLogged;   // one Console error per corruption, not per Load() poll (drill finding)
 
     // Newtonsoft re-parse purely for DIAGNOSIS: its reader exception names the line/column JsonUtility hides.
     static string Pinpoint(string path)
@@ -455,7 +463,7 @@ public static class ModelRegistry
             var tmp = SourcePath + ".tmp";
             File.WriteAllText(tmp, candidateJson);
             if (File.Exists(SourcePath)) File.Replace(tmp, SourcePath, null); else File.Move(tmp, SourcePath);
-            lastLoadCorrupt = false; LastCorruptDetail = "";
+            lastLoadCorrupt = false; LastCorruptDetail = ""; corruptLogged = false;
             AssetDatabase.Refresh();
             return $"Recovered {r.models.Count} model(s) from {label}. The corrupt copy is preserved beside the source for hand-merging.";
         }
