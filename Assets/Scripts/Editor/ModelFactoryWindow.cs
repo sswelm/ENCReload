@@ -466,7 +466,7 @@ public class ModelFactoryWindow : EditorWindow
             {
                 // Consume the wheel HERE so the window's outer scroll view never sees it — THIS is the zoom. (The
                 // built-in GameObject preview had no zoom at all, and the scroll view ate the wheel — the old bug.)
-                previewZoom = Mathf.Clamp(previewZoom * Mathf.Pow(1.12f, e.delta.y > 0 ? 1f : -1f), 0.05f, 5f);   // min 0.05 (was 0.1): 2× closer zoom-in, user request — near clip 0.01 still clears it
+                previewZoom = Mathf.Clamp(previewZoom * Mathf.Pow(1.12f, e.delta.y > 0 ? 1f : -1f), 0.02f, 5f);   // min 0.02 (0.1 → 0.05 → 0.02, user-requested closer inspection zoom) — near clip 0.01 still clears it on normal-size models
                 e.Use(); Repaint();
             }
             else if (e.type == EventType.MouseDrag && e.button == 0)
