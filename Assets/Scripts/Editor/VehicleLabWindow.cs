@@ -388,13 +388,16 @@ public class VehicleLabWindow : EditorWindow
                 degrees = EditorGUILayout.Slider(new GUIContent("Spin degrees", "Wheel rotation over the clip (one full turn = 360). Which SIGN rolls forward depends on the model's nose direction — check the preview and negate if the wheels roll backward. For a +X-facing model (like the Ehrhardt), +360 is forward."), degrees, -720f, 720f);
                 if (list.Any(x => x.role == Role.Caterpillar))
                 {
-                    treadAdvCells = EditorGUILayout.IntSlider(new GUIContent("Tread speed (cells/loop)", "Belt advance per Spin loop, in cells (cell size set by Tread detail below). At detail 4: 4 cells = one full link — the belt matches the big wrap wheels exactly; 3 = slightly slower. Restarts stay invisible at any value (the pattern maps onto the cleat sub-grid)."), treadAdvCells, 1, 8);
+                    // The isolation switch FIRST, gating the dials it makes moot (user design 2026-08-19: "the
+                    // checkbox should be moved before tread speed and should enable the tread speed controls").
+                    tracksStatic = EditorGUILayout.Toggle(new GUIContent("Static tracks (no movement)", "ISOLATION SWITCH: rig the tread loops rigid to the hull — no link bones, no conveyor animation. Wheels still spin; the track geometry stays but doesn't run. For debugging (or a cheap LOD-style rig). Untick to enable the tread dials below."), tracksStatic);
+                    using (new EditorGUI.DisabledScope(tracksStatic))
                     {
+                        treadAdvCells = EditorGUILayout.IntSlider(new GUIContent("Tread speed (cells/loop)", "Belt advance per Spin loop, in cells (cell size set by Tread detail below). At detail 4: 4 cells = one full link — the belt matches the big wrap wheels exactly; 3 = slightly slower. Restarts stay invisible at any value (the pattern maps onto the cleat sub-grid)."), treadAdvCells, 1, 8);
                         int di = System.Array.IndexOf(TreadDetailValues, treadCellsPerLink); if (di < 0) di = 0;
                         di = EditorGUILayout.Popup(new GUIContent("Tread detail (cells/link)", "THE BONES DIAL: how many rigid tread pieces per molded track link. Above 1 splits links (smoother wheel wraps, more bones); below 1 MERGES links (one bone carries 2 or 4 links — the escape hatch for finely-molded tracks like the Bradley's 0.186 pitch, where even one-per-link is 75 bones a side). Tread speed is in these cells; the pattern still maps at every restart."), di, TreadDetailLabels);
                         treadCellsPerLink = TreadDetailValues[di];
                     }
-                    tracksStatic = EditorGUILayout.Toggle(new GUIContent("Static tracks (no movement)", "ISOLATION SWITCH: rig the tread loops rigid to the hull — no link bones, no conveyor animation. Wheels still spin; the track geometry stays but doesn't run. For debugging (or a cheap LOD-style rig)."), tracksStatic);
                     // road-wheel/roller and rear-idler speeds are AUTOMATIC: rims match the belt's advance
                     // (belt-continuity), each snapped to its own spoke-symmetry grid for pop-free loop restarts
                     // (both proven manually via dials first, then automated at the user's request)
