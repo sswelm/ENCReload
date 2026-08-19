@@ -346,7 +346,7 @@ public class ModelFactoryWindow : EditorWindow
         foreach (var i in new[] { 0,2,1, 1,2,3, 4,5,6, 5,7,6, 0,1,4, 1,5,4, 2,6,3, 3,6,7, 0,4,2, 2,4,6, 1,3,5, 3,7,5 })
             t.Add(b + i);
     }
-    static void AddSphere(List<Vector3> v, List<int> t, float cx, float cy, float cz, float r, int rings = 6, int segs = 10)
+    static void AddSphere(List<Vector3> v, List<int> t, float cx, float cy, float cz, float r, int rings = 14, int segs = 20)   // fine enough that FLAT shading still reads round ("very square" at 6×10)
     {
         int b = v.Count;
         for (int ri = 0; ri <= rings; ri++)
