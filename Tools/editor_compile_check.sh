@@ -12,12 +12,21 @@
 #     NOTE: the NetStandard/ref/2.1.0/netstandard.dll does NOT work with -nostdlib+, it collides with
 #     mscorlib and yields ~2200 "predefined type not defined" errors. Use the mono FACADE.)
 #
-# Regenerate the .rsp if scripts are added: see the generator in git history, or add the file by hand.
+# SOURCES ARE DISCOVERED AT RUN TIME (2026-08-19): the .rsp used to hand-list every source file, and the list
+# had silently drifted — GameSoundLabWindow.cs, HafCli.cs and SoundOverrideRegistry.cs were NEVER compile-checked
+# by this gate (found via the logging audit). The .rsp now holds only references/options; every
+# Assets/Scripts/Editor/*.cs is appended fresh on each run, so a new file can never be forgotten again.
 set -u
 UNITY="${UNITY:-/c/Program Files/Unity 2021.3.1f1/Editor/Data}"
 RSP="$(dirname "$0")/editor_compile_check.rsp"
 [ -f "$RSP" ] || { echo "MISSING: $RSP"; exit 2; }
-OUT=$(dotnet "$UNITY/DotNetSdkRoslyn/csc.dll" "@$RSP" 2>&1)
+ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+WROOT="$(cygpath -m "$ROOT" 2>/dev/null || echo "$ROOT")"
+FULL="$(mktemp)"
+cat "$RSP" > "$FULL"
+for f in "$ROOT"/Assets/Scripts/Editor/*.cs; do printf '"%s/Assets/Scripts/Editor/%s"\n' "$WROOT" "$(basename "$f")" >> "$FULL"; done
+OUT=$(dotnet "$UNITY/DotNetSdkRoslyn/csc.dll" "@$FULL" 2>&1)
+rm -f "$FULL"
 echo "$OUT" | grep -E "error" | head -30
 n=$(echo "$OUT" | grep -c "error")
 [ "$n" -eq 0 ] && echo "PASS — editor scripts compile ($RSP)" || echo "FAIL — $n error line(s)"

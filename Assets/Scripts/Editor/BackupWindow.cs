@@ -70,8 +70,17 @@ public class BackupWindow : EditorWindow
         {
             var cfgSrcs = new List<string>();
             cfgSrcs.AddRange(Directory.GetFiles(cfg, "haf_*.json"));
-            foreach (var sub in new[] { "haf_packs", "haf_skins", "haf_sounds" }) { var p = Path.Combine(cfg, sub); if (Directory.Exists(p)) cfgSrcs.Add(p); }
-            Add("Runtime config (registry packs + skins + sounds)", "config", cfgSrcs);
+            // 2026-08-19 (user: "are the logs actually backed up?"): the *.json pattern silently missed the
+            // HAND-TUNED runtime files — the hug/turn/battle/rotor tuning .txt files, the plugin .cfg (buffer
+            // overrides, F8 prefs) and the ground-tex/state folders. Not regenerable, not in git — the 08-17
+            // registry-gap lesson one directory over. The haf_*.txt glob also sweeps in the REGENERATED reports;
+            // harmless KBs, and a backup gains a historical snapshot of them for free. LOGS proper (Editor.log,
+            // LogOutput.log) stay out by design: regenerated evidence, not configuration.
+            cfgSrcs.AddRange(Directory.GetFiles(cfg, "haf_*.txt"));
+            var pluginCfg = Path.Combine(cfg, "community.humankind.haf.cfg");
+            if (File.Exists(pluginCfg)) cfgSrcs.Add(pluginCfg);
+            foreach (var sub in new[] { "haf_packs", "haf_skins", "haf_sounds", "haf_ground_tex", "haf_state" }) { var p = Path.Combine(cfg, sub); if (Directory.Exists(p)) cfgSrcs.Add(p); }
+            Add("Runtime config (packs + skins + sounds + tuning + plugin cfg)", "config", cfgSrcs);
         }
         return g;
     }
