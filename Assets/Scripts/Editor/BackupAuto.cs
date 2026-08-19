@@ -82,7 +82,39 @@ static class HafAutoBackup
     internal const string PrefLast = "HAF.Backup.AutoLastTicks";
     internal const int Keep = 3;   // newest N _auto_ versions retained; older ones rotate out (logged)
 
-    static HafAutoBackup() { EditorApplication.delayCall += MaybeRun; }
+    static HafAutoBackup() { EditorApplication.delayCall += RecoverOffsitePartials; EditorApplication.delayCall += MaybeRun; }   // recovery FIRST: stale partials are gone before any new zip starts
+
+    // OFFSITE PARTIAL RECOVERY (2026-08-19, backup-verify drill finding): a DOMAIN RELOAD — any recompile —
+    // kills the background zip thread mid-write, leaving '<zip>.partial' and NO final zip, silently: the atomic
+    // design protected against a corrupt zip, but nothing retried, so a backup could quietly lack its offsite
+    // copy (the 21:01 daily auto's zip died exactly this way while the editor recompiled). On every reload:
+    // delete stale partials, and re-zip any backup folder that still exists without its final zip. After a
+    // reload NO zip can still be running (its thread died with the domain), so this never races a live writer.
+    static void RecoverOffsitePartials()
+    {
+        try
+        {
+            string off = EditorPrefs.GetString("HAF.Backup.OffsiteDest", "");
+            string dest = EditorPrefs.GetString("HAF.Backup.Dest", "D:/HAF_Backups");
+            if (string.IsNullOrEmpty(off) || !Directory.Exists(off)) return;
+            foreach (var p in Directory.GetFiles(off, "HAF_*.zip.partial"))
+            {
+                string zipName = Path.GetFileName(p);
+                zipName = zipName.Substring(0, zipName.Length - ".partial".Length);          // HAF_<backup>.zip
+                string backupName = zipName.Substring(4, zipName.Length - 4 - 4);            // <backup>
+                try { File.Delete(p); } catch (Exception e) { Debug.LogWarning("[HAF Backup] offsite: could not delete stale partial '" + Path.GetFileName(p) + "': " + e.Message); continue; }
+                string dir = Path.Combine(dest, backupName);
+                if (Directory.Exists(dir) && !File.Exists(Path.Combine(off, zipName)))
+                {
+                    Debug.Log($"[HAF Backup] offsite: interrupted zip found for '{backupName}' (a recompile killed the background thread) — re-zipping.");
+                    System.Threading.Tasks.Task.Run(() => Debug.Log("[HAF Backup] offsite retry: " + BackupWindow.OffsiteZipCore(dir, off)));
+                }
+                else
+                    Debug.Log($"[HAF Backup] offsite: removed stale partial '{zipName}.partial' (backup folder gone or final zip already present).");
+            }
+        }
+        catch (Exception e) { Debug.LogWarning("[HAF Backup] offsite partial recovery: " + e.Message); }
+    }
 
     static void MaybeRun()
     {
