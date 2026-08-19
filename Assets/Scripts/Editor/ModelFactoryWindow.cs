@@ -733,7 +733,8 @@ public class ModelFactoryWindow : EditorWindow
                     // Prefill "Fix 100x oversize" from the model's TRUE size (only on an explicit new pick, so a loaded
                     // entry keeps its saved value). Best-effort guess the user can override — see SuggestUnitFix.
                     float sz; bool guess = SuggestUnitFix(p, out sz);
-                    if (sz > 0f) { cur.animUnitFix = guess; status = $"Auto-set 'Fix 100× oversize' = {(guess ? "ON" : "off")} (model true size ≈ {sz:0.###}u). Override if the bake comes out wrong."; }
+                    if (sz > 0f) { cur.animUnitFix = guess; status = $"Auto-set 'Fix 100× oversize' = {(guess ? "ON" : "off")} (model true size ≈ {sz:0.###}u). Override if the bake comes out wrong. " +
+                        "(Carried by the next Bake; 'Save settings' alone won't keep it — it's an animation-owned field the save rebases from the registry.)"; }   // 2026-08-19 audit: honest about the ownership rebase
                 }
             }
         }
@@ -1801,6 +1802,10 @@ public class ModelFactoryWindow : EditorWindow
         cur.clipCombat = new int[4]; cur.clipPreMove = new int[4]; cur.clipIdle = new int[4]; cur.clipIdleAlt = new int[4]; cur.clipIdleAlt2 = new int[4];
         cur.idleAltInterval = 0; cur.attackRepeats = 0; cur.clearAimLayer = false;
         cur.turretBone = ""; cur.turretAxis = -1; cur.muzzleBone = ""; cur.muzzleOffset = ""; cur.socketBones = "";
+        // 2026-08-19 hand-list audit: these three survived Make static — gunElev is applied at RUNTIME to every
+        // non-donor entry, so a leftover gunElevMax kept elevating a made-static gun (the exact "cursed leftover"
+        // class this function was built to kill). animPhaseSpread is dormant on statics; reset for hygiene.
+        cur.gunElevMax = 0f; cur.gunElevAxis = 0; cur.animPhaseSpread = 0.5f;
         cur.handPropName = ""; cur.handPropGuid = ""; cur.handPropMat = ""; cur.handPropBone = ""; cur.handPropAngles = "";
         cur.fireOnAttack = false; cur.deployOnStop = false;
         cur.deployPoseTime = 0f; cur.deploySpeed = 0f; cur.recoilSpeed = 0f;
@@ -1844,7 +1849,11 @@ public class ModelFactoryWindow : EditorWindow
         selected = System.Array.IndexOf(existing, cur.resourceName); if (selected < 0) selected = 0;
         status = (saved
             ? $"Saved '{cur.resourceName}' (registry only, baked assets untouched). Relaunch the game — runtime fields " +
-              "(Hide donor meshes, Freeze/Silence, Position offset, Size) apply on load; bake-time fields still need a Bake." +
+              // 2026-08-19 label-lies audit: this line claimed Position offset/Size "apply on load" unconditionally —
+              // for STATIC entries both are baked into the mesh and silently need a Bake (the submarine-waterline trap).
+              (cur.animated
+                ? "(Hide donor meshes, Freeze/Silence, Position offset, Combat height) apply on load; bake-time fields still need a Bake."
+                : "(Hide donor meshes, Freeze/Silence, Combat height, Turn ease/Hug) apply on load; Position offset and Size are BAKED on a static entry — they need a Bake to change.") +
               (modelFileChanged ? "  NOTE: the Model file differs from what was last baked — the assets on disk are still the old bake." : "")
             : "REGISTRY SAVE FAILED (see Console). Close whatever's locking the registry and retry.") + renameNote;
         Debug.Log("[Factory] " + status);
