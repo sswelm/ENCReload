@@ -395,7 +395,7 @@ public class ModelFactoryWindow : EditorWindow
         AddBox(v, t, -0.153f, 0.64f, 0f, 0.055f, 0.40f, 0.06f);    // arms (shoulder to mid-thigh)
         AddBox(v, t,  0.153f, 0.64f, 0f, 0.055f, 0.40f, 0.06f);
         AddBox(v, t, 0f, 0.87f, 0f, 0.05f, 0.06f, 0.05f);          // neck
-        AddSphere(v, t, 0f, 0.94f, 0f, 0.055f);                    // head — sphere at real head WIDTH (~0.11 of stature; a 1/7-of-height sphere read too big), top ≈ 1.0
+        AddSphere(v, t, 0f, 0.932f, 0f, 0.063f);                   // head — user-calibrated bisection: 0.072 too big, 0.055 too small, 0.063 lands it; top ≈ 1.0
         return FinishFlatDoubleSided(name, v, t);
     }
 
