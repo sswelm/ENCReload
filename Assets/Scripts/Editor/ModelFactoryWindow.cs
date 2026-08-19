@@ -1767,6 +1767,11 @@ public class ModelFactoryWindow : EditorWindow
         cur.useDonorClip = form.useDonorClip;
         cur.turnRate = form.turnRate; cur.turnBank = form.turnBank;
         cur.hugDrop = form.hugDrop; cur.hugLookahead = form.hugLookahead;
+        cur.combatZ = form.combatZ;
+        // MAINTENANCE TRAP (2026-08-19, drill-caught the day combatZ landed): every NEW field edited in the
+        // Factory MUST be added to this Factory-owned list — a field missing here is silently RESET to the
+        // registry value on every Save ("I tried to save but the offset reset to 0"). The schema-parity gate
+        // does NOT check this list. When adding a Factory field: schema, regex fallback, UI, and THIS list.
         cur.animated = regE.animated || form.animated;   // one-way OR: a prior animated bake wins; a static Factory re-bake must not silently un-animate the entry
     }
 
