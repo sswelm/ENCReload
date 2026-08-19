@@ -156,6 +156,9 @@ public class ModelFactoryWindow : EditorWindow
     [SerializeField] bool previewCombat;             // "In combat" preview toggle (2026-08-19): draw the model at its
                                                      // battle-locked height (combatZ applied) — the calibration view
                                                      // for "only the periscope above the water"
+    [SerializeField] bool previewRefMan;             // "Ref man" toggle (2026-08-19): a human-pawn-height figure beside
+                                                     // the model — the size reference (see HumanRefHeight)
+    Mesh previewRefManMesh;
     bool bakedNotShipped;                            // SHIP STATUS inline flag (user request 2026-08-18): this entry's
                                                      // baked outputs are newer than the last mod build — the game still
                                                      // loads the previous assets. Recomputed at the same trigger points
@@ -319,6 +322,35 @@ public class ModelFactoryWindow : EditorWindow
     // crosses an edge like a unit leaving its tile); DISTRICTS use 0 (a CORNER faces +Z — the in-game district cell
     // presents a corner toward the model's forward, user-measured on the reactor). Factory / Anim Lab / District panes.
     internal const float TileInradius = 3.465f, TileCornerRadius = 4.001f;
+
+    // REFERENCE MAN (2026-08-19, user: "a default humankind man as a reference point would really help assess
+    // size"). A stylized low-poly figure at in-game human pawn height, drawn beside the model on the reference
+    // plane. HumanRefHeight is a CALIBRATION CONSTANT in the waterLevel tradition: 0.9u is the starting
+    // estimate — calibrate once by comparing the preview against an infantry pawn standing next to a known
+    // unit in-game, then pin the measured value here (and note it in Factory-Manual).
+    internal const float HumanRefHeight = 0.9f;
+    internal static Mesh BuildRefMan(string name)
+    {
+        var v = new List<Vector3>(); var t = new List<int>();
+        void Box(float cx, float cy, float cz, float sx, float sy, float sz)
+        {
+            int b = v.Count;
+            for (int i = 0; i < 8; i++)
+                v.Add(new Vector3(cx + ((i & 1) == 0 ? -sx : sx) / 2f, cy + ((i & 2) == 0 ? -sy : sy) / 2f, cz + ((i & 4) == 0 ? -sz : sz) / 2f));
+            foreach (var i in new[] { 0,2,1, 1,2,3, 4,5,6, 5,7,6, 0,1,4, 1,5,4, 2,6,3, 3,6,7, 0,4,2, 2,4,6, 1,3,5, 3,7,5 })
+                t.Add(b + i);
+        }
+        // proportions of a 1.0-tall figure (scaled to HumanRefHeight at draw time)
+        Box(-0.06f, 0.225f, 0f, 0.09f, 0.45f, 0.11f);   // legs
+        Box( 0.06f, 0.225f, 0f, 0.09f, 0.45f, 0.11f);
+        Box(0f, 0.62f, 0f, 0.30f, 0.34f, 0.14f);        // torso
+        Box(-0.21f, 0.60f, 0f, 0.08f, 0.30f, 0.10f);    // arms
+        Box( 0.21f, 0.60f, 0f, 0.08f, 0.30f, 0.10f);
+        Box(0f, 0.92f, 0f, 0.16f, 0.16f, 0.16f);        // head
+        var m = new Mesh { name = name, hideFlags = HideFlags.HideAndDontSave };
+        m.SetVertices(v); m.SetTriangles(t, 0); m.RecalculateNormals(); m.RecalculateBounds();
+        return m;
+    }
     internal static Mesh BuildTileHex(string name, float cornerBaseDeg = 30f)
     {
         var m = new Mesh { name = name, hideFlags = HideFlags.HideAndDontSave };
@@ -458,6 +490,9 @@ public class ModelFactoryWindow : EditorWindow
                 (cur != null && cur.animated && cur.position != Vector3.zero ? "  · Position offset shown LIVE (runtime-applied, no bake needed)" : "") +
                 keelInfo, EditorStyles.miniBoldLabel);
             if (previewGrounded)
+                previewRefMan = GUILayout.Toggle(previewRefMan, new GUIContent("Ref man",
+                    $"Draw a human figure at in-game pawn height ({ModelFactoryWindow.HumanRefHeight:0.0}u) beside the model — the size reference. (Calibration constant; see the manual.)"), GUILayout.Width(66));
+            if (previewGrounded)
                 previewCombat = GUILayout.Toggle(previewCombat, new GUIContent("In combat",
                     "Preview the unit at its BATTLE-LOCKED height: the Combat height offset (Flight character section) applied on top of everything else — the position the unit eases to during a battle. Calibrate a submarine so only the periscope clears the waterline."), GUILayout.Width(78));
             if (previewWater)
@@ -531,6 +566,12 @@ public class ModelFactoryWindow : EditorWindow
                 previewPRU.DrawMesh(previewGroundMesh, Matrix4x4.Translate(new Vector3(0f, PreviewPlaneY, 0f)), previewGroundMat, 0);
                 if (previewArrowMesh == null) previewArrowMesh = BuildForwardArrow("FactoryForwardArrow");
                 previewPRU.DrawMesh(previewArrowMesh, Matrix4x4.Translate(new Vector3(0f, PreviewPlaneY + 0.01f, 0f)), previewFallbackMat, 0);
+                if (previewRefMan)
+                {
+                    if (previewRefManMesh == null) previewRefManMesh = BuildRefMan("FactoryRefMan");
+                    float bx = previewDraws != null && previewDraws.Count > 0 ? previewBounds.max.x + 0.35f : 0.8f;   // just beside the model
+                    previewPRU.DrawMesh(previewRefManMesh, Matrix4x4.TRS(new Vector3(bx, PreviewPlaneY, 0f), Quaternion.identity, Vector3.one * HumanRefHeight), previewFallbackMat, 0);
+                }
             }
             bool anyDead = false;
             // LIVE runtime Position offset (animated entries only — the plugin adds the registry `position` to the

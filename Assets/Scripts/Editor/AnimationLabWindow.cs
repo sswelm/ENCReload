@@ -41,6 +41,8 @@ public class AnimationLabWindow : EditorWindow
     // Drawn only for the FBX rest-pose route (fitGrounded) — the rig is rest-normalized with the ground at the origin,
     // so the square is the in-game ground truth there; the static-prefab fallback is display-flipped and would lie.
     [SerializeField] bool fitGrounded;
+    [SerializeField] bool fitRefMan;   // "Ref man" size reference (2026-08-19) — shared builder/constant with the Factory
+    Mesh fitRefManMesh;
     Material fitGroundMat;
     Mesh fitGroundMesh;
     Mesh fitArrowMesh;   // flat FORWARD (+Z) arrow on the square — the direction to dial the model toward
@@ -247,6 +249,13 @@ public class AnimationLabWindow : EditorWindow
                 fitPRU.DrawMesh(fitGroundMesh, Matrix4x4.Translate(new Vector3(0f, -0.02f, 0f)), fitGroundMat, 0);
                 if (fitArrowMesh == null) fitArrowMesh = ModelFactoryWindow.BuildForwardArrow("AnimLabForwardArrow");
                 fitPRU.DrawMesh(fitArrowMesh, Matrix4x4.Translate(new Vector3(0f, -0.01f, 0f)), fitFallbackMat, 0);
+                // REFERENCE MAN (2026-08-19) — shared with the Factory (one mesh builder, one height constant)
+                if (fitRefMan)
+                {
+                    if (fitRefManMesh == null) fitRefManMesh = ModelFactoryWindow.BuildRefMan("AnimLabRefMan");
+                    float bx = fitDraws != null && fitDraws.Count > 0 ? fitBounds.max.x + 0.35f : 0.8f;
+                    fitPRU.DrawMesh(fitRefManMesh, Matrix4x4.TRS(new Vector3(bx, -0.02f, 0f), Quaternion.identity, Vector3.one * ModelFactoryWindow.HumanRefHeight), fitFallbackMat, 0);
+                }
             }
             bool anyDead = false;
             // LIVE runtime Position offset (the plugin adds the registry `position` to the pawn every frame; Lab
@@ -1096,6 +1105,9 @@ public class AnimationLabWindow : EditorWindow
                     + (fitGrounded ? " · arrow = forward)" : ")")
                     + (cur != null && cur.position != Vector3.zero ? "  · Position offset shown LIVE (runtime-applied, no bake needed)" : ""),
                     EditorStyles.miniBoldLabel);
+                if (fitGrounded)
+                    fitRefMan = GUILayout.Toggle(fitRefMan, new GUIContent("Ref man",
+                        $"Draw a human figure at in-game pawn height ({ModelFactoryWindow.HumanRefHeight:0.0}u) beside the model — the size reference (shared with the Factory preview)."), GUILayout.Width(66));
                 if (GUILayout.Button(new GUIContent("Center", "Re-center the view on the model (resets pan + zoom; keeps the orbit angle)"), GUILayout.Width(60)))
                 { fitPan = Vector2.zero; fitZoom = 1.4f; Repaint(); }
             }
