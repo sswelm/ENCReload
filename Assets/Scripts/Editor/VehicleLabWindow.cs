@@ -861,7 +861,10 @@ public class VehicleLabWindow : EditorWindow
     {
         string projRoot = Directory.GetParent(Application.dataPath).FullName;
         Directory.CreateDirectory(Path.Combine(projRoot, RecipesDir));
-        string def = Path.GetFileNameWithoutExtension(string.IsNullOrEmpty(srcFile) ? "vehicle" : srcFile);
+        // Default to the CURRENT recipe's name, not the source model's (2026-08-19 user find: saved as prod3,
+        // the next Save suggested prod2 again — the srcFile-derived default silently reverted the name).
+        string def = !string.IsNullOrEmpty(loadedRecipe) ? loadedRecipe
+                   : Path.GetFileNameWithoutExtension(string.IsNullOrEmpty(srcFile) ? "vehicle" : srcFile);
         string p = EditorUtility.SaveFilePanel("Save vehicleize recipe", Path.Combine(projRoot, RecipesDir), def, "json");
         if (string.IsNullOrEmpty(p)) return;
         var r = new Recipe
