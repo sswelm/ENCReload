@@ -1032,6 +1032,11 @@ public class ModelFactoryWindow : EditorWindow
                 "How far AHEAD of the model the district probe sits, so it starts climbing BEFORE it reaches the " +
                 "buildings — like a pilot — instead of reacting once it's inside them. 0 = purely reactive."),
                 cur.hugLookahead, 0f, 8f);
+        cur.combatZ = EditorGUILayout.Slider(new GUIContent("Combat height offset (units)",
+            "Raise or LOWER the unit while its army is locked in battle (deployment → resolution), eased ~2s both " +
+            "ways. Negative submerges — a submarine at around -0.5 fights submerged and resurfaces afterwards; " +
+            "positive lifts (a drone climbing to combat altitude). 0 = off. Works for static and animated models. " +
+            "Runtime-only — no re-bake (but relaunch to apply)."), cur.combatZ, -3f, 3f);
 
         EditorGUILayout.Space();
         EditorGUILayout.LabelField("Texture / import", EditorStyles.miniBoldLabel);
