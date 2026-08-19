@@ -375,8 +375,20 @@ public class VehicleLabWindow : EditorWindow
             // summarises its state while collapsed, so nothing is hidden — only folded away.
             int wheelCount = list.Count(x => IsSpinner(x.role));
             if (Section(ref foldSpin, "Spin — wheels & tracks",
-                    wheelCount > 0 ? $"{wheelCount} spinning part(s) · {degrees:0}° / {frames} frames" : "no wheels/rotors marked"))
+                    wheelCount > 0 ? $"{wheelCount} spinning part(s) · {degrees:0}° / {frames} frames" : "no wheels/rotors marked — inert"))
             {
+                // SPIN GATING (2026-08-19, user: "really confusing that this is also present [on a boat] — we
+                // should be able to disable it"): with NO wheel/rotor/turret marked, spin is inert by definition,
+                // so the dials gray out instead of inviting tuning that does nothing. The ONE honest exception is
+                // named below: Spin frames still FLOORS the generated clip length (vehicle_rig: frame_end =
+                // max(spin frames, rock frames)), so a wave-only model with a rock cycle SHORTER than Spin frames
+                // would still be affected — the note says so instead of hiding it.
+                bool spinInert = wheelCount == 0;
+                if (spinInert)
+                    EditorGUILayout.HelpBox("No wheel/rotor/turret parts are marked — spin does nothing on this model. " +
+                        "(Only 'Spin frames' can still matter: it floors the generated clip length, e.g. for a wave-rock cycle shorter than it.)", MessageType.None);
+                using (new EditorGUI.DisabledScope(spinInert))
+                {
                 axisChoice = EditorGUILayout.Popup(new GUIContent("Axle axis", "Auto infers each wheel's axle as its thinnest bbox extent — right for normal wheels; override only if a wheel spins the wrong way around."), axisChoice, AxisOptions);
                 if (list.Any(x => x.role == Role.TailRotor))
                 {
@@ -402,6 +414,7 @@ public class VehicleLabWindow : EditorWindow
                     // (belt-continuity), each snapped to its own spoke-symmetry grid for pop-free loop restarts
                     // (both proven manually via dials first, then automated at the user's request)
                 }
+                }   // end spin-inert DisabledScope
             }
 
             // WAVE ROCK — a FLOATING unit's idle sway. Independent of wheels: a boat marks nothing but Ignore
