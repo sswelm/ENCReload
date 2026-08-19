@@ -416,15 +416,79 @@ public static class ModelRegistry
         catch (Exception e)
         {
             // The source exists but won't parse (a hand-edit typo, a half-written file). Preserve it and flag
-            // it so Save() won't clobber it and lose everything.
+            // it so Save() won't clobber it and lose everything. PINPOINT the fault (2026-08-19, user request):
+            // JsonUtility's exceptions carry no location — re-parse with Newtonsoft purely for diagnosis, whose
+            // JsonReaderException names the exact line and column of the missing comma/bracket.
             lastLoadCorrupt = true;
-            try { File.Copy(SourcePath, SourcePath + ".corrupt.json", true); } catch { }
-            Debug.LogError($"[Factory] registry source '{SourcePath}' is unreadable ({e.Message}) — backed up to " +
-                           $"'{Path.GetFileName(SourcePath)}.corrupt.json'. Fix or delete it (then press Refresh); " +
-                           $"git history has every committed version, and the deployed artifact at '{RegistryPath}' still holds the last good deploy. " +
-                           "Baking won't save until then, to avoid wiping your models.");
+            LastCorruptDetail = Pinpoint(SourcePath) ?? e.Message;
+            string keep = SourcePath + ".corrupt-" + DateTime.Now.ToString("yyyyMMdd_HHmmss") + ".json";   // timestamped: a second corruption never overwrites the evidence of the first
+            try { File.Copy(SourcePath, keep, true); } catch { }
+            Debug.LogError($"[Factory] registry source '{SourcePath}' is unreadable — {LastCorruptDetail}. " +
+                           $"Preserved as '{Path.GetFileName(keep)}'. The Model Factory shows one-click recovery " +
+                           "(restore the last deploy, or the last git commit). Baking won't save until recovered, to avoid wiping your models.");
             return new List<ModelDef>();
         }
+    }
+
+    // ---- CORRUPT-SOURCE RECOVERY (2026-08-19, user design: "not only a try/catch but recovery functionality") ----
+    public static bool LastLoadCorrupt => lastLoadCorrupt;
+    public static string LastCorruptDetail = "";
+
+    // Newtonsoft re-parse purely for DIAGNOSIS: its reader exception names the line/column JsonUtility hides.
+    static string Pinpoint(string path)
+    {
+        try { Newtonsoft.Json.Linq.JObject.Parse(File.ReadAllText(path)); return "JsonUtility rejected it but Newtonsoft parses it (structure beyond JsonUtility's subset?)"; }
+        catch (Newtonsoft.Json.JsonReaderException jre) { return $"line {jre.LineNumber}, position {jre.LinePosition}: {jre.Message}"; }
+        catch (Exception ex) { return ex.Message; }
+    }
+
+    // Both recovery paths share the same safety contract: the candidate is VALIDATED (must parse and hold >=1
+    // model) BEFORE it overwrites the source; the corrupt file is already preserved timestamped; success clears
+    // the Save lock. Returns a status line for the banner/Console.
+    static string RecoverSourceFrom(string candidateJson, string label)
+    {
+        try
+        {
+            var r = JsonUtility.FromJson<RegistryFile>(candidateJson);
+            if (r?.models == null || r.models.Count == 0) return $"⚠ recovery from {label} REFUSED: candidate holds no models (nothing was overwritten).";
+            Directory.CreateDirectory(PackRepoDir);
+            var tmp = SourcePath + ".tmp";
+            File.WriteAllText(tmp, candidateJson);
+            if (File.Exists(SourcePath)) File.Replace(tmp, SourcePath, null); else File.Move(tmp, SourcePath);
+            lastLoadCorrupt = false; LastCorruptDetail = "";
+            AssetDatabase.Refresh();
+            return $"Recovered {r.models.Count} model(s) from {label}. The corrupt copy is preserved beside the source for hand-merging.";
+        }
+        catch (Exception e) { return $"⚠ recovery from {label} FAILED: {e.Message} (source untouched)."; }
+    }
+
+    // The LAST GOOD DEPLOY — usually the freshest valid copy (every Save refreshed it), and needs no git.
+    public static string RecoverFromArtifact()
+    {
+        if (!File.Exists(RegistryPath)) return "⚠ no deployed artifact exists to recover from.";
+        try { return RecoverSourceFrom(File.ReadAllText(RegistryPath), "the deployed artifact (last good deploy)"); }
+        catch (Exception e) { return "⚠ could not read the deployed artifact: " + e.Message; }
+    }
+
+    // The last COMMITTED version via git (the source is git-tracked — that was the point of the collapse).
+    public static string RecoverFromGit()
+    {
+        try
+        {
+            string projRoot = Directory.GetParent(Application.dataPath).FullName;
+            string rel = "Assets/Pack/ENCReload/pack.json";
+            var psi = new System.Diagnostics.ProcessStartInfo("git", $"-C \"{projRoot}\" checkout -- \"{rel}\"")
+            { UseShellExecute = false, CreateNoWindow = true, RedirectStandardError = true };
+            using (var p = System.Diagnostics.Process.Start(psi))
+            {
+                string err = p.StandardError.ReadToEnd();
+                p.WaitForExit(15000);
+                if (p.ExitCode != 0) return "⚠ git recovery FAILED: " + (string.IsNullOrWhiteSpace(err) ? ("exit " + p.ExitCode) : err.Trim());
+            }
+            // git rewrote the file on disk — validate it exactly like any other candidate before declaring victory
+            return RecoverSourceFrom(File.ReadAllText(SourcePath), "git (last committed version)");
+        }
+        catch (Exception e) { return "⚠ git recovery FAILED: " + e.Message + " (is git installed?)"; }
     }
 
     // Returns true if the registry was written. False = nothing was saved (corrupt-guard tripped, or the atomic write

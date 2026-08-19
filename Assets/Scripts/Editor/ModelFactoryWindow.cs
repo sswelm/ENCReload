@@ -691,6 +691,23 @@ public class ModelFactoryWindow : EditorWindow
                 { UndoRemove(); GUIUtility.ExitGUI(); }
             if (sel != selected) SelectEntry(sel);
         }
+        // CORRUPT-SOURCE RECOVERY banner (2026-08-19, user design): a hand-edit broke the registry source — the
+        // fault is PINPOINTED (line/column via Newtonsoft) and recovery is ONE CLICK, each path validated before
+        // it writes and the broken file already preserved timestamped. Save stays locked until recovered.
+        if (ModelRegistry.LastLoadCorrupt)
+        {
+            EditorGUILayout.HelpBox("REGISTRY SOURCE IS CORRUPT — " + ModelRegistry.LastCorruptDetail + "\n" +
+                "The broken file is preserved beside the source; Save/Bake are locked so nothing can be wiped. Recover:", MessageType.Error);
+            using (new EditorGUILayout.HorizontalScope())
+            {
+                if (GUILayout.Button(new GUIContent("Restore last deploy", "Copy the deployed artifact (refreshed on every Save — usually the freshest valid copy) back over the source. Validated before writing; the corrupt file stays preserved."), GUILayout.Width(140)))
+                { status = ModelRegistry.RecoverFromArtifact(); RefreshList(); formDiffersFromRegistry = ComputeFormDiffers(); Debug.Log("[Factory] " + status); GUIUtility.ExitGUI(); }
+                if (GUILayout.Button(new GUIContent("Restore last commit", "git checkout the source — the last committed version. Validated before accepting; the corrupt file stays preserved."), GUILayout.Width(140)))
+                { status = ModelRegistry.RecoverFromGit(); RefreshList(); formDiffersFromRegistry = ComputeFormDiffers(); Debug.Log("[Factory] " + status); GUIUtility.ExitGUI(); }
+                if (GUILayout.Button(new GUIContent("Open broken file", "Reveal the source in Explorer to fix the reported line by hand — then press Refresh."), GUILayout.Width(120)))
+                { EditorUtility.RevealInFinder(ModelRegistry.SourcePath); }
+            }
+        }
         // ENTRY-STATE COHERENCE banner (the Lab's, ported): loud choice, never a silent resync in either direction.
         if (formDiffersFromRegistry)
         {
