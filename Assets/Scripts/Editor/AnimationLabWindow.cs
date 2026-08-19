@@ -253,8 +253,9 @@ public class AnimationLabWindow : EditorWindow
                 if (fitRefMan)
                 {
                     if (fitRefManMesh == null) fitRefManMesh = ModelFactoryWindow.BuildRefMan("AnimLabRefMan");
-                    float bx = fitDraws != null && fitDraws.Count > 0 ? fitBounds.max.x + 0.35f : 0.8f;
-                    fitPRU.DrawMesh(fitRefManMesh, Matrix4x4.TRS(new Vector3(bx, -0.02f, 0f), Quaternion.identity, Vector3.one * ModelFactoryWindow.HumanRefHeight), fitFallbackMat, 0);
+                    // Clear of the model's flank (user request) — mirrors the Factory: at least 1.5u out, or 0.6u past the bounds
+                    float manX = Mathf.Max(1.5f, (fitDraws != null && fitDraws.Count > 0 ? fitBounds.max.x : 0f) + 0.6f);
+                    fitPRU.DrawMesh(fitRefManMesh, Matrix4x4.TRS(new Vector3(manX, -0.02f, 0f), Quaternion.identity, Vector3.one * ModelFactoryWindow.HumanRefHeight), fitFallbackMat, 0);
                 }
             }
             bool anyDead = false;

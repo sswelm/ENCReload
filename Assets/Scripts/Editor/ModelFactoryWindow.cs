@@ -347,14 +347,19 @@ public class ModelFactoryWindow : EditorWindow
         Box(-0.21f, 0.60f, 0f, 0.08f, 0.30f, 0.10f);    // arms
         Box( 0.21f, 0.60f, 0f, 0.08f, 0.30f, 0.10f);
         Box(0f, 0.92f, 0f, 0.16f, 0.16f, 0.16f);        // head
-        // DOUBLE-SIDED (drill-caught 2026-08-19: "I don't see any man" — hand-rolled box winding faced inward and
-        // every face backface-culled): append every triangle reversed, so the figure is visible from all angles
-        // regardless of winding convention. Same cure as the tile hex; a grey reference figure doesn't need
-        // beautiful lighting, it needs to EXIST.
-        int n0 = t.Count;
-        for (int i = 0; i < n0; i += 3) { t.Add(t[i]); t.Add(t[i + 2]); t.Add(t[i + 1]); }
+        // BULLETPROOF RENDERING (two drill rounds, 2026-08-19: "I don't see any man"): round 1 — hand-rolled
+        // winding faced inward, every face culled; round 2 — shared-vertex double-siding averaged opposing face
+        // normals to ~zero, lighting garbage. Final form: every triangle FLAT-SHADED (its own 3 verts) and
+        // emitted in BOTH windings — correct outward lighting from every angle, no winding archaeology.
+        var fv = new List<Vector3>(); var ft = new List<int>();
+        for (int i = 0; i < t.Count; i += 3)
+        {
+            Vector3 a = v[t[i]], b = v[t[i + 1]], c = v[t[i + 2]];
+            int k = fv.Count; fv.Add(a); fv.Add(b); fv.Add(c); ft.Add(k); ft.Add(k + 1); ft.Add(k + 2);
+            k = fv.Count; fv.Add(a); fv.Add(c); fv.Add(b); ft.Add(k); ft.Add(k + 1); ft.Add(k + 2);
+        }
         var m = new Mesh { name = name, hideFlags = HideFlags.HideAndDontSave };
-        m.SetVertices(v); m.SetTriangles(t, 0); m.RecalculateNormals(); m.RecalculateBounds();
+        m.SetVertices(fv); m.SetTriangles(ft, 0); m.RecalculateNormals(); m.RecalculateBounds();
         return m;
     }
     internal static Mesh BuildTileHex(string name, float cornerBaseDeg = 30f)
@@ -575,8 +580,9 @@ public class ModelFactoryWindow : EditorWindow
                 if (previewRefMan)
                 {
                     if (previewRefManMesh == null) previewRefManMesh = BuildRefMan("FactoryRefMan");
-                    float bx = previewDraws != null && previewDraws.Count > 0 ? previewBounds.max.x + 0.35f : 0.8f;   // just beside the model
-                    previewPRU.DrawMesh(previewRefManMesh, Matrix4x4.TRS(new Vector3(bx, PreviewPlaneY, 0f), Quaternion.identity, Vector3.one * HumanRefHeight), previewFallbackMat, 0);
+                    // Clear of the model's flank (user: "put him to the side more"): at least 1.5u out, or 0.6u past the bounds
+                    float manX = Mathf.Max(1.5f, (previewDraws != null && previewDraws.Count > 0 ? previewBounds.max.x : 0f) + 0.6f);
+                    previewPRU.DrawMesh(previewRefManMesh, Matrix4x4.TRS(new Vector3(manX, PreviewPlaneY, 0f), Quaternion.identity, Vector3.one * HumanRefHeight), previewFallbackMat, 0);
                 }
             }
             bool anyDead = false;
