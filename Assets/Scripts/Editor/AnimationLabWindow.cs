@@ -1082,7 +1082,7 @@ public class AnimationLabWindow : EditorWindow
         if (!canBake && hasModel)
             EditorGUILayout.HelpBox("This entry has no baked assets and no model file — open it in the Model Factory to set the file, then bake.", MessageType.Warning);
         if (!string.IsNullOrEmpty(status)) EditorGUILayout.HelpBox(status, MessageType.Info);
-        EditorGUILayout.HelpBox("Registry: " + ModelRegistry.RegistryPath, MessageType.None);
+        EditorGUILayout.HelpBox("Registry (source): " + ModelRegistry.SourcePath + "  ·  deploys to the BepInEx artifact on every Save", MessageType.None);
         // --- FIT PREVIEW (model + hand prop, glued as in-game; own camera => real zoom) ---
         if (fitDraws != null)
         {
