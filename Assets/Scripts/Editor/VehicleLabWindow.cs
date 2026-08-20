@@ -159,7 +159,7 @@ public class VehicleLabWindow : EditorWindow
     [SerializeField] Vector2 previewPan;   // camera-plane pan (middle/right-drag), in dist units — ported from the Factory preview
     // part focus/highlight: clicking a row zooms onto that part and tints it — the "which shard is the wheel?" x-ray
     string selectedPart = "";
-    Renderer highlightedRenderer; Material[] highlightedOriginals;
+    List<Renderer> highlightedRenderers; List<Material[]> highlightedOriginals;   // a bone row tints MANY shards
     static Material highlightMat;
 
     void OnEnable() { EditorApplication.update += Tick; lastTick = EditorApplication.timeSinceStartup; }
@@ -955,29 +955,72 @@ public class VehicleLabWindow : EditorWindow
         catch (Exception e) { status = "Recipe load failed: " + e.Message; }
     }
 
-    // Zoom the preview onto one part and tint it — restores the previous part's materials first. "" = full view.
+    // Zoom the preview onto one row's geometry and tint it — restores the previous selection's materials first.
+    // "" = full view. Two kinds of row: a mesh SHARD (matched by renderer name, exact before prefix — ".100" must
+    // not grab ".1000") or, on the source-skeleton fast path, a BONE. No renderer is named after a bone, so a bone
+    // row highlights every shard whose vertex weights point dominantly at it (2026-08-20: the Ehrhardt's bone rows
+    // "stopped" highlighting — they never could; only shard rows did. Now both do).
     void SelectPart(string name)
     {
-        if (highlightedRenderer != null && highlightedOriginals != null)
-        { try { highlightedRenderer.sharedMaterials = highlightedOriginals; } catch { } }
-        highlightedRenderer = null; highlightedOriginals = null;
+        if (highlightedRenderers != null)
+            for (int i = 0; i < highlightedRenderers.Count; i++)
+                try { if (highlightedRenderers[i] != null) highlightedRenderers[i].sharedMaterials = highlightedOriginals[i]; } catch { }
+        highlightedRenderers = null; highlightedOriginals = null;
         selectedPart = name;
         boundsValid = false;   // re-derive (full model or the part) on next render
         previewPan = Vector2.zero;   // a part focus should CENTER the part — a leftover pan would frame empty space
         if (inst == null || string.IsNullOrEmpty(name)) return;
-        var r = inst.GetComponentsInChildren<Renderer>()
-                    .FirstOrDefault(x => x != null && (x.gameObject.name == name || x.gameObject.name.StartsWith(name)));
-        if (r == null) return;
+        var all = inst.GetComponentsInChildren<Renderer>();
+        var hits = new List<Renderer>();
+        var byName = all.FirstOrDefault(x => x != null && x.gameObject.name == name)
+                  ?? all.FirstOrDefault(x => x != null && x.gameObject.name.StartsWith(name));
+        if (byName != null) hits.Add(byName);
+        else if (ShardsByBone(all).TryGetValue(name, out var shards)) hits.AddRange(shards);
+        if (hits.Count == 0) return;
         if (highlightMat == null)
         {
             var sh = Shader.Find("Unlit/Color") ?? Shader.Find("Standard");
             highlightMat = new Material(sh) { color = new Color(1f, 0.85f, 0.1f) };
             highlightMat.hideFlags = HideFlags.HideAndDontSave;
         }
-        highlightedRenderer = r;
-        highlightedOriginals = r.sharedMaterials;
-        r.sharedMaterials = Enumerable.Repeat(highlightMat, r.sharedMaterials.Length).ToArray();
-        bounds = r.bounds; bounds.Expand(bounds.size.magnitude * 0.6f + 0.1f); boundsValid = true;   // frame the part with context
+        highlightedRenderers = hits;
+        highlightedOriginals = hits.Select(r => r.sharedMaterials).ToList();
+        Bounds b = hits[0].bounds;
+        foreach (var r in hits)
+        {
+            r.sharedMaterials = Enumerable.Repeat(highlightMat, r.sharedMaterials.Length).ToArray();
+            b.Encapsulate(r.bounds);
+        }
+        bounds = b; bounds.Expand(bounds.size.magnitude * 0.6f + 0.1f); boundsValid = true;   // frame the selection with context
+    }
+
+    // bone name → the skinned shards whose vertex weights point dominantly at that bone. Built once per preview
+    // instance (3,350 shards × boneWeights is a one-off cost) and cleared with the preview.
+    Dictionary<string, List<Renderer>> boneShards;
+    Dictionary<string, List<Renderer>> ShardsByBone(Renderer[] all)
+    {
+        if (boneShards != null) return boneShards;
+        boneShards = new Dictionary<string, List<Renderer>>();
+        foreach (var r in all)
+        {
+            var smr = r as SkinnedMeshRenderer;
+            if (smr == null || smr.sharedMesh == null || smr.bones == null || smr.bones.Length == 0) continue;
+            var bw = smr.sharedMesh.boneWeights;
+            if (bw == null || bw.Length == 0) continue;
+            var tally = new Dictionary<int, float>();
+            foreach (var w in bw)
+            {
+                if (w.weight0 > 0f) tally[w.boneIndex0] = (tally.TryGetValue(w.boneIndex0, out var a) ? a : 0f) + w.weight0;
+                if (w.weight1 > 0f) tally[w.boneIndex1] = (tally.TryGetValue(w.boneIndex1, out var c) ? c : 0f) + w.weight1;
+            }
+            if (tally.Count == 0) continue;
+            int best = tally.OrderByDescending(kv => kv.Value).First().Key;
+            if (best < 0 || best >= smr.bones.Length || smr.bones[best] == null) continue;
+            string bn = smr.bones[best].name;
+            if (!boneShards.TryGetValue(bn, out var list)) boneShards[bn] = list = new List<Renderer>();
+            list.Add(r);
+        }
+        return boneShards;
     }
 
     void Vehicleize()
@@ -1104,8 +1147,9 @@ public class VehicleLabWindow : EditorWindow
     void DestroyPreview()
     {
         if (inst != null) { DestroyImmediate(inst); inst = null; }
+        boneShards = null; highlightedRenderers = null; highlightedOriginals = null;   // per-instance caches die with it
         spinClip = null; boundsValid = false;
-        selectedPart = ""; highlightedRenderer = null; highlightedOriginals = null;
+        selectedPart = ""; highlightedRenderers = null; highlightedOriginals = null;
     }
     void HandlePreviewInput(Rect rect)
     {
