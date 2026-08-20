@@ -130,9 +130,12 @@ public static class BakeSmokeTest
         }
         if (animated)
         {
-            // the pose stream is a .bytes TextAsset next to the _Clips asset — the actual animation data
+            // the pose stream is a .bytes TextAsset next to the _Clips asset — the actual animation data.
+            // Floor is 32, NOT 1024: state-driven models freeze their primary clip to one frame (animClip
+            // "Spin[0..0]") and ship pose streams as small as 48 bytes (VolleyGun/OrganGun, live in game).
+            // The old 1 KB floor failed six such working models on 2026-08-20; 32 still catches empty stubs.
             string pose = Path.Combine(root, "Assets", "Resources", name + "_ClipsPoseData.bytes");
-            if (!File.Exists(pose) || new FileInfo(pose).Length < 1024) bad.Add(name + "_ClipsPoseData");
+            if (!File.Exists(pose) || new FileInfo(pose).Length < 32) bad.Add(name + "_ClipsPoseData");
         }
         return bad;
     }
