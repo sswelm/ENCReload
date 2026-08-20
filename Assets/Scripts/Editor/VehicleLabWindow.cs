@@ -193,7 +193,7 @@ public class VehicleLabWindow : EditorWindow
         using (new EditorGUILayout.HorizontalScope())
         {
             string rdirFull = Path.Combine(Directory.GetParent(Application.dataPath).FullName, RecipesDir);
-            string[] rfiles = Directory.Exists(rdirFull) ? Directory.GetFiles(rdirFull, "*.json").OrderBy(x => x).ToArray() : new string[0];
+            string[] rfiles = Directory.Exists(rdirFull) ? Directory.GetFiles(rdirFull, "*.json").OrderByDescending(File.GetLastWriteTime).ThenBy(x => x).ToArray() : new string[0];
             var names = new string[rfiles.Length + 1];
             names[0] = "＜new model＞";
             // Display labels carry the file's last-modified stamp (user ask 2026-08-20: a bare name list can't tell
@@ -203,7 +203,7 @@ public class VehicleLabWindow : EditorWindow
             for (int i = 0; i < rfiles.Length; i++)
             {
                 names[i + 1] = Path.GetFileNameWithoutExtension(rfiles[i]);
-                labels[i + 1] = names[i + 1] + "    —  modified " + File.GetLastWriteTime(rfiles[i]).ToString("yyyy-MM-dd HH:mm", System.Globalization.CultureInfo.InvariantCulture);
+                labels[i + 1] = File.GetLastWriteTime(rfiles[i]).ToString("yyyy-MM-dd HH:mm", System.Globalization.CultureInfo.InvariantCulture) + "   —  " + names[i + 1];   // stamp first, newest at the top
             }
             int cur = 0;
             for (int i = 0; i < rfiles.Length; i++) if (names[i + 1] == loadedRecipe) { cur = i + 1; break; }
