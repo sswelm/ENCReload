@@ -172,6 +172,23 @@ public class DistrictFactoryWindow : EditorWindow
 
     void OnGUI()
     {
+        // CORRUPT-SOURCE RECOVERY banner (the Factory's, via the shared SingleSourceRegistry engine — 2026-08-20): the
+        // fault is PINPOINTED (line/column) and recovery is ONE CLICK, each path validated before it writes and the broken
+        // file already preserved timestamped. Save/Bake stay locked until recovered.
+        if (DistrictRegistry.LastLoadCorrupt)
+        {
+            EditorGUILayout.HelpBox("DISTRICT REGISTRY SOURCE IS CORRUPT — " + DistrictRegistry.LastCorruptDetail + "\n" +
+                "The broken file is preserved beside the source; Save/Bake are locked so nothing can be wiped. Recover:", MessageType.Error);
+            using (new EditorGUILayout.HorizontalScope())
+            {
+                if (GUILayout.Button(new GUIContent("Restore last deploy", "Copy the deployed file (refreshed on every Save — usually the freshest valid copy) back over the source. Validated before writing; the corrupt file stays preserved."), GUILayout.Width(140)))
+                { status = DistrictRegistry.RecoverFromArtifact(); RefreshList(); Debug.Log("[District] " + status); GUIUtility.ExitGUI(); }
+                if (GUILayout.Button(new GUIContent("Restore last commit", "git checkout the source — the last committed version. Validated before accepting; the corrupt file stays preserved."), GUILayout.Width(140)))
+                { status = DistrictRegistry.RecoverFromGit(); RefreshList(); Debug.Log("[District] " + status); GUIUtility.ExitGUI(); }
+                if (GUILayout.Button(new GUIContent("Open broken file", "Reveal the source in Explorer to fix the reported line by hand — then reopen or refresh the window."), GUILayout.Width(120)))
+                { EditorUtility.RevealInFinder(DistrictRegistry.SourcePath); }
+            }
+        }
         scroll = EditorGUILayout.BeginScrollView(scroll);
         EditorGUILayout.Space();
 

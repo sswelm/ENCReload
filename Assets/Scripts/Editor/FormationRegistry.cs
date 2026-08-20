@@ -1,6 +1,7 @@
 // FormationRegistry.cs (HAF editor) — the Formation Override window's config store: haf_formations.json in the game's
-// BepInEx/config, read by the plugin's FormationOverride (Patches/FormationOverridePatch.cs). Mirrors DistrictRegistry
-// (same target dir, same corrupt-guard + atomic write + git-tracked project backup) but for FORMATION links: each
+// BepInEx/config, read by the plugin's FormationOverride (Patches/FormationOverridePatch.cs). Since 2026-08-20 a ONE-file
+// registry like DistrictRegistry (git-tracked source, deployed build artifact, pinpointed corruption, one-click recovery —
+// engine: SingleSourceRegistry) but for FORMATION links: each
 // entry binds one unit (PresentationUnitDefinition name) to one formation, carrying the formation's FULL data —
 // dummy positions, the per-orientation coordinate grids AND the six hidden ColumnsCountPerRow arrays — so the plugin
 // can rebuild the PresentationFormationDefinition at runtime without the asset ever entering a bundle (a bundled
@@ -73,13 +74,22 @@ class FormationRegistryFile
 
 public static class FormationRegistry
 {
-    public static string RegistryPath => Path.Combine(ModelRegistry.ConfigDir, "haf_formations.json");
+    // THE COLLAPSE, inherited (2026-08-20): ONE file — see DistrictRegistry / SingleSourceRegistry. The git-tracked
+    // project file is THE registry; the deployed haf_formations.json is a build artifact regenerated on every Save.
+    static readonly SingleSourceRegistry<FormationRegistryFile> Store = new SingleSourceRegistry<FormationRegistryFile>(
+        "[Formation]",
+        () => Path.Combine(Application.dataPath, "Databases", "haf_formations.backup.json"),
+        () => Path.Combine(ModelRegistry.ConfigDir, "haf_formations.json"),
+        f => f?.links?.Count ?? 0,
+        "HAF.Formations.SingleSource", "Assets/Databases/haf_formations.backup.json", "formation links");
 
-    // Versioned shadow copy in the mod repo (Assets/Databases is git-tracked) — survives a game reinstall,
-    // and Load() auto-restores from it if the live file goes missing. Mirrors haf_districts.backup.json.
-    public static string ProjectBackupPath => Path.Combine(Application.dataPath, "Databases", "haf_formations.backup.json");
-
-    static bool lastLoadCorrupt;
+    public static string RegistryPath => Store.ArtifactPath;        // what the running game reads (derived)
+    public static string SourcePath => Store.SourcePath;            // what the editor reads and writes (git-tracked)
+    public static string ProjectBackupPath => Store.SourcePath;     // historical name, kept for callers
+    public static bool LastLoadCorrupt => Store.LastLoadCorrupt;
+    public static string LastCorruptDetail => Store.LastCorruptDetail;
+    public static string RecoverFromArtifact() => Store.RecoverFromArtifact();
+    public static string RecoverFromGit() => Store.RecoverFromGit();
 
     static List<FormationLink> Sort(List<FormationLink> list)
     {
@@ -87,71 +97,13 @@ public static class FormationRegistry
         return list ?? new List<FormationLink>();
     }
 
-    public static List<FormationLink> Load()
-    {
-        try
-        {
-            if (!File.Exists(RegistryPath))
-            {
-                lastLoadCorrupt = false;
-                if (File.Exists(ProjectBackupPath))
-                {
-                    try
-                    {
-                        var backupJson = File.ReadAllText(ProjectBackupPath);
-                        var b = JsonUtility.FromJson<FormationRegistryFile>(backupJson);
-                        if (b?.links != null && b.links.Count > 0)
-                        {
-                            try { Directory.CreateDirectory(ModelRegistry.ConfigDir); File.WriteAllText(RegistryPath, backupJson); } catch { }
-                            Debug.Log($"[Formation] game formation registry was missing — restored {b.links.Count} link{(b.links.Count == 1 ? "" : "s")} from the project backup.");
-                            return Sort(b.links);
-                        }
-                    }
-                    catch (Exception be) { Debug.LogWarning($"[Formation] the project backup '{ProjectBackupPath}' is unreadable ({be.Message}) — treating as no backup."); }
-                }
-                return new List<FormationLink>();
-            }
-            var data = JsonUtility.FromJson<FormationRegistryFile>(File.ReadAllText(RegistryPath));
-            lastLoadCorrupt = false;
-            return Sort(data?.links ?? new List<FormationLink>());
-        }
-        catch (Exception e)
-        {
-            lastLoadCorrupt = true;
-            try { File.Copy(RegistryPath, RegistryPath + ".corrupt.json", true); } catch { }
-            Debug.LogError($"[Formation] registry '{RegistryPath}' is unreadable ({e.Message}) — backed up to " +
-                           $"'{Path.GetFileName(RegistryPath)}.corrupt.json'. Fix or delete it; saving won't work until then.");
-            return new List<FormationLink>();
-        }
-    }
+    public static List<FormationLink> Load() => Sort(Store.Load()?.links ?? new List<FormationLink>());
 
     // True = written. False = nothing saved (corrupt-guard tripped, or the atomic write hit a lock) — surface it.
     public static bool Save(List<FormationLink> links)
     {
-        if (lastLoadCorrupt)
-        {
-            Debug.LogError("[Formation] not saving: the existing formation registry was unreadable (see the .corrupt.json backup). Fix or delete it first.");
-            return false;
-        }
         Sort(links);
-        var json = JsonUtility.ToJson(new FormationRegistryFile { links = links }, true);
-        try
-        {
-            Directory.CreateDirectory(ModelRegistry.ConfigDir);
-            var tmp = RegistryPath + ".tmp";
-            File.WriteAllText(tmp, json);
-            if (File.Exists(RegistryPath)) File.Replace(tmp, RegistryPath, null);
-            else File.Move(tmp, RegistryPath);
-        }
-        catch (Exception e)
-        {
-            Debug.LogError($"[Formation] registry write FAILED — the link was NOT saved to '{RegistryPath}' ({e.Message}). " +
-                           "Close whatever's locking it (AV, indexer, the running game) and save again.");
-            return false;
-        }
-        try { File.WriteAllText(ProjectBackupPath, json); } catch (Exception e) { Debug.LogWarning("[Formation] project backup write failed: " + e.Message); }
-        AssetDatabase.Refresh();
-        return true;
+        return Store.Save(new FormationRegistryFile { links = links }, "the link");
     }
 
     // Entry identity: unit links key on the unit (one formation per unit); macro replacements key on the

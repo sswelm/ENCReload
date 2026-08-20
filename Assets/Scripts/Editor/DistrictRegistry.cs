@@ -1,6 +1,7 @@
 // DistrictRegistry.cs (ENC editor) — the District Factory's config store: haf_districts.json in the game's
-// BepInEx/config, read by the plugin's district repoint (UniversalInjectPatch.EnsureDistrictConfig). Mirrors
-// ModelRegistry (same target dir, same corrupt-guard + atomic write + git-tracked project backup) but for DISTRICT
+// BepInEx/config, read by the plugin's district repoint (UniversalInjectPatch.EnsureDistrictConfig). Since 2026-08-20 a
+// ONE-file registry like ModelRegistry (git-tracked source, deployed build artifact, pinpointed corruption, one-click
+// recovery — engine: SingleSourceRegistry) but for DISTRICT
 // models: each entry binds one district (ConstructibleDefinitionName) to one baked FxMesh GUID.
 //
 // The RUNTIME reads only { district, fxMeshGuid, isolate } (Newtonsoft JObject — extra fields ignored); everything
@@ -83,16 +84,24 @@ class DistrictRegistryFile
 
 public static class DistrictRegistry
 {
-    // Same resolution as the unit registry: manual override > Steam auto-detect > fallback (all via ModelRegistry).
-    public static string RegistryPath => Path.Combine(ModelRegistry.ConfigDir, "haf_districts.json");
+    // THE COLLAPSE, inherited (2026-08-20): ONE file. The git-tracked project file is THE registry; the deployed
+    // haf_districts.json under BepInEx/config is a BUILD ARTIFACT regenerated on every Save. Engine: SingleSourceRegistry
+    // (migration, artifact sync, pinpointed corruption, one-click recovery). The source keeps its historical filename
+    // (".backup.json") to spare git a rename — the name is now a misnomer; SourcePath is the honest accessor.
+    static readonly SingleSourceRegistry<DistrictRegistryFile> Store = new SingleSourceRegistry<DistrictRegistryFile>(
+        "[District]",
+        () => Path.Combine(Application.dataPath, "Databases", "haf_districts.backup.json"),
+        () => Path.Combine(ModelRegistry.ConfigDir, "haf_districts.json"),
+        f => f?.districts?.Count ?? 0,
+        "HAF.Districts.SingleSource", "Assets/Databases/haf_districts.backup.json", "district entries");
 
-    // Versioned shadow copy in the mod repo (Assets/Databases is git-tracked) — survives a game reinstall,
-    // and Load() auto-restores from it if the live file goes missing. Mirrors haf_models.backup.json.
-    public static string ProjectBackupPath => Path.Combine(Application.dataPath, "Databases", "haf_districts.backup.json");
-
-    // Set when the last Load() found a file it couldn't parse; Save() refuses while set, so a corrupt /
-    // half-edited registry is never silently replaced with a fresh empty list.
-    static bool lastLoadCorrupt;
+    public static string RegistryPath => Store.ArtifactPath;        // what the running game reads (derived)
+    public static string SourcePath => Store.SourcePath;            // what the editor reads and writes (git-tracked)
+    public static string ProjectBackupPath => Store.SourcePath;     // historical name, kept for callers
+    public static bool LastLoadCorrupt => Store.LastLoadCorrupt;
+    public static string LastCorruptDetail => Store.LastCorruptDetail;
+    public static string RecoverFromArtifact() => Store.RecoverFromArtifact();
+    public static string RecoverFromGit() => Store.RecoverFromGit();
 
     static List<DistrictDef> Sort(List<DistrictDef> list)
     {
@@ -100,73 +109,13 @@ public static class DistrictRegistry
         return list ?? new List<DistrictDef>();
     }
 
-    public static List<DistrictDef> Load()
-    {
-        try
-        {
-            if (!File.Exists(RegistryPath))
-            {
-                lastLoadCorrupt = false;
-                if (File.Exists(ProjectBackupPath))
-                {
-                    // parse the backup in its OWN try/catch (see ModelRegistry E6): an unreadable backup while the live
-                    // file is missing must read as "no backup", not lock Save forever.
-                    try
-                    {
-                        var backupJson = File.ReadAllText(ProjectBackupPath);
-                        var b = JsonUtility.FromJson<DistrictRegistryFile>(backupJson);
-                        if (b?.districts != null && b.districts.Count > 0)
-                        {
-                            try { Directory.CreateDirectory(ModelRegistry.ConfigDir); File.WriteAllText(RegistryPath, backupJson); } catch { }
-                            Debug.Log($"[District] game district registry was missing — restored {b.districts.Count} entr{(b.districts.Count == 1 ? "y" : "ies")} from the project backup.");
-                            return Sort(b.districts);
-                        }
-                    }
-                    catch (Exception be) { Debug.LogWarning($"[District] the project backup '{ProjectBackupPath}' is unreadable ({be.Message}) — treating as no backup."); }
-                }
-                return new List<DistrictDef>();
-            }
-            var data = JsonUtility.FromJson<DistrictRegistryFile>(File.ReadAllText(RegistryPath));
-            lastLoadCorrupt = false;
-            return Sort(data?.districts ?? new List<DistrictDef>());
-        }
-        catch (Exception e)
-        {
-            lastLoadCorrupt = true;
-            try { File.Copy(RegistryPath, RegistryPath + ".corrupt.json", true); } catch { }
-            Debug.LogError($"[District] registry '{RegistryPath}' is unreadable ({e.Message}) — backed up to " +
-                           $"'{Path.GetFileName(RegistryPath)}.corrupt.json'. Fix or delete it; baking won't save until then.");
-            return new List<DistrictDef>();
-        }
-    }
+    public static List<DistrictDef> Load() => Sort(Store.Load()?.districts ?? new List<DistrictDef>());
 
     // True = written. False = nothing saved (corrupt-guard tripped, or the atomic write hit a lock) — surface it.
     public static bool Save(List<DistrictDef> districts)
     {
-        if (lastLoadCorrupt)
-        {
-            Debug.LogError("[District] not saving: the existing district registry was unreadable (see the .corrupt.json backup). Fix or delete it first.");
-            return false;
-        }
         Sort(districts);
-        var json = JsonUtility.ToJson(new DistrictRegistryFile { districts = districts }, true);
-        try
-        {
-            Directory.CreateDirectory(ModelRegistry.ConfigDir);
-            var tmp = RegistryPath + ".tmp";
-            File.WriteAllText(tmp, json);
-            if (File.Exists(RegistryPath)) File.Replace(tmp, RegistryPath, null);
-            else File.Move(tmp, RegistryPath);
-        }
-        catch (Exception e)
-        {
-            Debug.LogError($"[District] registry write FAILED — the model baked but its entry was NOT saved to '{RegistryPath}' ({e.Message}). " +
-                           "Close whatever's locking it (AV, indexer, the running game) and re-bake.");
-            return false;
-        }
-        try { File.WriteAllText(ProjectBackupPath, json); } catch (Exception e) { Debug.LogWarning("[District] project backup write failed: " + e.Message); }
-        AssetDatabase.Refresh();
-        return true;
+        return Store.Save(new DistrictRegistryFile { districts = districts }, "the model baked but its entry");
     }
 
     public static bool Upsert(DistrictDef def)
