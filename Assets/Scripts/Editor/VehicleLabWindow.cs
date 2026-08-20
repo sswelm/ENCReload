@@ -196,12 +196,20 @@ public class VehicleLabWindow : EditorWindow
             string[] rfiles = Directory.Exists(rdirFull) ? Directory.GetFiles(rdirFull, "*.json").OrderBy(x => x).ToArray() : new string[0];
             var names = new string[rfiles.Length + 1];
             names[0] = "＜new model＞";
-            for (int i = 0; i < rfiles.Length; i++) names[i + 1] = Path.GetFileNameWithoutExtension(rfiles[i]);
+            // Display labels carry the file's last-modified stamp (user ask 2026-08-20: a bare name list can't tell
+            // you which recipe you worked on yesterday); `names` stays the bare name for matching/dialogs.
+            var labels = new string[rfiles.Length + 1];
+            labels[0] = names[0];
+            for (int i = 0; i < rfiles.Length; i++)
+            {
+                names[i + 1] = Path.GetFileNameWithoutExtension(rfiles[i]);
+                labels[i + 1] = names[i + 1] + "    —  modified " + File.GetLastWriteTime(rfiles[i]).ToString("yyyy-MM-dd HH:mm", System.Globalization.CultureInfo.InvariantCulture);
+            }
             int cur = 0;
             for (int i = 0; i < rfiles.Length; i++) if (names[i + 1] == loadedRecipe) { cur = i + 1; break; }
 
             int sel = EditorGUILayout.Popup(new GUIContent("Edit existing",
-                "Load a saved recipe, or ＜new model＞ to start fresh. Recipes live in " + RecipesDir + "; Save recipe… adds to this list."), cur, names);
+                "Load a saved recipe, or ＜new model＞ to start fresh. Recipes live in " + RecipesDir + "; Save recipe… adds to this list."), cur, labels);
             if (sel != cur)
             {
                 bool dirty = parts.Count > 0 || boneParts.Count > 0;
