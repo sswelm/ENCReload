@@ -46,7 +46,46 @@ check() {  # check <label> <file> <rebase-fn> <snapshot-var>
 check "Factory"       "$FACT" "void RebaseLabOwnedOnRegistry" "form"
 check "Animation Lab" "$LAB"  "void RebaseOnRegistry"         "mine"
 
+# ── Vehicle Lab RECIPE round-trip (2026-08-20) — the same disease, different organ: a Recipe DTO field that
+# SaveRecipe doesn't write or LoadRecipeFromPath doesn't restore is silently lost/leaked across a save-load
+# cycle (the canoe's wave config vanished exactly this way and took GLB forensics to recover). Every field
+# declared in `class Recipe` must appear as an LHS in SaveRecipe's initializer AND be read as `r.<field>` in
+# LoadRecipeFromPath. ──
+VLAB=Assets/Scripts/Editor/VehicleLabWindow.cs
+
+recipe_fields() {  # every public field declared in the Recipe DTO
+  sed -n '/\[Serializable\] class Recipe/,/^    }/p' "$VLAB" \
+    | grep -v '^\s*//' | tr ';' '\n' \
+    | grep -oE 'public [A-Za-z0-9_<>]+ [a-zA-Z0-9_, ]+' \
+    | sed -E 's/public [A-Za-z0-9_<>]+ //' | tr ',' '\n' | sed 's/ //g' | grep -v '^$' | sort -u
+}
+save_fields() {  # LHS names in SaveRecipe's `new Recipe { … }` initializer
+  sed -n '/var r = new Recipe/,/^        };/p' "$VLAB" \
+    | grep -v '^\s*//' | grep -oE '(^|[{, ])[a-zA-Z0-9_]+ =' \
+    | grep -oE '[a-zA-Z0-9_]+' | grep -v '^=$' | sort -u
+}
+load_fields() {  # every `r.<field>` the loader reads
+  sed -n '/void LoadRecipeFromPath/,/^    }/p' "$VLAB" \
+    | grep -v '^\s*//' | grep -oE '\br\.[a-zA-Z0-9_]+' | sed 's/^r\.//' | sort -u
+}
+
+rf=$(recipe_fields); sf=$(save_fields); lf=$(load_fields)
+if [ -z "$rf" ] || [ -z "$sf" ] || [ -z "$lf" ]; then
+  echo "FAIL — Vehicle Lab recipe: could not extract the DTO/save/load lists (structure changed? update this gate)."
+  fail=1
+else
+  notsaved=$(comm -23 <(echo "$rf") <(echo "$sf"))
+  notloaded=$(comm -23 <(echo "$rf") <(echo "$lf"))
+  if [ -n "$notsaved" ] || [ -n "$notloaded" ]; then
+    [ -n "$notsaved" ]  && { echo "FAIL — Vehicle Lab recipe: DTO field(s) NOT written by SaveRecipe (lost on save):";    echo "$notsaved"  | sed 's/^/         /'; }
+    [ -n "$notloaded" ] && { echo "FAIL — Vehicle Lab recipe: DTO field(s) NOT restored by LoadRecipeFromPath (leak between models):"; echo "$notloaded" | sed 's/^/         /'; }
+    fail=1
+  else
+    echo "ok   — Vehicle Lab recipe: all $(echo "$rf" | grep -c .) DTO field(s) round-trip through Save and Load"
+  fi
+fi
+
 if [ "$fail" -eq 0 ]; then
-  echo "PASS — hand-list gate: no UI-edited field can be silently reset by an ownership rebase."
+  echo "PASS — hand-list gate: no UI-edited field can be silently reset by an ownership rebase, and every recipe field round-trips."
 fi
 exit "$fail"

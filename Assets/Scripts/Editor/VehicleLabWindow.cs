@@ -909,8 +909,20 @@ public class VehicleLabWindow : EditorWindow
         if (string.IsNullOrEmpty(p) || !File.Exists(p)) return;
         try
         {
-            var r = JsonUtility.FromJson<Recipe>(File.ReadAllText(p));
+            string json = File.ReadAllText(p);
+            var r = JsonUtility.FromJson<Recipe>(json);
             if (r == null || r.parts == null) { status = "Not a vehicleize recipe: " + p; return; }
+            // HONESTY NOTE (2026-08-20): a recipe saved before a feature existed carries no key for it, and
+            // JsonUtility silently fills the C# default — which is correct loading, but INVISIBLE (the canoe's
+            // wave config "loss" took GLB forensics to diagnose). JsonUtility can't tell absent from default,
+            // so key-presence in the raw text is the honest signal; one representative key per feature era.
+            var predates = new List<string>();
+            void Chk(string key, string label) { if (!json.Contains("\"" + key + "\"")) predates.Add(label); }
+            Chk("boneParts", "source-rig fast path");
+            Chk("treadAdvCells", "tread dials");
+            Chk("tracksStatic", "orientation + static tracks");
+            Chk("waveEnabled", "wave rock");
+            Chk("spinEnabled", "spin switch");
             DestroyPreview();
             srcFile = r.srcFile; outGlb = r.outGlb; frames = r.frames; axisChoice = r.axisChoice; minVerts = r.minVerts; degrees = r.degrees;
             treadAdvCells = r.treadAdvCells > 0 ? r.treadAdvCells : 3;   // pre-knob recipes default to road-wheel sync
@@ -929,7 +941,8 @@ public class VehicleLabWindow : EditorWindow
             useSourceRig = r.useSourceRig && boneParts.Count > 0;
             loadedRecipe = Path.GetFileNameWithoutExtension(p);   // reflect the loaded recipe in the combobox
             status = $"Recipe loaded ({parts.Count} parts{(boneParts.Count > 0 ? $", {boneParts.Count} source bones, fast path {(useSourceRig ? "ON" : "off")}" : "")}, {ActiveParts.Count(x => x.role == Role.Wheel)} wheels). " +
-                     "generate the rig directly — or press Probe to list ALL parts for review (your marked roles are kept, plus the preview returns for click-to-highlight).";
+                     "generate the rig directly — or press Probe to list ALL parts for review (your marked roles are kept, plus the preview returns for click-to-highlight)." +
+                     (predates.Count > 0 ? $"\nNOTE — recipe predates: {string.Join(", ", predates)}. Those loaded as safe defaults; check the dials and Save to modernize it." : "");
         }
         catch (Exception e) { status = "Recipe load failed: " + e.Message; }
     }
