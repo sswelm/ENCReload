@@ -37,3 +37,7 @@
 /Tools/glbconv/obj
 /Tools/**/__pycache__
 district_visual_dump*.txt
+
+# corrupt-source preservation copies (SingleSourceRegistry / ModelRegistry) - evidence, never committed
+*.corrupt-*.json
+*.corrupt-*.json.meta
