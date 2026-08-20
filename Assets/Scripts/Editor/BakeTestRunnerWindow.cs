@@ -66,59 +66,57 @@ public class BakeTestRunnerWindow : EditorWindow
     {
         rows = new List<TestRow>
         {
-            new TestRow { name = "Smoke — one per bake path", quick = true, on = true, needsBlender = true, group = "smoke",
+            new TestRow { name = "Does the baker still work? (one model per path)", quick = true, on = true, needsBlender = true, group = "smoke",
                 cost = "a handful of real bakes (~minutes)",
-                what = "Does the baker still work at all? Re-bakes ONE representative model per bake path (static / " +
-                       "animated / rig-converted, per material mode) under a throwaway name and checks the baked assets " +
-                       "exist and are not empty stubs. The quick \"did I break the baker?\" check after baker changes.",
+                what = "Re-bakes ONE representative model per bake path (static / animated / rig-converted, per material " +
+                       "mode) under a throwaway name and checks the baked assets exist and are not empty stubs. The " +
+                       "quick \"did I break the baker?\" check after baker changes. (The 'smoke test'.)",
                 run = BakeSmokeTest.RunRepresentativesSection },
 
-            new TestRow { name = "Smoke — ALL models", needsBlender = true, group = "smoke", thorough = true,
+            new TestRow { name = "Does every model still bake? (whole catalog)", needsBlender = true, group = "smoke", thorough = true,
                 cost = "one full bake per registry model — slow",
-                what = "Does every model in the catalog still bake? The same check as above, but for EVERY registry " +
-                       "entry, not just representatives. Mutually exclusive with the one-per-path row (it already " +
-                       "covers everything that row bakes). Run before a release.",
+                what = "The same check as the row above, but for EVERY registry entry, not just representatives. " +
+                       "Mutually exclusive with that row (this one already covers everything it bakes). Run before a release.",
                 run = BakeSmokeTest.RunAllSection },
 
-            new TestRow { name = "Features — baker options (synthetic)", quick = true, on = true,
+            new TestRow { name = "Do the bake options do what they claim? (synthetic cubes)", quick = true, on = true,
                 cost = "~15 fast cube bakes, no Blender",
-                what = "Does each baker OPTION actually do what it claims? Bakes tiny synthetic cubes with one option " +
-                       "toggled at a time — double-sided, normal modes, heightUV, atlas size cap, size, position offset, " +
-                       "winding fix, multi-material, brightness/saturation — and asserts each one measurably changed the " +
-                       "baked result. Also proves the rollback safety net restores your assets after a FAILED re-bake.",
+                what = "Bakes tiny synthetic cubes with one baker option toggled at a time — double-sided, normal modes, " +
+                       "heightUV, atlas size cap, size, position offset, winding fix, multi-material, brightness/" +
+                       "saturation — and asserts each one measurably changed the baked result. Also proves the rollback " +
+                       "safety net restores your assets after a FAILED re-bake. (The 'feature test', Tier 1.)",
                 run = BakeFeatureTest.RunTier1Section },
 
-            new TestRow { name = "Features — Blender + animated", needsBlender = true,
+            new TestRow { name = "Do the Blender + animation options work? (real rigs)", needsBlender = true,
                 cost = "real Blender bakes — slow",
                 what = "The options a cube can't exercise: triangle-budget decimation (targetTris), removing a named " +
                        "part (stripParts), and the full ANIMATED pipeline end-to-end on two real rigged models borrowed " +
-                       "from the registry (skeleton + clip must come out).",
+                       "from the registry (skeleton + clip must come out). (The 'feature test', Tier 2.)",
                 run = BakeFeatureTest.RunTier2Section },
 
-            new TestRow { name = "Conversion — litmus rig", quick = true, on = true, needsBlender = true,
+            new TestRow { name = "Is rig conversion still correct? (control rig)", quick = true, on = true, needsBlender = true,
                 cost = "one synthetic rig bake (fast after the first run)",
-                what = "Is the raw-rig CONVERSION still correct? Synthesizes a known 12-bone test rig, bakes it through " +
-                       "the conversion, and checks the four invariants the game silently requires: every bone scale " +
-                       "exactly 1, parents sorted before children, rotation-only clips, and the animation actually baked. " +
-                       "Each invariant was once violated and cost hours of in-game diagnosis. This is the CONTROL for " +
-                       "the row below: a synthetic rig separates 'the pipeline broke' from 'this model broke'.",
+                what = "Synthesizes a known 12-bone test rig (the 'litmus'), bakes it through the raw-rig conversion, " +
+                       "and checks the four invariants the game silently requires: every bone scale exactly 1, parents " +
+                       "sorted before children, rotation-only clips, and the animation actually baked. Each invariant " +
+                       "was once violated and cost hours of in-game diagnosis. This is the CONTROL for the row below: " +
+                       "a synthetic rig separates 'the pipeline broke' from 'this model broke'.",
                 run = ConversionGateTest.RunLitmusSection },
 
-            new TestRow { name = "Conversion — real registry rigs", needsBlender = true,
+            new TestRow { name = "Do the real rigs still convert correctly? (every converted model)", needsBlender = true,
                 cost = "a full conversion bake per converted model — slow",
                 what = "The same four invariants, but on every REAL converted rig in the registry (animated + 'Convert " +
                        "raw rig', e.g. the Combine soldier's 62-bone auto-rig). The strongest net; needs each source " +
-                       "model file on disk. COMPLEMENTS the litmus row (different fixtures, nothing baked twice): a " +
-                       "real rig failing while the litmus passes points at the model, not the pipeline.",
+                       "model file on disk. COMPLEMENTS the control-rig row (different fixtures, nothing baked twice): a " +
+                       "real rig failing while the control passes points at the model, not the pipeline.",
                 run = ConversionGateTest.RunRegistryConvertedSection },
 
-            new TestRow { name = "Conversion — deploy golden diff", needsBlender = true,
+            new TestRow { name = "Did a deploy model change unexpectedly? (golden snapshot)", needsBlender = true,
                 cost = "one Blender conversion + bone dump per deploy model",
-                what = "Did a deploy-converted model CHANGE without you meaning it to? Re-runs the deploy conversion for " +
-                       "every deploy-converted model (the m114 howitzers, T-62) and diffs the resulting bone poses " +
-                       "against a blessed golden snapshot. Catches the per-model regressions the invariant checks can't " +
-                       "(the crossed-legs class of bug). NO overlap with the two rows above — they SKIP deploy-convert " +
-                       "models entirely.",
+                what = "Re-runs the deploy conversion for every deploy-converted model (the m114 howitzers, T-62) and " +
+                       "diffs the resulting bone poses against a blessed golden snapshot. Catches the per-model " +
+                       "regressions the invariant checks can't (the crossed-legs class of bug). NO overlap with the two " +
+                       "rows above — they SKIP deploy-convert models entirely.",
                 run = ConversionGateTest.RunDeployGoldenSection },
         };
     }
