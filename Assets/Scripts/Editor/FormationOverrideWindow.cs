@@ -66,6 +66,7 @@ public class FormationOverrideWindow : EditorWindow
     void RefreshList()
     {
         all = FormationRegistry.Load();
+        var notice = FormationRegistry.TakeNotice(); if (!string.IsNullOrEmpty(notice)) status = notice;   // self-healing is shown, not Console-only
         existing = new[] { "<New>" }.Concat(all.Select(EntryLabel)).ToArray();
     }
 

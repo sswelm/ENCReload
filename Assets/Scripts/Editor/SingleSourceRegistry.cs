@@ -28,6 +28,12 @@ public class SingleSourceRegistry<TFile> where TFile : class, new()
     public bool LastLoadCorrupt { get; private set; }
     public string LastCorruptDetail { get; private set; } = "";
 
+    // A self-healing action (artifact recreated, source adopted, migration) is otherwise a Console-only event —
+    // invisible to the person who just pressed Refresh (drill 2026-08-20: "nothing happens, proof it does not
+    // work"). The window takes the notice and shows it in its status line.
+    string notice = "";
+    public string TakeNotice() { var n = notice; notice = ""; return n; }
+
     // tag "[District]"; sourcePath = the git-tracked project file; artifactPath = the deployed file the game reads
     // (lazy: ConfigDir is resolved at call time); prefKey = one-time migration marker; gitRel = repo-relative source
     // path for `git checkout`; noun = "district entries" for messages.
@@ -62,6 +68,7 @@ public class SingleSourceRegistry<TFile> where TFile : class, new()
                             if (d != null && count(d) > 0)
                             {
                                 WriteAtomic(SourcePath, dep);
+                                notice = $"Project registry source was missing — adopted {count(d)} {noun} from the deployed artifact.";
                                 Debug.Log($"{tag} project registry source was missing — adopted {count(d)} {noun} from the deployed artifact ({ArtifactPath}).");
                                 return d;
                             }
@@ -209,6 +216,7 @@ public class SingleSourceRegistry<TFile> where TFile : class, new()
             if (!File.Exists(ArtifactPath))
             {
                 WriteAtomic(ArtifactPath, sourceJson);
+                notice = $"Deployed artifact was missing — recreated it from the project source ({Path.GetFileName(ArtifactPath)}).";
                 Debug.Log($"{tag} deployed registry artifact recreated from the project source → {ArtifactPath}");
                 return;
             }

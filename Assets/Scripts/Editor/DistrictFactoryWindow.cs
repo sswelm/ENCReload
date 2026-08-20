@@ -60,6 +60,7 @@ public class DistrictFactoryWindow : EditorWindow
     void RefreshList()
     {
         all = DistrictRegistry.Load();
+        var notice = DistrictRegistry.TakeNotice(); if (!string.IsNullOrEmpty(notice)) status = notice;   // self-healing is shown, not Console-only
         existing = new[] { "<New>" }.Concat(all.Select(d => d.district)).ToArray();
     }
 

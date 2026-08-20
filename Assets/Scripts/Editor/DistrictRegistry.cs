@@ -102,6 +102,7 @@ public static class DistrictRegistry
     public static string LastCorruptDetail => Store.LastCorruptDetail;
     public static string RecoverFromArtifact() => Store.RecoverFromArtifact();
     public static string RecoverFromGit() => Store.RecoverFromGit();
+    public static string TakeNotice() => Store.TakeNotice();   // self-healing event for the window status line
 
     static List<DistrictDef> Sort(List<DistrictDef> list)
     {
