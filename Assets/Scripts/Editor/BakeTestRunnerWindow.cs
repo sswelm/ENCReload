@@ -100,14 +100,16 @@ public class BakeTestRunnerWindow : EditorWindow
                 what = "Is the raw-rig CONVERSION still correct? Synthesizes a known 12-bone test rig, bakes it through " +
                        "the conversion, and checks the four invariants the game silently requires: every bone scale " +
                        "exactly 1, parents sorted before children, rotation-only clips, and the animation actually baked. " +
-                       "Each invariant was once violated and cost hours of in-game diagnosis.",
+                       "Each invariant was once violated and cost hours of in-game diagnosis. This is the CONTROL for " +
+                       "the row below: a synthetic rig separates 'the pipeline broke' from 'this model broke'.",
                 run = ConversionGateTest.RunLitmusSection },
 
             new TestRow { name = "Conversion — real registry rigs", needsBlender = true,
                 cost = "a full conversion bake per converted model — slow",
                 what = "The same four invariants, but on every REAL converted rig in the registry (animated + 'Convert " +
                        "raw rig', e.g. the Combine soldier's 62-bone auto-rig). The strongest net; needs each source " +
-                       "model file on disk.",
+                       "model file on disk. COMPLEMENTS the litmus row (different fixtures, nothing baked twice): a " +
+                       "real rig failing while the litmus passes points at the model, not the pipeline.",
                 run = ConversionGateTest.RunRegistryConvertedSection },
 
             new TestRow { name = "Conversion — deploy golden diff", needsBlender = true,
@@ -115,7 +117,8 @@ public class BakeTestRunnerWindow : EditorWindow
                 what = "Did a deploy-converted model CHANGE without you meaning it to? Re-runs the deploy conversion for " +
                        "every deploy-converted model (the m114 howitzers, T-62) and diffs the resulting bone poses " +
                        "against a blessed golden snapshot. Catches the per-model regressions the invariant checks can't " +
-                       "(the crossed-legs class of bug).",
+                       "(the crossed-legs class of bug). NO overlap with the two rows above — they SKIP deploy-convert " +
+                       "models entirely.",
                 run = ConversionGateTest.RunDeployGoldenSection },
         };
     }
