@@ -49,7 +49,7 @@ public class BakeTestRunnerWindow : EditorWindow
     List<TestRow> rows;
     Vector2 scroll;
     string lastReportPath, lastVerdict;
-    GUIStyle wrap, mono;
+    GUIStyle wrap, mono, wrapBold;
 
     // Live-run state: the queue makes each test its own editor tick, so the window repaints between tests and the
     // user watches rows turn green/red instead of staring at a frozen editor until one big dialog.
@@ -130,6 +130,7 @@ public class BakeTestRunnerWindow : EditorWindow
     {
         if (wrap == null) wrap = new GUIStyle(EditorStyles.label) { wordWrap = true };
         if (mono == null) mono = new GUIStyle(EditorStyles.miniLabel) { wordWrap = false, font = EditorStyles.miniFont };
+        if (wrapBold == null) wrapBold = new GUIStyle(EditorStyles.boldLabel) { wordWrap = true };   // titles WRAP, never clip
         bool blender = UniversalBaker.BlenderAvailable();
 
         EditorGUILayout.Space(4);
@@ -161,7 +162,7 @@ public class BakeTestRunnerWindow : EditorWindow
                     using (new EditorGUI.DisabledScope(Running))
                     {
                         bool was = r.on;
-                        r.on = EditorGUILayout.ToggleLeft(r.name, r.on, EditorStyles.boldLabel);
+                        r.on = EditorGUILayout.ToggleLeft(r.name, r.on, wrapBold);
                         if (r.on && !was && r.group != null)   // radio behavior inside a group: checking one unchecks the rest
                             foreach (var other in rows)
                                 if (other != r && other.group == r.group) other.on = false;
