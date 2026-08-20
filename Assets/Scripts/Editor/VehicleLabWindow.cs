@@ -41,7 +41,8 @@ public class VehicleLabWindow : EditorWindow
     // from Wheel only downstream: a rotorcraft bakes CONTINUOUS (always spins) with Auto-ground OFF (flyer).
     enum Role { Body, Wheel, Turret, Ignore, Default, Edgecase, Caterpillar, Gun, Rotor, TailRotor }
     [Serializable] class Part { public string name; public int verts; public Vector3 center, size; public Role role;
-        public int vis = -1; }   // probe's escape-ray verdict: 1 = external (visible from outside), 0 = interior (never visible — strippable), -1 = unclassified (pre-visibility probe)
+        public int vis = -1;   // probe's escape-ray verdict: 1 = external (visible from outside), 0 = interior (never visible — strippable), -1 = unclassified (pre-visibility probe)
+        public string bone = ""; }   // rigged sources: the bone this shard is weighted to (probe 2026-08-20) — lets a BONE row highlight its shards
 
     // Everything an assignment session builds is [SerializeField]: a DOMAIN RELOAD (any recompile) must never eat
     // the marked roles again — the field incident that motivated recipes in the first place.
@@ -563,7 +564,7 @@ public class VehicleLabWindow : EditorWindow
         {
             var t = line.Trim().Split('|');
             // PART rows carry an optional 6th field: the escape-ray visibility verdict (1 external / 0 interior).
-            bool okLen = t.Length == 5 || (t.Length == 6 && t[0] == "PART");
+            bool okLen = t.Length == 5 || ((t.Length == 6 || t.Length == 7) && t[0] == "PART");   // 7th = dominant bone (2026-08-20)
             if (!okLen || (t[0] != "PART" && t[0] != "RIGBONE")) continue;
             var c = t[3].Split(','); var s = t[4].Split(',');
             if (c.Length != 3 || s.Length != 3) continue;
@@ -573,7 +574,8 @@ public class VehicleLabWindow : EditorWindow
                 verts = int.TryParse(t[2], out var v) ? v : 0,
                 center = new Vector3(F(c[0]), F(c[1]), F(c[2])),
                 size = new Vector3(F(s[0]), F(s[1]), F(s[2])),
-                vis = t.Length == 6 && int.TryParse(t[5], out var vv) ? vv : -1,
+                vis = t.Length >= 6 && int.TryParse(t[5], out var vv) ? vv : -1,
+                bone = t.Length == 7 ? t[6].Trim() : "",
             };
             var low = p.name.ToLowerInvariant();
             var keptMap = t[0] == "RIGBONE" ? keptBones : kept;
@@ -1003,6 +1005,18 @@ public class VehicleLabWindow : EditorWindow
     {
         if (boneShards != null) return boneShards;
         boneShards = new Dictionary<string, List<Renderer>>();
+        // Preferred source (2026-08-20): the probe reports each shard's dominant bone in its PART line, so the preview
+        // no longer needs skin weights (the skinned preview export was the 84 s probe hog). Renderers are matched by
+        // shard name; the weight tally below remains as the fallback for skinned previews (the rig-mode FBX).
+        var byName = new Dictionary<string, Renderer>();
+        foreach (var r in all) if (r != null && !byName.ContainsKey(r.gameObject.name)) byName[r.gameObject.name] = r;
+        foreach (var p in parts)
+        {
+            if (string.IsNullOrEmpty(p.bone) || !byName.TryGetValue(p.name, out var rr)) continue;
+            if (!boneShards.TryGetValue(p.bone, out var l)) boneShards[p.bone] = l = new List<Renderer>();
+            l.Add(rr);
+        }
+        if (boneShards.Count > 0) return boneShards;
         foreach (var r in all)
         {
             var smr = r as SkinnedMeshRenderer;

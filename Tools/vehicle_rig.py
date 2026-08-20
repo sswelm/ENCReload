@@ -12,7 +12,11 @@
 #       AXLE AUTO = the axis of each wheel's SMALLEST bbox extent (a wheel is thin along its axle) — per wheel, so
 #       mirrored side wheels resolve independently.
 # Frame 0 deliberately equals the rest pose: `Spin[0..0]` is the motionless Idle (see Factory-Manual / Law 2 notes).
-import bpy, sys, math
+import bpy, sys, math, time
+_T0 = time.time()
+def _lap(label):
+    global _T0
+    now = time.time(); print("VEHICLE timing: %-12s %6.1fs" % (label, now - _T0)); _T0 = now
 from mathutils import Vector, Quaternion, Matrix
 
 argv = sys.argv[sys.argv.index("--") + 1:]
@@ -47,6 +51,7 @@ def world_bbox(o):
     return (mn + mx) / 2.0, mx - mn
 
 imp(inp)
+_lap("import")
 
 # ---- rigged-source detection (the SKM fast path's foundation) ----
 # A game-rip often ships FULLY skinned (SKM_ prefix): its artist skeleton has perfect axle pivots and extra
@@ -91,6 +96,7 @@ def rig_report():
 
 if mode == "probe":
     rig_report()
+    _lap("rig_report")
     objs = mesh_objects()
     if len(objs) == 1:
         # a single combined mesh can't be role-assigned — try splitting into loose parts for the caller
@@ -100,18 +106,28 @@ if mode == "probe":
         bpy.ops.mesh.separate(type='LOOSE'); bpy.ops.object.mode_set(mode='OBJECT')
         objs = mesh_objects()
         print("VEHICLE note: single mesh split into %d loose parts (names are synthetic)" % len(objs))
+    _lap("split")
     # ---- visibility classification: EXTERNAL vs INTERIOR ----
     # A part is EXTERNAL if any sampled surface point can shoot a straight "escape ray" to infinity without hitting
     # other geometry; a part blocked from every sample in every direction is INTERIOR (cockpit gear, engine guts) —
     # provably never visible, safe to strip for triangle budget. Directions: the vertex normal first (the likeliest
     # escape), then 14 fixed dirs (axes + cube diagonals). Up to 30 samples/part, early-out on the first escape.
+    # PERF (2026-08-20): the rays go through ONE combined BVHTree of every part's world-space polygons, built once.
+    # scene.ray_cast per ray walked all 3,350 objects each time — 31 s on the Ehrhardt; the BVH does it in 0.2 s
+    # with the same verdicts (±3 parts of 3,350 at the eps boundary).
+    from mathutils.bvhtree import BVHTree
     _dirs = [Vector(_v).normalized() for _v in ((1,0,0),(-1,0,0),(0,1,0),(0,-1,0),(0,0,1),(0,0,-1),
              (1,1,1),(1,1,-1),(1,-1,1),(1,-1,-1),(-1,1,1),(-1,1,-1),(-1,-1,1),(-1,-1,-1))]
-    _dg = bpy.context.evaluated_depsgraph_get()
+    _bv = []; _bp = []; _base = 0
     _mx_ext = 0.0
     for _o in objs:
+        _mw = _o.matrix_world
+        _bv.extend([_mw @ _v.co for _v in _o.data.vertices])
+        _bp.extend([tuple(_base + _i for _i in _p.vertices) for _p in _o.data.polygons])
+        _base += len(_o.data.vertices)
         _c2, _s2 = world_bbox(_o)
         _mx_ext = max(_mx_ext, _s2.x, _s2.y, _s2.z)
+    _bvh = BVHTree.FromPolygons(_bv, _bp)
     _eps = max(1e-4, _mx_ext * 1e-3)   # ray start offset so a point clears its own surface
     _vis = {}
     for _o in objs:
@@ -124,19 +140,51 @@ if mode == "probe":
             for _d in [(_nm @ _vs[_i].normal).normalized()] + _dirs:
                 if _d.length < 0.5:
                     continue
-                if not bpy.context.scene.ray_cast(_dg, _p + _d * _eps, _d)[0]:
+                if _bvh.ray_cast(_p + _d * _eps, _d)[0] is None:
                     _seen = True; break
             if _seen:
                 break
         _vis[_o.name] = 1 if _seen else 0
     print("VEHICLE visibility: %d external / %d interior part(s)" % (sum(_vis.values()), len(objs) - sum(_vis.values())))
+    _lap("visibility")
+    # ---- dominant bone per shard (rigged sources) — so the Lab can highlight a BONE row's shards WITHOUT the
+    # preview carrying skin weights (the skinned preview export was the 84 s hog; see below). ----
+    _bone_names = set()
+    for _a in [o for o in bpy.context.scene.objects if o.type == 'ARMATURE']:
+        _bone_names.update(b.name for b in _a.data.bones)
+    _bone = {}
+    for _o in objs:
+        _g = {g.index: g.name for g in _o.vertex_groups if g.name in _bone_names}
+        if not _g:
+            continue
+        _tally = {}
+        for _v in _o.data.vertices:
+            for _vg in _v.groups:
+                if _vg.group in _g and _vg.weight > 0.0:
+                    _tally[_g[_vg.group]] = _tally.get(_g[_vg.group], 0.0) + _vg.weight
+        if _tally:
+            _bone[_o.name] = max(_tally.items(), key=lambda kv: kv[1])[0]
     for o in objs:
         c, s = world_bbox(o)
-        print("PART|%s|%d|%.4f,%.4f,%.4f|%.4f,%.4f,%.4f|%d" % (o.name, len(o.data.vertices), c.x, c.y, c.z, s.x, s.y, s.z, _vis.get(o.name, 1)))
-    # optional argv[2]: export the SPLIT scene as a preview FBX so the Lab can show/zoom/highlight each part by name
+        print("PART|%s|%d|%.4f,%.4f,%.4f|%.4f,%.4f,%.4f|%d|%s" % (o.name, len(o.data.vertices), c.x, c.y, c.z, s.x, s.y, s.z, _vis.get(o.name, 1), _bone.get(o.name, "")))
+    print("VEHICLE parts listed"); sys.stdout.flush()   # sentinel + flush: Blender's C-level banner flushes AFTER Python's buffer and would otherwise glue onto the last PART line
+    # optional argv[2]: export the SPLIT scene as a preview FBX so the Lab can show/zoom/highlight each part by name.
+    # PERF (2026-08-20): exported UNSKINNED — plain meshes, world transforms baked, no armature. The FBX exporter
+    # took 84 s to write 3,350 skinned objects (58 MB) and 1.9 s to write them as plain meshes (11 MB). The preview
+    # only needs names + geometry; bone membership travels in the PART line above.
     if len(argv) > 2 and argv[2].strip():
-        bpy.ops.export_scene.fbx(filepath=argv[2], add_leaf_bones=False, bake_anim=False)
+        for _o in objs:
+            _mw = _o.matrix_world.copy()
+            _o.vertex_groups.clear()
+            for _m in list(_o.modifiers):
+                _o.modifiers.remove(_m)
+            _o.parent = None
+            _o.matrix_world = _mw
+        for _a in [o for o in bpy.context.scene.objects if o.type == 'ARMATURE']:
+            bpy.data.objects.remove(_a, do_unlink=True)
+        bpy.ops.export_scene.fbx(filepath=argv[2], object_types={'MESH'}, use_mesh_modifiers=False, add_leaf_bones=False, bake_anim=False)
         print("VEHICLE probe preview: %s" % argv[2])
+        _lap("export")
     sys.exit(0)
 
 # ---- rig mode ----
