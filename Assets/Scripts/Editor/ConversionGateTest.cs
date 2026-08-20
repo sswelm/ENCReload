@@ -1,4 +1,4 @@
-// ConversionGateTest.cs (ENC editor) — Tools > ENC > Tests > Bake Conversion Gate Test.
+// ConversionGateTest.cs (ENC editor) — run via Tools ▸ HAF ▸ Bake Tests… (BakeTestRunnerWindow).
 // The FOURTH regression guard (Factory-Manual §11): asserts the raw-rig CONVERSION invariants that the animated
 // runtime silently requires (established by decompiling Amplitude's bake + runtime, and by the Combine-soldier
 // campaign — each was once violated, each produced an in-game failure that took hours to diagnose by hand):
@@ -6,7 +6,7 @@
 //   2. every bone's ParentIndex < its own index            (bones are sorted by NAME; consumers assume topological)
 //   3. every clip curve entry is ROTATION-only             (translations don't survive Amplitude's clip format)
 //   4. the clip actually carries the animation             (per-bone entries + a real frame count)
-// Two fixtures, two menu items:
+// Three checks, three rows in the Bake Tests window:
 //   (litmus)            — the deterministic synthetic 12-deep chain (Tools/make_litmus.py, built via Blender on
 //                         demand). Fast-ish, always available, covers the mechanics.
 //   (registry converted models) — THE REAL RIGS: every registry model on the conversion path (animated +
@@ -30,25 +30,27 @@ public static class ConversionGateTest
 {
     const string PREFIX = "__convgate__";
 
-    [MenuItem("Tools/HAF/Tests/Bake Conversion Gate Test (litmus)")]
-    public static void RunLitmus()
+    public static BakeTestSection RunLitmusSection()
     {
+        const string title = "Conversion — litmus rig";
+        BakeTestSection Bad(string why) { Debug.LogError("[ConvGate] " + why); return new BakeTestSection { title = title, fail = 1, body = "FAIL: " + why }; }
+
         // --- fixture: synthesize the litmus rig if it isn't cached ---
         string litmus = Path.Combine(Path.GetTempPath(), "haf_litmus.glb");
         if (!File.Exists(litmus))
         {
             string script = Path.Combine(Directory.GetParent(Application.dataPath).FullName, "Tools", "make_litmus.py");
-            if (!File.Exists(script)) { Debug.LogError("[ConvGate] Tools/make_litmus.py missing"); return; }
+            if (!File.Exists(script)) return Bad("Tools/make_litmus.py missing");
             string blender = UniversalBaker.FindBlender();
-            if (string.IsNullOrEmpty(blender)) { Debug.LogError("[ConvGate] Blender not found — the gate needs it"); return; }
+            if (string.IsNullOrEmpty(blender)) return Bad("Blender not found — the gate needs it");
             var psi = new System.Diagnostics.ProcessStartInfo(blender, $"-b --python \"{script}\" -- \"{litmus}\"")
             { UseShellExecute = false, CreateNoWindow = true, RedirectStandardOutput = true, RedirectStandardError = true };
             // Drain BOTH pipes concurrently via RunBounded: the old sequential ReadToEnd(stdout) then ReadToEnd(stderr)
             // deadlocks if Blender fills the stderr pipe buffer while we're blocked reading stdout (and the 180s
-            // WaitForExit came AFTER, so it never armed) → the gate-test menu could freeze the whole editor.
+            // WaitForExit came AFTER, so it never armed) → the gate test could freeze the whole editor.
             using (var p = System.Diagnostics.Process.Start(psi))
-                if (!UniversalBaker.RunBounded(p, 180000, out string _, out string _)) { Debug.LogError("[ConvGate] litmus synthesis: Blender timed out (3 min)"); return; }
-            if (!File.Exists(litmus)) { Debug.LogError("[ConvGate] litmus synthesis produced no GLB"); return; }
+                if (!UniversalBaker.RunBounded(p, 180000, out string _, out string _)) return Bad("litmus synthesis: Blender timed out (3 min)");
+            if (!File.Exists(litmus)) return Bad("litmus synthesis produced no GLB");
         }
         var def = new ModelDef
         {
@@ -60,37 +62,46 @@ public static class ConversionGateTest
         Debug.Log(fails == 0
             ? "[ConvGate] LITMUS PASS — conversion invariants hold (all scales 1, parents before children, rotation-only clip)."
             : $"[ConvGate] LITMUS: {fails} FAILURE(S) — the conversion pipeline regressed; see errors above.");
-        EditorUtility.DisplayDialog("Conversion Gate — litmus",
-            fails == 0 ? "PASS — conversion invariants hold (scales 1, parents before children, rotation-only clip)."
-                       : $"{fails} FAILURE(S) — the conversion pipeline regressed. See the Console for detail.", "OK");
+        return new BakeTestSection
+        {
+            title = title, pass = fails == 0 ? 1 : 0, fail = fails,
+            body = fails == 0 ? "PASS — conversion invariants hold (scales 1, parents before children, rotation-only clip)."
+                              : $"{fails} FAILURE(S) — the conversion pipeline regressed. See the Console for detail."
+        };
     }
 
-    [MenuItem("Tools/HAF/Tests/Bake Conversion Gate Test (registry converted models)")]
-    public static void RunRegistryConverted()
+    public static BakeTestSection RunRegistryConvertedSection()
     {
+        const string title = "Conversion — real registry rigs";
         // The REAL adversarial fixtures: every registry model on the conversion path (the Combine soldier's
         // location-keyed ValveBiped being the canonical one). Skips models whose source file is gone.
         var defs = ModelRegistry.Load().Where(d => d.animated && d.convertRig
                                                && !d.resourceName.StartsWith(PREFIX)).ToList();
-        if (defs.Count == 0) { Debug.LogWarning("[ConvGate] no converted models in the registry (animated + 'Convert raw rig') — nothing to test."); return; }
-        int total = 0, tested = 0, skipped = 0;
-        var failed = new System.Collections.Generic.List<string>();
+        if (defs.Count == 0)
+        {
+            Debug.LogWarning("[ConvGate] no converted models in the registry (animated + 'Convert raw rig') — nothing to test.");
+            return new BakeTestSection { title = title, skip = 1, body = "SKIP — no converted models in the registry (animated + 'Convert raw rig')." };
+        }
+        int total = 0, tested = 0, skipped = 0, failedModels = 0;
+        var lines = new System.Collections.Generic.List<string>();
         foreach (var src in defs)
         {
             if (string.IsNullOrWhiteSpace(src.modelFile) || !File.Exists(src.modelFile))
-            { Debug.LogWarning($"[ConvGate] SKIP {src.resourceName} — source model file not on disk ({src.modelFile})"); skipped++; continue; }
+            { lines.Add($"SKIP {src.resourceName} — source model file not on disk ({src.modelFile})"); skipped++; continue; }
             var clone = JsonUtility.FromJson<ModelDef>(JsonUtility.ToJson(src));   // never mutate the real entry
             int fails = BakeAndAssert(clone);
-            Debug.Log(fails == 0
-                ? $"[ConvGate] {src.resourceName}: PASS (full conversion on the real rig)"
-                : $"[ConvGate] {src.resourceName}: {fails} FAILURE(S) — see errors above.");
-            if (fails > 0) failed.Add($"{src.resourceName} ({fails})");
+            lines.Add(fails == 0
+                ? $"PASS {src.resourceName} (full conversion on the real rig)"
+                : $"FAIL {src.resourceName} — {fails} invariant failure(s), see the Console");
+            if (fails > 0) failedModels++;
             total += fails; tested++;
         }
         Debug.Log($"[ConvGate] registry converted models: {tested} tested, {total} total failure(s).");
-        EditorUtility.DisplayDialog("Conversion Gate — registry converted models",
-            total == 0 ? $"PASS — {tested} model(s) tested, no conversion-invariant failures{(skipped > 0 ? $" ({skipped} skipped: source not on disk)" : "")}."
-                       : $"{total} failure(s) across {failed.Count} model(s):\n  {string.Join("\n  ", failed)}\n\nSee the Console for the per-check detail.", "OK");
+        return new BakeTestSection
+        {
+            title = title, pass = tested - failedModels, fail = failedModels, skip = skipped,
+            body = string.Join("\n", lines) + (total > 0 ? $"\n{total} invariant failure(s) total — see the Console for the per-check detail." : "")
+        };
     }
 
     // THE DEPLOY-CONVERT GATE (2026-08-01) — the two variants above test convertRig rigs and INVARIANTS; they skip
@@ -101,45 +112,48 @@ public static class ConversionGateTest
     // Tools/deploy_golden/<res>.txt. A FAIL on a model you didn't mean to touch IS the regression (the T-62 contract that
     // broke the m114). Shares scripts + goldens with the CLI form `bash Tools/deploy_regression.sh` (which prints the
     // line-level diff and can (re)capture goldens with --capture).
-    [MenuItem("Tools/HAF/Tests/Bake Conversion Gate Test (deploy golden diff)")]
-    public static void RunDeployGolden()
+    public static BakeTestSection RunDeployGoldenSection()
     {
+        const string title = "Conversion — deploy golden diff";
+        BakeTestSection Bad(string why) { Debug.LogError("[ConvGate] " + why); return new BakeTestSection { title = title, fail = 1, body = "FAIL: " + why }; }
+        BakeTestSection Skip(string why) { Debug.LogWarning("[ConvGate] " + why); return new BakeTestSection { title = title, skip = 1, body = "SKIP — " + why }; }
+
         string root = Directory.GetParent(Application.dataPath).FullName;
         string blender = UniversalBaker.FindBlender();
-        if (string.IsNullOrEmpty(blender)) { Debug.LogError("[ConvGate] Blender not found — the deploy golden diff needs it"); return; }
+        if (string.IsNullOrEmpty(blender)) return Bad("Blender not found — the deploy golden diff needs it");
         string convert = Path.Combine(root, "Tools", "deploy_convert.py");
         string dump = Path.Combine(root, "Tools", "deploy_bonedump.py");
         string goldDir = Path.Combine(root, "Tools", "deploy_golden");
         string fsRoot = Path.Combine(root, "Assets", "FactorySource");
-        if (!File.Exists(convert) || !File.Exists(dump)) { Debug.LogError("[ConvGate] Tools/deploy_convert.py or deploy_bonedump.py missing"); return; }
-        if (!Directory.Exists(fsRoot)) { Debug.LogWarning("[ConvGate] no Assets/FactorySource — no deploy-convert models to test"); return; }
+        if (!File.Exists(convert) || !File.Exists(dump)) return Bad("Tools/deploy_convert.py or deploy_bonedump.py missing");
+        if (!Directory.Exists(fsRoot)) return Skip("no Assets/FactorySource — no deploy-convert models to test");
         var argFiles = Directory.GetFiles(fsRoot, "deploy_converted.args.txt", SearchOption.AllDirectories).OrderBy(x => x).ToArray();
-        if (argFiles.Length == 0) { Debug.LogWarning("[ConvGate] no deploy-convert models (FactorySource/*/deploy_converted.args.txt)"); return; }
+        if (argFiles.Length == 0) return Skip("no deploy-convert models (FactorySource/*/deploy_converted.args.txt)");
+
         int pass = 0, fail = 0, miss = 0;
+        var lines = new System.Collections.Generic.List<string>();
         foreach (var af in argFiles)
         {
             string res = new DirectoryInfo(Path.GetDirectoryName(af)).Name;
             var fields = File.ReadAllText(af).Trim().Split('|');   // source | srcMtime | toolMtime | 14 args
-            if (fields.Length < 4) { Debug.LogWarning($"[ConvGate] SKIP {res} — malformed args.txt"); continue; }
+            if (fields.Length < 4) { lines.Add($"SKIP {res} — malformed args.txt"); miss++; continue; }
             string src = fields[0];
-            if (!File.Exists(src)) { Debug.LogWarning($"[ConvGate] SKIP {res} — source missing ({src})"); continue; }
+            if (!File.Exists(src)) { lines.Add($"SKIP {res} — source missing ({src})"); miss++; continue; }
             string qargs = string.Join(" ", fields.Skip(3).Select(a => "\"" + a + "\""));
             string outGlb = Path.Combine(Path.GetTempPath(), "convgate_" + res + ".glb");
             try { if (File.Exists(outGlb)) File.Delete(outGlb); } catch { }
             string convOut = RunBlenderCapture(blender, $"-b --python \"{convert}\" -- \"{src}\" \"{outGlb}\" {qargs}");
             if (!File.Exists(outGlb) || !convOut.Contains("DEPLOY wrote:"))
-            { Debug.LogError($"[ConvGate] {res}: FAIL — deploy_convert did not complete (see the DEPLOY log)"); fail++; continue; }
+            { lines.Add($"FAIL {res} — deploy_convert did not complete (see the DEPLOY log in the Console)"); fail++; continue; }
             string got = FilterDump(RunBlenderCapture(blender, $"-b --python \"{dump}\" -- \"{outGlb}\""));
             try { File.Delete(outGlb); } catch { }
             string goldFile = Path.Combine(goldDir, res + ".txt");
-            if (!File.Exists(goldFile)) { Debug.LogWarning($"[ConvGate] {res}: NO GOLDEN — run `bash Tools/deploy_regression.sh --capture` once"); miss++; continue; }
-            if (Norm(got) == Norm(File.ReadAllText(goldFile))) { Debug.Log($"[ConvGate] {res}: PASS (deploy golden match)"); pass++; }
-            else { Debug.LogError($"[ConvGate] {res}: FAIL — converted rig CHANGED vs golden. Run `bash Tools/deploy_regression.sh` for the line diff."); fail++; }
+            if (!File.Exists(goldFile)) { lines.Add($"NO GOLDEN {res} — run `bash Tools/deploy_regression.sh --capture` once"); miss++; continue; }
+            if (Norm(got) == Norm(File.ReadAllText(goldFile))) { lines.Add($"PASS {res} (deploy golden match)"); pass++; }
+            else { lines.Add($"FAIL {res} — converted rig CHANGED vs golden. Run `bash Tools/deploy_regression.sh` for the line diff."); fail++; }
         }
         Debug.Log($"[ConvGate] deploy golden diff: {pass} pass, {fail} fail, {miss} missing golden (of {argFiles.Length} models).");
-        EditorUtility.DisplayDialog("Conversion Gate — deploy golden diff",
-            (fail == 0 && miss == 0) ? $"PASS — {pass} deploy-convert model(s) match their golden."
-                                     : $"{pass} pass, {fail} FAIL, {miss} missing golden.\nSee the Console; run `bash Tools/deploy_regression.sh` for the line-level diff.", "OK");
+        return new BakeTestSection { title = title, pass = pass, fail = fail, skip = miss, body = string.Join("\n", lines) };
     }
 
     static string RunBlenderCapture(string blender, string args)

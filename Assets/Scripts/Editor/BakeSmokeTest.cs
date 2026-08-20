@@ -25,11 +25,12 @@ public static class BakeSmokeTest
 {
     const string PREFIX = "__smoketest__";
 
-    [MenuItem("Tools/HAF/Tests/Bake Smoke Test (one per path)")]
-    public static void RunRepresentatives()
+    // No [MenuItem]s here any more — run these through Tools ▸ HAF ▸ Bake Tests… (BakeTestRunnerWindow), which
+    // explains what each test does, shows the result per row, and writes the durable report.
+    public static BakeTestSection RunRepresentativesSection()
     {
         var defs = ModelRegistry.Load();
-        if (defs == null || defs.Count == 0) { EditorUtility.DisplayDialog("Bake Smoke Test", "No models in the registry.", "OK"); return; }
+        if (defs == null || defs.Count == 0) return NoModels("Smoke — one per bake path");
         // The path key includes the CONVERSION dimension (2026-07-19): an animated model with convertRig set goes
         // through the raw-rig conversion (rest normalization, rename, scale fold, unit-clean export) while the flag
         // off is the byte-identical legacy pipeline — two genuinely different code paths that each need a
@@ -38,21 +39,22 @@ public static class BakeSmokeTest
         var reps = defs.Where(d => !d.resourceName.StartsWith(PREFIX))
                        .GroupBy(d => (d.animated, d.materialMode, converted: d.animated && d.convertRig))
                        .Select(g => g.First()).ToList();
-        Run(reps, "one per bake-path");
+        return Run(reps, "Smoke — one per bake path");
     }
 
-    [MenuItem("Tools/HAF/Tests/Bake Smoke Test (ALL models)")]
-    public static void RunAll()
+    public static BakeTestSection RunAllSection()
     {
         var defs = ModelRegistry.Load();
-        if (defs == null || defs.Count == 0) { EditorUtility.DisplayDialog("Bake Smoke Test", "No models in the registry.", "OK"); return; }
-        Run(defs.Where(d => !d.resourceName.StartsWith(PREFIX)).ToList(), "all models");
+        if (defs == null || defs.Count == 0) return NoModels("Smoke — ALL models");
+        return Run(defs.Where(d => !d.resourceName.StartsWith(PREFIX)).ToList(), "Smoke — ALL models");
     }
 
-    static void Run(List<ModelDef> models, string scope)
+    static BakeTestSection NoModels(string title) => new BakeTestSection { title = title, fail = 1, body = "No models in the registry." };
+
+    static BakeTestSection Run(List<ModelDef> models, string title)
     {
         var sb = new StringBuilder();
-        int pass = 0, fail = 0;
+        int pass = 0, fail = 0, skip = 0;
         try
         {
             for (int i = 0; i < models.Count; i++)
@@ -68,7 +70,7 @@ public static class BakeSmokeTest
                 if (textureOnly)
                 {
                     sb.AppendLine($"[{tag}] {src.resourceName}: SKIP (texture-only override — nothing to bake)");
-                    pass++;
+                    skip++;   // counted honestly as a skip, not smuggled into the pass count
                     continue;
                 }
 
@@ -108,10 +110,11 @@ public static class BakeSmokeTest
         }
         finally { EditorUtility.ClearProgressBar(); AssetDatabase.Refresh(); }
 
-        string head = $"Bake Smoke Test ({scope}) — {pass} passed, {fail} failed of {models.Count}\n" +
-                      "(non-destructive: baked under throwaway names, your real assets + registry are untouched)\n\n";
-        if (fail > 0) Debug.LogError("[SmokeTest]\n" + head + sb); else Debug.Log("[SmokeTest]\n" + head + sb);
-        EditorUtility.DisplayDialog("Bake Smoke Test", head + sb + (fail > 0 ? "\nSee Console for the full error(s)." : ""), "OK");
+        return new BakeTestSection
+        {
+            title = title, pass = pass, fail = fail, skip = skip,
+            body = sb.ToString().TrimEnd()
+        };
     }
 
     // Passes only if the shipped assets exist and aren't empty stubs (a failed bake can leave a tiny/blank asset).

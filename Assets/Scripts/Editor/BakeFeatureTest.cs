@@ -1,4 +1,4 @@
-// BakeFeatureTest.cs — INTEGRATION test for the baker's FEATURE knobs (Tools ▸ ENC ▸ Tests ▸ Bake Feature Test).
+// BakeFeatureTest.cs — INTEGRATION test for the baker's FEATURE knobs (run via Tools ▸ HAF ▸ Bake Tests…).
 //
 // The Bake Smoke Test proves every registered model still bakes into valid assets. This complements it by proving each
 // BAKER FEATURE actually does what it claims: it bakes a self-contained synthetic cube with one knob toggled at a time
@@ -21,13 +21,14 @@ public static class BakeFeatureTest
 {
     const string Prefix = "__feat_";
 
-    [MenuItem("Tools/HAF/Tests/Bake Feature Test")]
-    static void Run()
+    public static BakeTestSection RunTier1Section()
     {
         var res = new List<string>();
         int pass = 0, fail = 0, skip = 0;
         string tmp = Path.Combine(Path.GetTempPath(), "haf_feattest");
         var used = new List<string>();
+        BakeTestSection Section() => new BakeTestSection
+        { title = "Features — baker options (synthetic)", pass = pass, fail = fail, skip = skip, body = string.Join("\n", res) };
 
         try
         {
@@ -38,7 +39,7 @@ public static class BakeFeatureTest
 
             // ---- baseline (KeepModel, no features) — the reference for ratio/relative checks ----
             var mBase = Bake(Cfg("base", cube1), used, out var rBase);
-            if (mBase == null) { res.Add("FAIL: baseline bake did not produce a mesh (" + rBase.error + ") — aborting"); fail++; Report("Bake Feature Test", res, pass, fail, skip); return; }
+            if (mBase == null) { res.Add("FAIL: baseline bake did not produce a mesh (" + rBase.error + ") — aborting"); fail++; return Section(); }
             int T0 = mBase.triangles.Length / 3, V0 = mBase.vertexCount;
             res.Add($"(baseline: {V0} verts, {T0} tris)");
 
@@ -188,20 +189,21 @@ public static class BakeFeatureTest
             try { if (Directory.Exists(tmp)) Directory.Delete(tmp, true); } catch { }
             AssetDatabase.Refresh();
         }
-        Report("Bake Feature Test", res, pass, fail, skip);
+        return Section();
     }
 
     // TIER 2 — the knobs a cube can't exercise: Blender-dependent (targetTris/stripParts) via generated high-poly / named
     // fixtures, and the ANIMATED pipeline via a real rigged model borrowed from the registry (SKIP if none on disk). Slower
-    // (real Blender bakes) and fixture-dependent, so it's a separate menu item from the fast, self-contained Tier 1.
-    [MenuItem("Tools/HAF/Tests/Bake Feature Test (Tier 2 — Blender + animated)")]
-    static void RunTier2()
+    // (real Blender bakes) and fixture-dependent, so it's a separate row from the fast, self-contained Tier 1.
+    public static BakeTestSection RunTier2Section()
     {
         var res = new List<string>(); int pass = 0, fail = 0, skip = 0;
         var used = new List<string>();
         string tmp = Path.Combine(Path.GetTempPath(), "haf_feattest2");
+        BakeTestSection Section() => new BakeTestSection
+        { title = "Features — Blender + animated", pass = pass, fail = fail, skip = skip, body = string.Join("\n", res) };
         if (!UniversalBaker.BlenderAvailable())
-        { EditorUtility.DisplayDialog("Bake Feature Test — Tier 2", "Blender not found — Tier 2 (targetTris / stripParts / animated) needs Blender.\nInstall it or set EditorPrefs 'ENC.blenderPath'.", "OK"); return; }
+        { fail++; res.Add("FAIL: Blender not found — targetTris / stripParts / animated need it. Install it or set EditorPrefs 'ENC.blenderPath'."); return Section(); }
         try
         {
             if (Directory.Exists(tmp)) Directory.Delete(tmp, true);
@@ -257,7 +259,7 @@ public static class BakeFeatureTest
             try { if (Directory.Exists(tmp)) Directory.Delete(tmp, true); } catch { }
             AssetDatabase.Refresh();
         }
-        Report("Bake Feature Test — Tier 2", res, pass, fail, skip);
+        return Section();
     }
 
     static bool EmptyGuid(string g) => string.IsNullOrEmpty(g) || g == "0,0,0,0";
@@ -321,13 +323,6 @@ public static class BakeFeatureTest
                 AssetDatabase.DeleteAsset("Assets/Resources/" + n + s);   // pose bytes incl. — Tier-2 animated runs used to strand them in the SHIPPED Resources root
             AssetDatabase.DeleteAsset("Assets/FactorySource/" + n);
         }
-    }
-
-    static void Report(string title, List<string> res, int pass, int fail, int skip)
-    {
-        string head = $"{title} — {pass} passed, {fail} failed, {skip} skipped";
-        Debug.Log("[FeatureTest] " + head + "\n" + string.Join("\n", res));
-        EditorUtility.DisplayDialog(title, head + "\n\n" + string.Join("\n", res), "OK");
     }
 
     // ---- synthetic model: a unit cube (single- or two-material) + a 512px vertical-gradient orange albedo ----
