@@ -157,30 +157,33 @@ public class BakeTestRunnerWindow : EditorWindow
         {
             using (new EditorGUILayout.VerticalScope("box"))
             {
+                // Title, status, description each get their OWN full-width line: a shared horizontal row made the
+                // layout demand the title's full unwrapped width, which pushed the whole scroll content wider than a
+                // narrow window and CLIPPED every label at the window edge ("…(c" — user-caught, 2026-08-20).
+                using (new EditorGUI.DisabledScope(Running))
                 using (new EditorGUILayout.HorizontalScope())
                 {
-                    using (new EditorGUI.DisabledScope(Running))
-                    {
-                        bool was = r.on;
-                        r.on = EditorGUILayout.ToggleLeft(r.name, r.on, wrapBold);
-                        if (r.on && !was && r.group != null)   // radio behavior inside a group: checking one unchecks the rest
-                            foreach (var other in rows)
-                                if (other != r && other.group == r.group) other.on = false;
-                    }
-                    GUILayout.FlexibleSpace();
-                    var keep = GUI.color;
-                    if (Running && r == current)
-                    { GUI.color = new Color(0.5f, 0.8f, 1f); GUILayout.Label("RUNNING…", EditorStyles.boldLabel); }
-                    else if (Running && pending.Contains(r))
-                    { GUI.color = new Color(0.7f, 0.7f, 0.7f); GUILayout.Label("queued", EditorStyles.boldLabel); }
-                    else if (r.last != null)
-                    {
-                        GUI.color = r.last.fail > 0 ? new Color(1f, 0.45f, 0.45f)
-                                  : r.last.pass > 0 ? new Color(0.45f, 1f, 0.45f) : new Color(1f, 0.85f, 0.4f);
-                        GUILayout.Label(ResultLabel(r.last), EditorStyles.boldLabel);
-                    }
-                    GUI.color = keep;
+                    // Checkbox + a label-styled BUTTON as the title. NOT ToggleLeft: with a word-wrapping style it
+                    // mis-sizes itself (a ~180px column, too little height — the "even worse" round, 2026-08-20).
+                    // The button takes ALL remaining width, wraps properly, and clicking the text still toggles.
+                    bool was = r.on, v = EditorGUILayout.Toggle(r.on, GUILayout.Width(16));
+                    if (GUILayout.Button(r.name, wrapBold, GUILayout.ExpandWidth(true))) v = !v;
+                    r.on = v;
+                    if (r.on && !was && r.group != null)   // radio behavior inside a group: checking one unchecks the rest
+                        foreach (var other in rows)
+                            if (other != r && other.group == r.group) other.on = false;
                 }
+                string status = null; var col = GUI.color; var keep = GUI.color;
+                if (Running && r == current) { status = "RUNNING…"; col = new Color(0.5f, 0.8f, 1f); }
+                else if (Running && pending.Contains(r)) { status = "queued"; col = new Color(0.7f, 0.7f, 0.7f); }
+                else if (r.last != null)
+                {
+                    status = ResultLabel(r.last);
+                    col = r.last.fail > 0 ? new Color(1f, 0.45f, 0.45f)
+                        : r.last.pass > 0 ? new Color(0.45f, 1f, 0.45f) : new Color(1f, 0.85f, 0.4f);
+                }
+                if (status != null)
+                { GUI.color = col; EditorGUILayout.LabelField(status, wrapBold); GUI.color = keep; }
                 EditorGUILayout.LabelField(r.what, wrap);
                 EditorGUILayout.LabelField("Costs: " + r.cost + (r.needsBlender ? "  •  needs Blender" : ""), EditorStyles.miniLabel);
                 if (r.last != null && !string.IsNullOrEmpty(r.last.body))
