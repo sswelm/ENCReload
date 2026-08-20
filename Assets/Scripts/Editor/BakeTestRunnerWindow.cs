@@ -38,6 +38,8 @@ public class BakeTestRunnerWindow : EditorWindow
         public string cost;            // what running it costs (time / dependencies)
         public bool needsBlender;      // auto-skipped when Blender is missing
         public bool quick;             // part of the "Quick" preset
+        public string group;           // rows sharing a group are mutually exclusive (radio behavior)
+        public bool thorough;          // the group member the "Everything" preset picks
         public bool on;                // checkbox state
         public Func<BakeTestSection> run;
         public BakeTestSection last;   // result of the most recent run (this session)
@@ -64,17 +66,18 @@ public class BakeTestRunnerWindow : EditorWindow
     {
         rows = new List<TestRow>
         {
-            new TestRow { name = "Smoke — one per bake path", quick = true, on = true, needsBlender = true,
+            new TestRow { name = "Smoke — one per bake path", quick = true, on = true, needsBlender = true, group = "smoke",
                 cost = "a handful of real bakes (~minutes)",
                 what = "Does the baker still work at all? Re-bakes ONE representative model per bake path (static / " +
                        "animated / rig-converted, per material mode) under a throwaway name and checks the baked assets " +
                        "exist and are not empty stubs. The quick \"did I break the baker?\" check after baker changes.",
                 run = BakeSmokeTest.RunRepresentativesSection },
 
-            new TestRow { name = "Smoke — ALL models", needsBlender = true,
+            new TestRow { name = "Smoke — ALL models", needsBlender = true, group = "smoke", thorough = true,
                 cost = "one full bake per registry model — slow",
                 what = "Does every model in the catalog still bake? The same check as above, but for EVERY registry " +
-                       "entry, not just representatives. Supersedes the one-per-path row when selected. Run before a release.",
+                       "entry, not just representatives. Mutually exclusive with the one-per-path row (it already " +
+                       "covers everything that row bakes). Run before a release.",
                 run = BakeSmokeTest.RunAllSection },
 
             new TestRow { name = "Features — baker options (synthetic)", quick = true, on = true,
@@ -141,7 +144,8 @@ public class BakeTestRunnerWindow : EditorWindow
         {
             GUILayout.Label("Select:", GUILayout.Width(44));
             if (GUILayout.Button("Quick set", GUILayout.Width(90))) foreach (var r in rows) r.on = r.quick;
-            if (GUILayout.Button("Everything", GUILayout.Width(90))) foreach (var r in rows) r.on = true;
+            // "Everything" honors the exclusive groups: it picks the thorough member (ALL models), not both scopes.
+            if (GUILayout.Button("Everything", GUILayout.Width(90))) foreach (var r in rows) r.on = r.group == null || r.thorough;
             if (GUILayout.Button("None", GUILayout.Width(60))) foreach (var r in rows) r.on = false;
         }
         EditorGUILayout.Space(2);
@@ -154,7 +158,13 @@ public class BakeTestRunnerWindow : EditorWindow
                 using (new EditorGUILayout.HorizontalScope())
                 {
                     using (new EditorGUI.DisabledScope(Running))
+                    {
+                        bool was = r.on;
                         r.on = EditorGUILayout.ToggleLeft(r.name, r.on, EditorStyles.boldLabel);
+                        if (r.on && !was && r.group != null)   // radio behavior inside a group: checking one unchecks the rest
+                            foreach (var other in rows)
+                                if (other != r && other.group == r.group) other.on = false;
+                    }
                     GUILayout.FlexibleSpace();
                     var keep = GUI.color;
                     if (Running && r == current)
