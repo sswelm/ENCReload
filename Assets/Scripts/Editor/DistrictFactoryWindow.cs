@@ -511,7 +511,7 @@ public class DistrictFactoryWindow : EditorWindow
             "• DATA prerequisite (once per district): set a renderable ConstructibleVisualAffinity + CLEAR Additional Visual Levels on the definition.\n" +
             "• Plugin prerequisite: [District] DistrictRepoint = true (+ DistrictBufferHeadroom for big meshes in late-game cities).\n" +
             "• Then REBUILD the mod (ships the FxMesh) and relaunch.\n" +
-            "Registry: " + DistrictRegistry.RegistryPath, MessageType.None);
+            "Registry source (edit this, git-tracked): " + DistrictRegistry.SourcePath + "\nDeployed artifact (what the game reads, regenerated on Save): " + DistrictRegistry.RegistryPath, MessageType.None);
         using (new EditorGUILayout.HorizontalScope())
         {
             if (GUILayout.Button("Open config folder", GUILayout.Width(150)))

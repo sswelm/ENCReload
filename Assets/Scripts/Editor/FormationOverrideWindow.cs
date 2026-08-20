@@ -439,7 +439,7 @@ public class FormationOverrideWindow : EditorWindow
             "• Pawn count on the map scales with health: ceil(health% × dummies).\n" +
             "• The hidden per-orientation grids are captured and validated here — the historical crash cause for hand-made formations.\n" +
             "• Plugin prerequisite: [Formations] FormationOverride = true (default ON).\n" +
-            "Registry: " + FormationRegistry.RegistryPath, MessageType.None);
+            "Registry source (edit this, git-tracked): " + FormationRegistry.SourcePath + "\nDeployed artifact (what the game reads, regenerated on Save): " + FormationRegistry.RegistryPath, MessageType.None);
         using (new EditorGUILayout.HorizontalScope())
         {
             if (GUILayout.Button("Open config folder", GUILayout.Width(150)))
