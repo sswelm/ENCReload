@@ -6,8 +6,9 @@
 // replaces ALL of them:
 //   * every bake integration test is one ROW — a plain-language what-it-tests, what it costs, a checkbox,
 //   * Quick/Everything presets and ONE Run button,
-//   * LIVE feedback: tests run one per editor tick (a delayCall queue), so each row flips to its PASS/FAIL result
-//     as it finishes and the current row shows RUNNING — no frozen mystery until a single end dialog,
+//   * FIRE AND FORGET: the whole selected set runs in ONE synchronous call behind a cancellable progress bar, so it
+//     completes with the editor unfocused/minimised (an editor-tick queue silently STOPPED when you alt-tabbed away),
+//     and the report is rewritten after every test so an interrupted run still leaves what finished,
 //   * per-row expandable detail (the full per-model lines, in the window — the Console keeps the deep errors),
 //   * one durable report per run: Logs/haf_bake_tests_report.txt (the editor twin of the runtime's
 //     haf_smoke_report.txt), so "did the tests pass before this release?" has an answer after the window closes.
@@ -51,8 +52,8 @@ public class BakeTestRunnerWindow : EditorWindow
     string lastReportPath, lastVerdict;
     GUIStyle wrap, mono, wrapBold;
 
-    // Live-run state: the queue makes each test its own editor tick, so the window repaints between tests and the
-    // user watches rows turn green/red instead of staring at a frozen editor until one big dialog.
+    // Run state. `pending` is what's left to do; it exists so OnGUI can say so, NOT to drive the run — the run is one
+    // synchronous loop (see StartRun), which is what lets it finish while the editor sits unfocused.
     Queue<TestRow> pending;
     TestRow current;
     List<BakeTestSection> collected;
@@ -121,7 +122,7 @@ public class BakeTestRunnerWindow : EditorWindow
         };
     }
 
-    // Closing the window (or a domain reload) kills the run: the delayCall chain checks `pending` and stops.
+    // The run is synchronous, so closing the window cannot interrupt it mid-suite; this just clears the transient state.
     void OnDisable() { pending = null; current = null; }
 
     bool Running => pending != null;
@@ -137,7 +138,9 @@ public class BakeTestRunnerWindow : EditorWindow
         EditorGUILayout.HelpBox(
             "Integration tests that run REAL bakes. All of them are non-destructive: everything bakes under throwaway " +
             "names — your models, assets and registry are never touched. Results appear on each row (expand for " +
-            "detail), in the Console, and in Logs/haf_bake_tests_report.txt.", MessageType.Info);
+            "detail), in the Console, and in Logs/haf_bake_tests_report.txt.\n" +
+            "Fire and forget: a run finishes on its own — you can alt-tab away or minimise Unity, and the report is " +
+            "rewritten after every test, so even a cancelled run leaves what finished.", MessageType.Info);
         if (!blender)
             EditorGUILayout.HelpBox("Blender not found — rows marked 'needs Blender' will be skipped.", MessageType.Warning);
 
@@ -210,63 +213,83 @@ public class BakeTestRunnerWindow : EditorWindow
                     EditorUtility.OpenWithDefaultApp(lastReportPath);
         }
         if (Running)
-            EditorGUILayout.LabelField($"Running {current?.name}…  ({collected.Count} done, {pending.Count} to go — the editor freezes during each test, results appear between them)", EditorStyles.boldLabel);
+            EditorGUILayout.LabelField($"Running {current?.name}…  ({collected.Count} done, {pending.Count} to go — the editor is busy until the whole run ends — you can leave it, minimise it, or alt-tab away)", EditorStyles.boldLabel);
         else if (!string.IsNullOrEmpty(lastVerdict))
             EditorGUILayout.LabelField(lastVerdict, EditorStyles.boldLabel);
         EditorGUILayout.Space(2);
     }
 
+    // FIRE AND FORGET (2026-08-22, user: "you need to be in the dialog active for it to complete everything, which is
+    // extremely annoying, it should be fire and forget"). The run used to be a chain of `EditorApplication.delayCall`
+    // ticks — one test per tick, so each row could paint its result live. But the editor only TICKS while the Unity
+    // window has OS focus: alt-tab away from a 28-minute suite and the queue simply stops between tests, and you come
+    // back to a run that never finished. A synchronous loop on the main thread has no such dependency — nothing
+    // interrupts a method that is already executing — so the whole suite now runs in ONE call and completes with the
+    // editor in the background, minimised, or on another desktop.
+    //
+    // What replaces the live rows: a CANCELLABLE progress bar (drawn by the editor itself, so it updates while
+    // unfocused) naming the running test and the count, and — the part that makes it fire-and-forget rather than
+    // fire-and-hope — the report is REWRITTEN AFTER EVERY TEST, so a cancel, a crash, or a domain reload still leaves
+    // Logs/haf_bake_tests_report.txt with everything that finished. The per-row PASS/FAIL detail is all still there
+    // when the run ends; it just arrives at the end instead of one at a time. (Each individual test already froze the
+    // editor while it baked, so almost no interactivity is lost — only the gaps between tests.)
     void StartRun(bool blender)
     {
-        pending = new Queue<TestRow>(rows.Where(x => x.on));
+        var queue = rows.Where(x => x.on).ToList();
+        pending = new Queue<TestRow>(queue);   // keeps `Running` true for OnGUI while the loop is on the stack
         collected = new List<BakeTestSection>();
         current = null;
         blenderAtRunStart = blender;
         runWatch = System.Diagnostics.Stopwatch.StartNew();
         lastVerdict = null;
-        foreach (var r in rows) if (r.on) r.last = null;
-        EditorApplication.delayCall += StepAnnounce;   // two-phase ticks: announce (paint "RUNNING…"), then execute
-    }
-
-    // Phase A: mark the next test as current and let the window PAINT that state before the synchronous bake work
-    // freezes the editor — this is what makes the feedback live instead of one long freeze.
-    void StepAnnounce()
-    {
-        if (pending == null) return;   // window closed / domain reloaded mid-run
-        if (pending.Count == 0) { FinishRun(); return; }
-        current = pending.Peek();
-        Repaint();
-        EditorApplication.delayCall += StepExecute;
-    }
-
-    void StepExecute()
-    {
-        if (pending == null || pending.Count == 0) return;
-        var r = pending.Dequeue();
-        current = r;
-        if (r.needsBlender && !blenderAtRunStart)
-            r.last = new BakeTestSection { title = r.name, skip = 1, body = "SKIP — Blender not found." };
-        else
+        foreach (var r in queue) r.last = null;
+        bool cancelled = false;
+        try
         {
-            Debug.Log("[BakeTests] running: " + r.name + "…");
-            try { r.last = r.run(); r.last.title = r.name; }
-            catch (Exception ex)
-            { r.last = new BakeTestSection { title = r.name, fail = 1, body = "harness exception: " + ex.GetType().Name + ": " + ex.Message }; }
-            Debug.Log("[BakeTests] " + r.name + ": " + ResultLabel(r.last) + "\n" + r.last.body);
+            for (int i = 0; i < queue.Count; i++)
+            {
+                var r = queue[i];
+                current = r;
+                if (EditorUtility.DisplayCancelableProgressBar(
+                        "HAF Bake Tests — safe to leave running",
+                        FormattableString.Invariant($"{r.name}  ({i + 1} of {queue.Count}, {runWatch.Elapsed.TotalMinutes:0.0} min elapsed)"),
+                        (float)i / Math.Max(1, queue.Count)))
+                { cancelled = true; break; }
+                RunOne(r);
+                collected.Add(r.last);
+                if (r.last.fail > 0) r.open = true;   // failures unfold themselves — the detail is the point
+                pending.Dequeue();
+                // durable after EVERY test: an interrupted run still leaves a report of what did finish
+                lastReportPath = WriteReport(collected, InterimVerdict(collected, runWatch, finished: false));
+            }
         }
-        collected.Add(r.last);
-        if (r.last.fail > 0) r.open = true;   // failures unfold themselves — the detail is the point
-        current = null;
-        Repaint();
-        EditorApplication.delayCall += StepAnnounce;
+        finally { EditorUtility.ClearProgressBar(); }
+        FinishRun(cancelled, queue.Count);
     }
 
-    void FinishRun()
+    void RunOne(TestRow r)
+    {
+        if (r.needsBlender && !blenderAtRunStart)
+        { r.last = new BakeTestSection { title = r.name, skip = 1, body = "SKIP — Blender not found." }; return; }
+        Debug.Log("[BakeTests] running: " + r.name + "…");
+        try { r.last = r.run(); r.last.title = r.name; }
+        catch (Exception ex)
+        { r.last = new BakeTestSection { title = r.name, fail = 1, body = "harness exception: " + ex.GetType().Name + ": " + ex.Message }; }
+        Debug.Log("[BakeTests] " + r.name + ": " + ResultLabel(r.last) + "\n" + r.last.body);
+    }
+
+    // ONE interpolated string per Invariant() call: concatenating two of them yields a plain `string`, which the
+    // overload can't take (the Roslyn gate caught exactly that).
+    static string InterimVerdict(List<BakeTestSection> done, System.Diagnostics.Stopwatch w, bool finished)
+        => FormattableString.Invariant(
+               $"{(done.Sum(s => s.fail) == 0 ? "PASS" : "FAIL")} — {done.Sum(s => s.pass)} passed, {done.Sum(s => s.fail)} failed, {done.Sum(s => s.skip)} skipped, in {w.Elapsed.TotalMinutes:0.0} min")
+           + (finished ? "" : "  (run in progress…)");
+
+    void FinishRun(bool cancelled, int planned)
     {
         runWatch.Stop();
-        int pass = collected.Sum(s => s.pass), fail = collected.Sum(s => s.fail), skip = collected.Sum(s => s.skip);
-        lastVerdict = FormattableString.Invariant(
-            $"{(fail == 0 ? "PASS" : "FAIL")} — {pass} passed, {fail} failed, {skip} skipped, in {runWatch.Elapsed.TotalMinutes:0.0} min");
+        lastVerdict = InterimVerdict(collected, runWatch, finished: true)
+                    + (cancelled ? FormattableString.Invariant($"  — CANCELLED after {collected.Count} of {planned} test(s)") : "");
         lastReportPath = WriteReport(collected, lastVerdict);
         Debug.Log("[BakeTests] " + lastVerdict + " — report: " + lastReportPath);
         pending = null; current = null;
