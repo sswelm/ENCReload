@@ -85,7 +85,38 @@ else
   fi
 fi
 
+# ── CLONE's guid list (2026-08-22) — the FOURTH instance of this project's signature bug class, and the one that
+# was still guarded by a comment alone. A clone owns no assets until its own bake, so every `int[4]` GUID on the
+# copy must be reset; an inherited one silently points the clone at the SOURCE's ClipCollection. `clipIdleAlt2` was
+# missing from that list and shipped — found by counting the fields rather than trusting the list, which is exactly
+# what this gate now does on every push. Every `public int[]` on ModelDef must be assigned `new int[4]` in Clone. ──
+DEF=Assets/Scripts/Editor/ModelRegistry.cs
+FACT_CLONE=Assets/Scripts/Editor/ModelFactoryWindow.cs
+
+def_guids() { grep -oE 'public int\[\] [a-zA-Z0-9_]+' "$DEF" | awk '{print $3}' | sort -u; }
+clone_guids() {
+  # the Clone block: from the `clone.skel = new int[4]` line through the bakeLocked reset that closes it
+  sed -n '/clone\.skel *= *new int\[4\]/,/clone\.bakeLocked/p' "$FACT_CLONE" \
+    | grep -oE 'clone\.[a-zA-Z0-9_]+ *= *new int\[4\]' | sed -E 's/clone\.([a-zA-Z0-9_]+).*/\1/' | sort -u
+}
+
+dg=$(def_guids); cg=$(clone_guids)
+if [ -z "$dg" ] || [ -z "$cg" ]; then
+  echo "FAIL — Clone guid list: could not extract the ModelDef/Clone lists (renamed? update this gate)."
+  fail=1
+else
+  missing=$(comm -23 <(echo "$dg") <(echo "$cg"))
+  if [ -n "$missing" ]; then
+    echo "FAIL — Clone does not reset every int[4] guid — the copy would inherit the SOURCE's baked assets:"
+    echo "$missing" | sed 's/^/         /'
+    echo "         Fix: add 'clone.<field> = new int[4];' to the Clone block in $FACT_CLONE."
+    fail=1
+  else
+    echo "ok   — Clone: all $(echo "$dg" | grep -c .) ModelDef guid field(s) reset on the copy"
+  fi
+fi
+
 if [ "$fail" -eq 0 ]; then
-  echo "PASS — hand-list gate: no UI-edited field can be silently reset by an ownership rebase, and every recipe field round-trips."
+  echo "PASS — hand-list gate: no UI-edited field can be silently reset by an ownership rebase, every recipe field round-trips, and a clone inherits no baked guid."
 fi
 exit "$fail"
