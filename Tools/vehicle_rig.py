@@ -1861,16 +1861,23 @@ if recoil_bone is not None and gun_axis is not None:
         for _f, _v in ((0, Vector((0, 0, 0))), (_kick, _local), (recoil_frames, Vector((0, 0, 0)))):
             _rb.location = _v
             _rb.keyframe_insert('location', frame=_f)
-        # DO NOT HOLD THE DEPLOYED POSE HERE — it breaks the clip (2026-08-22, in-game).
-        # An earlier version keyed the end-of-Deploy pose flat across this clip so the gun would not fire from its
-        # travel pose. It made frame 0 non-identity, and that violates the engine contract: Amplitude's encoder
-        # normalizes every clip against the skeleton's BIND rest and DISCARDS a constant frame-0 offset — "BIND must
-        # equal animation frame 0", or the model renders its bind forever no matter what plays (HAF
-        # Animation-Pitfalls, "The engine contract"). Spin and Deploy both work in-game precisely because both of
-        # their endpoints are identity; Recoil was the only clip that did not, and it was the only one that failed.
-        # The proven M114 recoil obeys the same rule from the other direction: deploy_convert delta-rebases every
-        # bone (basis_f' = basis_f @ basis_0^-1), "identity at f0 by construction", even for an attack clip cut from
-        # a source that is already deployed. So this clip keys the barrel ONLY, starting and ending at identity.
+        # HOLD THE DEPLOYED POSE THROUGH THE SHOT — as the PROVEN recoil does (2026-08-22).
+        # A role clip poses the whole skeleton: bones it does not key sit at the reference pose, so keying only the
+        # barrel fires the gun from its TRAVEL pose (level tube, folded trails). A gun only fires deployed.
+        # This was briefly reverted on a misreading of the bind==frame-0 contract — that contract governs the PRIMARY
+        # (Idle/reference) clip, which defines the reference pose; a ROLE clip legitimately encodes a non-identity
+        # pose against it (Law 2 is the same point from the other side: the stance belongs in a role clip, not the
+        # primary). The proven M114 settles it empirically: deploy_convert's make_role writes ABSOLUTE poses with no
+        # delta-rebasing, and its 'recoil' role is authored from m_home captured at deploy_end — the deployed pose.
+        # Keyed at both ends so it holds flat rather than drifting.
+        for _bn3, _q3 in deployed_pose.items():
+            _hb = arm.pose.bones.get(_bn3)
+            if _hb is None:
+                continue
+            _hb.rotation_mode = 'QUATERNION'
+            _hb.rotation_quaternion = _q3.copy()
+            _hb.keyframe_insert('rotation_quaternion', frame=0)
+            _hb.keyframe_insert('rotation_quaternion', frame=recoil_frames)
         try:
             _rfcs = list(_rec.fcurves)
         except AttributeError:
@@ -1879,8 +1886,9 @@ if recoil_bone is not None and gun_axis is not None:
             for _kp in _fc.keyframe_points:
                 _kp.interpolation = 'LINEAR'
         print("VEHICLE RECOIL clip: '%s' slides %.2f of a %.1f-unit tube (%.2f units) back over %d frame(s), "
-              "returns over %d, from identity at f0 (bind==f0 contract) — needs Keep bone translations ticked at bake"
-              % (recoil_bone, recoil_dist, _len, _len * recoil_dist, _kick, recoil_frames - _kick))
+              "returns over %d, holding the deployed pose (%s) — needs Keep bone translations ticked at bake"
+              % (recoil_bone, recoil_dist, _len, _len * recoil_dist, _kick, recoil_frames - _kick,
+                 ", ".join(sorted(deployed_pose)) if deployed_pose else "nothing to hold"))
         # BREECH CLEARANCE — the failure this feature invites, measured here rather than left to be found in-game.
         # Sliding back down a RAISED bore drives the breech down as well as back, so a stroke that is fine on a level
         # gun buries the breech at 45°. This is exactly why real howitzers of this class use variable recoil: a
