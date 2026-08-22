@@ -244,6 +244,11 @@ gun_axis = None                  # (trunnion, muzzle tip) in world space, filled
 # marking them buys is a PRECISE muzzle tip, which pins the breech→muzzle span `gun_pivot` measures against and lets
 # the rig report the exact fire origin instead of the gun bbox's far extreme.
 muzzle_names = namelist(argv[36]) if len(argv) > 36 and argv[36].strip() else []
+# CRADLE parts (argv[37]): the frame that HOLDS the tube — trunnions, recoil cylinders, the trough the barrel slides
+# in. It welds to the Gun bone like the tube does, because cradle and tube elevate together about the trunnions; what
+# it must NOT do is count toward the breech→muzzle span (a cradle stops well short of the muzzle) — and, once recoil
+# exists, it is the part that STAYS while the barrel kicks back. That is the whole reason it is its own role.
+cradle_names = namelist(argv[37]) if len(argv) > 37 and argv[37].strip() else []
 axis_arg = argv[6].upper()
 frames = max(2, int(argv[7]))
 degrees = float(argv[8])
@@ -605,8 +610,13 @@ if turret_names:
 # ONE Gun bone for the whole gun assembly (barrel, mantlet, mount) — the natural muzzleBone/socket anchor.
 # Parented to the Turret when there is one (the gun must ride the aiming turret); casemate guns (Jagdpanzer)
 # hang off Root.
-if gun_names or muzzle_names:
-    gun_names = gun_names + [m for m in muzzle_names if m not in gun_names]   # the brake rides the tube — one bone
+if gun_names or muzzle_names or cradle_names:
+    # THE TUBE vs THE WHOLE ASSEMBLY. Everything here welds to the one Gun bone, because everything here elevates
+    # together about the trunnions — but the breech→muzzle span `gun_pivot` slides along is a property of the TUBE
+    # alone. A cradle stops well short of the muzzle (26 units short on the M114), so folding it into the span would
+    # shrink it and make the fraction lie about where along the barrel the trunnion sits.
+    tube_names = gun_names + [m for m in muzzle_names if m not in gun_names]        # barrel + its brake
+    gun_names = tube_names + [c for c in cradle_names if c not in tube_names]       # ...+ the cradle: one bone
     gc, gs = _combined_bbox(gun_names)
     # GUN PIVOT (2026-08-22): the runtime elevation (gunElevMax) rotates this bone about ITS OWN ORIGIN, so where
     # the head sits IS the trunnion. At the bbox centre — the historical placement, still the default — the tube
@@ -616,7 +626,7 @@ if gun_names or muzzle_names:
     # The M114's trunnion measures ~0.4. Only the head moves; the tail stays as it was, so a rig that already
     # dials muzzleOffset/socketBones against this bone keeps its frame.
     _gpts = []
-    for _gn2 in gun_names:
+    for _gn2 in (tube_names or gun_names):        # span from the TUBE; fall back if only a cradle was marked
         _go = find(_gn2)
         if _go is not None:
             _gpts += [_go.matrix_world @ _v.co for _v in _go.data.vertices]
@@ -653,6 +663,9 @@ if gun_names or muzzle_names:
         _off = _muzzle - gc
         print("VEHICLE MUZZLE fire origin (gun-local, SOURCE units — scale by the bake's size): %.3f, %.3f, %.3f"
               % (_off.x, _off.y, _off.z))
+        if cradle_names:
+            print("VEHICLE CRADLE %d part(s) welded to the Gun bone (elevates with the tube; excluded from the "
+                  "breech->muzzle span, and it is what will STAY when the barrel recoils)" % len(cradle_names))
     eb = arm_data.edit_bones.new("Gun")
     eb.head = gc
     eb.tail = gc + Vector((0, 0, max(0.05, max(gs) * 0.25)))
