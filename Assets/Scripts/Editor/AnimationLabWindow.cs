@@ -988,6 +988,8 @@ public class AnimationLabWindow : EditorWindow
                 "Raise the gun barrel during a bombard, PROPORTIONAL TO TARGET DISTANCE up to this max angle (full at " +
                 "~3 tiles): a short lob barely lifts, a max-range shot elevates fully — rising while the hull turns, held " +
                 "through the shot, lowered after. Applies to the Turret bone if set, else the Gun bone below. 0 = off; " +
+                "NEGATIVE if the gun pitches the wrong way — which direction a bone raises depends on the rig, so " +
+                "if the barrel DROPS with range, flip the sign rather than the axis. " +
                 "negative if the barrel dips the wrong way. RUNTIME-ONLY — Save (no bake) + relaunch."),
                 cur.gunElevMax, -60f, 60f);
             // axis only exists once an elevation is set (same rule as the turret axis; != 0 because a NEGATIVE
