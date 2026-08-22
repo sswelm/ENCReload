@@ -42,7 +42,7 @@ public class VehicleLabWindow : EditorWindow
     // Trail (2026-08-22, the M114 deploy): a split-trail ARM that swings OPEN when the gun deploys — one bone hinged at
     // the end nearest the body, rotating about the vertical, mirrored per side. ("Leg" is deliberately NOT used —
     // it is reserved for a walking mech limb.) Dropdown-only for now: no shortcut key.
-    enum Role { Body, Wheel, Turret, Ignore, Default, Edgecase, Caterpillar, Gun, Rotor, TailRotor, Trail }
+    enum Role { Body, Wheel, Turret, Ignore, Default, Edgecase, Caterpillar, Gun, Rotor, TailRotor, Trail, Muzzle }
     [Serializable] class Part { public string name; public int verts; public Vector3 center, size; public Role role;
         public int vis = -1;   // probe's escape-ray verdict: 1 = external (visible from outside), 0 = interior (never visible — strippable), -1 = unclassified (pre-visibility probe)
         public string bone = ""; }   // rigged sources: the bone this shard is weighted to (probe 2026-08-20) — lets a BONE row highlight its shards
@@ -111,7 +111,7 @@ public class VehicleLabWindow : EditorWindow
     static float MaxDim(Part p) => Mathf.Max(p.size.x, Mathf.Max(p.size.y, p.size.z));
     bool VisiblePart(Part x) => x.verts >= minVerts && MaxDim(x) >= minPartSize && x.center.z >= minHeight && x.center.z <= maxHeight && x.center.y >= minWidth && x.center.y <= maxWidth;
     [SerializeField] int partFilter;      // list filter: 0 = all; see FilterOptions (Unreviewed = Default + Edgecase)
-    static readonly string[] FilterOptions = { "None (all parts)", "Undecided (Default + Edgecase)", "Default", "Wheel", "Turret", "Body", "Ignore", "Edgecase", "Caterpillar", "Gun", "Rotor", "Tail rotor" };
+    static readonly string[] FilterOptions = { "None (all parts)", "Undecided (Default + Edgecase)", "Default", "Wheel", "Turret", "Body", "Ignore", "Edgecase", "Caterpillar", "Gun", "Rotor", "Tail rotor", "Trail", "Muzzle" };
     bool MatchesFilter(Role r) => partFilter == 1 ? (r == Role.Default || r == Role.Edgecase)
                                 : partFilter == 2 ? r == Role.Default
                                 : partFilter == 3 ? r == Role.Wheel
@@ -122,7 +122,9 @@ public class VehicleLabWindow : EditorWindow
                                 : partFilter == 8 ? r == Role.Caterpillar
                                 : partFilter == 9 ? r == Role.Gun
                                 : partFilter == 10 ? r == Role.Rotor
-                                : partFilter == 11 ? r == Role.TailRotor : true;
+                                : partFilter == 11 ? r == Role.TailRotor
+                                : partFilter == 12 ? r == Role.Trail
+                                : partFilter == 13 ? r == Role.Muzzle : true;
     // Roles that SPIN (get a bone + the Spin action): wheels and both rotor kinds. Used for the Generate-enable gate,
     // the spin-section summary, Verify, and the "inside the wheel" test — so a rotorcraft with no Wheel parts still rigs.
     static bool IsSpinner(Role r) => r == Role.Wheel || r == Role.Rotor || r == Role.TailRotor;
@@ -483,7 +485,7 @@ public class VehicleLabWindow : EditorWindow
                 // GUN PIVOT lives here rather than with the trails because it is the same kind of knob: where a
                 // moving part actually turns. The runtime elevation (Animation Lab ▸ "Gun elevation — max") rotates
                 // the Gun bone about ITS OWN ORIGIN, so this IS the trunnion.
-                using (new EditorGUI.DisabledScope(parts.Count(p => p.role == Role.Gun) == 0))
+                using (new EditorGUI.DisabledScope(parts.Count(p => p.role == Role.Gun || p.role == Role.Muzzle) == 0))
                 {
                     gunPivot = EditorGUILayout.Slider(new GUIContent("Gun pivot (breech→muzzle)",
                         "Where the Gun bone sits along the gun assembly — and therefore where the barrel ELEVATES " +
@@ -503,6 +505,17 @@ public class VehicleLabWindow : EditorWindow
                     if (gunDeployElev != 0f && parts.Count(p => p.role == Role.Trail) == 0)
                         EditorGUILayout.HelpBox("No trails marked — there is no Deploy clip to carry the raise, so " +
                             "this is doing nothing. Mark the trail arms (T) first.", MessageType.Warning);
+                    // MUZZLE marking is optional, so say what it is FOR rather than leaving the role a mystery in
+                    // the dropdown — and say plainly that it is not a bone, which is the thing to get wrong.
+                    EditorGUILayout.HelpBox(parts.Count(p => p.role == Role.Muzzle) == 0
+                        ? "Optional: mark a separately-modelled muzzle brake / flash hider as Muzzle. It gets no bone " +
+                          "of its own — a brake is bolted to the tube, so it welds to the Gun bone and elevates (and " +
+                          "later recoils) with it. What it buys is an exact tip: the breech→muzzle span above stops " +
+                          "guessing at the gun bbox's far extreme, and the run reports the measured fire origin for " +
+                          "the Animation Lab's Muzzle offset. If the brake is modelled INTO the barrel mesh, skip it."
+                        : $"{parts.Count(p => p.role == Role.Muzzle)} muzzle part(s) — welded to the Gun bone (not a " +
+                          "bone of their own) and pinning the breech→muzzle span. The run reports the measured fire " +
+                          "origin in its DONE status.", MessageType.None);
                 }
                 using (new EditorGUI.DisabledScope(parts.Count(p => p.role == Role.Trail) == 0))
                 {
@@ -1181,10 +1194,16 @@ public class VehicleLabWindow : EditorWindow
         // while `Spin` keeps the wheels rolling with the legs folded (their rest).
         string trailsFile = Path.Combine(projRoot, prevDir, baseName + "_trails.txt").Replace('\\', '/');
         File.WriteAllLines(trailsFile, src.Where(p => p.role == Role.Trail).Select(p => p.name).ToArray());
+        // MUZZLE (2026-08-22): a separately-modelled muzzle brake / flash hider. It gets NO bone of its own — the
+        // brake is bolted to the tube, so it must elevate and recoil with it — the rigger just welds it to the Gun
+        // bone. What marking it buys is a PRECISE muzzle tip: the breech→muzzle span that Gun pivot measures against
+        // stops guessing at the gun bbox's far extreme, and the rigger can report the exact fire origin.
+        string muzzlesFile = Path.Combine(projRoot, prevDir, baseName + "_muzzles.txt").Replace('\\', '/');
+        File.WriteAllLines(muzzlesFile, src.Where(p => p.role == Role.Muzzle).Select(p => p.name).ToArray());
         string axis = axisChoice == 0 ? "AUTO" : AxisOptions[axisChoice];
         string tailAxis = tailAxisChoice == 0 ? "AUTO" : AxisOptions[tailAxisChoice];
         var inv = System.Globalization.CultureInfo.InvariantCulture;
-        if (!RunBlender($"{(fast ? "rigfast" : "rig")} \"{srcFile}\" \"{lastOutGlb}\" \"{prevFull}\" \"@{wheelsFile}\" \"@{turretsFile}\" {axis} {frames} {(spinEnabled ? degrees : 0f).ToString("0.#", inv)} \"@{ignoreFile}\" \"@{tracksFile}\" \"@{gunsFile}\" {treadAdvCells} 1 1 {treadCellsPerLink.ToString("0.##", inv)} {(tracksStatic || !spinEnabled ? "1" : "0")} {(waveEnabled ? rockDegrees : 0f).ToString("0.##", inv)} {rockFrames} {(rockAxisChoice == 1 ? "X" : rockAxisChoice == 2 ? "Y" : "AUTO")} {rockHeading.ToString("0.##", inv)} {(waveEnabled ? rockPitchDeg : 0f).ToString("0.##", inv)} {rockPitchCycles} \"{modelRot.x.ToString("0.##", inv)},{modelRot.y.ToString("0.##", inv)},{modelRot.z.ToString("0.##", inv)}\" {rockPitchPhase.ToString("0.##", inv)} {rockRollCycles} \"@{rotorsFile}\" \"@{tailrotorsFile}\" {tailAxis} {tailYawAdj.ToString("0.##", inv)} {tailPitchAdj.ToString("0.##", inv)} \"@{trailsFile}\" {trailSpreadDeg.ToString("0.##", inv)} {trailFrames} {gunPivot.ToString("0.###", inv)} {gunDeployElev.ToString("0.##", inv)}", out string stdout)) return;
+        if (!RunBlender($"{(fast ? "rigfast" : "rig")} \"{srcFile}\" \"{lastOutGlb}\" \"{prevFull}\" \"@{wheelsFile}\" \"@{turretsFile}\" {axis} {frames} {(spinEnabled ? degrees : 0f).ToString("0.#", inv)} \"@{ignoreFile}\" \"@{tracksFile}\" \"@{gunsFile}\" {treadAdvCells} 1 1 {treadCellsPerLink.ToString("0.##", inv)} {(tracksStatic || !spinEnabled ? "1" : "0")} {(waveEnabled ? rockDegrees : 0f).ToString("0.##", inv)} {rockFrames} {(rockAxisChoice == 1 ? "X" : rockAxisChoice == 2 ? "Y" : "AUTO")} {rockHeading.ToString("0.##", inv)} {(waveEnabled ? rockPitchDeg : 0f).ToString("0.##", inv)} {rockPitchCycles} \"{modelRot.x.ToString("0.##", inv)},{modelRot.y.ToString("0.##", inv)},{modelRot.z.ToString("0.##", inv)}\" {rockPitchPhase.ToString("0.##", inv)} {rockRollCycles} \"@{rotorsFile}\" \"@{tailrotorsFile}\" {tailAxis} {tailYawAdj.ToString("0.##", inv)} {tailPitchAdj.ToString("0.##", inv)} \"@{trailsFile}\" {trailSpreadDeg.ToString("0.##", inv)} {trailFrames} {gunPivot.ToString("0.###", inv)} {gunDeployElev.ToString("0.##", inv)} \"@{muzzlesFile}\"", out string stdout)) return;
         // SUCCESS = THE SCRIPT'S OWN FINAL MARKER (the documented Blender trap: it exits 0 even when the python
         // script crashes mid-way — without this gate a half-run printed a fake "DONE" with no file on disk).
         string done = stdout.Split('\n').FirstOrDefault(l => l.Contains("VEHICLE RIG DONE"));
@@ -1208,7 +1227,10 @@ public class VehicleLabWindow : EditorWindow
               "Fix 100× OFF, Auto-ground OFF (flyer), Keep bone translations ✓. Bake."
             : "Animation Lab ▸ State-driven, Idle/reference = Spin[0..0], Movement = Spin (full), Convert raw rig ON, " +
               "Fix 100× OFF, Auto-ground ON, Keep bone translations ✓. Bake.";
-        status = $"DONE → {lastOutGlb}\n{bones}\n{hybrid}\n{done}\n\nNext: Factory ▸ Browse this GLB, Size as usual; " + bakeRecipe;
+        // The MUZZLE lines are the measured fire origin — the value the Animation Lab's Muzzle offset dial is
+        // otherwise found by iterate-and-relaunch. Worth surfacing, not leaving in the Console.
+        string muzzle = string.Join("\n", stdout.Split('\n').Where(l => l.Contains("VEHICLE MUZZLE")).Select(l => l.Trim()));
+        status = $"DONE → {lastOutGlb}\n{bones}\n{hybrid}\n{done}\n{muzzle}\n\nNext: Factory ▸ Browse this GLB, Size as usual; " + bakeRecipe;
         EditorGUIUtility.systemCopyBuffer = lastOutGlb;   // ready to paste into the Factory's Browse field
     }
 

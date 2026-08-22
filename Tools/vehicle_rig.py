@@ -239,6 +239,11 @@ gun_pivot = min(1.0, max(0.0, float(argv[34]))) if len(argv) > 34 and argv[34].s
 # spread — a towed gun travels clamped level and only elevates once the trails are planted. 0 = leave it level.
 gun_deploy_elev = float(argv[35]) if len(argv) > 35 and argv[35].strip() else 0.0
 gun_axis = None                  # (trunnion, muzzle tip) in world space, filled when the Gun bone is built
+# MUZZLE parts (argv[36]): a separately-modelled muzzle brake / flash hider. NO bone of its own — a brake is bolted
+# to the tube, so it must elevate and recoil with it; these weld to the Gun bone exactly as the gun parts do. What
+# marking them buys is a PRECISE muzzle tip, which pins the breech→muzzle span `gun_pivot` measures against and lets
+# the rig report the exact fire origin instead of the gun bbox's far extreme.
+muzzle_names = namelist(argv[36]) if len(argv) > 36 and argv[36].strip() else []
 axis_arg = argv[6].upper()
 frames = max(2, int(argv[7]))
 degrees = float(argv[8])
@@ -600,7 +605,8 @@ if turret_names:
 # ONE Gun bone for the whole gun assembly (barrel, mantlet, mount) — the natural muzzleBone/socket anchor.
 # Parented to the Turret when there is one (the gun must ride the aiming turret); casemate guns (Jagdpanzer)
 # hang off Root.
-if gun_names:
+if gun_names or muzzle_names:
+    gun_names = gun_names + [m for m in muzzle_names if m not in gun_names]   # the brake rides the tube — one bone
     gc, gs = _combined_bbox(gun_names)
     # GUN PIVOT (2026-08-22): the runtime elevation (gunElevMax) rotates this bone about ITS OWN ORIGIN, so where
     # the head sits IS the trunnion. At the bbox centre — the historical placement, still the default — the tube
@@ -623,11 +629,30 @@ if gun_names:
         # which end is the BREECH? the one nearer the carriage — a barrel points away from its own mount
         if (_muzzle - eb_body.head).length < (_breech - eb_body.head).length:
             _breech, _muzzle = _muzzle, _breech
+        # A MARKED BRAKE PINS THE TIP EXACTLY. Without one the muzzle end is the gun bbox's far extreme, which a
+        # wide brake or a bracket hanging off the front skews; with one it is the marked geometry's farthest point
+        # from the breech — no inference. This is the fire origin, and it is what `gun_pivot` measures against.
+        if muzzle_names:
+            _mpts = []
+            for _mn2 in muzzle_names:
+                _mo = find(_mn2)
+                if _mo is not None:
+                    _mpts += [_mo.matrix_world @ _v.co for _v in _mo.data.vertices]
+            if _mpts:
+                _muzzle = max(_mpts, key=lambda p: (p - _breech).length)
+                print("VEHICLE MUZZLE %d part(s) -> tip=(%.2f, %.2f, %.2f) (welded to the Gun bone: a brake elevates and recoils with the tube)"
+                      % (len(muzzle_names), _muzzle.x, _muzzle.y, _muzzle.z))
         if abs(gun_pivot - 0.5) > 1e-4:
             gc = _breech + (_muzzle - _breech) * gun_pivot
         gun_axis = (gc.copy(), _muzzle.copy())            # (trunnion, muzzle tip) — the deploy elevation needs both
         print("VEHICLE gun pivot %.2f -> head=(%.2f, %.2f, %.2f) (breech (%.2f, %.2f, %.2f) .. muzzle (%.2f, %.2f, %.2f))"
               % (gun_pivot, gc.x, gc.y, gc.z, _breech.x, _breech.y, _breech.z, _muzzle.x, _muzzle.y, _muzzle.z))
+        # THE FIRE ORIGIN, gun-bone-local — what HAF's `muzzleOffset` dial wants, in SOURCE units. The Animation
+        # Lab's comment describes finding this by iterate-value-then-relaunch; with a brake marked it is measured.
+        # Scale it by the bake's `size` before pasting: this is the raw model's scale, not the baked one.
+        _off = _muzzle - gc
+        print("VEHICLE MUZZLE fire origin (gun-local, SOURCE units — scale by the bake's size): %.3f, %.3f, %.3f"
+              % (_off.x, _off.y, _off.z))
     eb = arm_data.edit_bones.new("Gun")
     eb.head = gc
     eb.tail = gc + Vector((0, 0, max(0.05, max(gs) * 0.25)))
