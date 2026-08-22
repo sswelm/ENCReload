@@ -258,6 +258,15 @@ public static class ConversionGateTest
                     else { Debug.LogError($"[ConvGate] {testName}: no ClipEntry in the {which} clip (animation missing entirely)"); fails++; }
                 }
             }
+
+            // THE CATALOG ROW'S CHECK, RUN HERE (2026-08-22). This bake produces exactly the assets the smoke row
+            // would have produced for the same model, so it asserts them too and the catalog row hands these models
+            // over instead of baking them a second time. Coverage is unchanged — the same assertion, on the same
+            // outputs, one bake earlier. Without this the hand-over would be a silent loss of the asset check.
+            var absent = BakeSmokeTest.MissingAssets(testName, true);
+            if (absent.Count > 0)
+            { Debug.LogError($"[ConvGate] {testName}: baked assets missing/empty — " + string.Join(", ", absent)); fails += absent.Count; }
+
             return fails;
         }
         catch (Exception ex) { Debug.LogError($"[ConvGate] {testName}: exception {ex.GetType().Name}: {ex.Message}"); return fails + 1; }

@@ -42,12 +42,29 @@ public static class BakeSmokeTest
         return Run(reps, "Smoke — one per bake path");
     }
 
-    public static BakeTestSection RunAllSection()
+    public static BakeTestSection RunAllSection() => RunAllSection(false);
+
+    // NO MODEL IS BAKED TWICE IN ONE RUN (2026-08-22). With everything selected, this row and the conversion row
+    // both baked every animated+convertRig model — 12 of them on the current registry, and a conversion bake is the
+    // slowest kind there is. `skipConverted` is set by the runner ONLY when the conversion row is also selected, and
+    // that row now runs this row's asset check on the bake it already does, so coverage is identical and the skipped
+    // models are named in the body. Selected alone, this row still bakes everything, exactly as its title says.
+    public static BakeTestSection RunAllSection(bool skipConverted)
     {
         var defs = ModelRegistry.Load();
         if (defs == null || defs.Count == 0) return NoModels("Smoke — ALL models");
-        return Run(defs.Where(d => !d.resourceName.StartsWith(PREFIX)).ToList(), "Smoke — ALL models");
+        var all = defs.Where(d => !d.resourceName.StartsWith(PREFIX)).ToList();
+        if (!skipConverted) return Run(all, "Smoke — ALL models");
+        var handedOver = all.Where(IsConverted).Select(d => d.resourceName).OrderBy(x => x).ToList();
+        var section = Run(all.Where(d => !IsConverted(d)).ToList(), "Smoke — ALL models");
+        if (handedOver.Count > 0)
+            section.body += $"\n\n{handedOver.Count} converted model(s) baked by the conversion row instead of twice — " +
+                            "it asserts these same assets there: " + string.Join(", ", handedOver);
+        return section;
     }
+
+    // The conversion row's fixture set, defined once so the two rows cannot drift apart on what "converted" means.
+    internal static bool IsConverted(ModelDef d) => d != null && d.animated && d.convertRig;
 
     static BakeTestSection NoModels(string title) => new BakeTestSection { title = title, fail = 1, body = "No models in the registry." };
 
@@ -121,7 +138,9 @@ public static class BakeSmokeTest
     // The ANIMATED path emits _Skeleton + _Atlas + THE ANIMATION (_Clips + its baked _ClipsPoseData bytes — checked
     // since 2026-07-19: an animated bake whose clip came out empty used to pass silently) but NO _ModelMesh (its mesh
     // lives in the skeleton); only the STATIC path writes _ModelMesh. 1 KB floor: real assets are far larger.
-    static List<string> MissingAssets(string name, bool animated)
+    // internal: the conversion row runs this same check on the bake it already does, so the catalog row can hand
+    // those models over instead of baking them a second time (see RunAllSection(skipConverted)).
+    internal static List<string> MissingAssets(string name, bool animated)
     {
         var bad = new List<string>();
         string root = Directory.GetParent(Application.dataPath).FullName;

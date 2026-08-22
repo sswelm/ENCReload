@@ -27,6 +27,7 @@ public class BakeTestSection
 {
     public string title;
     public int pass, fail, skip;
+    public double seconds;      // wall time for this row — filled by the runner, shown per row and in the report
     public string body;
 }
 
@@ -46,6 +47,11 @@ public class BakeTestRunnerWindow : EditorWindow
         public BakeTestSection last;   // result of the most recent run (this session)
         public bool open;              // detail foldout
     }
+
+    // Set for the duration of a run: true when the converted-rigs row is part of THIS run, which is the only
+    // condition under which the catalog row may hand its converted models over (see BakeSmokeTest.RunAllSection).
+    // A field rather than a parameter because each row is a plain Func — the runner owns the cross-row knowledge.
+    static bool ConversionRowSelected;
 
     List<TestRow> rows;
     Vector2 scroll;
@@ -77,8 +83,10 @@ public class BakeTestRunnerWindow : EditorWindow
             new TestRow { name = "Does every model still bake? (whole catalog)", needsBlender = true, group = "smoke", thorough = true,
                 cost = "one full bake per registry model — slow",
                 what = "The same check as the row above, but for EVERY registry entry, not just representatives. " +
-                       "Mutually exclusive with that row (this one already covers everything it bakes). Run before a release.",
-                run = BakeSmokeTest.RunAllSection },
+                       "Mutually exclusive with that row (this one already covers everything it bakes). Run before a release. " +
+                       "When the converted-rigs row is also selected, those models are baked once there rather than twice — " +
+                       "it asserts these same assets, so nothing is lost and a full run is minutes shorter.",
+                run = () => BakeSmokeTest.RunAllSection(skipConverted: ConversionRowSelected) },
 
             new TestRow { name = "Do the bake options do what they claim? (synthetic cubes)", quick = true, on = true,
                 cost = "~15 fast cube bakes, no Blender",
@@ -243,6 +251,8 @@ public class BakeTestRunnerWindow : EditorWindow
         runWatch = System.Diagnostics.Stopwatch.StartNew();
         lastVerdict = null;
         foreach (var r in queue) r.last = null;
+        ConversionRowSelected = queue.Any(x => x.run.Method.Name.Contains("RunRegistryConvertedSection")
+                                            || x.name.StartsWith("Do the real rigs"));
         bool cancelled = false;
         try
         {
@@ -272,9 +282,15 @@ public class BakeTestRunnerWindow : EditorWindow
         if (r.needsBlender && !blenderAtRunStart)
         { r.last = new BakeTestSection { title = r.name, skip = 1, body = "SKIP — Blender not found." }; return; }
         Debug.Log("[BakeTests] running: " + r.name + "…");
+        // PER-ROW DURATION (2026-08-22): the suite is minutes long and only ever reported one total, so "which row
+        // costs the time?" could not be answered from the report — the same blind spot the per-phase probe timers
+        // closed. Now every row carries its own, in the window and in the durable report.
+        var w = System.Diagnostics.Stopwatch.StartNew();
         try { r.last = r.run(); r.last.title = r.name; }
         catch (Exception ex)
         { r.last = new BakeTestSection { title = r.name, fail = 1, body = "harness exception: " + ex.GetType().Name + ": " + ex.Message }; }
+        w.Stop();
+        r.last.seconds = w.Elapsed.TotalSeconds;
         Debug.Log("[BakeTests] " + r.name + ": " + ResultLabel(r.last) + "\n" + r.last.body);
     }
 
@@ -297,9 +313,10 @@ public class BakeTestRunnerWindow : EditorWindow
     }
 
     static string ResultLabel(BakeTestSection s) =>
-        s.fail > 0 ? $"FAIL — {s.fail} failed, {s.pass} passed"
-        : s.pass > 0 ? $"PASS — {s.pass} passed" + (s.skip > 0 ? $", {s.skip} skipped" : "")
-        : "SKIPPED";
+        (s.fail > 0 ? $"FAIL — {s.fail} failed, {s.pass} passed"
+         : s.pass > 0 ? $"PASS — {s.pass} passed" + (s.skip > 0 ? $", {s.skip} skipped" : "")
+         : "SKIPPED")
+        + (s.seconds > 0 ? FormattableString.Invariant($"   ({s.seconds / 60.0:0.0} min)") : "");
 
     // One durable record per run (overwritten each run — git/backup history is not the job of a test artifact).
     static string WriteReport(List<BakeTestSection> sections, string verdict)
