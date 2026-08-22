@@ -254,6 +254,10 @@ cradle_names = namelist(argv[37]) if len(argv) > 37 and argv[37].strip() else []
 # off means the Barrel bone is never created — a gun that does not recoil costs no bone and regenerates unchanged.
 recoil_dist = min(1.0, max(0.0, float(argv[38]))) if len(argv) > 38 and argv[38].strip() else 0.0
 recoil_frames = max(3, int(float(argv[39]))) if len(argv) > 39 and argv[39].strip() else 16
+# RECOIL LEAD-IN (argv[40]): frames of HELD deployed pose before the kick starts. The engine begins the attack clip
+# when its own strike clock says so, and that clock is an estimate that can fire while the gun is still slewing —
+# padding the front of the clip is the one part of the timing we control outright. 0 = kick immediately.
+recoil_lead = max(0, int(float(argv[40]))) if len(argv) > 40 and argv[40].strip() else 0
 recoil_bone = None               # set to "RecoilArm" when the split actually happens — the bone the clip ROTATES
 recoil_geom = None               # (pivot, axis, bore_dir, slide, R) for the arc that fakes the slide
 # Residual tilt the arc leaves on the tube. The slide is faked by swinging the barrel on a long arm, so some pitch
@@ -1894,7 +1898,15 @@ if recoil_bone is not None and gun_axis is not None:
         _rb.rotation_mode = 'QUATERNION'
         _rest_q = Quaternion((1.0, 0.0, 0.0, 0.0))
         _kick_q = Quaternion(_local_axis, _theta * _rsign)
-        for _f, _q in ((0, _rest_q), (_kick, _kick_q), (recoil_frames, _rest_q)):
+        # LEAD-IN: hold the gun still for `recoil_lead` frames before the kick, so the shot reads as landing AFTER
+        # the turn even when the engine starts the clip early. Two keys at the rest pose (0 and the lead) make it a
+        # genuine hold rather than a slow drift into the kick.
+        _total = recoil_lead + recoil_frames
+        _keys = [(0, _rest_q)]
+        if recoil_lead > 0:
+            _keys.append((recoil_lead, _rest_q))
+        _keys += [(recoil_lead + _kick, _kick_q), (_total, _rest_q)]
+        for _f, _q in _keys:
             _rb.rotation_quaternion = _q
             _rb.keyframe_insert('rotation_quaternion', frame=_f)
         # HOLD THE DEPLOYED POSE THROUGH THE SHOT — as the PROVEN recoil does (2026-08-22).
@@ -1913,7 +1925,7 @@ if recoil_bone is not None and gun_axis is not None:
             _hb.rotation_mode = 'QUATERNION'
             _hb.rotation_quaternion = _q3.copy()
             _hb.keyframe_insert('rotation_quaternion', frame=0)
-            _hb.keyframe_insert('rotation_quaternion', frame=recoil_frames)
+            _hb.keyframe_insert('rotation_quaternion', frame=recoil_lead + recoil_frames)
         try:
             _rfcs = list(_rec.fcurves)
         except AttributeError:
@@ -1922,8 +1934,8 @@ if recoil_bone is not None and gun_axis is not None:
             for _kp in _fc.keyframe_points:
                 _kp.interpolation = 'LINEAR'
         print("VEHICLE RECOIL clip: '%s' slides %.2f of a %.1f-unit tube (%.2f units) back over %d frame(s), "
-              "returns over %d, holding the deployed pose (%s) — needs Keep bone translations ticked at bake"
-              % (recoil_bone, recoil_dist, _len, _len * recoil_dist, _kick, recoil_frames - _kick,
+              "returns over %d after a %d-frame lead-in, holding the deployed pose (%s) — needs Keep bone translations at bake"
+              % (recoil_bone, recoil_dist, _len, _len * recoil_dist, _kick, recoil_frames - _kick, recoil_lead,
                  ", ".join(sorted(deployed_pose)) if deployed_pose else "nothing to hold"))
         # BREECH CLEARANCE — the failure this feature invites, measured here rather than left to be found in-game.
         # Sliding back down a RAISED bore drives the breech down as well as back, so a stroke that is fine on a level

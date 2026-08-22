@@ -72,6 +72,9 @@ public class VehicleLabWindow : EditorWindow
     // RECOIL: how far the tube kicks back as a FRACTION OF ITS OWN LENGTH, and over how many frames. 0 = off, and
     // off means no Barrel bone is created at all — a gun that never recoils costs nothing and regenerates unchanged.
     [SerializeField] float recoilDist = 0f; [SerializeField] int recoilFrames = 16;
+    // Frames of held pose before the kick — the engine can start the attack clip while the gun is still slewing,
+    // and the front of the clip is the one part of that timing we control outright.
+    [SerializeField] int recoilLead = 0;
     [SerializeField] int tailAxisChoice = 0;   // a tail rotor spins on a different axis than the main rotor — its own Auto/X/Y/Z override
     [SerializeField] float tailYawAdj = 0f;    // manual trim on the tail axle: swing about vertical, degrees
     [SerializeField] float tailPitchAdj = 0f;  // manual trim on the tail axle: tilt up/down, degrees
@@ -157,6 +160,7 @@ public class VehicleLabWindow : EditorWindow
         public float gunPivot = 0.5f;      // where the Gun bone (= the elevation trunnion) sits along the assembly
         public float gunDeployElev = 0f;   // degrees the gun raises across the Deploy clip
         public float recoilDist = 0f; public int recoilFrames = 16;   // recoil: fraction of tube length + clip length
+        public int recoilLead = 0;         // held frames before the kick
         public bool tracksStatic = false;
         public bool spinEnabled = true;    // default true: recipes that predate the field keep their spin (absent-field = old behavior)
         public Vector3 modelRot = Vector3.zero;
@@ -541,6 +545,13 @@ public class VehicleLabWindow : EditorWindow
                         "about the ceiling. The run measures the actual clearance and warns you.\n\n" +
                         "This is the only motion that needs the tube and the cradle on SEPARATE bones — mark them " +
                         "Gun and Cradle above, or the whole assembly slides together."), recoilDist, 0f, 0.6f);
+                    using (new EditorGUI.DisabledScope(recoilDist <= 0f))
+                        recoilLead = EditorGUILayout.IntSlider(new GUIContent("Recoil lead-in (frames)",
+                            "Frames the gun holds STILL at the start of the Recoil clip, before the kick. The engine " +
+                            "starts the attack clip on its own strike clock — an estimate that can fire while the gun " +
+                            "is still slewing onto the target — and the front of this clip is the one part of that " +
+                            "timing under our control. Raise it until the kick visibly lands AFTER the turn. " +
+                            "24 fps, so 24 = one second of hold. 0 = kick immediately."), recoilLead, 0, 96);
                     using (new EditorGUI.DisabledScope(recoilDist <= 0f))
                         recoilFrames = EditorGUILayout.IntSlider(new GUIContent("Recoil frames",
                             "Length of the 'Recoil' clip at 24 fps. The kick takes the first ~15% and the ride " +
@@ -1064,7 +1075,7 @@ public class VehicleLabWindow : EditorWindow
             parts = parts, boneParts = boneParts, useSourceRig = useSourceRig, treadAdvCells = treadAdvCells, treadCellsPerLink = treadCellsPerLink,
             // orientation + tread isolation + wave rock — the rest of what the bake command consumes
             tracksStatic = tracksStatic, spinEnabled = spinEnabled, modelRot = modelRot, waveEnabled = waveEnabled,
-            trailSpreadDeg = trailSpreadDeg, trailFrames = trailFrames, gunPivot = gunPivot, gunDeployElev = gunDeployElev, recoilDist = recoilDist, recoilFrames = recoilFrames,
+            trailSpreadDeg = trailSpreadDeg, trailFrames = trailFrames, gunPivot = gunPivot, gunDeployElev = gunDeployElev, recoilDist = recoilDist, recoilFrames = recoilFrames, recoilLead = recoilLead,
             rockDegrees = rockDegrees, rockFrames = rockFrames, rockAxisChoice = rockAxisChoice, rockHeading = rockHeading,
             rockPitchDeg = rockPitchDeg, rockRollCycles = rockRollCycles, rockPitchCycles = rockPitchCycles, rockPitchPhase = rockPitchPhase,
         };
@@ -1101,7 +1112,7 @@ public class VehicleLabWindow : EditorWindow
             // rock and vice-versa — no leak between models). off/zero is the safe neutral for a pre-2026-08-01 recipe;
             // the counted fields guard against a missing-key 0 the way treadAdvCells does.
             modelRot = r.modelRot; tracksStatic = r.tracksStatic; spinEnabled = r.spinEnabled;
-            trailSpreadDeg = r.trailSpreadDeg; trailFrames = r.trailFrames; gunPivot = r.gunPivot; gunDeployElev = r.gunDeployElev; recoilDist = r.recoilDist; recoilFrames = r.recoilFrames;
+            trailSpreadDeg = r.trailSpreadDeg; trailFrames = r.trailFrames; gunPivot = r.gunPivot; gunDeployElev = r.gunDeployElev; recoilDist = r.recoilDist; recoilFrames = r.recoilFrames; recoilLead = r.recoilLead;
             waveEnabled = r.waveEnabled; rockDegrees = r.rockDegrees; rockAxisChoice = r.rockAxisChoice; rockHeading = r.rockHeading;
             rockPitchDeg = r.rockPitchDeg; rockPitchPhase = r.rockPitchPhase;
             rockFrames = r.rockFrames > 0 ? r.rockFrames : 120;
@@ -1259,7 +1270,7 @@ public class VehicleLabWindow : EditorWindow
         string axis = axisChoice == 0 ? "AUTO" : AxisOptions[axisChoice];
         string tailAxis = tailAxisChoice == 0 ? "AUTO" : AxisOptions[tailAxisChoice];
         var inv = System.Globalization.CultureInfo.InvariantCulture;
-        if (!RunBlender($"{(fast ? "rigfast" : "rig")} \"{srcFile}\" \"{lastOutGlb}\" \"{prevFull}\" \"@{wheelsFile}\" \"@{turretsFile}\" {axis} {frames} {(spinEnabled ? degrees : 0f).ToString("0.#", inv)} \"@{ignoreFile}\" \"@{tracksFile}\" \"@{gunsFile}\" {treadAdvCells} 1 1 {treadCellsPerLink.ToString("0.##", inv)} {(tracksStatic || !spinEnabled ? "1" : "0")} {(waveEnabled ? rockDegrees : 0f).ToString("0.##", inv)} {rockFrames} {(rockAxisChoice == 1 ? "X" : rockAxisChoice == 2 ? "Y" : "AUTO")} {rockHeading.ToString("0.##", inv)} {(waveEnabled ? rockPitchDeg : 0f).ToString("0.##", inv)} {rockPitchCycles} \"{modelRot.x.ToString("0.##", inv)},{modelRot.y.ToString("0.##", inv)},{modelRot.z.ToString("0.##", inv)}\" {rockPitchPhase.ToString("0.##", inv)} {rockRollCycles} \"@{rotorsFile}\" \"@{tailrotorsFile}\" {tailAxis} {tailYawAdj.ToString("0.##", inv)} {tailPitchAdj.ToString("0.##", inv)} \"@{trailsFile}\" {trailSpreadDeg.ToString("0.##", inv)} {trailFrames} {gunPivot.ToString("0.###", inv)} {gunDeployElev.ToString("0.##", inv)} \"@{muzzlesFile}\" \"@{cradlesFile}\" {recoilDist.ToString("0.###", inv)} {recoilFrames}", out string stdout)) return;
+        if (!RunBlender($"{(fast ? "rigfast" : "rig")} \"{srcFile}\" \"{lastOutGlb}\" \"{prevFull}\" \"@{wheelsFile}\" \"@{turretsFile}\" {axis} {frames} {(spinEnabled ? degrees : 0f).ToString("0.#", inv)} \"@{ignoreFile}\" \"@{tracksFile}\" \"@{gunsFile}\" {treadAdvCells} 1 1 {treadCellsPerLink.ToString("0.##", inv)} {(tracksStatic || !spinEnabled ? "1" : "0")} {(waveEnabled ? rockDegrees : 0f).ToString("0.##", inv)} {rockFrames} {(rockAxisChoice == 1 ? "X" : rockAxisChoice == 2 ? "Y" : "AUTO")} {rockHeading.ToString("0.##", inv)} {(waveEnabled ? rockPitchDeg : 0f).ToString("0.##", inv)} {rockPitchCycles} \"{modelRot.x.ToString("0.##", inv)},{modelRot.y.ToString("0.##", inv)},{modelRot.z.ToString("0.##", inv)}\" {rockPitchPhase.ToString("0.##", inv)} {rockRollCycles} \"@{rotorsFile}\" \"@{tailrotorsFile}\" {tailAxis} {tailYawAdj.ToString("0.##", inv)} {tailPitchAdj.ToString("0.##", inv)} \"@{trailsFile}\" {trailSpreadDeg.ToString("0.##", inv)} {trailFrames} {gunPivot.ToString("0.###", inv)} {gunDeployElev.ToString("0.##", inv)} \"@{muzzlesFile}\" \"@{cradlesFile}\" {recoilDist.ToString("0.###", inv)} {recoilFrames} {recoilLead}", out string stdout)) return;
         // SUCCESS = THE SCRIPT'S OWN FINAL MARKER (the documented Blender trap: it exits 0 even when the python
         // script crashes mid-way — without this gate a half-run printed a fake "DONE" with no file on disk).
         string done = stdout.Split('\n').FirstOrDefault(l => l.Contains("VEHICLE RIG DONE"));
