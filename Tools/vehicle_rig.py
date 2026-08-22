@@ -1808,8 +1808,25 @@ if trail_bones and trail_spread > 0.01:
             arm.animation_data.action_slot = _dep.slots.new(id_type='OBJECT', name=arm.name)
     except Exception:
         pass
-    _centre_x = 0.0   # the model is recentred on its own centreline before this point
+    # THE SIGN TEST AND ITS LIMIT (measured 2026-08-22, headless drill on the M114 at 13 yaw angles).
+    # Each arm's swing direction is chosen by asking which way moves the spade FARTHER FROM x = 0. That is the
+    # right question only while the model's mirror plane is the x = 0 plane — i.e. while the gun is square to an
+    # axis, which is what the Orientation dials exist to achieve and what every shipped rig has.
+    #   * verified correct on the M114 at yaw 0 / 90 / 180: the two trails get OPPOSITE signs and open to a ~102
+    #     unit spread (they ship folded ~7 units apart).
+    #   * verified WRONG at every yaw in between: both arms get the SAME sign and swing together, collapsing the
+    #     spread to ~12 units. Off-axis the test stops measuring distance-from-the-centreline and starts measuring
+    #     the arm's foreshortening in x.
+    # Two rewrites were tried against that harness — referencing the other spade, and a centreline derived from
+    # the hinge/spade centroids — and BOTH were worse, because off-axis the real fault is upstream: the arm's ends
+    # come from the dominant AXIS-ALIGNED bbox extent (see the trail_bones loop), which mis-picks the ends of a
+    # diagonal arm. Fixing the sign alone cannot fix that, so the axis assumption STAYS and is stated instead of
+    # implied — plus the cross-check below, so a mis-rig is loud rather than silent.
+    # (The old comment here claimed "the model is recentred on its own centreline before this point". Nothing in
+    # this script recentres anything; the drill measured the rotated model's centre at x = -6.35.)
+    _centre_x = 0.0
     _opened = {}
+    _signs = []
     for _bn, _hinge, _spade in trail_bones:
         _db = arm.data.bones.get(_bn); _pb = arm.pose.bones.get(_bn)
         if _db is None or _pb is None:
@@ -1827,6 +1844,7 @@ if trail_bones and trail_spread > 0.01:
         _pb.keyframe_insert('rotation_quaternion', frame=trail_frames)
         deployed_pose[_bn] = _pb.rotation_quaternion.copy()   # the DEPLOYED pose, for clips that must hold it
         _opened[_bn] = ("out" if _sign > 0 else "in") + " %.0f deg" % trail_spread
+        _signs.append(_sign)
     # ...and the GUN comes up on the same frames. Axis = the world horizontal perpendicular to the tube
     # (barrel × up), so it works whichever way the source model happens to face; the SIGN is chosen the same way
     # the trails choose theirs — by testing which direction actually lifts the muzzle — rather than assumed.
@@ -1862,6 +1880,16 @@ if trail_bones and trail_spread > 0.01:
             _kp.interpolation = 'LINEAR'
     arm.animation_data.action = act        # 'Spin' stays the active action, as before
     print("VEHICLE DEPLOY clip: %d trail(s) %s over 0..%d frames" % (len(_opened), _opened, trail_frames))
+    # CROSS-CHECK (2026-08-22): a split-trail carriage MIRRORS — two arms must swing opposite ways. Same-sign
+    # means they swing together: one opens, the other sweeps inward through the carriage and its twin. Until now
+    # nothing checked, so an off-axis model produced that silently and only a careful look at the turntable would
+    # have caught it. Two trails is the mirrored case; three or more (an unusual carriage) are left alone.
+    if len(_signs) == 2 and _signs[0] == _signs[1]:
+        print("VEHICLE TRAIL *** WARNING: both trails were given the SAME swing direction (%s) — a split-trail "
+              "carriage must MIRROR, so one of these is sweeping INWARD through the other. The sign test assumes "
+              "the gun is square to an axis; straighten it with the Orientation dials (yaw to a multiple of 90) "
+              "and re-generate, then check the Deploy clip on the turntable."
+              % ("out" if _signs[0] > 0 else "in"))
 
 # THE RECOIL CLIP — the tube kicks back and rides forward again, authored as its own action so it can be assigned
 # to the Attack role and fire on a bombard without disturbing Spin or Deploy.

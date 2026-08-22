@@ -1296,7 +1296,13 @@ public class VehicleLabWindow : EditorWindow
               "Fix 100× OFF, Auto-ground ON, Keep bone translations ✓. Bake.";
         // The MUZZLE lines are the measured fire origin — the value the Animation Lab's Muzzle offset dial is
         // otherwise found by iterate-and-relaunch. Worth surfacing, not leaving in the Console.
-        string muzzle = string.Join("\n", stdout.Split('\n').Where(l => l.Contains("VEHICLE MUZZLE") || l.Contains("VEHICLE CRADLE")).Select(l => l.Trim()));
+        // WARNINGS ride along too (2026-08-22): the rigger's own safety findings — a recoil stroke that buries the
+        // breech, and a split-trail pair that came out un-mirrored — were printed only to the Console, i.e. exactly
+        // where a "the rig looks wrong" question does NOT get answered. They are the lines most worth reading.
+        string muzzle = string.Join("\n", stdout.Split('\n')
+            .Where(l => l.Contains("VEHICLE MUZZLE") || l.Contains("VEHICLE CRADLE")
+                     || l.Contains("*** WARNING") || l.Contains("DEPLOY gun: SKIPPED"))
+            .Select(l => l.Trim()));
         status = $"DONE → {lastOutGlb}\n{bones}\n{hybrid}\n{done}\n{muzzle}\n\nNext: Factory ▸ Browse this GLB, Size as usual; " + bakeRecipe;
         EditorGUIUtility.systemCopyBuffer = lastOutGlb;   // ready to paste into the Factory's Browse field
     }
