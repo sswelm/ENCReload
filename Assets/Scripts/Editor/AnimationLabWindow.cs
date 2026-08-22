@@ -1021,7 +1021,10 @@ public class AnimationLabWindow : EditorWindow
                         "elevating exactly as it finishes slewing, so it arrives aimed and elevated together. A " +
                         "fixed time cannot do that — on a long turn the gun waits at full elevation, on a short one " +
                         "it is still climbing when the shot goes off. Set a value only for a deliberately slow, " +
-                        "cranked-up look regardless of how far the unit had to turn."), cur.gunElevRise, 0f, 6f);
+                        "cranked-up look regardless of how far the unit had to turn.\n\nA value here also DELAYS THE SHOT: the " +
+                        "strike waits for the gun to finish elevating, so the muzzle flash, the shell and the recoil " +
+                        "all hold together rather than firing at a half-raised barrel. Capped at 3.5s by the " +
+                        "failsafes that bound those holds."), cur.gunElevRise, 0f, 4f);
                     cur.gunElevHold = EditorGUILayout.Slider(new GUIContent("      Hold after firing (s)",
                         "Seconds the barrel stays at its firing angle after the shot, before easing back down. Must " +
                         "be LONGER than the attack clip or the gun starts dropping mid-recoil. 0 = start down the " +
