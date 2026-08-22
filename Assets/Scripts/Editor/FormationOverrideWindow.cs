@@ -317,6 +317,25 @@ public class FormationOverrideWindow : EditorWindow
             if (tNew)
                 cur.turnRate = EditorGUILayout.Slider(Mathf.Clamp(cur.turnRate, 30f, 720f), 30f, 720f);
         }
+        // ---- pivot in place (unit links only): per-UNIT override of HAF's 90-degree turn-first rule — vanilla units
+        // and HAF models alike (the runtime keys it by the unit's descriptor). Independent of the Turn ease row above:
+        // a unit eased by its CATEGORY default (land/turret/ship in haf_turnease.txt) may carry only this. ----
+        using (new EditorGUI.DisabledScope(isMacro))
+        using (new EditorGUILayout.HorizontalScope())
+        {
+            int mode = cur.turnPivot > 0f ? 1 : cur.turnPivot < 0f ? 2 : 0;
+            int newMode = EditorGUILayout.Popup(new GUIContent("Pivot in place",
+                "Turn on the spot FIRST, then move off, when a heading change is at least the set angle — the rendered " +
+                "unit parks on its tile while it swings round, then catches up. Default = HAF's global rule " +
+                "(haf_turnease.txt `pivot=`, 90°; ground and naval only, never helicopters/planes). Custom = this " +
+                "unit's own angle: 1° makes it ALWAYS turn fully before moving (a tank, a towed gun), 150° only on " +
+                "near-reversals — it can even opt a helicopter in. Never = turn while rolling. Needs turn ease (the row " +
+                "above or a category default). RUNTIME-ONLY: Save + relaunch. See docs/Turn-Ease.md."),
+                mode, new[] { "Default (global rule)", "Custom angle", "Never" }, GUILayout.Width(320));
+            if (newMode != mode) cur.turnPivot = newMode == 1 ? 90f : newMode == 2 ? -1f : 0f;
+            if (newMode == 1)
+                cur.turnPivot = EditorGUILayout.Slider(Mathf.Clamp(cur.turnPivot, 1f, 180f), 1f, 180f);   // > 180 is unreachable
+        }
 
         // ---- formation by size (unit links only): era-ageing swaps, moved here from the Global Era Lab ----
         if (!isMacro)
