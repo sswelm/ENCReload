@@ -57,7 +57,13 @@ public class VehicleLabWindow : EditorWindow
     // weights and weapon bones untouched). boneParts mirrors `parts` row-for-row, holding bones.
     [SerializeField] List<Part> boneParts = new List<Part>();
     [SerializeField] bool useSourceRig;
-    List<Part> ActiveParts => useSourceRig && boneParts.Count > 0 ? boneParts : parts;
+    // THE FAST-PATH PREDICATE, DEFINED ONCE (2026-08-22). The UI and Generate each had their own copy, and the
+    // Deploy/gun/recoil block then read the RAW `parts` list while Generate read `boneParts` — so on a rigged
+    // source (the Ehrhardt, any SKM_ rip) marking a bone as Trail or Gun left the whole section reading
+    // "no trails marked" with every dial disabled, while Generate happily consumed those bone roles and shipped
+    // the defaults (35°, pivot 0.5, recoil 0) with no way to change them. One predicate, one list, no drift.
+    bool FastPath => useSourceRig && boneParts.Count > 0;
+    List<Part> ActiveParts => FastPath ? boneParts : parts;
     [SerializeField] int frames = 15; [SerializeField] float degrees = -360f; [SerializeField] int axisChoice = 0;   // 0 = Auto (per wheel), 1..3 = X/Y/Z
     // TRAILS (2026-08-22): how far each split-trail arm swings open when the gun deploys, and over how many
     // frames. Mirrored per side, hinged at the arm's body end — the rigger authors it as a separate "Deploy" action.
@@ -477,11 +483,11 @@ public class VehicleLabWindow : EditorWindow
             // with the arms at their folded rest. Assign in the Lab as: Idle/reference `Deploy`, Idle stance
             // `Deploy[N..N]`, Movement `Spin`, After-move `Deploy`, Pre-move `Deploy[N..0]`.
             if (Section(ref foldTrails, "Deploy — a split-trail gun coming into action",
-                    parts.Count(p => p.role == Role.Trail) == 0 ? "no trails marked"
-                        : $"{parts.Count(p => p.role == Role.Trail)} trail(s) · {trailSpreadDeg:0.#}° over {trailFrames} frames"
+                    ActiveParts.Count(p => p.role == Role.Trail) == 0 ? "no trails marked"
+                        : $"{ActiveParts.Count(p => p.role == Role.Trail)} trail(s) · {trailSpreadDeg:0.#}° over {trailFrames} frames"
                           + (gunDeployElev != 0f ? $" · gun +{gunDeployElev:0.#}°" : "")))
             {
-                using (new EditorGUI.DisabledScope(parts.Count(p => p.role == Role.Trail) == 0))
+                using (new EditorGUI.DisabledScope(ActiveParts.Count(p => p.role == Role.Trail) == 0))
                 {
                     trailSpreadDeg = EditorGUILayout.Slider(new GUIContent("Spread (deg)",
                         "How far each trail swings OUT from its towing position when the gun deploys — mirrored per " +
@@ -494,7 +500,7 @@ public class VehicleLabWindow : EditorWindow
                 // GUN PIVOT lives here rather than with the trails because it is the same kind of knob: where a
                 // moving part actually turns. The runtime elevation (Animation Lab ▸ "Gun elevation — max") rotates
                 // the Gun bone about ITS OWN ORIGIN, so this IS the trunnion.
-                using (new EditorGUI.DisabledScope(parts.Count(p => p.role == Role.Gun || p.role == Role.Muzzle || p.role == Role.Cradle) == 0))
+                using (new EditorGUI.DisabledScope(ActiveParts.Count(p => p.role == Role.Gun || p.role == Role.Muzzle || p.role == Role.Cradle) == 0))
                 {
                     gunPivot = EditorGUILayout.Slider(new GUIContent("Gun pivot (breech→muzzle)",
                         "Where the Gun bone sits along the gun assembly — and therefore where the barrel ELEVATES " +
@@ -511,7 +517,7 @@ public class VehicleLabWindow : EditorWindow
                         "writes a separate channel — dial that one against this raised base, not against level. " +
                         "0 = leave the gun level. Needs trails: the Deploy clip is what carries it."),
                         gunDeployElev, 0f, 45f);
-                    if (gunDeployElev != 0f && parts.Count(p => p.role == Role.Trail) == 0)
+                    if (gunDeployElev != 0f && ActiveParts.Count(p => p.role == Role.Trail) == 0)
                         EditorGUILayout.HelpBox("No trails marked — there is no Deploy clip to carry the raise, so " +
                             "this is doing nothing. Mark the trail arms (T) first.", MessageType.Warning);
                     // MUZZLE marking is optional, so say what it is FOR rather than leaving the role a mystery in
@@ -519,7 +525,7 @@ public class VehicleLabWindow : EditorWindow
                     // The three gun roles all weld to the ONE Gun bone, so the dropdown alone cannot explain why they
                     // are separate. Say what each one is FOR — the differences only appear in the span and, later,
                     // in recoil.
-                    int nM = parts.Count(p => p.role == Role.Muzzle), nC = parts.Count(p => p.role == Role.Cradle);
+                    int nM = ActiveParts.Count(p => p.role == Role.Muzzle), nC = ActiveParts.Count(p => p.role == Role.Cradle);
                     EditorGUILayout.HelpBox(
                         "Gun · Cradle · Muzzle all weld to the one Gun bone — they elevate together about the " +
                         "trunnions. They differ in what else they mean:\n" +
@@ -562,7 +568,7 @@ public class VehicleLabWindow : EditorWindow
                             "raise — not the kick.)"), recoilFrames, 3, 160);
                     if (recoilDist > 0f)
                     {
-                        int nG = parts.Count(p => p.role == Role.Gun);
+                        int nG = ActiveParts.Count(p => p.role == Role.Gun);
                         if (nG == 0)
                             EditorGUILayout.HelpBox("Recoil needs Gun parts — nothing is marked Gun, so there is no " +
                                 "tube to slide.", MessageType.Warning);
@@ -575,7 +581,7 @@ public class VehicleLabWindow : EditorWindow
                             "is rotation-only by default. Assign 'Recoil' to the Attack clip.", MessageType.Info);
                     }
                 }
-                using (new EditorGUI.DisabledScope(parts.Count(p => p.role == Role.Trail) == 0))
+                using (new EditorGUI.DisabledScope(ActiveParts.Count(p => p.role == Role.Trail) == 0))
                 {
                     EditorGUILayout.HelpBox("Assign after baking: Idle/reference = Deploy · Idle stance = Deploy[" +
                         trailFrames + ".." + trailFrames + "] · Movement = Spin · After-move = Deploy · Pre-move = Deploy[" +
@@ -1229,8 +1235,8 @@ public class VehicleLabWindow : EditorWindow
         // the ~32k Windows command-line limit that an inline ;-joined string would hit.
         string wheelsFile = Path.Combine(projRoot, prevDir, baseName + "_wheels.txt").Replace('\\', '/');
         string turretsFile = Path.Combine(projRoot, prevDir, baseName + "_turrets.txt").Replace('\\', '/');
-        bool fast = useSourceRig && boneParts.Count > 0;   // fast path: spin the marked SOURCE BONES, reuse the artist skeleton
-        var src = fast ? boneParts : parts;
+        bool fast = FastPath;          // fast path: spin the marked SOURCE BONES, reuse the artist skeleton (one definition, see ActiveParts)
+        var src = ActiveParts;         // the SAME list the UI counts roles from - they cannot disagree
         string ignoreFile = Path.Combine(projRoot, prevDir, baseName + "_ignore.txt").Replace('\\', '/');
         // Rotor + TailRotor travel in their OWN lists (not the wheels file): the rig script fuses each group into ONE
         // hub bone at its centroid so a wide rotor disc spins as one, instead of the wheel path's per-proximity bones
