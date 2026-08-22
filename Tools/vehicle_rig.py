@@ -224,6 +224,31 @@ tail_axis_arg = argv[28].upper() if len(argv) > 28 and argv[28].strip() else "AU
 # auto/forced axle, so the user can dial the last few degrees by eye when the heuristic is close but not exact.
 tail_yaw_adj = float(argv[29]) if len(argv) > 29 and argv[29].strip() else 0.0
 tail_pitch_adj = float(argv[30]) if len(argv) > 30 and argv[30].strip() else 0.0
+# TRAILS (argv[31..33], 2026-08-22): a split-trail gun's arms. Each marked part gets a bone HINGED at its body
+# end, and a separate "Deploy" action swings them open about the vertical, mirrored per side — so the state
+# machine can hold Deploy[N..N] as the deployed stance, play Deploy to unfold and Deploy[N..0] to fold, while
+# `Spin` keeps the wheels rolling with the arms at their folded rest. ("Trail" is the artillery term: these are
+# the arms of a SPLIT-TRAIL carriage, each ending in a spade. Not "legs" — that name is reserved for mech limbs.)
+trail_names = namelist(argv[31]) if len(argv) > 31 and argv[31].strip() else []
+trail_spread = float(argv[32]) if len(argv) > 32 and argv[32].strip() else 35.0
+trail_frames = max(2, int(float(argv[33]))) if len(argv) > 33 and argv[33].strip() else 12
+# GUN PIVOT (argv[34], 2026-08-22): where along the gun assembly its elevation bone sits — 0 = breech, 1 = muzzle,
+# 0.5 = the bbox centre (the historical placement, and the default so existing rigs regenerate unchanged).
+gun_pivot = min(1.0, max(0.0, float(argv[34]))) if len(argv) > 34 and argv[34].strip() else 0.5
+# GUN DEPLOY ELEVATION (argv[35]): degrees the gun raises across the Deploy clip, on the same frames as the trail
+# spread — a towed gun travels clamped level and only elevates once the trails are planted. 0 = leave it level.
+gun_deploy_elev = float(argv[35]) if len(argv) > 35 and argv[35].strip() else 0.0
+gun_axis = None                  # (trunnion, muzzle tip) in world space, filled when the Gun bone is built
+# MUZZLE parts (argv[36]): a separately-modelled muzzle brake / flash hider. NO bone of its own — a brake is bolted
+# to the tube, so it must elevate and recoil with it; these weld to the Gun bone exactly as the gun parts do. What
+# marking them buys is a PRECISE muzzle tip, which pins the breech→muzzle span `gun_pivot` measures against and lets
+# the rig report the exact fire origin instead of the gun bbox's far extreme.
+muzzle_names = namelist(argv[36]) if len(argv) > 36 and argv[36].strip() else []
+# CRADLE parts (argv[37]): the frame that HOLDS the tube — trunnions, recoil cylinders, the trough the barrel slides
+# in. It welds to the Gun bone like the tube does, because cradle and tube elevate together about the trunnions; what
+# it must NOT do is count toward the breech→muzzle span (a cradle stops well short of the muzzle) — and, once recoil
+# exists, it is the part that STAYS while the barrel kicks back. That is the whole reason it is its own role.
+cradle_names = namelist(argv[37]) if len(argv) > 37 and argv[37].strip() else []
 axis_arg = argv[6].upper()
 frames = max(2, int(argv[7]))
 degrees = float(argv[8])
@@ -585,14 +610,102 @@ if turret_names:
 # ONE Gun bone for the whole gun assembly (barrel, mantlet, mount) — the natural muzzleBone/socket anchor.
 # Parented to the Turret when there is one (the gun must ride the aiming turret); casemate guns (Jagdpanzer)
 # hang off Root.
-if gun_names:
+if gun_names or muzzle_names or cradle_names:
+    # THE TUBE vs THE WHOLE ASSEMBLY. Everything here welds to the one Gun bone, because everything here elevates
+    # together about the trunnions — but the breech→muzzle span `gun_pivot` slides along is a property of the TUBE
+    # alone. A cradle stops well short of the muzzle (26 units short on the M114), so folding it into the span would
+    # shrink it and make the fraction lie about where along the barrel the trunnion sits.
+    tube_names = gun_names + [m for m in muzzle_names if m not in gun_names]        # barrel + its brake
+    gun_names = tube_names + [c for c in cradle_names if c not in tube_names]       # ...+ the cradle: one bone
     gc, gs = _combined_bbox(gun_names)
+    # GUN PIVOT (2026-08-22): the runtime elevation (gunElevMax) rotates this bone about ITS OWN ORIGIN, so where
+    # the head sits IS the trunnion. At the bbox centre — the historical placement, still the default — the tube
+    # see-saws about its middle and the breech swings down through the carriage (measured on the M114: 76-unit
+    # tube, breech 38 units behind the centre, ~16 units of dip at 25°). `gun_pivot` slides the head along the
+    # assembly's LONG axis: 0 = the breech end, 1 = the muzzle, 0.5 = the bbox centre (unchanged behaviour).
+    # The M114's trunnion measures ~0.4. Only the head moves; the tail stays as it was, so a rig that already
+    # dials muzzleOffset/socketBones against this bone keeps its frame.
+    _gpts = []
+    for _gn2 in (tube_names or gun_names):        # span from the TUBE; fall back if only a cradle was marked
+        _go = find(_gn2)
+        if _go is not None:
+            _gpts += [_go.matrix_world @ _v.co for _v in _go.data.vertices]
+    if len(_gpts) >= 4:
+        _gmn = Vector(tuple(min(p[i] for p in _gpts) for i in range(3)))
+        _gmx = Vector(tuple(max(p[i] for p in _gpts) for i in range(3)))
+        _glong = max(range(3), key=lambda i: _gmx[i] - _gmn[i])
+        _breech = max(_gpts, key=lambda p: p[_glong])     # the assembly's two ends along its own length
+        _muzzle = min(_gpts, key=lambda p: p[_glong])
+        # which end is the BREECH? the one nearer the carriage — a barrel points away from its own mount
+        if (_muzzle - eb_body.head).length < (_breech - eb_body.head).length:
+            _breech, _muzzle = _muzzle, _breech
+        # A MARKED BRAKE PINS THE TIP EXACTLY. Without one the muzzle end is the gun bbox's far extreme, which a
+        # wide brake or a bracket hanging off the front skews; with one it is the marked geometry's farthest point
+        # from the breech — no inference. This is the fire origin, and it is what `gun_pivot` measures against.
+        if muzzle_names:
+            _mpts = []
+            for _mn2 in muzzle_names:
+                _mo = find(_mn2)
+                if _mo is not None:
+                    _mpts += [_mo.matrix_world @ _v.co for _v in _mo.data.vertices]
+            if _mpts:
+                _muzzle = max(_mpts, key=lambda p: (p - _breech).length)
+                print("VEHICLE MUZZLE %d part(s) -> tip=(%.2f, %.2f, %.2f) (welded to the Gun bone: a brake elevates and recoils with the tube)"
+                      % (len(muzzle_names), _muzzle.x, _muzzle.y, _muzzle.z))
+        if abs(gun_pivot - 0.5) > 1e-4:
+            gc = _breech + (_muzzle - _breech) * gun_pivot
+        gun_axis = (gc.copy(), _muzzle.copy())            # (trunnion, muzzle tip) — the deploy elevation needs both
+        print("VEHICLE gun pivot %.2f -> head=(%.2f, %.2f, %.2f) (breech (%.2f, %.2f, %.2f) .. muzzle (%.2f, %.2f, %.2f))"
+              % (gun_pivot, gc.x, gc.y, gc.z, _breech.x, _breech.y, _breech.z, _muzzle.x, _muzzle.y, _muzzle.z))
+        # THE FIRE ORIGIN, gun-bone-local — what HAF's `muzzleOffset` dial wants, in SOURCE units. The Animation
+        # Lab's comment describes finding this by iterate-value-then-relaunch; with a brake marked it is measured.
+        # Scale it by the bake's `size` before pasting: this is the raw model's scale, not the baked one.
+        _off = _muzzle - gc
+        print("VEHICLE MUZZLE fire origin (gun-local, SOURCE units — scale by the bake's size): %.3f, %.3f, %.3f"
+              % (_off.x, _off.y, _off.z))
+        if cradle_names:
+            print("VEHICLE CRADLE %d part(s) welded to the Gun bone (elevates with the tube; excluded from the "
+                  "breech->muzzle span, and it is what will STAY when the barrel recoils)" % len(cradle_names))
     eb = arm_data.edit_bones.new("Gun")
     eb.head = gc
     eb.tail = gc + Vector((0, 0, max(0.05, max(gs) * 0.25)))
     eb.parent = eb_turret if eb_turret is not None else eb_body
     for gn in gun_names:
         bone_of[gn] = "Gun"
+
+# TRAIL bones — one per arm, HINGED at the body end (not the bbox centre, which is what wheels use): a trail
+# swings about where it meets the carriage. The hinge is picked geometrically as the arm's extreme END nearest
+# the body bone, so it works whichever way a source points its arms. The bone runs down the arm to its spade,
+# which makes the arm's own direction its local Y — the same convention the wheels use, and one that survives
+# the bake (a bone's X/Z can be re-derived downstream; its head->tail direction cannot).
+trail_bones = []   # (bone name, hinge world pos, spade world pos)
+for _ti, _tn in enumerate(trail_names):
+    _to = find(_tn)
+    if _to is None:
+        print("VEHICLE WARN: trail part '%s' not found — skipped" % _tn)
+        continue
+    _pts = [_to.matrix_world @ _v.co for _v in _to.data.vertices]
+    if len(_pts) < 4:
+        continue
+    # the arm's long axis, then its two ends along it; the end NEAREST the body is the hinge
+    _mn = Vector(tuple(min(p[i] for p in _pts) for i in range(3)))
+    _mx = Vector(tuple(max(p[i] for p in _pts) for i in range(3)))
+    _long = max(range(3), key=lambda i: _mx[i] - _mn[i])
+    _end_lo = min(_pts, key=lambda p: p[_long])
+    _end_hi = max(_pts, key=lambda p: p[_long])
+    _ref = eb_body.head
+    _hinge, _spade = (_end_lo, _end_hi) if (_end_lo - _ref).length <= (_end_hi - _ref).length else (_end_hi, _end_lo)
+    _dir = (_spade - _hinge)
+    if _dir.length < 1e-5:
+        continue
+    eb = arm_data.edit_bones.new("Trail_%02d" % _ti)
+    eb.head = _hinge
+    eb.tail = _hinge + _dir.normalized() * max(_dir.length * 0.5, 0.05)
+    eb.parent = eb_body
+    bone_of[_tn] = eb.name
+    trail_bones.append((eb.name, _hinge.copy(), _spade.copy()))
+    print("VEHICLE trail '%s' -> %s hinge=(%.2f, %.2f, %.2f) spade=(%.2f, %.2f, %.2f)"
+          % (_tn, eb.name, _hinge.x, _hinge.y, _hinge.z, _spade.x, _spade.y, _spade.z))
 # Track bones — TREADIZE v2 (2026-07-26, user-designed surfaces): a tread loop is FOUR motion regions, each on
 # its own carrier: the FRONT/REAR wrap arcs skin to the SPROCKET/IDLER wheel bones (they rotate with the wheel —
 # wrapping is free and spokes never penetrate), the BOTTOM run rides a bone translating backward and the TOP run
@@ -1601,8 +1714,87 @@ for o in list(bpy.data.objects):   # bpy.data, not scene.objects — helpers can
 # "Take 001") rides along into the GLB even though nothing here plays it — the meshes are skinned to OUR armature
 # now. It then shows up in the Factory's clip picker beside 'Spin', and picking it bakes a model that never moves.
 # The rig authors exactly one clip; anything else in the file is a leftover.
-for _oa2 in [a for a in bpy.data.actions if a.name != "Spin"]:
-    print("VEHICLE purged leftover source clip '%s' (only 'Spin' is authored here)" % _oa2.name)
+# THE DEPLOY CLIP — the trails swinging open, authored as its OWN action so the state machine can use it four
+# ways: Deploy (unfold, after-move), Deploy[N..0] (fold, pre-move), Deploy[N..N] (the deployed stance) and
+# Deploy as the Idle/reference clip — which Law 2 requires to be real motion, not a held frame.
+# Each arm rotates about the WORLD VERTICAL at its own hinge. The direction is not assumed: it is CHOSEN by
+# testing which way moves the spade AWAY from the model's centreline, so left and right open outward whatever
+# way the source happens to face. Keyed as a quaternion about the exact local axis that maps to world up —
+# arbitrary-axis local rotations are safe on THIS rig (every scale is 1 and the chain is clean); they are not on
+# a deploy-converted one, which is why that route could never carry an authored motion (HAF Animation-Pitfalls).
+#
+# THE GUN RIDES THE DEPLOY CLIP TOO (2026-08-22). A towed gun travels with its tube clamped level over the closed
+# trails and only comes up to firing elevation once the trails are planted — so the raise belongs in the SAME clip
+# as the spread, on the same 0..N frames, and every use the state machine already makes of Deploy comes along free:
+# unfold raises, Deploy[N..0] lowers it back onto the travel lock before the unit rolls, Deploy[N..N] holds it up as
+# the deployed stance. This is what the hand-converted M114 did with deployReadyFrame — it just had no choice,
+# because a converted rig cannot carry authored bone motion; here it is a deliberate 2-line key.
+# It does NOT replace HAF's runtime gunElevMax: that writes a BoneRotation slot, a channel the clip pose never
+# touches, so the two COMPOSE — the clip sets the base firing elevation, the runtime adds the per-shot,
+# distance-proportional lift on top. Set both, and dial gunElevMax against the raised base, not against level.
+if trail_bones and trail_spread > 0.01:
+    _dep = bpy.data.actions.new("Deploy")
+    arm.animation_data.action = _dep
+    try:
+        if getattr(_dep, "slots", None):
+            arm.animation_data.action_slot = _dep.slots.new(id_type='OBJECT', name=arm.name)
+    except Exception:
+        pass
+    _centre_x = 0.0   # the model is recentred on its own centreline before this point
+    _opened = {}
+    for _bn, _hinge, _spade in trail_bones:
+        _db = arm.data.bones.get(_bn); _pb = arm.pose.bones.get(_bn)
+        if _db is None or _pb is None:
+            continue
+        _up = Vector((0.0, 0.0, 1.0))
+        _arm_v = _spade - _hinge
+        _test = _arm_v.copy(); _test.rotate(Quaternion(_up, math.radians(5.0)))
+        _sign = 1.0 if abs((_hinge + _test).x - _centre_x) > abs(_spade.x - _centre_x) else -1.0
+        _m3 = (arm.matrix_world @ _db.matrix_local).to_3x3()
+        _local_up = (_m3.inverted() @ _up).normalized()
+        _pb.rotation_mode = 'QUATERNION'
+        _pb.rotation_quaternion = Quaternion((1.0, 0.0, 0.0, 0.0))
+        _pb.keyframe_insert('rotation_quaternion', frame=0)
+        _pb.rotation_quaternion = Quaternion(_local_up, math.radians(trail_spread) * _sign)
+        _pb.keyframe_insert('rotation_quaternion', frame=trail_frames)
+        _opened[_bn] = ("out" if _sign > 0 else "in") + " %.0f deg" % trail_spread
+    # ...and the GUN comes up on the same frames. Axis = the world horizontal perpendicular to the tube
+    # (barrel × up), so it works whichever way the source model happens to face; the SIGN is chosen the same way
+    # the trails choose theirs — by testing which direction actually lifts the muzzle — rather than assumed.
+    if gun_deploy_elev != 0.0 and gun_axis is not None:
+        _gb = arm.data.bones.get("Gun"); _gpb = arm.pose.bones.get("Gun")
+        if _gb is not None and _gpb is not None:
+            _trun, _mz = gun_axis
+            _bar = (_mz - _trun)
+            _ax = _bar.cross(Vector((0.0, 0.0, 1.0)))
+            if _ax.length < 1e-4:                     # a tube already pointing straight up has no elevation plane
+                _ax = Vector((1.0, 0.0, 0.0))
+            _ax.normalize()
+            _t2 = _bar.copy(); _t2.rotate(Quaternion(_ax, math.radians(5.0)))
+            _gsign = 1.0 if _t2.z > _bar.z else -1.0  # +ve gun_deploy_elev must always RAISE the muzzle
+            _gm3 = (arm.matrix_world @ _gb.matrix_local).to_3x3()
+            _glocal = (_gm3.inverted() @ _ax).normalized()
+            _gpb.rotation_mode = 'QUATERNION'
+            _gpb.rotation_quaternion = Quaternion((1.0, 0.0, 0.0, 0.0))
+            _gpb.keyframe_insert('rotation_quaternion', frame=0)
+            _gpb.rotation_quaternion = Quaternion(_glocal, math.radians(abs(gun_deploy_elev)) * _gsign * (1.0 if gun_deploy_elev > 0 else -1.0))
+            _gpb.keyframe_insert('rotation_quaternion', frame=trail_frames)
+            print("VEHICLE DEPLOY gun: elevate %.1f deg about world (%.2f, %.2f, %.2f) over 0..%d frames"
+                  % (gun_deploy_elev, _ax.x, _ax.y, _ax.z, trail_frames))
+        else:
+            print("VEHICLE DEPLOY gun: SKIPPED — no Gun bone (mark the barrel parts as G to elevate on deploy)")
+    try:
+        _dfcs = list(_dep.fcurves)
+    except AttributeError:
+        _dfcs = [fc for l in _dep.layers for s in l.strips for cb in s.channelbags for fc in cb.fcurves]
+    for _fc in _dfcs:
+        for _kp in _fc.keyframe_points:
+            _kp.interpolation = 'LINEAR'
+    arm.animation_data.action = act        # 'Spin' stays the active action, as before
+    print("VEHICLE DEPLOY clip: %d trail(s) %s over 0..%d frames" % (len(_opened), _opened, trail_frames))
+
+for _oa2 in [a for a in bpy.data.actions if a.name not in ("Spin", "Deploy")]:
+    print("VEHICLE purged leftover source clip '%s' (only 'Spin'/'Deploy' are authored here)" % _oa2.name)
     bpy.data.actions.remove(_oa2)
 for _o2 in bpy.data.objects:
     if _o2.type != 'ARMATURE' and _o2.animation_data is not None:

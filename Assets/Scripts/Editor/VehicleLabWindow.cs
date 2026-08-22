@@ -39,7 +39,10 @@ public class VehicleLabWindow : EditorWindow
     // (proximity-cluster → one bone; axle = the cluster's thinnest extent) — which is geometrically correct for BOTH a
     // main rotor (flat top disc → vertical mast axle) and a tail rotor (vertical tail disc → lateral axle). They differ
     // from Wheel only downstream: a rotorcraft bakes CONTINUOUS (always spins) with Auto-ground OFF (flyer).
-    enum Role { Body, Wheel, Turret, Ignore, Default, Edgecase, Caterpillar, Gun, Rotor, TailRotor }
+    // Trail (2026-08-22, the M114 deploy): a split-trail ARM that swings OPEN when the gun deploys — one bone hinged at
+    // the end nearest the body, rotating about the vertical, mirrored per side. ("Leg" is deliberately NOT used —
+    // it is reserved for a walking mech limb.) Dropdown-only for now: no shortcut key.
+    enum Role { Body, Wheel, Turret, Ignore, Default, Edgecase, Caterpillar, Gun, Rotor, TailRotor, Trail, Muzzle, Cradle }
     [Serializable] class Part { public string name; public int verts; public Vector3 center, size; public Role role;
         public int vis = -1;   // probe's escape-ray verdict: 1 = external (visible from outside), 0 = interior (never visible — strippable), -1 = unclassified (pre-visibility probe)
         public string bone = ""; }   // rigged sources: the bone this shard is weighted to (probe 2026-08-20) — lets a BONE row highlight its shards
@@ -56,6 +59,16 @@ public class VehicleLabWindow : EditorWindow
     [SerializeField] bool useSourceRig;
     List<Part> ActiveParts => useSourceRig && boneParts.Count > 0 ? boneParts : parts;
     [SerializeField] int frames = 15; [SerializeField] float degrees = -360f; [SerializeField] int axisChoice = 0;   // 0 = Auto (per wheel), 1..3 = X/Y/Z
+    // TRAILS (2026-08-22): how far each split-trail arm swings open when the gun deploys, and over how many
+    // frames. Mirrored per side, hinged at the arm's body end — the rigger authors it as a separate "Deploy" action.
+    [SerializeField] float trailSpreadDeg = 35f; [SerializeField] int trailFrames = 12;
+    // GUN PIVOT: where the Gun bone sits along the assembly — the runtime elevation rotates about it, so this IS
+    // the trunnion. 0.5 = bbox centre (unchanged default); an artillery piece wants ~0.4 (measured on the M114).
+    [SerializeField] float gunPivot = 0.5f;
+    // GUN DEPLOY ELEVATION: degrees the gun raises ACROSS the Deploy clip, on the same frames as the trail spread.
+    // A towed gun travels clamped level and elevates once the trails are planted — so the raise belongs in the
+    // same clip, and every use the state machine makes of Deploy (unfold / fold / hold) carries it along free.
+    [SerializeField] float gunDeployElev = 0f;
     [SerializeField] int tailAxisChoice = 0;   // a tail rotor spins on a different axis than the main rotor — its own Auto/X/Y/Z override
     [SerializeField] float tailYawAdj = 0f;    // manual trim on the tail axle: swing about vertical, degrees
     [SerializeField] float tailPitchAdj = 0f;  // manual trim on the tail axle: tilt up/down, degrees
@@ -82,7 +95,7 @@ public class VehicleLabWindow : EditorWindow
     const int RockFps = 24;                       // Blender's scene fps — the clip's real-time length
     // The two motion sections fold independently (Sound Studio pattern): a model is almost always EITHER a wheeled
     // vehicle OR a floating one, so ~10 permanently-irrelevant rows were on screen at all times.
-    [SerializeField] bool foldSpin = true, foldWave = false, foldOrient = false;
+    [SerializeField] bool foldSpin = true, foldWave = false, foldOrient = false, foldTrails = false;
     // Straighten a source that imports crooked / on its side. Baked into the vertex data BEFORE the rig is built,
     // so wheel axles, tread side detection and the rock's auto hull-length axis all read the corrected pose.
     [SerializeField] Vector3 modelRot = Vector3.zero;
@@ -98,7 +111,7 @@ public class VehicleLabWindow : EditorWindow
     static float MaxDim(Part p) => Mathf.Max(p.size.x, Mathf.Max(p.size.y, p.size.z));
     bool VisiblePart(Part x) => x.verts >= minVerts && MaxDim(x) >= minPartSize && x.center.z >= minHeight && x.center.z <= maxHeight && x.center.y >= minWidth && x.center.y <= maxWidth;
     [SerializeField] int partFilter;      // list filter: 0 = all; see FilterOptions (Unreviewed = Default + Edgecase)
-    static readonly string[] FilterOptions = { "None (all parts)", "Undecided (Default + Edgecase)", "Default", "Wheel", "Turret", "Body", "Ignore", "Edgecase", "Caterpillar", "Gun", "Rotor", "Tail rotor" };
+    static readonly string[] FilterOptions = { "None (all parts)", "Undecided (Default + Edgecase)", "Default", "Wheel", "Turret", "Body", "Ignore", "Edgecase", "Caterpillar", "Gun", "Rotor", "Tail rotor", "Trail", "Muzzle", "Cradle" };
     bool MatchesFilter(Role r) => partFilter == 1 ? (r == Role.Default || r == Role.Edgecase)
                                 : partFilter == 2 ? r == Role.Default
                                 : partFilter == 3 ? r == Role.Wheel
@@ -109,7 +122,10 @@ public class VehicleLabWindow : EditorWindow
                                 : partFilter == 8 ? r == Role.Caterpillar
                                 : partFilter == 9 ? r == Role.Gun
                                 : partFilter == 10 ? r == Role.Rotor
-                                : partFilter == 11 ? r == Role.TailRotor : true;
+                                : partFilter == 11 ? r == Role.TailRotor
+                                : partFilter == 12 ? r == Role.Trail
+                                : partFilter == 13 ? r == Role.Muzzle
+                                : partFilter == 14 ? r == Role.Cradle : true;
     // Roles that SPIN (get a bone + the Spin action): wheels and both rotor kinds. Used for the Generate-enable gate,
     // the spin-section summary, Verify, and the "inside the wheel" test — so a rotorcraft with no Wheel parts still rigs.
     static bool IsSpinner(Role r) => r == Role.Wheel || r == Role.Rotor || r == Role.TailRotor;
@@ -134,6 +150,9 @@ public class VehicleLabWindow : EditorWindow
         // rock/orientation was on screen LEAKED into the next model's bake because Load never reset them. Now stored.
         // Defaults match the live field defaults so a PRE-2026-08-01 recipe (missing these keys) loads NEUTRALLY =
         // wheeled / as-imported / no rock (waveEnabled false gates the rock params regardless).
+        public float trailSpreadDeg = 35f; public int trailFrames = 12;   // trails: spread angle + clip length
+        public float gunPivot = 0.5f;      // where the Gun bone (= the elevation trunnion) sits along the assembly
+        public float gunDeployElev = 0f;   // degrees the gun raises across the Deploy clip
         public bool tracksStatic = false;
         public bool spinEnabled = true;    // default true: recipes that predate the field keep their spin (absent-field = old behavior)
         public Vector3 modelRot = Vector3.zero;
@@ -154,6 +173,9 @@ public class VehicleLabWindow : EditorWindow
 
     // turntable preview state
     GameObject inst; PreviewRenderUtility pru; AnimationClip spinClip;
+    // CLIP PICKER (2026-08-22): the rig can now author more than one action (Spin + Deploy), so the turntable must
+    // let you choose which to judge — the same need the Animation Lab preview had. Rebuilt with every preview.
+    List<AnimationClip> previewClips; [SerializeField] int previewClipIdx;
     Bounds bounds; bool boundsValid; float spinT; double lastTick;
     float fullRadius;   // whole-model radius — far-plane margin must NOT shrink to a focused part's bounds
     Vector2 orbit = new Vector2(140f, -18f); float zoom = 1.5f;
@@ -161,6 +183,11 @@ public class VehicleLabWindow : EditorWindow
     // part focus/highlight: clicking a row zooms onto that part and tints it — the "which shard is the wheel?" x-ray
     string selectedPart = "";
     List<Renderer> highlightedRenderers; List<Material[]> highlightedOriginals;   // a bone row tints MANY shards
+    // CHECKER SKIN for the turntable (2026-08-22): rotation is invisible on an untextured, rotationally symmetric
+    // part. Painted onto the live instance's renderers; the yellow part-highlight still wins on top of it.
+    [SerializeField] bool previewChecker = true;
+    static Texture2D checkerTex; static Material checkerMat;
+    Dictionary<Renderer, Material[]> checkerOriginals;
     static Material highlightMat;
 
     void OnEnable() { EditorApplication.update += Tick; lastTick = EditorApplication.timeSinceStartup; }
@@ -437,6 +464,75 @@ public class VehicleLabWindow : EditorWindow
                 }   // end spin-inert DisabledScope
             }
 
+            // TRAILS — a split-trail gun's DEPLOY. The arms marked Trail get a bone hinged at their body end and a
+            // separate "Deploy" action that swings them open, mirrored per side; `Spin` keeps the wheels rolling
+            // with the arms at their folded rest. Assign in the Lab as: Idle/reference `Deploy`, Idle stance
+            // `Deploy[N..N]`, Movement `Spin`, After-move `Deploy`, Pre-move `Deploy[N..0]`.
+            if (Section(ref foldTrails, "Deploy — a split-trail gun coming into action",
+                    parts.Count(p => p.role == Role.Trail) == 0 ? "no trails marked"
+                        : $"{parts.Count(p => p.role == Role.Trail)} trail(s) · {trailSpreadDeg:0.#}° over {trailFrames} frames"
+                          + (gunDeployElev != 0f ? $" · gun +{gunDeployElev:0.#}°" : "")))
+            {
+                using (new EditorGUI.DisabledScope(parts.Count(p => p.role == Role.Trail) == 0))
+                {
+                    trailSpreadDeg = EditorGUILayout.Slider(new GUIContent("Spread (deg)",
+                        "How far each trail swings OUT from its towing position when the gun deploys — mirrored per " +
+                        "side, hinged at the arm's body end and rotated about the vertical. The M114's trails open " +
+                        "to roughly 35–45°. 0 = no deploy motion."), trailSpreadDeg, 0f, 90f);
+                    trailFrames = EditorGUILayout.IntSlider(new GUIContent("Deploy frames",
+                        "Length of the 'Deploy' clip. The runtime plays every clip at its authored length (24 fps), " +
+                        "so ~12 frames ≈ half a second — pace it here, not at runtime."), trailFrames, 2, 60);
+                }
+                // GUN PIVOT lives here rather than with the trails because it is the same kind of knob: where a
+                // moving part actually turns. The runtime elevation (Animation Lab ▸ "Gun elevation — max") rotates
+                // the Gun bone about ITS OWN ORIGIN, so this IS the trunnion.
+                using (new EditorGUI.DisabledScope(parts.Count(p => p.role == Role.Gun || p.role == Role.Muzzle || p.role == Role.Cradle) == 0))
+                {
+                    gunPivot = EditorGUILayout.Slider(new GUIContent("Gun pivot (breech→muzzle)",
+                        "Where the Gun bone sits along the gun assembly — and therefore where the barrel ELEVATES " +
+                        "from. 0 = the breech end, 1 = the muzzle, 0.5 = the assembly's centre (the historical " +
+                        "placement, kept as the default so existing rigs regenerate unchanged). A real gun pivots at " +
+                        "its trunnions: ~0.4 on the M114. Too far forward and the breech swings down through the " +
+                        "carriage when the gun elevates."), gunPivot, 0f, 1f);
+                    gunDeployElev = EditorGUILayout.Slider(new GUIContent("Gun raise on deploy (deg)",
+                        "Degrees the gun elevates ACROSS the Deploy clip — same frames as the trail spread, because " +
+                        "a towed gun travels clamped level over its closed trails and only comes up once they are " +
+                        "planted. Every use the state machine makes of Deploy carries it: unfold raises, the " +
+                        "reversed clip lowers it back onto the travel lock before the unit rolls, the held last " +
+                        "frame keeps it up. Composes with the Animation Lab's runtime 'Gun elevation — max', which " +
+                        "writes a separate channel — dial that one against this raised base, not against level. " +
+                        "0 = leave the gun level. Needs trails: the Deploy clip is what carries it."),
+                        gunDeployElev, 0f, 45f);
+                    if (gunDeployElev != 0f && parts.Count(p => p.role == Role.Trail) == 0)
+                        EditorGUILayout.HelpBox("No trails marked — there is no Deploy clip to carry the raise, so " +
+                            "this is doing nothing. Mark the trail arms (T) first.", MessageType.Warning);
+                    // MUZZLE marking is optional, so say what it is FOR rather than leaving the role a mystery in
+                    // the dropdown — and say plainly that it is not a bone, which is the thing to get wrong.
+                    // The three gun roles all weld to the ONE Gun bone, so the dropdown alone cannot explain why they
+                    // are separate. Say what each one is FOR — the differences only appear in the span and, later,
+                    // in recoil.
+                    int nM = parts.Count(p => p.role == Role.Muzzle), nC = parts.Count(p => p.role == Role.Cradle);
+                    EditorGUILayout.HelpBox(
+                        "Gun · Cradle · Muzzle all weld to the one Gun bone — they elevate together about the " +
+                        "trunnions. They differ in what else they mean:\n" +
+                        "• Gun — the tube itself. Defines the breech→muzzle span the pivot above slides along, and " +
+                        "it is the part that will KICK BACK when recoil is authored.\n" +
+                        "• Cradle — the frame that holds the tube (trunnions, recoil cylinders, the trough it slides " +
+                        "in). Kept OUT of the span, because a cradle stops well short of the muzzle and would " +
+                        "otherwise shrink it. It is what STAYS while the barrel recoils.\n" +
+                        "• Muzzle — a separately-modelled brake or flash hider. Pins the tip exactly instead of " +
+                        "guessing at the gun bbox's far extreme, and the run reports the measured fire origin for " +
+                        "the Animation Lab's Muzzle offset. Skip it if the brake is modelled INTO the barrel mesh."
+                        + (nM + nC > 0 ? $"\n\nMarked: {nC} cradle, {nM} muzzle." : ""), MessageType.None);
+                }
+                using (new EditorGUI.DisabledScope(parts.Count(p => p.role == Role.Trail) == 0))
+                {
+                    EditorGUILayout.HelpBox("Assign after baking: Idle/reference = Deploy · Idle stance = Deploy[" +
+                        trailFrames + ".." + trailFrames + "] · Movement = Spin · After-move = Deploy · Pre-move = Deploy[" +
+                        trailFrames + "..0]", MessageType.None);
+                }
+            }
+
             // WAVE ROCK — a FLOATING unit's idle sway. Independent of wheels: a boat marks nothing but Ignore
             // (to strip parts) and rocks. Rotation-only on a Hull bone, so no Keep-translations needed downstream.
             if (Section(ref foldWave, "Wave rock — floating units",
@@ -501,6 +597,16 @@ public class VehicleLabWindow : EditorWindow
             using (new EditorGUILayout.HorizontalScope())
             {
                 EditorGUILayout.LabelField("Preview   (drag = orbit · middle/right-drag = pan · scroll = zoom · click a part row to focus)", EditorStyles.miniBoldLabel);
+                // WHICH CLIP (2026-08-22): the rig authors `Spin` (wheels) and, for a split-trail gun, `Deploy`
+                // (the arms swinging open). Judge either here rather than waiting for a bake.
+                if (previewClips != null && previewClips.Count > 1)
+                {
+                    int pick = EditorGUILayout.Popup(previewClipIdx, previewClips.Select(c => c.name).ToArray(), GUILayout.Width(90));
+                    if (pick != previewClipIdx)
+                    {
+                        previewClipIdx = pick; spinClip = previewClips[pick]; spinT = 0f; previewPaused = false; Repaint();
+                    }
+                }
                 previewPaused = GUILayout.Toggle(previewPaused, new GUIContent(previewPaused ? "▶ Play" : "❚❚ Pause",
                     "Freeze the spin so you can judge whether the rotor is level (or inspect a static pose)."),
                     EditorStyles.miniButton, GUILayout.Width(70));
@@ -528,6 +634,15 @@ public class VehicleLabWindow : EditorWindow
                     "A level grid at the model's lowest point — the reference to straighten against. The brighter " +
                     "centre line runs along +X (the axis the rig treats as forward), so heading is readable too."),
                     EditorStyles.miniButton, GUILayout.Width(100));
+                // CHECKER (2026-08-22, user: "I can't see the wheels spin"): the preview renders the raw model with
+                // no material, and a featureless grey disc gives the eye NOTHING to track — a spinning wheel and a
+                // still one look identical. A high-contrast checker fixes that, and beats the real tyre texture,
+                // which is itself nearly rotationally symmetric. Same blind spot the Animation Lab preview had.
+                bool wantChecker = GUILayout.Toggle(previewChecker, new GUIContent("Checker",
+                    "Paint the preview with a high-contrast checker so ROTATION is visible — a bare grey wheel looks " +
+                    "identical spinning or still. Off = the model's own (usually untextured) look."),
+                    EditorStyles.miniButton, GUILayout.Width(70));
+                if (wantChecker != previewChecker) { previewChecker = wantChecker; ApplyChecker(previewChecker); Repaint(); }
             }
             // min 400 tall and greedy: the inspection view claims all leftover window height (was fixed 260,
             // leaving dead grey space below in a tall window).
@@ -907,6 +1022,7 @@ public class VehicleLabWindow : EditorWindow
             parts = parts, boneParts = boneParts, useSourceRig = useSourceRig, treadAdvCells = treadAdvCells, treadCellsPerLink = treadCellsPerLink,
             // orientation + tread isolation + wave rock — the rest of what the bake command consumes
             tracksStatic = tracksStatic, spinEnabled = spinEnabled, modelRot = modelRot, waveEnabled = waveEnabled,
+            trailSpreadDeg = trailSpreadDeg, trailFrames = trailFrames, gunPivot = gunPivot, gunDeployElev = gunDeployElev,
             rockDegrees = rockDegrees, rockFrames = rockFrames, rockAxisChoice = rockAxisChoice, rockHeading = rockHeading,
             rockPitchDeg = rockPitchDeg, rockRollCycles = rockRollCycles, rockPitchCycles = rockPitchCycles, rockPitchPhase = rockPitchPhase,
         };
@@ -943,6 +1059,7 @@ public class VehicleLabWindow : EditorWindow
             // rock and vice-versa — no leak between models). off/zero is the safe neutral for a pre-2026-08-01 recipe;
             // the counted fields guard against a missing-key 0 the way treadAdvCells does.
             modelRot = r.modelRot; tracksStatic = r.tracksStatic; spinEnabled = r.spinEnabled;
+            trailSpreadDeg = r.trailSpreadDeg; trailFrames = r.trailFrames; gunPivot = r.gunPivot; gunDeployElev = r.gunDeployElev;
             waveEnabled = r.waveEnabled; rockDegrees = r.rockDegrees; rockAxisChoice = r.rockAxisChoice; rockHeading = r.rockHeading;
             rockPitchDeg = r.rockPitchDeg; rockPitchPhase = r.rockPitchPhase;
             rockFrames = r.rockFrames > 0 ? r.rockFrames : 120;
@@ -1079,10 +1196,28 @@ public class VehicleLabWindow : EditorWindow
         File.WriteAllLines(tracksFile, src.Where(p => p.role == Role.Caterpillar).Select(p => p.name).ToArray());
         string gunsFile = Path.Combine(projRoot, prevDir, baseName + "_guns.txt").Replace('\\', '/');
         File.WriteAllLines(gunsFile, src.Where(p => p.role == Role.Gun).Select(p => p.name).ToArray());
+        // TRAILS (2026-08-22, the M114 deploy): split-trail arms that swing OPEN when the gun deploys. Each gets a bone
+        // hinged at its body end; the rigger authors a separate "Deploy" action that spreads them, so the state
+        // machine can use Deploy[N..N] as the deployed stance, Deploy as the unfold and Deploy[N..0] as the fold —
+        // while `Spin` keeps the wheels rolling with the legs folded (their rest).
+        string trailsFile = Path.Combine(projRoot, prevDir, baseName + "_trails.txt").Replace('\\', '/');
+        File.WriteAllLines(trailsFile, src.Where(p => p.role == Role.Trail).Select(p => p.name).ToArray());
+        // MUZZLE (2026-08-22): a separately-modelled muzzle brake / flash hider. It gets NO bone of its own — the
+        // brake is bolted to the tube, so it must elevate and recoil with it — the rigger just welds it to the Gun
+        // bone. What marking it buys is a PRECISE muzzle tip: the breech→muzzle span that Gun pivot measures against
+        // stops guessing at the gun bbox's far extreme, and the rigger can report the exact fire origin.
+        string muzzlesFile = Path.Combine(projRoot, prevDir, baseName + "_muzzles.txt").Replace('\\', '/');
+        File.WriteAllLines(muzzlesFile, src.Where(p => p.role == Role.Muzzle).Select(p => p.name).ToArray());
+        // CRADLE (2026-08-22): the frame that HOLDS the tube — trunnions, recoil cylinders, the trough the barrel
+        // slides in. It welds to the Gun bone (cradle and tube elevate together about the trunnions) but is kept out
+        // of the breech→muzzle span, since a cradle stops well short of the muzzle and would otherwise shrink it.
+        // Once recoil exists it is the part that STAYS while the barrel kicks back — the reason it is its own role.
+        string cradlesFile = Path.Combine(projRoot, prevDir, baseName + "_cradles.txt").Replace('\\', '/');
+        File.WriteAllLines(cradlesFile, src.Where(p => p.role == Role.Cradle).Select(p => p.name).ToArray());
         string axis = axisChoice == 0 ? "AUTO" : AxisOptions[axisChoice];
         string tailAxis = tailAxisChoice == 0 ? "AUTO" : AxisOptions[tailAxisChoice];
         var inv = System.Globalization.CultureInfo.InvariantCulture;
-        if (!RunBlender($"{(fast ? "rigfast" : "rig")} \"{srcFile}\" \"{lastOutGlb}\" \"{prevFull}\" \"@{wheelsFile}\" \"@{turretsFile}\" {axis} {frames} {(spinEnabled ? degrees : 0f).ToString("0.#", inv)} \"@{ignoreFile}\" \"@{tracksFile}\" \"@{gunsFile}\" {treadAdvCells} 1 1 {treadCellsPerLink.ToString("0.##", inv)} {(tracksStatic || !spinEnabled ? "1" : "0")} {(waveEnabled ? rockDegrees : 0f).ToString("0.##", inv)} {rockFrames} {(rockAxisChoice == 1 ? "X" : rockAxisChoice == 2 ? "Y" : "AUTO")} {rockHeading.ToString("0.##", inv)} {(waveEnabled ? rockPitchDeg : 0f).ToString("0.##", inv)} {rockPitchCycles} \"{modelRot.x.ToString("0.##", inv)},{modelRot.y.ToString("0.##", inv)},{modelRot.z.ToString("0.##", inv)}\" {rockPitchPhase.ToString("0.##", inv)} {rockRollCycles} \"@{rotorsFile}\" \"@{tailrotorsFile}\" {tailAxis} {tailYawAdj.ToString("0.##", inv)} {tailPitchAdj.ToString("0.##", inv)}", out string stdout)) return;
+        if (!RunBlender($"{(fast ? "rigfast" : "rig")} \"{srcFile}\" \"{lastOutGlb}\" \"{prevFull}\" \"@{wheelsFile}\" \"@{turretsFile}\" {axis} {frames} {(spinEnabled ? degrees : 0f).ToString("0.#", inv)} \"@{ignoreFile}\" \"@{tracksFile}\" \"@{gunsFile}\" {treadAdvCells} 1 1 {treadCellsPerLink.ToString("0.##", inv)} {(tracksStatic || !spinEnabled ? "1" : "0")} {(waveEnabled ? rockDegrees : 0f).ToString("0.##", inv)} {rockFrames} {(rockAxisChoice == 1 ? "X" : rockAxisChoice == 2 ? "Y" : "AUTO")} {rockHeading.ToString("0.##", inv)} {(waveEnabled ? rockPitchDeg : 0f).ToString("0.##", inv)} {rockPitchCycles} \"{modelRot.x.ToString("0.##", inv)},{modelRot.y.ToString("0.##", inv)},{modelRot.z.ToString("0.##", inv)}\" {rockPitchPhase.ToString("0.##", inv)} {rockRollCycles} \"@{rotorsFile}\" \"@{tailrotorsFile}\" {tailAxis} {tailYawAdj.ToString("0.##", inv)} {tailPitchAdj.ToString("0.##", inv)} \"@{trailsFile}\" {trailSpreadDeg.ToString("0.##", inv)} {trailFrames} {gunPivot.ToString("0.###", inv)} {gunDeployElev.ToString("0.##", inv)} \"@{muzzlesFile}\" \"@{cradlesFile}\"", out string stdout)) return;
         // SUCCESS = THE SCRIPT'S OWN FINAL MARKER (the documented Blender trap: it exits 0 even when the python
         // script crashes mid-way — without this gate a half-run printed a fake "DONE" with no file on disk).
         string done = stdout.Split('\n').FirstOrDefault(l => l.Contains("VEHICLE RIG DONE"));
@@ -1106,7 +1241,10 @@ public class VehicleLabWindow : EditorWindow
               "Fix 100× OFF, Auto-ground OFF (flyer), Keep bone translations ✓. Bake."
             : "Animation Lab ▸ State-driven, Idle/reference = Spin[0..0], Movement = Spin (full), Convert raw rig ON, " +
               "Fix 100× OFF, Auto-ground ON, Keep bone translations ✓. Bake.";
-        status = $"DONE → {lastOutGlb}\n{bones}\n{hybrid}\n{done}\n\nNext: Factory ▸ Browse this GLB, Size as usual; " + bakeRecipe;
+        // The MUZZLE lines are the measured fire origin — the value the Animation Lab's Muzzle offset dial is
+        // otherwise found by iterate-and-relaunch. Worth surfacing, not leaving in the Console.
+        string muzzle = string.Join("\n", stdout.Split('\n').Where(l => l.Contains("VEHICLE MUZZLE") || l.Contains("VEHICLE CRADLE")).Select(l => l.Trim()));
+        status = $"DONE → {lastOutGlb}\n{bones}\n{hybrid}\n{done}\n{muzzle}\n\nNext: Factory ▸ Browse this GLB, Size as usual; " + bakeRecipe;
         EditorGUIUtility.systemCopyBuffer = lastOutGlb;   // ready to paste into the Factory's Browse field
     }
 
@@ -1150,21 +1288,67 @@ public class VehicleLabWindow : EditorWindow
         DestroyPreview();
         var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(prevRel);
         if (prefab == null) return;
-        spinClip = AssetDatabase.LoadAllAssetsAtPath(prevRel).OfType<AnimationClip>().FirstOrDefault(c => !c.name.StartsWith("__preview"));
+        previewClips = AssetDatabase.LoadAllAssetsAtPath(prevRel).OfType<AnimationClip>()
+                                    .Where(c => c != null && !c.name.StartsWith("__preview")).OrderBy(c => c.name).ToList();
+        if (previewClipIdx >= previewClips.Count) previewClipIdx = 0;
+        spinClip = previewClips.Count > 0 ? previewClips[previewClipIdx] : null;
         if (pru == null) pru = new PreviewRenderUtility();
         inst = Instantiate(prefab);
         pru.AddSingleGO(inst);
+        checkerOriginals = null;
+        if (previewChecker) ApplyChecker(true);   // fresh instance: repaint it
         boundsValid = false; spinT = 0f;
         // REFRAME on every fresh preview (2026-07-27 user request): a leftover pan/zoom from inspecting the
         // previous rig can frame empty space ("I lost the item from view" after re-Vehicleize). Orbit angle is
         // kept — it's a viewing preference, not a framing offset.
         previewPan = Vector2.zero; zoom = 1.5f;
     }
+    // Paint (or unpaint) the live preview instance with the checker skin. Originals are remembered per renderer so
+    // toggling off restores exactly what the import gave us. Clears any part highlight first: the highlight stores
+    // "the materials that were there" to restore later, and swapping underneath it would strand stale entries.
+    void ApplyChecker(bool on)
+    {
+        if (inst == null) return;
+        if (highlightedRenderers != null) SelectPart(null);
+        if (on)
+        {
+            if (checkerTex == null)
+            {
+                const int N = 64, CELL = 8;   // 8-px squares: reads clearly at any turntable zoom
+                checkerTex = new Texture2D(N, N) { hideFlags = HideFlags.HideAndDontSave, filterMode = FilterMode.Point, wrapMode = TextureWrapMode.Repeat };
+                for (int y = 0; y < N; y++)
+                    for (int x = 0; x < N; x++)
+                        checkerTex.SetPixel(x, y, ((x / CELL + y / CELL) & 1) == 0
+                            ? new Color(0.82f, 0.82f, 0.80f) : new Color(0.20f, 0.22f, 0.26f));
+                checkerTex.Apply();
+            }
+            if (checkerMat == null)
+            {
+                checkerMat = new Material(Shader.Find("Standard")) { hideFlags = HideFlags.HideAndDontSave, mainTexture = checkerTex };
+                checkerMat.SetFloat("_Glossiness", 0.05f);
+                checkerMat.mainTextureScale = new Vector2(4f, 4f);   // a few squares per part, whatever the UV layout
+            }
+            checkerOriginals = new Dictionary<Renderer, Material[]>();
+            foreach (var r in inst.GetComponentsInChildren<Renderer>(true))
+            {
+                if (r == null) continue;
+                checkerOriginals[r] = r.sharedMaterials;
+                r.sharedMaterials = Enumerable.Repeat(checkerMat, Mathf.Max(1, r.sharedMaterials.Length)).ToArray();
+            }
+        }
+        else if (checkerOriginals != null)
+        {
+            foreach (var kv in checkerOriginals)
+                try { if (kv.Key != null) kv.Key.sharedMaterials = kv.Value; } catch { }
+            checkerOriginals = null;
+        }
+    }
+
     void DestroyPreview()
     {
         if (inst != null) { DestroyImmediate(inst); inst = null; }
         boneShards = null; highlightedRenderers = null; highlightedOriginals = null;   // per-instance caches die with it
-        spinClip = null; boundsValid = false;
+        spinClip = null; previewClips = null; boundsValid = false;
         selectedPart = ""; highlightedRenderers = null; highlightedOriginals = null;
     }
     void HandlePreviewInput(Rect rect)

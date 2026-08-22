@@ -47,6 +47,25 @@ public class AnimationLabWindow : EditorWindow
     Material fitGroundMat;
     Mesh fitGroundMesh;
     Mesh fitArrowMesh;   // flat FORWARD (+Z) arrow on the square — the direction to dial the model toward
+    // PLAY THE CLIP (2026-08-22, the towed howitzer's rolling wheels): the fit preview above draws the rig's BIND
+    // POSE (DrawMesh of sharedMesh — no skinning), so a clip can never move in it; and the raw-model ▶ picker shows
+    // the source UNTEXTURED, where a dark wheel against a dark hull reads as motionless (user report). Playing a clip
+    // needs a REAL instance in the preview scene (AddSingleGO) whose SkinnedMeshRenderers skin as the clip is
+    // sampled — the Vehicle Lab turntable's proven route, ported here. The clip comes from the BAKED per-role FBX
+    // (anim/ idle, anim_move/, anim_after/, anim_premove/, anim_attack/) and wears the model's baked atlas, so what
+    // plays here is what the game will play.
+    GameObject fitAnimInst;          // live instance inside fitPRU's scene (non-serializable: rebuilt on demand)
+    AnimationClip fitAnimClip;
+    Bounds fitAnimBounds; bool fitAnimBoundsValid;
+    [SerializeField] string fitAnimRole = "";        // "" = rest pose (the static draw list); else the role FBX subfolder
+    [SerializeField] bool fitAnimPlaying = true;
+    [SerializeField] float fitAnimSpeed = 1f;
+    float fitAnimT; double fitAnimTick;
+    List<(string label, string dir)> fitRoles; string fitRolesFor;   // role clips that actually exist, cached per resource
+    static readonly (string label, string dir)[] FitAnimRoleDirs = {
+        ("Idle / main clip", "anim"), ("Movement", "anim_move"), ("After-move", "anim_after"),
+        ("Pre-move (fold)", "anim_premove"), ("Attack", "anim_attack"),
+    };
 
     [MenuItem("Tools/HAF/Animation Lab")]
     static void Open()
@@ -103,8 +122,79 @@ public class AnimationLabWindow : EditorWindow
         if (string.IsNullOrWhiteSpace(d.deploySlamSettle)) d.deploySlamSettle = "1";
     }
 
+    // ---- PLAY THE CLIP: the role clips this model actually has (cached; a Bake or an entry switch re-probes) ----
+    List<(string label, string dir)> FitRoles()
+    {
+        string res = (cur?.resourceName ?? "").Trim();
+        if (fitRoles != null && fitRolesFor == res) return fitRoles;
+        fitRolesFor = res; fitRoles = new List<(string, string)>();
+        if (res.Length > 0)
+            foreach (var (label, dir) in FitAnimRoleDirs)
+                if (AssetDatabase.LoadAssetAtPath<GameObject>($"Assets/FactorySource/{res}/{dir}/{res}_anim.fbx") != null)
+                    fitRoles.Add((label, dir));
+        return fitRoles;
+    }
+
+    // Instantiate the role's baked FBX into the preview scene and hold its clip. dir null/"" = back to the rest pose.
+    void BuildAnimPreview(string dir)
+    {
+        DestroyAnimPreview();
+        fitAnimRole = dir ?? "";
+        if (fitAnimRole.Length == 0) { Repaint(); return; }
+        string res = (cur?.resourceName ?? "").Trim();
+        string path = $"Assets/FactorySource/{res}/{fitAnimRole}/{res}_anim.fbx";
+        var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(path);
+        if (prefab == null)
+        {   // the role isn't baked (yet) — say so once and fall back instead of retrying every repaint
+            status = $"Play clip: nothing baked at {path} — Bake this entry first.";
+            fitAnimRole = ""; Repaint(); return;
+        }
+        fitAnimClip = AssetDatabase.LoadAllAssetsAtPath(path).OfType<AnimationClip>()
+                                   .FirstOrDefault(c => c != null && !c.name.StartsWith("__preview"));
+        if (fitPRU == null) fitPRU = new PreviewRenderUtility();
+        fitAnimInst = Instantiate(prefab);
+        fitAnimInst.hideFlags = HideFlags.HideAndDontSave;
+        // Wear the SAME skin as the rest-pose preview: the model's baked atlas material, plus the atlas-UV
+        // substitute meshes of a multi-material bake (matched by vertex count, like LoadFitPreview). A substitute
+        // is only accepted when it carries the SAME skinning data — a UV clone without bind poses would render
+        // the model as an unskinned heap, and a wrong-UV wheel still shows its rotation, which is the point here.
+        var bodyMat = AssetDatabase.LoadAssetAtPath<Material>($"Assets/FactorySource/{res}/{res}_PreviewMat.mat");
+        var pool = UniversalBaker.LoadPreviewSubstitutes(res)?.Where(m => m != null).ToList();
+        int subUsed = 0, subSkipped = 0;
+        foreach (var r in fitAnimInst.GetComponentsInChildren<Renderer>(true))
+        {
+            if (bodyMat != null)
+            {
+                var mats = new Material[Mathf.Max(1, r.sharedMaterials.Length)];
+                for (int i = 0; i < mats.Length; i++) mats[i] = bodyMat;
+                r.sharedMaterials = mats;
+            }
+            if (pool == null || !(r is SkinnedMeshRenderer smr) || smr.sharedMesh == null) continue;
+            int hit = pool.FindIndex(s => s.vertexCount == smr.sharedMesh.vertexCount);
+            if (hit < 0) continue;
+            var sub = pool[hit]; pool.RemoveAt(hit);
+            if (sub.bindposes.Length == smr.sharedMesh.bindposes.Length && sub.boneWeights.Length == sub.vertexCount)
+            { smr.sharedMesh = sub; subUsed++; }
+            else subSkipped++;
+        }
+        fitPRU.AddSingleGO(fitAnimInst);
+        fitAnimT = 0f; fitAnimTick = EditorApplication.timeSinceStartup; fitAnimBoundsValid = false;
+        status = fitAnimClip != null
+            ? $"Playing '{fitAnimClip.name}' ({fitAnimClip.length:0.00}s) from {fitAnimRole}/ — the BAKED clip, as the game plays it."
+              + (subSkipped > 0 ? $"  ({subSkipped} atlas-UV clone(s) skipped — unskinned; texture may be off, motion is exact.)" : "")
+            : $"{fitAnimRole}/ has no animation clip — showing its rest pose.";
+        Repaint();
+    }
+
+    void DestroyAnimPreview()
+    {
+        if (fitAnimInst != null) { DestroyImmediate(fitAnimInst); fitAnimInst = null; }
+        fitAnimClip = null; fitAnimBoundsValid = false;
+    }
+
     void DestroyFitPreview()
     {
+        DestroyAnimPreview();   // before Cleanup: the instance lives in the PRU's scene
         fitDraws = null;
         if (fitGroundMat != null) { DestroyImmediate(fitGroundMat); fitGroundMat = null; }
         if (fitGroundMesh != null) { DestroyImmediate(fitGroundMesh); fitGroundMesh = null; }
@@ -119,7 +209,7 @@ public class AnimationLabWindow : EditorWindow
     internal static void InvalidateFitPreviews()
     {
         foreach (var w in Resources.FindObjectsOfTypeAll<AnimationLabWindow>())
-        { w.fitDraws = null; w.Repaint(); }
+        { w.fitDraws = null; w.DestroyAnimPreview(); w.fitRoles = null; w.Repaint(); }   // the FBX is being reimported — its instance and clip die with it
     }
 
     // ...and after a bake COMPLETES, rebuild them from the fresh assets (a preview built post-bake can't be stale).
@@ -128,7 +218,10 @@ public class AnimationLabWindow : EditorWindow
     {
         foreach (var w in Resources.FindObjectsOfTypeAll<AnimationLabWindow>())
             if (!string.IsNullOrEmpty(w.previewPath))
+            {
                 w.BuildFitPreview();
+                if (!string.IsNullOrEmpty(w.fitAnimRole)) w.BuildAnimPreview(w.fitAnimRole);   // and resume the clip that was playing, now from the fresh bake
+            }
     }
 
     // Flatten the combined prefab into (mesh, materials, matrix) draws — the asset hierarchy's transforms are valid
@@ -212,6 +305,28 @@ public class AnimationLabWindow : EditorWindow
         if (e.type != EventType.Repaint || fitDraws == null) return;
         if (fitPRU == null) fitPRU = new PreviewRenderUtility();
         if (fitFallbackMat == null) fitFallbackMat = new Material(Shader.Find("Standard"));
+        // PLAY THE CLIP: advance and sample BEFORE the camera framing below (it frames the posed instance).
+        if (fitAnimInst != null)
+        {
+            if (fitAnimClip != null && fitAnimClip.length > 0.01f)
+            {
+                double now = EditorApplication.timeSinceStartup;
+                float dt = Mathf.Clamp((float)(now - fitAnimTick), 0f, 0.1f);   // clamp: a stalled editor must not jump the clip
+                fitAnimTick = now;
+                if (fitAnimPlaying) fitAnimT = Mathf.Repeat(fitAnimT + dt * fitAnimSpeed, fitAnimClip.length);
+                fitAnimClip.SampleAnimation(fitAnimInst, fitAnimT);
+            }
+            if (!fitAnimBoundsValid)
+            {   // framed ONCE from the posed instance — re-framing per frame would breathe with the animation
+                bool first = true;
+                foreach (var r in fitAnimInst.GetComponentsInChildren<Renderer>())
+                {
+                    if (r == null) continue;
+                    if (first) { fitAnimBounds = r.bounds; first = false; } else fitAnimBounds.Encapsulate(r.bounds);
+                }
+                fitAnimBoundsValid = !first;
+            }
+        }
         fitPRU.BeginPreview(rect, GUIStyle.none);
         // try/finally so a throw in DrawMesh/Render can never skip EndPreview — an unclosed PRU errors and renders
         // garbage on EVERY later frame (the "BeginPreview not closed" cascade), which made this preview untrustworthy.
@@ -220,7 +335,7 @@ public class AnimationLabWindow : EditorWindow
         {
             var cam = fitPRU.camera;
             // frame the ground square too when it's drawn — a square outside the frustum reads as "no square"
-            var frame = fitBounds;
+            var frame = fitAnimInst != null && fitAnimBoundsValid ? fitAnimBounds : fitBounds;
             if (fitGrounded) frame.Encapsulate(new Bounds(new Vector3(0f, -0.02f, 0f),
                 new Vector3(2f * ModelFactoryWindow.TileCornerRadius, 0.04f, 2f * ModelFactoryWindow.TileInradius)));
             float radius = Mathf.Max(frame.extents.magnitude, 0.1f);
@@ -264,7 +379,9 @@ public class AnimationLabWindow : EditorWindow
             var liveOff = fitGrounded && cur != null && cur.position != Vector3.zero
                 ? Matrix4x4.Translate(new Vector3(cur.position.x, cur.position.z, cur.position.y))
                 : Matrix4x4.identity;
-            foreach (var (mesh, mats, mtx) in fitDraws)
+            // While a clip plays, the live instance IS the model (the camera renders it, skinned); drawing the
+            // bind-pose list too would ghost a second motionless copy through it.
+            foreach (var (mesh, mats, mtx) in (fitAnimInst != null ? Enumerable.Empty<(Mesh, Material[], Matrix4x4)>() : fitDraws.Select(d => (d.mesh, d.mats, d.mtx))))
             {
                 // A cached mesh can be DESTROYED under us (the slim FBX deleted/reimported outside the window —
                 // e.g. a forced cache clear); Unity fake-null catches it. Drop the stale cache instead of spamming
@@ -281,6 +398,8 @@ public class AnimationLabWindow : EditorWindow
         }
         finally { fitTex = fitPRU.EndPreview(); }
         if (fitTex != null) GUI.DrawTexture(rect, fitTex, ScaleMode.StretchToFill, false);
+        // keep the frames coming while a clip runs (an editor window only repaints on demand)
+        if (fitAnimInst != null && fitAnimPlaying && fitAnimClip != null && fitAnimClip.length > 0.01f) Repaint();
     }
 
     // FIT PREVIEW: the model's slim FBX (its rest pose IS the idle stance after rest-normalization, and its bone
@@ -711,6 +830,37 @@ public class AnimationLabWindow : EditorWindow
                 cur.deploySlamSettle = EditorGUILayout.TextField(new GUIContent("Slam settle", "The slam's RECOVERY as a multiple of its rise. 1 = a symmetric snap; 3 = a heavy gun easing back. The rise always follows the source's own slam timing."), cur.deploySlamSettle, GUILayout.MinWidth(0));
                 EditorGUIUtility.labelWidth = lw2;
             }
+            // WHEEL SPIN in the travel stance (2026-08-22, the towed howitzer): the converter keys a LINEAR roll of the
+            // named wheel bones into the 'folded' role clip, so Movement = folded[1..N] plays folded legs + rolling
+            // wheels — fully baked, previewable here, no runtime layer.
+            // Pivot lift LEADS this row, then the bones (user's layout, 2026-08-22): as a fourth field on the knobs
+            // row below it was unfindable, and it is the knob you actually dial while getting a wheel to sit right.
+            // Both labels get their own narrow label width — the window's ~245px default would starve the second field.
+            using (new EditorGUILayout.HorizontalScope())
+            {
+                float lwW = EditorGUIUtility.labelWidth;
+                EditorGUIUtility.labelWidth = 84;
+                cur.deployWheelBones = EditorGUILayout.TextField(new GUIContent("Wheel bones",
+                    "Comma-separated WHEEL part/bone names of the source (substrings OK — 'l_wheel,r_wheel'). Pick them " +
+                    "with the picker. The 'folded' role clip becomes an N-frame loop with these rolling; then set the " +
+                    "Movement clip to folded[1..N]. Empty = wheels stay still. Re-convert + re-bake after changing."),
+                    cur.deployWheelBones, flex);
+                if (GUILayout.Button(new GUIContent("Pick wheels…", "Tick the wheel parts of the SOURCE model."), GUILayout.Width(90)))
+                {
+                    var (_, _, srcParts) = ModelFactoryWindow.InspectModelFull((cur.modelFile ?? "").Trim());
+                    StripPartsDialog.Open(cur.deployWheelBones, srcParts, s => { cur.deployWheelBones = s; Repaint(); });
+                }
+                EditorGUIUtility.labelWidth = lwW;
+            }
+            using (new EditorGUI.DisabledScope(string.IsNullOrWhiteSpace(cur.deployWheelBones)))
+            using (new EditorGUILayout.HorizontalScope())
+            {
+                float lw3 = EditorGUIUtility.labelWidth; EditorGUIUtility.labelWidth = 88;
+                cur.deployWheelAxis = EditorGUILayout.TextField(new GUIContent("Axle axis", "X, Y or Z (world axis of the axle), or EMPTY = AUTO: each wheel's thinnest skinned extent. If a wheel wobbles instead of rolling, force the axis."), cur.deployWheelAxis, flex);
+                cur.deployWheelFrames = EditorGUILayout.TextField(new GUIContent("Loop frames", "Frames in the rolling loop (empty = 15). Movement clip = folded[1..N]."), cur.deployWheelFrames, flex);
+                cur.deployWheelDegrees = EditorGUILayout.TextField(new GUIContent("Degrees", "Wheel rotation over the loop (empty = -360 = one full turn per loop). Flip the sign if the wheels roll backwards."), cur.deployWheelDegrees, flex);
+                EditorGUIUtility.labelWidth = lw3;
+            }
             EditorGUI.indentLevel--;
         }
         EnsureClips();
@@ -1119,6 +1269,47 @@ public class AnimationLabWindow : EditorWindow
                 if (GUILayout.Button(new GUIContent("Center", "Re-center the view on the model (resets pan + zoom; keeps the orbit angle)"), GUILayout.Width(60)))
                 { fitPan = Vector2.zero; fitZoom = 1.4f; Repaint(); }
             }
+            // --- PLAY THE CLIP: pick a baked role clip and watch it run, TEXTURED, in this same view. The raw-model
+            // ▶ picker scrubs the SOURCE untextured (where a wheel's rotation is invisible — user report); this plays
+            // what was actually baked. Restored after a domain reload at Layout, when `cur` is loaded again.
+            var roles = FitRoles();
+            if (roles.Count > 0)
+            {
+                if (fitAnimInst == null && !string.IsNullOrEmpty(fitAnimRole) && Event.current.type == EventType.Layout)
+                    BuildAnimPreview(fitAnimRole);
+                // THIS WINDOW RUNS A ~240px labelWidth (set once at the top for the settings columns). A Popup whose
+                // total Width is 240 then has NOTHING left for its field: it drew as an empty box with a bare arrow
+                // ("how do I play the clip?" — user, 2026-08-22). Narrow the label for this row, restore it after.
+                float lwRow = EditorGUIUtility.labelWidth;
+                EditorGUIUtility.labelWidth = 96;
+                using (new EditorGUILayout.HorizontalScope())
+                {
+                    var labels = new List<string> { "Rest pose (no clip)" };
+                    foreach (var r in roles) labels.Add("▶ " + r.label);
+                    int idx = string.IsNullOrEmpty(fitAnimRole) ? 0 : roles.FindIndex(r => r.dir == fitAnimRole) + 1;
+                    if (idx < 0) idx = 0;
+                    // "Play in preview", not "Play clip": the Model-file row's ▶ Play clip button opens the RAW-source
+                    // scrubber — two different things, and the shared name is half of why this one wasn't found.
+                    int pick = EditorGUILayout.Popup(new GUIContent("Play in preview",
+                        "Play a BAKED role clip here, textured and skinned — the honest preview of what the game will play " +
+                        "(the Model-file row's ▶ Play clip scrubs the untextured RAW source, where a rolling wheel is invisible). " +
+                        "Re-Bake to refresh after changing a clip range."), idx, labels.ToArray(), GUILayout.Width(300));
+                    if (pick != idx) BuildAnimPreview(pick == 0 ? null : roles[pick - 1].dir);
+                    using (new EditorGUI.DisabledScope(fitAnimInst == null || fitAnimClip == null || fitAnimClip.length <= 0.01f))
+                    {
+                        if (GUILayout.Button(new GUIContent(fitAnimPlaying ? "Pause" : "Play", "Freeze the clip to inspect a pose"), GUILayout.Width(52)))
+                        { fitAnimPlaying = !fitAnimPlaying; fitAnimTick = EditorApplication.timeSinceStartup; Repaint(); }
+                        float len = fitAnimClip != null ? Mathf.Max(fitAnimClip.length, 0.01f) : 1f;
+                        float t = GUILayout.HorizontalSlider(Mathf.Clamp(fitAnimT, 0f, len), 0f, len, GUILayout.MinWidth(60));
+                        if (!Mathf.Approximately(t, fitAnimT)) { fitAnimT = t; fitAnimPlaying = false; Repaint(); }   // scrubbing pauses — that's what scrubbing is for
+                        GUILayout.Label(fitAnimClip != null ? $"{fitAnimT:0.00}/{len:0.00}s" : "—", GUILayout.Width(76));
+                        float lw = EditorGUIUtility.labelWidth; EditorGUIUtility.labelWidth = 42;
+                        fitAnimSpeed = EditorGUILayout.Slider(new GUIContent("Speed", "Playback speed — slow a 0.5 s wheel loop down to judge the roll"), fitAnimSpeed, 0.1f, 2f, GUILayout.Width(130));
+                        EditorGUIUtility.labelWidth = lw;
+                    }
+                }
+                EditorGUIUtility.labelWidth = lwRow;
+            }
             var rect = GUILayoutUtility.GetRect(200, 360, GUILayout.ExpandWidth(true));
             DrawFitPreview(rect);
         }
@@ -1147,6 +1338,7 @@ public class AnimationLabWindow : EditorWindow
         cur.convertRig = mine.convertRig; cur.autoGroundWheels = mine.autoGroundWheels; cur.keepTranslations = mine.keepTranslations;
         cur.deployConvert = mine.deployConvert; cur.deployStart = mine.deployStart; cur.deployEnd = mine.deployEnd;
         cur.deployStrip = mine.deployStrip; cur.deployStripExtra = mine.deployStripExtra; cur.deployReadyFrame = mine.deployReadyFrame; cur.deployLegScale = mine.deployLegScale; cur.deployBarrelScale = mine.deployBarrelScale;
+        cur.deployWheelBones = mine.deployWheelBones; cur.deployWheelAxis = mine.deployWheelAxis; cur.deployWheelFrames = mine.deployWheelFrames; cur.deployWheelDegrees = mine.deployWheelDegrees;
         cur.deployRecoil = mine.deployRecoil; cur.deployRecoilStep = mine.deployRecoilStep; cur.deployRecoilMag = mine.deployRecoilMag; cur.deployArcR = mine.deployArcR; cur.deployRecoilReturn = mine.deployRecoilReturn; cur.deploySlamDeg = mine.deploySlamDeg; cur.deploySlamSettle = mine.deploySlamSettle;
         cur.animStateDriven = mine.animStateDriven; cur.animClipMove = mine.animClipMove; cur.animClipAfter = mine.animClipAfter; cur.animClipAttack = mine.animClipAttack; cur.animClipCombat = mine.animClipCombat; cur.animClipPreMove = mine.animClipPreMove; cur.animClipIdle = mine.animClipIdle; cur.animClipIdleAlt = mine.animClipIdleAlt; cur.animClipIdleAlt2 = mine.animClipIdleAlt2; cur.idleAltInterval = mine.idleAltInterval; cur.animPhaseSpread = mine.animPhaseSpread; cur.attackRepeats = mine.attackRepeats; cur.clearAimLayer = mine.clearAimLayer; cur.turretBone = mine.turretBone; cur.turretAxis = mine.turretAxis; cur.gunElevMax = mine.gunElevMax; cur.gunElevAxis = mine.gunElevAxis; cur.muzzleBone = mine.muzzleBone; cur.muzzleOffset = mine.muzzleOffset; cur.socketBones = mine.socketBones; cur.disabled = mine.disabled; cur.bakeLocked = mine.bakeLocked;
         cur.handPropName = mine.handPropName; cur.handPropGuid = mine.handPropGuid; cur.handPropMat = mine.handPropMat; cur.handPropBone = mine.handPropBone;

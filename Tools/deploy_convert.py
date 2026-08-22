@@ -841,7 +841,82 @@ if arm_action:
     _dep = list(range(fmin, deploy_end + 1))
     make_role("unfold", _dep)
     make_role("fold", list(reversed(_dep)))
-    make_role("folded", [fmin, fmin])            # 2 identical frames: a valid HELD pose (0-length clips can be dropped by importers)
+    # WHEEL SPIN in the 'folded' (travel) role (2026-08-22, the towed howitzer): argv[17..20] = wheelBonesCsv axis frames
+    # degrees. The travel stance becomes an N-frame loop in which the wheel bones roll about their axle (LINEAR, frame 0
+    # = the folded rest) — Movement clip `folded[1..N]` = folded legs + rolling wheels, fully baked. Same math as
+    # vehicle_rig.py's fast path (bone-local axis closest to the world axle, signed) and add_role_clips.py.
+    _wheel_names = [w.strip() for w in (argv[17] if len(argv) > 17 else "").split(",") if w.strip()]
+    _wheel_axis = (argv[18] if len(argv) > 18 else "AUTO").strip().upper() or "AUTO"
+    _wheel_frames = int(argv[19]) if len(argv) > 19 and argv[19].strip() else 15
+    _wheel_deg = float(argv[20]) if len(argv) > 20 and argv[20].strip() else -360.0
+    def _wheel_axle(db, axis_arg):
+        """The wheel's axle as a WORLD direction: a forced X/Y/Z, else AUTO = the thinnest extent of the verts
+        skinned to this bone (a wheel is thin along its axle). Signed to a common reference so left and right
+        wheels — whose own axles point outward, opposite each other — still turn the same way in the world."""
+        if axis_arg in ("X", "Y", "Z"):
+            axle = {"X": Vector((1, 0, 0)), "Y": Vector((0, 1, 0)), "Z": Vector((0, 0, 1))}[axis_arg]
+        else:
+            pts = []
+            for o in bpy.data.objects:
+                if o.type != 'MESH' or db.name not in o.vertex_groups: continue
+                gi = o.vertex_groups[db.name].index
+                for v in o.data.vertices:
+                    if any(g.group == gi and g.weight > 0.5 for g in v.groups): pts.append(o.matrix_world @ v.co)
+            if len(pts) < 8:
+                print("DEPLOY WHEEL '%s': no skinned verts for AUTO axle — assuming X" % db.name)
+                axle = Vector((1, 0, 0))
+            else:
+                ext = [max(p[i] for p in pts) - min(p[i] for p in pts) for i in range(3)]
+                axle = [Vector((1, 0, 0)), Vector((0, 1, 0)), Vector((0, 0, 1))][min(range(3), key=lambda i: ext[i])]
+        ref = max(range(3), key=lambda i: abs(axle[i]))
+        return axle if axle[ref] >= 0 else -axle
+
+    def _spin_wheels(action, names, axis_arg, nframes, degrees):
+        """Roll each wheel about the LOCAL axis nearest its axle, WITHOUT touching the bone's rest ORIENTATION.
+
+        NEVER re-orient the bone. Pointing the tail along the axle (the Vehicle Lab's convention for the rigs it
+        BUILDS) gives the bone a non-identity rest rotation, and Amplitude's skeleton bake then mangles that bone's
+        offset: measured on this rig, the FBX carried a clean local T=(21.096, 0, 0) while the baked skeleton read
+        (-0.00932, 0, -0.00466) — a spurious vertical that put one wheel's pivot ~0.93 BELOW its hub and the other
+        the same distance above, so the wheels rotated about a point at ground level and swept underground (drill
+        2026-08-22). The legs, whose rest rotation is identity, bake symmetric and correct. So: leave the rest
+        alone — the converter already puts the head exactly at the wheel centre — and spin about a local axis."""
+        import math
+        arm.animation_data.action = action
+        spun = {}
+        for bn in list(names):
+            db = arm.data.bones.get(bn)
+            if db is None:
+                cands = [b for b in arm.data.bones if bn.lower() in b.name.lower()]
+                db = cands[0] if cands else None
+            pb = arm.pose.bones.get(db.name) if db else None
+            if db is None or pb is None:
+                print("DEPLOY WHEEL ERROR: bone '%s' not found. Bones: %s" % (bn, [b.name for b in arm.data.bones])); continue
+            axle = _wheel_axle(db, axis_arg)
+            m3 = (arm.matrix_world @ db.matrix_local).to_3x3()
+            best_i, best_d = 0, 0.0
+            for i in range(3):
+                v = Vector((0.0, 0.0, 0.0)); v[i] = 1.0
+                d = (m3 @ v).normalized().dot(axle)
+                if abs(d) > abs(best_d): best_i, best_d = i, d
+            sign = 1.0 if best_d >= 0 else -1.0
+            pb.rotation_mode = 'XYZ'
+            for i in range(nframes + 1):
+                eul = [0.0, 0.0, 0.0]
+                eul[best_i] = math.radians(degrees) * sign * (i / float(nframes))
+                pb.rotation_euler = tuple(eul)
+                pb.keyframe_insert('rotation_euler', frame=fmin + i)
+            spun[db.name] = ("+" if sign > 0 else "-") + "XYZ"[best_i]
+        try: fcs = list(action.fcurves)
+        except AttributeError: fcs = [fc for layer in action.layers for strip in layer.strips for cb in strip.channelbags for fc in cb.fcurves]
+        for fc in fcs:
+            for kp in fc.keyframe_points: kp.interpolation = 'LINEAR'
+        print("DEPLOY WHEEL SPIN in 'folded': %s (rest untouched), %d frames, %.0f deg -> Movement clip = folded[1..%d]"
+              % (spun, nframes, degrees, nframes))
+    if _wheel_names:
+        _spin_wheels(make_role("folded", [fmin] * (_wheel_frames + 1)), _wheel_names, _wheel_axis, _wheel_frames, _wheel_deg)
+    else:
+        make_role("folded", [fmin, fmin])        # 2 identical frames: a valid HELD pose (0-length clips can be dropped by importers)
     make_role("deployed", [deploy_end, deploy_end])
     has_recoil = len(_fire_snap) > 0
     if _recoil_off and _had_recoil_arg:
