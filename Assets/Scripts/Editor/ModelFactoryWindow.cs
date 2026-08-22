@@ -149,6 +149,9 @@ public class ModelFactoryWindow : EditorWindow
                                                      // window WITHOUT it ("external registry edits are detected by the
                                                      // Lab (yellow banner) but not by the Factory").
     [SerializeField] string loadedName = "";         // which registry entry this form was loaded from / last saved as
+    // Recomputed every OnGUI in the collision block below: the form's Resource name already belongs to a DIFFERENT
+    // saved entry. Blocks Bake and Save — Upsert is a blind replace, so allowing it would destroy that entry.
+    bool nameCollides;
                                                      // ("" = <New>/clone). The coherence compare keys on THIS, because
                                                      // the `selected` index is re-derived by name on every RefreshList
                                                      // and resets to 0 when the entry vanishes — the one case the
@@ -865,6 +868,30 @@ public class ModelFactoryWindow : EditorWindow
                 }).Show(r);
             }
         }
+        // COLLISION WARNINGS (2026-08-22). Upsert is a blind `RemoveAll(name) + Add` — no duplicate check anywhere —
+        // so a form whose Resource name matches a SAVED entry REPLACES it on Save, without a word, even while the
+        // dropdown still reads <New>. The near-miss that prompted this: a cloned entry saved fine, the form was then
+        // left on <New> holding the same name and an EMPTY model file, and one more Save would have overwritten the
+        // working entry with a model-less one and orphaned its baked assets.
+        {
+            string formName = (cur.resourceName ?? "").Trim();
+            string formPawn = (cur.pawnDescription ?? "").Trim();
+            var saved = ModelRegistry.Load();
+            nameCollides = formName.Length > 0
+                             && !formName.Equals((loadedName ?? "").Trim(), StringComparison.OrdinalIgnoreCase)
+                             && saved.Any(m => string.Equals(m.resourceName, formName, StringComparison.OrdinalIgnoreCase));
+            if (nameCollides)
+                EditorGUILayout.HelpBox($"Not allowed: the key '{formName}' already exists in this mod. " +
+                    "Remove that entry first, or use a different name.", MessageType.Error);
+            // TWO ENTRIES ON ONE PAWN is decided by longest-match at runtime and is near-impossible to spot by eye.
+            var pawnClash = formPawn.Length == 0 ? null : saved.FirstOrDefault(m =>
+                string.Equals(m.pawnDescription, formPawn, StringComparison.OrdinalIgnoreCase) &&
+                !string.Equals(m.resourceName, formName, StringComparison.OrdinalIgnoreCase));
+            if (pawnClash != null)
+                EditorGUILayout.HelpBox($"'{pawnClash.resourceName}' already targets this pawn. Which of the two " +
+                    "renders is decided by longest pawn-description match — remove or repoint the other entry.",
+                    MessageType.Warning);
+        }
         using (new EditorGUILayout.HorizontalScope())
         {
             cur.modelFile = EditorGUILayout.TextField("Model file", cur.modelFile);
@@ -1223,7 +1250,8 @@ public class ModelFactoryWindow : EditorWindow
         bool canBake = !string.IsNullOrWhiteSpace(cur.resourceName)
                     && nameValid
                     && !string.IsNullOrWhiteSpace(cur.pawnDescription)
-                    && (!isNew || !string.IsNullOrWhiteSpace(cur.modelFile));
+                    && (!isNew || !string.IsNullOrWhiteSpace(cur.modelFile))
+                    && !nameCollides;   // never let a blind-replace Upsert destroy another entry
         using (new EditorGUILayout.HorizontalScope())
         {
             // BAKE LOCK (mirrors the Animation Lab's checkbox): a bake-locked entry can't be regenerated from
@@ -1237,7 +1265,7 @@ public class ModelFactoryWindow : EditorWindow
             // a full Blender round-trip to change one slider, and impossible at all on a bake-locked entry.
             // Same ownership rebase as the bake path, so Lab-owned fields are still protected.
             using (new EditorGUI.DisabledScope(string.IsNullOrWhiteSpace(cur.resourceName) || !nameValid
-                                               || string.IsNullOrWhiteSpace(cur.pawnDescription)))
+                                               || string.IsNullOrWhiteSpace(cur.pawnDescription) || nameCollides))
                 if (GUILayout.Button(new GUIContent("Save settings",
                     "Write this entry's settings to the registry WITHOUT re-baking — for the runtime knobs " +
                     "(turn ease, terrain hug, donor clip, VFX/sound flags, rotation/position/textures). Rebuild " +
