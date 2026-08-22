@@ -633,7 +633,10 @@ public class VehicleLabWindow : EditorWindow
                 // (the arms swinging open). Judge either here rather than waiting for a bake.
                 if (previewClips != null && previewClips.Count > 1)
                 {
-                    int pick = EditorGUILayout.Popup(previewClipIdx, previewClips.Select(c => c.name).ToArray(), GUILayout.Width(90));
+                    // 180, not 90: the names arrive prefixed with the rig's own name ("VehicleRig|Deploy"), so at the
+                    // old width every entry truncated to "VehicleRig|D…" — the half that identifies the clip was the
+                    // half being cut. Wide enough for the longest name this rigger authors, prefix included.
+                    int pick = EditorGUILayout.Popup(previewClipIdx, previewClips.Select(c => c.name).ToArray(), GUILayout.Width(180));
                     if (pick != previewClipIdx)
                     {
                         previewClipIdx = pick; spinClip = previewClips[pick]; spinT = 0f; previewPaused = false; Repaint();
