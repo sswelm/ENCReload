@@ -62,6 +62,13 @@ public class VehicleLabWindow : EditorWindow
     // TRAILS (2026-08-22): how far each split-trail arm swings open when the gun deploys, and over how many
     // frames. Mirrored per side, hinged at the arm's body end — the rigger authors it as a separate "Deploy" action.
     [SerializeField] float trailSpreadDeg = 35f; [SerializeField] int trailFrames = 12;
+    // GUN PIVOT: where the Gun bone sits along the assembly — the runtime elevation rotates about it, so this IS
+    // the trunnion. 0.5 = bbox centre (unchanged default); an artillery piece wants ~0.4 (measured on the M114).
+    [SerializeField] float gunPivot = 0.5f;
+    // GUN DEPLOY ELEVATION: degrees the gun raises ACROSS the Deploy clip, on the same frames as the trail spread.
+    // A towed gun travels clamped level and elevates once the trails are planted — so the raise belongs in the
+    // same clip, and every use the state machine makes of Deploy (unfold / fold / hold) carries it along free.
+    [SerializeField] float gunDeployElev = 0f;
     [SerializeField] int tailAxisChoice = 0;   // a tail rotor spins on a different axis than the main rotor — its own Auto/X/Y/Z override
     [SerializeField] float tailYawAdj = 0f;    // manual trim on the tail axle: swing about vertical, degrees
     [SerializeField] float tailPitchAdj = 0f;  // manual trim on the tail axle: tilt up/down, degrees
@@ -141,6 +148,8 @@ public class VehicleLabWindow : EditorWindow
         // Defaults match the live field defaults so a PRE-2026-08-01 recipe (missing these keys) loads NEUTRALLY =
         // wheeled / as-imported / no rock (waveEnabled false gates the rock params regardless).
         public float trailSpreadDeg = 35f; public int trailFrames = 12;   // trails: spread angle + clip length
+        public float gunPivot = 0.5f;      // where the Gun bone (= the elevation trunnion) sits along the assembly
+        public float gunDeployElev = 0f;   // degrees the gun raises across the Deploy clip
         public bool tracksStatic = false;
         public bool spinEnabled = true;    // default true: recipes that predate the field keep their spin (absent-field = old behavior)
         public Vector3 modelRot = Vector3.zero;
@@ -456,9 +465,10 @@ public class VehicleLabWindow : EditorWindow
             // separate "Deploy" action that swings them open, mirrored per side; `Spin` keeps the wheels rolling
             // with the arms at their folded rest. Assign in the Lab as: Idle/reference `Deploy`, Idle stance
             // `Deploy[N..N]`, Movement `Spin`, After-move `Deploy`, Pre-move `Deploy[N..0]`.
-            if (Section(ref foldTrails, "Trails — a split-trail gun's deploy",
+            if (Section(ref foldTrails, "Deploy — a split-trail gun coming into action",
                     parts.Count(p => p.role == Role.Trail) == 0 ? "no trails marked"
-                        : $"{parts.Count(p => p.role == Role.Trail)} trail(s) · {trailSpreadDeg:0.#}° over {trailFrames} frames"))
+                        : $"{parts.Count(p => p.role == Role.Trail)} trail(s) · {trailSpreadDeg:0.#}° over {trailFrames} frames"
+                          + (gunDeployElev != 0f ? $" · gun +{gunDeployElev:0.#}°" : "")))
             {
                 using (new EditorGUI.DisabledScope(parts.Count(p => p.role == Role.Trail) == 0))
                 {
@@ -469,6 +479,33 @@ public class VehicleLabWindow : EditorWindow
                     trailFrames = EditorGUILayout.IntSlider(new GUIContent("Deploy frames",
                         "Length of the 'Deploy' clip. The runtime plays every clip at its authored length (24 fps), " +
                         "so ~12 frames ≈ half a second — pace it here, not at runtime."), trailFrames, 2, 60);
+                }
+                // GUN PIVOT lives here rather than with the trails because it is the same kind of knob: where a
+                // moving part actually turns. The runtime elevation (Animation Lab ▸ "Gun elevation — max") rotates
+                // the Gun bone about ITS OWN ORIGIN, so this IS the trunnion.
+                using (new EditorGUI.DisabledScope(parts.Count(p => p.role == Role.Gun) == 0))
+                {
+                    gunPivot = EditorGUILayout.Slider(new GUIContent("Gun pivot (breech→muzzle)",
+                        "Where the Gun bone sits along the gun assembly — and therefore where the barrel ELEVATES " +
+                        "from. 0 = the breech end, 1 = the muzzle, 0.5 = the assembly's centre (the historical " +
+                        "placement, kept as the default so existing rigs regenerate unchanged). A real gun pivots at " +
+                        "its trunnions: ~0.4 on the M114. Too far forward and the breech swings down through the " +
+                        "carriage when the gun elevates."), gunPivot, 0f, 1f);
+                    gunDeployElev = EditorGUILayout.Slider(new GUIContent("Gun raise on deploy (deg)",
+                        "Degrees the gun elevates ACROSS the Deploy clip — same frames as the trail spread, because " +
+                        "a towed gun travels clamped level over its closed trails and only comes up once they are " +
+                        "planted. Every use the state machine makes of Deploy carries it: unfold raises, the " +
+                        "reversed clip lowers it back onto the travel lock before the unit rolls, the held last " +
+                        "frame keeps it up. Composes with the Animation Lab's runtime 'Gun elevation — max', which " +
+                        "writes a separate channel — dial that one against this raised base, not against level. " +
+                        "0 = leave the gun level. Needs trails: the Deploy clip is what carries it."),
+                        gunDeployElev, 0f, 45f);
+                    if (gunDeployElev != 0f && parts.Count(p => p.role == Role.Trail) == 0)
+                        EditorGUILayout.HelpBox("No trails marked — there is no Deploy clip to carry the raise, so " +
+                            "this is doing nothing. Mark the trail arms (T) first.", MessageType.Warning);
+                }
+                using (new EditorGUI.DisabledScope(parts.Count(p => p.role == Role.Trail) == 0))
+                {
                     EditorGUILayout.HelpBox("Assign after baking: Idle/reference = Deploy · Idle stance = Deploy[" +
                         trailFrames + ".." + trailFrames + "] · Movement = Spin · After-move = Deploy · Pre-move = Deploy[" +
                         trailFrames + "..0]", MessageType.None);
@@ -964,7 +1001,7 @@ public class VehicleLabWindow : EditorWindow
             parts = parts, boneParts = boneParts, useSourceRig = useSourceRig, treadAdvCells = treadAdvCells, treadCellsPerLink = treadCellsPerLink,
             // orientation + tread isolation + wave rock — the rest of what the bake command consumes
             tracksStatic = tracksStatic, spinEnabled = spinEnabled, modelRot = modelRot, waveEnabled = waveEnabled,
-            trailSpreadDeg = trailSpreadDeg, trailFrames = trailFrames,
+            trailSpreadDeg = trailSpreadDeg, trailFrames = trailFrames, gunPivot = gunPivot, gunDeployElev = gunDeployElev,
             rockDegrees = rockDegrees, rockFrames = rockFrames, rockAxisChoice = rockAxisChoice, rockHeading = rockHeading,
             rockPitchDeg = rockPitchDeg, rockRollCycles = rockRollCycles, rockPitchCycles = rockPitchCycles, rockPitchPhase = rockPitchPhase,
         };
@@ -1001,7 +1038,7 @@ public class VehicleLabWindow : EditorWindow
             // rock and vice-versa — no leak between models). off/zero is the safe neutral for a pre-2026-08-01 recipe;
             // the counted fields guard against a missing-key 0 the way treadAdvCells does.
             modelRot = r.modelRot; tracksStatic = r.tracksStatic; spinEnabled = r.spinEnabled;
-            trailSpreadDeg = r.trailSpreadDeg; trailFrames = r.trailFrames;
+            trailSpreadDeg = r.trailSpreadDeg; trailFrames = r.trailFrames; gunPivot = r.gunPivot; gunDeployElev = r.gunDeployElev;
             waveEnabled = r.waveEnabled; rockDegrees = r.rockDegrees; rockAxisChoice = r.rockAxisChoice; rockHeading = r.rockHeading;
             rockPitchDeg = r.rockPitchDeg; rockPitchPhase = r.rockPitchPhase;
             rockFrames = r.rockFrames > 0 ? r.rockFrames : 120;
@@ -1147,7 +1184,7 @@ public class VehicleLabWindow : EditorWindow
         string axis = axisChoice == 0 ? "AUTO" : AxisOptions[axisChoice];
         string tailAxis = tailAxisChoice == 0 ? "AUTO" : AxisOptions[tailAxisChoice];
         var inv = System.Globalization.CultureInfo.InvariantCulture;
-        if (!RunBlender($"{(fast ? "rigfast" : "rig")} \"{srcFile}\" \"{lastOutGlb}\" \"{prevFull}\" \"@{wheelsFile}\" \"@{turretsFile}\" {axis} {frames} {(spinEnabled ? degrees : 0f).ToString("0.#", inv)} \"@{ignoreFile}\" \"@{tracksFile}\" \"@{gunsFile}\" {treadAdvCells} 1 1 {treadCellsPerLink.ToString("0.##", inv)} {(tracksStatic || !spinEnabled ? "1" : "0")} {(waveEnabled ? rockDegrees : 0f).ToString("0.##", inv)} {rockFrames} {(rockAxisChoice == 1 ? "X" : rockAxisChoice == 2 ? "Y" : "AUTO")} {rockHeading.ToString("0.##", inv)} {(waveEnabled ? rockPitchDeg : 0f).ToString("0.##", inv)} {rockPitchCycles} \"{modelRot.x.ToString("0.##", inv)},{modelRot.y.ToString("0.##", inv)},{modelRot.z.ToString("0.##", inv)}\" {rockPitchPhase.ToString("0.##", inv)} {rockRollCycles} \"@{rotorsFile}\" \"@{tailrotorsFile}\" {tailAxis} {tailYawAdj.ToString("0.##", inv)} {tailPitchAdj.ToString("0.##", inv)} \"@{trailsFile}\" {trailSpreadDeg.ToString("0.##", inv)} {trailFrames}", out string stdout)) return;
+        if (!RunBlender($"{(fast ? "rigfast" : "rig")} \"{srcFile}\" \"{lastOutGlb}\" \"{prevFull}\" \"@{wheelsFile}\" \"@{turretsFile}\" {axis} {frames} {(spinEnabled ? degrees : 0f).ToString("0.#", inv)} \"@{ignoreFile}\" \"@{tracksFile}\" \"@{gunsFile}\" {treadAdvCells} 1 1 {treadCellsPerLink.ToString("0.##", inv)} {(tracksStatic || !spinEnabled ? "1" : "0")} {(waveEnabled ? rockDegrees : 0f).ToString("0.##", inv)} {rockFrames} {(rockAxisChoice == 1 ? "X" : rockAxisChoice == 2 ? "Y" : "AUTO")} {rockHeading.ToString("0.##", inv)} {(waveEnabled ? rockPitchDeg : 0f).ToString("0.##", inv)} {rockPitchCycles} \"{modelRot.x.ToString("0.##", inv)},{modelRot.y.ToString("0.##", inv)},{modelRot.z.ToString("0.##", inv)}\" {rockPitchPhase.ToString("0.##", inv)} {rockRollCycles} \"@{rotorsFile}\" \"@{tailrotorsFile}\" {tailAxis} {tailYawAdj.ToString("0.##", inv)} {tailPitchAdj.ToString("0.##", inv)} \"@{trailsFile}\" {trailSpreadDeg.ToString("0.##", inv)} {trailFrames} {gunPivot.ToString("0.###", inv)} {gunDeployElev.ToString("0.##", inv)}", out string stdout)) return;
         // SUCCESS = THE SCRIPT'S OWN FINAL MARKER (the documented Blender trap: it exits 0 even when the python
         // script crashes mid-way — without this gate a half-run printed a fake "DONE" with no file on disk).
         string done = stdout.Split('\n').FirstOrDefault(l => l.Contains("VEHICLE RIG DONE"));

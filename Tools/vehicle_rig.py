@@ -232,6 +232,13 @@ tail_pitch_adj = float(argv[30]) if len(argv) > 30 and argv[30].strip() else 0.0
 trail_names = namelist(argv[31]) if len(argv) > 31 and argv[31].strip() else []
 trail_spread = float(argv[32]) if len(argv) > 32 and argv[32].strip() else 35.0
 trail_frames = max(2, int(float(argv[33]))) if len(argv) > 33 and argv[33].strip() else 12
+# GUN PIVOT (argv[34], 2026-08-22): where along the gun assembly its elevation bone sits — 0 = breech, 1 = muzzle,
+# 0.5 = the bbox centre (the historical placement, and the default so existing rigs regenerate unchanged).
+gun_pivot = min(1.0, max(0.0, float(argv[34]))) if len(argv) > 34 and argv[34].strip() else 0.5
+# GUN DEPLOY ELEVATION (argv[35]): degrees the gun raises across the Deploy clip, on the same frames as the trail
+# spread — a towed gun travels clamped level and only elevates once the trails are planted. 0 = leave it level.
+gun_deploy_elev = float(argv[35]) if len(argv) > 35 and argv[35].strip() else 0.0
+gun_axis = None                  # (trunnion, muzzle tip) in world space, filled when the Gun bone is built
 axis_arg = argv[6].upper()
 frames = max(2, int(argv[7]))
 degrees = float(argv[8])
@@ -595,6 +602,32 @@ if turret_names:
 # hang off Root.
 if gun_names:
     gc, gs = _combined_bbox(gun_names)
+    # GUN PIVOT (2026-08-22): the runtime elevation (gunElevMax) rotates this bone about ITS OWN ORIGIN, so where
+    # the head sits IS the trunnion. At the bbox centre — the historical placement, still the default — the tube
+    # see-saws about its middle and the breech swings down through the carriage (measured on the M114: 76-unit
+    # tube, breech 38 units behind the centre, ~16 units of dip at 25°). `gun_pivot` slides the head along the
+    # assembly's LONG axis: 0 = the breech end, 1 = the muzzle, 0.5 = the bbox centre (unchanged behaviour).
+    # The M114's trunnion measures ~0.4. Only the head moves; the tail stays as it was, so a rig that already
+    # dials muzzleOffset/socketBones against this bone keeps its frame.
+    _gpts = []
+    for _gn2 in gun_names:
+        _go = find(_gn2)
+        if _go is not None:
+            _gpts += [_go.matrix_world @ _v.co for _v in _go.data.vertices]
+    if len(_gpts) >= 4:
+        _gmn = Vector(tuple(min(p[i] for p in _gpts) for i in range(3)))
+        _gmx = Vector(tuple(max(p[i] for p in _gpts) for i in range(3)))
+        _glong = max(range(3), key=lambda i: _gmx[i] - _gmn[i])
+        _breech = max(_gpts, key=lambda p: p[_glong])     # the assembly's two ends along its own length
+        _muzzle = min(_gpts, key=lambda p: p[_glong])
+        # which end is the BREECH? the one nearer the carriage — a barrel points away from its own mount
+        if (_muzzle - eb_body.head).length < (_breech - eb_body.head).length:
+            _breech, _muzzle = _muzzle, _breech
+        if abs(gun_pivot - 0.5) > 1e-4:
+            gc = _breech + (_muzzle - _breech) * gun_pivot
+        gun_axis = (gc.copy(), _muzzle.copy())            # (trunnion, muzzle tip) — the deploy elevation needs both
+        print("VEHICLE gun pivot %.2f -> head=(%.2f, %.2f, %.2f) (breech (%.2f, %.2f, %.2f) .. muzzle (%.2f, %.2f, %.2f))"
+              % (gun_pivot, gc.x, gc.y, gc.z, _breech.x, _breech.y, _breech.z, _muzzle.x, _muzzle.y, _muzzle.z))
     eb = arm_data.edit_bones.new("Gun")
     eb.head = gc
     eb.tail = gc + Vector((0, 0, max(0.05, max(gs) * 0.25)))
@@ -1651,6 +1684,16 @@ for o in list(bpy.data.objects):   # bpy.data, not scene.objects — helpers can
 # way the source happens to face. Keyed as a quaternion about the exact local axis that maps to world up —
 # arbitrary-axis local rotations are safe on THIS rig (every scale is 1 and the chain is clean); they are not on
 # a deploy-converted one, which is why that route could never carry an authored motion (HAF Animation-Pitfalls).
+#
+# THE GUN RIDES THE DEPLOY CLIP TOO (2026-08-22). A towed gun travels with its tube clamped level over the closed
+# trails and only comes up to firing elevation once the trails are planted — so the raise belongs in the SAME clip
+# as the spread, on the same 0..N frames, and every use the state machine already makes of Deploy comes along free:
+# unfold raises, Deploy[N..0] lowers it back onto the travel lock before the unit rolls, Deploy[N..N] holds it up as
+# the deployed stance. This is what the hand-converted M114 did with deployReadyFrame — it just had no choice,
+# because a converted rig cannot carry authored bone motion; here it is a deliberate 2-line key.
+# It does NOT replace HAF's runtime gunElevMax: that writes a BoneRotation slot, a channel the clip pose never
+# touches, so the two COMPOSE — the clip sets the base firing elevation, the runtime adds the per-shot,
+# distance-proportional lift on top. Set both, and dial gunElevMax against the raised base, not against level.
 if trail_bones and trail_spread > 0.01:
     _dep = bpy.data.actions.new("Deploy")
     arm.animation_data.action = _dep
@@ -1677,6 +1720,31 @@ if trail_bones and trail_spread > 0.01:
         _pb.rotation_quaternion = Quaternion(_local_up, math.radians(trail_spread) * _sign)
         _pb.keyframe_insert('rotation_quaternion', frame=trail_frames)
         _opened[_bn] = ("out" if _sign > 0 else "in") + " %.0f deg" % trail_spread
+    # ...and the GUN comes up on the same frames. Axis = the world horizontal perpendicular to the tube
+    # (barrel × up), so it works whichever way the source model happens to face; the SIGN is chosen the same way
+    # the trails choose theirs — by testing which direction actually lifts the muzzle — rather than assumed.
+    if gun_deploy_elev != 0.0 and gun_axis is not None:
+        _gb = arm.data.bones.get("Gun"); _gpb = arm.pose.bones.get("Gun")
+        if _gb is not None and _gpb is not None:
+            _trun, _mz = gun_axis
+            _bar = (_mz - _trun)
+            _ax = _bar.cross(Vector((0.0, 0.0, 1.0)))
+            if _ax.length < 1e-4:                     # a tube already pointing straight up has no elevation plane
+                _ax = Vector((1.0, 0.0, 0.0))
+            _ax.normalize()
+            _t2 = _bar.copy(); _t2.rotate(Quaternion(_ax, math.radians(5.0)))
+            _gsign = 1.0 if _t2.z > _bar.z else -1.0  # +ve gun_deploy_elev must always RAISE the muzzle
+            _gm3 = (arm.matrix_world @ _gb.matrix_local).to_3x3()
+            _glocal = (_gm3.inverted() @ _ax).normalized()
+            _gpb.rotation_mode = 'QUATERNION'
+            _gpb.rotation_quaternion = Quaternion((1.0, 0.0, 0.0, 0.0))
+            _gpb.keyframe_insert('rotation_quaternion', frame=0)
+            _gpb.rotation_quaternion = Quaternion(_glocal, math.radians(abs(gun_deploy_elev)) * _gsign * (1.0 if gun_deploy_elev > 0 else -1.0))
+            _gpb.keyframe_insert('rotation_quaternion', frame=trail_frames)
+            print("VEHICLE DEPLOY gun: elevate %.1f deg about world (%.2f, %.2f, %.2f) over 0..%d frames"
+                  % (gun_deploy_elev, _ax.x, _ax.y, _ax.z, trail_frames))
+        else:
+            print("VEHICLE DEPLOY gun: SKIPPED — no Gun bone (mark the barrel parts as G to elevate on deploy)")
     try:
         _dfcs = list(_dep.fcurves)
     except AttributeError:
