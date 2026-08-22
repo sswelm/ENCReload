@@ -945,8 +945,11 @@ public class ModelFactoryWindow : EditorWindow
                     "\nAnimation settings are edited in the Animation Lab; Bake here uses them as saved.", MessageType.None);
                 if (GUILayout.Button("Edit in\nAnimation Lab", GUILayout.Width(110), GUILayout.Height(38)))
                     AnimationLabWindow.OpenFor(cur.resourceName, cur.modelFile, cur.pawnDescription, cur);
-                if (GUILayout.Button(new GUIContent("Make\nstatic…", "Deletes this entry's ANIMATION configuration from the saved registry (clip, state roles, behaviors, turret/muzzle) so the next Bake takes the static path. Removal STICKS — nothing rebases it back."), GUILayout.Width(70), GUILayout.Height(38)))
-                    MakeStatic();
+                // Greyed on a name collision like Bake and Save settings beside it — this button writes the registry
+                // too, and it used to be the one door the guard was not wired to (review 2026-08-22).
+                using (new EditorGUI.DisabledScope(nameCollides))
+                    if (GUILayout.Button(new GUIContent("Make\nstatic…", "Deletes this entry's ANIMATION configuration from the saved registry (clip, state roles, behaviors, turret/muzzle) so the next Bake takes the static path. Removal STICKS — nothing rebases it back."), GUILayout.Width(70), GUILayout.Height(38)))
+                        MakeStatic();
             }
             if (!UniversalBaker.BlenderAvailable())
                 EditorGUILayout.HelpBox("The animated path needs Blender (to slim the rig + bake the clip) — it wasn't found. " +
@@ -1905,12 +1908,26 @@ public class ModelFactoryWindow : EditorWindow
     // Pre-Upsert rename guard. A rename onto a name a DIFFERENT model already owns would make Upsert silently
     // overwrite that model — block it (sets a status; the caller returns without writing). Not a rename, or the
     // new name is free → returns false and the save proceeds unchanged.
+    // THE ONE QUESTION EVERY WRITE PATH MUST ASK: would this Upsert destroy a DIFFERENT entry?
+    // Upsert is a blind `RemoveAll(name) + Add`, so writing under a name that belongs to someone else deletes them
+    // and orphans their baked assets. Three of the four write paths asked; "Make static…" did not, and it sat in no
+    // disabled scope either — so with the red "Not allowed" box visibly on screen, one click destroyed the colliding
+    // entry (review 2026-08-22). Rather than bolt a fourth hand-check on, this is now the single definition, and it
+    // covers BOTH shapes:
+    //   * RENAME  — a loaded entry retyped to a name that already exists (the original case), and
+    //   * NEW     — ＜new model＞ typed straight onto an existing name, which the rename test could never see
+    //               because there is no previous key to compare against. That is the same hole one door along.
+    // Case-insensitive throughout: the registry key is a filename on a case-insensitive filesystem.
     bool BlockedByRenameClobber()
     {
         string oldKey = LoadedResourceKey();
-        if (string.IsNullOrEmpty(oldKey) || oldKey == cur.resourceName) return false;                // not a rename
-        if (!ModelRegistry.Load().Any(x => x.resourceName == cur.resourceName)) return false;         // new name is free
-        status = $"A model named '{cur.resourceName}' already exists — rename to a free name, or Remove that model first. Nothing was written.";
+        string name = cur.resourceName ?? "";
+        if (name.Length == 0) return false;                                                          // empty name: other validation owns it
+        if (!string.IsNullOrEmpty(oldKey) && string.Equals(oldKey, name, StringComparison.OrdinalIgnoreCase))
+            return false;                                                                            // writing over ITSELF — the normal edit
+        if (!ModelRegistry.Load().Any(x => string.Equals(x.resourceName, name, StringComparison.OrdinalIgnoreCase)))
+            return false;                                                                            // the name is free
+        status = $"A model named '{name}' already exists — rename to a free name, or Remove that model first. Nothing was written.";
         Debug.LogWarning("[Factory] " + status);
         return true;
     }
@@ -1962,6 +1979,9 @@ public class ModelFactoryWindow : EditorWindow
     // (immediately, registry-only) — after which the rebase pulls cleared values and the static path is native.
     void MakeStatic()
     {
+        // Ask BEFORE the confirm dialog: being told "this would destroy another entry" is more useful than being
+        // asked to confirm an action that is about to be refused. This is the door the 08-22 review found unlocked.
+        if (BlockedByRenameClobber()) return;
         if (!EditorUtility.DisplayDialog("Make static?",
             $"Delete '{cur.resourceName}' animation configuration from the saved registry?\n\n" +
             "Removed: clip + state roles, deploy conversion, behaviors (fire/deploy), turret/muzzle/sockets, " +

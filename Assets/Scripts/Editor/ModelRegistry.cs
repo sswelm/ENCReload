@@ -586,7 +586,12 @@ public static class ModelRegistry
     public static bool Upsert(ModelDef def)
     {
         var list = Load();
-        list.RemoveAll(m => m.resourceName == def.resourceName);
+        // CASE-INSENSITIVE, to match the filesystem the key really lives on (2026-08-22). The replace used ordinal
+        // `==` while the Factory's collision guard compares OrdinalIgnoreCase, and that gap had a hole in it: renaming
+        // "Tank" to "tank" read as "writing over itself" to the guard, then failed to remove the old row here — two
+        // registry entries whose baked assets (<name>_Skeleton.asset, …) are the SAME files on Windows, each bake
+        // silently overwriting the other. No shipped pack has case-duplicate names, so nothing is merged by this.
+        list.RemoveAll(m => string.Equals(m.resourceName, def.resourceName, StringComparison.OrdinalIgnoreCase));
         list.Add(def);
         return Save(list);
     }
