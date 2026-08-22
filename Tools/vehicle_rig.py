@@ -1885,6 +1885,44 @@ if recoil_bone is not None and gun_axis is not None:
               "returns over %d, holding the deployed pose (%s) — needs Keep bone translations ticked at bake"
               % (recoil_bone, recoil_dist, _len, _len * recoil_dist, _kick, recoil_frames - _kick,
                  ", ".join(sorted(deployed_pose)) if deployed_pose else "nothing to hold"))
+        # BREECH CLEARANCE — the failure this feature invites, measured here rather than left to be found in-game.
+        # Sliding back down a RAISED bore drives the breech down as well as back, so a stroke that is fine on a level
+        # gun buries the breech at 45°. This is exactly why real howitzers of this class use variable recoil: a
+        # shorter stroke the higher they elevate. Measured at the recoil peak, in the deployed pose, against the
+        # lowest static vertex on the model.
+        bpy.context.view_layer.update()
+
+        # meshes are merged per bone and named "Mesh_<bone>" by this point — bone_of still holds SOURCE part names
+        _statics = [o for o in bpy.data.objects
+                    if o.type == 'MESH' and o.data.vertices and o.name != "Mesh_" + recoil_bone]
+        if _statics:
+            _ground = min(min((o.matrix_world @ _v.co).z for _v in o.data.vertices) for o in _statics)
+            _bar_objs = [o for o in bpy.data.objects if o.type == 'MESH' and o.name == "Mesh_" + recoil_bone]
+            if _bar_objs:
+                # the barrel's own lowest point, deployed and slid fully back
+                _dq = deployed_pose.get("Gun")
+                _lowest = None
+                # Barrel is a CHILD of Gun, so its local slide is rotated by the elevation too — the recoil vector
+                # has to go INSIDE the rotation, not after it. (Left outside, this measured a level-bore slide and
+                # reported a near-constant clearance whatever the stroke: 9.68 at 0.10 and 8.80 at 0.30, when the
+                # truth is +4.86 and -7.03.)
+                for _o in _bar_objs:
+                    for _v in _o.data.vertices:
+                        _p = (_o.matrix_world @ _v.co) - _trun + _back
+                        if _dq is not None:
+                            _p.rotate(_dq)
+                        _p = _p + _trun
+                        if _lowest is None or _p.z < _lowest:
+                            _lowest = _p.z
+                _clear = _lowest - _ground
+                if _clear < 0:
+                    print("VEHICLE RECOIL *** WARNING: at full recoil the breech reaches Z %.2f, %.2f BELOW the "
+                          "model's lowest static point (Z %.2f) — it will punch through the ground. Lower the "
+                          "recoil fraction (a real gun shortens its stroke as it elevates, for this exact reason) "
+                          "or lower the deploy elevation." % (_lowest, -_clear, _ground))
+                else:
+                    print("VEHICLE RECOIL breech clearance at full recoil: %.2f above the model's lowest static "
+                          "point (Z %.2f)" % (_clear, _ground))
     arm.animation_data.action = act        # 'Spin' stays the active action, as before
 
 for _oa2 in [a for a in bpy.data.actions if a.name not in ("Spin", "Deploy", "Recoil")]:

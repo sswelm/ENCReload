@@ -532,9 +532,13 @@ public class VehicleLabWindow : EditorWindow
                     // RECOIL — the one motion that needs Gun and Cradle on SEPARATE bones, so it lives with them.
                     recoilDist = EditorGUILayout.Slider(new GUIContent("Recoil (fraction of tube)",
                         "How far the tube kicks back when the gun fires, as a fraction of its OWN length — so the " +
-                        "dial means the same thing on any model at any scale. A real M114 recoils about 0.3 of its " +
-                        "tube; by the read-it-at-map-zoom bar, expect to want more. 0 = off, and off means no " +
-                        "Barrel bone is created at all, so a gun that never recoils costs nothing.\n\n" +
+                        "dial means the same thing on any model at any scale. 0 = off, and off means no Barrel bone " +
+                        "is created at all, so a gun that never recoils costs nothing.\n\n" +
+                        "AN ELEVATED GUN WANTS LESS. Sliding back down a raised bore drives the breech DOWN as well " +
+                        "as back, so the stroke a level gun can afford will bury the breech in the ground at 45°. " +
+                        "Real howitzers solve this with variable recoil — a shorter stroke the higher they elevate. " +
+                        "The ~0.3 quoted for an M114 is its LOW-elevation stroke; on the 45° M114 rig, 0.15 is " +
+                        "about the ceiling. The run measures the actual clearance and warns you.\n\n" +
                         "This is the only motion that needs the tube and the cradle on SEPARATE bones — mark them " +
                         "Gun and Cradle above, or the whole assembly slides together."), recoilDist, 0f, 0.6f);
                     using (new EditorGUI.DisabledScope(recoilDist <= 0f))
