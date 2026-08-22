@@ -987,7 +987,9 @@ public class AnimationLabWindow : EditorWindow
             cur.gunElevMax = EditorGUILayout.Slider(new GUIContent("Gun elevation — max (deg)",
                 "Raise the gun barrel during a bombard, PROPORTIONAL TO TARGET DISTANCE up to this max angle (full at " +
                 "~3 tiles): a short lob barely lifts, a max-range shot elevates fully — rising while the hull turns, held " +
-                "through the shot, lowered after. Applies to the Turret bone if set, else the Gun bone below. 0 = off; " +
+                "through the shot, lowered after — ramping across a 1..8 TILE band, so a point-blank shot commands none of " +
+                "the angle and an 8-tile shot all of it. POSITIVE raises the barrel. Applies to the Turret bone if " +
+                "set, else the Gun bone below. 0 = off; " +
                 "NEGATIVE if the gun pitches the wrong way — which direction a bone raises depends on the rig, so " +
                 "if the barrel DROPS with range, flip the sign rather than the axis. " +
                 "negative if the barrel dips the wrong way. RUNTIME-ONLY — Save (no bake) + relaunch."),
