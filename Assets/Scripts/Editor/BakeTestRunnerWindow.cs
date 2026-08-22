@@ -296,9 +296,17 @@ public class BakeTestRunnerWindow : EditorWindow
 
     // ONE interpolated string per Invariant() call: concatenating two of them yields a plain `string`, which the
     // overload can't take (the Roslyn gate caught exactly that).
+    // ZERO FAILURES IS NOT SUCCESS WHEN NOTHING RAN (2026-08-22 review). The verdict read `fail == 0 ? PASS : FAIL`,
+    // so an all-skipped run wrote "PASS — 0 passed, 0 failed, 1 skipped" into the window headline AND into
+    // Logs/haf_bake_tests_report.txt — the durable artifact whose whole job is answering "did the tests pass before
+    // this release?". Reachable on any machine without Blender (select only Blender-dependent rows), or by cancelling
+    // after a skip. The per-row label already said SKIPPED for a zero-pass section; the summary never learned the same
+    // rule, which is the "a check that can pass while nothing was checked" shape this project treats as its worst sin.
+    static string VerdictWord(int pass, int fail) => fail > 0 ? "FAIL" : pass > 0 ? "PASS" : "NOTHING VERIFIED";
+
     static string InterimVerdict(List<BakeTestSection> done, System.Diagnostics.Stopwatch w, bool finished)
         => FormattableString.Invariant(
-               $"{(done.Sum(s => s.fail) == 0 ? "PASS" : "FAIL")} — {done.Sum(s => s.pass)} passed, {done.Sum(s => s.fail)} failed, {done.Sum(s => s.skip)} skipped, in {w.Elapsed.TotalMinutes:0.0} min")
+               $"{VerdictWord(done.Sum(s => s.pass), done.Sum(s => s.fail))} — {done.Sum(s => s.pass)} passed, {done.Sum(s => s.fail)} failed, {done.Sum(s => s.skip)} skipped, in {w.Elapsed.TotalMinutes:0.0} min")
            + (finished ? "" : "  (run in progress…)");
 
     void FinishRun(bool cancelled, int planned)
@@ -307,7 +315,10 @@ public class BakeTestRunnerWindow : EditorWindow
         lastVerdict = InterimVerdict(collected, runWatch, finished: true)
                     + (cancelled ? FormattableString.Invariant($"  — CANCELLED after {collected.Count} of {planned} test(s)") : "");
         lastReportPath = WriteReport(collected, lastVerdict);
-        Debug.Log("[BakeTests] " + lastVerdict + " — report: " + lastReportPath);
+        // A run that verified nothing must not read as success in the Console either — same rule as the verdict word.
+        string line = "[BakeTests] " + lastVerdict + " — report: " + lastReportPath;
+        if (collected.Sum(s => s.fail) > 0 || collected.Sum(s => s.pass) == 0) Debug.LogWarning(line);
+        else Debug.Log(line);
         pending = null; current = null;
         Repaint();
     }
