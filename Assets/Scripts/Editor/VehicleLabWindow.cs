@@ -545,7 +545,9 @@ public class VehicleLabWindow : EditorWindow
                         recoilFrames = EditorGUILayout.IntSlider(new GUIContent("Recoil frames",
                             "Length of the 'Recoil' clip at 24 fps. The kick takes the first ~15% and the ride " +
                             "forward gets the rest — that asymmetry is what reads as a shot, so it is derived " +
-                            "rather than left to be set wrong."), recoilFrames, 3, 48);
+                            "rather than left to be set wrong. The PROVEN M114 recoil runs 157 frames (6.5s) — at 16 the whole " +
+                            "kick lands in 2 frames (~83ms) under a muzzle flash and is easy to miss entirely at map " +
+                            "zoom. Start long and shorten."), recoilFrames, 3, 160);
                     if (recoilDist > 0f)
                     {
                         int nG = parts.Count(p => p.role == Role.Gun);
