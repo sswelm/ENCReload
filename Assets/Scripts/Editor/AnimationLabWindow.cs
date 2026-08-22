@@ -19,6 +19,9 @@ public class AnimationLabWindow : EditorWindow
     // [SerializeField] so the form survives a DOMAIN RELOAD (recompile / play-mode toggle), matching the other Labs.
     [SerializeField] ModelDef cur = new ModelDef { animated = true };
     [SerializeField] int selected;                 // 0 = <New>, else index into `existing`
+    // Foldout state for the gun-elevation timing block. [SerializeField] so a domain reload (any recompile)
+    // does not spring it back open — the same reason every other bit of window state here is serialized.
+    [SerializeField] bool elevTimingOpen;
     [SerializeField] Vector2 scroll;
     string[] existing = { "<New>" };
     string status = "";
@@ -1002,16 +1005,31 @@ public class AnimationLabWindow : EditorWindow
                     cur.gunElevAxis,
                     new[] { new GUIContent("Axis 0 (X)"), new GUIContent("Axis 1 (Y)"), new GUIContent("Axis 2 (Z)") },
                     new[] { 0, 1, 2 });
-            // HOW IT COMES BACK DOWN. Both are RUNTIME — no bake, and Save is enough to try a new value.
+            // THE TIMING OF THE MOVE, foldable so it stays out of the way once dialled — four timing fields under a
+            // dial most models leave at 0 is a lot of permanent vertical space. All RUNTIME: Save, no bake.
             if (cur.gunElevMax != 0f)
             {
-                cur.gunElevHold = EditorGUILayout.Slider(new GUIContent("   Hold after firing (s)",
-                    "Seconds the barrel stays at its firing angle after the shot, before easing back down. Must be " +
-                    "LONGER than the attack clip or the gun starts dropping mid-recoil. 0 = start down the instant " +
-                    "the shot ends."), cur.gunElevHold, 0f, 6f);
-                cur.gunElevFall = EditorGUILayout.Slider(new GUIContent("   Lower over (s)",
-                    "Seconds to ease from the firing angle back to the resting elevation. Small values snap it down; " +
-                    "large values look like the gun is being cranked back by hand."), cur.gunElevFall, 0.05f, 6f);
+                EditorGUILayout.Space(2);
+                elevTimingOpen = EditorGUILayout.Foldout(elevTimingOpen,
+                    elevTimingOpen ? "   Elevation timing"
+                                   : $"   Elevation timing  (rise {(cur.gunElevRise > 0.01f ? cur.gunElevRise.ToString("0.##") + "s" : "with the turn")} · " +
+                                     $"hold {cur.gunElevHold:0.##}s · lower {cur.gunElevFall:0.##}s)", true);
+                if (elevTimingOpen)
+                {
+                    cur.gunElevRise = EditorGUILayout.Slider(new GUIContent("      Raise over (s)",
+                        "Seconds to raise to the firing angle. 0 = TRACK THE TURN (recommended): the gun finishes " +
+                        "elevating exactly as it finishes slewing, so it arrives aimed and elevated together. A " +
+                        "fixed time cannot do that — on a long turn the gun waits at full elevation, on a short one " +
+                        "it is still climbing when the shot goes off. Set a value only for a deliberately slow, " +
+                        "cranked-up look regardless of how far the unit had to turn."), cur.gunElevRise, 0f, 6f);
+                    cur.gunElevHold = EditorGUILayout.Slider(new GUIContent("      Hold after firing (s)",
+                        "Seconds the barrel stays at its firing angle after the shot, before easing back down. Must " +
+                        "be LONGER than the attack clip or the gun starts dropping mid-recoil. 0 = start down the " +
+                        "instant the shot ends."), cur.gunElevHold, 0f, 6f);
+                    cur.gunElevFall = EditorGUILayout.Slider(new GUIContent("      Lower over (s)",
+                        "Seconds to ease from the firing angle back to the resting elevation. Small values snap it " +
+                        "down; large values look like the gun is being cranked back by hand."), cur.gunElevFall, 0.05f, 6f);
+                }
             }
             // name the bone the elevation will actually move, so "how does it know what's the gun?" answers itself
             if (cur.gunElevMax != 0f)
@@ -1355,7 +1373,7 @@ public class AnimationLabWindow : EditorWindow
         cur.deployStrip = mine.deployStrip; cur.deployStripExtra = mine.deployStripExtra; cur.deployReadyFrame = mine.deployReadyFrame; cur.deployLegScale = mine.deployLegScale; cur.deployBarrelScale = mine.deployBarrelScale;
         cur.deployWheelBones = mine.deployWheelBones; cur.deployWheelAxis = mine.deployWheelAxis; cur.deployWheelFrames = mine.deployWheelFrames; cur.deployWheelDegrees = mine.deployWheelDegrees;
         cur.deployRecoil = mine.deployRecoil; cur.deployRecoilStep = mine.deployRecoilStep; cur.deployRecoilMag = mine.deployRecoilMag; cur.deployArcR = mine.deployArcR; cur.deployRecoilReturn = mine.deployRecoilReturn; cur.deploySlamDeg = mine.deploySlamDeg; cur.deploySlamSettle = mine.deploySlamSettle;
-        cur.animStateDriven = mine.animStateDriven; cur.animClipMove = mine.animClipMove; cur.animClipAfter = mine.animClipAfter; cur.animClipAttack = mine.animClipAttack; cur.animClipCombat = mine.animClipCombat; cur.animClipPreMove = mine.animClipPreMove; cur.animClipIdle = mine.animClipIdle; cur.animClipIdleAlt = mine.animClipIdleAlt; cur.animClipIdleAlt2 = mine.animClipIdleAlt2; cur.idleAltInterval = mine.idleAltInterval; cur.animPhaseSpread = mine.animPhaseSpread; cur.attackRepeats = mine.attackRepeats; cur.clearAimLayer = mine.clearAimLayer; cur.turretBone = mine.turretBone; cur.turretAxis = mine.turretAxis; cur.gunElevMax = mine.gunElevMax; cur.gunElevAxis = mine.gunElevAxis; cur.gunElevHold = mine.gunElevHold; cur.gunElevFall = mine.gunElevFall; cur.muzzleBone = mine.muzzleBone; cur.muzzleOffset = mine.muzzleOffset; cur.socketBones = mine.socketBones; cur.disabled = mine.disabled; cur.bakeLocked = mine.bakeLocked;
+        cur.animStateDriven = mine.animStateDriven; cur.animClipMove = mine.animClipMove; cur.animClipAfter = mine.animClipAfter; cur.animClipAttack = mine.animClipAttack; cur.animClipCombat = mine.animClipCombat; cur.animClipPreMove = mine.animClipPreMove; cur.animClipIdle = mine.animClipIdle; cur.animClipIdleAlt = mine.animClipIdleAlt; cur.animClipIdleAlt2 = mine.animClipIdleAlt2; cur.idleAltInterval = mine.idleAltInterval; cur.animPhaseSpread = mine.animPhaseSpread; cur.attackRepeats = mine.attackRepeats; cur.clearAimLayer = mine.clearAimLayer; cur.turretBone = mine.turretBone; cur.turretAxis = mine.turretAxis; cur.gunElevMax = mine.gunElevMax; cur.gunElevAxis = mine.gunElevAxis; cur.gunElevRise = mine.gunElevRise; cur.gunElevHold = mine.gunElevHold; cur.gunElevFall = mine.gunElevFall; cur.muzzleBone = mine.muzzleBone; cur.muzzleOffset = mine.muzzleOffset; cur.socketBones = mine.socketBones; cur.disabled = mine.disabled; cur.bakeLocked = mine.bakeLocked;
         cur.handPropName = mine.handPropName; cur.handPropGuid = mine.handPropGuid; cur.handPropMat = mine.handPropMat; cur.handPropBone = mine.handPropBone;
         cur.handPropAngles = mine.handPropAngles;   // Lab-owned again since the LIVE fit knob edits it ('Save rotation to game')
         cur.fireOnAttack = mine.fireOnAttack; cur.deployOnStop = mine.deployOnStop;
