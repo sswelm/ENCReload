@@ -1861,19 +1861,16 @@ if recoil_bone is not None and gun_axis is not None:
         for _f, _v in ((0, Vector((0, 0, 0))), (_kick, _local), (recoil_frames, Vector((0, 0, 0)))):
             _rb.location = _v
             _rb.keyframe_insert('location', frame=_f)
-        # HOLD THE DEPLOYED POSE THROUGH THE SHOT. A role clip poses the WHOLE skeleton: every bone it does not key
-        # sits at the reference pose. Key only the barrel and the gun drops to level and the trails snap folded for
-        # the duration of the attack — the gun would fire from its travel pose. A gun only ever fires deployed, so
-        # the Recoil clip carries the deployed pose itself, constant across the clip, rather than relying on the
-        # stance clip still being in effect. Keyed at both ends so it holds flat rather than drifting.
-        for _bn3, _q3 in deployed_pose.items():
-            _hb = arm.pose.bones.get(_bn3)
-            if _hb is None:
-                continue
-            _hb.rotation_mode = 'QUATERNION'
-            _hb.rotation_quaternion = _q3.copy()
-            _hb.keyframe_insert('rotation_quaternion', frame=0)
-            _hb.keyframe_insert('rotation_quaternion', frame=recoil_frames)
+        # DO NOT HOLD THE DEPLOYED POSE HERE — it breaks the clip (2026-08-22, in-game).
+        # An earlier version keyed the end-of-Deploy pose flat across this clip so the gun would not fire from its
+        # travel pose. It made frame 0 non-identity, and that violates the engine contract: Amplitude's encoder
+        # normalizes every clip against the skeleton's BIND rest and DISCARDS a constant frame-0 offset — "BIND must
+        # equal animation frame 0", or the model renders its bind forever no matter what plays (HAF
+        # Animation-Pitfalls, "The engine contract"). Spin and Deploy both work in-game precisely because both of
+        # their endpoints are identity; Recoil was the only clip that did not, and it was the only one that failed.
+        # The proven M114 recoil obeys the same rule from the other direction: deploy_convert delta-rebases every
+        # bone (basis_f' = basis_f @ basis_0^-1), "identity at f0 by construction", even for an attack clip cut from
+        # a source that is already deployed. So this clip keys the barrel ONLY, starting and ending at identity.
         try:
             _rfcs = list(_rec.fcurves)
         except AttributeError:
@@ -1882,9 +1879,8 @@ if recoil_bone is not None and gun_axis is not None:
             for _kp in _fc.keyframe_points:
                 _kp.interpolation = 'LINEAR'
         print("VEHICLE RECOIL clip: '%s' slides %.2f of a %.1f-unit tube (%.2f units) back over %d frame(s), "
-              "returns over %d, holding the deployed pose (%s) — needs Keep bone translations ticked at bake"
-              % (recoil_bone, recoil_dist, _len, _len * recoil_dist, _kick, recoil_frames - _kick,
-                 ", ".join(sorted(deployed_pose)) if deployed_pose else "nothing to hold"))
+              "returns over %d, from identity at f0 (bind==f0 contract) — needs Keep bone translations ticked at bake"
+              % (recoil_bone, recoil_dist, _len, _len * recoil_dist, _kick, recoil_frames - _kick))
         # BREECH CLEARANCE — the failure this feature invites, measured here rather than left to be found in-game.
         # Sliding back down a RAISED bore drives the breech down as well as back, so a stroke that is fine on a level
         # gun buries the breech at 45°. This is exactly why real howitzers of this class use variable recoil: a
