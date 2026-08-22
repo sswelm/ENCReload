@@ -1,146 +1,98 @@
-# HAF effects — what you can put on an ENC unit
+# What HAF brings to ENCReload
 
-> **Status: HAF integration is planned for ENCReload 2.0.** This page is the reference for what will be available,
-> written as the units are prototyped. Individual units are already running on HAF during development (the M114
-> towed howitzer is the worked example), but the mod as shipped does not yet depend on it.
+> **Status: HAF integration is planned for ENCReload 2.0.** Everything below is configured and running in
+> development; the mod as shipped does not depend on it yet.
 
-Every visual and behavioural effect [HAF](https://github.com/sswelm/HumankindAssetFramework) can apply to an ENC
-unit, and where you set it. This is the *catalogue*; for how the pipeline works see
-[HAF's Factory Manual](https://sswelm.github.io/HumankindAssetFramework/Factory-Manual.html), and when something
-looks wrong go straight to
-[Animation-Pitfalls](https://sswelm.github.io/HumankindAssetFramework/Animation-Pitfalls.html) — the odds are it is
-on that page.
+[HAF](https://sswelm.github.io/HumankindAssetFramework/) is a visual-enhancement layer for Humankind. ENCReload adds
+the *content* — technologies, units, districts, mechanics; HAF changes what that content **looks like on the map**.
+Vanilla modding stops at reskinning the game's existing (largely human) units. HAF replaces a unit's actual 3D
+model, animates it, gives it sound, and makes it behave believably as it moves and fights.
 
-## How to read the "Apply" column
+This page is the inventory of what we have actually configured — not what HAF *could* do.
 
-| Apply | What it costs you |
+---
+
+## Effects that apply to whole unit types
+
+These are global dials, so they change **every** unit of that class at once, including vanilla ones ENC never
+touches.
+
+| Effect | Setting | What you see |
+|---|---|---|
+| **Gradual turning** | land **180°/s**, turret **90°/s**, hover **180°/s**, ships **90°/s**, humans **off** | Units swing round to their heading instead of snapping. Ships turn ponderously; tanks briskly. |
+| **Pivot in place** | `pivot=90` | A ground or naval unit facing more than 90° away **turns on the spot first, then drives off** — no more tanks sliding sideways across the hex grid. |
+| **Banking** | hover **6°**, ships **3°** | Helicopters lean into a turn; ships heel. |
+| **Terrain hugging** | drop **−2**, lookahead **1.5**, ease **4** | Units sit *on* the ground and follow slopes rather than floating flat over them. Skipped on Exploitations and Ruins. |
+| **Battle turning** | `hold=1` | In deployed battles, a unit finishes turning toward its target before the attack fires. |
+
+Formation overrides reshape how a unit's pawns are laid out: **Turtle-9**, **Close-9**, **Close-5** and
+**Scatter-Spaced-5** are re-authored globally, plus per-unit layouts for **Biplanes**, **Biremes** (single pawn),
+the **Dugout Canoe** (a 3-pawn wedge) and the **Anti-Tank IFV** (which always fully turns before moving).
+
+---
+
+## Units with a custom model
+
+Twenty-two units currently carry HAF configuration. Grouped by what is most noticeable about them:
+
+### Artillery — the deepest work
+
+| Unit | What you see |
 |---|---|
-| **Bake** | Blender re-runs and new assets are written. Then rebuild the mod and relaunch. |
-| **Save** | Registry only — no Blender, no new assets. Rebuild the mod and relaunch. |
-| **Live** | A dial file under `BepInEx/config/`, polled about once a second. Edit while the game runs. |
+| **Towed Gun Howitzer** (Era 6) · **Siege Howitzer Car** (Era 5) | A full M114 firing cycle: rolls with **turning wheels**, **folds its trails and lowers the gun** before it moves, **spreads them and raises the barrel** on arrival. Aiming at a target it **elevates further the further away that target is** (10° up to 45° across a 1–8 tile band), waits until it is properly laid, then **recoils** — the tube kicking back through its cradle and riding home. |
+| **Organ Gun** (Era 4) · **Volley Gun** (Era 5) | Custom models with rolling wheels, ground-seated, with their own firing sound. |
 
-A unit is one **registry entry**: a `resourceName` (the key) and a `pawnDescription` (the game unit it replaces).
-The pawn description is a **substring** match and the **longest match wins**, so `Era5_Common_SiegeHowitzersCar_01`
-beats a shorter `Era5_Common_SiegeHowitzers` entry on the same unit.
+### Vehicles
 
----
+| Unit | What you see |
+|---|---|
+| **Universal Tanks** (Era 6) | Custom tank, tracks and wheels driven from its own animation. |
+| **Tank Destroyers** (Era 6) | Custom model, aiming gun with **distance-based barrel elevation**. |
+| **Anti-Tank IFV** (Era 6) | Custom model with a **traversing turret** that tracks its target; always turns fully before moving. |
+| **Armoured Car** (Era 5) | Turret, **wheels that spin while moving and stand still when parked**, engine start/stop sounds. |
+| **Hovercraft** (Era 6) | Custom model with engine sounds. |
 
-## The model itself
+### Aircraft
 
-| Effect | Field / where | Apply |
-|---|---|---|
-| Replace a unit's 3D model | `modelFile` — Model Factory | Bake |
-| Size, rotation, position offset (Z = waterline) | Model Factory ▸ Transform | Bake |
-| Runtime scale multiplier (no re-bake) | `scale` | Save |
-| Brightness / desaturate / RGB tint | Model Factory ▸ shading | Bake |
-| Replace the texture | `textureFile` · Unit Retexture | Bake |
-| Hide donor fragments that show through | `hideMeshes` | Save |
-| Hide a donor's extra sub-pawns (the "GPU rotor" squadron) | `hideSubPawns` | Save |
-| Temporarily show the ORIGINAL unit (A/B compare) | `disabled` | Save |
+| Unit | What you see |
+|---|---|
+| **Attack Helicopter** · **Recon Helicopter** (Era 6) | Custom airframes with engine start/stop sound. |
+| **Stealth Helicopter** (Era 6) | Flies on its **donor's own flight animation** — hover bob and pitch — **banks into turns**, hugs terrain, with its extra ghost sub-pawns and stray VFX suppressed. |
+| **Recon Drone** (Era 6) | Quadcopter with **its own spinning propellers**, plus flight sound. |
+| **Drone Squad FPV** (Era 6) | Squad model carrying a **hand prop** weapon. |
+| **Zeppelin** (Era 5) · **Recon Zeppelin** (Era 6) | Airships held rigid so they do not inherit the donor's wobble. |
 
-## Animation — the state machine
+### Naval
 
-A **state-driven** entry plays a different clip per state. Set them in the **Animation Lab**; all are Bake.
+| Unit | What you see |
+|---|---|
+| **Dugout Canoe** (Era 1) | Paddling animation, a 3-pawn wedge formation, and **per-pawn phase offset** so the canoes do not paddle in lockstep like one raft. |
+| **Hand-Cranked Submarines** (Era 5) | Custom model that **sits lower in the water in combat**. |
+| **Stealth Cruiser** · **Stealth Corvettes** (Era 6) | Custom/retextured hulls with engine sound. |
 
-| State | Field | Typical for a gun |
-|---|---|---|
-| Idle / reference *(defines the reference pose — must be real motion)* | `animClip` | `Spin` |
-| Idle stance (override) | `animClipIdle` | `Deploy[20..20]` |
-| Movement | `animClipMove` | `Spin` |
-| After-movement (on arrival) | `animClipAfter` | `Deploy[0..20]` |
-| Pre-movement (before it rolls) | `animClipPreMove` | `Deploy[20..0]` |
-| Attack | `animClipAttack` | `Recoil` |
-| Combat idle (locked in a battle) | `animClipCombat` | — |
-| Occasional idle flavour one-shots | `animClipIdleAlt`, `animClipIdleAlt2` | — |
+### Creatures and infantry
 
-Supporting knobs: `attackRepeats` (replays per trigger), `idleAltInterval` (seconds between flavour clips),
-`animPhaseSpread` (stops a multi-pawn unit animating in lockstep — **leave at 0.5**, 0 makes twelve canoes rock as
-one raft).
-
-> **Slice syntax:** `clip[a..b]` plays frames a→b, reversed if `a > b`; `clip[a..a]` holds one frame;
-> `clip[a..b/n]` takes every nth frame (pacing is baked, never a runtime knob).
-
-## Guns and artillery
-
-| Effect | Field / where | Apply |
-|---|---|---|
-| Turret that tracks the target | `turretBone`, `turretAxis` | Save |
-| Muzzle flash fires from your bone, not the donor's socket | `muzzleBone` | Save |
-| Nudge the fire origin (flash + tracer start) | `muzzleOffset` "x,y,z" | Save |
-| **Barrel elevates with target distance** | `gunElevMax` (deg, **positive raises**), `gunElevAxis` | Save |
-| …ramp: raise / hold after firing / lower | `gunElevRise`, `gunElevHold`, `gunElevFall` | Save |
-| Recoil — the barrel kicks back | Vehicle Lab ▸ *Recoil (fraction of tube)* | Bake |
-| Deploy — split trails spread, gun raises | Vehicle Lab ▸ *Spread*, *Gun raise on deploy* | Bake |
-| Clear the donor's streamed aim junk | `clearAimLayer` | Save |
-
-Elevation ramps across a **1…8 tile** band — a point-blank shot commands none of the angle, an 8-tile shot all of
-it. `gunElevRise > 0` also **delays the shot** until the gun is laid. Shipped defaults are **1 s up, 1 s hold, 1 s
-down**, which reads as a crew working the gun.
-
-> `clearAimLayer` and gun elevation both touch the same `BoneRotation` slots. If an elevation "applies" in the log
-> but nothing moves, that is the collision — HAF now excludes the elevation's slot, but it is the first thing to
-> suspect for any future slot-writing effect.
-
-## Movement and bearing
-
-| Effect | Field / where | Apply |
-|---|---|---|
-| Turn gradually into the heading instead of snapping | `turnRate` (deg/s), or per-category in `haf_turnease.txt` | Save / **Live** |
-| Bank into the turn (aircraft, ships) | `turnBank`, `hoverbank`, `shipbank` | Save / **Live** |
-| Pivot in place before moving off past N degrees | `pivot=` in `haf_turnease.txt` | **Live** |
-| Nose-down pitch while moving | `moveTilt` | Save |
-| Follow the terrain instead of floating flat | `hugDrop`, `hugLookahead`, `haf_hugterrain.txt` | Save / **Live** |
-| Idle sway for floating units | Vehicle Lab ▸ *Wave rock* | Bake |
-| Wheels/tracks/rotors that turn | Vehicle Lab ▸ *Spin* | Bake |
-| Rotor trim (fine per-bone angle) | `haf_rotortrim.txt` | **Live** |
-
-## Combat behaviour
-
-| Effect | Field | Apply |
-|---|---|---|
-| Play the clip once when it attacks | `fireOnAttack` | Save |
-| Hold a deployed pose when stopped, fold to travel | `deployOnStop`, `deployPoseTime`, `deploySpeed` | Save |
-| Recoil pacing on the legacy deploy path | `recoilSpeed` | Save |
-| Height offset in combat (a submarine dives) | `combatZ` | Save |
-
-## Sound
-
-Per-unit WAVs, all **Save**: `soundFile` (loop), `soundStartFile` / `soundStopFile` (engine start/stop),
-`soundIdleFile` (+ `soundIdleInterval`, `soundIdleGroupRadius`), `soundAttackFile`, `soundDeathFile`,
-`soundBattleFile` (war cry) — each with its own volume, and `soundAttackOffset` / `soundDeathOffset` /
-`soundBattleOffset` to skip dead air at the head of a clip. `engineSound` fires the per-ship engine move sound;
-`silenceDonorAudio` suppresses the borrowed donor's Wwise noise.
-
-Author them in the **Sound Studio**; `haf_sound_catalog.txt` lists what the game exposes.
-
-## Props and borrowed animation
-
-| Effect | Field | Apply |
-|---|---|---|
-| Weapon glued to a bone (Prop Lab) | `handPropName`, `handPropBone`, `handPropAngles`, `handPropGuid`, `handPropMat` | Save |
-| Fly the donor's own clip on your rig | `useDonorClip` | Save |
-| Freeze the donor's idle bob on a static model | `freezeDonorAnim` | Save |
-| Silence the donor's Mecanim VFX (the ghost rotor) | `silenceDonorVfx` | Save |
-| Re-spawn pawns after load (borrowed-rotor race) | `respawnAfterLoad` | Save |
-
-## Beyond single units
-
-- **Formation Override** — how many pawns a unit fields, their spacing, and per-unit turn links (`turnPivot`).
-- **District Factory** — a custom building per district, including its strategic-map footprint.
-- **Projectiles**, **ground colours**, **unit retexture**, **Sound Studio** — each has its own window.
+| Unit | What you see |
+|---|---|
+| **Abominations** (Era 6) | Custom creature with idle, movement and attack animations, an **occasional idle growl** and a distinct attack roar. |
+| **Light Assault Mech** (Era 6) | Custom mech, retextured and tinted, with its own movement sound. |
 
 ---
 
-## Gotchas worth knowing before you start
+## The kinds of effect in play
 
-1. **The registry is owned by the editor.** Never hand-edit `pack.json` while a Lab or the Factory has that entry
-   open — its Save writes the stale in-memory copy back over your change.
-2. **Two windows, one entry.** The Factory and the Animation Lab hold separate copies. After changing a field in
-   one, **Reload** in the other before baking from it.
-3. **Baked ≠ shipped.** A bake writes assets; the game still loads the previous ones until you rebuild the mod.
-   *Tools ▸ HAF ▸ Ship Status* lists everything in that state.
-4. **Previews lie.** The turntable plays *one clip in isolation*, so a gun that looks level there may be fine in
-   game. In-game is the only truth.
-5. **Read the log before theorising.** `BepInEx/LogOutput.log` carries `[Uni]`, `[Fire]`, `[Elev]`, `[BattleTurn]`
-   and `[AnimDiag]` lines that usually name the cause outright — including the *order* things happened in, which is
-   what catches timing bugs.
+Drawn from the configuration above, these are the levers ENC actually uses:
+
+- **Custom 3D models** — all 22 units, sized, rotated and seated on the ground.
+- **State-driven animation** — a different clip for idle, moving, arriving, departing and attacking.
+- **Turning, banking and terrain-following** — applied per unit *type*, so the whole battlefield moves better.
+- **Guns** — traversing turrets, muzzle flash anchored to the right bone, distance-proportional elevation, recoil.
+- **Sound** — engine start/stop, movement loops, idle flavour, attack and death.
+- **Formations** — pawn counts and layouts per unit.
+- **Donor control** — hiding borrowed sub-pawns, silencing borrowed VFX and audio, freezing borrowed animation.
+
+For the full list of what HAF can do beyond what ENC uses, see
+[HAF's Capabilities page](https://sswelm.github.io/HumankindAssetFramework/Capabilities.html). For how to configure
+any of it, the [Factory Manual](https://sswelm.github.io/HumankindAssetFramework/Factory-Manual.html); when
+something looks wrong,
+[Animation-Pitfalls](https://sswelm.github.io/HumankindAssetFramework/Animation-Pitfalls.html).
