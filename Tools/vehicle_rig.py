@@ -255,6 +255,7 @@ cradle_names = namelist(argv[37]) if len(argv) > 37 and argv[37].strip() else []
 recoil_dist = min(1.0, max(0.0, float(argv[38]))) if len(argv) > 38 and argv[38].strip() else 0.0
 recoil_frames = max(3, int(float(argv[39]))) if len(argv) > 39 and argv[39].strip() else 16
 recoil_bone = None               # set to "Barrel" when the split actually happens
+deployed_pose = {}               # bone -> quaternion at the END of Deploy: the pose a firing gun must be holding
 gun_bore = None                  # (breech, muzzle) — the full tube, the basis for the recoil fraction
 axis_arg = argv[6].upper()
 frames = max(2, int(argv[7]))
@@ -1787,6 +1788,7 @@ if trail_bones and trail_spread > 0.01:
         _pb.keyframe_insert('rotation_quaternion', frame=0)
         _pb.rotation_quaternion = Quaternion(_local_up, math.radians(trail_spread) * _sign)
         _pb.keyframe_insert('rotation_quaternion', frame=trail_frames)
+        deployed_pose[_bn] = _pb.rotation_quaternion.copy()   # the DEPLOYED pose, for clips that must hold it
         _opened[_bn] = ("out" if _sign > 0 else "in") + " %.0f deg" % trail_spread
     # ...and the GUN comes up on the same frames. Axis = the world horizontal perpendicular to the tube
     # (barrel × up), so it works whichever way the source model happens to face; the SIGN is chosen the same way
@@ -1809,6 +1811,7 @@ if trail_bones and trail_spread > 0.01:
             _gpb.keyframe_insert('rotation_quaternion', frame=0)
             _gpb.rotation_quaternion = Quaternion(_glocal, math.radians(abs(gun_deploy_elev)) * _gsign * (1.0 if gun_deploy_elev > 0 else -1.0))
             _gpb.keyframe_insert('rotation_quaternion', frame=trail_frames)
+            deployed_pose["Gun"] = _gpb.rotation_quaternion.copy()
             print("VEHICLE DEPLOY gun: elevate %.1f deg about world (%.2f, %.2f, %.2f) over 0..%d frames"
                   % (gun_deploy_elev, _ax.x, _ax.y, _ax.z, trail_frames))
         else:
@@ -1858,6 +1861,19 @@ if recoil_bone is not None and gun_axis is not None:
         for _f, _v in ((0, Vector((0, 0, 0))), (_kick, _local), (recoil_frames, Vector((0, 0, 0)))):
             _rb.location = _v
             _rb.keyframe_insert('location', frame=_f)
+        # HOLD THE DEPLOYED POSE THROUGH THE SHOT. A role clip poses the WHOLE skeleton: every bone it does not key
+        # sits at the reference pose. Key only the barrel and the gun drops to level and the trails snap folded for
+        # the duration of the attack — the gun would fire from its travel pose. A gun only ever fires deployed, so
+        # the Recoil clip carries the deployed pose itself, constant across the clip, rather than relying on the
+        # stance clip still being in effect. Keyed at both ends so it holds flat rather than drifting.
+        for _bn3, _q3 in deployed_pose.items():
+            _hb = arm.pose.bones.get(_bn3)
+            if _hb is None:
+                continue
+            _hb.rotation_mode = 'QUATERNION'
+            _hb.rotation_quaternion = _q3.copy()
+            _hb.keyframe_insert('rotation_quaternion', frame=0)
+            _hb.keyframe_insert('rotation_quaternion', frame=recoil_frames)
         try:
             _rfcs = list(_rec.fcurves)
         except AttributeError:
@@ -1866,8 +1882,9 @@ if recoil_bone is not None and gun_axis is not None:
             for _kp in _fc.keyframe_points:
                 _kp.interpolation = 'LINEAR'
         print("VEHICLE RECOIL clip: '%s' slides %.2f of a %.1f-unit tube (%.2f units) back over %d frame(s), "
-              "returns over %d — needs Keep bone translations ticked at bake"
-              % (recoil_bone, recoil_dist, _len, _len * recoil_dist, _kick, recoil_frames - _kick))
+              "returns over %d, holding the deployed pose (%s) — needs Keep bone translations ticked at bake"
+              % (recoil_bone, recoil_dist, _len, _len * recoil_dist, _kick, recoil_frames - _kick,
+                 ", ".join(sorted(deployed_pose)) if deployed_pose else "nothing to hold"))
     arm.animation_data.action = act        # 'Spin' stays the active action, as before
 
 for _oa2 in [a for a in bpy.data.actions if a.name not in ("Spin", "Deploy", "Recoil")]:
