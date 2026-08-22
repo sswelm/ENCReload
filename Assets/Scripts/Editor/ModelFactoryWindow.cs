@@ -1952,7 +1952,7 @@ public class ModelFactoryWindow : EditorWindow
         // 2026-08-19 hand-list audit: these three survived Make static — gunElev is applied at RUNTIME to every
         // non-donor entry, so a leftover gunElevMax kept elevating a made-static gun (the exact "cursed leftover"
         // class this function was built to kill). animPhaseSpread is dormant on statics; reset for hygiene.
-        cur.gunElevMax = 0f; cur.gunElevAxis = 0; cur.animPhaseSpread = 0.5f;
+        cur.gunElevMax = 0f; cur.gunElevAxis = 0; cur.gunElevHold = 1.5f; cur.gunElevFall = 2f; cur.animPhaseSpread = 0.5f;
         cur.handPropName = ""; cur.handPropGuid = ""; cur.handPropMat = ""; cur.handPropBone = ""; cur.handPropAngles = "";
         cur.fireOnAttack = false; cur.deployOnStop = false;
         cur.deployPoseTime = 0f; cur.deploySpeed = 0f; cur.recoilSpeed = 0f;

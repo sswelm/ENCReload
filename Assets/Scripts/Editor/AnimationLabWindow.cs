@@ -1002,6 +1002,17 @@ public class AnimationLabWindow : EditorWindow
                     cur.gunElevAxis,
                     new[] { new GUIContent("Axis 0 (X)"), new GUIContent("Axis 1 (Y)"), new GUIContent("Axis 2 (Z)") },
                     new[] { 0, 1, 2 });
+            // HOW IT COMES BACK DOWN. Both are RUNTIME — no bake, and Save is enough to try a new value.
+            if (cur.gunElevMax != 0f)
+            {
+                cur.gunElevHold = EditorGUILayout.Slider(new GUIContent("   Hold after firing (s)",
+                    "Seconds the barrel stays at its firing angle after the shot, before easing back down. Must be " +
+                    "LONGER than the attack clip or the gun starts dropping mid-recoil. 0 = start down the instant " +
+                    "the shot ends."), cur.gunElevHold, 0f, 6f);
+                cur.gunElevFall = EditorGUILayout.Slider(new GUIContent("   Lower over (s)",
+                    "Seconds to ease from the firing angle back to the resting elevation. Small values snap it down; " +
+                    "large values look like the gun is being cranked back by hand."), cur.gunElevFall, 0.05f, 6f);
+            }
             // name the bone the elevation will actually move, so "how does it know what's the gun?" answers itself
             if (cur.gunElevMax != 0f)
             {
@@ -1344,7 +1355,7 @@ public class AnimationLabWindow : EditorWindow
         cur.deployStrip = mine.deployStrip; cur.deployStripExtra = mine.deployStripExtra; cur.deployReadyFrame = mine.deployReadyFrame; cur.deployLegScale = mine.deployLegScale; cur.deployBarrelScale = mine.deployBarrelScale;
         cur.deployWheelBones = mine.deployWheelBones; cur.deployWheelAxis = mine.deployWheelAxis; cur.deployWheelFrames = mine.deployWheelFrames; cur.deployWheelDegrees = mine.deployWheelDegrees;
         cur.deployRecoil = mine.deployRecoil; cur.deployRecoilStep = mine.deployRecoilStep; cur.deployRecoilMag = mine.deployRecoilMag; cur.deployArcR = mine.deployArcR; cur.deployRecoilReturn = mine.deployRecoilReturn; cur.deploySlamDeg = mine.deploySlamDeg; cur.deploySlamSettle = mine.deploySlamSettle;
-        cur.animStateDriven = mine.animStateDriven; cur.animClipMove = mine.animClipMove; cur.animClipAfter = mine.animClipAfter; cur.animClipAttack = mine.animClipAttack; cur.animClipCombat = mine.animClipCombat; cur.animClipPreMove = mine.animClipPreMove; cur.animClipIdle = mine.animClipIdle; cur.animClipIdleAlt = mine.animClipIdleAlt; cur.animClipIdleAlt2 = mine.animClipIdleAlt2; cur.idleAltInterval = mine.idleAltInterval; cur.animPhaseSpread = mine.animPhaseSpread; cur.attackRepeats = mine.attackRepeats; cur.clearAimLayer = mine.clearAimLayer; cur.turretBone = mine.turretBone; cur.turretAxis = mine.turretAxis; cur.gunElevMax = mine.gunElevMax; cur.gunElevAxis = mine.gunElevAxis; cur.muzzleBone = mine.muzzleBone; cur.muzzleOffset = mine.muzzleOffset; cur.socketBones = mine.socketBones; cur.disabled = mine.disabled; cur.bakeLocked = mine.bakeLocked;
+        cur.animStateDriven = mine.animStateDriven; cur.animClipMove = mine.animClipMove; cur.animClipAfter = mine.animClipAfter; cur.animClipAttack = mine.animClipAttack; cur.animClipCombat = mine.animClipCombat; cur.animClipPreMove = mine.animClipPreMove; cur.animClipIdle = mine.animClipIdle; cur.animClipIdleAlt = mine.animClipIdleAlt; cur.animClipIdleAlt2 = mine.animClipIdleAlt2; cur.idleAltInterval = mine.idleAltInterval; cur.animPhaseSpread = mine.animPhaseSpread; cur.attackRepeats = mine.attackRepeats; cur.clearAimLayer = mine.clearAimLayer; cur.turretBone = mine.turretBone; cur.turretAxis = mine.turretAxis; cur.gunElevMax = mine.gunElevMax; cur.gunElevAxis = mine.gunElevAxis; cur.gunElevHold = mine.gunElevHold; cur.gunElevFall = mine.gunElevFall; cur.muzzleBone = mine.muzzleBone; cur.muzzleOffset = mine.muzzleOffset; cur.socketBones = mine.socketBones; cur.disabled = mine.disabled; cur.bakeLocked = mine.bakeLocked;
         cur.handPropName = mine.handPropName; cur.handPropGuid = mine.handPropGuid; cur.handPropMat = mine.handPropMat; cur.handPropBone = mine.handPropBone;
         cur.handPropAngles = mine.handPropAngles;   // Lab-owned again since the LIVE fit knob edits it ('Save rotation to game')
         cur.fireOnAttack = mine.fireOnAttack; cur.deployOnStop = mine.deployOnStop;
