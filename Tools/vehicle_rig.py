@@ -224,6 +224,14 @@ tail_axis_arg = argv[28].upper() if len(argv) > 28 and argv[28].strip() else "AU
 # auto/forced axle, so the user can dial the last few degrees by eye when the heuristic is close but not exact.
 tail_yaw_adj = float(argv[29]) if len(argv) > 29 and argv[29].strip() else 0.0
 tail_pitch_adj = float(argv[30]) if len(argv) > 30 and argv[30].strip() else 0.0
+# TRAILS (argv[31..33], 2026-08-22): a split-trail gun's arms. Each marked part gets a bone HINGED at its body
+# end, and a separate "Deploy" action swings them open about the vertical, mirrored per side — so the state
+# machine can hold Deploy[N..N] as the deployed stance, play Deploy to unfold and Deploy[N..0] to fold, while
+# `Spin` keeps the wheels rolling with the arms at their folded rest. ("Trail" is the artillery term: these are
+# the arms of a SPLIT-TRAIL carriage, each ending in a spade. Not "legs" — that name is reserved for mech limbs.)
+trail_names = namelist(argv[31]) if len(argv) > 31 and argv[31].strip() else []
+trail_spread = float(argv[32]) if len(argv) > 32 and argv[32].strip() else 35.0
+trail_frames = max(2, int(float(argv[33]))) if len(argv) > 33 and argv[33].strip() else 12
 axis_arg = argv[6].upper()
 frames = max(2, int(argv[7]))
 degrees = float(argv[8])
@@ -593,6 +601,40 @@ if gun_names:
     eb.parent = eb_turret if eb_turret is not None else eb_body
     for gn in gun_names:
         bone_of[gn] = "Gun"
+
+# TRAIL bones — one per arm, HINGED at the body end (not the bbox centre, which is what wheels use): a trail
+# swings about where it meets the carriage. The hinge is picked geometrically as the arm's extreme END nearest
+# the body bone, so it works whichever way a source points its arms. The bone runs down the arm to its spade,
+# which makes the arm's own direction its local Y — the same convention the wheels use, and one that survives
+# the bake (a bone's X/Z can be re-derived downstream; its head->tail direction cannot).
+trail_bones = []   # (bone name, hinge world pos, spade world pos)
+for _ti, _tn in enumerate(trail_names):
+    _to = find(_tn)
+    if _to is None:
+        print("VEHICLE WARN: trail part '%s' not found — skipped" % _tn)
+        continue
+    _pts = [_to.matrix_world @ _v.co for _v in _to.data.vertices]
+    if len(_pts) < 4:
+        continue
+    # the arm's long axis, then its two ends along it; the end NEAREST the body is the hinge
+    _mn = Vector(tuple(min(p[i] for p in _pts) for i in range(3)))
+    _mx = Vector(tuple(max(p[i] for p in _pts) for i in range(3)))
+    _long = max(range(3), key=lambda i: _mx[i] - _mn[i])
+    _end_lo = min(_pts, key=lambda p: p[_long])
+    _end_hi = max(_pts, key=lambda p: p[_long])
+    _ref = eb_body.head
+    _hinge, _spade = (_end_lo, _end_hi) if (_end_lo - _ref).length <= (_end_hi - _ref).length else (_end_hi, _end_lo)
+    _dir = (_spade - _hinge)
+    if _dir.length < 1e-5:
+        continue
+    eb = arm_data.edit_bones.new("Trail_%02d" % _ti)
+    eb.head = _hinge
+    eb.tail = _hinge + _dir.normalized() * max(_dir.length * 0.5, 0.05)
+    eb.parent = eb_body
+    bone_of[_tn] = eb.name
+    trail_bones.append((eb.name, _hinge.copy(), _spade.copy()))
+    print("VEHICLE trail '%s' -> %s hinge=(%.2f, %.2f, %.2f) spade=(%.2f, %.2f, %.2f)"
+          % (_tn, eb.name, _hinge.x, _hinge.y, _hinge.z, _spade.x, _spade.y, _spade.z))
 # Track bones — TREADIZE v2 (2026-07-26, user-designed surfaces): a tread loop is FOUR motion regions, each on
 # its own carrier: the FRONT/REAR wrap arcs skin to the SPROCKET/IDLER wheel bones (they rotate with the wheel —
 # wrapping is free and spokes never penetrate), the BOTTOM run rides a bone translating backward and the TOP run
@@ -1601,8 +1643,52 @@ for o in list(bpy.data.objects):   # bpy.data, not scene.objects — helpers can
 # "Take 001") rides along into the GLB even though nothing here plays it — the meshes are skinned to OUR armature
 # now. It then shows up in the Factory's clip picker beside 'Spin', and picking it bakes a model that never moves.
 # The rig authors exactly one clip; anything else in the file is a leftover.
-for _oa2 in [a for a in bpy.data.actions if a.name != "Spin"]:
-    print("VEHICLE purged leftover source clip '%s' (only 'Spin' is authored here)" % _oa2.name)
+# THE DEPLOY CLIP — the trails swinging open, authored as its OWN action so the state machine can use it four
+# ways: Deploy (unfold, after-move), Deploy[N..0] (fold, pre-move), Deploy[N..N] (the deployed stance) and
+# Deploy as the Idle/reference clip — which Law 2 requires to be real motion, not a held frame.
+# Each arm rotates about the WORLD VERTICAL at its own hinge. The direction is not assumed: it is CHOSEN by
+# testing which way moves the spade AWAY from the model's centreline, so left and right open outward whatever
+# way the source happens to face. Keyed as a quaternion about the exact local axis that maps to world up —
+# arbitrary-axis local rotations are safe on THIS rig (every scale is 1 and the chain is clean); they are not on
+# a deploy-converted one, which is why that route could never carry an authored motion (HAF Animation-Pitfalls).
+if trail_bones and trail_spread > 0.01:
+    _dep = bpy.data.actions.new("Deploy")
+    arm.animation_data.action = _dep
+    try:
+        if getattr(_dep, "slots", None):
+            arm.animation_data.action_slot = _dep.slots.new(id_type='OBJECT', name=arm.name)
+    except Exception:
+        pass
+    _centre_x = 0.0   # the model is recentred on its own centreline before this point
+    _opened = {}
+    for _bn, _hinge, _spade in trail_bones:
+        _db = arm.data.bones.get(_bn); _pb = arm.pose.bones.get(_bn)
+        if _db is None or _pb is None:
+            continue
+        _up = Vector((0.0, 0.0, 1.0))
+        _arm_v = _spade - _hinge
+        _test = _arm_v.copy(); _test.rotate(Quaternion(_up, math.radians(5.0)))
+        _sign = 1.0 if abs((_hinge + _test).x - _centre_x) > abs(_spade.x - _centre_x) else -1.0
+        _m3 = (arm.matrix_world @ _db.matrix_local).to_3x3()
+        _local_up = (_m3.inverted() @ _up).normalized()
+        _pb.rotation_mode = 'QUATERNION'
+        _pb.rotation_quaternion = Quaternion((1.0, 0.0, 0.0, 0.0))
+        _pb.keyframe_insert('rotation_quaternion', frame=0)
+        _pb.rotation_quaternion = Quaternion(_local_up, math.radians(trail_spread) * _sign)
+        _pb.keyframe_insert('rotation_quaternion', frame=trail_frames)
+        _opened[_bn] = ("out" if _sign > 0 else "in") + " %.0f deg" % trail_spread
+    try:
+        _dfcs = list(_dep.fcurves)
+    except AttributeError:
+        _dfcs = [fc for l in _dep.layers for s in l.strips for cb in s.channelbags for fc in cb.fcurves]
+    for _fc in _dfcs:
+        for _kp in _fc.keyframe_points:
+            _kp.interpolation = 'LINEAR'
+    arm.animation_data.action = act        # 'Spin' stays the active action, as before
+    print("VEHICLE DEPLOY clip: %d trail(s) %s over 0..%d frames" % (len(_opened), _opened, trail_frames))
+
+for _oa2 in [a for a in bpy.data.actions if a.name not in ("Spin", "Deploy")]:
+    print("VEHICLE purged leftover source clip '%s' (only 'Spin'/'Deploy' are authored here)" % _oa2.name)
     bpy.data.actions.remove(_oa2)
 for _o2 in bpy.data.objects:
     if _o2.type != 'ARMATURE' and _o2.animation_data is not None:

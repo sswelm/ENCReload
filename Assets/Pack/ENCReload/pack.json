@@ -2919,13 +2919,13 @@
             "deployWheelDegrees": "",
             "deployRecoilReturn": "0",
             "animClipMove": "Spin",
-            "animClipAfter": "",
+            "animClipAfter": "Deploy",
             "animClipAttack": "",
             "animClipCombat": "",
-            "animClipPreMove": "",
+            "animClipPreMove": "Deploy[12..0]",
             "animClipIdleAlt": "",
             "animClipIdleAlt2": "",
-            "animClipIdle": "Spin[0..0]",
+            "animClipIdle": "Deploy[12..12]",
             "bakeLocked": false,
             "socketBones": "",
             "clipMove": [
@@ -2935,10 +2935,10 @@
                 1846935186
             ],
             "clipAfter": [
-                0,
-                0,
-                0,
-                0
+                -171671840,
+                1169034087,
+                1982322618,
+                1812183123
             ],
             "clipAttack": [
                 0,
@@ -2953,10 +2953,10 @@
                 0
             ],
             "clipPreMove": [
-                0,
-                0,
-                0,
-                0
+                1319008675,
+                1340827935,
+                1287748017,
+                1455998591
             ],
             "clipIdle": [
                 -1462158685,
