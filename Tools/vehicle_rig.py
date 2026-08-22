@@ -254,7 +254,12 @@ cradle_names = namelist(argv[37]) if len(argv) > 37 and argv[37].strip() else []
 # off means the Barrel bone is never created — a gun that does not recoil costs no bone and regenerates unchanged.
 recoil_dist = min(1.0, max(0.0, float(argv[38]))) if len(argv) > 38 and argv[38].strip() else 0.0
 recoil_frames = max(3, int(float(argv[39]))) if len(argv) > 39 and argv[39].strip() else 16
-recoil_bone = None               # set to "Barrel" when the split actually happens
+recoil_bone = None               # set to "RecoilArm" when the split actually happens — the bone the clip ROTATES
+recoil_geom = None               # (pivot, axis, bore_dir, slide, R) for the arc that fakes the slide
+# Residual tilt the arc leaves on the tube. The slide is faked by swinging the barrel on a long arm, so some pitch
+# is unavoidable; 3 deg is small enough to read as a straight slide and large enough to keep R finite (a pivot at
+# infinity collapses the bone chain through float32 cancellation — the documented 1e9 sentinel bug).
+RECOIL_PITCH_DEG = 3.0
 deployed_pose = {}               # bone -> quaternion at the END of Deploy: the pose a firing gun must be holding
 gun_bore = None                  # (breech, muzzle) — the full tube, the basis for the recoil fraction
 axis_arg = argv[6].upper()
@@ -694,13 +699,41 @@ if gun_names or muzzle_names or cradle_names:
     # rotates with the elevation, so the tube always slides along its own bore and never through the cradle.
     if recoil_dist > 0.0 and tube_names:
         _tc, _ts = _combined_bbox(tube_names)
+        # THE RECOIL ARM (2026-08-22, in-game measured). A bone's OWN local translation does not render: the engine
+        # keeps every bone at its bind position and plays only orientations through the hierarchy (Law 5). Measured
+        # end-to-end on the first attempt — the clip baked the slide correctly, and the engine's own GetPoseTRS
+        # decoded it correctly (`SLID 0,3 (0,0,-0.001)->(-0.001,-0.013,-0.301)`, matching the authored frame 8 to
+        # three decimals) — and the barrel still did not move on screen. What DOES render is a position derived from
+        # an ANCESTOR's rotation, because that is rebuilt by forward kinematics.
+        # So the slide is faked as a long shallow arc: a hidden pivot placed far off the bore, with the Barrel
+        # hanging under it. Rotating the arm by theta = dist/R swings the tube R*theta along its own bore — a
+        # near-straight slide — while tilting it only theta. Same trick deploy_convert uses, and the reason its
+        # howitzer visibly slides in-game while this one did not.
+        _bore_d = (gun_axis[1] - gun_axis[0]).normalized() if gun_axis is not None else Vector((0.0, -1.0, 0.0))
+        _slide = (gun_bore[1] - gun_bore[0]).length * recoil_dist if gun_bore is not None else 1.0
+        _R = _slide / math.tan(math.radians(RECOIL_PITCH_DEG))     # radius for the chosen residual tilt
+        _axis = _bore_d.cross(Vector((0.0, 0.0, 1.0)))
+        if _axis.length < 1e-4:
+            _axis = _bore_d.cross(Vector((0.0, 1.0, 0.0)))
+        _axis.normalize()                                          # arc axis: perpendicular to the bore
+        _off = _axis.cross(_bore_d).normalized()                   # offset direction: perpendicular to both
+        _pivot = _tc + _off * _R
+        eb = arm_data.edit_bones.new("RecoilArm")
+        eb.head = _pivot
+        eb.tail = _pivot + Vector((0, 0, max(0.05, max(_ts) * 0.25)))
+        eb.parent = eb_gun                                         # rides the elevation, like the tube it carries
+        eb_recoil_arm = eb
+        recoil_geom = (_pivot.copy(), _axis.copy(), _bore_d.copy(), _slide, _R)
+        print("VEHICLE RECOIL ARM: pivot (%.2f, %.2f, %.2f), R=%.1f for a %.2f-unit slide (residual tilt %.1f deg) "
+              "— a bone's own translation does not render; an ancestor's rotation does"
+              % (_pivot.x, _pivot.y, _pivot.z, _R, _slide, RECOIL_PITCH_DEG))
         eb = arm_data.edit_bones.new("Barrel")
         eb.head = _tc
         eb.tail = _tc + Vector((0, 0, max(0.05, max(_ts) * 0.25)))
-        eb.parent = eb_gun
+        eb.parent = eb_recoil_arm
         for gn in tube_names:
             bone_of[gn] = "Barrel"      # the tube (and its brake) ride Barrel; the cradle stays on Gun
-        recoil_bone = "Barrel"
+        recoil_bone = "RecoilArm"   # the clip ROTATES the arm; Barrel only carries the tube geometry
         print("VEHICLE BARREL bone split off for recoil: %d tube part(s) slide, %d cradle part(s) stay"
               % (len(tube_names), len(cradle_names)))
 
@@ -1846,21 +1879,24 @@ if recoil_bone is not None and gun_axis is not None:
     _rb = arm.pose.bones.get(recoil_bone)
     _rdb = arm.data.bones.get(recoil_bone)
     if _rb is not None and _rdb is not None:
-        _trun, _mz = gun_axis
-        _bore = (_mz - _trun)                                  # DIRECTION: trunnion -> muzzle, i.e. down the bore
-        # LENGTH is the whole tube (breech..muzzle), not trunnion..muzzle — otherwise "fraction of tube length" would
-        # quietly mean a different distance on every model, since the trunnion moves with the Gun pivot dial.
-        _len = (gun_bore[1] - gun_bore[0]).length if gun_bore is not None else _bore.length
-        _back = -_bore.normalized() * (_len * recoil_dist)     # AWAY from the muzzle, along the bore
-        # into the bone's own space: identity rests make this a rotation-only change of basis, but do it properly
-        # rather than assume, so a rig that ever gains a non-identity rest still recoils along its bore.
+        _pivot, _axis, _bore_d, _slide, _R = recoil_geom
+        _len = (gun_bore[1] - gun_bore[0]).length if gun_bore is not None else _slide
+        _back = -_bore_d * _slide                              # AWAY from the muzzle, along the bore (for reporting)
+        # ROTATE THE ARM, don't translate the barrel — the arm's rotation is what survives to the GPU.
+        # theta = slide / R by construction, so the tube swings exactly `slide` along its own bore. The SIGN is
+        # chosen, as the trails' and the gun's are, by testing which way actually moves the muzzle BACKWARD.
         _rm3 = (arm.matrix_world @ _rdb.matrix_local).to_3x3()
-        _local = _rm3.inverted() @ _back
+        _local_axis = (_rm3.inverted() @ _axis).normalized()
+        _theta = _slide / _R
+        _test = (_tc - _pivot).copy(); _test.rotate(Quaternion(_axis, _theta))
+        _rsign = 1.0 if (_pivot + _test - _tc).dot(_bore_d) < 0 else -1.0   # muzzle must go AWAY from the target
         _kick = max(1, int(round(recoil_frames * 0.15)))
         _rb.rotation_mode = 'QUATERNION'
-        for _f, _v in ((0, Vector((0, 0, 0))), (_kick, _local), (recoil_frames, Vector((0, 0, 0)))):
-            _rb.location = _v
-            _rb.keyframe_insert('location', frame=_f)
+        _rest_q = Quaternion((1.0, 0.0, 0.0, 0.0))
+        _kick_q = Quaternion(_local_axis, _theta * _rsign)
+        for _f, _q in ((0, _rest_q), (_kick, _kick_q), (recoil_frames, _rest_q)):
+            _rb.rotation_quaternion = _q
+            _rb.keyframe_insert('rotation_quaternion', frame=_f)
         # HOLD THE DEPLOYED POSE THROUGH THE SHOT — as the PROVEN recoil does (2026-08-22).
         # A role clip poses the whole skeleton: bones it does not key sit at the reference pose, so keying only the
         # barrel fires the gun from its TRAVEL pose (level tube, folded trails). A gun only fires deployed.
