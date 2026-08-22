@@ -4,7 +4,8 @@
 > development; the mod as shipped does not depend on it yet.
 
 [HAF](https://sswelm.github.io/HumankindAssetFramework/) is a visual-enhancement layer for Humankind. ENCReload adds
-the *content* — technologies, units, districts, mechanics; HAF changes what that content **looks like on the map**.
+the *content* — technologies, units, districts, wonders, mechanics; HAF changes what that content **looks like on
+the map**.
 Vanilla modding stops at reskinning the game's existing (largely human) units. HAF replaces a unit's actual 3D
 model, animates it, gives it sound, and makes it behave believably as it moves and fights.
 
@@ -79,6 +80,23 @@ Twenty-two units currently carry HAF configuration. Grouped by what is most noti
 
 ---
 
+## Buildings on the map
+
+Units are not the whole of it — HAF also replaces what a **constructible** looks like on its tile, and keeps that
+same model visible when you zoom out to the strategic map instead of substituting a generic decal.
+
+| Constructible | What you see |
+|---|---|
+| **The Oracle** (Era 1 Artificial Wonder) | A custom Greek temple standing on the wonder's tile, on Mediterranean prairie ground with its own hex sculpt. It runs through the game's **native Artificial Wonder pipeline** — its own row in the wonder visual database, native affinity, card portraits, and the vanilla **bottom-to-roof level-build reveal** when a save reloads. Zoomed out it shows **the temple itself** as its strategic footprint, flattened to a sheet and in black-and-white, with the generic decal suppressed. |
+| **Breeder Reactor** (Base district) | A custom reactor building on temperate ground, with the same strategic-map treatment — its own silhouette as the footprint rather than a decal. |
+
+Both are **isolated**, meaning the swap touches only their own tiles and leaves every other district in the city
+alone. The Oracle in particular is the deepest single piece of HAF work: getting a player-authored wonder onto the
+engine's own wonder chain took a decompile of that chain
+([Wonder-Spike](https://sswelm.github.io/HumankindAssetFramework/Wonder-Spike.html)).
+
+---
+
 ## The kinds of effect in play
 
 Drawn from the configuration above, these are the levers ENC actually uses:
@@ -90,6 +108,7 @@ Drawn from the configuration above, these are the levers ENC actually uses:
 - **Sound** — engine start/stop, movement loops, idle flavour, attack and death.
 - **Formations** — pawn counts and layouts per unit.
 - **Donor control** — hiding borrowed sub-pawns, silencing borrowed VFX and audio, freezing borrowed animation.
+- **Buildings** — a custom model on a district or wonder tile, and that same model as its strategic-map footprint.
 
 For the full list of what HAF can do beyond what ENC uses, see
 [HAF's Capabilities page](https://sswelm.github.io/HumankindAssetFramework/Capabilities.html). For how to configure
