@@ -249,6 +249,13 @@ muzzle_names = namelist(argv[36]) if len(argv) > 36 and argv[36].strip() else []
 # it must NOT do is count toward the breech→muzzle span (a cradle stops well short of the muzzle) — and, once recoil
 # exists, it is the part that STAYS while the barrel kicks back. That is the whole reason it is its own role.
 cradle_names = namelist(argv[37]) if len(argv) > 37 and argv[37].strip() else []
+# RECOIL (argv[38..39]): how far the tube kicks back, as a FRACTION OF ITS OWN LENGTH, and over how many frames.
+# A fraction rather than absolute units so the dial means the same thing on any model at any scale. 0 = off, and
+# off means the Barrel bone is never created — a gun that does not recoil costs no bone and regenerates unchanged.
+recoil_dist = min(1.0, max(0.0, float(argv[38]))) if len(argv) > 38 and argv[38].strip() else 0.0
+recoil_frames = max(3, int(float(argv[39]))) if len(argv) > 39 and argv[39].strip() else 16
+recoil_bone = None               # set to "Barrel" when the split actually happens
+gun_bore = None                  # (breech, muzzle) — the full tube, the basis for the recoil fraction
 axis_arg = argv[6].upper()
 frames = max(2, int(argv[7]))
 degrees = float(argv[8])
@@ -655,6 +662,7 @@ if gun_names or muzzle_names or cradle_names:
         if abs(gun_pivot - 0.5) > 1e-4:
             gc = _breech + (_muzzle - _breech) * gun_pivot
         gun_axis = (gc.copy(), _muzzle.copy())            # (trunnion, muzzle tip) — the deploy elevation needs both
+        gun_bore = (_breech.copy(), _muzzle.copy())       # the WHOLE tube: what "fraction of tube length" measures
         print("VEHICLE gun pivot %.2f -> head=(%.2f, %.2f, %.2f) (breech (%.2f, %.2f, %.2f) .. muzzle (%.2f, %.2f, %.2f))"
               % (gun_pivot, gc.x, gc.y, gc.z, _breech.x, _breech.y, _breech.z, _muzzle.x, _muzzle.y, _muzzle.z))
         # THE FIRE ORIGIN, gun-bone-local — what HAF's `muzzleOffset` dial wants, in SOURCE units. The Animation
@@ -670,8 +678,30 @@ if gun_names or muzzle_names or cradle_names:
     eb.head = gc
     eb.tail = gc + Vector((0, 0, max(0.05, max(gs) * 0.25)))
     eb.parent = eb_turret if eb_turret is not None else eb_body
+    eb_gun = eb
     for gn in gun_names:
         bone_of[gn] = "Gun"
+    # THE BARREL SPLITS OFF — but only when recoil is asked for. Elevation wants tube and cradle on ONE bone (they
+    # rotate together about the trunnions); recoil wants them apart (the tube slides, the cradle stays). Rather than
+    # always pay a bone for a motion most guns never use, the split is conditional: with recoil off this block does
+    # nothing and the rig is exactly what it was, so every gun already baked regenerates unchanged.
+    # IDENTITY REST, DELIBERATELY. The tempting rig is a bone pointing down the bore, so recoil is -Y in bone space —
+    # but a non-identity rest rotation is mangled by the skeleton bake (measured: an FBX local T of (21.096,0,0)
+    # came back as (-0.00932,0,-0.00466)), which is why every bone this rigger makes is axis-aligned. So Barrel is
+    # axis-aligned too and recoils by a LOCAL TRANSLATION along the bore direction taken in the rest frame. Because
+    # rests are identity, bone-local == world at rest; because Barrel is a CHILD of Gun, that same local vector
+    # rotates with the elevation, so the tube always slides along its own bore and never through the cradle.
+    if recoil_dist > 0.0 and tube_names:
+        _tc, _ts = _combined_bbox(tube_names)
+        eb = arm_data.edit_bones.new("Barrel")
+        eb.head = _tc
+        eb.tail = _tc + Vector((0, 0, max(0.05, max(_ts) * 0.25)))
+        eb.parent = eb_gun
+        for gn in tube_names:
+            bone_of[gn] = "Barrel"      # the tube (and its brake) ride Barrel; the cradle stays on Gun
+        recoil_bone = "Barrel"
+        print("VEHICLE BARREL bone split off for recoil: %d tube part(s) slide, %d cradle part(s) stay"
+              % (len(tube_names), len(cradle_names)))
 
 # TRAIL bones — one per arm, HINGED at the body end (not the bbox centre, which is what wheels use): a trail
 # swings about where it meets the carriage. The hinge is picked geometrically as the arm's extreme END nearest
@@ -1793,8 +1823,55 @@ if trail_bones and trail_spread > 0.01:
     arm.animation_data.action = act        # 'Spin' stays the active action, as before
     print("VEHICLE DEPLOY clip: %d trail(s) %s over 0..%d frames" % (len(_opened), _opened, trail_frames))
 
-for _oa2 in [a for a in bpy.data.actions if a.name not in ("Spin", "Deploy")]:
-    print("VEHICLE purged leftover source clip '%s' (only 'Spin'/'Deploy' are authored here)" % _oa2.name)
+# THE RECOIL CLIP — the tube kicks back and rides forward again, authored as its own action so it can be assigned
+# to the Attack role and fire on a bombard without disturbing Spin or Deploy.
+# WHAT SELLS IT IS THE ASYMMETRY, not the distance: a real gun slams back in a few hundredths of a second and the
+# recuperator eases it forward over the best part of a second. So the kick is a fixed ~15% of the clip and the
+# return gets the rest, derived rather than given its own dial — one number to turn, and it cannot be set to a
+# shape that reads wrong.
+# This is a TRANSLATION, and the engine's clip bake discards per-bone translation unless the entry ticks
+# `keepTranslations`. That flag is the whole reason this can be an honest slide instead of the far-pivot rotation
+# trick `deploy_convert` had to use — see HAF Animation-Pitfalls, "the engine contract".
+if recoil_bone is not None and gun_axis is not None:
+    _rec = bpy.data.actions.new("Recoil")
+    arm.animation_data.action = _rec
+    try:
+        if getattr(_rec, "slots", None):
+            arm.animation_data.action_slot = _rec.slots.new(id_type='OBJECT', name=arm.name)
+    except Exception:
+        pass
+    _rb = arm.pose.bones.get(recoil_bone)
+    _rdb = arm.data.bones.get(recoil_bone)
+    if _rb is not None and _rdb is not None:
+        _trun, _mz = gun_axis
+        _bore = (_mz - _trun)                                  # DIRECTION: trunnion -> muzzle, i.e. down the bore
+        # LENGTH is the whole tube (breech..muzzle), not trunnion..muzzle — otherwise "fraction of tube length" would
+        # quietly mean a different distance on every model, since the trunnion moves with the Gun pivot dial.
+        _len = (gun_bore[1] - gun_bore[0]).length if gun_bore is not None else _bore.length
+        _back = -_bore.normalized() * (_len * recoil_dist)     # AWAY from the muzzle, along the bore
+        # into the bone's own space: identity rests make this a rotation-only change of basis, but do it properly
+        # rather than assume, so a rig that ever gains a non-identity rest still recoils along its bore.
+        _rm3 = (arm.matrix_world @ _rdb.matrix_local).to_3x3()
+        _local = _rm3.inverted() @ _back
+        _kick = max(1, int(round(recoil_frames * 0.15)))
+        _rb.rotation_mode = 'QUATERNION'
+        for _f, _v in ((0, Vector((0, 0, 0))), (_kick, _local), (recoil_frames, Vector((0, 0, 0)))):
+            _rb.location = _v
+            _rb.keyframe_insert('location', frame=_f)
+        try:
+            _rfcs = list(_rec.fcurves)
+        except AttributeError:
+            _rfcs = [fc for l in _rec.layers for s in l.strips for cb in s.channelbags for fc in cb.fcurves]
+        for _fc in _rfcs:
+            for _kp in _fc.keyframe_points:
+                _kp.interpolation = 'LINEAR'
+        print("VEHICLE RECOIL clip: '%s' slides %.2f of a %.1f-unit tube (%.2f units) back over %d frame(s), "
+              "returns over %d — needs Keep bone translations ticked at bake"
+              % (recoil_bone, recoil_dist, _len, _len * recoil_dist, _kick, recoil_frames - _kick))
+    arm.animation_data.action = act        # 'Spin' stays the active action, as before
+
+for _oa2 in [a for a in bpy.data.actions if a.name not in ("Spin", "Deploy", "Recoil")]:
+    print("VEHICLE purged leftover source clip '%s' (only 'Spin'/'Deploy'/'Recoil' are authored here)" % _oa2.name)
     bpy.data.actions.remove(_oa2)
 for _o2 in bpy.data.objects:
     if _o2.type != 'ARMATURE' and _o2.animation_data is not None:
