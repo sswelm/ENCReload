@@ -1826,7 +1826,8 @@ public class ModelFactoryWindow : EditorWindow
         animated = cur.animated, animClip = (cur.animClip ?? "").Trim(), animateBones = (cur.animateBones ?? "").Trim(), staticParts = (cur.staticParts ?? "").Trim(), localNodeAnim = cur.localNodeAnim, animUnitFix = cur.animUnitFix, convertRig = cur.convertRig, autoGroundWheels = cur.autoGroundWheels, keepTranslations = cur.keepTranslations, socketBones = (cur.socketBones ?? "").Trim(),
         deployConvert = cur.deployConvert, deployStart = cur.deployStart, deployEnd = cur.deployEnd,
         deployStrip = (cur.deployStrip ?? "").Trim(), deployReadyFrame = (cur.deployReadyFrame ?? "").Trim(), deployLegScale = (cur.deployLegScale ?? "").Trim(), deployBarrelScale = (cur.deployBarrelScale ?? "").Trim(),
-        deployRecoil = (cur.deployRecoil ?? "").Trim(), deployRecoilStep = (cur.deployRecoilStep ?? "").Trim(), deployRecoilMag = (cur.deployRecoilMag ?? "").Trim(), deployArcR = (cur.deployArcR ?? "").Trim(), deployRecoilReturn = (cur.deployRecoilReturn ?? "").Trim(), deploySlamDeg = (cur.deploySlamDeg ?? "").Trim(), deploySlamSettle = (cur.deploySlamSettle ?? "").Trim(), deployStripExtra = (cur.deployStripExtra ?? "").Trim(),
+        deployRecoil = (cur.deployRecoil ?? "").Trim(), deployRecoilStep = (cur.deployRecoilStep ?? "").Trim(), deployRecoilMag = (cur.deployRecoilMag ?? "").Trim(), deployArcR = (cur.deployArcR ?? "").Trim(), deployRecoilReturn = (cur.deployRecoilReturn ?? "").Trim(), deploySlamDeg = (cur.deploySlamDeg ?? "").Trim(), deploySlamSettle = (cur.deploySlamSettle ?? "").Trim(),
+        deployWheelBones = (cur.deployWheelBones ?? "").Trim(), deployWheelAxis = (cur.deployWheelAxis ?? "").Trim(), deployWheelFrames = (cur.deployWheelFrames ?? "").Trim(), deployWheelDegrees = (cur.deployWheelDegrees ?? "").Trim(), deployStripExtra = (cur.deployStripExtra ?? "").Trim(),
         animStateDriven = cur.animStateDriven, animClipMove = (cur.animClipMove ?? "").Trim(), animClipAfter = (cur.animClipAfter ?? "").Trim(), animClipAttack = (cur.animClipAttack ?? "").Trim(), animClipCombat = (cur.animClipCombat ?? "").Trim(), animClipPreMove = (cur.animClipPreMove ?? "").Trim(), animClipIdle = (cur.animClipIdle ?? "").Trim(), animClipIdleAlt = (cur.animClipIdleAlt ?? "").Trim(), animClipIdleAlt2 = (cur.animClipIdleAlt2 ?? "").Trim(),
         keepTexture = cur.reuseExtracted   // on the ANIMATED path the checkbox's ONLY meaning is 'protect the hand-edited extracted texture'
     };
@@ -1941,6 +1942,7 @@ public class ModelFactoryWindow : EditorWindow
         cur.deployReadyFrame = ""; cur.deployLegScale = ""; cur.deployBarrelScale = "";
         cur.deployRecoil = ""; cur.deployRecoilStep = ""; cur.deployRecoilMag = ""; cur.deployArcR = "";
         cur.deployRecoilReturn = ""; cur.deploySlamDeg = ""; cur.deploySlamSettle = "";
+        cur.deployWheelBones = ""; cur.deployWheelAxis = ""; cur.deployWheelFrames = ""; cur.deployWheelDegrees = "";
         cur.animStateDriven = false; cur.animClipMove = ""; cur.animClipAfter = ""; cur.animClipAttack = "";
         cur.animClipCombat = ""; cur.animClipPreMove = ""; cur.animClipIdle = ""; cur.animClipIdleAlt = ""; cur.animClipIdleAlt2 = "";
         cur.clip = new int[4]; cur.clipMove = new int[4]; cur.clipAfter = new int[4]; cur.clipAttack = new int[4];

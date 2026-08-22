@@ -161,6 +161,11 @@ public class VehicleLabWindow : EditorWindow
     // part focus/highlight: clicking a row zooms onto that part and tints it — the "which shard is the wheel?" x-ray
     string selectedPart = "";
     List<Renderer> highlightedRenderers; List<Material[]> highlightedOriginals;   // a bone row tints MANY shards
+    // CHECKER SKIN for the turntable (2026-08-22): rotation is invisible on an untextured, rotationally symmetric
+    // part. Painted onto the live instance's renderers; the yellow part-highlight still wins on top of it.
+    [SerializeField] bool previewChecker = true;
+    static Texture2D checkerTex; static Material checkerMat;
+    Dictionary<Renderer, Material[]> checkerOriginals;
     static Material highlightMat;
 
     void OnEnable() { EditorApplication.update += Tick; lastTick = EditorApplication.timeSinceStartup; }
@@ -528,6 +533,15 @@ public class VehicleLabWindow : EditorWindow
                     "A level grid at the model's lowest point — the reference to straighten against. The brighter " +
                     "centre line runs along +X (the axis the rig treats as forward), so heading is readable too."),
                     EditorStyles.miniButton, GUILayout.Width(100));
+                // CHECKER (2026-08-22, user: "I can't see the wheels spin"): the preview renders the raw model with
+                // no material, and a featureless grey disc gives the eye NOTHING to track — a spinning wheel and a
+                // still one look identical. A high-contrast checker fixes that, and beats the real tyre texture,
+                // which is itself nearly rotationally symmetric. Same blind spot the Animation Lab preview had.
+                bool wantChecker = GUILayout.Toggle(previewChecker, new GUIContent("Checker",
+                    "Paint the preview with a high-contrast checker so ROTATION is visible — a bare grey wheel looks " +
+                    "identical spinning or still. Off = the model's own (usually untextured) look."),
+                    EditorStyles.miniButton, GUILayout.Width(70));
+                if (wantChecker != previewChecker) { previewChecker = wantChecker; ApplyChecker(previewChecker); Repaint(); }
             }
             // min 400 tall and greedy: the inspection view claims all leftover window height (was fixed 260,
             // leaving dead grey space below in a tall window).
@@ -1154,12 +1168,55 @@ public class VehicleLabWindow : EditorWindow
         if (pru == null) pru = new PreviewRenderUtility();
         inst = Instantiate(prefab);
         pru.AddSingleGO(inst);
+        checkerOriginals = null;
+        if (previewChecker) ApplyChecker(true);   // fresh instance: repaint it
         boundsValid = false; spinT = 0f;
         // REFRAME on every fresh preview (2026-07-27 user request): a leftover pan/zoom from inspecting the
         // previous rig can frame empty space ("I lost the item from view" after re-Vehicleize). Orbit angle is
         // kept — it's a viewing preference, not a framing offset.
         previewPan = Vector2.zero; zoom = 1.5f;
     }
+    // Paint (or unpaint) the live preview instance with the checker skin. Originals are remembered per renderer so
+    // toggling off restores exactly what the import gave us. Clears any part highlight first: the highlight stores
+    // "the materials that were there" to restore later, and swapping underneath it would strand stale entries.
+    void ApplyChecker(bool on)
+    {
+        if (inst == null) return;
+        if (highlightedRenderers != null) SelectPart(null);
+        if (on)
+        {
+            if (checkerTex == null)
+            {
+                const int N = 64, CELL = 8;   // 8-px squares: reads clearly at any turntable zoom
+                checkerTex = new Texture2D(N, N) { hideFlags = HideFlags.HideAndDontSave, filterMode = FilterMode.Point, wrapMode = TextureWrapMode.Repeat };
+                for (int y = 0; y < N; y++)
+                    for (int x = 0; x < N; x++)
+                        checkerTex.SetPixel(x, y, ((x / CELL + y / CELL) & 1) == 0
+                            ? new Color(0.82f, 0.82f, 0.80f) : new Color(0.20f, 0.22f, 0.26f));
+                checkerTex.Apply();
+            }
+            if (checkerMat == null)
+            {
+                checkerMat = new Material(Shader.Find("Standard")) { hideFlags = HideFlags.HideAndDontSave, mainTexture = checkerTex };
+                checkerMat.SetFloat("_Glossiness", 0.05f);
+                checkerMat.mainTextureScale = new Vector2(4f, 4f);   // a few squares per part, whatever the UV layout
+            }
+            checkerOriginals = new Dictionary<Renderer, Material[]>();
+            foreach (var r in inst.GetComponentsInChildren<Renderer>(true))
+            {
+                if (r == null) continue;
+                checkerOriginals[r] = r.sharedMaterials;
+                r.sharedMaterials = Enumerable.Repeat(checkerMat, Mathf.Max(1, r.sharedMaterials.Length)).ToArray();
+            }
+        }
+        else if (checkerOriginals != null)
+        {
+            foreach (var kv in checkerOriginals)
+                try { if (kv.Key != null) kv.Key.sharedMaterials = kv.Value; } catch { }
+            checkerOriginals = null;
+        }
+    }
+
     void DestroyPreview()
     {
         if (inst != null) { DestroyImmediate(inst); inst = null; }

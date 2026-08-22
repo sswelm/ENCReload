@@ -14,7 +14,14 @@ import bpy, sys, os, shutil
 argv = sys.argv[sys.argv.index("--") + 1:]
 inp = argv[0]
 frac = float(argv[1])
-outp = argv[2] if len(argv) > 2 else inp
+outp = argv[2] if len(argv) > 2 and argv[2].strip() else inp
+# WHEEL SPIN in the 'folded' (travel) role (2026-08-22, the towed howitzer): argv[3..6] = wheelBonesCsv axis frames degrees.
+# The travel stance becomes an N-frame loop in which the named wheel bones roll about their axle (LINEAR, frame 0 =
+# the folded rest) — the Lab's Movement clip is then `folded[1..N]`: folded legs + rolling wheels, fully baked.
+wheel_names = [w.strip() for w in (argv[3] if len(argv) > 3 else "").split(",") if w.strip()]
+wheel_axis = (argv[4] if len(argv) > 4 else "AUTO").strip().upper() or "AUTO"
+wheel_frames = int(argv[5]) if len(argv) > 5 and argv[5].strip() else 15
+wheel_deg = float(argv[6]) if len(argv) > 6 and argv[6].strip() else -360.0
 
 bpy.ops.wm.read_factory_settings(use_empty=True)
 bpy.ops.import_scene.gltf(filepath=inp)
@@ -75,14 +82,87 @@ def make_role(name, frames):
     print("ROLES made '%s' (%d frames)" % (name, len(frames)))
     return a
 
+# WHEELSONLY (argv[7]): rebuild ONLY 'folded' — a retrofit on a GLB whose other roles/legacy slices are in use
+# (the howitzer: legacy deploy[...] slices + a converter-tuned 'recoil' that a plain re-sample would destroy).
+wheels_only = len(argv) > 7 and argv[7].strip().lower() == "wheelsonly"
 dep = list(range(fmin, deploy_end + 1))
-make_role("unfold", dep)
-make_role("fold", list(reversed(dep)))
-make_role("folded", [fmin, fmin])                             # 2 identical frames: a valid HELD pose
-make_role("deployed", [deploy_end, deploy_end])
-has_recoil = fmax > deploy_end
-if has_recoil:
-    make_role("recoil", list(range(deploy_end, fmax + 1)))
+if not wheels_only:
+    make_role("unfold", dep)
+    make_role("fold", list(reversed(dep)))
+def wheel_axle(db, axis_arg):
+    """The wheel's axle as a WORLD direction: a forced X/Y/Z, else AUTO = the thinnest extent of the verts skinned
+    to this bone (a wheel is thin along its axle). Signed to a common reference so left and right wheels — whose
+    own axles point outward, opposite each other — still turn the same way in the world."""
+    from mathutils import Vector
+    if axis_arg in ("X", "Y", "Z"):
+        axle = {"X": Vector((1, 0, 0)), "Y": Vector((0, 1, 0)), "Z": Vector((0, 0, 1))}[axis_arg]
+    else:
+        pts = []
+        for o in bpy.data.objects:
+            if o.type != 'MESH' or db.name not in o.vertex_groups: continue
+            gi = o.vertex_groups[db.name].index
+            for v in o.data.vertices:
+                if any(g.group == gi and g.weight > 0.5 for g in v.groups): pts.append(o.matrix_world @ v.co)
+        if len(pts) < 8:
+            print("ROLES WHEEL '%s': no skinned verts for AUTO axle — assuming X" % db.name)
+            axle = Vector((1, 0, 0))
+        else:
+            ext = [max(p[i] for p in pts) - min(p[i] for p in pts) for i in range(3)]
+            axle = [Vector((1, 0, 0)), Vector((0, 1, 0)), Vector((0, 0, 1))][min(range(3), key=lambda i: ext[i])]
+    ref = max(range(3), key=lambda i: abs(axle[i]))
+    return axle if axle[ref] >= 0 else -axle
+
+def spin_wheels(action, names, axis_arg, nframes, degrees):
+    """Roll each wheel about the LOCAL axis nearest its axle, WITHOUT touching the bone's rest — mirrors
+    deploy_convert.py. Never re-orient the bone: a wheel bone with a non-identity rest rotation comes out of
+    Amplitude's skeleton bake with a mangled offset (measured: FBX local T=(21.096,0,0) became (-0.00932,0,-0.00466),
+    putting one wheel's pivot ~0.93 below its hub — it swept underground), while identity-rest bones like the legs
+    bake symmetric and correct."""
+    import math
+    from mathutils import Vector
+    if not names: return
+    arm.animation_data.action = action
+    spun = {}
+    for bn in list(names):
+        db = arm.data.bones.get(bn)
+        if db is None:
+            cands = [b for b in arm.data.bones if bn.lower() in b.name.lower()]
+            db = cands[0] if cands else None
+        pb = arm.pose.bones.get(db.name) if db else None
+        if db is None or pb is None:
+            print("ROLES WHEEL ERROR: bone '%s' not found. Bones: %s" % (bn, [b.name for b in arm.data.bones])); continue
+        axle = wheel_axle(db, axis_arg)
+        m3 = (arm.matrix_world @ db.matrix_local).to_3x3()
+        best_i, best_d = 0, 0.0
+        for i in range(3):
+            v = Vector((0.0, 0.0, 0.0)); v[i] = 1.0
+            d = (m3 @ v).normalized().dot(axle)
+            if abs(d) > abs(best_d): best_i, best_d = i, d
+        sign = 1.0 if best_d >= 0 else -1.0
+        pb.rotation_mode = 'XYZ'
+        for i in range(nframes + 1):
+            eul = [0.0, 0.0, 0.0]
+            eul[best_i] = math.radians(degrees) * sign * (i / float(nframes))
+            pb.rotation_euler = tuple(eul)
+            pb.keyframe_insert('rotation_euler', frame=fmin + i)
+        spun[db.name] = ("+" if sign > 0 else "-") + "XYZ"[best_i]
+    try: fcs = list(action.fcurves)
+    except AttributeError: fcs = [fc for layer in action.layers for strip in layer.strips for cb in strip.channelbags for fc in cb.fcurves]
+    for fc in fcs:
+        for kp in fc.keyframe_points: kp.interpolation = 'LINEAR'
+    print("ROLES WHEEL SPIN in 'folded': %s (rest untouched), %d frames, %.0f deg -> Movement clip = folded[1..%d]"
+          % (spun, nframes, degrees, nframes))
+
+if wheel_names:
+    folded_act = make_role("folded", [fmin] * (wheel_frames + 1))   # N+1 held frames, then the wheels roll over them
+    spin_wheels(folded_act, wheel_names, wheel_axis, wheel_frames, wheel_deg)
+else:
+    make_role("folded", [fmin, fmin])                             # 2 identical frames: a valid HELD pose
+if not wheels_only:
+    make_role("deployed", [deploy_end, deploy_end])
+    has_recoil = fmax > deploy_end
+    if has_recoil:
+        make_role("recoil", list(range(deploy_end, fmax + 1)))
 
 assign(act)                                                   # legacy 'deploy' stays the active action
 
