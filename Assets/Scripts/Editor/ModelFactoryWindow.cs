@@ -1749,6 +1749,30 @@ public class ModelFactoryWindow : EditorWindow
         var pawnArr = GatherPawnNames();
         var pawns = pawnArr != null && pawnArr.Length > 0 ? new System.Collections.Generic.HashSet<string>(pawnArr) : null;
         var sb = new System.Text.StringBuilder();
+
+        // PACK WRAPPER first (2026-08-23): modId / schemaVersion / dependsOn / loadAfter / overrides. These rules
+        // existed nowhere until now — a broken wrapper failed soft on the PLAYER's machine and was named only in
+        // haf_load_report.txt, which the author never sees. They come first because a wrapper mistake can cost the
+        // whole pack (an unsatisfiable dependsOn means it is SKIPPED outright), where an entry mistake costs one unit.
+        var wrapperIssues = Haf.Schema.PackValidator.ValidatePack(new Haf.Schema.PackValidator.PackWrapper
+        {
+            ModId = ModelRegistry.PackModId,
+            SchemaVersion = ModelRegistry.PackSchemaVersion,
+            DependsOn = ModelRegistry.PackDependsOn,
+            LoadAfter = ModelRegistry.PackLoadAfter,
+            Overrides = ModelRegistry.PackOverrides
+                .Select(o => new Haf.Schema.PackValidator.PackOverrideRef { ModId = o.modId, Pawn = o.pawnDescription }).ToList(),
+        });
+        if (wrapperIssues.Count > 0)
+        {
+            sb.AppendLine($"pack wrapper ('{ModelRegistry.PackModId}'):");
+            foreach (var i in wrapperIssues)
+            {
+                sb.AppendLine("    " + i);
+                if (i.Severity == Haf.Schema.ValidationSeverity.Error) errors++; else warns++;
+            }
+        }
+
         foreach (var d in defs)
         {
             var ctx = new EditorValidationCtx { Pawns = pawns, SkeletonPath = "Assets/Resources/" + d.resourceName + "_Skeleton.asset" };

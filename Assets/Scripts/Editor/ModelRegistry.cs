@@ -277,6 +277,25 @@ public static class ModelRegistry
     // GLOBAL ERA LAB formation thresholds — same capture-on-Load / write-on-Save pattern.
     public static List<FormationThreshold> FormationThresholds = new List<FormationThreshold>();
 
+    // PACK WRAPPER METADATA, captured at Load like the arrays above (2026-08-23). No window edits these — Save()
+    // already preserves them from the on-disk file — but "Validate pack" now needs to READ them: the shared rule core
+    // gained wrapper rules (modId / schemaVersion / dependsOn / loadAfter / overrides), and until now the only place
+    // a wrapper mistake surfaced was the player's haf_load_report.txt, which is the one place the author never looks.
+    public static string PackModId = "";
+    public static int PackSchemaVersion;
+    public static List<string> PackDependsOn = new List<string>();
+    public static List<string> PackLoadAfter = new List<string>();
+    public static List<OverrideRef> PackOverrides = new List<OverrideRef>();
+
+    static void CaptureWrapper(RegistryFile d)
+    {
+        PackModId = d?.modId ?? "";
+        PackSchemaVersion = d?.schemaVersion ?? 0;
+        PackDependsOn = d?.dependsOn ?? new List<string>();
+        PackLoadAfter = d?.loadAfter ?? new List<string>();
+        PackOverrides = d?.overrides ?? new List<OverrideRef>();
+    }
+
     // The git-tracked SOURCE OF TRUTH: the pack's pack.json in the repo (Assets/Pack/ENCReload). Written on every Save,
     // it survives a game reinstall / Steam "verify files" wiping BepInEx/config, gives version history in git, and Load()
     // auto-restores the live pack from it if the game copy ever goes missing. (Was Assets/Databases/haf_models.backup.json
@@ -397,6 +416,7 @@ public static class ModelRegistry
                                 Debug.Log($"[Factory] project registry source was missing — adopted {d.models.Count} model(s) from the deployed artifact ({RegistryPath}).");
                                 UnitScales = d.unitScales ?? new List<UnitScaleRule>();
                                 WaterLevel = d.waterLevel;
+                                CaptureWrapper(d);
                                 EraGrid = d.eraGrid ?? new List<EraScaleRow>();
                                 FormationThresholds = d.formationThresholds ?? new List<FormationThreshold>();
                                 return Migrate(SortByName(d.models), dep);
@@ -412,6 +432,7 @@ public static class ModelRegistry
             lastLoadCorrupt = false; corruptLogged = false;
             UnitScales = data?.unitScales ?? new List<UnitScaleRule>();
             WaterLevel = data != null ? data.waterLevel : 0.16f;
+            CaptureWrapper(data);
             EraGrid = data?.eraGrid ?? new List<EraScaleRow>();
             FormationThresholds = data?.formationThresholds ?? new List<FormationThreshold>();
             SyncArtifact(json);   // deployed copy recreated if missing; hand-edit there warned about once
