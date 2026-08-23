@@ -9,6 +9,8 @@
 
 # ...except our own tracked trees.
 !/.gitignore
+# CI workflow (the source-only editor guards). Outside Assets, so no .meta needed.
+!/.github
 !/README.md
 !/AUTHORING.md
 !/LICENSE

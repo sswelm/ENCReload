@@ -5,6 +5,10 @@
 #
 # Deliberately NOT here (too slow / need Unity or Blender): deploy_regression.sh (Blender golden-master) and the
 # in-editor Feature Test. This is the sub-minute gate.
+#
+# Guards 2 and 3 below ALSO run in GitHub Actions (.github/workflows/ci.yml): both need nothing but this tree
+# and the plugin sources, and a hook is per-clone config that --no-verify (or a GitHub web edit) walks past. The
+# compile check stays hook-only - it needs the licensed Unity install, which no hosted runner has.
 set -uo pipefail
 cd "$(dirname "$0")/.." && ROOT="$(pwd)" || exit 2
 fail=0
