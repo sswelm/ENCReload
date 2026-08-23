@@ -1,3 +1,51 @@
+ENCReload — licence scope
+=========================
+
+This repository holds two kinds of material under DIFFERENT terms. Read this scope
+first: the MIT grant reproduced below applies ONLY to the material listed in (1).
+
+1. EDITOR CODE AND SCRIPTS — MIT (the grant below applies in full)
+
+     Assets/Scripts/**   the HAF authoring tools: the Model Factory, the Animation /
+                         Vehicle / District / Prop / Projectile / Sound Labs, the
+                         bakers, the registries, and the editor CLI.
+     Tools/**            the model-prep and build scripts: the Blender/Python rigging
+                         and export helpers, glbconv, and the check gates.
+
+   This is the same grant the framework itself carries — see the Humankind Asset
+   Framework repository, which is MIT throughout:
+   https://github.com/sswelm/HumankindAssetFramework
+
+2. EVERYTHING ELSE IN THIS REPOSITORY — ALL RIGHTS RESERVED
+
+   All content is reserved. That includes, and is not limited to:
+
+     Assets/Databases/**        ENC's Humankind game data — civilizations, units,
+                                traits, the tech tree, and every other definition.
+     Assets/Pack/ENCReload/**   the ENC asset pack: pack.json, skins/, sounds/.
+     docs/**, README.md, AUTHORING.md, and this repository's other prose.
+     Unity project configuration (ProjectSettings/, Packages/, Assets/csc.rsp).
+
+   No licence is granted for this material. It may not be copied, redistributed,
+   repackaged, modified or reused without express written permission. Being able to
+   read it here is not permission to ship it.
+
+3. MATERIAL THAT IS NOT OURS TO LICENCE
+
+   Neither (1) nor (2) grants anything over material owned by others:
+
+   - The Humankind modding SDK and any decompiled game internals remain the property
+     of Amplitude Studios. They are excluded from this repository by .gitignore and
+     must be obtained from your own installation.
+   - Third-party 3D models, textures and audio each remain under THEIR OWN licence,
+     which governs regardless of (2) — several require attribution. See
+     Assets/Pack/ENCReload/CREDITS.md.
+
+-------------------------------------------------------------------------------
+The MIT grant referred to in (1) above. It applies to the paths named there, and
+to nothing else in this repository.
+-------------------------------------------------------------------------------
+
 MIT License
 
 Copyright (c) 2026 sswelm
