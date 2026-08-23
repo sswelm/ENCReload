@@ -44,6 +44,20 @@ class HafDeleteGuard : UnityEditor.AssetModificationProcessor
             if (leafLower.EndsWith("_propfit.prefab") || leafLower.EndsWith("_preview.prefab") ||
                 leafLower.EndsWith("_previewmesh.asset") || leafLower.EndsWith("_previewmat.mat"))
                 return AssetDeleteResult.DidNotDelete;
+            // TEST-FIXTURE exclusion (2026-08-23) — the same rule as the preview scratch above, applied to the other
+            // thing that deletes constantly and rebuilds itself: the bake test suites. Every run bakes assets under a
+            // throwaway prefix and deletes them again, and the guard dutifully snapshotted each one. Measured: 362
+            // guard folders totalling 6.4 GB across four days, 128 of them on one day, and `__smoketest__ReconDrone`
+            // alone accounted for 1.9 GB as eight copies of the same 232 MB fixture. None of it could ever be worth
+            // restoring — these assets exist to be deleted — and the volume made the window's restorable list
+            // unreadable, which is the real cost: a safety net nobody can see into is not a safety net.
+            // The prefixes are the tests' OWN constants, not copies of them: a duplicated literal here would drift
+            // silently the day a suite renames its fixtures, and the guard would quietly start hoarding again.
+            string leafRaw = Path.GetFileName(p);
+            if (leafRaw.StartsWith(BakeSmokeTest.PREFIX, StringComparison.Ordinal) ||
+                leafRaw.StartsWith(BakeFeatureTest.Prefix, StringComparison.Ordinal) ||
+                leafRaw.StartsWith(ConversionGateTest.PREFIX, StringComparison.Ordinal))
+                return AssetDeleteResult.DidNotDelete;
             string dest = EditorPrefs.GetString("HAF.Backup.Dest", "D:/HAF_Backups");
             string projRoot = Directory.GetParent(Application.dataPath).FullName;
             string abs = Path.Combine(projRoot, p);
@@ -81,6 +95,15 @@ static class HafAutoBackup
     internal const string PrefOn = "HAF.Backup.AutoDaily";
     internal const string PrefLast = "HAF.Backup.AutoLastTicks";
     internal const int Keep = 3;   // newest N _auto_ versions retained; older ones rotate out (logged)
+    // Delete-guard retention, in days — set in the Backup & Restore window (0 = keep forever, the old behaviour).
+    // Default 14 is deliberately generous for a safety net whose real value lasts minutes: it covers "I broke
+    // something before the holiday weekend" while still bounding a layer that had grown to 362 folders / 6.4 GB
+    // with no retention at all. A PREF rather than a constant because the right number depends on how much of a
+    // pack-rat the author is, and because 0 must remain reachable — someone relying on the old never-delete
+    // promise should be able to keep it.
+    internal const string PrefGuardDays = "HAF.Backup.GuardDays";
+    internal const int DefaultGuardDays = 14;
+    internal static int KeepGuardDays => Math.Max(0, EditorPrefs.GetInt(PrefGuardDays, DefaultGuardDays));
 
     static HafAutoBackup() { EditorApplication.delayCall += RecoverOffsitePartials; EditorApplication.delayCall += MaybeRun; }   // recovery FIRST: stale partials are gone before any new zip starts
 
@@ -152,6 +175,26 @@ static class HafAutoBackup
                     try { Directory.Delete(old, true); Debug.Log("[HAF Backup] rotated out old auto-version '" + Path.GetFileName(old) + "' (keeping the newest " + Keep + ")"); }
                     catch (Exception e) { Debug.LogWarning("[HAF Backup] could not rotate '" + Path.GetFileName(old) + "': " + e.Message); }
                 }
+
+                // DELETE-GUARD RETENTION (2026-08-23) — the one layer that had none. Its value is measured in
+                // minutes ("I just deleted the wrong asset"), but nothing ever pruned it, so 362 folders / 6.4 GB
+                // accumulated over four days and the window's restorable list became unreadable. The fixture
+                // exclusion above stops the flood at source; this clears what a real day still leaves behind.
+                // AGE, not count: a guard's worth is how recently it was made, and a burst of thirty deletions in
+                // one afternoon must not evict the single one from yesterday that someone actually needs.
+                int cut = 0, keepDays = KeepGuardDays;   // read once: the pref must not change mid-sweep
+                foreach (var g in keepDays <= 0 ? new string[0]   // 0 = keep forever, the pre-2026-08-23 behaviour
+                                                : Directory.GetDirectories(dest).Where(d => Path.GetFileName(d).StartsWith("_deleted_")).ToArray())
+                {
+                    try
+                    {
+                        if (Directory.GetCreationTime(g) > DateTime.Now.AddDays(-keepDays)) continue;
+                        Directory.Delete(g, true); cut++;
+                    }
+                    catch (Exception e) { Debug.LogWarning("[HAF Backup] could not prune guard '" + Path.GetFileName(g) + "': " + e.Message); }
+                }
+                if (cut > 0) Debug.Log($"[HAF Backup] pruned {cut} delete-guard snapshot(s) older than {keepDays} days. " +
+                                       $"Manual backups, _prerestore and _removed_ snapshots are never auto-deleted.");
             });
         }
         catch (Exception e) { Debug.LogWarning("[HAF Backup] daily auto-version failed: " + e.Message); }

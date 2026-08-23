@@ -23,7 +23,7 @@ using UnityEngine;
 // committing baker changes, not every save.
 public static class BakeSmokeTest
 {
-    const string PREFIX = "__smoketest__";
+    internal const string PREFIX = "__smoketest__";   // internal since 2026-08-23: the delete guard excludes fixtures BY THIS CONSTANT, not by a copy of it
 
     // No [MenuItem]s here any more — run these through Tools ▸ HAF ▸ Bake Tests… (BakeTestRunnerWindow), which
     // explains what each test does, shows the result per row, and writes the durable report.

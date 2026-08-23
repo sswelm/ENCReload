@@ -19,7 +19,7 @@ using UnityEngine;
 
 public static class BakeFeatureTest
 {
-    const string Prefix = "__feat_";
+    internal const string Prefix = "__feat_";   // internal since 2026-08-23: the delete guard excludes fixtures BY THIS CONSTANT, not by a copy of it
 
     public static BakeTestSection RunTier1Section()
     {

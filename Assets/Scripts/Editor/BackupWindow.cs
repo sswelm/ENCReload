@@ -161,6 +161,22 @@ public class BackupWindow : EditorWindow
         bool ndg = EditorGUILayout.ToggleLeft(new GUIContent("Delete guard — snapshot any asset before it is deleted",
             "Before ANYTHING under FactorySource / Resources / Databases / Scripts/Editor is deleted (Factory Remove, a Project-window delete), it is first copied to a _deleted_<timestamp> folder here. The delete then proceeds normally."), dg);
         if (ndg != dg) EditorPrefs.SetBool(HafDeleteGuard.PrefOn, ndg);
+        // Delete-guard RETENTION (2026-08-23). This layer had none, and it showed: 362 guard folders / 6.4 GB in
+        // four days, which made the restorable list below unreadable — a safety net nobody can see into is not a
+        // safety net. Configurable rather than a constant because the right number is a matter of temperament, and
+        // 0 must stay reachable for anyone relying on the original never-auto-delete promise. Indented under the
+        // toggle it belongs to, and disabled when the guard is off, so it can't read as a global retention setting.
+        using (new EditorGUI.DisabledScope(!ndg))
+        using (new EditorGUILayout.HorizontalScope())
+        {
+            GUILayout.Space(18);
+            int gd = HafAutoBackup.KeepGuardDays;
+            int ngd = EditorGUILayout.IntField(new GUIContent("…keep guard snapshots for (days)",
+                "Delete-guard snapshots older than this are pruned by the daily auto-version. 0 = keep forever (the pre-2026-08-23 behaviour). " +
+                "Only _deleted_ snapshots are affected — manual backups, _prerestore and Factory _removed_ undo snapshots are never auto-deleted."), gd, GUILayout.Width(260));
+            if (ngd != gd) EditorPrefs.SetInt(HafAutoBackup.PrefGuardDays, Mathf.Max(0, ngd));
+            GUILayout.Label(ngd <= 0 ? "keep forever" : $"pruned by the daily auto-version", EditorStyles.miniLabel);
+        }
         bool ab = EditorPrefs.GetBool(HafAutoBackup.PrefOn, true);
         long lastTicks = long.TryParse(EditorPrefs.GetString(HafAutoBackup.PrefLast, "0"), out var lt) ? lt : 0;
         bool nab = EditorGUILayout.ToggleLeft(new GUIContent(

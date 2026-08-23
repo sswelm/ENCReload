@@ -28,7 +28,7 @@ using UnityEngine;
 
 public static class ConversionGateTest
 {
-    const string PREFIX = "__convgate__";
+    internal const string PREFIX = "__convgate__";   // internal since 2026-08-23: the delete guard excludes fixtures BY THIS CONSTANT, not by a copy of it
 
     public static BakeTestSection RunLitmusSection()
     {
