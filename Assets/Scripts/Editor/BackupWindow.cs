@@ -113,6 +113,13 @@ public class BackupWindow : EditorWindow
             }
         }
         EditorPrefs.SetString(PrefDest, dest);
+        // Same rule as the offsite warning below: a configured-but-missing destination is stated the moment it is
+        // true, not after a backup nobody was watching. This one is louder because it is worse — the daily auto
+        // runs unattended, and a missing root used to mean a silently rebuilt empty history.
+        if (!string.IsNullOrEmpty(dest) && !Directory.Exists(dest))
+            EditorGUILayout.HelpBox($"The backup folder does not exist:\n{dest}\n\nRenamed, moved, or on a drive that isn't mounted? " +
+                                    $"Backups will be REFUSED until this is fixed — including the daily automatic one. " +
+                                    $"Your existing backups are wherever this path used to point; nothing has been lost.", MessageType.Error);
 
         // OFFSITE: one .zip per backup into a second folder. D: is the same machine — a machine-level event (theft,
         // fire, surge) takes the backups with the originals; a cloud-synced folder here is the "just in case" copy.
@@ -126,6 +133,15 @@ public class BackupWindow : EditorWindow
             }
         }
         EditorPrefs.SetString(PrefOffsite, offsite);
+        // SAY IT BEFORE THE BACKUP RUNS, NOT AFTER (2026-08-23). The field happily displayed a path that no longer
+        // existed — the folder had been renamed hours earlier and the window looked completely normal. The write
+        // path now refuses (OffsiteZipCore), but a refusal only shows up in the status line AFTER a backup, and the
+        // daily auto-version runs unattended, so nobody would ever read it. A configured-but-missing folder is
+        // stated here, in the window, the moment it is true.
+        if (!string.IsNullOrEmpty(offsite) && !Directory.Exists(offsite))
+            EditorGUILayout.HelpBox($"The offsite folder does not exist:\n{offsite}\n\nRenamed, moved, or on a drive/share that isn't available? " +
+                                    $"Offsite copies are being SKIPPED — local backups still run. Fix the path above, then use " +
+                                    $"'Zip latest backup → offsite now' to catch up the newest one.", MessageType.Warning);
         using (new EditorGUILayout.HorizontalScope())
         {
             bool na = EditorGUILayout.ToggleLeft(new GUIContent("Auto-zip each new backup to the offsite folder", "After every successful 'Back up now', the snapshot is also written offsite as HAF_<timestamp>.zip."), offsiteAuto);
@@ -325,9 +341,32 @@ public class BackupWindow : EditorWindow
         try
         {
             if (string.IsNullOrEmpty(offsiteDir)) return "Offsite: no folder set.";
-            Directory.CreateDirectory(offsiteDir);
+            // A CONFIGURED OFFSITE FOLDER THAT NO LONGER EXISTS IS A FAILURE, NOT A THING TO CREATE (2026-08-23).
+            // This used to be an unconditional Directory.CreateDirectory. The whole point of the offsite copy is that
+            // the folder is somewhere ELSE — a cloud-synced folder, a NAS, another disk — so the one case where the
+            // path is missing is the case where that somewhere-else is gone: the folder was renamed, the share is
+            // offline, the drive isn't mounted. Recreating it silently produced a LOCAL directory nothing syncs and
+            // then reported "Offsite: zipped N files → …", a completely successful-looking line about a backup that
+            // is no longer offsite in any sense. Found live: the folder was renamed Compressed -> EncCompressed and
+            // nothing anywhere said a word. Now it refuses and names both the path and the likely cause; the local
+            // backup is already written and untouched, so refusing costs nothing.
+            if (!Directory.Exists(offsiteDir))
+                return $"⚠ Offsite SKIPPED — the offsite folder does not exist: '{offsiteDir}'. It was probably renamed, " +
+                       $"moved, or lives on a drive/share that isn't available. Your LOCAL backup is complete and untouched; " +
+                       $"only the offsite copy was not made. Fix the 'Offsite folder' path and use 'Zip latest backup → offsite now'.";
             string zip = Path.Combine(offsiteDir, "HAF_" + Path.GetFileName(backupDir) + ".zip");
             if (File.Exists(zip)) return $"Offsite: '{Path.GetFileName(zip)}' already exists — kept (never overwritten).";
+            // NOTHING CHANGED = NOTHING TO UPLOAD (2026-08-23). Every backup used to produce a fresh ~1 GB zip even
+            // when the snapshot was byte-identical to the last one — which, measured, it very nearly always is
+            // (18 of 4,076 files differed across 3.5 hours). That filled a 15 GB cloud quota in about a week with
+            // copies of the same licensed models. Compare this snapshot's fingerprint against the newest zip already
+            // offsite; identical means the existing zip already IS this backup. An unreadable or absent signature
+            // returns "" and always proceeds — "I don't know" must never be mistaken for "unchanged".
+            string sig = BackupDedup.ReadSignature(backupDir);
+            string last = BackupDedup.LastOffsiteSignature(offsiteDir);
+            if (!string.IsNullOrEmpty(sig) && sig == last)
+                return $"Offsite: SKIPPED — this snapshot is identical to the newest zip already offsite (nothing changed). " +
+                       $"Local backup written as usual.";
             string partial = zip + ".partial";
             if (File.Exists(partial)) File.Delete(partial);   // leftover from an interrupted run
             ZipFile.CreateFromDirectory(backupDir, partial, System.IO.Compression.CompressionLevel.Optimal, false);
@@ -336,6 +375,9 @@ public class BackupWindow : EditorWindow
             using (var z = ZipFile.OpenRead(partial)) inZip = z.Entries.Count(e => !string.IsNullOrEmpty(e.Name));   // entries with a name = files (skips pure dir entries)
             if (inZip != expect) { File.Delete(partial); return $"⚠ Offsite zip VERIFY FAILED ({inZip} files in zip vs {expect} in backup) — partial deleted, local backup untouched."; }
             File.Move(partial, zip);
+            // Sidecar written only AFTER the zip is in place and verified, so a crash mid-zip can never leave a
+            // signature claiming an upload that didn't happen — which would silently skip every future backup.
+            try { File.WriteAllText(zip + ".sig", sig); } catch { }
             return $"Offsite: zipped {inZip} files ({Human(new FileInfo(zip).Length)}) → {zip}";
         }
         catch (Exception e) { return "⚠ Offsite zip FAILED: " + e.Message + " (local backup untouched)"; }
@@ -349,14 +391,55 @@ public class BackupWindow : EditorWindow
         return r.ok ? r.dir : null;
     }
 
+    /// <summary>The newest existing FULL snapshot in the same root as `newDir` — the thing a new snapshot hard-links
+    /// its unchanged files against. Deliberately excludes the special folders: `_deleted_`/`_removed_` are guard
+    /// copies of single assets, `_prerestore` is a restore's own undo, and none of them mirror the snapshot layout,
+    /// so linking against one would find nothing and cost a wasted directory walk. Null = nothing to link against.</summary>
+    internal static string PreviousSnapshot(string newDir)
+    {
+        try
+        {
+            string root = Path.GetDirectoryName(newDir);
+            if (string.IsNullOrEmpty(root) || !Directory.Exists(root)) return null;
+            return Directory.GetDirectories(root)
+                .Where(d => !Path.GetFileName(d).StartsWith("_deleted_", StringComparison.OrdinalIgnoreCase)
+                         && !Path.GetFileName(d).StartsWith("_removed_", StringComparison.OrdinalIgnoreCase)
+                         && !Path.GetFileName(d).StartsWith("_prerestore", StringComparison.OrdinalIgnoreCase)
+                         && !string.Equals(d.TrimEnd('\\', '/'), newDir.TrimEnd('\\', '/'), StringComparison.OrdinalIgnoreCase))
+                .OrderByDescending(d => d, StringComparer.OrdinalIgnoreCase)
+                .FirstOrDefault();
+        }
+        catch { return null; }
+    }
+
     // Static core so the AUTOMATIC half (BackupAuto.cs: delete guard + daily auto) can snapshot without a window open.
     internal struct SnapResult { public string dir, report; public bool ok; }
     internal static SnapResult SnapshotInto(string dir, List<Group> groups, string note)
     {
         try
         {
+            // THE BACKUP ROOT MUST ALREADY EXIST (2026-08-23, the twin of the offsite hole). Creating the new
+            // TIMESTAMPED folder is correct — it is supposed to be new. Creating its PARENT is not: the root is a
+            // place the user chose, on a drive that may not be mounted, under a name they may have renamed. An
+            // unconditional CreateDirectory silently rebuilds the whole chain, and the next backup lands in a brand
+            // new empty tree — every previous snapshot still on disk somewhere else, the window's "Existing backups"
+            // list simply empty, and nothing anywhere saying why. Same failure the offsite path had: a missing
+            // destination is a reason to STOP and say so, not a thing to conjure.
+            string root = Path.GetDirectoryName(dir);
+            if (!string.IsNullOrEmpty(root) && !Directory.Exists(root))
+                return new SnapResult { ok = false, dir = null, report =
+                    $"⚠ BACKUP ABORTED — the backup root does not exist:\n{root}\n\n" +
+                    $"Renamed, moved, or on a drive that isn't mounted? NOTHING was written and no existing backup was " +
+                    $"touched. Fix 'Backup folder' in Tools ▸ HAF ▸ Backup and Restore, then back up again." };
             Directory.CreateDirectory(dir);
             var manifest = new List<string> { "# HAF backup manifest", "# note: " + note, "# created: " + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"), "" };
+            // DEDUP AGAINST THE PREVIOUS SNAPSHOT (2026-08-23). Measured: 18 of 4,076 files differ between two
+            // snapshots 3.5 h apart, so ~99.6% of every 1.4 GB was a re-copy. Unchanged files are hard-linked to the
+            // newest existing snapshot — same bytes, second name, zero extra space, and each snapshot remains a
+            // complete independently-restorable folder. Null when there is no previous snapshot (first run), which
+            // just means everything is copied, exactly as before. See BackupDedup for why this is safe.
+            string prevSnap = PreviousSnapshot(dir);
+            var st = new BackupDedup.Stats();
             int totalFiles = 0; long totalBytes = 0;
             foreach (var g in groups)
                 foreach (var src in g.Sources)
@@ -365,11 +448,16 @@ public class BackupWindow : EditorWindow
                     string leaf = Path.GetFileName(src.TrimEnd('/', '\\'));
                     string rel = Path.Combine(g.Key, leaf);
                     string dst = Path.Combine(dir, rel);
-                    int files = File.Exists(src) ? CopyFile(src, dst) : CopyTree(src, dst);
+                    string prev = prevSnap == null ? null : Path.Combine(prevSnap, rel);
+                    int files = File.Exists(src)
+                        ? BackupDedup.CopyOrLink(src, dst, prev != null && File.Exists(prev) ? prev : null, st)
+                        : BackupDedup.CopyTreeLinked(src, dst, Directory.Exists(prev ?? "") ? prev : null, st);
                     long bytes = TreeBytes(dst);
                     totalFiles += files; totalBytes += bytes;
                     manifest.Add($"SRC\t{rel.Replace('\\', '/')}\t{src.Replace('\\', '/')}\t{files}\t{bytes}");
                 }
+            manifest.Add("");
+            manifest.Add("# dedup: " + st.Report);
             File.WriteAllLines(Path.Combine(dir, "manifest.txt"), manifest);
             // verify: re-count what actually landed vs the manifest
             int landed = ManifestSources(dir).Sum(m => FileCount(Path.Combine(dir, m.rel)));
@@ -380,13 +468,17 @@ public class BackupWindow : EditorWindow
             // live pack registry, or it is NOT ok, full stop.
             string critical = VerifyCriticalContents(dir, groups);
             if (critical != null) ok = false;
+            // The content fingerprint, written AFTER everything landed — the offsite step reads it to decide whether
+            // this snapshot differs from the one already uploaded. Written even on a failed verify: knowing what a
+            // suspect snapshot contained is useful, and nothing consumes it unless the snapshot is used.
+            BackupDedup.WriteSignature(dir);
             return new SnapResult
             {
                 dir = dir,
                 ok = ok,
                 report = critical != null ? critical
                     : ok
-                    ? $"Backed up {totalFiles} files ({Human(totalBytes)}) → {Path.GetFileName(dir)} — registry verified in snapshot."
+                    ? $"Backed up {totalFiles} files ({Human(totalBytes)}) → {Path.GetFileName(dir)} — registry verified in snapshot.\n{st.Report}"
                     : $"⚠ Backup COUNT MISMATCH: expected {totalFiles}, found {landed} in {Path.GetFileName(dir)} — inspect before trusting it."
             };
         }
