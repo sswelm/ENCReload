@@ -95,7 +95,17 @@ namespace HAF
         {
             try
             {
-                const string community = @"C:\GameData\Humankind\Community";
+                // Resolved per machine (HafPaths). BATCH MODE HAS NOBODY TO ASK, so an unknown folder fails
+                // loudly with the fix named — the previous hardcoded const just found nothing and reported
+                // "ok, removed 0", which is the same output as a successful clean.
+                string community = HafPaths.CommunityDir;
+                if (string.IsNullOrEmpty(community))
+                {
+                    Emit(2, "{\"ok\":false,\"error\":\"Humankind's Community folder not found. Open the editor once and " +
+                            "use Tools > HAF > Ship Status > Locate..., or set the EditorPrefs string '" +
+                            HafPaths.PrefCommunity + "' to its path.\"}");
+                    return;
+                }
                 const string modGuid = "cd3480e932114f8084db755ddd65f2d8";
                 int removed = 0;
                 if (Directory.Exists(community))

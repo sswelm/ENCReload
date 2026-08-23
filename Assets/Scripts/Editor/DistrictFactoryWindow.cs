@@ -80,7 +80,7 @@ public class DistrictFactoryWindow : EditorWindow
     // data-prerequisite trap (non-empty Additional Visual Levels = guaranteed empty tile). All detectable right here,
     // at authoring time. Computed on selection / after Bake (never per-OnGUI — these hit the AssetDatabase and disk).
     readonly List<(MessageType sev, string msg)> health = new List<(MessageType, string)>();
-    const string CommunityDir = @"C:\GameData\Humankind\Community";   // = HafCli's export target (junctioned game data)
+    static string CommunityDir => HafPaths.CommunityDir;   // resolved per machine (see HafPaths); null = not known
 
     void RunHealthChecks()
     {
@@ -123,6 +123,12 @@ public class DistrictFactoryWindow : EditorWindow
                 else if (newestBaked > newestBundle)
                     health.Add((MessageType.Warning, $"STALE BUNDLE: baked assets ({newestBaked:HH:mm:ss}) are newer than the built mod ({newestBundle:HH:mm:ss}) — REBUILD the mod before launching, or the game ships the old mesh/atlas pair (scrambled texture)."));
             }
+            // SAY SO WHEN THE CHECK CANNOT RUN. Until 2026-08-23 the Community folder was a hardcoded const, so off
+            // the one machine it named this whole block was skipped by Directory.Exists and the panel stayed silent —
+            // indistinguishable from "checked, all fine". An unrun check must never look like a passed one.
+            else if (newestBaked > System.DateTime.MinValue && string.IsNullOrEmpty(CommunityDir))
+                health.Add((MessageType.Warning, "STALE BUNDLE check NOT RUNNING: Humankind's Community folder was not found. " +
+                    "Open Tools ▸ HAF ▸ Ship Status and press 'Locate…' to point HAF at it once."));
 
             // 3) data prerequisites on the district definition (the July trap): non-empty Additional Visual Levels
             //    resolves to material 0,0,0,0 = a guaranteed empty tile; a missing affinity renders nothing to swap.

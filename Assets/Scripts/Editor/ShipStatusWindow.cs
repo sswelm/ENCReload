@@ -13,7 +13,10 @@ using UnityEngine;
 // selected entry (ShipStatus.IsBakedNotShipped) — one shared core, so the two surfaces can never disagree.
 internal static class ShipStatus
 {
-    internal const string CommunityDir = @"C:\GameData\Humankind\Community";   // matches HafCli.CleanExport
+    // Resolved, not hardcoded (see HafPaths): saved override -> <Documents>/Humankind/Community -> null.
+    // NULL IS MEANINGFUL — "we do not know where it is", which the window turns into a Locate… prompt rather
+    // than reporting a clean bill of health it has not actually checked.
+    internal static string CommunityDir => HafPaths.CommunityDir;
 
     // Newest file inside the newest ENCReload.* build (dir mtime alone lies — deploy copies preserve it).
     internal static DateTime? LastBuildUtc(out string buildDir)
@@ -160,6 +163,16 @@ public class ShipStatusWindow : EditorWindow
         EditorGUILayout.LabelField("Ship Status — which bakes has the game not seen yet?", EditorStyles.boldLabel);
         EditorGUILayout.HelpBox("Baked assets reach the game ONLY through a mod build. The registry, skins and sounds are read " +
             "directly from BepInEx/config and are always current — this window is about the baked Resources assets.", MessageType.None);
+        // CONFIGURE ITSELF, AND ASK WHEN IT CANNOT. Everything below depends on finding Humankind's Community
+        // folder; when it is unknown, say so and offer the picker instead of reporting "NONE FOUND", which reads
+        // as "you have not built the mod" when the truth is "I do not know where to look".
+        if (string.IsNullOrEmpty(ShipStatus.CommunityDir))
+        {
+            EditorGUILayout.HelpBox(HafPaths.CommunityHelp, MessageType.Warning);
+            if (GUILayout.Button(new GUIContent("Locate Humankind's Community folder…",
+                    "Pick the folder your other Humankind mods are in. Remembered from then on.")))
+                if (HafPaths.PromptForCommunityDir() != null) Scan();
+        }
         using (new EditorGUILayout.HorizontalScope())
         {
             EditorGUILayout.LabelField(buildUtc == null ? "Last mod build: NONE FOUND" : $"Last mod build: {Local(buildUtc)}   ({Path.GetFileName(buildDir)})");
