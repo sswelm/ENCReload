@@ -422,7 +422,13 @@ public class BackupWindow : EditorWindow
                          && !Path.GetFileName(d).StartsWith("_removed_", StringComparison.OrdinalIgnoreCase)
                          && !Path.GetFileName(d).StartsWith("_prerestore", StringComparison.OrdinalIgnoreCase)
                          && !string.Equals(d.TrimEnd('\\', '/'), newDir.TrimEnd('\\', '/'), StringComparison.OrdinalIgnoreCase))
-                .OrderByDescending(d => d, StringComparer.OrdinalIgnoreCase)
+                // BY TIME, NOT BY NAME (2026-08-23, found by the restore drill). Name-sorting looks right because
+                // the folders are timestamped — but `_auto_` snapshots start with '_' (0x5F), which sorts AFTER every
+                // digit, so descending by name always returned the newest _auto_ ahead of a NEWER manual backup.
+                // Measured: a 12:40 snapshot linked against the 09:11 auto instead of the 12:27 manual beside it and
+                // copied 111 files where only ~18 had actually changed. Never wrong, only wasteful — any previous
+                // snapshot is a valid link base — but "the newest" has to mean the newest.
+                .OrderByDescending(d => { try { return Directory.GetLastWriteTimeUtc(d); } catch { return DateTime.MinValue; } })
                 .FirstOrDefault();
         }
         catch { return null; }
