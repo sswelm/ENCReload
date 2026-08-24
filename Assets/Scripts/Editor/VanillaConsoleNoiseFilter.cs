@@ -53,8 +53,18 @@ internal static class VanillaConsoleNoiseFilter
     private static int _count;
     private static bool _announced;
 
+    internal const string PrefOn = "HAF.Console.Filter";
+
     static VanillaConsoleNoiseFilter()
     {
+        // CONTEXTUAL DEFAULT (HafPackageContext). This replaces Debug.unityLogger.logHandler process-wide, and one
+        // of the patterns ("EndLayoutGroup: BeginLayoutGroup must be called first") is matched on message text
+        // alone — so in a guest project it could relocate a layout error thrown by THEIR windows, not the SDK's.
+        // Relocated is not lost (the side-log keeps everything), but a stranger has no reason to know that, and an
+        // authoring tool quietly taking over the console is exactly what makes a new user uninstall. Home project:
+        // on, as before. Installed package: off until asked.
+        if (!EditorPrefs.GetBool(PrefOn, HafPackageContext.AutoDefault)) return;
+
         // Keep the side-log bounded (1,500+ entries accumulate fast — the SDK NRE fires once per narrative-event
         // validate). Over 2 MB the file is rotated to .old (one generation kept), so it never grows unbounded.
         try

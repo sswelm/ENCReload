@@ -32,7 +32,9 @@ class HafDeleteGuard : UnityEditor.AssetModificationProcessor
     {
         try
         {
-            if (!EditorPrefs.GetBool(PrefOn, true)) return AssetDeleteResult.DidNotDelete;
+            // Default is CONTEXTUAL (see HafPackageContext): on in the home project, off in an installed package —
+            // hooking a stranger's deletes is not something an authoring tool should switch on for itself.
+            if (!EditorPrefs.GetBool(PrefOn, HafPackageContext.AutoDefault)) return AssetDeleteResult.DidNotDelete;
             string p = assetPath.Replace('\\', '/');
             if (!roots.Any(r => p.StartsWith(r + "/", StringComparison.OrdinalIgnoreCase) || p.Equals(r, StringComparison.OrdinalIgnoreCase)))
                 return AssetDeleteResult.DidNotDelete;
@@ -143,7 +145,10 @@ static class HafAutoBackup
     {
         try
         {
-            if (!EditorPrefs.GetBool(PrefOn, true)) return;
+            // CONTEXTUAL DEFAULT (HafPackageContext): a full silent backup of somebody else's assets AND
+            // configuration, to a "D:/HAF_Backups" default their machine may not even have, must never be
+            // something an installed package decides for them. On here, off as a guest, one toggle either way.
+            if (!EditorPrefs.GetBool(PrefOn, HafPackageContext.AutoDefault)) return;
             long last = long.TryParse(EditorPrefs.GetString(PrefLast, "0"), out var t) ? t : 0;
             if ((DateTime.Now - new DateTime(last)).TotalHours < 24) return;
             string dest = EditorPrefs.GetString("HAF.Backup.Dest", "D:/HAF_Backups");
@@ -151,7 +156,7 @@ static class HafAutoBackup
             if (groups.Count == 0) return;
             string dir = Path.Combine(dest, "_auto_" + DateTime.Now.ToString("yyyy-MM-dd_HHmmss"));
             string off = EditorPrefs.GetString("HAF.Backup.OffsiteDest", "");
-            bool offAuto = EditorPrefs.GetBool("HAF.Backup.OffsiteAuto", true);
+            bool offAuto = EditorPrefs.GetBool("HAF.Backup.OffsiteAuto", HafPackageContext.AutoDefault);
             EditorPrefs.SetString(PrefLast, DateTime.Now.Ticks.ToString());   // main thread, before the worker starts
             Debug.Log("[HAF Backup] daily auto-version started in the background → " + Path.GetFileName(dir));
 
