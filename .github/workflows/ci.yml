@@ -1,59 +1,36 @@
-# CI — the source-only guards for the HAF editor, on every push, from THIS repo's own files only.
-# Mirrors the reasoning already written into the plugin repo's ci.yml: a pre-push hook is per-clone config
-# (`git config core.hooksPath Tools/git-hooks`) that a contributor may never have set, and `--no-verify` — or a
-# GitHub web edit, which runs no hook at all — walks straight past it. Both guards below are greps over the tree,
-# seconds each, so there is no reason for them to live only in the hook.
+# CI — ENCReload (the MOD).
 #
-# NOT here, deliberately:
-#   - Tools/check.sh wholesale. It runs all three guards including the compile check, which cannot pass here (below),
-#     so CI calls the two portable guards directly rather than a gate that is designed to fail on a runner.
-#   - Tools/editor_compile_check.sh — Roslyn against a LICENSED Unity 2021.3.1f1 install (UnityEditor.dll, the
-#     MonoBleedingEdge 4.7.1 profile, every UnityEngine module). None of that is redistributable or present on a
-#     hosted runner, and standing up GameCI + a Unity licence secret for a compile check is a far bigger machine
-#     than the job deserves. It stays in the pre-push hook, where the Unity install already is.
-#   - The Blender golden-master (deploy_regression.sh) and the in-editor Feature/Smoke tests — need Blender / Unity.
+# 2026-08-24: this workflow used to run the editor guards — the ownership hand-list gate and the cross-repo registry
+# schema parity check. Both guarded the AUTHORING TOOLS, and the tools moved to the HumankindAssetFramework repo's
+# editor/ (consumed back here as a Unity package). The guards moved with their source, so they now run in that
+# repo's CI, where the files they read actually live — and parity stopped being cross-repo at all, because both
+# halves of the contract are in one tree now.
 #
-# windows-latest, not ubuntu: these guards are only ever PROVEN against git-bash, which is what `shell: bash` gives
-# on a Windows runner. They carry no Windows-isms and would very likely run on Linux, but "very likely" is not the
-# standard this repo holds its gates to, and Actions minutes are free on a public repo.
+# What is left in this repo is the mod's CONTENT: game data, the pack, skins, sounds, and the Blender/model-prep
+# scripts under Tools/. None of it is source-only checkable on a hosted runner today; the things that verify it
+# need Unity, Blender or the game (deploy_regression.sh, the in-editor Feature Test, an in-game load).
+#
+# The one coupling the move introduced — that Packages/manifest.json's file: dependency resolves to a real checkout
+# — is deliberately NOT checked here: a file: path points at a sibling folder on a developer machine, which a
+# runner does not have. Tools/check.sh checks it in the pre-push hook, which is where that path is real.
+#
+# Kept as a stub rather than deleted so the branch protection and the workflow name survive, and so the reason is
+# recorded where somebody looking for the missing guards will find it.
 name: CI
 on:
   push:
-    branches: [main]
+    branches: [master]
   pull_request:
-  workflow_dispatch:        # lets the parity guard be re-run by hand after a PLUGIN-side push (see the note below)
-  # A plugin-side schema change only trips the parity guard when someone next pushes HERE. Uncomment to also catch
-  # that drift on a timer instead of on the next unrelated commit:
-  # schedule:
-  #   - cron: '0 6 * * 1'   # Mondays 06:00 UTC
+  workflow_dispatch:
 
 jobs:
   guards:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
 
-      # The parity guard is CROSS-REPO by nature: it compares this repo's ModelDef/RegistryFile against the plugin's
-      # Newtonsoft + regex parse. The plugin is public, and the guard reads SOURCE only (no build), so a plain
-      # checkout of its master is all it needs. `_haf` is ignored by the `/*` rule in .gitignore, so it cannot
-      # pollute a status or a commit.
-      - name: Check out the plugin repo (schema parity reads its sources)
-        uses: actions/checkout@v5
-        with:
-          repository: sswelm/HumankindAssetFramework
-          ref: master
-          path: _haf
-
-      # Every field a window's UI edits must be on that window's ownership-rebase re-apply list, or Save silently
-      # resets it (the combatZ class, drill-caught 2026-08-19). Pure text analysis of this repo — no arguments.
-      - name: Hand-list gate (ownership rebases)
-        shell: bash
-        run: bash Tools/check_handlists.sh
-
-      # Registry schema parity: the editor WRITES pack.json from ModelDef, the plugin READS it two ways. A field the
-      # plugin's regex fallback forgot is invisible at runtime — a malformed-JSON pack silently loses it.
-      # NOTE: this step is the one that can go red WITHOUT a change in this repo — if the plugin's schema or regex
-      # fallback moved, that IS the drift this guard exists to make loud. Read the failure before blaming the PR.
-      - name: Registry schema parity (editor ModelDef vs plugin parse)
-        shell: bash
-        run: bash Tools/check_schema_parity.sh "$GITHUB_WORKSPACE" "$GITHUB_WORKSPACE/_haf"
+      - name: Where the editor guards went
+        run: |
+          echo "The editor guards moved to sswelm/HumankindAssetFramework (tools/check_handlists.sh,"
+          echo "tools/check_schema_parity.sh, tools/editor_compile_check.sh) along with the tools they guard."
+          echo "This repo now consumes them as the com.sswelm.haf-authoring package."
