@@ -1641,7 +1641,6 @@ MonoBehaviour:
   - serializableElementName: Effect_LandUnit_Era3_Common_Marin
   - serializableElementName: Effect_Unit_Era3
   - serializableElementName: Effect_Unit_Era3_Tier2
-  - serializableElementName: Effect_Marine
   BaseMovementSpeed: 1.8
   MovementSpeedMultiplierPerType:
   - 1.5
@@ -2336,7 +2335,6 @@ MonoBehaviour:
   - serializableElementName: Effect_LandUnit_Era2_RomanEmpire_Marines
   - serializableElementName: Effect_Unit_Era2
   - serializableElementName: Effect_Unit_Era2_Tier3
-  - serializableElementName: Effect_Marine
   BaseMovementSpeed: 1.8
   MovementSpeedMultiplierPerType:
   - 1.5
@@ -2574,7 +2572,6 @@ MonoBehaviour:
   UnitSpecialties:
   - serializableElementName: UnitSpecialty_Shatter
   - serializableElementName: UnitSpecialty_AfterAttackingAllowMove
-  - serializableElementName: UnitSpecialty_IncreasedVision_Level1
   - serializableElementName: UnitSpecialty_Stealth
   - serializableElementName: UnitSpecialty_StrengthFromTargetClassArmoured_Level2
   OwnDescriptorReferences:
@@ -4894,8 +4891,8 @@ MonoBehaviour:
   UnitClass:
     serializableElementName: UnitClass_Gunner
   UnitSpecialties:
-  - serializableElementName: UnitSpecialty_Marine
   - serializableElementName: UnitSpecialty_EmbarkFree
+  - serializableElementName: UnitSpecialty_Marine
   OwnDescriptorReferences:
   - serializableElementName: Effect_LandUnit_Era5_Common_SeaBattaleon
   - serializableElementName: Effect_Unit_Era5
@@ -8621,8 +8618,9 @@ MonoBehaviour:
     serializableElementName: UnitClass_Gunship
   UnitSpecialties:
   - serializableElementName: UnitSpecialty_IncreasedVision_Level1
+  - serializableElementName: UnitSpecialty_CannotAttack
   OwnDescriptorReferences:
-  - serializableElementName: Effect_LandUnit_Era6_Common_AttackHelicopter
+  - serializableElementName: Effect_LandUnit_Era6_Common_ReconZeppelin
   - serializableElementName: Effect_Unit_Era6
   - serializableElementName: Effect_Unit_Era6_Tier1
   - serializableElementName: Tag_Unit_Vehicle
@@ -9680,7 +9678,6 @@ MonoBehaviour:
   UnitSpecialties:
   - serializableElementName: UnitSpecialty_Shatter
   - serializableElementName: UnitSpecialty_AfterAttackingAllowMove
-  - serializableElementName: UnitSpecialty_IncreasedVision_Level1
   - serializableElementName: UnitSpecialty_StrengthFromTargetClassArmoured_Level1
   OwnDescriptorReferences:
   - serializableElementName: Effect_LandUnit_Era6_Common_HelicopterGunships
@@ -10382,7 +10379,6 @@ MonoBehaviour:
   UnitSpecialties:
   - serializableElementName: UnitSpecialty_Shatter
   - serializableElementName: UnitSpecialty_AfterAttackingAllowMove
-  - serializableElementName: UnitSpecialty_IncreasedVision_Level1
   - serializableElementName: UnitSpecialty_StrengthFromTargetClassArmoured_Level0
   OwnDescriptorReferences:
   - serializableElementName: Effect_LandUnit_Era6_Common_AttackHelicopter
@@ -12132,10 +12128,11 @@ MonoBehaviour:
     serializableElementName: UnitClass_Gunship
   UnitSpecialties:
   - serializableElementName: UnitSpecialty_IncreasedVision_Level1
+  - serializableElementName: UnitSpecialty_CannotAttack
   OwnDescriptorReferences:
-  - serializableElementName: Effect_LandUnit_Era6_Common_AttackHelicopter
+  - serializableElementName: Effect_LandUnit_Era6_Common_ReconHelicopter
   - serializableElementName: Effect_Unit_Era6
-  - serializableElementName: Effect_Unit_Era6_Tier1
+  - serializableElementName: Effect_Unit_Era6_Tier2
   - serializableElementName: Tag_Unit_Vehicle
   - serializableElementName: Effect_Unit_Era6_StealthDetection
   BaseMovementSpeed: 1.8
@@ -19962,10 +19959,11 @@ MonoBehaviour:
     serializableElementName: UnitClass_Gunship
   UnitSpecialties:
   - serializableElementName: UnitSpecialty_IncreasedVision_Level1
+  - serializableElementName: UnitSpecialty_CannotAttack
   OwnDescriptorReferences:
-  - serializableElementName: Effect_LandUnit_Era6_Common_AttackHelicopter
+  - serializableElementName: Effect_LandUnit_Era6_Common_ReconDrone
   - serializableElementName: Effect_Unit_Era6
-  - serializableElementName: Effect_Unit_Era6_Tier1
+  - serializableElementName: Effect_Unit_Era6_Tier3
   - serializableElementName: Tag_Unit_Vehicle
   - serializableElementName: Effect_Unit_Era6_StealthDetection
   BaseMovementSpeed: 1.8
