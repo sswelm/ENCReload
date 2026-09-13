@@ -533,6 +533,53 @@ if mode == "probe":
     _lap("visibility")
     # ---- dominant bone per shard (rigged sources) — so the Lab can highlight a BONE row's shards WITHOUT the
     # preview carrying skin weights (the skinned preview export was the 84 s hog; see below). ----
+    # ---- inside-out verdicts (2026-09-13 user request: "mark all objects the Fix inside-out would flip") ----
+    # The SAME island scoring the Generate-time fix uses (average face-normal dot against the radial from the
+    # hull's length axis; < -0.25 = provably interior-facing -> reversed), evaluated per part at probe time so
+    # the Lab can mark rows before anyone generates. Two approximations, both stated in the Lab tooltip: the
+    # judgement axis is the WHOLE model's (Generate re-judges each merged role mesh against its own axis —
+    # identical for the dominant Body pool), and the frame is the CURRENT orientation (re-Probe after
+    # straightening for exact verdicts). Role exclusions (Sail/Oar/Flag/Rudder/Preserve are skipped by the
+    # fix) are the Lab's to apply — marks don't exist at probe time.
+    _fa_pts = []
+    for _o in objs:
+        _mw0 = _o.matrix_world
+        _fstep0 = max(1, len(_o.data.vertices) // 2000)
+        for _i0, _v0 in enumerate(_o.data.vertices):
+            if _i0 % _fstep0 == 0:
+                _fa_pts.append(_mw0 @ _v0.co)
+    _flipn = {}
+    if _fa_pts:
+        _fcy_g = 0.5 * (min(_p.y for _p in _fa_pts) + max(_p.y for _p in _fa_pts))
+        _fzs_g = sorted(_p.z for _p in _fa_pts); _fcz_g = _fzs_g[len(_fzs_g) // 4]
+        for _o in objs:
+            _fb = bmesh.new(); _fb.from_mesh(_o.data); _fb.normal_update()
+            _fb.faces.ensure_lookup_table()
+            _mw0 = _o.matrix_world; _nm0 = _mw0.to_3x3()
+            _seenf = set(); _nrev = 0
+            for _f0 in _fb.faces:
+                if _f0.index in _seenf:
+                    continue
+                _stackf = [_f0]; _seenf.add(_f0.index)
+                _dsum = 0.0; _dn = 0
+                while _stackf:
+                    _fc = _stackf.pop()
+                    _ctr2 = _mw0 @ _fc.calc_center_median()
+                    _rad = Vector((0.0, _ctr2.y - _fcy_g, _ctr2.z - _fcz_g))
+                    _wn = _nm0 @ _fc.normal
+                    if _rad.length > 1e-6 and _wn.length > 1e-9:
+                        _dsum += _wn.normalized().dot(_rad.normalized()); _dn += 1
+                    for _e2 in _fc.edges:
+                        for _lf in _e2.link_faces:
+                            if _lf.index not in _seenf:
+                                _seenf.add(_lf.index); _stackf.append(_lf)
+                if _dn > 0 and (_dsum / _dn) < -0.25:
+                    _nrev += 1
+            _fb.free()
+            _flipn[_o.name] = _nrev
+        print("VEHICLE inside-out verdicts: %d part(s) hold interior-facing islands (the fix would reverse them)"
+              % sum(1 for _n in _flipn.values() if _n > 0))
+    _lap("flip-verdicts")
     _bone_names = set()
     for _a in [o for o in bpy.context.scene.objects if o.type == 'ARMATURE']:
         _bone_names.update(b.name for b in _a.data.bones)
@@ -550,7 +597,8 @@ if mode == "probe":
             _bone[_o.name] = max(_tally.items(), key=lambda kv: kv[1])[0]
     for o in objs:
         c, s = world_bbox(o)
-        print("PART|%s|%d|%.4f,%.4f,%.4f|%.4f,%.4f,%.4f|%d|%s" % (o.name, len(o.data.vertices), c.x, c.y, c.z, s.x, s.y, s.z, _vis.get(o.name, 1), _bone.get(o.name, "")))
+        # 8th field (2026-09-13): islands the inside-out fix would reverse in this part (0 = keeps as authored)
+        print("PART|%s|%d|%.4f,%.4f,%.4f|%.4f,%.4f,%.4f|%d|%s|%d" % (o.name, len(o.data.vertices), c.x, c.y, c.z, s.x, s.y, s.z, _vis.get(o.name, 1), _bone.get(o.name, ""), _flipn.get(o.name, 0)))
     print("VEHICLE parts listed"); sys.stdout.flush()   # sentinel + flush: Blender's C-level banner flushes AFTER Python's buffer and would otherwise glue onto the last PART line
     # optional argv[2]: export the SPLIT scene as a preview FBX so the Lab can show/zoom/highlight each part by name.
     # PERF (2026-08-20): exported UNSKINNED — plain meshes, world transforms baked, no armature. The FBX exporter
@@ -1116,16 +1164,6 @@ def _dissolve_limited(_rb, _angle_deg):
                                      verts=_vs, edges=_es)
 
 _lap("prep")
-# BATCHED DECIMATE (2026-09-13, the RMS Teutonic — 1,435 BODY shards, reduce 67s of a 76s Generate):
-# per-part `bpy.ops.object.modifier_apply` is a full operator round-trip PLUS a depsgraph sync against the
-# whole scene, EVERY part — ~45 ms x 1,435. The ops calls are gone from the loop entirely: each over-target
-# part just GETS its DECIMATE modifier (plain API, no sync), and after the per-part pass ONE depsgraph
-# evaluation applies them all in a single parallel C pass; the evaluated meshes are copied back with
-# `meshes.new_from_object(preserve_all_data_layers=True)` (UVs and materials survive — the atlas depends on
-# them). Same modifier, same ratio, same result as modifier_apply — measured identical counts, minus the 67s.
-_by_name = {}
-for _o in objs:
-    _by_name.setdefault(_o.name, _o)   # first wins, matching find_opt's linear-scan order
 for _rlabel, _rnames, _rpct in (("RIGGING", rigging_names, rigging_reduce), ("STRUCTURE", structure_names, structure_reduce), ("BODY", body_names, body_reduce), ("OAR", oar_names, oar_reduce), ("SAIL", sail_names, sail_reduce), ("RUDDER", rudder_names, rudder_reduce), ("WHEEL", wheel_names, wheel_reduce), ("FLIP", flip_names, flip_reduce), ("PRESERVE", preserve_names, preserve_reduce), ("DETAIL", detail_names, detail_reduce)):
     if not _rnames or _rpct <= 0.5:
         continue
@@ -1134,9 +1172,8 @@ for _rlabel, _rnames, _rpct in (("RIGGING", rigging_names, rigging_reduce), ("ST
     except Exception:
         pass
     _rr_v0 = 0; _rr_v1 = 0; _rr_n = 0
-    _rows = []      # (obj_or_None, v0, vmid, target, final_v1_or_None) — printed after the batch, in marking order
     for _rn in _rnames:
-        _ro2 = _by_name.get(_rn)
+        _ro2 = find_opt(_rn)
         if _ro2 is None:
             print("VEHICLE WARN: %s part '%s' not found — skipped" % (_rlabel.lower(), _rn)); continue
         _v0 = len(_ro2.data.vertices)
@@ -1150,26 +1187,12 @@ for _rlabel, _rnames, _rpct in (("RIGGING", rigging_names, rigging_reduce), ("ST
         _vmid = len(_ro2.data.vertices)
         _target = max(8, int(_v0 * (1.0 - _rpct / 100.0)))
         if _vmid > _target:
+            bpy.ops.object.select_all(action='DESELECT')
+            _ro2.select_set(True); bpy.context.view_layer.objects.active = _ro2
             _dm2 = _ro2.modifiers.new("HAFReduce", 'DECIMATE')
             _dm2.ratio = max(0.02, float(_target) / float(_vmid))
-            _rows.append((_ro2, _v0, _vmid, _target, None))
-        else:
-            _rows.append((None, _v0, _vmid, _target, _vmid))
-    if any(_r[0] is not None for _r in _rows):
-        _deps = bpy.context.evaluated_depsgraph_get()   # the ONE evaluation — every pending decimate at once
-        for _ri in range(len(_rows)):
-            _ro2, _v0, _vmid, _target, _v1 = _rows[_ri]
-            if _ro2 is None:
-                continue
-            _ev = _ro2.evaluated_get(_deps)
-            _me2 = bpy.data.meshes.new_from_object(_ev, preserve_all_data_layers=True, depsgraph=_deps)
-            _old = _ro2.data
-            _ro2.data = _me2
-            _ro2.modifiers.clear()
-            bpy.data.meshes.remove(_old)
-            _rows[_ri] = (_ro2, _v0, _vmid, _target, len(_me2.vertices))
-    _rnames_ok = [n for n in _rnames if _by_name.get(n) is not None]
-    for (_ro2, _v0, _vmid, _target, _v1), _rn in zip(_rows, _rnames_ok):
+            bpy.ops.object.modifier_apply(modifier=_dm2.name)
+        _v1 = len(_ro2.data.vertices)
         _rr_v0 += _v0; _rr_v1 += _v1; _rr_n += 1
         print("VEHICLE %s '%s': %d -> %d verts (dissolve pass: %d; dial %.0f%% = target %d)"
               % (_rlabel, _rn, _v0, _v1, _vmid, _rpct, _target))
