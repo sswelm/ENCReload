@@ -192,6 +192,8 @@ your model. Sanity checks: the unit buildable via its tech, correct era art *fal
 
 ## Notes
 
+- **Per-model warnings from the bake-test suite** (over-ceiling meshes, missing sources) are tracked in
+  [docs/Catalog-Health.md](docs/Catalog-Health.md) — the console warning that scrolled past is not the only record.
 - **Model licensing is your responsibility.** Baking embeds a model's geometry into the shipped mod. Only bake models
   whose license permits redistribution (CC0 / CC-BY / a commercial or explicit game-mod license) — a *personal-use*
   asset is not redistributable just because it's been baked.
