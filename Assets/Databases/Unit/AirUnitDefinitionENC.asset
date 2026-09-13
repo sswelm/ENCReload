@@ -3192,7 +3192,7 @@ MonoBehaviour:
     Type: 1
     Constant: -1
     RpnDefinitionReference:
-      serializableElementName: ProductionCost_Unit_Era6_Tier3_Oil_Alum_Plane
+      serializableElementName: ProductionCost_Unit_Era6_Tier3_Oil
   MoneyInstantCostDefinition:
     Constant: -1
     RpnDefinitionReference:
@@ -3212,9 +3212,6 @@ MonoBehaviour:
       serializableElementName: 
   ResourceAccessPrerequisites:
   - Resource: 5
-    ConstantType: 0
-    ConstantValue: 1
-  - Resource: 6
     ConstantType: 0
     ConstantValue: 1
   MinimalPopulationPrerequisite: 0
@@ -3247,10 +3244,9 @@ MonoBehaviour:
   BaseSynergyDistrict: 0
   UnitClass:
     serializableElementName: UnitClass_Bomber
-  UnitSpecialties:
-  - serializableElementName: UnitSpecialty_Fragile
+  UnitSpecialties: []
   OwnDescriptorReferences:
-  - serializableElementName: Effect_AirUnit_Era5_Common_Zeppelins
+  - serializableElementName: Effect_AirUnit_Era5_Common_BiplaneBomber
   - serializableElementName: Effect_Unit_Era6
   - serializableElementName: Effect_Unit_Era6_Tier3
   - serializableElementName: Tag_Unit_Vehicle
