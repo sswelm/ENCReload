@@ -3326,7 +3326,7 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 179
+  TechTreeX: 178
   TechTreeY: 2
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &-2861644212358124835
@@ -4891,6 +4891,50 @@ MonoBehaviour:
   Symbol: 
   TechTreeX: 195
   TechTreeY: 6
+  OptionalUnlockTechnologyMovie: 
+--- !u!114 &480628992895527156
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 301062344, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Technology_Era5_HighPressureSteam
+  m_EditorClassIdentifier: 
+  Title: High Pressure Steam
+  Description: Stronger boilers and improved steam systems allow engines to operate
+    at far greater pressures, extracting more power from the same amount of fuel.
+    The resulting gains in efficiency and reliability make larger, faster ships and
+    increasingly powerful industrial machinery economically practical.
+  Images:
+  - Value:
+      guid:
+        a: -802511020
+        b: 1246014662
+        c: -2031961923
+        d: -1735608055
+    serializableKey: TechnologyPopupBackground
+  - Value:
+      guid:
+        a: 209776758
+        b: 1286721164
+        c: -1264855650
+        d: 577032575
+    serializableKey: Picto
+  - Value:
+      guid:
+        a: -802511020
+        b: 1246014662
+        c: -2031961923
+        d: -1735608055
+    serializableKey: TechnologyScreenItemBackground
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  Symbol: 
+  TechTreeX: 184
+  TechTreeY: 2
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &531172754249505350
 MonoBehaviour:
@@ -6809,7 +6853,7 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 176
+  TechTreeX: 175
   TechTreeY: 21
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &4992100736166215713
@@ -7449,7 +7493,7 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 189
+  TechTreeX: 190
   TechTreeY: 1
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &6384221493094705469
@@ -8266,7 +8310,7 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 179
+  TechTreeX: 181
   TechTreeY: 13
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &8785157718705494893
