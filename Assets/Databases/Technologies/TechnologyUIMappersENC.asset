@@ -2386,7 +2386,7 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 196
+  TechTreeX: 195
   TechTreeY: 22
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &-4622075513123491632
@@ -6011,6 +6011,50 @@ MonoBehaviour:
   TechTreeX: 292
   TechTreeY: 27
   OptionalUnlockTechnologyMovie: 
+--- !u!114 &2625507465391191364
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 301062344, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Technology_Era5_Dynamo
+  m_EditorClassIdentifier: 
+  Title: Dynamo
+  Description: Electromagnetic generators convert mechanical motion into a steady
+    supply of electrical power. For the first time, electricity can be produced continuously
+    and on a large enough scale to drive machinery, transportation, communications,
+    and the rapidly expanding infrastructure of the industrial age.
+  Images:
+  - Value:
+      guid:
+        a: 61955161
+        b: 1225224026
+        c: -1635792210
+        d: 702871252
+    serializableKey: TechnologyPopupBackground
+  - Value:
+      guid:
+        a: 209776758
+        b: 1286721164
+        c: -1264855650
+        d: 577032575
+    serializableKey: Picto
+  - Value:
+      guid:
+        a: 61955161
+        b: 1225224026
+        c: -1635792210
+        d: 702871252
+    serializableKey: TechnologyScreenItemBackground
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  Symbol: 
+  TechTreeX: 180
+  TechTreeY: 14
+  OptionalUnlockTechnologyMovie: TechnologyDiscovery_Era5_10.webm
 --- !u!114 &2708679530474617703
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6069,10 +6113,10 @@ MonoBehaviour:
   Images:
   - Value:
       guid:
-        a: 61955161
-        b: 1225224026
-        c: -1635792210
-        d: 702871252
+        a: -1901376338
+        b: 1162162451
+        c: 1750461598
+        d: -1619281273
     serializableKey: TechnologyPopupBackground
   - Value:
       guid:
@@ -6083,16 +6127,16 @@ MonoBehaviour:
     serializableKey: Picto
   - Value:
       guid:
-        a: 61955161
-        b: 1225224026
-        c: -1635792210
-        d: 702871252
+        a: -1901376338
+        b: 1162162451
+        c: 1750461598
+        d: -1619281273
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
   TechTreeX: 162
   TechTreeY: 14
-  OptionalUnlockTechnologyMovie: TechnologyDiscovery_Era5_10.webm
+  OptionalUnlockTechnologyMovie: 
 --- !u!114 &2957332784969793895
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6897,7 +6941,7 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 180
+  TechTreeX: 181
   TechTreeY: 21
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &4992100736166215713
