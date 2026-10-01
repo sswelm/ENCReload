@@ -1,0 +1,11 @@
+VEHICLE flatten: 224 non-mesh helper(s) dropped (empties/armatures/lights — placement baked into the meshes)
+VEHICLE ignored: 47 part(s) deleted from the output
+VEHICLE orientation: straightened by (0.0, 6.0, -45.0) deg before rigging
+VEHICLE main rotor: 6 part(s), pivot (-0.32,4.00,10.85), axle (0.004,-0.001,1.000) [hub pole-to-pole]
+VEHICLE rotor hub: 6 part(s) -> bone at hub (-0.32,4.00,10.85), axle=(0.0038384231738746166, -0.0013264076551422477, 0.999991774559021) (least-spread of centres)
+VEHICLE tail rotor: 8 part(s), pivot (21.69,4.16,3.64), axle (0.008,-1.000,0.000) [90 deg to the boom ring (lateral)]
+VEHICLE rotor hub: 8 part(s) -> bone at hub (21.69,4.16,3.64), axle=(0.00841436069458723, -0.9999645948410034, 0.0) (least-spread of centres)
+VEHICLE join: 3 mesh(es), one per bone
+VEHICLE export totals: 7948 verts, 8178 tris across 3 mesh(es)
+VEHICLE RIG DONE: 0 wheel part(s) clustered into 2 wheel(s) {'Wheel_00': (0.0038384231738746166, -0.0013264076551422477, 0.999991774559021), 'Wheel_01': (0.00841436069458723, -0.9999645948410034, 0.0)}, 0 turret part(s) on one Turret bone, 0 gun part(s) on one Gun bone, 0 track loop(s) on own static bones, Spin 0..20 360 deg, exported 7948 verts / 8178 tris
+GLB skins=1 joints=3 meshes=3 meshNodes=3 rigged=3

@@ -1,0 +1,5 @@
+SOURCE parts=72 tris=11906 blocked=0 islands=98
+SPLIT@0 nodes=4 children=30 tris=1539
+SPLIT@1% nodes=4 children=26 tris=1539
+TEAR@1% node=fuzelag-FACES_2 children=10 tris=79
+FUSE parts=72 tris=11906->11906 verts=11042->10666 islands=63->63 rewound=621

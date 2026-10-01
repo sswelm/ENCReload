@@ -1,0 +1,14 @@
+VEHICLE tracks STATIC (isolation): 2 tread part(s) rigged rigid to Root, no link bones
+VEHICLE flatten: 146 non-mesh helper(s) dropped (empties/armatures/lights — placement baked into the meshes)
+VEHICLE ignored: 21 part(s) deleted from the output
+VEHICLE gun pivot 0.50 -> head=(2.57, -0.22, 1.61) (breech (1.22, -0.22, 1.51) .. muzzle (3.92, -0.21, 1.55))
+VEHICLE MUZZLE fire origin (gun-local, SOURCE units — scale by the bake's size): 1.353, 0.006, -0.056
+VEHICLE join: 30 mesh(es), one per bone
+VEHICLE wrap carriers classified geometrically (static tracks): 4 carrier(s), 2 idler(s)
+VEHICLE idler Wheel_02: symmetry 14-fold (25.7 deg steps), auto pop-free 51.4 deg (target 60.0)
+VEHICLE idler Wheel_03: symmetry 14-fold (25.7 deg steps), auto pop-free 51.4 deg (target 60.0)
+VEHICLE rolling-contact speeds (largest wheel keeps 60 deg): Wheel_02=51.4, Wheel_03=51.4, Wheel_04=90.0, Wheel_05=90.0, Wheel_06=90.0, Wheel_07=90.0, Wheel_08=90.0, Wheel_09=90.0, Wheel_10=90.0, Wheel_11=90.0, Wheel_12=90.0, Wheel_13=90.0, Wheel_14=90.0, Wheel_15=90.0, Wheel_16=90.0, Wheel_17=90.0, Wheel_18=90.0, Wheel_19=90.0
+VEHICLE rolling-contact: 8 wheel(s) above the ground band keep the dialed 60 deg (propellers/fans do not roll): Wheel_20, Wheel_21, Wheel_22, Wheel_23, Wheel_24, Wheel_25, Wheel_26, Wheel_27
+VEHICLE export totals: 33414 verts, 23020 tris across 30 mesh(es)
+VEHICLE RIG DONE: 28 wheel part(s) clustered into 28 wheel(s) {'Wheel_00': (0.0, 1.0, 0.0), 'Wheel_01': (0.0, 1.0, 0.0), 'Wheel_02': (0.0, 1.0, 0.0), 'Wheel_03': (0.0, 1.0, 0.0), 'Wheel_04': (0.0, 1.0, 0.0), 'Wheel_05': (0.0, 1.0, 0.0), 'Wheel_06': (0.0, 1.0, 0.0), 'Wheel_07': (0.0, 1.0, 0.0), 'Wheel_08': (0.0, 1.0, 0.0), 'Wheel_09': (0.0, 1.0, 0.0), 'Wheel_10': (0.0, 1.0, 0.0), 'Wheel_11': (0.0, 1.0, 0.0), 'Wheel_12': (0.0, 1.0, 0.0), 'Wheel_13': (0.0, 1.0, 0.0), 'Wheel_14': (0.0, 1.0, 0.0), 'Wheel_15': (0.0, 1.0, 0.0), 'Wheel_16': (0.0, 1.0, 0.0), 'Wheel_17': (0.0, 1.0, 0.0), 'Wheel_18': (0.0, 1.0, 0.0), 'Wheel_19': (0.0, 1.0, 0.0), 'Wheel_20': (0.0, 1.0, 0.0), 'Wheel_21': (0.0, 1.0, 0.0), 'Wheel_22': (0.0, 1.0, 0.0), 'Wheel_23': (0.0, 1.0, 0.0), 'Wheel_24': (0.0, 1.0, 0.0), 'Wheel_25': (0.0, 1.0, 0.0), 'Wheel_26': (0.0, 1.0, 0.0), 'Wheel_27': (0.0, 1.0, 0.0)}, 0 turret part(s) on one Turret bone, 2 gun part(s) on one Gun bone, 0 track loop(s) on own static bones, Spin 0..15 60 deg, exported 33414 verts / 23020 tris
+GLB skins=1 joints=30 meshes=30 meshNodes=30 rigged=30

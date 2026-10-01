@@ -1,0 +1,14 @@
+VEHICLE gun pivot 0.25 -> head=(0.66, -0.82, 24.66) (breech (0.37, 19.08, 23.56) .. muzzle (1.53, -60.55, 27.96))
+VEHICLE MUZZLE fire origin (gun-local, SOURCE units — scale by the bake's size): 0.874, -59.723, 3.297
+VEHICLE CRADLE 1 part(s) welded to the Gun bone (elevates with the tube; excluded from the breech->muzzle span, and it is what will STAY when the barrel recoils)
+VEHICLE RECOIL ARM: pivot (-1.01, -8.15, 252.91), R=228.3 for a 11.96-unit slide (residual tilt 3.0 deg) — a bone's own translation does not render; an ancestor's rotation does
+VEHICLE BARREL bone split off for recoil: 4 tube part(s) slide, 1 cradle part(s) stay
+VEHICLE trail 'howitzer:r_leg_howitzer:leg_0' -> Trail_00 hinge=(-10.07, -4.91, 17.12) spade=(-3.82, 75.19, -0.31)
+VEHICLE trail 'howitzer:l_leg_howitzer:leg_0' -> Trail_01 hinge=(10.07, -4.91, 17.12) spade=(3.82, 75.19, -0.31)
+VEHICLE join: 7 mesh(es), one per bone
+VEHICLE DEPLOY gun: elevate 45.0 deg about world (-1.00, -0.01, 0.00) over 0..20 frames
+VEHICLE DEPLOY clip: 2 trail(s) {'Trail_00': 'out 28 deg', 'Trail_01': 'in 28 deg'} over 0..20 frames
+VEHICLE RECOIL clip: 'RecoilArm' slides 0.15 of a 79.8-unit tube (11.96 units) back over 2 frame(s), returns over 14 after a 0-frame lead-in, holding the deployed pose (Gun, Trail_00, Trail_01) — needs Keep bone translations at bake
+VEHICLE export totals: 12091 verts, 11244 tris across 7 mesh(es)
+VEHICLE RIG DONE: 2 wheel part(s) clustered into 2 wheel(s) {'Wheel_00': (1.0, 0.0, 0.0), 'Wheel_01': (1.0, 0.0, 0.0)}, 0 turret part(s) on one Turret bone, 5 gun part(s) on one Gun bone, 0 track loop(s) on own static bones, Spin 0..30 360 deg, exported 12091 verts / 11244 tris
+GLB skins=1 joints=8 meshes=7 meshNodes=7 rigged=7

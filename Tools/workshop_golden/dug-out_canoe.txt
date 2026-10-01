@@ -1,0 +1,5 @@
+SOURCE parts=66 tris=21679 blocked=0 islands=84
+SPLIT@0 nodes=18 children=36 tris=7920
+SPLIT@1% nodes=18 children=36 tris=7920
+TEAR@1% node=Log_Mid_Grain_0 children=22 tris=240
+FUSE parts=66 tris=21679->21679 verts=17817->17817 islands=65->65 rewound=2

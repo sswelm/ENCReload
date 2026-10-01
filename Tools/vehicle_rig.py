@@ -66,6 +66,75 @@ def world_bbox(o):
     mx = Vector((max(p.x for p in pts), max(p.y for p in pts), max(p.z for p in pts)))
     return (mn + mx) / 2.0, mx - mn
 
+# ---- PER-PART PLACEMENT (2026-09-20, user: "address the floating objects") ----
+# The pipeline was measured clean end to end (Cutter 962/962 parts in place, Fuser 20/20 groups, probe 20/20),
+# so a prop that floats or intersects is AUTHORED that way in the source. This is the hand-correction: the Lab
+# passes `parttx=@<file>` with one line per placed part, name|ox,oy,oz|sx,sy,sz, in the model file's own axes
+# and units (the same frame as the part list's centre/size and the second model's Offset). Applied right after
+# the per-source split — in probe AND rig modes, so the preview shows what Generate will bake — and BEFORE the
+# straightening rotation, so the numbers mean the same thing on both paths. Scale is about the part's own world
+# bbox centre: a shrunk wheel stays where it is. Names split from the RIGHT (a name may contain '|'), the rule
+# the Lab's own parser follows; the Lab writes the lines with VehicleLabRules.PartPlacementLine.
+def part_placements():
+    arg = next((a for a in argv if a.startswith("parttx=")), None)
+    if not arg:
+        return {}
+    spec = arg[len("parttx="):]
+    if spec.startswith("@"):
+        with open(spec[1:], "r", encoding="utf-8") as f:
+            lines = [l.rstrip("\n") for l in f]
+    else:
+        lines = spec.split(";")
+    out = {}
+    for line in lines:
+        if not line.strip():
+            continue
+        try:
+            name, off, scl = line.rsplit("|", 2)
+            o = [float(x) for x in off.split(",")]
+            s = [float(x) for x in scl.split(",")]
+            if len(o) != 3 or len(s) != 3:
+                raise ValueError("not a triple")
+        except Exception:
+            print("VEHICLE WARN: bad placement line ignored: %r" % line)
+            continue
+        if any(v <= 0.0 for v in s):
+            print("VEHICLE WARN: placement for '%s' has a non-positive scale %s — using 1" % (name, s))
+            s = [1.0, 1.0, 1.0]
+        out[name] = (o, s)
+    return out
+
+def apply_part_placements(objs, tag):
+    tx = part_placements()
+    if not tx:
+        return
+    byname = {o.name: o for o in objs}
+    for name, (off, scl) in tx.items():
+        o = byname.get(name)
+        if o is None:
+            print("VEHICLE WARN: placement for '%s' skipped — no such part after the split (re-Probe, then place it again)" % name)
+            continue
+        # ONLY THIS PART MOVES (PR #74 review, two P2s): the probe keeps the import hierarchy until export, so a
+        # parent's matrix_world change dragged its children along — a child at z=3 under a parent offset +2 showed
+        # at z=5 in Probe while Generate, which detaches meshes first, left it at 3. Detach the placed part from its
+        # parent AND every DIRECT child from it — helper empties included: a first cut detached mesh children only,
+        # and Parent -> Empty -> Child still leaked (the same 5-vs-3) through the untouched empty. Each keeps its
+        # world transform (a bare `.parent =` keeps LOCAL transforms and would throw root-borne placement away), so
+        # the placement reaches exactly one row on both paths whatever the hierarchy was.
+        for rel in [o] + list(o.children):
+            mw = rel.matrix_world.copy(); rel.parent = None; rel.matrix_world = mw
+        bpy.context.view_layer.update()
+        c0, s0 = world_bbox(o)
+        T = (Matrix.Translation(Vector(off)) @ Matrix.Translation(c0)
+             @ Matrix.Diagonal((scl[0], scl[1], scl[2], 1.0)) @ Matrix.Translation(-c0))
+        o.matrix_world = T @ o.matrix_world
+        bpy.context.view_layer.update()
+        c1, s1 = world_bbox(o)
+        # the ALIGNMENT NUMBERS, as the merge prints them: dial with data, not eyeballs
+        print("VEHICLE PLACED (%s): %s | offset (%s) scale (%s) | centre (%.3f,%.3f,%.3f) -> (%.3f,%.3f,%.3f) | size (%.3f,%.3f,%.3f) -> (%.3f,%.3f,%.3f)"
+              % (tag, name, ",".join("%.3f" % v for v in off), ",".join("%.3f" % v for v in scl),
+                 c0.x, c0.y, c0.z, c1.x, c1.y, c1.z, s0.x, s0.y, s0.z, s1.x, s1.y, s1.z))
+
 def is_icosphere_artifact(o):
     """The glTF importer's bone-shape placeholder, identified by SIGNATURE, not name alone (PR #33 review
     finding 5: Blender authors keep default names, so a real ball/buoy named Icosphere.003 must survive to
@@ -315,10 +384,34 @@ _lap("import")
 # ---- SECOND MODEL MERGE (2026-09-12, user: "combine 2 3d models and merge") ----
 # A TAGGED argument, scanned rather than indexed: probe and rig BOTH need the merged scene, and one tag beats
 # maintaining two positional layouts ('|' is illegal in Windows paths, so the split is safe):
-#   merge2=<path>|ox,oy,oz|rx,ry,rz|<uniform scale>
+#   merge2=<path>|ox,oy,oz|rx,ry,rz|sx,sy,sz        (a single number is still read as a uniform scale)
 # The second file is imported into the SAME scene; its parts get a "B_" prefix (both sources typically name
 # parts Object_N — roles, part files and recipes need unambiguous names) and the transform goes onto its
 # top-level objects' matrix_world (downstream passes read world space; children follow the hierarchy).
+def _merge2_scale(text):
+    """The scale field of merge2= -> (sx, sy, sz, bad). PURE (Tests/test_vehicle_rig_math.py runs it without Blender).
+    PER AXIS since 2026-09-21 (user: "what I meant by scale is Scale X, Scale Y, Scale Z"): a part borrowed from
+    another model has to fit the new hull on each axis separately. A SINGLE number is the pre-change uniform form
+    and still means that number on all three axes, so a stale Lab and a new script agree. Anything that is not a
+    positive finite number becomes 1 and is reported in `bad`: zero collapses the model onto a plane, and a negative
+    component MIRRORS it - every triangle's winding reverses and the bake renders it inside out."""
+    raw = [t.strip() for t in (text or "").split(",")]
+    if len(raw) == 1:
+        raw = raw * 3
+    if len(raw) != 3:
+        raise ValueError("expected one number or three, got %d" % len(raw))
+    out, bad = [], []
+    for t in raw:
+        try:
+            v = float(t) if t else 1.0
+        except ValueError:
+            v = float("nan")
+        if not (v > 0.0 and v != float("inf")):   # catches <= 0, inf and nan (nan fails every comparison)
+            bad.append(t); v = 1.0
+        out.append(v)
+    return out[0], out[1], out[2], bad
+
+
 _m2arg = next((a for a in argv if a.startswith("merge2=")), None)
 if _m2arg:
     if mode == "rigfast":
@@ -352,21 +445,30 @@ if _m2arg:
         _new2.remove(_ico2); bpy.data.objects.remove(_ico2, do_unlink=True)
     _o2v = [float(v) for v in _m2off.split(",")]
     _r2v = [math.radians(float(v)) for v in _m2rot.split(",")]
-    _s2 = float(_m2scl) if _m2scl.strip() else 1.0
-    if _s2 <= 0.0:
-        # the FINAL boundary guard (review finding 7): a zero or negative scale collapses every B mesh to a
-        # degenerate point — whatever upstream formatting or hand-editing produced it, refuse it here.
-        print("VEHICLE WARN: second-model scale %s is not positive — using 1.0" % _m2scl); _s2 = 1.0
+    try:
+        _s2x, _s2y, _s2z, _s2bad = _merge2_scale(_m2scl)
+    except ValueError as _e2:
+        print("VEHICLE ERROR: malformed merge2 scale '%s' (%s)" % (_m2scl, _e2)); sys.exit(1)
+    if _s2bad:
+        # the FINAL boundary guard (review finding 7): whatever upstream formatting or hand-editing produced a
+        # zero/negative/non-number component, refuse it here rather than collapse or mirror every B mesh.
+        print("VEHICLE WARN: second-model scale component(s) %s not positive - using 1.0 there" % ", ".join(repr(t) for t in _s2bad))
     _T2 = (Matrix.Translation(Vector(_o2v))
            @ Matrix.Rotation(_r2v[2], 4, 'Z') @ Matrix.Rotation(_r2v[1], 4, 'Y') @ Matrix.Rotation(_r2v[0], 4, 'X')
-           @ Matrix.Scale(_s2, 4))
-    _new2set = set(_new2)
+           @ Matrix.Diagonal((_s2x, _s2y, _s2z, 1.0)))   # per axis, along B's OWN axes: scale, then rotate, then offset - never a shear
+    # EXACT PLACEMENT (2026-09-21). The placement used to go onto the import's top-level objects' matrix_world. A
+    # Blender object stores location/rotation/scale and CANNOT hold a shear, so that was only ever exact while the
+    # scale was uniform (a uniform scale commutes with any rotation). Per axis it is not: a second model whose file
+    # carries a rotated root - 30 degrees, say - needs "scale along the axes you see, then that rotation", which IS a
+    # shear in the root's own frame, and the assignment silently decomposed it away. Drilled: a 4 x 1 box under a
+    # 30-degree root, scale (2,1,1), measured 6.82 x 4.93 where 7.93 x 2.87 was asked (a 90-degree root, the
+    # Sketchfab shape, happened to be exact - the axes only permute). So each B mesh's TARGET world matrix is taken
+    # as a full 4x4 up front and baked into its vertices below, where a shear is just numbers.
+    bpy.context.view_layer.update()
+    _m2target = {_o2: _T2 @ _o2.matrix_world for _o2 in _new2 if _o2.type == 'MESH' and _o2.data.vertices}
     for _o2 in _new2:
         _o2.name = "B_" + _o2.name
-        if _o2.parent is None or _o2.parent not in _new2set:   # top-level of THIS import only — children ride along
-            _o2.matrix_world = _T2 @ _o2.matrix_world
-    bpy.context.view_layer.update()
-    _m2meshes = [o for o in _new2 if o.type == 'MESH' and o.data.vertices]
+    _m2meshes = [o for o in _new2 if o in _m2target]
     # FLATTEN B (field report 2026-09-12: "aligned in the probe step, not placed like that after generate"):
     # the rig path later reparents every mesh to the generated armature with a plain `.parent =`, which keeps
     # LOCAL transforms — so a B mesh whose placement lived on its import ROOT (deep Sketchfab hierarchies)
@@ -374,9 +476,17 @@ if _m2arg:
     # helper objects (empties, source armatures — the rig builds its own). The probe preview always flattened
     # at export, which is exactly why the mismatch only appeared after Generate.
     for _o2 in _m2meshes:
-        _mw2 = _o2.matrix_world.copy()
+        if _o2.data.users > 1:
+            _o2.data = _o2.data.copy()   # instanced shards share mesh data; each instance has its own target matrix
         _o2.parent = None
-        _o2.matrix_world = _mw2
+        # shape_keys=True (PR #78 review, P2): Mesh.transform() moves the VERTICES only by default and leaves every
+        # shape key where it was - and a mesh with shape keys is DISPLAYED from its keys, so a glTF morph target
+        # (a rigged Sketchfab download often carries one) snapped the model back to its file position with the
+        # matrix reset to identity below. Drilled: a cube at x=27 landed at the origin without this flag.
+        _o2.data.transform(_m2target[_o2], shape_keys=True)
+        if _m2target[_o2].determinant() < 0.0:
+            _o2.data.flip_normals()      # a mirrored source node: what transform_apply does for a negative matrix
+        _o2.matrix_world = Matrix.Identity(4)
     _m2helpers = [o for o in _new2 if o not in _m2meshes]
     for _o2 in _m2helpers:
         _new2.remove(_o2)
@@ -391,8 +501,8 @@ if _m2arg:
         _m2mn = _lo2 if _m2mn is None else Vector((min(_m2mn.x, _lo2.x), min(_m2mn.y, _lo2.y), min(_m2mn.z, _lo2.z)))
         _m2mx = _hi2 if _m2mx is None else Vector((max(_m2mx.x, _hi2.x), max(_m2mx.y, _hi2.y), max(_m2mx.z, _hi2.z)))
     # the ALIGNMENT NUMBERS: both sources' world bboxes, so placement is dialed with data, not eyeballs
-    print("VEHICLE MERGE: second model '%s' -> %d part(s) prefixed B_ | offset (%s) rot (%s) scale %s"
-          % (_m2path.replace("\\", "/").rsplit("/", 1)[-1], len(_m2meshes), _m2off, _m2rot, _m2scl))
+    print("VEHICLE MERGE: second model '%s' -> %d part(s) prefixed B_ | offset (%s) rot (%s) scale (%.5g, %.5g, %.5g)"
+          % (_m2path.replace("\\", "/").rsplit("/", 1)[-1], len(_m2meshes), _m2off, _m2rot, _s2x, _s2y, _s2z))
     if _m2mn is not None:
         print("VEHICLE MERGE: B bbox min (%.2f, %.2f, %.2f) max (%.2f, %.2f, %.2f)"
               % (_m2mn.x, _m2mn.y, _m2mn.z, _m2mx.x, _m2mx.y, _m2mx.z))
@@ -491,6 +601,7 @@ if mode == "probe":
             print("VEHICLE note: single %smesh split into %d loose parts (names are synthetic)"
                   % ("second-model " if _spfx else "", len([o for o in objs if o.name.startswith("B_") == (_spfx == "B_")])))
     _lap("split")
+    apply_part_placements(objs, "probe")   # so the preview shows what Generate will bake
     # ---- visibility classification: EXTERNAL vs INTERIOR ----
     # A part is EXTERNAL if any sampled surface point can shoot a straight "escape ray" to infinity without hitting
     # other geometry; a part blocked from every sample in every direction is INTERIOR (cockpit gear, engine guts) —
@@ -786,6 +897,86 @@ preserve_reduce = min(95.0, max(0.0, float(argv[68]))) if len(argv) > 68 and arg
 # wants a dial between Structure and Body. Welds to the hull like Body; no exemptions, no special handling.
 detail_names = namelist(argv[69]) if len(argv) > 69 and argv[69].strip() else []
 detail_reduce = min(95.0, max(0.0, float(argv[70]))) if len(argv) > 70 and argv[70].strip() else 0.0
+# DEFAULT REDUCE (tagged arg, 2026-09-19, user: "add Default reduce"): the catch-all tier — every part still
+# marked Default (nothing chosen for it) cut by one dial, like Body. Tagged, not positional: the positional block
+# ends at argv[75] and a tag keeps an older Lab and a newer script (and the reverse) working unchanged. Parsed
+# HERE, after namelist() exists: the first version sat with the other tags above and called namelist before its
+# definition — a NameError the except swallowed, so the dial never ran and a 208,000-triangle rig failed the bake
+# while Verify had projected 156,000 (user 2026-09-19: "I clearly have a model with less vertices yet the same
+# error"). A malformed tag is a hard error now, like the other tags: never a silent skip of a reduce dial.
+#   defaultreduce=@<names file>|<percent>
+default_names = []
+default_reduce = 0.0
+_dfarg = next((a for a in argv if a.startswith("defaultreduce=")), None)
+if _dfarg:
+    try:
+        _dfnames, _dfpct = _dfarg[len("defaultreduce="):].rsplit("|", 1)
+        default_names = namelist(_dfnames) if _dfnames.strip() else []
+        default_reduce = min(95.0, max(0.0, float(_dfpct)))
+    except Exception as _e:
+        print("VEHICLE ERROR: malformed defaultreduce argument: %s (%s)" % (_dfarg, _e)); sys.exit(1)
+# SHROUD (2026-09-21, user request): the STANDING rigging - shrouds, stays, ratlines - as a tier of its own. Same
+# soup pass as RIGGING (no weld: dissolve + collapse, ropes thin to lines), its own percentage because ratlines are
+# the densest geometry on a sailing ship and want a harder cut than the running rigging. Deliberately NOT in the
+# rigging_on_sail set below: a shroud holds the mast up, so it stays standing while the canvas gathers. Tagged like
+# defaultreduce= (the positional block is full). Sent at every dial setting since PR #89 (percent 0 when the dial is
+# off): the names must reach _role_marked below, or a marked part still called Icosphere is purged as an artifact.
+#   shroudreduce=@<names file>|<percent>
+shroud_names = []
+shroud_reduce = 0.0
+_sharg = next((a for a in argv if a.startswith("shroudreduce=")), None)
+if _sharg:
+    try:
+        _shnames, _shpct = _sharg[len("shroudreduce="):].rsplit("|", 1)
+        shroud_names = namelist(_shnames) if _shnames.strip() else []
+        shroud_reduce = min(95.0, max(0.0, float(_shpct)))
+    except Exception as _e:
+        print("VEHICLE ERROR: malformed shroudreduce argument: %s (%s)" % (_sharg, _e)); sys.exit(1)
+# GUN (2026-09-25, user: "add Gun part type as a reducable group"): the barrel assembly as a reduce tier of its own.
+# A WELD tier like Wheel/Body (the tube is solid geometry, not rope soup), on the gun_names the Lab already sends
+# positionally at argv[11] - so the tag carries the percent alone. Runs in the tier loop, BEFORE the Gun bone is
+# measured from those parts, so breech, muzzle tip and recoil span come from the reduced tube. Absent while the
+# dial is 0; malformed = hard error, like the other tags.
+#   gunreduce=<percent>
+def _tagged_reduce_pct(argv, tag):
+    """The percent of a percent-only reduce tag ("<tag>=<percent>"), clamped to 0..95; 0.0 when the tag is absent.
+    Raises ValueError for a value that is not a finite number (the caller makes that a VEHICLE ERROR)."""
+    _arg = next((a for a in argv if a.startswith(tag + "=")), None)
+    if _arg is None:
+        return 0.0
+    _pct = float(_arg[len(tag) + 1:])
+    if _pct != _pct or _pct in (float("inf"), float("-inf")):
+        raise ValueError("not a finite percent: %r" % _arg)
+    return min(95.0, max(0.0, _pct))
+try:
+    gun_reduce = _tagged_reduce_pct(argv, "gunreduce")
+except Exception as _e:
+    print("VEHICLE ERROR: malformed gunreduce argument: %s" % _e); sys.exit(1)
+# WINDOW (2026-09-25, user: "add the reducable part type Window"): glazing - portholes, bridge windows, windshields -
+# as a WELD tier of its own (a pane is a sheet, not rope soup). Its parts travel nowhere else, so the tag carries the
+# names file like shroudreduce=, sent at every dial setting so the names reach _role_marked (review of PR #89: at 0 %
+# an empty list let the artifact purge delete a marked Icosphere-named pane). Malformed = hard error, like the other tags.
+#   windowreduce=@<names file>|<percent>
+def _tagged_names_pct(argv, tag):
+    """A "<tag>=<names>|<percent>" reduce tag: (names text, percent clamped 0..95), or ("", 0.0) when the tag is absent.
+    The names text is what precedes the LAST '|' (a part name may hold one), for the caller's namelist(). Raises
+    ValueError when the '|' is missing or the percent is not a finite number (the caller makes that a VEHICLE ERROR)."""
+    _arg = next((a for a in argv if a.startswith(tag + "=")), None)
+    if _arg is None:
+        return "", 0.0
+    _rest = _arg[len(tag) + 1:]
+    if "|" not in _rest:
+        raise ValueError("no '|' between the names and the percent: %r" % _arg)
+    _names, _pct_text = _rest.rsplit("|", 1)
+    _pct = float(_pct_text)
+    if _pct != _pct or _pct in (float("inf"), float("-inf")):
+        raise ValueError("not a finite percent: %r" % _arg)
+    return _names, min(95.0, max(0.0, _pct))
+try:
+    _wnames, window_reduce = _tagged_names_pct(argv, "windowreduce")
+    window_names = namelist(_wnames) if _wnames.strip() else []
+except Exception as _e:
+    print("VEHICLE ERROR: malformed windowreduce argument: %s" % _e); sys.exit(1)
 # SAIL IDLE FOLD (argv[71], 2026-09-09, vanilla-parity request): "1" = at idle the canvas FOLDS at the yard
 # (visible bundled sail, like the vanilla triaconter's brailed-up cloth) instead of the 180-degree strike below
 # the keel. ROTATION-ONLY by construction: the canvas is band-skinned to a Sail->SailF1->SailF2 chain and the
@@ -920,6 +1111,8 @@ if tracks_static and track_names:
 # axis is the LOCAL basis axis closest to the world axle direction, SIGNED so every wheel turns the same world
 # way (artist rigs mirror left/right bones — an unsigned shared channel would counter-rotate one side).
 if mode == "rigfast":
+    if any(a.startswith("parttx=") for a in argv):
+        print("VEHICLE WARN: per-part placement is a mesh-path feature — the source-skeleton fast path spins bones and leaves the meshes as authored; disable the fast path to apply it")
     if oar_names:
         print("VEHICLE ERROR: Oar recovery needs mesh parts; disable the source-skeleton fast path and probe the merged oar meshes")
         sys.exit(1)
@@ -1016,7 +1209,7 @@ if mode == "rigfast":
 _role_marked = set()
 for _rl in (wheel_names, turret_names, track_names, gun_names, rotor_names, tailrotor_names, trail_names,
             muzzle_names, cradle_names, oar_names, sail_names, rigging_names, structure_names, body_names,
-            flag_names, rudder_names, preserve_names, flip_names, detail_names):
+            flag_names, rudder_names, preserve_names, flip_names, detail_names, shroud_names, window_names):
     _role_marked.update(_rl)
 for _fo in mesh_objects():
     # the import-time Icosphere purge is conservative (skips skinned ones); on THIS path all skinning is
@@ -1057,6 +1250,8 @@ for _spfx9 in ("", "B_"):
         bpy.ops.object.mode_set(mode='EDIT'); bpy.ops.mesh.select_all(action='SELECT')
         bpy.ops.mesh.separate(type='LOOSE'); bpy.ops.object.mode_set(mode='OBJECT')
         objs = mesh_objects()
+
+apply_part_placements(objs, "rig")   # same point as the probe: after the split, before straightening
 
 # Ignore-marked parts are DELETED from the output — Sketchfab "options" models stack alternative versions of
 # the same part (four skirt sets on the Jagdpanzer); rendering them all is z-fighting soup.
@@ -1126,6 +1321,19 @@ def axle_axis(s):
 # measured against the ORIGINAL count, so the percentage means what it says or better. The print carries all
 # three numbers so a too-aggressive dial is loud, not silent.
 #
+# WELD FIRST (2026-09-19, the SS Romanic's hull: "it keeps getting large gaps in the hull — can't you improve the
+# reduction to prevent holes?"). A GLB carries a vertex per UV seam and per hard edge, and the importer keeps them
+# apart, so a fused hull arrives as a triangle soup: 68,000 of its 73,000 vertices sat on a "boundary". The
+# collapse then moved each side of every seam on its own and the seams opened into cracks (and small fittings —
+# ventilator cowls — were ground to slivers, each triangle collapsing alone). Every tier but RIGGING now welds
+# coincident vertices (1e-5 of the part's size: skins 2 cm apart stay apart) and marks edges over 40° sharp
+# before the collapse, and the dial's percentage is of the WELDED count. Measured (holes from the beam, 0.3 m
+# cells, hull at 50 %): unreduced 9/108, the old pass 50/99, welded 9/108 — none added; the Teutonic's hull the
+# same. RIGGING keeps the soup pass below: welded rope segments bottom out at each island's minimum topology
+# (58,000 triangles where the dial asked for 6,000) while the soup collapse thins them to the dial — the "lines
+# at game distance" the tier is for. The dissolve is not run on a welded surface: at 5° it joins a hull's
+# curvature into long slivers and tore the bow and stern (holes 44/329 at the same dial).
+#
 # Limited dissolve's face-join is QUADRATIC in coplanar-region size: game rips triangulate big flat panels
 # into one huge region, and on the OceanLiner a 23k-vert deckhouse took 39 SECONDS to dissolve while a curvier
 # 65k-vert hull took 3s (the whole Generate ran 73s, 71s of it in this one op). Big parts therefore dissolve in
@@ -1188,7 +1396,7 @@ _lap("prep")
 _by_name = {}
 for _o in objs:
     _by_name.setdefault(_o.name, _o)   # first wins, matching find_opt's linear-scan order
-for _rlabel, _rnames, _rpct in (("RIGGING", rigging_names, rigging_reduce), ("STRUCTURE", structure_names, structure_reduce), ("BODY", body_names, body_reduce), ("OAR", oar_names, oar_reduce), ("SAIL", sail_names, sail_reduce), ("RUDDER", rudder_names, rudder_reduce), ("WHEEL", wheel_names, wheel_reduce), ("FLIP", flip_names, flip_reduce), ("PRESERVE", preserve_names, preserve_reduce), ("DETAIL", detail_names, detail_reduce)):
+for _rlabel, _rnames, _rpct in (("DEFAULT", default_names, default_reduce), ("RIGGING", rigging_names, rigging_reduce), ("SHROUD", shroud_names, shroud_reduce), ("STRUCTURE", structure_names, structure_reduce), ("BODY", body_names, body_reduce), ("OAR", oar_names, oar_reduce), ("SAIL", sail_names, sail_reduce), ("RUDDER", rudder_names, rudder_reduce), ("WHEEL", wheel_names, wheel_reduce), ("GUN", gun_names, gun_reduce), ("WINDOW", window_names, window_reduce), ("FLIP", flip_names, flip_reduce), ("PRESERVE", preserve_names, preserve_reduce), ("DETAIL", detail_names, detail_reduce)):
     if not _rnames or _rpct <= 0.5:
         continue
     try:
@@ -1201,26 +1409,56 @@ for _rlabel, _rnames, _rpct in (("RIGGING", rigging_names, rigging_reduce), ("ST
         _ro2 = _by_name.get(_rn)
         if _ro2 is None:
             print("VEHICLE WARN: %s part '%s' not found — skipped" % (_rlabel.lower(), _rn)); continue
-        _v0 = len(_ro2.data.vertices)
+        _vraw = len(_ro2.data.vertices)
         _rb = bmesh.new(); _rb.from_mesh(_ro2.data)
-        _dissolve_limited(_rb, 5.0)
-        # TRIANGULATE the dissolved result immediately: the dissolve leaves long, often non-planar/concave n-gons,
-        # and Unity's FBX importer DISCARDS self-intersecting polygons on import (a wall of warnings + holes in the
-        # preview). Blender's ear-clipping handles these fine; no n-gon ever reaches an exporter. Adds no vertices.
+        _weld = _rlabel not in ("RIGGING", "SHROUD")   # both are rope soup: no weld, dissolve + collapse on the raw mesh
+        if _weld:
+            _dim = max(_ro2.dimensions) or 1.0
+            # Weld WITHIN each material only. A ripped hull paints its plating, boot-topping stripe and portholes as
+            # per-face materials with point UVs; a weld across a material border lets the collapse slide a vertex
+            # from a black plate into the gold stripe for free (the surface is flat there, the quadric sees no
+            # error) and the stripe smeared over the whole side. A border left as a mesh boundary gets the
+            # decimate's boundary quadric instead and stays on its line. A vertex the source already shares
+            # across materials is left as it is. Measured on the Romanic hull at 65 %: texture identical to the
+            # source, beam holes 109 vs 108 unreduced; the all-position weld gave the smear (PR #64 follow-up).
+            _bym = {}
+            for _v in _rb.verts:
+                _ls = _v.link_loops
+                if not _ls:
+                    continue
+                _m0 = _ls[0].face.material_index
+                if all(_l.face.material_index == _m0 for _l in _ls[1:]):
+                    _bym.setdefault(_m0, []).append(_v)
+            for _vs in _bym.values():
+                bmesh.ops.remove_doubles(_rb, verts=_vs, dist=_dim * 1e-5)
+            for _e in _rb.edges:   # hard edges survive the weld as sharp edges: the export splits normals there again
+                if len(_e.link_faces) == 2:
+                    _fa = _e.calc_face_angle(None)
+                    if _fa is not None and _fa > math.radians(40.0):
+                        _e.smooth = False
+        else:
+            _dissolve_limited(_rb, 5.0)
+        # TRIANGULATE immediately: the dissolve leaves long, often non-planar/concave n-gons, and Unity's FBX
+        # importer DISCARDS self-intersecting polygons on import (a wall of warnings + holes in the preview).
+        # Blender's ear-clipping handles these fine; no n-gon ever reaches an exporter. Adds no vertices.
         bmesh.ops.triangulate(_rb, faces=list(_rb.faces))
         _rb.to_mesh(_ro2.data); _rb.free()
+        if _weld:
+            for _p in _ro2.data.polygons:
+                _p.use_smooth = True   # smooth across the welded seams, hard at the sharp edges marked above
         _vmid = len(_ro2.data.vertices)
+        _v0 = _vmid if _weld else _vraw   # the dial's base: real vertices once welded, the raw count on the soup pass
         _target = max(8, int(_v0 * (1.0 - _rpct / 100.0)))
         if _vmid > _target:
             _dm2 = _ro2.modifiers.new("HAFReduce", 'DECIMATE')
             _dm2.ratio = max(0.02, float(_target) / float(_vmid))
-            _rows.append((_ro2, _v0, _vmid, _target, None))
+            _rows.append((_ro2, _v0, _vmid, _target, None, _vraw, _weld))
         else:
-            _rows.append((None, _v0, _vmid, _target, _vmid))
+            _rows.append((None, _v0, _vmid, _target, _vmid, _vraw, _weld))
     if any(_r[0] is not None for _r in _rows):
         _deps = bpy.context.evaluated_depsgraph_get()   # the ONE evaluation — every pending decimate at once
         for _ri in range(len(_rows)):
-            _ro2, _v0, _vmid, _target, _v1 = _rows[_ri]
+            _ro2, _v0, _vmid, _target, _v1, _vraw, _weld = _rows[_ri]
             if _ro2 is None:
                 continue
             _ev = _ro2.evaluated_get(_deps)
@@ -1229,12 +1467,16 @@ for _rlabel, _rnames, _rpct in (("RIGGING", rigging_names, rigging_reduce), ("ST
             _ro2.data = _me2
             _ro2.modifiers.clear()
             bpy.data.meshes.remove(_old)
-            _rows[_ri] = (_ro2, _v0, _vmid, _target, len(_me2.vertices))
+            _rows[_ri] = (_ro2, _v0, _vmid, _target, len(_me2.vertices), _vraw, _weld)
     _rnames_ok = [n for n in _rnames if _by_name.get(n) is not None]
-    for (_ro2, _v0, _vmid, _target, _v1), _rn in zip(_rows, _rnames_ok):
+    for (_ro2, _v0, _vmid, _target, _v1, _vraw, _weld), _rn in zip(_rows, _rnames_ok):
         _rr_v0 += _v0; _rr_v1 += _v1; _rr_n += 1
-        print("VEHICLE %s '%s': %d -> %d verts (dissolve pass: %d; dial %.0f%% = target %d)"
-              % (_rlabel, _rn, _v0, _v1, _vmid, _rpct, _target))
+        if _weld:
+            print("VEHICLE %s '%s': %d -> %d verts (welded from %d raw; dial %.0f%% = target %d)"
+                  % (_rlabel, _rn, _v0, _v1, _vraw, _rpct, _target))
+        else:
+            print("VEHICLE %s '%s': %d -> %d verts (dissolve pass: %d; dial %.0f%% = target %d)"
+                  % (_rlabel, _rn, _v0, _v1, _vmid, _rpct, _target))
     if _rr_n:
         print("VEHICLE %s: %d part(s) reduced, %d -> %d verts total (%.0f%% cut)"
               % (_rlabel, _rr_n, _rr_v0, _rr_v1, 100.0 * (1.0 - float(_rr_v1) / max(1, _rr_v0))))
@@ -1412,10 +1654,10 @@ if gun_names or muzzle_names or cradle_names:
     gun_names = tube_names + [c for c in cradle_names if c not in tube_names]       # ...+ the cradle: one bone
     gc, gs = _combined_bbox(gun_names)
     # GUN PIVOT (2026-08-22): the runtime elevation (gunElevMax) rotates this bone about ITS OWN ORIGIN, so where
-    # the head sits IS the trunnion. At the bbox centre — the historical placement, still the default — the tube
-    # see-saws about its middle and the breech swings down through the carriage (measured on the M114: 76-unit
-    # tube, breech 38 units behind the centre, ~16 units of dip at 25°). `gun_pivot` slides the head along the
-    # assembly's LONG axis: 0 = the breech end, 1 = the muzzle, 0.5 = the bbox centre (unchanged behaviour).
+    # the head sits IS the trunnion. At the middle the tube see-saws and the breech swings down through the
+    # carriage (measured on the M114: 76-unit tube, breech 38 units behind the centre, ~16 units of dip at 25°).
+    # `gun_pivot` slides the head along the TUBE's breech->muzzle span: 0 = the breech end, 1 = the muzzle,
+    # 0.5 = halfway along the tube.
     # The M114's trunnion measures ~0.4. Only the head moves; the tail stays as it was, so a rig that already
     # dials muzzleOffset/socketBones against this bone keeps its frame.
     _gpts = []
@@ -1445,8 +1687,12 @@ if gun_names or muzzle_names or cradle_names:
                 _muzzle = max(_mpts, key=lambda p: (p - _breech).length)
                 print("VEHICLE MUZZLE %d part(s) -> tip=(%.2f, %.2f, %.2f) (welded to the Gun bone: a brake elevates and recoils with the tube)"
                       % (len(muzzle_names), _muzzle.x, _muzzle.y, _muzzle.z))
-        if abs(gun_pivot - 0.5) > 1e-4:
-            gc = _breech + (_muzzle - _breech) * gun_pivot
+        # ONE MEANING FOR THE DIAL (2026-09-26, second review of PR #92). This used to skip the slide at exactly 0.5
+        # and leave the head at the WHOLE ASSEMBLY's bbox centre — a different point as soon as a cradle hangs behind
+        # the tube — so the one value the Animation Lab's pivot preview could not reproduce was the default one. A gun
+        # still at 0.5 is an untuned gun by definition; regenerating it moves the trunnion from the assembly's centre
+        # to the tube's midpoint, which is what the dial has always claimed 0.5 means at both of its other ends.
+        gc = _breech + (_muzzle - _breech) * gun_pivot
         gun_axis = (gc.copy(), _muzzle.copy())            # (trunnion, muzzle tip) — the deploy elevation needs both
         gun_bore = (_breech.copy(), _muzzle.copy())       # the WHOLE tube: what "fraction of tube length" measures
         print("VEHICLE gun pivot %.2f -> head=(%.2f, %.2f, %.2f) (breech (%.2f, %.2f, %.2f) .. muzzle (%.2f, %.2f, %.2f))"
@@ -1460,6 +1706,27 @@ if gun_names or muzzle_names or cradle_names:
         if cradle_names:
             print("VEHICLE CRADLE %d part(s) welded to the Gun bone (elevates with the tube; excluded from the "
                   "breech->muzzle span, and it is what will STAY when the barrel recoils)" % len(cradle_names))
+        # THE SPAN, PUBLISHED FOR THE ANIMATION LAB'S PIVOT PREVIEW (2026-09-26, review of PR #92). The editor used
+        # to re-derive this from the vertices skinned to the Gun bone, which is a DIFFERENT set and a different rule:
+        # the cradle welds to the bone but is deliberately out of the span, a marked brake pins the tip instead of
+        # the bbox extreme, with recoil the tube moves to the Barrel bone entirely, and at exactly 0.5 the head stays
+        # at the assembly's bbox centre rather than the span's midpoint. So the number the editor advised could not
+        # be dialled. It reads this line instead. BONE-LOCAL source units: this rigger's bones rest at identity, so
+        # bone-local is world minus the head, which survives the bake up to its uniform scale. `extent` is the whole
+        # assembly's span along the same direction - the editor measures that on the baked rig and the ratio IS the
+        # bake's scale, so it never has to know it.
+        _asm = []
+        for _an in gun_names:
+            _ao = find(_an)
+            if _ao is not None:
+                _asm += [_ao.matrix_world @ _v.co for _v in _ao.data.vertices]
+        _bl = _breech - gc
+        _ml = _muzzle - gc
+        if (_ml - _bl).length > 1e-9 and _asm:
+            _dn = (_ml - _bl).normalized()
+            _pr = [(p - gc).dot(_dn) for p in _asm]
+            print("VEHICLE GUNSPAN bone=Gun breech=%.6f,%.6f,%.6f muzzle=%.6f,%.6f,%.6f extent=%.6f"
+                  % (_bl.x, _bl.y, _bl.z, _ml.x, _ml.y, _ml.z, max(_pr) - min(_pr)))
     eb = arm_data.edit_bones.new("Gun")
     eb.head = gc
     eb.tail = gc + Vector((0, 0, max(0.05, max(gs) * 0.25)))
@@ -2820,9 +3087,10 @@ if (sail_found and arm.pose.bones.get("Sail") is not None) or (flag_found and ar
     arm.animation_data.action = act                                      # 'Spin' stays the active action, as before
     # IDLE/REFERENCE IS Furl[0..0], NEVER Spin[0..0] (2026-09-12, the sky-floating TOW): the Animation Lab's
     # convert path bakes the reference clip's frame 0 as the model's REST pose, and Spin holds its strike/fold
-    # pose on EVERY frame — using it as reference bakes the hidden pose into the rest skeleton, and Auto-ground
+    # pose on EVERY frame — using it as reference bakes the hidden pose into the rest skeleton, and grounding
     # then lifts the whole model by the struck part's depth. Furl frame 0 is always the deployed state. (Boats
-    # dodged this only because they don't auto-ground; the guidance is now uniform.)
+    # dodged this only because they did not auto-ground; since 2026-09-20 every bake grounds, so the guidance is
+    # not merely uniform — it is the only safe one, and rig_anim warns in the log when a lift looks like this.)
     if flag_fold_on and flag_found and not sail_found:
         print("VEHICLE 'Furl' stance: flags FOLD %.0f deg at the top hinge over %d frame(s) — Idle/reference Furl[0..0] (deployed), Movement Spin (folded), Pre-move Furl[0..%d] (folds — the unit waits), After-move Furl[%d..0] (redeploys), Keep bone translations OFF"
               % (flag_fold_deg, flag_fold_frames, flag_fold_frames, flag_fold_frames))

@@ -1,0 +1,5 @@
+SOURCE parts=10 tris=173384 blocked=0 islands=519
+SPLIT@0 nodes=10 children=519 tris=173384
+SPLIT@1% nodes=9 children=150 tris=165700
+TEAR@1% node=Cylinder.002_0 children=19 tris=828
+FUSE parts=7 tris=148908->148908 verts=259955->212381 islands=263->263 rewound=7313

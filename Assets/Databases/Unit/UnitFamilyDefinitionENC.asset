@@ -587,7 +587,7 @@ MonoBehaviour:
   m_Name: UnitFamily_Gunboat
   m_EditorClassIdentifier: 
   IsObsolete: 0
-  SerializableNextFamilyName: UnitFamily_Cruiser
+  SerializableNextFamilyName: UnitFamily_CoastalDefence
 --- !u!114 &-3223272099044883058
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -784,6 +784,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsObsolete: 0
   SerializableNextFamilyName: UnitFamily_AntiCavalry
+--- !u!114 &-1884526788777155633
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1527816587, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitFamily_LightCruiser
+  m_EditorClassIdentifier: 
+  IsObsolete: 0
+  SerializableNextFamilyName: UnitFamily_MissileCruiser
 --- !u!114 &-1740334018036734830
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1496,6 +1510,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsObsolete: 0
   SerializableNextFamilyName: 
+--- !u!114 &3851820505040689392
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1527816587, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitFamily_SteamShipOfTheLine
+  m_EditorClassIdentifier: 
+  IsObsolete: 0
+  SerializableNextFamilyName: UnitFamily_Cruiser
 --- !u!114 &3865597525018342639
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2042,6 +2070,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsObsolete: 0
   SerializableNextFamilyName: UnitFamily_ModernArtillery
+--- !u!114 &8706596304927084795
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1527816587, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: UnitFamily_CoastalDefence
+  m_EditorClassIdentifier: 
+  IsObsolete: 0
+  SerializableNextFamilyName: UnitFamily_MissileCruiser
 --- !u!114 &8732000981597067713
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2097,7 +2139,7 @@ MonoBehaviour:
   m_Name: UnitFamily_Cruiser
   m_EditorClassIdentifier: 
   IsObsolete: 0
-  SerializableNextFamilyName: UnitFamily_MissileCruiser
+  SerializableNextFamilyName: UnitFamily_LightCruiser
 --- !u!114 &9115708456661960154
 MonoBehaviour:
   m_ObjectHideFlags: 0

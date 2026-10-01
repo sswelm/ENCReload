@@ -1,0 +1,23 @@
+VEHICLE ignored: 10 part(s) deleted from the output
+VEHICLE gun pivot 0.50 -> head=(1.08, 0.43, 1.97) (breech (-0.06, 0.13, 2.29) .. muzzle (2.21, 0.45, 1.94))
+VEHICLE MUZZLE fire origin (gun-local, SOURCE units — scale by the bake's size): 1.135, 0.018, -0.033
+VEHICLE tread 'Bredley_CaterpillarAnimL' link pitch: 0.182, physical link 0.186 (from 314 bottom-run verts)
+VEHICLE tread 'Bredley_CaterpillarAnimL' subdivided: 1320 -> 7146 verts (edge target 0.089)
+VEHICLE tread 'Bredley_CaterpillarAnimL' wrap bands: sprocket 0.48/0.64 (r=0.39), idler 0.44/0.54 (r=0.25), roadF 0.46/0.68 (r=0.32), roadR 0.44/0.67 (r=0.32)
+VEHICLE tread 'Bredley_CaterpillarAnimL' HYBRID v2: 28 link bones on wraps + 2 shuttle run(s) covering 37 cells (cell 0.187, loop 12.16, cut phase 0.039)
+VEHICLE tread 'Cube.004' link pitch: 0.182, physical link 0.186 (from 314 bottom-run verts)
+VEHICLE tread 'Cube.004' subdivided: 1320 -> 7146 verts (edge target 0.089)
+VEHICLE tread 'Cube.004' wrap bands: sprocket 0.48/0.64 (r=0.39), idler 0.44/0.54 (r=0.25), roadF 0.46/0.68 (r=0.32), roadR 0.44/0.67 (r=0.32)
+VEHICLE tread 'Cube.004' HYBRID v2: 28 link bones on wraps + 2 shuttle run(s) covering 37 cells (cell 0.187, loop 12.16, cut phase 0.125)
+VEHICLE armature: 79 bones total (Amplitude cap 256)
+VEHICLE hybrid bones: Track_00_L_ links x28 + shuttles x2, Track_01_R_ links x28 + shuttles x2
+VEHICLE join: 21 mesh(es), one per bone
+VEHICLE idler Wheel_14: symmetry 16-fold (22.5 deg steps), auto pop-free 67.5 deg (target 72.0)
+VEHICLE idler Wheel_15: symmetry 16-fold (22.5 deg steps), auto pop-free 67.5 deg (target 72.0)
+VEHICLE rolling-contact speeds (largest wheel keeps 72 deg): Wheel_02=90.0, Wheel_03=90.0, Wheel_04=90.0, Wheel_05=90.0, Wheel_06=90.0, Wheel_07=90.0, Wheel_08=90.0, Wheel_09=90.0, Wheel_10=90.0, Wheel_11=90.0, Wheel_12=90.0, Wheel_13=90.0, Wheel_14=67.5, Wheel_15=67.5
+VEHICLE tread 'Bredley_CaterpillarAnimL' HYBRID conveyor: 28 link bones on wraps + 2 shuttle(s), advance 0.561/loop
+VEHICLE tread 'Cube.004' HYBRID conveyor: 28 link bones on wraps + 2 shuttle(s), advance 0.561/loop
+VEHICLE tread conveyor v5: 2 tread(s), tread quantum 24.0 deg (wheels 72.0), advance 0.165/loop (drive d=0.79): wraps ride DEDICATED wrap bones, ramps slide their slope, straights shuttle
+VEHICLE export totals: 20697 verts, 35039 tris across 21 mesh(es)
+VEHICLE RIG DONE: 16 wheel part(s) clustered into 16 wheel(s) {'Wheel_00': (0.0, 1.0, 0.0), 'Wheel_01': (0.0, 1.0, 0.0), 'Wheel_02': (0.0, 1.0, 0.0), 'Wheel_03': (0.0, 1.0, 0.0), 'Wheel_04': (0.0, 1.0, 0.0), 'Wheel_05': (0.0, 1.0, 0.0), 'Wheel_06': (0.0, 1.0, 0.0), 'Wheel_07': (0.0, 1.0, 0.0), 'Wheel_08': (0.0, 1.0, 0.0), 'Wheel_09': (0.0, 1.0, 0.0), 'Wheel_10': (0.0, 1.0, 0.0), 'Wheel_11': (0.0, 1.0, 0.0), 'Wheel_12': (0.0, 1.0, 0.0), 'Wheel_13': (0.0, 1.0, 0.0), 'Wheel_14': (0.0, 1.0, 0.0), 'Wheel_15': (0.0, 1.0, 0.0)}, 3 turret part(s) on one Turret bone, 1 gun part(s) on one Gun bone (child of Turret), 2 track loop(s) on own static bones, Spin 0..15 72 deg, exported 20697 verts / 35039 tris
+GLB skins=1 joints=79 meshes=21 meshNodes=21 rigged=21

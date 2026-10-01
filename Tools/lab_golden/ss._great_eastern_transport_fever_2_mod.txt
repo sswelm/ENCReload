@@ -1,0 +1,23 @@
+VEHICLE flatten: 10 non-mesh helper(s) dropped (empties/armatures/lights — placement baked into the meshes)
+VEHICLE ignored: 2 part(s) deleted from the output
+VEHICLE STRUCTURE 'Cylinder.003_0': 24120 -> 6753 verts (welded from 42357 raw; dial 72% = target 6753)
+VEHICLE STRUCTURE 'Cube_0': 10980 -> 2919 verts (welded from 28155 raw; dial 72% = target 3074)
+VEHICLE STRUCTURE: 2 part(s) reduced, 35100 -> 9672 verts total (72% cut)
+VEHICLE BODY 'Cube.003_0': 11722 -> 4438 verts (welded from 42264 raw; dial 90% = target 1172)
+VEHICLE BODY 'Cylinder.001_0': 16165 -> 10807 verts (welded from 65532 raw; dial 90% = target 1616)
+VEHICLE BODY 'Cylinder.001_0.001': 17801 -> 11633 verts (welded from 65532 raw; dial 90% = target 1780)
+VEHICLE BODY: 3 part(s) reduced, 45688 -> 26878 verts total (41% cut)
+VEHICLE SAIL 'Cylinder.002_0': 440 -> 107 verts (welded from 992 raw; dial 80% = target 87)
+VEHICLE SAIL: 1 part(s) reduced, 440 -> 107 verts total (76% cut)
+VEHICLE WHEEL 'Cylinder_0': 5888 -> 1349 verts (welded from 27154 raw; dial 80% = target 1177)
+VEHICLE WHEEL: 1 part(s) reduced, 5888 -> 1349 verts total (77% cut)
+VEHICLE DETAIL 'nanchor_lod0_0': 2488 -> 781 verts (welded from 13038 raw; dial 70% = target 746)
+VEHICLE DETAIL: 1 part(s) reduced, 2488 -> 781 verts total (69% cut)
+VEHICLE SAIL: 1 part(s) on one Sail bone (double-sided at export; struck/raised by the 'Furl' clip)
+VEHICLE join: 3 mesh(es), one per bone
+VEHICLE 'Furl' stance: sails FLIPPED below the keel — Idle/reference Furl[0..0] (deployed), Idle stance (override) Furl[1..1] (furled at anchor), Movement Spin, After-move/Pre-move EMPTY, Keep bone translations OFF
+VEHICLE double-sided 'Mesh_Sail': 107 -> 214 verts (back shell inset 0.3324 local)
+VEHICLE double-sided: 1 mesh(es) made two-sided at the source (whole-model inset 0.3324 world)
+VEHICLE export totals: 38894 verts, 65501 tris across 3 mesh(es)
+VEHICLE RIG DONE: 1 wheel part(s) clustered into 1 wheel(s) {'Wheel_00': (0.0, 1.0, 0.0)}, 0 turret part(s) on one Turret bone, 0 gun part(s) on one Gun bone, 0 track loop(s) on own static bones, Spin 0..60 360 deg, exported 38894 verts / 65501 tris
+GLB skins=1 joints=3 meshes=3 meshNodes=3 rigged=3

@@ -504,7 +504,7 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 173
+  TechTreeX: 172
   TechTreeY: 17
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &-8307152456986429337
@@ -2304,7 +2304,7 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 169
+  TechTreeX: 165
   TechTreeY: 1
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &-4980880723610862897
@@ -2345,7 +2345,7 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 145
+  TechTreeX: 146
   TechTreeY: 2
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &-4694279597667943497
@@ -2891,8 +2891,8 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 154
-  TechTreeY: 24
+  TechTreeX: 147
+  TechTreeY: 27
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &-3642886547021477157
 MonoBehaviour:
@@ -3342,10 +3342,11 @@ MonoBehaviour:
   m_Script: {fileID: 301062344, guid: b310e23bee821cb478da05296ba685d0, type: 3}
   m_Name: Technology_Era5_IroncladShipbuilding
   m_EditorClassIdentifier: 
-  Title: Ironclad Shipbuilding
-  Description: An ironclad is a steam-propelled warship protected by iron or steel
-    armor plates. The ironclad became technically feasible and tactically necessary
-    because of developments in shipbuilding.
+  Title: Armored Shipbuilding
+  Description: Advances in ironworking and naval construction allow thick armor plate
+    to be mounted on reinforced hulls. Combined with steam propulsion, these warships
+    can withstand explosive shellfire while still carrying traditional broadside
+    batteries, giving rise to the first ironclads.
   Images:
   - Value:
       guid:
@@ -4406,7 +4407,7 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 157
+  TechTreeX: 153
   TechTreeY: 1
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &-455474661239564212
@@ -4619,8 +4620,8 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 153
-  TechTreeY: 16
+  TechTreeX: 150
+  TechTreeY: 19
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &-232721266619552589
 MonoBehaviour:
@@ -6052,7 +6053,7 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 180
+  TechTreeX: 179
   TechTreeY: 14
   OptionalUnlockTechnologyMovie: TechnologyDiscovery_Era5_10.webm
 --- !u!114 &2708679530474617703
@@ -6093,7 +6094,7 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 173
+  TechTreeX: 172
   TechTreeY: 30
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &2709795947952639963
@@ -6134,7 +6135,7 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 162
+  TechTreeX: 163
   TechTreeY: 14
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &2957332784969793895
@@ -6344,7 +6345,7 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 168
+  TechTreeX: 169
   TechTreeY: 10
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &3538981883482280898
@@ -6474,6 +6475,50 @@ MonoBehaviour:
   TechTreeX: 41
   TechTreeY: 15
   OptionalUnlockTechnologyMovie: 
+--- !u!114 &4011824310304917672
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 301062344, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: Technology_Era5_CompoundSteamEngine
+  m_EditorClassIdentifier: 
+  Title: Compound Steam Engine
+  Description: By expanding steam through multiple cylinders in succession, compound
+    engines extract more work from the same amount of fuel. Greater efficiency reduces
+    coal consumption while increasing range and sustained power, making steam propulsion
+    practical for larger ships and longer voyages.
+  Images:
+  - Value:
+      guid:
+        a: 1699968269
+        b: 1291812826
+        c: -2101411174
+        d: 882805533
+    serializableKey: TechnologyPopupBackground
+  - Value:
+      guid:
+        a: 209776758
+        b: 1286721164
+        c: -1264855650
+        d: 577032575
+    serializableKey: Picto
+  - Value:
+      guid:
+        a: 1699968269
+        b: 1291812826
+        c: -2101411174
+        d: 882805533
+    serializableKey: TechnologyScreenItemBackground
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  Symbol: 
+  TechTreeX: 177
+  TechTreeY: 0
+  OptionalUnlockTechnologyMovie: 
 --- !u!114 &4065181374044385218
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6512,8 +6557,8 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 161
-  TechTreeY: 29
+  TechTreeX: 160
+  TechTreeY: 30
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &4207859589590501671
 MonoBehaviour:
@@ -6679,7 +6724,7 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 177
+  TechTreeX: 176
   TechTreeY: 7
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &4499531676910752227
@@ -6724,8 +6769,8 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 139
-  TechTreeY: 9
+  TechTreeX: 140
+  TechTreeY: 8
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &4541778066756736280
 MonoBehaviour:
@@ -7074,8 +7119,8 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 152
-  TechTreeY: 8
+  TechTreeX: 149
+  TechTreeY: 10
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &5251378524688325323
 MonoBehaviour:
@@ -7162,8 +7207,8 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 163
-  TechTreeY: 3
+  TechTreeX: 159
+  TechTreeY: 5
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &5426518896355565635
 MonoBehaviour:
@@ -7749,7 +7794,7 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 155
+  TechTreeX: 154
   TechTreeY: 32
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &7133364459574961318
@@ -8090,7 +8135,7 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 175
+  TechTreeX: 171
   TechTreeY: 0
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &7848036858965645221
@@ -8178,7 +8223,7 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 167
+  TechTreeX: 166
   TechTreeY: 30
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &7969196438937641997
@@ -8521,7 +8566,7 @@ MonoBehaviour:
     serializableKey: TechnologyScreenItemBackground
   Color: {r: 0, g: 0, b: 0, a: 0}
   Symbol: 
-  TechTreeX: 145
+  TechTreeX: 143
   TechTreeY: 15
   OptionalUnlockTechnologyMovie: 
 --- !u!114 &8979217565746882839

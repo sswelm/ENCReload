@@ -1,0 +1,5 @@
+SOURCE parts=8 tris=7110 blocked=0 islands=123
+SPLIT@0 nodes=7 children=122 tris=7080
+SPLIT@1% nodes=7 children=77 tris=7080
+TEAR@1% node=Carriage_Body_Metal children=8 tris=162
+FUSE parts=8 tris=7110->7110 verts=11201->8495 islands=129->129 rewound=6520

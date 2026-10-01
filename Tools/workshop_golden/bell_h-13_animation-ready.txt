@@ -1,0 +1,5 @@
+SOURCE parts=12 tris=126098 blocked=0 islands=197
+SPLIT@0 nodes=10 children=195 tris=113938
+SPLIT@1% nodes=10 children=88 tris=113938
+TEAR@1% node=mesh.009_Color_001_0 children=339 tris=576
+FUSE parts=12 tris=126098->126098 verts=99592->98851 islands=195->195 rewound=3714

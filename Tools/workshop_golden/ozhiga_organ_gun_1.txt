@@ -1,0 +1,5 @@
+SOURCE parts=1 tris=13070 blocked=0 islands=96
+SPLIT@0 nodes=1 children=96 tris=13070
+SPLIT@1% nodes=1 children=13 tris=13070
+TEAR@1% node=defaultMaterial children=140 tris=13070
+FUSE parts=1 tris=13070->13070 verts=13116->12929 islands=96->96 rewound=258

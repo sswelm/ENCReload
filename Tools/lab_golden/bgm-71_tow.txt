@@ -1,0 +1,16 @@
+VEHICLE brightness x0.25: 0 base-color image(s) copied+adjusted, 14 material(s) adjusted
+VEHICLE brightness x4.00 (second model): 0 base-color image(s) copied+adjusted, 2 material(s) adjusted
+VEHICLE MERGE: 2 helper object(s) of the second model dropped (empties/armatures — placement baked into the meshes)
+VEHICLE MERGE: second model 'machine_gun_tripod_1_low-poly.glb' -> 2 part(s) prefixed B_ | offset (-0.05,0.025,-0.7) rot (0,0,0) scale (1, 1, 1)
+VEHICLE MERGE: B bbox min (-0.64, -0.54, -0.70) max (0.54, 0.62, 0.43)
+VEHICLE flatten: 2 non-mesh helper(s) dropped (empties/armatures/lights — placement baked into the meshes)
+VEHICLE ignored: 8 part(s) deleted from the output
+VEHICLE FLAG: 1 part(s) on one Flag bone — flies at anchor, struck below the keel through Spin (the opposite of sails); double-sided at export
+VEHICLE join: 2 mesh(es), one per bone
+VEHICLE 'Furl' stance: flags keyed flying (no sails) — Idle/reference Furl[0..0] (deployed), Movement Spin, After-move/Pre-move EMPTY, Keep bone translations OFF
+VEHICLE FLAG clip: banners held below the keel through Spin 0..15 — visible/deployed at idle only
+VEHICLE double-sided 'Mesh_Flag': 604 -> 1208 verts (back shell inset 0.0025 local)
+VEHICLE double-sided: 1 mesh(es) made two-sided at the source (whole-model inset 0.0025 world)
+VEHICLE export totals: 28852 verts, 12816 tris across 2 mesh(es)
+VEHICLE RIG DONE: 0 wheel part(s) clustered into 0 wheel(s) {}, 0 turret part(s) on one Turret bone, 0 gun part(s) on one Gun bone, 0 track loop(s) on own static bones, Spin 0..15 0 deg, exported 28852 verts / 12816 tris
+GLB skins=1 joints=2 meshes=2 meshNodes=2 rigged=2
