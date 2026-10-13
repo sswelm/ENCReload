@@ -1,8 +1,10 @@
+# golden captured=2026-10-12T14:31 editor=e4f509c in.recipe=d7fa7f3f3ccab5a9 in.source=f8ed85dfb5bd356e sum=d02b6ab8d6bbf36f
 VEHICLE tracks STATIC (isolation): 2 tread part(s) rigged rigid to Root, no link bones
 VEHICLE flatten: 146 non-mesh helper(s) dropped (empties/armatures/lights — placement baked into the meshes)
 VEHICLE ignored: 21 part(s) deleted from the output
-VEHICLE gun pivot 0.50 -> head=(2.57, -0.22, 1.61) (breech (1.22, -0.22, 1.51) .. muzzle (3.92, -0.21, 1.55))
-VEHICLE MUZZLE fire origin (gun-local, SOURCE units — scale by the bake's size): 1.353, 0.006, -0.056
+VEHICLE gun pivot 0.50 -> head=(2.57, -0.22, 1.53) (breech (1.22, -0.22, 1.51) .. muzzle (3.92, -0.21, 1.55))
+VEHICLE MUZZLE fire origin (gun-local, SOURCE units — scale by the bake's size): 1.353, 0.005, 0.020
+VEHICLE GUNSPAN bone=Gun breech=-1.352600,-0.004700,-0.020350 muzzle=1.352600,0.004700,0.020350 extent=2.705522
 VEHICLE join: 30 mesh(es), one per bone
 VEHICLE wrap carriers classified geometrically (static tracks): 4 carrier(s), 2 idler(s)
 VEHICLE idler Wheel_02: symmetry 14-fold (25.7 deg steps), auto pop-free 51.4 deg (target 60.0)

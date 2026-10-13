@@ -1,6 +1,7 @@
+# golden captured=2026-10-12T18:57 editor=d09b91c in.recipe=7ed3057f4a464cfa in.source=bc4061ec51e534a6 sum=a49725326de7f67a
 VEHICLE flatten: 8 non-mesh helper(s) dropped (empties/armatures/lights — placement baked into the meshes)
 VEHICLE ignored: 58 part(s) deleted from the output
-VEHICLE RIGGING 'Object_12_Part_002': 6934 -> 836 verts (dissolve pass: 2252; dial 90% = target 693)
+VEHICLE RIGGING 'Object_12_Part_002': 6934 -> 833 verts (dissolve pass: 2243; dial 90% = target 693)
 VEHICLE RIGGING 'Object_19_Part_002': 24 -> 16 verts (dissolve pass: 24; dial 90% = target 8)
 VEHICLE RIGGING 'Object_19_Part_003': 24 -> 16 verts (dissolve pass: 24; dial 90% = target 8)
 VEHICLE RIGGING 'Object_20_Part_005': 24 -> 16 verts (dissolve pass: 24; dial 90% = target 8)
@@ -70,8 +71,8 @@ VEHICLE RIGGING 'Object_20_Part_068': 24 -> 16 verts (dissolve pass: 24; dial 90
 VEHICLE RIGGING 'Object_20_Part_069': 24 -> 16 verts (dissolve pass: 24; dial 90% = target 8)
 VEHICLE RIGGING 'Object_20_Part_070': 24 -> 16 verts (dissolve pass: 24; dial 90% = target 8)
 VEHICLE RIGGING 'Object_20_Part_071': 24 -> 16 verts (dissolve pass: 24; dial 90% = target 8)
-VEHICLE RIGGING 'Object_22': 21591 -> 2651 verts (dissolve pass: 6390; dial 90% = target 2159)
-VEHICLE RIGGING: 71 part(s) reduced, 30219 -> 4610 verts total (85% cut)
+VEHICLE RIGGING 'Object_22': 21591 -> 2651 verts (dissolve pass: 6428; dial 90% = target 2159)
+VEHICLE RIGGING: 71 part(s) reduced, 30219 -> 4607 verts total (85% cut)
 VEHICLE STRUCTURE 'Object_2': 228 -> 44 verts (welded from 302 raw; dial 80% = target 45)
 VEHICLE STRUCTURE 'Object_3': 188 -> 46 verts (welded from 198 raw; dial 80% = target 37)
 VEHICLE STRUCTURE 'Object_18_Part_001': 450 -> 103 verts (welded from 903 raw; dial 80% = target 89)
@@ -114,6 +115,6 @@ VEHICLE double-sided 'Mesh___rud__Object_11': 13 -> 26 verts (back shell inset 0
 VEHICLE double-sided 'Mesh___rud__Object_12_Part_004': 220 -> 440 verts (back shell inset 0.0215 local)
 VEHICLE double-sided 'Mesh___rud__Object_40_Part_022': 15 -> 30 verts (back shell inset 0.0215 local)
 VEHICLE double-sided: 5 mesh(es) made two-sided at the source (whole-model inset 0.0215 world)
-VEHICLE export totals: 23294 verts, 34971 tris across 12 mesh(es)
-VEHICLE RIG DONE: 0 wheel part(s) clustered into 0 wheel(s) {}, 0 turret part(s) on one Turret bone, 0 gun part(s) on one Gun bone, 0 track loop(s) on own static bones, Spin 0..50 0 deg, exported 23294 verts / 34971 tris
+VEHICLE export totals: 23291 verts, 34975 tris across 12 mesh(es)
+VEHICLE RIG DONE: 0 wheel part(s) clustered into 0 wheel(s) {}, 0 turret part(s) on one Turret bone, 0 gun part(s) on one Gun bone, 0 track loop(s) on own static bones, Spin 0..50 0 deg, exported 23291 verts / 34975 tris
 GLB skins=1 joints=98 meshes=12 meshNodes=12 rigged=12

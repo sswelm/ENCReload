@@ -1,0 +1,41 @@
+# golden captured=2026-10-12T14:32 editor=e4f509c in.recipe=afd630327839b2f6 in.source=996cd6d80f87ab4d sum=75fee63016e0196b
+VEHICLE flatten: 1964 non-mesh helper(s) dropped (empties/armatures/lights — placement baked into the meshes)
+VEHICLE ignored: 6 part(s) deleted from the output
+VEHICLE WARN: default part 'Material2_91' not found — skipped
+VEHICLE WARN: default part 'Material2_92' not found — skipped
+VEHICLE WARN: default part 'Material2_93' not found — skipped
+VEHICLE WARN: default part 'Material2_94' not found — skipped
+VEHICLE WARN: default part 'Material2_95' not found — skipped
+VEHICLE WARN: default part 'Material2_96' not found — skipped
+VEHICLE WARN: default part 'Fused_R_Material2_81_Part_009' not found — skipped
+VEHICLE DEFAULT 'Material2_80': 15125 -> 5758 verts (welded from 65532 raw; dial 90% = target 1512)
+VEHICLE DEFAULT 'Fused_G_Material2_39_Part_001': 487181 -> 45851 verts (welded from 1148005 raw; dial 90% = target 48718)
+VEHICLE DEFAULT 'Fused_L_Material2_4_Part_004': 3854 -> 701 verts (welded from 5152 raw; dial 90% = target 385)
+VEHICLE DEFAULT 'Fused_U_Material2_24_Part_006': 2939 -> 1187 verts (welded from 8618 raw; dial 90% = target 293)
+VEHICLE DEFAULT: 4 part(s) reduced, 509099 -> 53497 verts total (89% cut)
+VEHICLE WARN: structure part 'Fused_C_Material2_76' not found — skipped
+VEHICLE STRUCTURE 'Fused_A_Anker': 3696 -> 694 verts (welded from 14752 raw; dial 95% = target 184)
+VEHICLE STRUCTURE 'Fused_M_Material2_26_Part_013': 11990 -> 2252 verts (welded from 25254 raw; dial 95% = target 599)
+VEHICLE STRUCTURE 'Fused_N_Material2_101': 4806 -> 343 verts (welded from 13532 raw; dial 95% = target 240)
+VEHICLE STRUCTURE 'Fused_O_Material2_38_Part_007': 10467 -> 3380 verts (welded from 26450 raw; dial 95% = target 523)
+VEHICLE STRUCTURE 'Fused_Z_Material2_4_Part_045': 14845 -> 693 verts (welded from 27974 raw; dial 95% = target 742)
+VEHICLE STRUCTURE: 5 part(s) reduced, 45804 -> 7362 verts total (84% cut)
+VEHICLE BODY 'Fused_D_Deck': 1636 -> 587 verts (welded from 3394 raw; dial 65% = target 572)
+VEHICLE BODY 'Fused_F_Material2_25_Part_003': 4742 -> 1565 verts (welded from 8851 raw; dial 65% = target 1659)
+VEHICLE BODY 'Fused_H_Material2_2_Part_001': 29762 -> 9866 verts (welded from 49003 raw; dial 65% = target 10416)
+VEHICLE BODY: 3 part(s) reduced, 36140 -> 12018 verts total (67% cut)
+VEHICLE SAIL 'Fused_S_Material2_5_Part_001': 30439 -> 3193 verts (welded from 36321 raw; dial 90% = target 3043)
+VEHICLE SAIL: 1 part(s) reduced, 30439 -> 3193 verts total (90% cut)
+VEHICLE WHEEL 'Fused_P_Propeller': 743 -> 79 verts (welded from 840 raw; dial 90% = target 74)
+VEHICLE WHEEL: 1 part(s) reduced, 743 -> 79 verts total (89% cut)
+VEHICLE WINDOW 'Fused_W_Material2_74': 3130 -> 1661 verts (welded from 5438 raw; dial 50% = target 1565)
+VEHICLE WINDOW: 1 part(s) reduced, 3130 -> 1661 verts total (47% cut)
+VEHICLE SAIL: 1 part(s) on one Sail bone (double-sided at export; struck/raised by the 'Furl' clip)
+VEHICLE PRESERVE: 1 part(s) — no winding fix, no doubling; shipped byte-identical (reduce dial 0)
+VEHICLE join: 4 mesh(es), one per bone
+VEHICLE 'Furl' stance: sails FLIPPED below the keel — Idle/reference Furl[0..0] (deployed), Idle stance (override) Furl[1..1] (furled at anchor), Movement Spin, After-move/Pre-move EMPTY, Keep bone translations OFF
+VEHICLE double-sided 'Mesh_Sail': 3193 -> 6288 verts (back shell inset 6.6329 local)
+VEHICLE double-sided: 1 mesh(es) made two-sided at the source (whole-model inset 6.6329 world)
+VEHICLE export totals: 1164529 verts, 931786 tris across 4 mesh(es)
+VEHICLE RIG DONE: 1 wheel part(s) clustered into 1 wheel(s) {'Wheel_00': (0.0, 1.0, 0.0)}, 0 turret part(s) on one Turret bone, 0 gun part(s) on one Gun bone, 0 track loop(s) on own static bones, Spin 0..15 -360 deg, exported 1164529 verts / 931786 tris
+GLB skins=1 joints=3 meshes=4 meshNodes=4 rigged=4
