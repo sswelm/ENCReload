@@ -765,10 +765,10 @@ MonoBehaviour:
     PropertyEffects:
     - Note: 
       TargetProperty: StealthDetection
-      ToTargetOperation: 6
+      ToTargetOperation: 0
       RpnOperationStack: 
       ConstantStack:
-      - RawValue: 3000
+      - RawValue: 2000
       PropertyLocalName: []
   serializableCategory: 
   startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass
@@ -1284,7 +1284,7 @@ MonoBehaviour:
     PropertyEffects:
     - Note: 
       TargetProperty: StealthDetection
-      ToTargetOperation: 6
+      ToTargetOperation: 0
       RpnOperationStack: 
       ConstantStack:
       - RawValue: 1000
@@ -1920,10 +1920,10 @@ MonoBehaviour:
     PropertyEffects:
     - Note: 
       TargetProperty: StealthDetection
-      ToTargetOperation: 6
+      ToTargetOperation: 0
       RpnOperationStack: 
       ConstantStack:
-      - RawValue: 2000
+      - RawValue: 1000
       PropertyLocalName: []
   serializableCategory: 
   startingType: Amplitude.Mercury.Simulation.Unit, Amplitude.Mercury.Firstpass

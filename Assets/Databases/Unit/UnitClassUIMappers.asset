@@ -535,6 +535,31 @@ MonoBehaviour:
     serializableKey: Small
   Color: {r: 1, g: 1, b: 1, a: 1}
   Symbol: '[UnitClass_ArmouredVehicle]'
+--- !u!114 &6551961505240646723
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 981126955, guid: f8c4d2d2a3a246a0909e3c6973d4a4e3, type: 3}
+  m_Name: UnitClass_SurveillanceAirplane
+  m_EditorClassIdentifier: 
+  Title: Surveillance Airplane
+  Description: Surveillance Airplane Reveals a wide area and hidden units, but cannot
+    attack and is vulnerable to Fighters
+  Images:
+  - Value:
+      guid:
+        a: 264978044
+        b: 1300073421
+        c: -78568566
+        d: -1527116620
+    serializableKey: Small
+  Color: {r: 1, g: 1, b: 1, a: 1}
+  Symbol: '[UnitClass_Bomber]'
 --- !u!114 &7890006362787764637
 MonoBehaviour:
   m_ObjectHideFlags: 0

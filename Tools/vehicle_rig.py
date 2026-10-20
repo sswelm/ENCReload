@@ -581,6 +581,20 @@ def rig_report():
         print("RIGBONE|%s|%d|%.4f,%.4f,%.4f|%.4f,%.4f,%.4f" % (bn, cnt, c.x, c.y, c.z, s.x, s.y, s.z))
 
 if mode == "probe":
+    # posestart=1 (opt-in; the C# probe's parity drill passes it): put the scene in a DEFINED pose before measuring.
+    # The glTF importer leaves every clip on an NLA track with the first one active and the scene on frame 1, so an
+    # untouched import is a blend of all clips one frame in - a pose no file states (measured 2026-10-02: a part
+    # moving 1 unit/s reads 0.0417 off its first key; three clips on one node read a scale of 1.018). Dropping the NLA
+    # tracks and going to frame 0 gives the first clip at its start, the state the C# probe computes. It goes AFTER the
+    # preview path (argv[2], which may be empty): in that slot it would be taken for the path.
+    if "posestart=1" in argv:
+        for _po in bpy.data.objects:
+            if _po.animation_data is not None:
+                for _pt in list(_po.animation_data.nla_tracks):
+                    _po.animation_data.nla_tracks.remove(_pt)
+        bpy.context.scene.frame_set(0)
+        bpy.context.view_layer.update()
+        print("VEHICLE note: probe posed at the first clip's start (posestart=1)")
     rig_report()
     _lap("rig_report")
     objs = mesh_objects()
@@ -724,6 +738,15 @@ if mode == "probe":
         c, s = world_bbox(o)
         # 8th field (2026-09-13): islands the inside-out fix would reverse in this part (0 = keeps as authored)
         print("PART|%s|%d|%.4f,%.4f,%.4f|%.4f,%.4f,%.4f|%d|%s|%d" % (o.name, len(o.data.vertices), c.x, c.y, c.z, s.x, s.y, s.z, _vis.get(o.name, 1), _bone.get(o.name, ""), _flipn.get(o.name, 0)))
+    # MATRIX rows (2026-10-03, the C# probe's parity drill): each part's matrix_world as this process holds it, row-major, 16
+    # floats in their shortest round-trip form - the C# side composes the same float32 matrix and the drill compares bit for bit
+    for o in objs:
+        print("MATRIX|%s|%s" % (o.name, " ".join(repr(float(_mv)) for _mr in o.matrix_world for _mv in _mr)))
+    # VERTEX rows: vertex 0 through the same arithmetic the visibility rays use - the world position and the normalized world normal
+    for o in objs:
+        if len(o.data.vertices):
+            _v0 = o.data.vertices[0]; _p0 = o.matrix_world @ _v0.co; _n0 = (o.matrix_world.to_3x3() @ _v0.normal).normalized()
+            print("VERTEX|%s|%s|%s" % (o.name, " ".join(repr(float(_c)) for _c in _p0), " ".join(repr(float(_c)) for _c in _n0)))
     print("VEHICLE parts listed"); sys.stdout.flush()   # sentinel + flush: Blender's C-level banner flushes AFTER Python's buffer and would otherwise glue onto the last PART line
     # optional argv[2]: export the SPLIT scene as a preview FBX so the Lab can show/zoom/highlight each part by name.
     # PERF (2026-08-20): exported UNSKINNED — plain meshes, world transforms baked, no armature. The FBX exporter
@@ -952,6 +975,14 @@ try:
     gun_reduce = _tagged_reduce_pct(argv, "gunreduce")
 except Exception as _e:
     print("VEHICLE ERROR: malformed gunreduce argument: %s" % _e); sys.exit(1)
+# TURRET (2026-10-16, user: "could you add a turret reduce slider"): the turret parts as a WELD tier of their own,
+# exactly as GUN - solid geometry, the names already sent positionally at argv[5], so the tag carries the percent
+# alone. Runs in the tier loop before the Turret bone is measured, so its pivot comes from the reduced mesh.
+#   turretreduce=<percent>
+try:
+    turret_reduce = _tagged_reduce_pct(argv, "turretreduce")
+except Exception as _e:
+    print("VEHICLE ERROR: malformed turretreduce argument: %s" % _e); sys.exit(1)
 # WINDOW (2026-09-25, user: "add the reducable part type Window"): glazing - portholes, bridge windows, windshields -
 # as a WELD tier of its own (a pane is a sheet, not rope soup). Its parts travel nowhere else, so the tag carries the
 # names file like shroudreduce=, sent at every dial setting so the names reach _role_marked (review of PR #89: at 0 %
@@ -1364,6 +1395,13 @@ def _dissolve_limited(_rb, _angle_deg):
             _fid[_f] = _li
     # gather every cell's interior edges/verts BEFORE any dissolve runs: each cell's op deletes only elements
     # interior to that cell, so the references collected here for later cells stay valid throughout.
+    # IN INDEX ORDER, NOT SET ORDER (2026-10-12): a limited dissolve is greedy over the order it is handed, and a
+    # Python set of BMesh elements iterates by object address - a different order in every Blender process. The
+    # Bake Tests' Lab goldens recorded three different dissolve counts for the same part in three runs (the
+    # Khalandion's Object_12_Part_002: 2252, 2239, 2236 verts dissolved; the Wespe's shroud likewise); six headless
+    # runs of this helper alone gave 2254/2258/2249 unsorted and 2261 three times sorted. Indices are refreshed first:
+    # a bmesh that went through an earlier op can hold stale ones, and a stale tie would hand the order back to the set.
+    _rb.verts.index_update(); _rb.edges.index_update()
     _jobs = []
     for _li, _leaf in enumerate(_leaves):
         _es = set(); _vs = set()
@@ -1375,7 +1413,7 @@ def _dissolve_limited(_rb, _angle_deg):
             for _v in _f.verts:
                 if all(_fid.get(_vf) == _li for _vf in _v.link_faces):
                     _vs.add(_v)
-        _jobs.append((list(_es), list(_vs)))
+        _jobs.append((sorted(_es, key=lambda _e: _e.index), sorted(_vs, key=lambda _v: _v.index)))
     # run a cell even when it has NO interior edges: a disconnected single-face island (decal/panel shards)
     # has no edge with two linked faces, but its collinear rim verts still dissolve in the VERT phase —
     # skipping those cells left every such island at full density (review P2, reproduced: 4,100 lone
@@ -1396,7 +1434,7 @@ _lap("prep")
 _by_name = {}
 for _o in objs:
     _by_name.setdefault(_o.name, _o)   # first wins, matching find_opt's linear-scan order
-for _rlabel, _rnames, _rpct in (("DEFAULT", default_names, default_reduce), ("RIGGING", rigging_names, rigging_reduce), ("SHROUD", shroud_names, shroud_reduce), ("STRUCTURE", structure_names, structure_reduce), ("BODY", body_names, body_reduce), ("OAR", oar_names, oar_reduce), ("SAIL", sail_names, sail_reduce), ("RUDDER", rudder_names, rudder_reduce), ("WHEEL", wheel_names, wheel_reduce), ("GUN", gun_names, gun_reduce), ("WINDOW", window_names, window_reduce), ("FLIP", flip_names, flip_reduce), ("PRESERVE", preserve_names, preserve_reduce), ("DETAIL", detail_names, detail_reduce)):
+for _rlabel, _rnames, _rpct in (("DEFAULT", default_names, default_reduce), ("RIGGING", rigging_names, rigging_reduce), ("SHROUD", shroud_names, shroud_reduce), ("STRUCTURE", structure_names, structure_reduce), ("BODY", body_names, body_reduce), ("OAR", oar_names, oar_reduce), ("SAIL", sail_names, sail_reduce), ("RUDDER", rudder_names, rudder_reduce), ("WHEEL", wheel_names, wheel_reduce), ("TURRET", turret_names, turret_reduce), ("GUN", gun_names, gun_reduce), ("WINDOW", window_names, window_reduce), ("FLIP", flip_names, flip_reduce), ("PRESERVE", preserve_names, preserve_reduce), ("DETAIL", detail_names, detail_reduce)):
     if not _rnames or _rpct <= 0.5:
         continue
     try:
