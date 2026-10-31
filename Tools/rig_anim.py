@@ -13,7 +13,7 @@
 # Usage: blender -b --python rig_anim.py -- <input> <output.fbx> <targetTris> [bonePrefixesCSV] [clipName] [albedoOut.png] [keepMats] [rotXdeg,rotYdeg,rotZdeg] [convertRig]
 import bpy, bmesh, sys, os
 from math import radians
-from mathutils import Matrix, Vector
+from mathutils import Matrix, Vector, Quaternion
 
 argv = sys.argv[sys.argv.index("--") + 1:]
 inp, outp, target = argv[0], argv[1], int(argv[2])
@@ -397,14 +397,19 @@ def assign_action(a):
     except Exception as e:
         print("RIGANIM slot warn:", e)
 
-# BONE CAP (mech finding, 2026-07-20): Amplitude's GPU crowd-skinning caps at 256 bones; verts weighted to a bone
-# index >255 get garbage transforms and stretch into huge "wing" spikes in-game (invisible in Blender, which has no
-# limit). Detailed mech/robot rigs blow past it (the Light Assault Mech had 332 bones; 4084 verts / 5.6% flung).
-# Fix: merge LEAF bones (no surviving children) into their nearest surviving ancestor — transferring their skin
-# weights so the geometry follows the parent limb — prioritizing mechanical DETAIL (pistons/tubes/_end/targets),
-# until under a safe budget. No-op for rigs already under it (soldier 62, howitzer ~27), so proven models are
-# byte-identical. The important limb/gun bones are never leaves, so the animation is preserved.
-_BONE_LIMIT = 240
+# BONE CAP (mech finding, 2026-07-20; the WALL corrected 2026-09-28): Amplitude's GPU crowd-skinning breaks past
+# bone INDEX 127 — NOT 256, the figure this cap was first written against (the T-62's turret+wheels at bones 128-140
+# vanished; the mech's wings at 222 flung; see "The 128-bone-index GPU wall" in Animation-Pitfalls). Verts weighted
+# to a higher index get garbage transforms and stretch into huge "wing" spikes in-game (invisible in Blender, which
+# has no limit). The armature object is one more entry on top, so 126 bones is the budget, with deploy_convert's
+# margin. Removing a zero-weight leaf never moves a vertex; it only pulls the bones behind it down the index. No-op
+# for rigs already under it (soldier 62, howitzer ~27), so proven models are byte-identical. What this cannot fix
+# (more than 126 WEIGHTED bones) is said out loud just before export.
+_BONE_LIMIT = 126
+def _zero_weight_leaves_for_cap(bones, weighted, limit):
+    # Remove only the excess, rather than every leaf in a wide rig. The next pass can expose more parents.
+    return [b.name for b in bones if len(b.children) == 0 and b.name not in weighted][:max(0, len(bones) - limit)]
+
 if len(arm.data.bones) > _BONE_LIMIT:
     _skmesh = [m for m in bpy.data.objects if m.type == 'MESH' and m.find_armature() == arm]
     # which bones actually deform the mesh? Only those need to survive with a low index. The rest — IK targets,
@@ -423,7 +428,7 @@ if len(arm.data.bones) > _BONE_LIMIT:
     _removed = 0
     bpy.context.view_layer.objects.active = arm
     while len(arm.data.bones) > _BONE_LIMIT:
-        _leaves = [b.name for b in arm.data.bones if len(b.children) == 0 and b.name not in _weighted]
+        _leaves = _zero_weight_leaves_for_cap(arm.data.bones, _weighted, _BONE_LIMIT)
         if not _leaves:
             break                                     # only weighted bones + their load-bearing ancestors remain
         bpy.ops.object.mode_set(mode='EDIT')
@@ -432,7 +437,7 @@ if len(arm.data.bones) > _BONE_LIMIT:
             if _eb:
                 arm.data.edit_bones.remove(_eb); _removed += 1
         bpy.ops.object.mode_set(mode='OBJECT')        # a parent may become a new zero-weight leaf next pass
-    print("RIGANIM bone-cap: removed %d zero-weight leaf bones -> %d bones (Amplitude 256-bone GPU limit; weighted bones untouched)" % (_removed, len(arm.data.bones)))
+    print("RIGANIM bone-cap: removed %d zero-weight leaf bones -> %d bones (budget %d: bone indices break past 127; weighted bones untouched)" % (_removed, len(arm.data.bones), _BONE_LIMIT))
 
 # CLIP SLICING (howitzer migration take 2, 2026-07-19): a clip name may carry a FRAME RANGE — "deploy[0..180]" —
 # and optionally a SPEED STEP — "deploy[179..0/3]" = every 3rd source frame, so the slice plays 3× faster (BAKE-ONLY
@@ -727,6 +732,16 @@ try:
                         pb.location = _basis.to_translation()
                         pb.keyframe_insert("location", frame=_f)
             _rebaked[_oa] = _na
+        # RESET the pose channels the loop leaves behind (2026-10-27, the AntiTankIFV finding): keyframe_insert keys the
+        # CURRENT value, and a bone that translates in one clip but holds still in another keeps the LAST clip's last-frame
+        # location on the pose bone. A clip without a location curve for that bone then evaluates the stale value, and the
+        # FBX export shipped it: the idle slice Spin[0..0] carried the tread links at Spin's last frame, 0.45 units from
+        # frame 0. The glTF exporter resets pose bones between actions; the FBX export gets the same reset here, so an
+        # unkeyed channel evaluates at rest on both routes.
+        for pb in arm.pose.bones:
+            pb.location = Vector((0.0, 0.0, 0.0))
+            pb.rotation_quaternion = Quaternion((1.0, 0.0, 0.0, 0.0))
+            pb.scale = Vector((1.0, 1.0, 1.0))
         act = _rebaked[all_acts[0]]
         role_acts = {r: _rebaked[a] for r, a in role_acts.items()}
         all_acts = [act] + [a for a in dict.fromkeys(role_acts.values()) if a is not act]
@@ -831,6 +846,16 @@ for _sa in all_acts:
 if _locs or _kept:
     print("RIGANIM stripped %d bone-LOCATION fcurves across %d clip(s)%s" % (_locs, len(all_acts),
           (", KEPT %d translation curve(s) (keepTranslations)" % _kept) if _kept else " (rotation-only; translations bake unscaled)"))
+# RESET THE POSE CHANNELS AGAIN, AFTER THE STRIP (2026-10-28, the UniversalTanks finding): the reset after the rebake came
+# too early - the slicing evaluated frames again and refilled every pose bone from the curves that still existed, and the
+# strip then removed a bone's location curve with that frame's value left on the pose bone. The export's frame_set evaluates
+# the curves that remain; a stripped channel keeps whatever the pose bone holds, and the FBX's node default is the POSED
+# matrix: the T-62's right drive gear sat 0.0092 units from its rest (the GLB route's value, the exporter resetting pose bones
+# between actions). At rest here, every stripped channel evaluates as the glTF exporter evaluates it.
+for _pb in arm.pose.bones:
+    _pb.location = Vector((0.0, 0.0, 0.0))
+    _pb.rotation_quaternion = Quaternion((1.0, 0.0, 0.0, 0.0))
+    _pb.scale = Vector((1.0, 1.0, 1.0))
 
 # LEGACY SANDWICH COMPENSATION (2026-07-25, the invisible-kickback finding): the legacy FBX ships the m->cm
 # x100 root sandwich; Unity folds 0.01 into every bindpose, and Amplitude's clip import carries that 0.01 into
@@ -1198,6 +1223,14 @@ else:
 # (2026-08-07: a POSITION-OFFSET block briefly lived here — argv[15]/[16], removed same-day: the runtime plugin
 # has always applied the registry position to the pawn each frame, so baking it too DOUBLE-applied it. The
 # runtime mechanism is the keeper; see UniversalBaker.RigAnimViaBlender's note.)
+
+# THE WALL, CHECKED ON THE FINISHED RIG (review 2026-09-27): the bone cap above only removes zero-weight leaves, and
+# the donor sockets are added after it — so a rig can still export past the index-127 wall. Nothing said so; the
+# unit just spiked in-game. The Factory raises every RIGANIM WARNING line to a Console warning.
+if arm is not None and len(arm.data.bones) > _BONE_LIMIT:
+    print("RIGANIM WARNING: %d bones after every cull and socket — past the %d-bone budget. Bone indices break past"
+          " 127 in-game: the verts weighted to the last bones collapse or spike (the mech's 222-bone wings). Merge or"
+          " remove bones at the source." % (len(arm.data.bones), _BONE_LIMIT))
 
 bpy.ops.object.select_all(action='SELECT')
 # EXPORT SCALE (raw-FBX-parse evidence, fbx_lclscale/fbx_binddump): Blender's exporter writes meters->cm by scaling
