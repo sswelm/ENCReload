@@ -581,6 +581,20 @@ def rig_report():
         print("RIGBONE|%s|%d|%.4f,%.4f,%.4f|%.4f,%.4f,%.4f" % (bn, cnt, c.x, c.y, c.z, s.x, s.y, s.z))
 
 if mode == "probe":
+    # posestart=1 (opt-in; the C# probe's parity drill passes it): put the scene in a DEFINED pose before measuring.
+    # The glTF importer leaves every clip on an NLA track with the first one active and the scene on frame 1, so an
+    # untouched import is a blend of all clips one frame in - a pose no file states (measured 2026-10-02: a part
+    # moving 1 unit/s reads 0.0417 off its first key; three clips on one node read a scale of 1.018). Dropping the NLA
+    # tracks and going to frame 0 gives the first clip at its start, the state the C# probe computes. It goes AFTER the
+    # preview path (argv[2], which may be empty): in that slot it would be taken for the path.
+    if "posestart=1" in argv:
+        for _po in bpy.data.objects:
+            if _po.animation_data is not None:
+                for _pt in list(_po.animation_data.nla_tracks):
+                    _po.animation_data.nla_tracks.remove(_pt)
+        bpy.context.scene.frame_set(0)
+        bpy.context.view_layer.update()
+        print("VEHICLE note: probe posed at the first clip's start (posestart=1)")
     rig_report()
     _lap("rig_report")
     objs = mesh_objects()
@@ -724,6 +738,15 @@ if mode == "probe":
         c, s = world_bbox(o)
         # 8th field (2026-09-13): islands the inside-out fix would reverse in this part (0 = keeps as authored)
         print("PART|%s|%d|%.4f,%.4f,%.4f|%.4f,%.4f,%.4f|%d|%s|%d" % (o.name, len(o.data.vertices), c.x, c.y, c.z, s.x, s.y, s.z, _vis.get(o.name, 1), _bone.get(o.name, ""), _flipn.get(o.name, 0)))
+    # MATRIX rows (2026-10-03, the C# probe's parity drill): each part's matrix_world as this process holds it, row-major, 16
+    # floats in their shortest round-trip form - the C# side composes the same float32 matrix and the drill compares bit for bit
+    for o in objs:
+        print("MATRIX|%s|%s" % (o.name, " ".join(repr(float(_mv)) for _mr in o.matrix_world for _mv in _mr)))
+    # VERTEX rows: vertex 0 through the same arithmetic the visibility rays use - the world position and the normalized world normal
+    for o in objs:
+        if len(o.data.vertices):
+            _v0 = o.data.vertices[0]; _p0 = o.matrix_world @ _v0.co; _n0 = (o.matrix_world.to_3x3() @ _v0.normal).normalized()
+            print("VERTEX|%s|%s|%s" % (o.name, " ".join(repr(float(_c)) for _c in _p0), " ".join(repr(float(_c)) for _c in _n0)))
     print("VEHICLE parts listed"); sys.stdout.flush()   # sentinel + flush: Blender's C-level banner flushes AFTER Python's buffer and would otherwise glue onto the last PART line
     # optional argv[2]: export the SPLIT scene as a preview FBX so the Lab can show/zoom/highlight each part by name.
     # PERF (2026-08-20): exported UNSKINNED — plain meshes, world transforms baked, no armature. The FBX exporter
@@ -758,6 +781,24 @@ def _guard(fn):
         print("VEHICLE ERROR: rig step crashed:")
         _tb.print_exc()
         sys.exit(1)
+
+# THE BONE-INDEX WALL (review 2026-09-27): Amplitude's crowd-skinning vertex format breaks past bone INDEX 127 — NOT
+# 256 (the T-62's turret+wheels at bones 128-140 vanished; the mech's wings at 222 flung). The armature object is one
+# more entry on top, so 126 Blender bones is the budget with deploy_convert's margin. The Lab surfaces "*** WARNING"
+# lines in its status box, so an over-budget rig is said out loud instead of spiking in-game.
+_BONE_BUDGET = 126
+def _rigid_link_budget(existing, removable, tracks, limit=126):
+    """Per-track capacity after replacing the legacy carriers; count ALL other role bones."""
+    return max(0, (limit - existing + removable) // tracks) if tracks > 0 else 0
+
+
+def _bone_wall_check(_arm):
+    _n = len(_arm.data.bones)
+    if _n > _BONE_BUDGET:
+        print("VEHICLE *** WARNING: %d bones — past the %d-bone budget (bone indices break past 127 in-game: the "
+              "geometry on the last bones collapses or spikes). Lower Tread detail (the bones dial) or mark fewer "
+              "separate parts." % (_n, _BONE_BUDGET))
+    return _n
 
 out_glb, preview_fbx = argv[2], argv[3]
 def namelist(arg):
@@ -952,6 +993,14 @@ try:
     gun_reduce = _tagged_reduce_pct(argv, "gunreduce")
 except Exception as _e:
     print("VEHICLE ERROR: malformed gunreduce argument: %s" % _e); sys.exit(1)
+# TURRET (2026-10-16, user: "could you add a turret reduce slider"): the turret parts as a WELD tier of their own,
+# exactly as GUN - solid geometry, the names already sent positionally at argv[5], so the tag carries the percent
+# alone. Runs in the tier loop before the Turret bone is measured, so its pivot comes from the reduced mesh.
+#   turretreduce=<percent>
+try:
+    turret_reduce = _tagged_reduce_pct(argv, "turretreduce")
+except Exception as _e:
+    print("VEHICLE ERROR: malformed turretreduce argument: %s" % _e); sys.exit(1)
 # WINDOW (2026-09-25, user: "add the reducable part type Window"): glazing - portholes, bridge windows, windshields -
 # as a WELD tier of its own (a pane is a sheet, not rope soup). Its parts travel nowhere else, so the tag carries the
 # names file like shroudreduce=, sent at every dial setting so the names reach _role_marked (review of PR #89: at 0 %
@@ -977,6 +1026,25 @@ try:
     window_names = namelist(_wnames) if _wnames.strip() else []
 except Exception as _e:
     print("VEHICLE ERROR: malformed windowreduce argument: %s" % _e); sys.exit(1)
+# RAILING (2026-11-12, user: "add Railing as a new reducible classification"): deck railings, stanchions, guard wires and
+# ladders - thin posts and lines by the hundred, each its own tiny island. A SOUP tier like RIGGING and SHROUD (a welded
+# island bottoms out at its minimum topology; the soup pass thins it to the dial), with its own percentage. Never on the
+# Sail bone. Its parts travel nowhere else, so the tag carries the names file, sent at every dial setting like windowreduce=.
+#   railingreduce=@<names file>|<percent>
+try:
+    _rlnames, railing_reduce = _tagged_names_pct(argv, "railingreduce")
+    railing_names = namelist(_rlnames) if _rlnames.strip() else []
+except Exception as _e:
+    print("VEHICLE ERROR: malformed railingreduce argument: %s" % _e); sys.exit(1)
+# TWO-SIDED (tagged, 2026-11-14, user: "the double walling should be applied discriminately"): parts that mix closed
+# solids with single sheets in ONE welded mesh (a conning tower: thick walls, periscope tubes, and a wall that is one
+# sheet). Sail/Flag/Rudder double EVERY face and inset the copy by a fraction of the whole model, which fattens or
+# shreds the thin closed parts. This role doubles, at export, only the faces whose BACK can be seen (the pass
+# is _two_sided_pass below). The tag carries the names file and is sent only when a part is marked, so an unmarked
+# recipe's argument line is unchanged.
+#   twosided=@<names file>
+_tsarg = next((a for a in argv if a.startswith("twosided=")), None)
+twosided_names = namelist(_tsarg[9:]) if _tsarg is not None and _tsarg[9:].strip() else []
 # SAIL IDLE FOLD (argv[71], 2026-09-09, vanilla-parity request): "1" = at idle the canvas FOLDS at the yard
 # (visible bundled sail, like the vanilla triaconter's brailed-up cloth) instead of the 180-degree strike below
 # the keel. ROTATION-ONLY by construction: the canvas is band-skinned to a Sail->SailF1->SailF2 chain and the
@@ -1026,12 +1094,13 @@ oar_pivot = min(95.0, max(0.0, float(argv[58]))) if len(argv) > 58 and argv[58].
 # axial scale — blade width and pole thickness are untouched.
 oar_length = min(300.0, max(25.0, float(argv[59]))) if len(argv) > 59 and argv[59].strip() else 100.0
 recoil_bone = None               # set to "RecoilArm" when the split actually happens — the bone the clip ROTATES
-recoil_geom = None               # (pivot, axis, bore_dir, slide, R) for the arc that fakes the slide
+recoil_geom = None               # (pivot, axis, bore_dir, slide, R, tube centre) for the arc that fakes the slide
 # Residual tilt the arc leaves on the tube. The slide is faked by swinging the barrel on a long arm, so some pitch
 # is unavoidable; 3 deg is small enough to read as a straight slide and large enough to keep R finite (a pivot at
 # infinity collapses the bone chain through float32 cancellation — the documented 1e9 sentinel bug).
 RECOIL_PITCH_DEG = 3.0
 deployed_pose = {}               # bone -> quaternion at the END of Deploy: the pose a firing gun must be holding
+deployed_world = {}              # bone -> that same lift as a WORLD-space rotation about the bone's head (the breech clearance measures in world space)
 gun_bore = None                  # (breech, muzzle) — the full tube, the basis for the recoil fraction
 axis_arg = argv[6].upper()
 frames = max(2, int(argv[7]))
@@ -1053,6 +1122,14 @@ tread_cells_per_link = max(0.25, min(4.0, float(argv[15]))) if len(argv) > 15 an
 # 1 = rig the tread loops STATIC (rigid with the hull, no link bones, no conveyor — the isolation switch:
 # wheels still spin, the tracks just don't run). Geometry stays visible.
 tracks_static = len(argv) > 16 and argv[16].strip() == "1"
+# TREAD MODE (tagged, 2026-11-10): "treadmode=links" = the RIGID-LINK tread beside the hybrid conveyor (absent = the
+# conveyor, as before). Learned from the T-62, whose track works in the game: its links are SEPARATE pieces, one bone
+# each, travelling a full circuit. Measured on the Jagdpanzer, the conveyor's cells are rigid per VERTEX but the faces
+# between two cells are shared (about 2,900 edges per track join two bones; up to 420 stretch over 10% of a link per
+# frame) and the 15-frame loop snaps back onto a band that is not perfectly periodic. In links mode the band is CUT
+# between links (every face belongs to one link, the boundary edges are split), every link owns a bone (no shuttles),
+# and the clip runs one full circuit, so every link ends where it began and nothing snaps.
+tread_links = (not tracks_static) and any(a.strip() == "treadmode=links" for a in argv)
 # WAVE ROCK (argv[17] amplitude in degrees, argv[18] cycle length in frames; canoe finding 2026-07-31): a slow
 # idle sway for FLOATING units. Authored on a dedicated "Hull" bone (child of Root, carrying every part that
 # would otherwise skin to Root) so the engine's root anchor stays identity. Rotation-only by construction —
@@ -1128,6 +1205,9 @@ if mode == "rigfast":
     if flip_names:
         print("VEHICLE ERROR: Flip (winding surgery) is not supported on the source-skeleton fast path — rigfast exports the source geometry as-is; disable the fast path to flip mesh parts")
         sys.exit(1)
+    if twosided_names:
+        print("VEHICLE ERROR: Two-sided needs mesh parts — disable the source-skeleton fast path to repair the marked faces")
+        sys.exit(1)
     if sail_fold:
         print("VEHICLE ERROR: Fold sail at idle needs the generated Sail fold chain (new bones + band skinning) — the source-skeleton fast path keeps the artist skeleton; disable the fast path or the fold option")
         sys.exit(1)
@@ -1186,6 +1266,7 @@ if mode == "rigfast":
         for o in list(bpy.data.objects):
             if o not in keep:
                 bpy.data.objects.remove(o, do_unlink=True)
+        _bone_wall_check(arm)   # rigfast keeps the artist skeleton and exits before the mesh path's final check
         bpy.ops.export_scene.gltf(filepath=out_glb, export_animations=True)
         if preview_fbx:
             bpy.ops.export_scene.fbx(filepath=preview_fbx, add_leaf_bones=False, bake_anim=True, **_embed_previews)
@@ -1209,7 +1290,8 @@ if mode == "rigfast":
 _role_marked = set()
 for _rl in (wheel_names, turret_names, track_names, gun_names, rotor_names, tailrotor_names, trail_names,
             muzzle_names, cradle_names, oar_names, sail_names, rigging_names, structure_names, body_names,
-            flag_names, rudder_names, preserve_names, flip_names, detail_names, shroud_names, window_names):
+            flag_names, rudder_names, preserve_names, flip_names, detail_names, shroud_names, window_names, railing_names,
+            twosided_names):
     _role_marked.update(_rl)
 for _fo in mesh_objects():
     # the import-time Icosphere purge is conservative (skips skinned ones); on THIS path all skinning is
@@ -1364,6 +1446,13 @@ def _dissolve_limited(_rb, _angle_deg):
             _fid[_f] = _li
     # gather every cell's interior edges/verts BEFORE any dissolve runs: each cell's op deletes only elements
     # interior to that cell, so the references collected here for later cells stay valid throughout.
+    # IN INDEX ORDER, NOT SET ORDER (2026-10-12): a limited dissolve is greedy over the order it is handed, and a
+    # Python set of BMesh elements iterates by object address - a different order in every Blender process. The
+    # Bake Tests' Lab goldens recorded three different dissolve counts for the same part in three runs (the
+    # Khalandion's Object_12_Part_002: 2252, 2239, 2236 verts dissolved; the Wespe's shroud likewise); six headless
+    # runs of this helper alone gave 2254/2258/2249 unsorted and 2261 three times sorted. Indices are refreshed first:
+    # a bmesh that went through an earlier op can hold stale ones, and a stale tie would hand the order back to the set.
+    _rb.verts.index_update(); _rb.edges.index_update()
     _jobs = []
     for _li, _leaf in enumerate(_leaves):
         _es = set(); _vs = set()
@@ -1375,7 +1464,7 @@ def _dissolve_limited(_rb, _angle_deg):
             for _v in _f.verts:
                 if all(_fid.get(_vf) == _li for _vf in _v.link_faces):
                     _vs.add(_v)
-        _jobs.append((list(_es), list(_vs)))
+        _jobs.append((sorted(_es, key=lambda _e: _e.index), sorted(_vs, key=lambda _v: _v.index)))
     # run a cell even when it has NO interior edges: a disconnected single-face island (decal/panel shards)
     # has no edge with two linked faces, but its collinear rim verts still dissolve in the VERT phase —
     # skipping those cells left every such island at full density (review P2, reproduced: 4,100 lone
@@ -1396,7 +1485,7 @@ _lap("prep")
 _by_name = {}
 for _o in objs:
     _by_name.setdefault(_o.name, _o)   # first wins, matching find_opt's linear-scan order
-for _rlabel, _rnames, _rpct in (("DEFAULT", default_names, default_reduce), ("RIGGING", rigging_names, rigging_reduce), ("SHROUD", shroud_names, shroud_reduce), ("STRUCTURE", structure_names, structure_reduce), ("BODY", body_names, body_reduce), ("OAR", oar_names, oar_reduce), ("SAIL", sail_names, sail_reduce), ("RUDDER", rudder_names, rudder_reduce), ("WHEEL", wheel_names, wheel_reduce), ("GUN", gun_names, gun_reduce), ("WINDOW", window_names, window_reduce), ("FLIP", flip_names, flip_reduce), ("PRESERVE", preserve_names, preserve_reduce), ("DETAIL", detail_names, detail_reduce)):
+for _rlabel, _rnames, _rpct in (("DEFAULT", default_names, default_reduce), ("RIGGING", rigging_names, rigging_reduce), ("SHROUD", shroud_names, shroud_reduce), ("RAILING", railing_names, railing_reduce), ("STRUCTURE", structure_names, structure_reduce), ("BODY", body_names, body_reduce), ("OAR", oar_names, oar_reduce), ("SAIL", sail_names, sail_reduce), ("RUDDER", rudder_names, rudder_reduce), ("WHEEL", wheel_names, wheel_reduce), ("TURRET", turret_names, turret_reduce), ("GUN", gun_names, gun_reduce), ("WINDOW", window_names, window_reduce), ("FLIP", flip_names, flip_reduce), ("PRESERVE", preserve_names, preserve_reduce), ("DETAIL", detail_names, detail_reduce)):
     if not _rnames or _rpct <= 0.5:
         continue
     try:
@@ -1411,7 +1500,7 @@ for _rlabel, _rnames, _rpct in (("DEFAULT", default_names, default_reduce), ("RI
             print("VEHICLE WARN: %s part '%s' not found — skipped" % (_rlabel.lower(), _rn)); continue
         _vraw = len(_ro2.data.vertices)
         _rb = bmesh.new(); _rb.from_mesh(_ro2.data)
-        _weld = _rlabel not in ("RIGGING", "SHROUD")   # both are rope soup: no weld, dissolve + collapse on the raw mesh
+        _weld = _rlabel not in ("RIGGING", "SHROUD", "RAILING")   # all three are rope/post soup: no weld, dissolve + collapse on the raw mesh
         if _weld:
             _dim = max(_ro2.dimensions) or 1.0
             # Weld WITHIN each material only. A ripped hull paints its plating, boot-topping stripe and portholes as
@@ -1756,8 +1845,17 @@ if gun_names or muzzle_names or cradle_names:
         # hanging under it. Rotating the arm by theta = dist/R swings the tube R*theta along its own bore — a
         # near-straight slide — while tilting it only theta. Same trick deploy_convert uses, and the reason its
         # howitzer visibly slides in-game while this one did not.
-        _bore_d = (gun_axis[1] - gun_axis[0]).normalized() if gun_axis is not None else Vector((0.0, -1.0, 0.0))
+        # the bore from gun_bore (breech -> muzzle), NOT from gun_axis (trunnion -> muzzle): at a pivot of 1.0 the trunnion
+        # IS the muzzle and that difference is a float32 residue - +Y on a fixture, exactly zero on the Wespe's coordinates,
+        # which sat the arm on the Barrel with no arc (found 2026-10-16 porting d3; fixed 2026-11-07)
+        _bore_d = (gun_bore[1] - gun_bore[0]).normalized() if gun_bore is not None else Vector((0.0, -1.0, 0.0))
         _slide = (gun_bore[1] - gun_bore[0]).length * recoil_dist if gun_bore is not None else 1.0
+    # a tube whose marked points coincide has no span: no bore, a zero radius, and stage 4 died dividing by it
+    # (ZeroDivisionError, found 2026-10-16; fixed 2026-11-07). Said out loud instead; the gun keeps its elevation.
+    if recoil_dist > 0.0 and tube_names and _slide <= 0.0:
+        print("VEHICLE RECOIL *** WARNING: the tube's breech and muzzle coincide (a zero span) — no recoil arm and no Recoil "
+              "clip; mark tube parts that have a length")
+    elif recoil_dist > 0.0 and tube_names:
         _R = _slide / math.tan(math.radians(RECOIL_PITCH_DEG))     # radius for the chosen residual tilt
         _axis = _bore_d.cross(Vector((0.0, 0.0, 1.0)))
         if _axis.length < 1e-4:
@@ -1770,7 +1868,7 @@ if gun_names or muzzle_names or cradle_names:
         eb.tail = _pivot + Vector((0, 0, max(0.05, max(_ts) * 0.25)))
         eb.parent = eb_gun                                         # rides the elevation, like the tube it carries
         eb_recoil_arm = eb
-        recoil_geom = (_pivot.copy(), _axis.copy(), _bore_d.copy(), _slide, _R)
+        recoil_geom = (_pivot.copy(), _axis.copy(), _bore_d.copy(), _slide, _R, _tc.copy())   # the tube centre travels with it
         print("VEHICLE RECOIL ARM: pivot (%.2f, %.2f, %.2f), R=%.1f for a %.2f-unit slide (residual tilt %.1f deg) "
               "— a bone's own translation does not render; an ancestor's rotation does"
               % (_pivot.x, _pivot.y, _pivot.z, _R, _slide, RECOIL_PITCH_DEG))
@@ -1927,6 +2025,17 @@ if sail_found and rigging_names:
         rigging_on_sail.add(_rgo8.name)
     if rigging_on_sail:
         print("VEHICLE RIGGING: %d part(s) ride the Sail bone — struck/raised with the canvas, SINGLE-sided (own mesh, never doubled with Mesh_Sail)" % len(rigging_on_sail))
+
+# ---- TWO-SIDED parts: resolved to a name set, like rudders - own mesh through the join (the export pass finds them by
+# name, the inside-out fix and the global doubling leave them alone), skinned to the body ----
+twosided_by_name = set()
+for _fn3t in twosided_names:
+    _fo3t = find_opt(_fn3t)
+    if _fo3t is None:
+        print("VEHICLE WARN: two-sided part '%s' not found — skipped" % _fn3t); continue
+    twosided_by_name.add(_fo3t.name)
+if twosided_by_name:
+    print("VEHICLE TWO-SIDED: %d part(s) — a face whose back shows is doubled at export, every other face left" % len(twosided_by_name))
 
 # ---- RUDDER parts: resolved to a name set — they keep their own mesh through the join (identity is needed at
 # export for the double-siding, and at the flip pass for the exclusion), skinned to the body like Body parts ----
@@ -2203,6 +2312,11 @@ _band_rot = {}     # wrap bone -> radius the tread band rides at (for conveyor-p
 _link_pitch = {}   # part -> measured track-link pitch (conveyor advance = one pitch -> invisible restart)
 _link_fund = {}    # part -> physical link length (autocorrelation fundamental) for rigid link cells
 _link_jobs = {}    # part -> path-instanced rigid-link job (cells, ring path, rest transforms)
+if tread_links:
+    # All role bones exist now. Only the actual legacy carriers will be removed when
+    # link jobs are installed; wheels alone omit trails, recoil, oars, sails, etc.
+    _carrier_names = {name for info in track_infos for name in info[1] if arm_data.bones.get(name) is not None}
+    _rigid_budget = _rigid_link_budget(len(arm_data.bones), len(_carrier_names), len(track_infos), _BONE_BUDGET)
 for o in objs:
     if o.name in oar_by_name:
         # OARS skin PER-VERTEX into their individual oar bones (like treads, one mesh -> many bones)
@@ -2309,7 +2423,9 @@ for o in objs:
         _rtdir = (_rim_dir(_rcl, _rollR, 1, 1) if (_rcl and _rollR) else Vector((1, 0, 0)))
         _tread_dirs[_tn] = (_fdir, _rdir, _rtdir)
         _names = {_botb, _topb, _rampfb, _ramprb, _ramprtb, _sprb, _idlb, _wrapgfb, _wrapgrb}
-        _vgs = {n: o.vertex_groups.new(name=n) for n in _names}
+        # SORTED: a set's iteration order follows Python's randomized string hash, so the group indices (and every
+        # vertex's group order) changed from run to run (found sizing the d6 port, 2026-10-17; fixed 2026-11-06)
+        _vgs = {n: o.vertex_groups.new(name=n) for n in sorted(_names)}
         _spr_c, _spr_r = (_fcl["c"], _fcl["m"] * 0.5) if _fcl else (Vector((1e9,) * 3), 0.0)
         _idl_c, _idl_r = (_rcl["c"], _rcl["m"] * 0.5) if _rcl else (Vector((1e9,) * 3), 0.0)
 
@@ -2582,9 +2698,10 @@ for o in objs:
             # cells made the sprocket wrap read chunky, half-link was better, quarter-link (user request) makes
             # the wrap facets ~15 deg. Straight runs are unaffected (rigid transport shows no cell boundaries
             # on a straight). The conveyor advances CELLS_PER_LINK cells per loop = one full link, keeping
-            # speed and exact restart. NOTE the Amplitude 256-bone budget: quarter-link = 216 link bones on the
-            # Jagdpanzer — only affordable because link mode DELETES the unused legacy tread bones (18).
-            _CPL = tread_cells_per_link   # cells per link — the Lab's "Tread detail" bones dial
+            # speed and exact restart. NOTE the bone budget (_BONE_BUDGET, the index-127 wall): quarter-link cells
+            # were 216 link bones on the pre-hybrid Jagdpanzer; the v2 hybrid below bones only the wrap arcs, and
+            # link mode DELETES the unused legacy tread bones (18).
+            _CPL = tread_cells_per_link   # cells per link — the Lab's "Tread detail" bones dial (links mode: the length of a rigid link, clamped to the bone wall below)
 
             def _project(_ptsP, _SP2):
                 # per-vert path parameter: nearest path sample (XZ plane)
@@ -2640,14 +2757,32 @@ for o in objs:
             _L = _S[_M]
             _s_of = _project(_pts, _S)
             _NC = max(8, int(round(_L / (_fund_p / _CPL))))
-            # HARD BONE-BUDGET CLAMP (the Bradley incident: its finely-molded links at detail 2 exploded to
-            # 278 bones — past the 256 GPU vertex-format wall, guaranteed spikes — and the rig let it happen
-            # silently). Links get whatever remains of 240 after wheels/Root/Turret/Gun, split evenly across
-            # tracks; cells grow to fit. 240 keeps headroom under the 256 wall.
+            # CELL-EXPLOSION CLAMP (the Bradley incident: its finely-molded links at detail 2 exploded to 278
+            # bones, and the rig let it happen silently). This caps CELLS, not bones: the v2 hybrid below gives
+            # bones only to the wrap-arc cells plus one shuttle per straight run, about a third of the cells. The
+            # real limit is the bone-INDEX wall at 127 (see _BONE_BUDGET), checked on the finished armature —
+            # which says when a rig is over it, rather than coarsening every tread that already fits.
             _non_link = len(cluster_bones) + 1 + (1 if turret_names else 0) + (1 if gun_names else 0)
             _link_budget = max(8, (240 - _non_link) // max(1, len(track_names)))
+            _nl = _kph = 0
+            if tread_links:
+                # every cell is a bone here: the budget is the bone-index wall itself. The loop is _nl MOLDED links
+                # long (the pattern's period: a copy of one link fits every place on the loop only at that length);
+                # the detail dial asks for up to that many cells per link, the wall says how many fit.
+                _link_budget = _rigid_budget
+                if _link_budget < 4:
+                    _error = "rigid links need at least 4 bones per track; the %d-bone budget leaves %d. Mark fewer separate animated parts." % (_BONE_BUDGET, _link_budget)
+                    print("VEHICLE ERROR: " + _error)
+                    raise RuntimeError(_error)
+                _nl = max(4, int(round(_L / _fund_p)))
+                if _nl > _link_budget:
+                    print("VEHICLE *** WARNING: tread '%s' has %d links, the bone wall leaves %d per track - links are merged (%d bones), the molded pattern will not repeat exactly"
+                          % (o.name, _nl, _link_budget, _link_budget))
+                    _nl = _link_budget
+                _kph = max(1, min(int(round(_CPL)), _link_budget // _nl))
+                _NC = _nl * _kph
             if _NC > _link_budget:
-                print("VEHICLE tread '%s' BONE BUDGET CLAMP: %d cells -> %d (%d wheels+aux leave %d links/track under the 256-bone wall) — cells grow accordingly; lower Tread detail to regain smoothness headroom"
+                print("VEHICLE tread '%s' CELL CLAMP: %d cells -> %d (%d wheels+aux leave %d cells/track) — cells grow accordingly; lower Tread detail to regain smoothness headroom"
                       % (o.name, _NC, _link_budget, len(cluster_bones), _link_budget))
                 _NC = _link_budget
             _cellL = _L / _NC
@@ -2664,6 +2799,107 @@ for o in objs:
                 if _best_cross is None or _cross < _best_cross:
                     _best_off, _best_cross = _off, _cross
             _cell_of = [min(_NC - 1, int(((_s_of[_vi] + _best_off) % _L) / _cellL)) for _vi in range(len(_wmap))]
+            if tread_links:
+                # PATH-INSTANCED LINKS, the T-62's shape made from one band. Three findings shaped this (2026-11-10,
+                # each a render of the Jagdpanzer running a full circuit):
+                #   1. faces shared by two cells stretch - a link must be its own piece of mesh;
+                #   2. a band modelled in place has every link pre-bent to where it sits - a piece of the sprocket's arc
+                #      stays an arc on the ground - so a link must be FLAT, laid on the chord between its two pins;
+                #   3. the source band has stretches with next to no geometry (hidden under the side skirts), and a full
+                #      circuit carries them into view - so every link must be a COPY of one complete link.
+                # So: the loop is _nl molded links long; one complete, straight link of the ground run is the TEMPLATE
+                # (its _kph cells, when the bone wall leaves room for more than one bone per link); every link of the
+                # loop is a copy of it, each vertex keeping its distance ALONG the path from its cell's centre and its
+                # height ABOVE the path, laid out on its cell's chord. The original band's faces are then removed.
+                import bmesh as _bml
+                _bm = _bml.new(); _bm.from_mesh(o.data)
+                _hl = 0.5 * _cellL
+
+                def _pe(_sq):
+                    _sq = _sq % _L
+                    _b = min(_M - 1, max(0, _bs.bisect_right(_S, _sq) - 1)); _b2 = (_b + 1) % _M
+                    _sg = _S[_b + 1] - _S[_b]
+                    _fq = ((_sq - _S[_b]) / _sg) if _sg > 1e-9 else 0.0
+                    return _pts[_b].lerp(_pts[_b2], _fq)
+
+                def _s_at(_x, _z):
+                    _bd, _bmi = 1e18, 0
+                    for _m in range(_M):
+                        _pp = _pts[_m]
+                        _dd = (_pp.x - _x) * (_pp.x - _x) + (_pp.z - _z) * (_pp.z - _z)
+                        if _dd < _bd:
+                            _bd, _bmi = _dd, _m
+                    return _S[_bmi]
+                _frame_of = {}
+                for _ci in range(_NC):
+                    _sc0 = ((_ci + 0.5) * _cellL - _best_off) % _L
+                    _pa, _pb = _pe(_sc0 - _hl), _pe(_sc0 + _hl)
+                    _chord = (_pb - _pa).length
+                    _dc = (_pb - _pa); _dc = _dc.normalized() if _dc.length > 1e-9 else Vector((1, 0, 0))
+                    # the path samples a vertex of this cell may project onto: its own stretch and a cell either side
+                    # (the nearest sample of the WHOLE path put vertices near the sprocket, where the ramp and the top
+                    # run pass close by, on the other branch and threw them a unit away)
+                    _near = [_m for _m in range(_M) if abs(((_S[_m] - _sc0 + 0.5 * _L) % _L) - 0.5 * _L) <= 1.5 * _cellL]
+                    _frame_of[_ci] = (_sc0, (_pa + _pb) * 0.5, _dc, Vector((-_dc.z, 0.0, _dc.x)), _near, _chord)
+                _faces_of = {}
+                for _f in _bm.faces:
+                    _c = _f.calc_center_median()
+                    _faces_of.setdefault(min(_NC - 1, int(((_s_at(_c.x, _c.z) + _best_off) % _L) / _cellL)), []).append(_f)
+                # the template link: complete (the most faces, within a tenth), straight (its cells' chords as long as
+                # the cells: no arc under them) and lowest (the ground run, where the artist modelled what is seen)
+                _nfl = [sum(len(_faces_of.get(_j * _kph + _q, ())) for _q in range(_kph)) for _j in range(_nl)]
+                _cand = [_j for _j in range(_nl) if _nfl[_j] >= 0.9 * max(_nfl)
+                         and all(abs(_frame_of[_j * _kph + _q][5] - _cellL) <= 0.005 * _cellL for _q in range(_kph))]
+                if not _cand:
+                    _cand = [_j for _j in range(_nl) if _nfl[_j] >= 0.9 * max(_nfl)]
+                _tj = min(_cand, key=lambda _j: (sum(_frame_of[_j * _kph + _q][1].z for _q in range(_kph)), _j))
+                _nf0, _nv0 = len(_bm.faces), len(_bm.verts)
+                _orig_verts = list(_bm.verts)
+                _vcell = {}
+                for _q in range(_kph):
+                    _src = _faces_of.get(_tj * _kph + _q, [])
+                    if not _src:
+                        continue
+                    _sc0, _mid0, _dc0, _nc0, _near0, _ = _frame_of[_tj * _kph + _q]
+                    # the template cell's vertices in path coordinates: along the path from the cell's centre, above it
+                    _local = {}
+                    for _f in _src:
+                        for _v in _f.verts:
+                            if _v in _local:
+                                continue
+                            _bd, _bmi = 1e18, 0
+                            for _m in _near0:
+                                _pp = _pts[_m]
+                                _dd = (_pp.x - _v.co.x) * (_pp.x - _v.co.x) + (_pp.z - _v.co.z) * (_pp.z - _v.co.z)
+                                if _dd < _bd:
+                                    _bd, _bmi = _dd, _m
+                            _tp = _pts[(_bmi + 1) % _M] - _pts[(_bmi - 1) % _M]
+                            _tp = _tp.normalized() if _tp.length > 1e-9 else Vector((1, 0, 0))
+                            _rel = Vector((_v.co.x - _pts[_bmi].x, 0.0, _v.co.z - _pts[_bmi].z))
+                            _ds = ((_S[_bmi] + _rel.dot(_tp) - _sc0 + 0.5 * _L) % _L) - 0.5 * _L
+                            _local[_v] = (_ds, _rel.dot(Vector((-_tp.z, 0.0, _tp.x))))
+                    for _j in range(_nl):
+                        _ci = _j * _kph + _q
+                        _dup = _bml.ops.duplicate(_bm, geom=_src)
+                        _vm = _dup["vert_map"]
+                        _, _mid, _dc, _nc, _, _ = _frame_of[_ci]
+                        for _v, (_ds, _hv) in _local.items():
+                            _nv = _vm[_v]
+                            _new = _mid + _dc * _ds + _nc * _hv
+                            _nv.co.x, _nv.co.z = _new.x, _new.z
+                            _vcell[_nv] = _ci
+                _bml.ops.delete(_bm, geom=_orig_verts, context='VERTS')
+                _bm.verts.ensure_lookup_table(); _bm.verts.index_update()
+                _cell_of = [_vcell[_v] for _v in _bm.verts]
+                _bm.normal_update()
+                _nf1, _nv1 = len(_bm.faces), len(_bm.verts)
+                _bm.to_mesh(o.data); _bm.free()
+                _cn = o.data.attributes.get("custom_normal")   # the source's custom normals describe the bent band
+                if _cn is not None:
+                    o.data.attributes.remove(_cn)
+                o.data.update()
+                print("VEHICLE tread '%s' RIGID LINKS instanced: %d link(s) x %d cell(s), each a copy of link %d (%d of the band's %d faces); %d -> %d verts, %d -> %d faces"
+                      % (o.name, _nl, _kph, _tj, _nfl[_tj], _nf0, _nv0, _nv1, _nf0, _nf1))
             # HYBRID LINK/SHUTTLE SPLIT (treadize v2, the user's "smart chains" design): on a STRAIGHT segment
             # every link moves identically, so ONE translating shuttle bone carries the whole run — per-link
             # bones only on the wheel-wrap ARCS plus a one-advance TRANSITION margin on each side (so links
@@ -2689,7 +2925,7 @@ for o in objs:
             _link_cells, _shuttle_cells = [], []
             for _ci in sorted(set(_cell_of)):
                 _sc = ((_ci + 0.5) * _cellL - _best_off) % _L
-                (_link_cells if _in_arcs(_sc) else _shuttle_cells).append(_ci)
+                (_link_cells if (tread_links or _in_arcs(_sc)) else _shuttle_cells).append(_ci)
             # group shuttle cells into contiguous RUNS (each run = one straight stretch = one bone); cells of
             # one run share a single translation, so contiguity in cell index is the right grouping (arc cells
             # break the sequence). Handle the wrap-around join (last..first).
@@ -2718,12 +2954,19 @@ for o in objs:
                 # outran the eight ROAD WHEELS, whose symmetry snap (105.6 -> 90 deg) puts their rims at
                 # ~0.37/loop (user field report: "the belt should go slightly slower"). Default 3 = 0.373
                 # near-syncs the road wheels — the dominant visual — restarting on the quarter-link cleat grid.
-                "adv_cells": tread_adv_cells,
+                # links mode: the whole loop in a whole number of spin cycles, each advancing about what the conveyor's
+                # speed dial asks (quarter links of the MOLDED link per cycle), so the wheels' roll still matches the belt
+                "circuit_cycles": max(1, int(round(_L / max(1e-6, tread_adv_cells * _fund_p / 4.0)))),
+                "adv_cells": ((_L / max(1, int(round(_L / max(1e-6, tread_adv_cells * _fund_p / 4.0))))) / _cellL) if tread_links else tread_adv_cells,
                 "aux": list(_tnames),   # legacy carrier bones — unused in link mode, deleted to fit the bone cap
                 "s_rest": [((_ci + 0.5) * _cellL - _best_off) % _L for _ci in range(_NC)],
             }
-            print("VEHICLE tread '%s' HYBRID v2: %d link bones on wraps + %d shuttle run(s) covering %d cells (cell %.3f, loop %.2f, cut phase %.3f)"
-                  % (o.name, len(_link_cells), len(_runs), len(_shuttle_cells), _cellL, _L, _best_off))
+            if tread_links:
+                print("VEHICLE tread '%s' RIGID LINKS: %d link bones, one per link, no shuttles (link %.3f, loop %.2f, cut phase %.3f)"
+                      % (o.name, len(_link_cells), _cellL, _L, _best_off))
+            else:
+                print("VEHICLE tread '%s' HYBRID v2: %d link bones on wraps + %d shuttle run(s) covering %d cells (cell %.3f, loop %.2f, cut phase %.3f)"
+                      % (o.name, len(_link_cells), len(_runs), len(_shuttle_cells), _cellL, _L, _best_off))
         if _tn not in _link_jobs:
             for _vi, _ws in enumerate(_wmap):
                 for _gn, _w in _ws.items():
@@ -2784,7 +3027,7 @@ if _link_jobs:
     bpy.ops.object.mode_set(mode='EDIT')
     for _tn, _job in _link_jobs.items():
         # the legacy carrier bones carry no weights in link mode — delete them (quarter-link cells need the
-        # bone budget: Amplitude caps skeletons at 256 bones)
+        # bone budget: indices break past 127, see _BONE_BUDGET)
         for _an in _job["aux"]:
             _ab = arm_data.edit_bones.get(_an)
             if _ab is not None:
@@ -2803,7 +3046,7 @@ if _link_jobs:
             eb.tail = _P0 + Vector((0, 0, 0.1))
             eb.parent = arm_data.edit_bones[body_bone]
     bpy.ops.object.mode_set(mode='OBJECT')
-    print("VEHICLE armature: %d bones total (Amplitude cap 256)" % len(arm_data.bones))
+    print("VEHICLE armature: %d bones total (budget %d: bone indices break past 127)" % (len(arm_data.bones), _BONE_BUDGET))
     for _tn, _job in _link_jobs.items():
         _o = bpy.data.objects[_job["obj"]]
         for _g in list(_o.vertex_groups):   # carrier groups stayed empty in link mode — drop them
@@ -2840,6 +3083,8 @@ def _join_per_bone():
             _k = "__oar__" + o.name
         elif o.name in rudder_by_name:
             _k = "__rud__" + o.name
+        elif o.name in twosided_by_name:
+            _k = "__two__" + o.name   # TWO-SIDED: own mesh, found by name at export
         elif o.name in preserve_by_name:
             _k = "__keep__" + o.name   # PRESERVE: own mesh, so the flip and doubling passes can exempt it by name
         elif o.name in flip_by_name:
@@ -2882,6 +3127,10 @@ if rock_on:
     _motion_periods.append(rock_frames)
 if oar_bake:
     _motion_periods.append(oar_frames)
+if tread_links and _link_jobs:
+    # the whole loop in a whole number of spin cycles: every link travels its loop and is back at its own place on the
+    # last frame (the T-62's full circuit) - no restart onto a neighbour's place
+    _motion_periods.append(frames * max(_j9["circuit_cycles"] for _j9 in _link_jobs.values()))
 _clip_frames = max(_motion_periods)
 def _fitted_repeats(_period):
     return _fitted_cycle_count(_clip_frames, _period)
@@ -3338,6 +3587,10 @@ if track_infos and clusters:
             # forward-rolling tread (degrees>0, bottom must run -X) advances with NEGATIVE s.
             _job = _link_jobs[_tn]
             _adv_link = -_job["adv_cells"] * _job["cellL"] * (1.0 if degrees >= 0 else -1.0)
+            if tread_links:
+                # the whole loop over the clip: _adv_link * _spin_repeats = one circuit exactly
+                _adv_link = -(_job["L"] / max(1, _spin_repeats)) * (1.0 if degrees >= 0 else -1.0)
+                _qprev = {}
             _restM, _P0s, _t0s = {}, {}, {}
             for _ci in _job["cells"]:
                 _bn = "%sL%02d" % (_job["prefix"], _ci)
@@ -3351,6 +3604,30 @@ if track_infos and clusters:
                     _bn = "%sL%02d" % (_job["prefix"], _ci)
                     pb = arm.pose.bones[_bn]
                     _P1, _t1 = _path_eval(_job, _job["s_rest"][_ci] + _adv_link * _spin_repeats * _f / _clip_frames)
+                    if tread_links:
+                        # A CHAIN LINK SPANS ITS TWO PINS: the pins (half a link before and after its centre) ride the
+                        # path, the link lies on the chord between them. Turning a link with the path's direction at its
+                        # centre swung its ends out at every corner (the ramp onto the road wheels, the wraps: the first
+                        # render); on the chord, neighbours meet at their shared pin on every frame.
+                        # The turn is an ANGLE about the axle (the path lies in XZ), never the shortest arc between two
+                        # directions (undefined at 180 degrees: a link turns all the way round), keyed as a quaternion
+                        # that keeps its sign from frame to frame.
+                        _h = 0.5 * _job["cellL"]
+                        _s0 = _job["s_rest"][_ci]; _s1 = _s0 + _adv_link * _spin_repeats * _f / _clip_frames
+                        _a0, _ = _path_eval(_job, _s0 - _h); _b0, _ = _path_eval(_job, _s0 + _h)
+                        _a1, _ = _path_eval(_job, _s1 - _h); _b1, _ = _path_eval(_job, _s1 + _h)
+                        _c0 = _b0 - _a0; _c1 = _b1 - _a1
+                        _th = math.atan2(-_c1.z, _c1.x) - math.atan2(-_c0.z, _c0.x)
+                        _M = Matrix.Translation((_a1 + _b1) * 0.5) @ Matrix.Rotation(_th, 4, 'Y') @ Matrix.Translation(-(_a0 + _b0) * 0.5)
+                        pb.rotation_mode = 'QUATERNION'
+                        pb.matrix = _M @ _restM[_ci]
+                        _qn = pb.rotation_quaternion.copy()
+                        if _ci in _qprev and _qprev[_ci].dot(_qn) < 0.0:
+                            _qn.negate(); pb.rotation_quaternion = _qn
+                        _qprev[_ci] = _qn
+                        pb.keyframe_insert("location", frame=_f)
+                        pb.keyframe_insert("rotation_quaternion", frame=_f)
+                        continue
                     _q = _t0s[_ci].rotation_difference(_t1)
                     _M = Matrix.Translation(_P1) @ _q.to_matrix().to_4x4() @ Matrix.Translation(-_P0s[_ci])
                     pb.matrix = _M @ _restM[_ci]
@@ -3373,8 +3650,12 @@ if track_infos and clusters:
                 bpy.context.scene.frame_set(_clip_frames)
                 pb.location = _local * _spin_repeats
                 pb.keyframe_insert("location", frame=_clip_frames)
-            print("VEHICLE tread '%s' HYBRID conveyor: %d link bones on wraps + %d shuttle(s), advance %.3f/loop"
-                  % (_tn, len(_job["cells"]), len(_job["runs"]), abs(_adv_link)))
+            if tread_links:
+                print("VEHICLE tread '%s' RIGID LINKS circuit: %d link bones, the whole loop %.2f in %d frames (%.3f per spin cycle)"
+                      % (_tn, len(_job["cells"]), _job["L"], _clip_frames, abs(_adv_link)))
+            else:
+                print("VEHICLE tread '%s' HYBRID conveyor: %d link bones on wraps + %d shuttle(s), advance %.3f/loop"
+                      % (_tn, len(_job["cells"]), len(_job["runs"]), abs(_adv_link)))
             continue
         # snap the advance to ONE MEASURED LINK PITCH when plausible — the loop restart then maps the tread
         # pattern onto itself (invisible), instead of jerking by a fraction of a link every loop
@@ -3511,7 +3792,9 @@ if trail_bones and trail_spread > 0.01:
         _gb = arm.data.bones.get("Gun"); _gpb = arm.pose.bones.get("Gun")
         if _gb is not None and _gpb is not None:
             _trun, _mz = gun_axis
-            _bar = (_mz - _trun)
+            # A muzzle pivot makes trunnion -> muzzle zero (or float32 residue). Choose the lift plane and sign
+            # from the full bore, as recoil does; the trunnion remains the centre of the lift.
+            _bar = (gun_bore[1] - gun_bore[0]) if gun_bore is not None else (_mz - _trun)
             _ax = _bar.cross(Vector((0.0, 0.0, 1.0)))
             if _ax.length < 1e-4:                     # a tube already pointing straight up has no elevation plane
                 _ax = Vector((1.0, 0.0, 0.0))
@@ -3526,6 +3809,7 @@ if trail_bones and trail_spread > 0.01:
             _gpb.rotation_quaternion = Quaternion(_glocal, math.radians(abs(gun_deploy_elev)) * _gsign * (1.0 if gun_deploy_elev > 0 else -1.0))
             _gpb.keyframe_insert('rotation_quaternion', frame=trail_frames)
             deployed_pose["Gun"] = _gpb.rotation_quaternion.copy()
+            deployed_world["Gun"] = Quaternion(_ax, math.radians(abs(gun_deploy_elev)) * _gsign * (1.0 if gun_deploy_elev > 0 else -1.0))   # the same lift about the world axis, for the clearance
             print("VEHICLE DEPLOY gun: elevate %.1f deg about world (%.2f, %.2f, %.2f) over 0..%d frames"
                   % (gun_deploy_elev, _ax.x, _ax.y, _ax.z, trail_frames))
         else:
@@ -3570,7 +3854,7 @@ if recoil_bone is not None and gun_axis is not None:
     _rb = arm.pose.bones.get(recoil_bone)
     _rdb = arm.data.bones.get(recoil_bone)
     if _rb is not None and _rdb is not None:
-        _pivot, _axis, _bore_d, _slide, _R = recoil_geom
+        _pivot, _axis, _bore_d, _slide, _R, _gun_c = recoil_geom
         _len = (gun_bore[1] - gun_bore[0]).length if gun_bore is not None else _slide
         _back = -_bore_d * _slide                              # AWAY from the muzzle, along the bore (for reporting)
         # ROTATE THE ARM, don't translate the barrel — the arm's rotation is what survives to the GPU.
@@ -3579,8 +3863,10 @@ if recoil_bone is not None and gun_axis is not None:
         _rm3 = (arm.matrix_world @ _rdb.matrix_local).to_3x3()
         _local_axis = (_rm3.inverted() @ _axis).normalized()
         _theta = _slide / _R
-        _test = (_tc - _pivot).copy(); _test.rotate(Quaternion(_axis, _theta))
-        _rsign = 1.0 if (_pivot + _test - _tc).dot(_bore_d) < 0 else -1.0   # muzzle must go AWAY from the target
+        # the TUBE centre from recoil_geom, not the module-level _tc: the track skinning and conveyor loops rebind _tc to
+        # the last track's bbox centre on the way, which decided this sign for a tracked gun (found 2026-10-19; fixed 2026-11-06)
+        _test = (_gun_c - _pivot).copy(); _test.rotate(Quaternion(_axis, _theta))
+        _rsign = 1.0 if (_pivot + _test - _gun_c).dot(_bore_d) < 0 else -1.0   # muzzle must go AWAY from the target
         _kick = max(1, int(round(recoil_frames * 0.15)))
         _rb.rotation_mode = 'QUATERNION'
         _rest_q = Quaternion((1.0, 0.0, 0.0, 0.0))
@@ -3631,15 +3917,20 @@ if recoil_bone is not None and gun_axis is not None:
         # lowest static vertex on the model.
         bpy.context.view_layer.update()
 
-        # meshes are merged per bone and named "Mesh_<bone>" by this point — bone_of still holds SOURCE part names
+        # meshes are merged per bone and named "Mesh_<bone>" by this point — bone_of still holds SOURCE part names. The tube
+        # rides Barrel (Mesh_Barrel); the arm (recoil_bone) carries no mesh. This searched "Mesh_" + recoil_bone, so no rig
+        # ever printed a clearance - and had one, _trun was bound only by the deploy block and the pose-bone quaternion it
+        # rotated by lives in the bone's frame, not the world's (found 2026-10-18 porting e3; fixed 2026-11-07)
+        _barrel_mesh = "Mesh_Barrel"
         _statics = [o for o in bpy.data.objects
-                    if o.type == 'MESH' and o.data.vertices and o.name != "Mesh_" + recoil_bone]
+                    if o.type == 'MESH' and o.data.vertices and o.name != _barrel_mesh]
         if _statics:
             _ground = min(min((o.matrix_world @ _v.co).z for _v in o.data.vertices) for o in _statics)
-            _bar_objs = [o for o in bpy.data.objects if o.type == 'MESH' and o.name == "Mesh_" + recoil_bone]
+            _bar_objs = [o for o in bpy.data.objects if o.type == 'MESH' and o.name == _barrel_mesh]
             if _bar_objs:
-                # the barrel's own lowest point, deployed and slid fully back
-                _dq = deployed_pose.get("Gun")
+                # the barrel's own lowest point, deployed (the lift about the trunnion, in world space) and slid fully back
+                _trun = gun_axis[0]
+                _dq = deployed_world.get("Gun")
                 _lowest = None
                 # Barrel is a CHILD of Gun, so its local slide is rotated by the elevation too — the recoil vector
                 # has to go INSIDE the rotation, not after it. (Left outside, this measured a level-bore slide and
@@ -3693,7 +3984,7 @@ if fix_inside_out:
     _fall = [o for o in bpy.context.scene.objects if o.type == 'MESH' and o.data.polygons]
     _fxn = 0; _fxkept = 0
     for _fo in _fall:
-        if any(g.name.startswith("Oar_") or g.name in ("Sail", "Flag") for g in _fo.vertex_groups) or _fo.name.startswith("Mesh___rud__") or _fo.name.startswith("Mesh___keep__"):
+        if any(g.name.startswith("Oar_") or g.name in ("Sail", "Flag") for g in _fo.vertex_groups) or _fo.name.startswith("Mesh___rud__") or _fo.name.startswith("Mesh___keep__") or _fo.name.startswith("Mesh___two__"):
             continue   # (Flip-marked meshes stay IN this pool — the marked reversal below composes with this pass as an XOR)
         _fb = bmesh.new(); _fb.from_mesh(_fo.data); _fb.normal_update()
         _fb.verts.ensure_lookup_table(); _fb.faces.ensure_lookup_table()
@@ -3758,8 +4049,106 @@ if _flip_done:
 # Marked OAR meshes are NEVER doubled — not even under the global switch (review find 2026-09-05: the global
 # path used to include them): the Khalandian's blades ship as authored front/back sheet pairs, already
 # two-sided, and doubling them z-shimmered four near-coincident layers. The role's nature decides, both ways.
+# TWO-SIDED parts (2026-11-14): per FACE, by whether its BACK can be seen. From sample points on the face (the centre and
+# 60 % toward each corner), rays leave the back side in a fixed set of directions against the WHOLE model:
+#   a ray that hits nothing        -> the back is seen from outside
+#   no ray escapes, but the air    -> the back is seen from a pocket open to the outside (a cockpit's inner wall, seen only
+#   beside the face sees the sky      through a slot no fixed direction lines up with): the midpoint of the LONGEST back ray
+#                                     casts the same directions, and one escaping is enough
+# A face whose back is seen gets a reversed copy ON ITS OWN POSITIONS - an authored twin, as game rips ship them. Nothing
+# is ever reversed in place and the copy is not inset. Both were measured on the U-boat's conning tower (a see-through
+# census of 506,759 rays): reversing a face whose front the sampling missed opened new holes (297 rays), and a copy inset
+# by the doubling's 0.15 % of the model stuck out at edges and folds (1,241 rays, 3,270 with the pocket test); coincident
+# copies and no reversal left 8 rays, the source 4,529. A face that already has a twin (another face on exactly its
+# vertices, wound the other way) is left alone; a plain duplicate (same winding) is judged like any face. Runs BEFORE
+# the doubling below, so the model it measures against holds no copies. Decided on the rest geometry.
+def _two_sided_dirs(n):
+    _out = []
+    for _k in range(n):                                     # a Fibonacci sphere: fixed, even, no randomness
+        _z = 1.0 - 2.0 * (_k + 0.5) / n
+        _r = math.sqrt(max(0.0, 1.0 - _z * _z)); _ph = _k * math.pi * (3.0 - math.sqrt(5.0))
+        _out.append(Vector((_r * math.cos(_ph), _r * math.sin(_ph), _z)))
+    return _out
+
+def _two_sided_newell(pw):
+    _n = Vector((0.0, 0.0, 0.0))
+    for _i in range(len(pw)):
+        _a = pw[_i]; _b = pw[(_i + 1) % len(pw)]
+        _n += Vector(((_a.y - _b.y) * (_a.z + _b.z), (_a.z - _b.z) * (_a.x + _b.x), (_a.x - _b.x) * (_a.y + _b.y)))
+    return _n
+
+def _two_sided_origin(bvh, sample, direction, epsilon, owners, own):
+    # The initial bias may span a small closed solid in a much larger model. Walk it back until the
+    # segment from the face crosses no other surface; a backward ray must meet this face first.
+    step = epsilon
+    while True:
+        origin = sample + direction * step
+        if origin == sample:
+            return sample
+        hit = bvh.ray_cast(origin, -direction, step * 1.01)
+        if hit[0] is None or owners[hit[2]] == own:
+            return origin
+        step = max(0.0, min(step * 0.25, (step - hit[3]) * 0.25))
+
+def _two_sided_pass(targets, everything):
+    from mathutils.bvhtree import BVHTree
+    _vs = []; _ts = []; _owners = []; _twin = {}
+    for _o in everything:
+        _m = _o.data; _m.calc_loop_triangles(); _base = len(_vs); _mw = _o.matrix_world
+        _vs.extend(_mw @ _v.co for _v in _m.vertices)
+        _ts.extend(tuple(_base + _i for _i in _lt.vertices) for _lt in _m.loop_triangles)
+        _owners.extend((_o, _lt.polygon_index) for _lt in _m.loop_triangles)
+        for _p in _m.polygons:
+            _pw = [_vs[_base + _i] for _i in _p.vertices]
+            _twin.setdefault(frozenset(tuple(_q) for _q in _pw), []).append(_two_sided_newell(_pw))
+    _bvh = BVHTree.FromPolygons(_vs, _ts)
+    _dim = max((max(_p[_i] for _p in _vs) - min(_p[_i] for _p in _vs)) for _i in range(3)) if _vs else 1.0
+    _eps = max(1e-7, _dim * 1e-5)
+    _dirs = _two_sided_dirs(64)
+    for _o in targets:
+        _m = _o.data; _mw = _o.matrix_world
+        _both = []; _twinned = 0
+        for _p in _m.polygons:
+            _pw = [_mw @ _m.vertices[_i].co for _i in _p.vertices]
+            _n = _two_sided_newell(_pw)                           # in world space
+            if _n.length < 1e-20:
+                continue                                          # a degenerate face has no side
+            if any(_n2.dot(_n) < 0.0 for _n2 in _twin.get(frozenset(tuple(_q) for _q in _pw), ())):
+                _twinned += 1; continue
+            _n.normalize()
+            _c = sum(_pw, Vector((0.0, 0.0, 0.0))) / len(_pw)
+            _back = False
+            for _s in [_c] + [_c + (_q - _c) * 0.6 for _q in _pw]:
+                _far = 0.0; _mid = None
+                for _d in _dirs:
+                    if _d.dot(_n) > -1e-3:
+                        continue                                  # the back side's directions only
+                    _org = _two_sided_origin(_bvh, _s, _d, _eps, _owners, (_o, _p.index))
+                    _hit = _bvh.ray_cast(_org, _d)
+                    if _hit[0] is None:
+                        _back = True; break
+                    if _hit[3] > _far:
+                        _far = _hit[3]; _mid = _org + _d * (_far * 0.5)
+                if not _back and _mid is not None and any(_bvh.ray_cast(_mid, _d2)[0] is None for _d2 in _dirs):
+                    _back = True
+                if _back:
+                    break
+            if _back:
+                _both.append(_p.index)
+        _v0 = len(_m.vertices); _nf = len(_m.polygons)
+        if _both:
+            _twb = bmesh.new(); _twb.from_mesh(_m); _twb.faces.ensure_lookup_table()
+            _ret = bmesh.ops.duplicate(_twb, geom=[_twb.faces[_i] for _i in _both])
+            bmesh.ops.reverse_faces(_twb, faces=[_g for _g in _ret['geom'] if isinstance(_g, bmesh.types.BMFace)])
+            _twb.to_mesh(_m); _twb.free()
+        print("VEHICLE two-sided '%s': %d face(s) doubled (the back shows), %d left; %d authored twin(s) kept; %d -> %d verts"
+              % (_o.name, len(_both), _nf - len(_both), _twinned, _v0, len(_m.vertices)))
+
 _dall = [o for o in bpy.context.scene.objects if o.type == 'MESH' and o.data.polygons]
-_dtargets = ([o for o in _dall if not any(g.name.startswith("Oar_") for g in o.vertex_groups) and not o.name.startswith("Mesh___keep__")]
+_two_targets = [o for o in _dall if o.name.startswith("Mesh___two__")]
+if _two_targets:
+    _two_sided_pass(_two_targets, _dall)
+_dtargets = ([o for o in _dall if not any(g.name.startswith("Oar_") for g in o.vertex_groups) and not o.name.startswith("Mesh___keep__") and not o.name.startswith("Mesh___two__")]
              if double_sided else
              [o for o in _dall
               if (any(g.name in ("Sail", "Flag") for g in o.vertex_groups) or o.name.startswith("Mesh___rud__"))
@@ -3803,6 +4192,13 @@ for _xo in bpy.context.scene.objects:
     _xo.data.calc_loop_triangles()
     _xt_v += len(_xo.data.vertices); _xt_t += len(_xo.data.loop_triangles); _xt_m += 1
 print("VEHICLE export totals: %d verts, %d tris across %d mesh(es)" % (_xt_v, _xt_t, _xt_m))
+_export_bones = _bone_wall_check(arm)   # every rig, not only the tread path that prints the armature line
+if tread_links and _export_bones > _BONE_BUDGET:
+    # A track without a measurable pitch can retain its legacy carriers. Check the
+    # finished rig too, before either output is written, rather than exporting spikes.
+    _error = "rigid links exceed the %d-bone budget (%d bones); mark fewer separate animated parts." % (_BONE_BUDGET, _export_bones)
+    print("VEHICLE ERROR: " + _error)
+    raise RuntimeError(_error)
 _lap("join + clips")
 bpy.ops.export_scene.gltf(filepath=out_glb, export_animations=True)
 if preview_fbx:

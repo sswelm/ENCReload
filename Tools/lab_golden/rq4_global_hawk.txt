@@ -1,0 +1,11 @@
+# golden captured=2026-10-18T13:41 editor=unknown in.recipe=c3dd451a4ab9df32 in.source=c4def6d11ce0560d sum=1735d661dcc8bacc
+VEHICLE flatten: 9 non-mesh helper(s) dropped (empties/armatures/lights — placement baked into the meshes)
+VEHICLE SHROUD 'main_wing_lambert1_0': 18692 -> 4130 verts (dissolve pass: 4130; dial 75% = target 4673)
+VEHICLE SHROUD: 1 part(s) reduced, 18692 -> 4130 verts total (78% cut)
+VEHICLE BODY 'body_lambert1_0': 8400 -> 4201 verts (welded from 9013 raw; dial 50% = target 4200)
+VEHICLE BODY: 1 part(s) reduced, 8400 -> 4201 verts total (50% cut)
+VEHICLE PRESERVE: 2 part(s) — no winding fix, no doubling; shipped byte-identical (reduce dial 0)
+VEHICLE join: 3 mesh(es), one per bone
+VEHICLE export totals: 8774 verts, 16302 tris across 3 mesh(es)
+VEHICLE RIG DONE: 0 wheel part(s) clustered into 0 wheel(s) {}, 0 turret part(s) on one Turret bone, 0 gun part(s) on one Gun bone, 0 track loop(s) on own static bones, Spin 0..15 -360 deg, exported 8774 verts / 16302 tris
+GLB skins=1 joints=1 meshes=3 meshNodes=3 rigged=3

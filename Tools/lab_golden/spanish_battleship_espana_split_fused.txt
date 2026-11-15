@@ -1,0 +1,44 @@
+# golden captured=2026-10-19T15:59 editor=unknown in.recipe=b4e270fb6df686c6 in.source=170364a379ce29ef sum=39866587a179dc42
+VEHICLE flatten: 5875 non-mesh helper(s) dropped (empties/armatures/lights — placement baked into the meshes)
+VEHICLE ignored: 3 part(s) deleted from the output
+VEHICLE DEFAULT 'Fused_A_Material2_2507': 687 -> 195 verts (welded from 2956 raw; dial 70% = target 206)
+VEHICLE DEFAULT 'Fused_B_Material2_2740': 10556 -> 3471 verts (welded from 21407 raw; dial 70% = target 3166)
+VEHICLE DEFAULT 'Fused_C_Material2_2130': 33108 -> 8272 verts (welded from 139600 raw; dial 70% = target 9932)
+VEHICLE DEFAULT 'Fused_D_Material2_3350': 4976 -> 1011 verts (welded from 8388 raw; dial 70% = target 1492)
+VEHICLE DEFAULT 'Fused_G_Material2_567': 35252 -> 10194 verts (welded from 44204 raw; dial 70% = target 10575)
+VEHICLE DEFAULT 'Fused_J_Material2_4534': 2082 -> 517 verts (welded from 6392 raw; dial 70% = target 624)
+VEHICLE DEFAULT 'Fused_K_Material2_2700': 14693 -> 4324 verts (welded from 45968 raw; dial 70% = target 4407)
+VEHICLE DEFAULT 'Fused_L_Material2_3144': 1296 -> 364 verts (welded from 2148 raw; dial 70% = target 388)
+VEHICLE DEFAULT 'Fused_P_Material2_608': 1916 -> 648 verts (welded from 5269 raw; dial 70% = target 574)
+VEHICLE DEFAULT 'Fused_Q_Material2_3238': 379 -> 138 verts (welded from 962 raw; dial 70% = target 113)
+VEHICLE DEFAULT 'Fused_U_Material2_3045': 47515 -> 13530 verts (welded from 141156 raw; dial 70% = target 14254)
+VEHICLE DEFAULT 'Fused_V_Material2_4017': 7427 -> 2330 verts (welded from 21316 raw; dial 70% = target 2228)
+VEHICLE DEFAULT 'Fused_X_Material2_2098': 1936 -> 551 verts (welded from 8808 raw; dial 70% = target 580)
+VEHICLE DEFAULT: 13 part(s) reduced, 161823 -> 45545 verts total (72% cut)
+VEHICLE SHROUD 'Fused_Y_Material2_51': 170923 -> 26019 verts (dissolve pass: 149751; dial 90% = target 17092)
+VEHICLE SHROUD: 1 part(s) reduced, 170923 -> 26019 verts total (85% cut)
+VEHICLE STRUCTURE 'Fused_R_Material2_53': 47417 -> 8524 verts (welded from 63589 raw; dial 80% = target 9483)
+VEHICLE STRUCTURE: 1 part(s) reduced, 47417 -> 8524 verts total (82% cut)
+VEHICLE BODY 'Fused_F_Material2_2760': 6939 -> 2385 verts (welded from 9200 raw; dial 60% = target 2775)
+VEHICLE BODY 'Fused_H_Material2_601': 20931 -> 8511 verts (welded from 31874 raw; dial 60% = target 8372)
+VEHICLE BODY 'Fused_O_Material2_2849': 776 -> 318 verts (welded from 1584 raw; dial 60% = target 310)
+VEHICLE BODY: 3 part(s) reduced, 28646 -> 11214 verts total (61% cut)
+VEHICLE RUDDER 'Fused_E_Material2_4884': 845 -> 139 verts (welded from 853 raw; dial 82% = target 152)
+VEHICLE RUDDER: 1 part(s) reduced, 845 -> 139 verts total (84% cut)
+VEHICLE TURRET 'Fused_T_Material3': 7775 -> 3510 verts (welded from 21168 raw; dial 50% = target 3887)
+VEHICLE TURRET: 1 part(s) reduced, 7775 -> 3510 verts total (55% cut)
+VEHICLE DETAIL 'Fused_I_Material2_2839': 5693 -> 2364 verts (welded from 9650 raw; dial 50% = target 2846)
+VEHICLE DETAIL 'Fused_M_Material2_2845': 7411 -> 3203 verts (welded from 22957 raw; dial 50% = target 3705)
+VEHICLE DETAIL: 2 part(s) reduced, 13104 -> 5567 verts total (58% cut)
+VEHICLE gun pivot 0.50 -> head=(2649.31, -1527.97, 164.59) (breech (1255.66, -1504.34, 164.59) .. muzzle (4042.96, -1551.59, 164.59))
+VEHICLE MUZZLE fire origin (gun-local, SOURCE units — scale by the bake's size): 1393.652, -23.622, 0.000
+VEHICLE GUNSPAN bone=Gun breech=-1393.651978,23.621948,0.000000 muzzle=1393.651855,-23.622070,0.000000 extent=2798.786550
+VEHICLE RUDDER: 1 part(s) — double-sided at export, always visible, authored winding kept
+VEHICLE PRESERVE: 2 part(s) — no winding fix, no doubling; shipped byte-identical (reduce dial 0)
+VEHICLE join: 6 mesh(es), one per bone
+VEHICLE inside-out fix: 1559 island(s) reversed (interior-facing), 5363 kept as authored; Sail/Oar meshes untouched
+VEHICLE double-sided 'Mesh___rud__Fused_E_Material2_4884': 139 -> 274 verts (back shell inset 8.3632 local)
+VEHICLE double-sided: 1 mesh(es) made two-sided at the source (whole-model inset 8.3632 world)
+VEHICLE export totals: 142881 verts, 201113 tris across 6 mesh(es)
+VEHICLE RIG DONE: 0 wheel part(s) clustered into 0 wheel(s) {}, 1 turret part(s) on one Turret bone, 1 gun part(s) on one Gun bone (child of Turret), 0 track loop(s) on own static bones, Spin 0..15 -360 deg, exported 142881 verts / 201113 tris
+GLB skins=1 joints=3 meshes=6 meshNodes=6 rigged=6

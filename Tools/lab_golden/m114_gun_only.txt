@@ -1,6 +1,8 @@
+# golden captured=2026-10-12T14:32 editor=e4f509c in.recipe=a9be52e8c03ab95a in.source=a20ecaba2a8a5e7c sum=5ad72fe73d4ad6c3
 VEHICLE gun pivot 0.25 -> head=(0.66, -0.82, 24.66) (breech (0.37, 19.08, 23.56) .. muzzle (1.53, -60.55, 27.96))
 VEHICLE MUZZLE fire origin (gun-local, SOURCE units — scale by the bake's size): 0.874, -59.723, 3.297
 VEHICLE CRADLE 1 part(s) welded to the Gun bone (elevates with the tube; excluded from the breech->muzzle span, and it is what will STAY when the barrel recoils)
+VEHICLE GUNSPAN bone=Gun breech=-0.291465,19.907677,-1.098982 muzzle=0.874394,-59.723030,3.296947 extent=79.781022
 VEHICLE RECOIL ARM: pivot (-1.01, -8.15, 252.91), R=228.3 for a 11.96-unit slide (residual tilt 3.0 deg) — a bone's own translation does not render; an ancestor's rotation does
 VEHICLE BARREL bone split off for recoil: 4 tube part(s) slide, 1 cradle part(s) stay
 VEHICLE trail 'howitzer:r_leg_howitzer:leg_0' -> Trail_00 hinge=(-10.07, -4.91, 17.12) spade=(-3.82, 75.19, -0.31)
