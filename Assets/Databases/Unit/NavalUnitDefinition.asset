@@ -278,7 +278,7 @@ MonoBehaviour:
     Type: 1
     Constant: -1
     RpnDefinitionReference:
-      serializableElementName: ProductionCost_Unit_Era6_Tier3_Iron_Oil_Ship
+      serializableElementName: ProductionCost_Unit_Era6_Tier3_Copper_Iron_Oil_Ship
   MoneyInstantCostDefinition:
     Constant: -1
     RpnDefinitionReference:
@@ -297,9 +297,12 @@ MonoBehaviour:
     ProviderMoneyGainRpn:
       serializableElementName: 
   ResourceAccessPrerequisites:
+  - Resource: 1
+    ConstantType: 0
+    ConstantValue: 0
   - Resource: 2
     ConstantType: 0
-    ConstantValue: 2
+    ConstantValue: 1
   - Resource: 5
     ConstantType: 0
     ConstantValue: 1
@@ -337,7 +340,7 @@ MonoBehaviour:
   UnitClass:
     serializableElementName: UnitClass_ArmouredVessel
   UnitSpecialties:
-  - serializableElementName: UnitSpecialty_Stealth
+  - serializableElementName: UnitSpecialty_StealthSubmarine
   - serializableElementName: UnitSpecialty_Bombard_Level1
   - serializableElementName: UnitSpecialty_AntiAircraft_50
   OwnDescriptorReferences:
@@ -351,7 +354,7 @@ MonoBehaviour:
   - 2.5
   - 4
   - 1.03
-  UnitTags: 5586
+  UnitTags: 5458
   AlwaysUseCurrentEraVisualAffinity: 0
   visualAffinityEraReference:
     serializableElementName: Era5
@@ -844,6 +847,125 @@ MonoBehaviour:
   - 4
   - 1.03
   UnitTags: 266258
+  AlwaysUseCurrentEraVisualAffinity: 0
+  visualAffinityEraReference:
+    serializableElementName: Era5
+  unitSpecialty:
+    serializableElementName: 
+--- !u!114 &-7590766608830408234
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1850805416, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: NavalUnit_Era5_Common_ElectricSubmarines
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: GainValues
+      Entry: 6
+      Data: 
+  Key: 0
+  Hidden: 0
+  IsObsolete: 0
+  DLCPrerequisite:
+    DownloadableContent: 0
+  Category: 6
+  SerializableFamily: UnitFamily_StealthShip
+  Level: 32
+  Unicity: 0
+  UnicityAdditionalConstructible: []
+  ConstructibleVisualAffinity:
+    serializableElementName: 
+  CanBeBoughtOut: 1
+  CanBeCanceled: 1
+  StartWhenQueued: 0
+  CanBeBoughtOutWithPopulation: 0
+  ProductionCostDefinition:
+    Type: 1
+    Constant: -1
+    RpnDefinitionReference:
+      serializableElementName: ProductionCost_Unit_Era5_High_Oil
+  MoneyInstantCostDefinition:
+    Constant: -1
+    RpnDefinitionReference:
+      serializableElementName: 
+  InfluenceInstantCostDefinition:
+    Constant: 0
+    RpnDefinitionReference:
+      serializableElementName: 
+  PopulationInstantCostDefinition:
+    Constant: 1
+  ProvidedByOtherEmpireCostDefinition:
+    ProductionCostModifierRpn:
+      serializableElementName: 
+    ReceiverMoneyCostRpn:
+      serializableElementName: 
+    ProviderMoneyGainRpn:
+      serializableElementName: 
+  ResourceAccessPrerequisites:
+  - Resource: 1
+    ConstantType: 0
+    ConstantValue: 1
+  - Resource: 2
+    ConstantType: 0
+    ConstantValue: 1
+  MinimalPopulationPrerequisite: 0
+  ResourceSupremacyPrerequisite: 
+  EraPrerequisite:
+    Operator: 1
+    EraReference:
+      serializableElementName: 
+  FactionPrerequisite:
+    Operator: 0
+    serializableFactionNames: []
+  SettlementStatusPrerequisite:
+    CampConstraint: 0
+    CityConstraint: 1
+    OccupiedCityConstraint: 0
+  ReligionAffinityPrerequisite:
+    serializableElementName: 
+  SettlementPropertyPrerequisites: []
+  SettlementStabilityPrerequisite:
+    Operator: 0
+    PublicOrderEffects: []
+  DistrictCountPrerequisites: []
+  ActionTypePrerequisite:
+    Operator: 0
+    ActionType: 0
+  ArtificialWonderBuiltPrerequisite:
+    Operator: 0
+    ArtificialWonderDefinition:
+      serializableElementName: 
+  BaseSynergyDistrict: 0
+  UnitClass:
+    serializableElementName: UnitClass_TorpedoVessel
+  UnitSpecialties:
+  - serializableElementName: UnitSpecialty_StealthSubmarine
+  - serializableElementName: UnitSpecialty_SubmarineAttack
+  OwnDescriptorReferences:
+  - serializableElementName: Effect_NavalUnit_Era5_Common_ElectricSubmarines
+  - serializableElementName: Effect_Unit_Era5
+  - serializableElementName: Effect_Unit_Era5_Tier4
+  - serializableElementName: Tag_Unit_Vehicle
+  BaseMovementSpeed: 1.8
+  MovementSpeedMultiplierPerType:
+  - 1.5
+  - 2.5
+  - 4
+  - 1.03
+  UnitTags: 4138
   AlwaysUseCurrentEraVisualAffinity: 0
   visualAffinityEraReference:
     serializableElementName: Era5
@@ -1719,6 +1841,132 @@ MonoBehaviour:
     serializableElementName: Era4
   unitSpecialty:
     serializableElementName: 
+--- !u!114 &-4381712654039500994
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1850805416, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: NavalUnit_Era5_Common_HeavyMonitor
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: GainValues
+      Entry: 6
+      Data: 
+  Key: 0
+  Hidden: 0
+  IsObsolete: 0
+  DLCPrerequisite:
+    DownloadableContent: 0
+  Category: 6
+  SerializableFamily: UnitFamily_CoastalDefence
+  Level: 34
+  Unicity: 0
+  UnicityAdditionalConstructible: []
+  ConstructibleVisualAffinity:
+    serializableElementName: 
+  CanBeBoughtOut: 1
+  CanBeCanceled: 1
+  StartWhenQueued: 0
+  CanBeBoughtOutWithPopulation: 0
+  ProductionCostDefinition:
+    Type: 1
+    Constant: -1
+    RpnDefinitionReference:
+      serializableElementName: ProductionCost_Unit_Era6_Tier2_Copper_Iron_Oil_Ship
+  MoneyInstantCostDefinition:
+    Constant: -1
+    RpnDefinitionReference:
+      serializableElementName: 
+  InfluenceInstantCostDefinition:
+    Constant: 0
+    RpnDefinitionReference:
+      serializableElementName: 
+  PopulationInstantCostDefinition:
+    Constant: 5
+  ProvidedByOtherEmpireCostDefinition:
+    ProductionCostModifierRpn:
+      serializableElementName: 
+    ReceiverMoneyCostRpn:
+      serializableElementName: 
+    ProviderMoneyGainRpn:
+      serializableElementName: 
+  ResourceAccessPrerequisites:
+  - Resource: 1
+    ConstantType: 0
+    ConstantValue: 0
+  - Resource: 2
+    ConstantType: 0
+    ConstantValue: 2
+  - Resource: 5
+    ConstantType: 0
+    ConstantValue: 1
+  MinimalPopulationPrerequisite: 0
+  ResourceSupremacyPrerequisite: 
+  EraPrerequisite:
+    Operator: 1
+    EraReference:
+      serializableElementName: 
+  FactionPrerequisite:
+    Operator: 0
+    serializableFactionNames: []
+  SettlementStatusPrerequisite:
+    CampConstraint: 0
+    CityConstraint: 1
+    OccupiedCityConstraint: 0
+  ReligionAffinityPrerequisite:
+    serializableElementName: 
+  SettlementPropertyPrerequisites: []
+  SettlementStabilityPrerequisite:
+    Operator: 0
+    PublicOrderEffects: []
+  DistrictCountPrerequisites: []
+  ActionTypePrerequisite:
+    Operator: 0
+    ActionType: 0
+  ArtificialWonderBuiltPrerequisite:
+    Operator: 0
+    ArtificialWonderDefinition:
+      serializableElementName: 
+  BaseSynergyDistrict: 0
+  UnitClass:
+    serializableElementName: UnitClass_GunPlatform
+  UnitSpecialties:
+  - serializableElementName: UnitSpecialty_Shatter
+  - serializableElementName: UnitSpecialty_ArmouredVessel
+  - serializableElementName: UnitSpecialty_DebuffTargetStunArtillery
+  - serializableElementName: UnitSpecialty_StrengthFromCoast_Level1
+  - serializableElementName: UnitSpecialty_LostAtSeaDamage_Level3
+  - serializableElementName: UnitSpecialty_AntiAircraft_50
+  OwnDescriptorReferences:
+  - serializableElementName: Effect_NavalUnit_Era5_Common_HeavylMonitor
+  - serializableElementName: Effect_Unit_Era6
+  - serializableElementName: Effect_Unit_Era6_Tier2
+  - serializableElementName: Tag_Unit_Vehicle
+  BaseMovementSpeed: 1.8
+  MovementSpeedMultiplierPerType:
+  - 1.5
+  - 2.5
+  - 4
+  - 1.03
+  UnitTags: 402
+  AlwaysUseCurrentEraVisualAffinity: 0
+  visualAffinityEraReference:
+    serializableElementName: Era5
+  unitSpecialty:
+    serializableElementName: 
 --- !u!114 &-4278455294016259653
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2090,6 +2338,134 @@ MonoBehaviour:
   - 4
   - 1.03
   UnitTags: 266698
+  AlwaysUseCurrentEraVisualAffinity: 0
+  visualAffinityEraReference:
+    serializableElementName: Era6
+  unitSpecialty:
+    serializableElementName: 
+--- !u!114 &-3677980601614445394
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1850805416, guid: b310e23bee821cb478da05296ba685d0, type: 3}
+  m_Name: NavalUnit_Era6_Common_MissileDestroyers
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: GainValues
+      Entry: 6
+      Data: 
+  Key: 0
+  Hidden: 0
+  IsObsolete: 0
+  DLCPrerequisite:
+    DownloadableContent: 0
+  Category: 6
+  SerializableFamily: UnitFamily_MissileDestroyer
+  Level: 38
+  Unicity: 0
+  UnicityAdditionalConstructible: []
+  ConstructibleVisualAffinity:
+    serializableElementName: 
+  CanBeBoughtOut: 1
+  CanBeCanceled: 1
+  StartWhenQueued: 0
+  CanBeBoughtOutWithPopulation: 0
+  ProductionCostDefinition:
+    Type: 1
+    Constant: -1
+    RpnDefinitionReference:
+      serializableElementName: ProductionCost_Unit_Era6_Tier6_Iron_Oil_Alum
+  MoneyInstantCostDefinition:
+    Constant: -1
+    RpnDefinitionReference:
+      serializableElementName: 
+  InfluenceInstantCostDefinition:
+    Constant: 0
+    RpnDefinitionReference:
+      serializableElementName: 
+  PopulationInstantCostDefinition:
+    Constant: 6
+  ProvidedByOtherEmpireCostDefinition:
+    ProductionCostModifierRpn:
+      serializableElementName: 
+    ReceiverMoneyCostRpn:
+      serializableElementName: 
+    ProviderMoneyGainRpn:
+      serializableElementName: 
+  ResourceAccessPrerequisites:
+  - Resource: 2
+    ConstantType: 0
+    ConstantValue: 1
+  - Resource: 5
+    ConstantType: 0
+    ConstantValue: 1
+  - Resource: 6
+    ConstantType: 0
+    ConstantValue: 1
+  MinimalPopulationPrerequisite: 0
+  ResourceSupremacyPrerequisite: 
+  EraPrerequisite:
+    Operator: 1
+    EraReference:
+      serializableElementName: 
+  FactionPrerequisite:
+    Operator: 0
+    serializableFactionNames: []
+  SettlementStatusPrerequisite:
+    CampConstraint: 0
+    CityConstraint: 1
+    OccupiedCityConstraint: 0
+  ReligionAffinityPrerequisite:
+    serializableElementName: 
+  SettlementPropertyPrerequisites: []
+  SettlementStabilityPrerequisite:
+    Operator: 0
+    PublicOrderEffects: []
+  DistrictCountPrerequisites:
+  - DistrictDescriptor:
+      serializableElementName: Effect_Extension_Base_Industry
+    DesiredCount: 5
+  ActionTypePrerequisite:
+    Operator: 0
+    ActionType: 0
+  ArtificialWonderBuiltPrerequisite:
+    Operator: 0
+    ArtificialWonderDefinition:
+      serializableElementName: 
+  BaseSynergyDistrict: 0
+  UnitClass:
+    serializableElementName: UnitClass_Cruiser
+  UnitSpecialties:
+  - serializableElementName: UnitSpecialty_ArmouredVessel
+  - serializableElementName: UnitSpecialty_Bombard_Level1
+  - serializableElementName: UnitSpecialty_ZoneOfControlIncreasedSize_Level3
+  - serializableElementName: UnitSpecialty_DebuffTargetStunArtillery
+  - serializableElementName: UnitSpecialty_AntiAircraft_Level1
+  OwnDescriptorReferences:
+  - serializableElementName: Effect_NavalUnit_Era6_Common_MissileDestroyers
+  - serializableElementName: Effect_Unit_Era6
+  - serializableElementName: Effect_Unit_Era6_Tier6
+  - serializableElementName: Tag_Unit_Vehicle
+  BaseMovementSpeed: 1.8
+  MovementSpeedMultiplierPerType:
+  - 1.5
+  - 2.5
+  - 4
+  - 1.03
+  UnitTags: 3218
   AlwaysUseCurrentEraVisualAffinity: 0
   visualAffinityEraReference:
     serializableElementName: Era6
@@ -3063,7 +3439,7 @@ MonoBehaviour:
   - 2.5
   - 4
   - 1.03
-  UnitTags: 266314
+  UnitTags: 5458
   AlwaysUseCurrentEraVisualAffinity: 0
   visualAffinityEraReference:
     serializableElementName: Era5
@@ -6838,7 +7214,7 @@ MonoBehaviour:
     serializableElementName: UnitClass_CapitalShip
   UnitSpecialties:
   - serializableElementName: UnitSpecialty_ArmouredVessel
-  - serializableElementName: UnitSpecialty_Bombard_Level1
+  - serializableElementName: UnitSpecialty_BombardMultipleUses_Level1
   - serializableElementName: UnitSpecialty_ZoneOfControlIncreasedSize_Level3
   - serializableElementName: UnitSpecialty_DebuffTargetStunArtillery
   - serializableElementName: UnitSpecialty_AntiAircraft_Level1
@@ -6924,13 +7300,13 @@ MonoBehaviour:
   ResourceAccessPrerequisites:
   - Resource: 1
     ConstantType: 0
-    ConstantValue: 2
+    ConstantValue: 1
   - Resource: 2
     ConstantType: 0
-    ConstantValue: 8
+    ConstantValue: 1
   - Resource: 5
     ConstantType: 0
-    ConstantValue: 4
+    ConstantValue: 1
   MinimalPopulationPrerequisite: 0
   ResourceSupremacyPrerequisite: 
   EraPrerequisite:
@@ -7252,7 +7628,7 @@ MonoBehaviour:
   DLCPrerequisite:
     DownloadableContent: 0
   Category: 6
-  SerializableFamily: UnitFamily_StealthShip
+  SerializableFamily: UnitFamily_CruiserSubmarine
   Level: 32
   Unicity: 0
   UnicityAdditionalConstructible: []
@@ -7266,7 +7642,7 @@ MonoBehaviour:
     Type: 1
     Constant: -1
     RpnDefinitionReference:
-      serializableElementName: ProductionCost_Unit_Era5_High_Copper_Iron_Coal_Ship
+      serializableElementName: ProductionCost_Unit_Era6_Tier1_Copper_Iron_Oil_Ship
   MoneyInstantCostDefinition:
     Constant: -1
     RpnDefinitionReference:
@@ -7291,7 +7667,7 @@ MonoBehaviour:
   - Resource: 2
     ConstantType: 0
     ConstantValue: 1
-  - Resource: 3
+  - Resource: 5
     ConstantType: 0
     ConstantValue: 1
   MinimalPopulationPrerequisite: 0
@@ -7326,14 +7702,14 @@ MonoBehaviour:
       serializableElementName: 
   BaseSynergyDistrict: 0
   UnitClass:
-    serializableElementName: UnitClass_TorpedoVessel
+    serializableElementName: UnitClass_ArmouredVessel
   UnitSpecialties:
   - serializableElementName: UnitSpecialty_StealthSubmarine
-  - serializableElementName: UnitSpecialty_SubmarineAttack
+  - serializableElementName: UnitSpecialty_Bombard_Level1
   OwnDescriptorReferences:
   - serializableElementName: Effect_NavalUnit_Era5_Common_SteamSubmarines
   - serializableElementName: Effect_Unit_Era5
-  - serializableElementName: Effect_Unit_Era5_Tier3
+  - serializableElementName: Effect_Unit_Era6_Tier1
   - serializableElementName: Tag_Unit_Vehicle
   BaseMovementSpeed: 1.8
   MovementSpeedMultiplierPerType:
@@ -7341,7 +7717,7 @@ MonoBehaviour:
   - 2.5
   - 4
   - 1.03
-  UnitTags: 266314
+  UnitTags: 5458
   AlwaysUseCurrentEraVisualAffinity: 0
   visualAffinityEraReference:
     serializableElementName: Era5

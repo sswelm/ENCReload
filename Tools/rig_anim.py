@@ -794,6 +794,7 @@ except Exception as _e:
 # itself; on the legacy path (deploy_convert output etc.) scan the final clips directly — any pose-bone
 # location channel that VARIES (>1e-4) is a genuine authored slide (deploy_convert's Phase B keys the tube's
 # true recoil translation; only this strip ever removed it).
+_legacy_keep_paths = {}   # action -> qualifying bone paths; the conversion rest-fold's keep set remains global
 if keep_translations and not convert_rig:
     # SCOPE: translations are kept in the ATTACK-role clip (the recoil) and — since 2026-07-26, the T-62
     # finding — the MOVE-role clip (a driving vehicle's track links crawl by TRANSLATION; deploy_convert now
@@ -805,16 +806,19 @@ if keep_translations and not convert_rig:
     # source tank rides bumpy terrain; replayed on flat game ground the wheels wiggle in the air). The ATTACK
     # role keeps its historical 1e-4 floor: the m114's recoil slide is only ~0.1 raw units.
     _role_floor = {}
-    for _r, _cn in role_specs:
-        if _r in ('attack', 'move') and _cn.strip():
-            _bn = _cn.split('[')[0].strip()
+    for _r, _ra in role_acts.items():
+        if _r in ('attack', 'move'):
+            # Key by the resolved action itself: slices have their own action, and literal '_rebaked' names are not aliases.
+            # Two roles sharing one action use the lower floor and compensate that action only once.
             _fl = 1e-4 if _r == 'attack' else 0.5
-            _role_floor[_bn] = min(_role_floor.get(_bn, 1e9), _fl)
-    _keep_acts = [a for a in all_acts if a.name.split('_rebaked')[0] in _role_floor or a.name in _role_floor]
+            _role_floor[_ra] = min(_role_floor.get(_ra, 1e9), _fl)
+    _keep_acts = [a for a in all_acts if a in _role_floor]
     if not _keep_acts:
         print("RIGANIM legacy keepTranslations: no attack/move-role clip found — nothing kept (translations live in the fire cycle / drive cycle)")
     _poison = set()   # any channel with NaN/absurd values poisons the whole bone path — decomposition garbage
     for _sa in _keep_acts:
+        _paths = set()
+        _legacy_keep_paths[_sa] = _paths
         for coll, fc in all_fcurve_owners(_sa):
             _dp = fc.data_path
             if not (_dp.startswith("pose.bones") and _dp.endswith(".location")) or len(fc.keyframe_points) == 0:
@@ -825,22 +829,24 @@ if keep_translations and not convert_rig:
             # those explodes mesh bounds (1e28) and NaNs the import. Only finite, model-scale slides pass.
             if any(v != v or abs(v) > 1e5 for v in _vals):
                 _poison.add(_dp); continue
-            _floor = _role_floor.get(_sa.name.split('_rebaked')[0], _role_floor.get(_sa.name, 1e-4))
+            _floor = _role_floor[_sa]
             if _floor < (max(_vals) - min(_vals)) < 1e4:
-                _KEEP_LOC_PATHS.add(_dp)
-    _KEEP_LOC_PATHS -= _poison
+                _paths.add(_dp)
+    for _paths in _legacy_keep_paths.values():
+        _paths.difference_update(_poison)   # preserve the conservative cross-action garbage veto
+    _legacy_paths_summary = set().union(*_legacy_keep_paths.values())
     if _poison:
         print("RIGANIM legacy keepTranslations: %d path(s) REJECTED as decomposition garbage (NaN/huge): %s"
               % (len(_poison), sorted({p.split('"')[1] for p in _poison if '"' in p})))
-    if _KEEP_LOC_PATHS:
+    if _legacy_paths_summary:
         print("RIGANIM legacy keepTranslations: %d varying location path(s) kept: %s"
-              % (len(_KEEP_LOC_PATHS), sorted({p.split('"')[1] for p in _KEEP_LOC_PATHS if '"' in p})))
+              % (len(_legacy_paths_summary), sorted({p.split('"')[1] for p in _legacy_paths_summary if '"' in p})))
 
 _locs = 0; _kept = 0
 for _sa in all_acts:
     for coll, fc in all_fcurve_owners(_sa):
         if fc.data_path.startswith("pose.bones") and fc.data_path.endswith(".location"):
-            if keep_translations and fc.data_path in _KEEP_LOC_PATHS:
+            if keep_translations and fc.data_path in (_KEEP_LOC_PATHS if convert_rig else _legacy_keep_paths.get(_sa, ())):
                 _kept += 1; continue   # opt-in: genuinely translation-animated bone (caterpillar shuttle etc.)
             coll.remove(fc); _locs += 1
 if _locs or _kept:
@@ -863,7 +869,7 @@ for _pb in arm.pose.bones:
 # at 1/100 amplitude (the howitzer's ~10-unit slam baked to a 0.0115 bbox). Pre-amplify the kept location keys
 # x100 so the baked curve lands at render scale. Conversion-path exports (global_scale 0.01, net scale 1) need
 # no compensation — the translation-test cube rendered at correct amplitude there.
-if keep_translations and not convert_rig and not clean_units_input and _KEEP_LOC_PATHS:
+if keep_translations and not convert_rig and not clean_units_input and any(_legacy_keep_paths.values()):
     # DELTA-REBASE + AMPLIFY: each kept curve is rebased to ZERO at its first frame before the x100 — the clip
     # carries pure MOTION (the slam's full travel), never constant pose offsets. Tiny basis residues (a 3.5 cm
     # rest mismatch) otherwise amplify into multi-unit displacements (the reared-up-gun incident): pose HOLDING
@@ -871,7 +877,7 @@ if keep_translations and not convert_rig and not clean_units_input and _KEEP_LOC
     _scaled = 0
     for _sa in _keep_acts:
         for coll, fc in all_fcurve_owners(_sa):
-            if fc.data_path in _KEEP_LOC_PATHS and fc.data_path.endswith(".location"):
+            if fc.data_path in _legacy_keep_paths[_sa] and fc.data_path.endswith(".location"):
                 _kps = sorted(fc.keyframe_points, key=lambda k: k.co[0])
                 if not _kps:
                     continue
@@ -881,7 +887,7 @@ if keep_translations and not convert_rig and not clean_units_input and _KEEP_LOC
                     kp.handle_left[1] = (kp.handle_left[1] - _v0) * 100.0
                     kp.handle_right[1] = (kp.handle_right[1] - _v0) * 100.0
                 _scaled += 1
-    print("RIGANIM legacy keepTranslations: %d kept curve(s) delta-rebased + amplified x100 (attack clip only)" % _scaled)
+    print("RIGANIM legacy keepTranslations: %d kept curve(s) delta-rebased + amplified x100 (attack/move clips)" % _scaled)
 
 # clamp scene frame range to the action's real range (else bake_anim pads a frozen tail -> ~1s stall per loop)
 fs, fe = [int(round(v)) for v in act.frame_range]
@@ -1094,8 +1100,9 @@ if socket_specs and arm is not None:
             print("RIGANIM ERROR: socket '%s': parent substring '%s' matches no bone. Bones: %s" % (_dn, _ps, _names[:40]))
             sys.exit(1)
         if not (_dn > _parent.name):
+            _pn = _parent.name                    # taken BEFORE mode_set frees the edit bones (read after it: an empty name or garbage; fixed 2026-11-07)
             bpy.ops.object.mode_set(mode='OBJECT')
-            print("RIGANIM ERROR: socket '%s' would sort BEFORE its parent '%s' — Amplitude needs parents-first alphabetically; this donor-name/parent pair cannot satisfy it" % (_dn, _parent.name))
+            print("RIGANIM ERROR: socket '%s' would sort BEFORE its parent '%s' — Amplitude needs parents-first alphabetically; this donor-name/parent pair cannot satisfy it" % (_dn, _pn))
             sys.exit(1)
         _sb = arm.data.edit_bones.get(_dn) or arm.data.edit_bones.new(_dn)
         _dirv = _parent.tail - _parent.head
@@ -1200,8 +1207,16 @@ if arm is not None and me.vertices:
         me.update()
         bpy.context.view_layer.objects.active = arm
         bpy.ops.object.mode_set(mode='EDIT')
+        # A CONNECTED child's head IS its parent's tail (one point, two names). "head += d; tail += d" per bone moved
+        # that shared point once for the parent and once more for the child, so every connected chain stretched by
+        # one delta per link while the mesh moved by one: the light assault mech (19 of 31 bones connected, FBX import)
+        # re-baked with its legs hanging in the air, the first rig with connected bones through the placement since
+        # it became unconditional (2026-09-20; the frigate had two unconnected bones). Set every bone from the
+        # positions read BEFORE any move, so a shared point lands on origin + delta however many names it has.
+        _orig = {_eb.name: (_eb.head.copy(), _eb.tail.copy()) for _eb in arm.data.edit_bones}
         for _eb in arm.data.edit_bones:
-            _eb.head += _darm; _eb.tail += _darm
+            _h, _t = _orig[_eb.name]
+            _eb.head = _h + _darm; _eb.tail = _t + _darm
         bpy.ops.object.mode_set(mode='OBJECT')
         print("RIGANIM placement: world centre (%.4f, %.4f) -> origin, lowest point %.4f -> 0 (moved %.4f, %.4f, %.4f)"
               % (-_dx, -_dy, min(_zs), _dx, _dy, _dz))
