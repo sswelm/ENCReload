@@ -1089,7 +1089,6 @@ MonoBehaviour:
     serializableElementName: Technology_Era5_Tier4_CostExtra
   TechnologyPrerequisite:
     SerializableTechnologyNames:
-    - Technology_Era5_13
     - Technology_Era5_Plastics
   Visibility: -1
 --- !u!114 &-8756609942132587780
@@ -13654,7 +13653,7 @@ MonoBehaviour:
     serializableElementName: Technology_Era5_Tier1_Cost
   TechnologyPrerequisite:
     SerializableTechnologyNames:
-    - Technology_Era5_MunicipalGovernment
+    - Technology_Era5_13
   Visibility: -1
 --- !u!114 &-5475166704738941393
 MonoBehaviour:
@@ -26361,7 +26360,7 @@ MonoBehaviour:
     serializableElementName: Technology_Era5_Tier3_CostExtra
   TechnologyPrerequisite:
     SerializableTechnologyNames:
-    - Technology_Era5_12
+    - Technology_Era5_MunicipalGovernment
   Visibility: -1
 --- !u!114 &-271024881302875718
 MonoBehaviour:
@@ -31816,7 +31815,7 @@ MonoBehaviour:
     serializableElementName: Technology_Era6_Tier0_Cost
   TechnologyPrerequisite:
     SerializableTechnologyNames:
-    - Technology_Era5_Sanitation
+    - Technology_Era5_NatureConservation
   Visibility: -1
 --- !u!114 &1389176101126114672
 MonoBehaviour:
@@ -49928,7 +49927,7 @@ MonoBehaviour:
     serializableElementName: Technology_Era5_Tier2_CostExtra
   TechnologyPrerequisite:
     SerializableTechnologyNames:
-    - Technology_Era5_Chemistry
+    - Technology_Era5_Sanitation
   Visibility: -1
 --- !u!114 &5481531229255072776
 MonoBehaviour:
@@ -63416,7 +63415,7 @@ MonoBehaviour:
     serializableElementName: Technology_Era5_Tier3_Cost
   TechnologyPrerequisite:
     SerializableTechnologyNames:
-    - Technology_Era5_NatureConservation
+    - Technology_Era5_12
   Visibility: -1
 --- !u!114 &9070447312697369445
 MonoBehaviour:
